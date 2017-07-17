@@ -49,7 +49,7 @@ public class Points {
 			for (String string : Main.getInstance().getConfig().getConfigurationSection("points").getKeys(false)){
 				UUID uuid = UUID.fromString(string);
 				OfflinePlayer player = Bukkit.getOfflinePlayer(uuid);
-				int points = Config.getConfig().getInt("points." + uuid);
+				int points = Main.getInstance().getConfig().getInt("points." + uuid);
 				map.put(player, points);
 			}
 			
