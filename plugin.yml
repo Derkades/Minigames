@@ -1,0 +1,10 @@
+name: Minigames
+main: com.robinmc.minigames.Main
+version: 6.9
+author: RobinMC
+description: ohiasohidfasdasimasm
+depends: [nuvotifier]
+
+commands:
+  games:
+    usage: </command>
