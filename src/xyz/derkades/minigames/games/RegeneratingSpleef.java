@@ -103,7 +103,7 @@ public class RegeneratingSpleef extends Game {
 		
 		Player player = event.getPlayer();
 		PlayerInventory inv = player.getInventory();
-		if (inv.getItemInMainHand().getType() == Material.DIAMOND_SPADE){
+		if (inv.getItemInHand().getType() == Material.DIAMOND_SPADE){
 			final Block block = event.getBlock();	
 			if (block.getType() == Material.SNOW_BLOCK){
 				block.setType(Material.AIR);

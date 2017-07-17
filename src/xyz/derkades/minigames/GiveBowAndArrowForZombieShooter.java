@@ -17,17 +17,6 @@ public class GiveBowAndArrowForZombieShooter extends BukkitRunnable {
 	@Override
 	public void run() {
 		for (Player player : Bukkit.getOnlinePlayers()){
-			/*
-			final short lessX = 217;
-			final short moreX = 66;
-			final short lessZ = 258;
-			final short moreZ = 254;
-			Location loc = player.getLocation();
-			if (loc.getX() < lessX &&
-					loc.getX() > moreX &&
-					loc.getZ() < lessZ &&
-					loc.getZ() > moreZ){
-					*/
 			Block block = Utils.getBlockStandingOn(player);
 			if (block.getType() == Material.LAPIS_BLOCK){
 				PlayerInventory inv = player.getInventory();
@@ -37,12 +26,12 @@ public class GiveBowAndArrowForZombieShooter extends BukkitRunnable {
 							.setLore(ChatColor.AQUA + "Use this to shoot zombies.")
 							.create());
 				
-				if (inv.getItemInOffHand().getType() != Material.ARROW)
-					inv.setItemInOffHand(new ItemStack(Material.ARROW));
+				if (!inv.contains(Material.ARROW))
+					inv.addItem(new ItemStack(Material.ARROW));
 			} else {
 				if (!Main.IS_IN_GAME){
 					PlayerInventory inv = player.getInventory();
-					if (inv.getItemInOffHand().getType() == Material.ARROW) inv.setItemInOffHand(new ItemStack(Material.AIR));
+					inv.remove(Material.ARROW);
 					if (inv.contains(Material.BOW)) inv.remove(Material.BOW);
 				}
 			}

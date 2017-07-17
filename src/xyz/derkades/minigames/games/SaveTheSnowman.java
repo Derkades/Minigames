@@ -97,7 +97,7 @@ public class SaveTheSnowman extends ParkourGame {
 		
 		player.teleport(new Location(Var.WORLD, 320, 81, 274, 90, 0));
 		//Console.sendCommand("execute @a ~ ~ ~ playsound entity.player.levelup master @p");
-		Utils.playSoundForAllPlayers(Sound.ENTITY_PLAYER_LEVELUP, 1);
+		Utils.playSoundForAllPlayers(Sound.LEVEL_UP, 1);
 		hasFinished.put(player.getName(), true);
 	}
 	

@@ -1,6 +1,5 @@
 package xyz.derkades.minigames;
 
-import xyz.derkades.minigames.games.Elytra;
 import xyz.derkades.minigames.games.Game;
 import xyz.derkades.minigames.games.JungleRun;
 import xyz.derkades.minigames.games.Platform;
@@ -17,7 +16,7 @@ public enum GameEnum {
 	SAVE_THE_SNOWMAN(new SaveTheSnowman()),
 	SNOW_FIGHT(new SnowFight()),
 	//PVP(new MazePvP()),
-	ELYTRA(new Elytra()),
+	//ELYTRA(new Elytra()),
 	SPEEDRUN(new Speedrun()),
 	//MINE(new Mine()),
 	
