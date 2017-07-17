@@ -94,13 +94,10 @@ public class GlobalListeners implements Listener {
 	@EventHandler
 	public void onMove(PlayerMoveEvent event){
 		if (!Main.IS_IN_GAME){
-			Material type = event.getTo().getBlock().getRelative(BlockFace.DOWN).getType();
+			Material type = event.getTo().getBlock().getType();
 			if ((type == Material.WATER || type == Material.STATIONARY_WATER) &&
 					event.getPlayer().getGameMode() == GameMode.ADVENTURE){
-				event.getPlayer().teleport(new Location(Var.WORLD, 220.5, 67, 253.5, 180, 0));
-			} else if ((type == Material.GOLD_BLOCK || type == Material.GLOWSTONE) &&
-					event.getPlayer().getGameMode() == GameMode.ADVENTURE){
-				event.getPlayer().teleport(new Location(Var.WORLD, 220.5, 67, 256.5, 0, 0));
+				event.getPlayer().teleport(new Location(Var.WORLD, 217.0, 67, 258.0, 90, 0));
 			}
 		}
 	}
