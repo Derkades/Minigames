@@ -1,29 +1,8 @@
 package xyz.derkades.minigames.games;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.block.BlockFace;
-import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
-import org.bukkit.event.player.PlayerMoveEvent;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.potion.PotionEffectType;
-import org.bukkit.scheduler.BukkitRunnable;
-
-import xyz.derkades.minigames.Main;
-import xyz.derkades.minigames.Var;
-import xyz.derkades.minigames.utils.Scheduler;
-import xyz.derkades.minigames.utils.Utils;
-
-public class Elytra extends Game {
-
+@Deprecated
+public class Elytra /*extends Game*/ {
+/*
 	@Deprecated
 	private Map<String, Boolean> isDead = new HashMap<>();
 	private Map<String, Boolean> hasFinished = new HashMap<>();
@@ -120,6 +99,6 @@ public class Elytra extends Game {
 			
 		if (type == Material.WOOL)
 			playerWin(player);
-	}
+	}*/
 
 }
