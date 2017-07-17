@@ -35,7 +35,7 @@ public class Main extends JavaPlugin implements Listener {
 
 		new ClearWeather().runTaskTimer(this, 1*20, 1*20);
 		new RegenerateHunger().runTaskTimer(this, 1*20, 1*20);
-		new LeaderboardUpdate().runTaskTimer(this, 2*20, 10*20);
+		new Points.UpdateLeaderboard().runTaskTimer(this, 2*20, 10*20);
 		
 		getServer().getPluginManager().registerEvents(new GlobalListeners(), this);
 		getServer().getPluginManager().registerEvents(new Votifier(), this);
