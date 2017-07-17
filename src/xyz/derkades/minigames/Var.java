@@ -8,6 +8,6 @@ public class Var {
 
 	public static final World WORLD = Bukkit.getWorld("minigames");
 	
-	public static final Location LOBBY_LOCATION = new Location(Var.WORLD, 220.5, 68, 256.5, 0, 0);
+	public static final Location LOBBY_LOCATION = new Location(Var.WORLD, 220.5, 67.5, 253.5, 0, 0);
 
 }
