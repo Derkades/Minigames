@@ -144,7 +144,7 @@ public abstract class Game implements Listener {
 	}
 	
 	private void startCountdown(){
-		Utils.playSoundForAllPlayers(Sound.ENTITY_ARROW_HIT_PLAYER, 0.1f); //PING (5)
+		Utils.playSoundForAllPlayers(Sound.ARROW_HIT, 0.1f); //PING (5)
 		Utils.setXpBarValue(1.0f, 5);
 		
 		Scheduler.runTaskLater(10, new Runnable(){
@@ -155,7 +155,7 @@ public abstract class Game implements Listener {
 		
 		Scheduler.runTaskLater(1*20, new Runnable(){
 			public void run(){
-				Utils.playSoundForAllPlayers(Sound.ENTITY_ARROW_HIT_PLAYER, 0.1f); //PING (4)
+				Utils.playSoundForAllPlayers(Sound.ARROW_HIT, 0.1f); //PING (4)
 				Utils.setXpBarValue(0.8f, 4);
 			}
 		}); 
@@ -168,7 +168,7 @@ public abstract class Game implements Listener {
 		
 		Scheduler.runTaskLater(2*20, new Runnable(){
 			public void run(){
-				Utils.playSoundForAllPlayers(Sound.ENTITY_ARROW_HIT_PLAYER, 0.1f); //PING (3)
+				Utils.playSoundForAllPlayers(Sound.ARROW_HIT, 0.1f); //PING (3)
 				Utils.setXpBarValue(0.6f, 3);
 			}
 		});
@@ -181,7 +181,7 @@ public abstract class Game implements Listener {
 		
 		Scheduler.runTaskLater(3*20, new Runnable(){
 			public void run(){
-				Utils.playSoundForAllPlayers(Sound.ENTITY_ARROW_HIT_PLAYER, 0.1f); //PING (2)
+				Utils.playSoundForAllPlayers(Sound.ARROW_HIT, 0.1f); //PING (2)
 				Utils.setXpBarValue(0.4f, 2);
 			}
 		});
@@ -194,7 +194,7 @@ public abstract class Game implements Listener {
 		
 		Scheduler.runTaskLater(4*20, new Runnable(){
 			public void run(){
-				Utils.playSoundForAllPlayers(Sound.ENTITY_ARROW_HIT_PLAYER, 0.1f); //PING (1)
+				Utils.playSoundForAllPlayers(Sound.ARROW_HIT, 0.1f); //PING (1)
 				Utils.setXpBarValue(0.2f, 1);
 			}
 		});
@@ -214,7 +214,7 @@ public abstract class Game implements Listener {
 				
 				new BukkitRunnable(){ //Small delay for last sound, because it needs to be played at the new player location
 					public void run(){
-						Utils.playSoundForAllPlayers(Sound.ENTITY_ARROW_HIT_PLAYER, 1.0f);  //PING (GO)
+						Utils.playSoundForAllPlayers(Sound.ARROW_HIT, 1.0f);  //PING (GO)
 					}
 				}.runTaskLater(Main.getInstance(), 3L);
 			}
