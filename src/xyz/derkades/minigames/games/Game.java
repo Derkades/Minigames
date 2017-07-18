@@ -18,7 +18,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import xyz.derkades.minigames.AutoRotate;
 import xyz.derkades.minigames.GameEnum;
-import xyz.derkades.minigames.Main;
+import xyz.derkades.minigames.Minigames;
 import xyz.derkades.minigames.Points;
 import xyz.derkades.minigames.Var;
 import xyz.derkades.minigames.utils.Console;
@@ -33,7 +33,7 @@ public abstract class Game implements Listener {
 	
 	void setRunning(boolean running){
 		isRunning = running;
-		Main.IS_IN_GAME = running;
+		Minigames.IS_IN_GAME = running;
 	}
 	
 	public boolean isRunning(){
@@ -97,17 +97,17 @@ public abstract class Game implements Listener {
 			Utils.clearInventory(player);
 			player.setHealth(20);
 			
-			Main.CAN_TAKE_DAMAGE.put(player.getName(), false); //No more PvP
+			Minigames.setCanTakeDamage(player, false);
 			
 			player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 3, 0, true));
 		}
 
-		if (Main.STOP_GAMES){
+		if (Minigames.STOP_GAMES){
 			new BukkitRunnable(){
 				public void run(){
 					Bukkit.broadcastMessage(RED + "An admin stopped the next game from starting. This is probably because some maintenance needs to be done.");
 				}
-			}.runTaskLater(Main.getInstance(), 3*20);
+			}.runTaskLater(Minigames.getInstance(), 3*20);
 			return;
 		}
 		
@@ -115,7 +115,7 @@ public abstract class Game implements Listener {
 			public void run(){
 				Bukkit.broadcastMessage(DARK_AQUA + "A new game will start in 5 seconds.");
 			}
-		}.runTaskLater(Main.getInstance(), 7*20);
+		}.runTaskLater(Minigames.getInstance(), 7*20);
 		
 		Scheduler.runTaskLater(12*20, new Runnable(){
 			public void run(){
@@ -133,7 +133,7 @@ public abstract class Game implements Listener {
 		
 		startCountdown();
 		
-		Main.getInstance().getConfig().set("last-game", this.getName());
+		Minigames.getInstance().getConfig().set("last-game", this.getName());
 		
 		for (Player player : Bukkit.getOnlinePlayers())
 			resetHashMaps(player);
@@ -216,7 +216,7 @@ public abstract class Game implements Listener {
 					public void run(){
 						Utils.playSoundForAllPlayers(Sound.ARROW_HIT, 1.0f);  //PING (GO)
 					}
-				}.runTaskLater(Main.getInstance(), 3L);
+				}.runTaskLater(Minigames.getInstance(), 3L);
 			}
 		});
 	}

@@ -17,10 +17,10 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import net.md_5.bungee.api.ChatColor;
-import xyz.derkades.minigames.Main;
+import xyz.derkades.derkutils.bukkit.ItemBuilder;
+import xyz.derkades.minigames.Minigames;
 import xyz.derkades.minigames.Var;
 import xyz.derkades.minigames.utils.Console;
-import xyz.derkades.minigames.utils.ItemBuilder;
 import xyz.derkades.minigames.utils.Scheduler;
 import xyz.derkades.minigames.utils.Utils;
 
@@ -78,20 +78,19 @@ public class Platform extends Game {
 		new BukkitRunnable(){
 			public void run(){
 				for (Player player : Bukkit.getOnlinePlayers()){
-					//Main.CAN_TAKE_DAMAGE.put(player.getName(), true); //Allow PvP
-					Utils.setCanTakeDamage(player, true); //Allow PvP
+					Minigames.setCanTakeDamage(player, true); //Allow PvP
 					giveSwords();
 				}
 			}
-		}.runTaskLater(Main.getInstance(), 3*20);
+		}.runTaskLater(Minigames.getInstance(), 3*20);
 	}
 	
 	private void giveSwords(){
 		ItemStack sword = new ItemBuilder(Material.WOOD_SWORD)
-				.setDamage(59)
-				.setName(ChatColor.DARK_AQUA + "" + ChatColor.BOLD + "Knockback Sword")
-				.setLore(ChatColor.AQUA + "You can only use this once!")
-				.addEnchantment(Enchantment.KNOCKBACK, 1)
+				.data(59)
+				.name(ChatColor.DARK_AQUA + "" + ChatColor.BOLD + "Knockback Sword")
+				.lore(ChatColor.AQUA + "You can only use this once!")
+				.enchant(Enchantment.KNOCKBACK, 1)
 				.create();
 		for (Player player: Bukkit.getOnlinePlayers()){
 			if (!isDead.get(player.getName())){ //Don't give sword to spectators
@@ -140,7 +139,7 @@ public class Platform extends Game {
 		isDead.put(player.getName(), true);
 		player.getInventory().clear();
 		
-		Utils.setCanTakeDamage(player, false); //Disallow PvP
+		Minigames.setCanTakeDamage(player, false); //Disallow PvP
 	}
 	
 	@EventHandler(priority = EventPriority.MONITOR)

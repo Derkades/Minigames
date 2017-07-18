@@ -17,7 +17,7 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import xyz.derkades.minigames.Main;
+import xyz.derkades.minigames.Minigames;
 import xyz.derkades.minigames.Var;
 import xyz.derkades.minigames.utils.Utils;
 
@@ -73,9 +73,9 @@ public class JungleRun extends ParkourGame implements Listener {
 					public void run(){
 						endGame(); //End the game after 25 seconds
 					}
-				}.runTaskLater(Main.getInstance(), 5 * 20);
+				}.runTaskLater(Minigames.getInstance(), 5 * 20);
 			}
-		}.runTaskLater(Main.getInstance(), 20 * 20);
+		}.runTaskLater(Minigames.getInstance(), 20 * 20);
 	}
 	
 	private void endGame(){

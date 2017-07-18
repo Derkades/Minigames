@@ -15,20 +15,21 @@ import org.bukkit.block.Sign;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import net.md_5.bungee.api.ChatColor;
+import xyz.derkades.minigames.shop.NameColor;
 import xyz.derkades.minigames.utils.Utils;
 
 public class Points {
 	
 	public static void setPoints(OfflinePlayer player, int points){
-		Main.getInstance().getConfig().set("points." + player.getUniqueId(), points);
-		Main.getInstance().saveConfig();
+		Minigames.getInstance().getConfig().set("points." + player.getUniqueId(), points);
+		Minigames.getInstance().saveConfig();
 	}
 	
 	public static int getPoints(OfflinePlayer player){
-		if (!Main.getInstance().getConfig().isSet("points." + player.getUniqueId()))
+		if (!Minigames.getInstance().getConfig().isSet("points." + player.getUniqueId()))
 			return 0;
 		
-		return Main.getInstance().getConfig().getInt("points." + player.getUniqueId());
+		return Minigames.getInstance().getConfig().getInt("points." + player.getUniqueId());
 	}
 	
 	public static void addPoints(OfflinePlayer player, int points){
@@ -46,10 +47,10 @@ public class Points {
 			Map<OfflinePlayer, Integer> map = new HashMap<>();
 			
 			//Adding all players with their points to a hashmap
-			for (String string : Main.getInstance().getConfig().getConfigurationSection("points").getKeys(false)){
+			for (String string : Minigames.getInstance().getConfig().getConfigurationSection("points").getKeys(false)){
 				UUID uuid = UUID.fromString(string);
 				OfflinePlayer player = Bukkit.getOfflinePlayer(uuid);
-				int points = Main.getInstance().getConfig().getInt("points." + uuid);
+				int points = Minigames.getInstance().getConfig().getInt("points." + uuid);
 				map.put(player, points);
 			}
 			

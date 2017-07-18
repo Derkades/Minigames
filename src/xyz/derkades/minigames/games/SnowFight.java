@@ -22,7 +22,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import xyz.derkades.minigames.Main;
+import xyz.derkades.minigames.Minigames;
 import xyz.derkades.minigames.Var;
 import xyz.derkades.minigames.utils.Console;
 import xyz.derkades.minigames.utils.Utils;
@@ -69,8 +69,7 @@ public class SnowFight extends Game {
 		for (Player player: Bukkit.getOnlinePlayers()){
 			player.teleport(new Location(Var.WORLD, 212.5, 75, 291.5, 0, 90));
 			
-			//Main.CAN_TAKE_DAMAGE.put(player.getName(), true);
-			Utils.setCanTakeDamage(player, true);
+			Minigames.setCanTakeDamage(player, true);
 		}
 		
 		Console.sendCommand("replaceitem entity @a slot.hotbar.0 minecraft:diamond_shovel 1 0 {display:{Name:\"Snow Shoveler\"},Unbreakable:1,ench:[{id:32,lvl:1}],CanDestroy:[\"minecraft:snow_layer\"]}");
@@ -86,9 +85,9 @@ public class SnowFight extends Game {
 					public void run(){
 						endGame();
 					}
-				}.runTaskLater(Main.getInstance(), 5*20);
+				}.runTaskLater(Minigames.getInstance(), 5*20);
 			}
-		}.runTaskLater(Main.getInstance(), 25*20);
+		}.runTaskLater(Minigames.getInstance(), 25*20);
 	}
 	
 	private void endGame(){
@@ -104,7 +103,7 @@ public class SnowFight extends Game {
 		player.teleport(new Location(Var.WORLD, 224.5, 79.1, 291.5, 90, 0));
 		isDead.put(player.getName(), true);
 		Utils.clearInventory(player);
-		Utils.setCanTakeDamage(player, false);
+		Minigames.setCanTakeDamage(player, false);
 	}
 	
 	@EventHandler
@@ -139,7 +138,7 @@ public class SnowFight extends Game {
 					block.setType(oldType);
 					block.setData(oldData);
 				}
-			}.runTaskLater(Main.getInstance(), 3*20);
+			}.runTaskLater(Minigames.getInstance(), 3*20);
 			
 		}
 	}
@@ -159,7 +158,7 @@ public class SnowFight extends Game {
 					player.spigot().respawn();
 					playerDie(player);
 				}
-			}.runTaskLater(Main.getInstance(), 5L);
+			}.runTaskLater(Minigames.getInstance(), 5L);
 			playerDie(player);
 		}
 	}

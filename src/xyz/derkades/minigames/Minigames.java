@@ -1,8 +1,9 @@
 package xyz.derkades.minigames;
 
 import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -12,13 +13,13 @@ import org.bukkit.plugin.java.JavaPlugin;
 import xyz.derkades.minigames.games.Game;
 import xyz.derkades.minigames.task.ClearWeather;
 import xyz.derkades.minigames.task.RegenerateHunger;
-import xyz.derkades.minigames.utils.Utils;
 
-public class Main extends JavaPlugin implements Listener {
+public class Minigames extends JavaPlugin implements Listener {
 
-	private static Main instance;
+	private static Minigames instance;
 	
-	public static final Map<String, Boolean> CAN_TAKE_DAMAGE = new HashMap<>();
+	//public static final Map<String, Boolean> CAN_TAKE_DAMAGE = new HashMap<>();
+	private static final List<UUID> CAN_TAKE_DAMAGE = new ArrayList<>();
 	
 	public static boolean IS_IN_GAME = false;
 	
@@ -41,7 +42,6 @@ public class Main extends JavaPlugin implements Listener {
 		getServer().getPluginManager().registerEvents(new Votifier(), this);
 		
 		for (Player player : Bukkit.getOnlinePlayers()){
-			Utils.setCanTakeDamage(player, false);
 			for (Game game : Game.getAllGames()){
 				game.resetHashMaps(player);
 			}
@@ -60,8 +60,16 @@ public class Main extends JavaPlugin implements Listener {
 		instance = null;
 	}
 	
-	public static Main getInstance(){
+	public static Minigames getInstance(){
 		return instance;
+	}
+	
+	public static boolean canTakeDamage(Player player){
+		return CAN_TAKE_DAMAGE.contains(player.getUniqueId());
+	}
+	
+	public static void setCanTakeDamage(Player player, boolean value){
+		CAN_TAKE_DAMAGE.add(player.getUniqueId());
 	}
 	
 }

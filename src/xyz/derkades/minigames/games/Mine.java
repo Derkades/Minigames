@@ -15,7 +15,7 @@ import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.ScoreboardManager;
 
 import net.md_5.bungee.api.ChatColor;
-import xyz.derkades.minigames.Main;
+import xyz.derkades.minigames.Minigames;
 
 public class Mine extends Game {
 	
@@ -82,9 +82,9 @@ public class Mine extends Game {
 					public void run(){
 						endGame();
 					}
-				}.runTaskLater(Main.getInstance(), 5*20);
+				}.runTaskLater(Minigames.getInstance(), 5*20);
 			}
-		}.runTaskLater(Main.getInstance(), 50*20);
+		}.runTaskLater(Minigames.getInstance(), 50*20);
 	}
 	
 	private void endGame(){

@@ -12,7 +12,7 @@ import static org.bukkit.ChatColor.*;
 public class AutoRotate {
 
 	public static void startNewRandomGame(){
-		if (!Main.getInstance().getConfig().getBoolean("autorotate")){
+		if (!Minigames.getInstance().getConfig().getBoolean("autorotate")){
 			Bukkit.broadcastMessage("***AUTOROTATE DISABLED***");
 			return;
 		}
@@ -23,7 +23,7 @@ public class AutoRotate {
 				public void run(){
 					startNewRandomGame();
 				}
-			}.runTaskLater(Main.getInstance(), 10*20);
+			}.runTaskLater(Minigames.getInstance(), 10*20);
 			return; //Not sure if this return statement is required, but I'll leave it here.
 		}
 		
@@ -31,13 +31,13 @@ public class AutoRotate {
 		
 		Game game;
 		
-		if (Main.NEXT_GAME == null){
+		if (Minigames.NEXT_GAME == null){
 			game = Game.getRandomGame();
 		} else {
-			game = Main.NEXT_GAME;
+			game = Minigames.NEXT_GAME;
 		}
 		
-		String lastGame = Main.getInstance().getConfig().getString("last-game");
+		String lastGame = Minigames.getInstance().getConfig().getString("last-game");
 		//If the randomly selected game is the same as the last game pick a new game
 		if (game.getName() == lastGame){
 			startNewRandomGame();
@@ -61,7 +61,7 @@ public class AutoRotate {
 				public void run(){
 					startNewRandomGame();
 				}
-			}.runTaskLater(Main.getInstance(), 2*20);
+			}.runTaskLater(Minigames.getInstance(), 2*20);
 			return;
 		}
 		
@@ -72,9 +72,9 @@ public class AutoRotate {
 			public void run(){
 				game.startGame();
 			}
-		}.runTaskLater(Main.getInstance(), 2*20);
+		}.runTaskLater(Minigames.getInstance(), 2*20);
 		
-		Main.NEXT_GAME = null;
+		Minigames.NEXT_GAME = null;
 	}
 
 }

@@ -16,7 +16,7 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import net.md_5.bungee.api.ChatColor;
-import xyz.derkades.minigames.Main;
+import xyz.derkades.minigames.Minigames;
 import xyz.derkades.minigames.Points;
 import xyz.derkades.minigames.Var;
 import xyz.derkades.minigames.utils.Utils;
@@ -73,9 +73,9 @@ public class Speedrun extends Game {
 					public void run(){
 						endGame();
 					}
-				}.runTaskLater(Main.getInstance(), 5*20);
+				}.runTaskLater(Minigames.getInstance(), 5*20);
 			}
-		}.runTaskLater(Main.getInstance(), 25*20);
+		}.runTaskLater(Minigames.getInstance(), 25*20);
 	}
 	
 	private void endGame(){

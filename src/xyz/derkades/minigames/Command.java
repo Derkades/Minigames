@@ -7,6 +7,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import xyz.derkades.minigames.games.Game;
+import xyz.derkades.minigames.shop.MainMenu;
 
 public class Command implements CommandExecutor {
 
@@ -27,23 +28,23 @@ public class Command implements CommandExecutor {
 			if (args[0].equalsIgnoreCase("start") &&
 					player.isOp()){
 				AutoRotate.startNewRandomGame();
-				Main.STOP_GAMES = false;
+				Minigames.STOP_GAMES = false;
 			} else if (args[0].equalsIgnoreCase("stop") &&
 					player.isOp()){
 				player.sendMessage("! STOPPED GAMES !");
-				Main.STOP_GAMES = true;
+				Minigames.STOP_GAMES = true;
 			} else if (player.isOp()) {
 				Game game = Game.fromString(args[0].replace("_", " "));
 				if (game == null){
 					player.sendMessage("Unknown game");
 					return true;
 				} else {
-					Main.NEXT_GAME = game;
+					Minigames.NEXT_GAME = game;
 					AutoRotate.startNewRandomGame();
 				}
 			}
 		} else if (args.length == 0){
-			Menu.open(player);
+			new MainMenu(player).open();
 		}
 		
 		return true;

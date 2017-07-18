@@ -15,7 +15,7 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.inventory.PlayerInventory;
 
-import xyz.derkades.minigames.Main;
+import xyz.derkades.minigames.Minigames;
 import xyz.derkades.minigames.Var;
 import xyz.derkades.minigames.utils.Console;
 import xyz.derkades.minigames.utils.Utils;
@@ -61,7 +61,7 @@ public class RegeneratingSpleef extends Game {
 		for (Player player: Bukkit.getOnlinePlayers()){
 			player.teleport(new Location(Var.WORLD, 156.5, 82, 260.5, -90, 90));
 		}
-		Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Main.getInstance(), new Runnable(){
+		Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Minigames.getInstance(), new Runnable(){
 			public void run(){
 				Console.sendCommand("replaceitem entity @a slot.hotbar.0 minecraft:diamond_shovel 1 0 {display:{Name:\"Spleefanator 8000\"},Unbreakable:1,ench:[{id:32,lvl:10}],CanDestroy:[\"minecraft:snow\"]}");
 				sendMessage("Game has started!");
@@ -71,7 +71,7 @@ public class RegeneratingSpleef extends Game {
 	}
 	
 	private void timer(){
-		final Main instance = Main.getInstance();
+		final Minigames instance = Minigames.getInstance();
 		Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(instance, new Runnable(){
 			public void run(){
 				sendMessage("5 seconds left!");
@@ -107,7 +107,7 @@ public class RegeneratingSpleef extends Game {
 			final Block block = event.getBlock();	
 			if (block.getType() == Material.SNOW_BLOCK){
 				block.setType(Material.AIR);
-				Bukkit.getScheduler().scheduleSyncDelayedTask(Main.getInstance(), new Runnable() {
+				Bukkit.getScheduler().scheduleSyncDelayedTask(Minigames.getInstance(), new Runnable() {
 					public void run() {
 						block.setType(Material.SNOW_BLOCK);
 					}

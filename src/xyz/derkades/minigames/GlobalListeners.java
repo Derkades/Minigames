@@ -7,6 +7,7 @@ import static org.bukkit.ChatColor.GRAY;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Villager;
@@ -19,9 +20,13 @@ import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 import net.md_5.bungee.api.ChatColor;
 import xyz.derkades.minigames.games.Game;
+import xyz.derkades.minigames.shop.MainMenu;
+import xyz.derkades.minigames.shop.NameColor;
 import xyz.derkades.minigames.utils.Console;
 import xyz.derkades.minigames.utils.Utils;
 
@@ -35,7 +40,7 @@ public class GlobalListeners implements Listener {
 		player.setAllowFlight(false); //Just in case the player was spectator
 		
 		for (Game game : Game.getAllGames()){
-			Utils.setCanTakeDamage(player, false);
+			Minigames.setCanTakeDamage(player, false);
 			game.resetHashMaps(event.getPlayer());
 		}
 		
@@ -65,7 +70,7 @@ public class GlobalListeners implements Listener {
 			return;
 		
 		Player player = (Player) event.getEntity();
-		if (!Utils.canTakeDamage(player)){
+		if (!Minigames.canTakeDamage(player)){
 			event.setCancelled(true);
 		}
 	}
@@ -92,11 +97,15 @@ public class GlobalListeners implements Listener {
 	
 	@EventHandler
 	public void onMove(PlayerMoveEvent event){
-		if (!Main.IS_IN_GAME){
+		if (!Minigames.IS_IN_GAME){
 			Material type = event.getTo().getBlock().getType();
+			Material below = event.getTo().getBlock().getRelative(BlockFace.DOWN).getType();
 			if ((type == Material.WATER || type == Material.STATIONARY_WATER) &&
 					event.getPlayer().getGameMode() == GameMode.ADVENTURE){
 				event.getPlayer().teleport(new Location(Var.WORLD, 217.0, 67, 258.0, 90, 0));
+			} else if (below == Material.SLIME_BLOCK) {
+				PotionEffect jump = new PotionEffect(PotionEffectType.JUMP, 30, 7, true, false);
+				event.getPlayer().addPotionEffect(jump);
 			}
 		}
 	}
@@ -107,7 +116,7 @@ public class GlobalListeners implements Listener {
 		Entity entity = event.getRightClicked();
 		if (entity instanceof Villager){
 			event.setCancelled(true);
-			Menu.open(player);
+			new MainMenu(player).open();
 		}
 	}
 

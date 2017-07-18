@@ -19,7 +19,6 @@ import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-import xyz.derkades.minigames.Main;
 import xyz.derkades.minigames.Var;
 
 public class Utils {
@@ -81,14 +80,6 @@ public class Utils {
 				new ItemStack(chestplate),
 				new ItemStack(leggings),
 				new ItemStack(boots));
-	}
-	
-	public static boolean canTakeDamage(Player player){
-		return Main.CAN_TAKE_DAMAGE.get(player.getName());
-	}
-	
-	public static void setCanTakeDamage(Player player, boolean value){
-		Main.CAN_TAKE_DAMAGE.put(player.getName(), value);
 	}
 	
 	public static void teleportToLobby(Player player){

@@ -14,8 +14,9 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.potion.PotionEffectType;
 
 import net.md_5.bungee.api.ChatColor;
+import xyz.derkades.derkutils.bukkit.ItemBuilder;
+import xyz.derkades.minigames.Minigames;
 import xyz.derkades.minigames.Var;
-import xyz.derkades.minigames.utils.ItemBuilder;
 import xyz.derkades.minigames.utils.Scheduler;
 import xyz.derkades.minigames.utils.Utils;
 
@@ -54,29 +55,18 @@ public class MazePvP extends Game {
 	@Override
 	void begin() {		
 		for (Player player : Bukkit.getOnlinePlayers()){
-			//player.teleport(new Location(Var.WORLD, 158, 91, 326));
 			player.teleport(new Location(Var.WORLD, 136.0, 81, 361.0, -180, 0));
 			
-			//Main.CAN_TAKE_DAMAGE.put(player.getName(), true); //Allow PvP
-			Utils.setCanTakeDamage(player, true); //Allow PvP
+			Minigames.setCanTakeDamage(player, true); //Allow PvP
 			
 			Utils.giveInfiniteEffect(player, PotionEffectType.NIGHT_VISION);
-		
-			//PlayerInventory inv = player.getInventory();
-			//inv.addItem(new ItemStack(Material.IRON_SWORD));
 			
-			new ItemBuilder(Material.IRON_SWORD)
-			.setName(ChatColor.DARK_AQUA + "" + ChatColor.BOLD + "PvP Sword")
-			.setLore("Use this to kill other players.")
-			.addEnchantment(Enchantment.DURABILITY, 10)
-			.addEnchantment(Enchantment.DAMAGE_ALL, 1)
-			.addToInventory(player);
-			
-			//Utils.setArmor(player, 
-			//		Material.DIAMOND_HELMET, 
-			//		Material.DIAMOND_CHESTPLATE, 
-			//		Material.DIAMOND_LEGGINGS, 
-			//		Material.DIAMOND_BOOTS);
+			player.getInventory().addItem(new ItemBuilder(Material.IRON_SWORD)
+					.name(ChatColor.DARK_AQUA + "" + ChatColor.BOLD + "PvP Sword")
+					.lore("Use this to kill other players.")
+					.enchant(Enchantment.DURABILITY, 10)
+					.enchant(Enchantment.DAMAGE_ALL, 1)
+					.create());
 		}
 		
 		Utils.setGameRule("naturalRegeneration", false);
