@@ -103,18 +103,14 @@ public abstract class Game implements Listener {
 		}
 
 		if (Minigames.STOP_GAMES){
-			new BukkitRunnable(){
-				public void run(){
-					Bukkit.broadcastMessage(RED + "An admin stopped the next game from starting. This is probably because some maintenance needs to be done.");
-				}
-			}.runTaskLater(Minigames.getInstance(), 3*20);
+			Scheduler.runTaskLater(3*20, () -> {
+				Bukkit.broadcastMessage(RED + "An admin stopped the next game from starting. This is probably because some maintenance needs to be done.");
+			});
 			return;
 		}
 		
-		Scheduler.runTaskLater(8*20, new Runnable(){
-			public void run(){
-				AutoRotate.startNewRandomGame();
-			}
+		Scheduler.runTaskLater(8*20, () -> {
+			AutoRotate.startNewRandomGame();
 		});
 	}
 	
@@ -141,77 +137,57 @@ public abstract class Game implements Listener {
 		Utils.playSoundForAllPlayers(Sound.ARROW_HIT, 0.1f); //PING (5)
 		Utils.setXpBarValue(1.0f, 5);
 		
-		Scheduler.runTaskLater(10, new Runnable(){
-			public void run(){
-				Utils.setXpBarValue(0.9f, 5);
-			}
-		}); 
-		
-		Scheduler.runTaskLater(1*20, new Runnable(){
-			public void run(){
-				Utils.playSoundForAllPlayers(Sound.ARROW_HIT, 0.1f); //PING (4)
-				Utils.setXpBarValue(0.8f, 4);
-			}
-		}); 
-		
-		Scheduler.runTaskLater(1*20 + 10, new Runnable(){
-			public void run(){
-				Utils.setXpBarValue(0.7f, 4);
-			}
+		Scheduler.runTaskLater(10, () -> {
+			Utils.setXpBarValue(0.9f, 5);
+		});
+
+		Scheduler.runTaskLater(1 * 20, () -> {
+			Utils.playSoundForAllPlayers(Sound.ARROW_HIT, 0.1f); // PING (4)
+			Utils.setXpBarValue(0.8f, 4);
+		});
+
+		Scheduler.runTaskLater(1 * 20 + 10, () -> {
+			Utils.setXpBarValue(0.7f, 4);
+		});
+
+		Scheduler.runTaskLater(2 * 20, () -> {
+			Utils.playSoundForAllPlayers(Sound.ARROW_HIT, 0.1f); // PING (3)
+			Utils.setXpBarValue(0.6f, 3);
+		});
+
+		Scheduler.runTaskLater(2 * 20 + 10, () -> {
+			Utils.setXpBarValue(0.5f, 3);
+		});
+
+		Scheduler.runTaskLater(3 * 20, () -> {
+			Utils.playSoundForAllPlayers(Sound.ARROW_HIT, 0.1f); // PING (2)
+			Utils.setXpBarValue(0.4f, 2);
+		});
+
+		Scheduler.runTaskLater(3 * 20 + 10, () -> {
+			Utils.setXpBarValue(0.3f, 2);
+		});
+
+		Scheduler.runTaskLater(4 * 20, () -> {
+			Utils.playSoundForAllPlayers(Sound.ARROW_HIT, 0.1f); // PING (1)
+			Utils.setXpBarValue(0.2f, 1);
+		});
+
+		Scheduler.runTaskLater(4 * 20 + 10, () -> {
+			Utils.setXpBarValue(0.1f, 1);
 		});
 		
-		Scheduler.runTaskLater(2*20, new Runnable(){
-			public void run(){
-				Utils.playSoundForAllPlayers(Sound.ARROW_HIT, 0.1f); //PING (3)
-				Utils.setXpBarValue(0.6f, 3);
-			}
-		});
-		
-		Scheduler.runTaskLater(2*20 + 10, new Runnable(){
-			public void run(){
-				Utils.setXpBarValue(0.5f, 3);
-			}
-		});
-		
-		Scheduler.runTaskLater(3*20, new Runnable(){
-			public void run(){
-				Utils.playSoundForAllPlayers(Sound.ARROW_HIT, 0.1f); //PING (2)
-				Utils.setXpBarValue(0.4f, 2);
-			}
-		});
-		
-		Scheduler.runTaskLater(3*20 + 10, new Runnable(){
-			public void run(){
-				Utils.setXpBarValue(0.3f, 2);
-			}
-		});
-		
-		Scheduler.runTaskLater(4*20, new Runnable(){
-			public void run(){
-				Utils.playSoundForAllPlayers(Sound.ARROW_HIT, 0.1f); //PING (1)
-				Utils.setXpBarValue(0.2f, 1);
-			}
-		});
-		
-		Scheduler.runTaskLater(4*20 + 10, new Runnable(){
-			public void run(){
-				Utils.setXpBarValue(0.1f, 1);
-			}
-		});
-		
-		Scheduler.runTaskLater(5*20, new Runnable(){
-			public void run(){
-				begin();
-				setRunning(true);
-				
-				Utils.setXpBarValue(0f, 0);
-				
-				new BukkitRunnable(){ //Small delay for last sound, because it needs to be played at the new player location
-					public void run(){
-						Utils.playSoundForAllPlayers(Sound.ARROW_HIT, 1.0f);  //PING (GO)
-					}
-				}.runTaskLater(Minigames.getInstance(), 3L);
-			}
+		Scheduler.runTaskLater(5 * 20, () -> {
+			begin();
+			setRunning(true);
+
+			Utils.setXpBarValue(0f, 0);
+
+			new BukkitRunnable() { // Small delay for last sound, because it needs to be played at the new player location
+				public void run() {
+					Utils.playSoundForAllPlayers(Sound.ARROW_HIT, 1.0f); // PING (GO)
+				}
+			}.runTaskLater(Minigames.getInstance(), 3L);
 		});
 	}
 	
