@@ -123,6 +123,7 @@ public class DigDug extends Game {
 				
 				if (secondsLeft == 0) {
 					endGame();
+					this.cancel();
 				}
 			}
 		}.runTaskTimer(Minigames.getInstance(), 0, 1*20);
