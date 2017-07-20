@@ -33,6 +33,7 @@ import xyz.derkades.derkutils.Random;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
 import xyz.derkades.minigames.Minigames;
 import xyz.derkades.minigames.Var;
+import xyz.derkades.minigames.utils.BlockUtils;
 import xyz.derkades.minigames.utils.Utils;
 
 public class DigDug extends Game {
@@ -226,8 +227,8 @@ public class DigDug extends Game {
 	}
 	
 	private void fillArena() {
-		Minigames.fillArea(ARENA_MIN_X, ARENA_MIN_Y, ARENA_MIN_Z, ARENA_MAX_X, ARENA_MAX_Y - 1, ARENA_MAX_Z, Material.DIRT);
-		Minigames.fillArea(ARENA_MIN_X, ARENA_MAX_Y, ARENA_MIN_Z, ARENA_MAX_X, ARENA_MAX_Y, ARENA_MAX_Z, Material.GRASS); // Top grass layer
+		BlockUtils.fillArea(ARENA_MIN_X, ARENA_MIN_Y, ARENA_MIN_Z, ARENA_MAX_X, ARENA_MAX_Y - 1, ARENA_MAX_Z, Material.DIRT);
+		BlockUtils.fillArea(ARENA_MIN_X, ARENA_MAX_Y, ARENA_MIN_Z, ARENA_MAX_X, ARENA_MAX_Y, ARENA_MAX_Z, Material.GRASS); // Top grass layer
 
 		for (int i = 0; i <= COAL_AMOUNT; i++) {
 			int x = Random.getRandomInteger(ARENA_MIN_X, ARENA_MAX_X);

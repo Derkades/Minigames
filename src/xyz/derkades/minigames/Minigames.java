@@ -6,8 +6,6 @@ import java.util.List;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -80,16 +78,6 @@ public class Minigames extends JavaPlugin implements Listener {
 			CAN_TAKE_DAMAGE.remove(player.getUniqueId());
 		}
 		
-	}
-	
-	public static void fillArea(int minX, int minY, int minZ, int maxX, int maxY, int maxZ, Material material) {
-		for (int x = minX; x <= maxX; x++) {
-			for (int y = minY; y <= maxY; y++) {
-				for (int z = minZ; z <= maxZ; z++) {
-					new Location(Var.WORLD, x, y, z).getBlock().setType(material);
-				}
-			}
-		}
 	}
 	
 }
