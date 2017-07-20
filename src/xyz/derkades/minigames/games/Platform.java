@@ -79,7 +79,6 @@ public class Platform extends Game {
 			public void run(){
 				for (Player player : Bukkit.getOnlinePlayers()){
 					Minigames.setCanTakeDamage(player, true); //Allow PvP
-					giveSwords();
 				}
 			}
 		}.runTaskLater(Minigames.getInstance(), 3*20);
