@@ -2,7 +2,6 @@ package xyz.derkades.minigames;
 
 import static org.bukkit.ChatColor.AQUA;
 import static org.bukkit.ChatColor.DARK_AQUA;
-import static org.bukkit.ChatColor.RED;
 
 import org.bukkit.Bukkit;
 import org.bukkit.scheduler.BukkitRunnable;
