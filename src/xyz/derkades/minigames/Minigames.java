@@ -27,6 +27,9 @@ public class Minigames extends JavaPlugin implements Listener {
 	
 	public static boolean STOP_GAMES = false;
 	
+	/*
+	 * Used to force the next game to be a certain game.
+	 */
 	public static Game NEXT_GAME = null;
 	
 	@Override
