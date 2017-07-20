@@ -48,8 +48,8 @@ public class DigDug extends Game {
 	private static final int IRON_POINTS = 2;
 	private static final int GOLD_POINTS = 5;
 	private static final int EMERALD_POINTS = 10;
-	private static final int NETHERRACK_EFFECT_TIME = 5;
-	private static final int QUARTZ_EFFECT_TIME = 10;
+	private static final int NETHERRACK_EFFECT_TIME = 5*20;
+	private static final int QUARTZ_EFFECT_TIME = 10*20;
 	
 	private static final int ARENA_MIN_X = 130;
 	private static final int ARENA_MIN_Y = 53;
@@ -63,7 +63,7 @@ public class DigDug extends Game {
 	
 	private final Map<UUID, Integer> points = new HashMap<>();
 	
-	private int SECONDS_LEFT = 65;
+	private int secondsLeft = 0;
 	private Sidebar sidebar;
 	
 	@Override
@@ -102,6 +102,8 @@ public class DigDug extends Game {
 
 	@Override
 	void begin() {
+		secondsLeft = 65;
+		
 		fillArena();
 		
 		sidebar = new Sidebar(ChatColor.DARK_AQUA + "" + ChatColor.DARK_AQUA + "Score", Minigames.getInstance(), Integer.MAX_VALUE, new SidebarString[] {new SidebarString("test")});
@@ -117,9 +119,9 @@ public class DigDug extends Game {
 			public void run() {
 				updateSidebar();
 				
-				SECONDS_LEFT--;
+				secondsLeft--;
 				
-				if (SECONDS_LEFT == 0) {
+				if (secondsLeft == 0) {
 					endGame();
 				}
 			}
@@ -197,13 +199,9 @@ public class DigDug extends Game {
 			}
 			block.setType(Material.AIR);
 		} else if (block.getType() == Material.QUARTZ_BLOCK) {
-			player.sendMessage(ChatColor.AQUA + "Your walking speed has been boosted for " + QUARTZ_EFFECT_TIME + " seconds.");
+			player.sendMessage(ChatColor.AQUA + "Your walking speed has been boosted for " + QUARTZ_EFFECT_TIME / 20 + " seconds.");
 			PotionEffect speed = new PotionEffect(PotionEffectType.SPEED, QUARTZ_EFFECT_TIME, 2, true, false);
-			for (Player online : Bukkit.getOnlinePlayers()) {
-				if (player.getUniqueId() != online.getUniqueId()) {
-					online.addPotionEffect(speed);
-				}
-			}
+			player.addPotionEffect(speed);
 			block.setType(Material.AIR);
 		}
 	}
@@ -222,7 +220,7 @@ public class DigDug extends Game {
 		}
 		
 		sidebar.setEntries(sidebarStrings);
-		sidebar.addEmpty().addEntry(new SidebarString(ChatColor.GRAY + "Time left: " + SECONDS_LEFT + " seconds."));
+		sidebar.addEmpty().addEntry(new SidebarString(ChatColor.GRAY + "Time left: " + secondsLeft + " seconds."));
 		sidebar.update();
 	}
 	
