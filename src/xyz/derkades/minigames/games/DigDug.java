@@ -71,12 +71,12 @@ public class DigDug extends Game {
 		return new String[] {
 				"Dig away dirt with your shovel, and find",
 				"ores. Right click on ores to collect.",
-				"Coal: " + COAL_POINTS + " points",
-				"Iron: " + IRON_POINTS + " points",
-				"Gold: " + GOLD_POINTS + " points",
-				"Emerald: " + EMERALD_POINTS + " points",
-				"Netherrack: everyone else blindness and slowness for " + NETHERRACK_EFFECT_TIME + " seconds",
-				"Quartz: speed for " + QUARTZ_EFFECT_TIME + " seconds",
+				ChatColor.GRAY + "Coal: " + COAL_POINTS + " points",
+				ChatColor.GRAY + "Iron: " + IRON_POINTS + " points",
+				ChatColor.GRAY + "Gold: " + GOLD_POINTS + " points",
+				ChatColor.GRAY + "Emerald: " + EMERALD_POINTS + " points",
+				ChatColor.GRAY + "Netherrack: give others blindness",
+				ChatColor.GRAY + "Quartz: speed",
 				};
 	}
 
