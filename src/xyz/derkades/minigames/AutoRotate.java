@@ -56,14 +56,9 @@ public class AutoRotate {
 			//Else: continue..
 		}
 		
-		//If there are not enough online players
+		//If there are not enough online players, try again
 		if (!(Bukkit.getOnlinePlayers().size() >= game.getRequiredPlayers())){
-			Bukkit.broadcastMessage(RED + "Not enough players to start " + game.getName() + ". Trying another game in 2 seconds...");
-			new BukkitRunnable(){
-				public void run(){
-					startNewRandomGame();
-				}
-			}.runTaskLater(Minigames.getInstance(), 2*20);
+			startNewRandomGame();
 			return;
 		}
 		
