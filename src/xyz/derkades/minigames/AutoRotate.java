@@ -46,9 +46,9 @@ public class AutoRotate {
 			return;
 		}
 		
-		//If the game is a parkour game, there's a 50% of selecting a new game
+		//If the game is a parkour game, there's a 75% of selecting a new game
 		if (game instanceof ParkourGame){
-			boolean bool = Random.getRandomBoolean();
+			boolean bool = Random.getRandomInteger(0, 3) < 1;
 			if (bool){
 				startNewRandomGame();
 				return;
