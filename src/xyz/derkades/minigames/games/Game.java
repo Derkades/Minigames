@@ -111,13 +111,7 @@ public abstract class Game implements Listener {
 			return;
 		}
 		
-		new BukkitRunnable(){
-			public void run(){
-				Bukkit.broadcastMessage(DARK_AQUA + "A new game will start in 5 seconds.");
-			}
-		}.runTaskLater(Minigames.getInstance(), 7*20);
-		
-		Scheduler.runTaskLater(12*20, new Runnable(){
+		Scheduler.runTaskLater(8*20, new Runnable(){
 			public void run(){
 				AutoRotate.startNewRandomGame();
 			}
