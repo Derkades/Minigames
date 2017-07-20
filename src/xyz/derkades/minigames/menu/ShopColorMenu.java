@@ -1,4 +1,4 @@
-package xyz.derkades.minigames.shop;
+package xyz.derkades.minigames.menu;
 
 import org.bukkit.Material;
 import org.bukkit.entity.Player;

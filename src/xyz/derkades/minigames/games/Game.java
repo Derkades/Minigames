@@ -31,7 +31,7 @@ public abstract class Game implements Listener {
 	
 	private boolean isRunning = false;
 	
-	void setRunning(boolean running){
+	private void setRunning(boolean running){
 		isRunning = running;
 		Minigames.IS_IN_GAME = running;
 	}

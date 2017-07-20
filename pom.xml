@@ -47,7 +47,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-shade-plugin</artifactId>
-				<version>2.3</version>
+				<version>2.4</version>
 				<configuration>
 					<createDependencyReducedPom>false</createDependencyReducedPom>
 					<minimizeJar>true</minimizeJar>
@@ -61,7 +61,7 @@
 
 		<dependency> <!-- Spigot (this includes Spigot API, Bukkit API, Craftbukkit and NMS) -->
 			<groupId>org.spigotmc</groupId>
-			<artifactId>spigot-api</artifactId>
+			<artifactId>spigot</artifactId>
 			<version>${spigot.version}</version>
 			<scope>provided</scope>
 		</dependency>
@@ -71,6 +71,13 @@
 			<artifactId>Derkutils</artifactId>
 			<version>1.2.2</version>
 		</dependency>
+
+		<dependency> <!-- NuVotifier -->
+			<groupId>com.vexsoftware</groupId>
+			<artifactId>nuvotifier-universal</artifactId>
+			<version>2.3.4</version>
+			<scope>provided</scope>
+		</dependency>	
 
 	</dependencies>
 
@@ -84,6 +91,11 @@
 		<repository>
 			<id>derkades</id>
 			<url>https://derkades.xyz/maven</url>
+		</repository>
+
+		<repository>
+			<id>vex</id>
+			<url>https://dl.bintray.com/nuvotifier/maven/</url>
 		</repository>
 
 	</repositories>

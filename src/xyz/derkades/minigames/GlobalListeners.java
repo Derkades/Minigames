@@ -25,8 +25,8 @@ import org.bukkit.potion.PotionEffectType;
 
 import net.md_5.bungee.api.ChatColor;
 import xyz.derkades.minigames.games.Game;
-import xyz.derkades.minigames.shop.MainMenu;
-import xyz.derkades.minigames.shop.NameColor;
+import xyz.derkades.minigames.menu.MainMenu;
+import xyz.derkades.minigames.menu.NameColor;
 import xyz.derkades.minigames.utils.Console;
 import xyz.derkades.minigames.utils.Utils;
 
@@ -78,7 +78,7 @@ public class GlobalListeners implements Listener {
 	@EventHandler
 	public void onChat(AsyncPlayerChatEvent event){
 		Player player = event.getPlayer();
-		if (player.getName().equals("RobinMC")){
+		if (player.getName().equals("Derkades")){
 			event.setFormat(DARK_GRAY + "[" + AQUA + Points.getPoints(player) + DARK_GRAY + "] " + 
 					DARK_GRAY + "[" + ChatColor.GREEN + "Owner" + DARK_GRAY + "] " +
 					NameColor.getNameColor(player) + player.getName() + DARK_GRAY + 

@@ -15,7 +15,7 @@ import org.bukkit.block.Sign;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import net.md_5.bungee.api.ChatColor;
-import xyz.derkades.minigames.shop.NameColor;
+import xyz.derkades.minigames.menu.NameColor;
 import xyz.derkades.minigames.utils.Utils;
 
 public class Points {

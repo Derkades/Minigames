@@ -1,4 +1,4 @@
-package xyz.derkades.minigames.shop;
+package xyz.derkades.minigames.menu;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;

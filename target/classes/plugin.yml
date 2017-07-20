@@ -1,0 +1,10 @@
+name: Minigames
+main: xyz.derkades.minigames.Minigames
+version: 6.9
+author: RobinMC
+description: ohiasohidfasdasimasm
+depends: [nuvotifier]
+
+commands:
+  games:
+    usage: </command>

@@ -1,5 +1,6 @@
 package xyz.derkades.minigames;
 
+import xyz.derkades.minigames.games.DigDug;
 import xyz.derkades.minigames.games.Game;
 import xyz.derkades.minigames.games.JungleRun;
 import xyz.derkades.minigames.games.Platform;
@@ -18,6 +19,7 @@ public enum GameEnum {
 	//PVP(new MazePvP()),
 	//ELYTRA(new Elytra()),
 	SPEEDRUN(new Speedrun()),
+	DIG_DUG(new DigDug()),
 	//MINE(new Mine()),
 	
 	;

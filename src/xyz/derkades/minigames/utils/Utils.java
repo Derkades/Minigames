@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.bukkit.Bukkit;
@@ -103,6 +104,23 @@ public class Utils {
 				winners.add(player);
 			}
 		}
+		return winners;
+	}
+	
+	public static List<Player> getWinnersFromPointsHashmap(Map<UUID, Integer> points){
+		int maxPoints = Collections.max(points.values());
+		
+		List<Player> winners = new ArrayList<>();
+		
+		for (Map.Entry<UUID, Integer> entry : points.entrySet()) {
+			if (entry.getValue() == maxPoints) {
+				Player player = Bukkit.getPlayer(entry.getKey());
+				if (player != null) {
+					winners.add(player);
+				}
+			}
+		}
+		
 		return winners;
 	}
 	
