@@ -39,7 +39,7 @@ public class GlobalListeners implements Listener {
 		player.setGameMode(GameMode.ADVENTURE);
 		player.setAllowFlight(false); //Just in case the player was spectator
 		
-		for (Game game : Game.getAllGames()){
+		for (Game game : Minigames.GAMES){
 			Minigames.setCanTakeDamage(player, false);
 			game.resetHashMaps(event.getPlayer());
 		}

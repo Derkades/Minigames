@@ -16,10 +16,9 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import xyz.derkades.derkutils.EnumUtils;
+import xyz.derkades.derkutils.ListUtils;
 import xyz.derkades.derkutils.Random;
 import xyz.derkades.minigames.AutoRotate;
-import xyz.derkades.minigames.GameEnum;
 import xyz.derkades.minigames.Minigames;
 import xyz.derkades.minigames.Points;
 import xyz.derkades.minigames.Var;
@@ -211,21 +210,12 @@ public abstract class Game implements Listener {
 		
 	}
 	
-	public static List<Game> getAllGames(){
-		List<Game> list = new ArrayList<Game>();
-		for (GameEnum gameEnum : GameEnum.values()){
-			Game game = gameEnum.getGame();
-			list.add(game);
-		}
-		return list;
-	}
-	
 	public static Game getRandomGame(){
-		return EnumUtils.getRandomEnum(GameEnum.class).getGame();
+		return ListUtils.getRandomValueFromArray(Minigames.GAMES);
 	}
 	
 	public static Game fromString(String string){
-		for (Game game : Game.getAllGames()){
+		for (Game game : Minigames.GAMES){
 			if (game.getName().equalsIgnoreCase(string)){
 				return game;
 			}

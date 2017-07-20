@@ -29,7 +29,7 @@ public class MainMenu extends IconMenu {
 	public boolean onOptionClick(OptionClickEvent event) {
 		if (event.getName().contains("Games")){
 			Player player = event.getPlayer();
-			for (Game game : Game.getAllGames()){
+			for (Game game : Minigames.GAMES){
 				player.sendMessage("------------------------------------------");
 				player.sendMessage(DARK_AQUA + "Name: " + AQUA + game.getName());
 				player.sendMessage(DARK_AQUA + "Reward (points): " + AQUA + game.getPoints().getMinimum() + "-" + game.getPoints().getMaximum());

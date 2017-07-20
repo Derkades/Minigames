@@ -10,7 +10,14 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import xyz.derkades.minigames.games.DigDug;
 import xyz.derkades.minigames.games.Game;
+import xyz.derkades.minigames.games.JungleRun;
+import xyz.derkades.minigames.games.Platform;
+import xyz.derkades.minigames.games.RegeneratingSpleef;
+import xyz.derkades.minigames.games.SaveTheSnowman;
+import xyz.derkades.minigames.games.SnowFight;
+import xyz.derkades.minigames.games.Speedrun;
 import xyz.derkades.minigames.task.ClearWeather;
 import xyz.derkades.minigames.task.RegenerateHunger;
 
@@ -30,11 +37,24 @@ public class Minigames extends JavaPlugin implements Listener {
 	 */
 	public static Game NEXT_GAME = null;
 	
+	public static final Game[] GAMES = new Game[] {
+			new Platform(),
+			new JungleRun(),
+			new RegeneratingSpleef(),
+			new SaveTheSnowman(),
+			new SnowFight(),
+			//new MazePvP(),
+			//new Elytra(),
+			new Speedrun(),
+			new DigDug(),
+			//new Mine(),
+	};
+	
 	@Override
 	public void onEnable(){
 		instance = this;
 		
-		for (Game game : Game.getAllGames())
+		for (Game game : Minigames.GAMES)
 			getServer().getPluginManager().registerEvents(game, this);
 
 		new ClearWeather().runTaskTimer(this, 1*20, 1*20);
@@ -45,7 +65,7 @@ public class Minigames extends JavaPlugin implements Listener {
 		getServer().getPluginManager().registerEvents(new Votifier(), this);
 		
 		for (Player player : Bukkit.getOnlinePlayers()){
-			for (Game game : Game.getAllGames()){
+			for (Game game : Minigames.GAMES){
 				game.resetHashMaps(player);
 			}
 		}
