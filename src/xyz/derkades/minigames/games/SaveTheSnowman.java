@@ -49,7 +49,7 @@ public class SaveTheSnowman extends ParkourGame {
 	
 	@Override
 	public GamePoints getPoints() {
-		return new GamePoints(1, 5);
+		return new GamePoints(3, 5);
 	}
 
 	@Override
