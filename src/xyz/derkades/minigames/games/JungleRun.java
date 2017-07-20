@@ -7,6 +7,7 @@ import java.util.List;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -95,7 +96,7 @@ public class JungleRun extends ParkourGame implements Listener {
 		super.sendMessage(player.getName() + " has made it to the finish!"); //Send message
 		player.teleport(new Location(Var.WORLD, 296.5, 80, 204.5, 180, 0)); //Teleports player to the spectator room
 		super.sendConsoleCommand("particle flame 327.5 72 196.5 0 2 2 0.1 1000"); //Plays particle effect at finish
-		super.sendConsoleCommand("execute @a ~ ~ ~ playsound entity.player.levelup master @p"); //Plays sound to that player
+		player.playSound(player.getLocation(), Sound.LEVEL_UP, 1.0f, 1.0f);
 		hasFinished.put(player.getName(), true);
 		isSpectator.put(player.getName(), true);
 		player.setAllowFlight(true);
