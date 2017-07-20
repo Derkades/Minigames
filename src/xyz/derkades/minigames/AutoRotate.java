@@ -1,13 +1,15 @@
 package xyz.derkades.minigames;
 
+import static org.bukkit.ChatColor.AQUA;
+import static org.bukkit.ChatColor.DARK_AQUA;
+import static org.bukkit.ChatColor.RED;
+
 import org.bukkit.Bukkit;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import xyz.derkades.derkutils.Random;
 import xyz.derkades.minigames.games.Game;
 import xyz.derkades.minigames.games.ParkourGame;
-import xyz.derkades.minigames.utils.java.Random;
-
-import static org.bukkit.ChatColor.*;
 
 public class AutoRotate {
 

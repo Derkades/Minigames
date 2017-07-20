@@ -16,6 +16,8 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import xyz.derkades.derkutils.EnumUtils;
+import xyz.derkades.derkutils.Random;
 import xyz.derkades.minigames.AutoRotate;
 import xyz.derkades.minigames.GameEnum;
 import xyz.derkades.minigames.Minigames;
@@ -24,8 +26,6 @@ import xyz.derkades.minigames.Var;
 import xyz.derkades.minigames.utils.Console;
 import xyz.derkades.minigames.utils.Scheduler;
 import xyz.derkades.minigames.utils.Utils;
-import xyz.derkades.minigames.utils.java.EnumUtils;
-import xyz.derkades.minigames.utils.java.Random;
 
 public abstract class Game implements Listener {
 	

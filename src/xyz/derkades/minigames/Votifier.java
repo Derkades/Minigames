@@ -9,7 +9,7 @@ import com.vexsoftware.votifier.model.Vote;
 import com.vexsoftware.votifier.model.VotifierEvent;
 
 import net.md_5.bungee.api.ChatColor;
-import xyz.derkades.minigames.utils.java.Random;
+import xyz.derkades.derkutils.Random;
 
 public class Votifier implements Listener {
 	

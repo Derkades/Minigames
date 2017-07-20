@@ -22,11 +22,11 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import xyz.derkades.derkutils.Random;
 import xyz.derkades.minigames.Minigames;
 import xyz.derkades.minigames.Var;
 import xyz.derkades.minigames.utils.Console;
 import xyz.derkades.minigames.utils.Utils;
-import xyz.derkades.minigames.utils.java.Random;
 
 public class SnowFight extends Game {
 
