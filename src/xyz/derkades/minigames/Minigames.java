@@ -71,7 +71,12 @@ public class Minigames extends JavaPlugin implements Listener {
 	}
 	
 	public static void setCanTakeDamage(Player player, boolean value){
-		CAN_TAKE_DAMAGE.add(player.getUniqueId());
+		if (value) {
+			CAN_TAKE_DAMAGE.add(player.getUniqueId());
+		} else {
+			CAN_TAKE_DAMAGE.remove(player.getUniqueId());
+		}
+		
 	}
 	
 	public static void fillArea(int minX, int minY, int minZ, int maxX, int maxY, int maxZ, Material material) {
