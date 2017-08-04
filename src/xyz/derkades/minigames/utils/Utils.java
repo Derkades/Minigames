@@ -124,6 +124,29 @@ public class Utils {
 		return winners;
 	}
 	
+	public static boolean allPlayersWon(List<UUID> winners) {
+		boolean missing = false;
+		
+		for (Player player : Bukkit.getOnlinePlayers()) {
+			if (!winners.contains(player.getUniqueId())) {
+				missing = true;
+			}
+		}
+		
+		return !missing;
+	}
+	
+	public static List<Player> getPlayerListFromUUIDList(List<UUID> list){
+		List<Player> players = new ArrayList<>();
+		for (UUID uuid : list) {
+			Player player = Bukkit.getPlayer(uuid);
+			if (player != null) {
+				players.add(player);
+			}
+		}
+		return players;
+	}
+	
 	public static void playSoundForAllPlayers(Sound sound, float pitch){
 		for (Player player : Bukkit.getOnlinePlayers())
 			player.playSound(player.getLocation(), sound, 1, pitch);

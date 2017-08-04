@@ -11,6 +11,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import xyz.derkades.minigames.games.DigDug;
+import xyz.derkades.minigames.games.Dropper;
 import xyz.derkades.minigames.games.Game;
 import xyz.derkades.minigames.games.JungleRun;
 import xyz.derkades.minigames.games.Platform;
@@ -38,6 +39,7 @@ public class Minigames extends JavaPlugin implements Listener {
 	public static Game NEXT_GAME = null;
 	
 	public static final Game[] GAMES = new Game[] {
+			new Dropper(),
 			new Platform(),
 			new JungleRun(),
 			new RegeneratingSpleef(),
