@@ -19,6 +19,7 @@ import xyz.derkades.minigames.games.SaveTheSnowman;
 import xyz.derkades.minigames.games.SnowFight;
 import xyz.derkades.minigames.games.Speedrun;
 import xyz.derkades.minigames.task.RegenerateHunger;
+import xyz.derkades.minigames.utils.Scheduler;
 
 public class Minigames extends JavaPlugin implements Listener {
 
@@ -71,6 +72,10 @@ public class Minigames extends JavaPlugin implements Listener {
 		}
 		
 		getCommand("games").setExecutor(new Command());
+		
+		Scheduler.runSyncRepeatingTask(20, () -> {
+			Var.WORLD.setStorm(false);
+		});
 	}
 	
 	@Override
