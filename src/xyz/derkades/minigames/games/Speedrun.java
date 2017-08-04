@@ -103,8 +103,6 @@ public class Speedrun extends Game {
 	@SuppressWarnings("deprecation")
 	@EventHandler(priority = EventPriority.MONITOR)
 	public void onMove(PlayerMoveEvent event){
-		if (!isRunning()) return;
-
 		Player player = event.getPlayer();
 		
 		if (hasFinished.get(player.getName())){

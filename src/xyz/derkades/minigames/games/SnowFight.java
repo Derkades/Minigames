@@ -108,8 +108,6 @@ public class SnowFight extends Game {
 	
 	@EventHandler
 	public void onDamage(EntityDamageByEntityEvent event){
-		if (!isRunning()) return;
-		
 		if (event.getDamager() instanceof Snowball){
 			event.setDamage(4);
 		}
@@ -117,8 +115,6 @@ public class SnowFight extends Game {
 	
 	@EventHandler
 	public void onBlockBreak(BlockBreakEvent event){
-		if (!isRunning()) return;
-		
 		Block block = event.getBlock();
 		if (block.getType() == Material.SNOW){
 			Player player = event.getPlayer();
@@ -145,8 +141,6 @@ public class SnowFight extends Game {
 	
 	@EventHandler
 	public void onKill(PlayerDeathEvent event){
-		if (!isRunning()) return;
-		
 		Player killer = event.getEntity().getKiller();
 		
 		if (event.getEntityType() == EntityType.PLAYER){

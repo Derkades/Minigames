@@ -99,8 +99,6 @@ public class RegeneratingSpleef extends Game {
 	
 	@EventHandler
 	public void spleefBlock(BlockBreakEvent event) {
-		if (!isRunning()) return;
-		
 		Player player = event.getPlayer();
 		PlayerInventory inv = player.getInventory();
 		if (inv.getItemInHand().getType() == Material.DIAMOND_SPADE){
@@ -118,8 +116,6 @@ public class RegeneratingSpleef extends Game {
 	
 	@EventHandler(priority = EventPriority.MONITOR)
 	public void onMove(PlayerMoveEvent event){
-		if (!isRunning()) return;
-		
 		Player player = event.getPlayer();
 		if(event.getTo().getBlock().getRelative(BlockFace.DOWN).getType() == Material.BEDROCK){
 			playerDie(player);

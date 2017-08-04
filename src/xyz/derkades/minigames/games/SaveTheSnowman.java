@@ -103,16 +103,14 @@ public class SaveTheSnowman extends ParkourGame {
 	
 	@EventHandler(priority = EventPriority.MONITOR)
 	public void onMove(PlayerMoveEvent event){
-		if (super.isRunning()){
-			Player player = event.getPlayer();
-			Material type = event.getTo().getBlock().getRelative(BlockFace.DOWN).getType();
-			
-			if(type == Material.SNOW_BLOCK || type == Material.ICE)
-				player.teleport(new Location(Var.WORLD, 277.5, 70, 273.5, -90, 0)); //Teleport back to start
-			
-			if (type == Material.DIAMOND_BLOCK)
-				playerWin(player);
-		}
+		Player player = event.getPlayer();
+		Material type = event.getTo().getBlock().getRelative(BlockFace.DOWN).getType();
+
+		if (type == Material.SNOW_BLOCK || type == Material.ICE)
+			player.teleport(new Location(Var.WORLD, 277.5, 70, 273.5, -90, 0)); // Teleport back to start
+
+		if (type == Material.DIAMOND_BLOCK)
+			playerWin(player);
 	}
 	
 }

@@ -18,7 +18,6 @@ import xyz.derkades.minigames.games.RegeneratingSpleef;
 import xyz.derkades.minigames.games.SaveTheSnowman;
 import xyz.derkades.minigames.games.SnowFight;
 import xyz.derkades.minigames.games.Speedrun;
-import xyz.derkades.minigames.task.ClearWeather;
 import xyz.derkades.minigames.task.RegenerateHunger;
 
 public class Minigames extends JavaPlugin implements Listener {
@@ -32,7 +31,7 @@ public class Minigames extends JavaPlugin implements Listener {
 	
 	public static boolean STOP_GAMES = false;
 	
-	/*
+	/**
 	 * Used to force the next game to be a certain game.
 	 */
 	public static Game NEXT_GAME = null;
@@ -53,11 +52,7 @@ public class Minigames extends JavaPlugin implements Listener {
 	@Override
 	public void onEnable(){
 		instance = this;
-		
-		for (Game game : Minigames.GAMES)
-			getServer().getPluginManager().registerEvents(game, this);
 
-		new ClearWeather().runTaskTimer(this, 1*20, 1*20);
 		new RegenerateHunger().runTaskTimer(this, 1*20, 1*20);
 		new Points.UpdateLeaderboard().runTaskTimer(this, 2*20, 10*20);
 		

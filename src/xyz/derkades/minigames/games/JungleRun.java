@@ -104,8 +104,6 @@ public class JungleRun extends ParkourGame implements Listener {
 	
 	@EventHandler(priority = EventPriority.MONITOR)
 	public void onMove(PlayerMoveEvent event){
-		if (!isRunning()) return;
-
 		Player player = event.getPlayer();
 		if(!isSpectator.get(player.getName())){ //If the player is not a spectator
 			Material type = event.getTo().getBlock().getRelative(BlockFace.DOWN).getType();

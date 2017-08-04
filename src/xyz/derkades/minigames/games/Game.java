@@ -11,6 +11,7 @@ import java.util.List;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
+import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -27,17 +28,6 @@ import xyz.derkades.minigames.utils.Scheduler;
 import xyz.derkades.minigames.utils.Utils;
 
 public abstract class Game implements Listener {
-	
-	private boolean isRunning = false;
-	
-	private void setRunning(boolean running){
-		isRunning = running;
-		Minigames.IS_IN_GAME = running;
-	}
-	
-	public boolean isRunning(){
-		return isRunning;
-	}
 	
 	abstract String[] getDescription();
 	
@@ -61,7 +51,8 @@ public abstract class Game implements Listener {
 	
 	@SuppressWarnings("deprecation")
 	void startNextGame(List<Player> winners){
-		this.setRunning(false);
+		Minigames.IS_IN_GAME = false;
+		HandlerList.unregisterAll(this); //Unregister events
 		
 		List<String> winnerNames = new ArrayList<String>();
 		for (Player winner : winners) winnerNames.add(winner.getName());
@@ -178,8 +169,10 @@ public abstract class Game implements Listener {
 		
 		Scheduler.runTaskLater(5 * 20, () -> {
 			begin();
-			setRunning(true);
-
+			Minigames.IS_IN_GAME = true;
+			
+			Bukkit.getPluginManager().registerEvents(this, Minigames.getInstance());
+			
 			Utils.setXpBarValue(0f, 0);
 
 			new BukkitRunnable() { // Small delay for last sound, because it needs to be played at the new player location

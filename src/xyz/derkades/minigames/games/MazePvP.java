@@ -79,8 +79,6 @@ public class MazePvP extends Game {
 	
 	@EventHandler
 	public void onDeath(PlayerDeathEvent event){
-		if (!isRunning()) return;
-		
 		Player player = event.getEntity();
 		Player killer = event.getEntity().getKiller();
 		

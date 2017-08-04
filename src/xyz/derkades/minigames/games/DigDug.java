@@ -169,9 +169,7 @@ public class DigDug extends Game {
 	}
 	
 	@EventHandler
-	public void onInteract(PlayerInteractEvent event) {
-		if (!this.isRunning()) return;
-		
+	public void onInteract(PlayerInteractEvent event) {		
 		if (event.getAction() != Action.RIGHT_CLICK_BLOCK) {
 			return;
 		}

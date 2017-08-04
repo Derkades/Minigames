@@ -143,8 +143,6 @@ public class Platform extends Game {
 	
 	@EventHandler(priority = EventPriority.MONITOR)
 	public void onMove(PlayerMoveEvent event){
-		if (!isRunning()) return;
-		
 		Player player = event.getPlayer();
 		if(event.getTo().getBlock().getRelative(BlockFace.DOWN).getType() == Material.STAINED_CLAY){
 			playerDie(player);

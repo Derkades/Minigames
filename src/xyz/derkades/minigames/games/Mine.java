@@ -116,8 +116,6 @@ public class Mine extends Game {
 	
 	@EventHandler
 	public void onBlockBreak(BlockBreakEvent event){
-		if (!isRunning()) return;
-		
 		Material type = event.getBlock().getType();
 		if (blockPoints.containsKey(type)){
 			int points = blockPoints.get(type);
