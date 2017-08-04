@@ -30,7 +30,6 @@ public class Dropper extends Game {
 	private List<UUID> winners;
 	
 	public Dropper() {
-		map = ListUtils.getRandomValueFromArray(DropperMap.DROPPER_MAPS);
 		winners = new ArrayList<>();
 	}
 	
@@ -62,6 +61,8 @@ public class Dropper extends Game {
 
 	@Override
 	void begin() {
+		map = ListUtils.getRandomValueFromArray(DropperMap.DROPPER_MAPS);
+		
 		for (Player player : Bukkit.getOnlinePlayers()) {
 			player.teleport(map.getLobbyLocation());
 		}
