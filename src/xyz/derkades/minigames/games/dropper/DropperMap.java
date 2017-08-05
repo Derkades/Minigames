@@ -5,7 +5,7 @@ import org.bukkit.Location;
 public abstract class DropperMap {
 	
 	public static DropperMap[] DROPPER_MAPS = new DropperMap[] {
-			
+			new Trees(),
 	};
 	
 	public abstract String getName();
