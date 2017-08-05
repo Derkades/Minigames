@@ -4,19 +4,25 @@ import static org.bukkit.ChatColor.AQUA;
 import static org.bukkit.ChatColor.DARK_GRAY;
 import static org.bukkit.ChatColor.GRAY;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Villager;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
@@ -117,6 +123,35 @@ public class GlobalListeners implements Listener {
 		if (entity instanceof Villager){
 			event.setCancelled(true);
 			new MainMenu(player).open();
+		}
+	}
+	
+	@EventHandler
+	public void onInteract(PlayerInteractEvent event) {
+		if (event.getPlayer().getGameMode() != GameMode.ADVENTURE) {
+			return;
+		}
+		
+		List<Material> unsafeBlocks = Arrays.asList(
+			Material.ACACIA_DOOR,
+			Material.ACACIA_FENCE_GATE,
+			Material.BIRCH_DOOR,
+			Material.BIRCH_FENCE_GATE,
+			Material.DARK_OAK_DOOR,
+			Material.DARK_OAK_FENCE_GATE,
+			Material.JUNGLE_DOOR,
+			Material.JUNGLE_FENCE_GATE,
+			Material.SPRUCE_DOOR,
+			Material.SPRUCE_FENCE_GATE,
+			Material.TRAP_DOOR,
+			Material.WOOD_DOOR,
+			Material.WOODEN_DOOR
+		);
+		
+		Action action = event.getAction();
+		Block block = event.getClickedBlock();
+		if (action == Action.RIGHT_CLICK_BLOCK && unsafeBlocks.contains(block.getType())) {
+			event.setCancelled(true);
 		}
 	}
 
