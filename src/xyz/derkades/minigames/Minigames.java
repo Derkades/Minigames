@@ -55,6 +55,8 @@ public class Minigames extends JavaPlugin implements Listener {
 	@Override
 	public void onEnable(){
 		instance = this;
+		
+		Var.WORLD = Bukkit.getWorld("minigames");
 
 		new RegenerateHunger().runTaskTimer(this, 1*20, 1*20);
 		new Points.UpdateLeaderboard().runTaskTimer(this, 2*20, 10*20);
