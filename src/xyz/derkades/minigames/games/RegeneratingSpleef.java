@@ -18,6 +18,7 @@ import org.bukkit.inventory.PlayerInventory;
 
 import xyz.derkades.minigames.Minigames;
 import xyz.derkades.minigames.Var;
+import xyz.derkades.minigames.utils.BlockUtils;
 import xyz.derkades.minigames.utils.Console;
 import xyz.derkades.minigames.utils.Utils;
 
@@ -58,10 +59,13 @@ public class RegeneratingSpleef extends Game {
 		dead = new ArrayList<>();
 		
 		Utils.setGameRule("doTileDrops", false);
-		Console.sendCommand("fill 163 80 267 149 80 253 snow"); //XXX Bukkit API
+
+		BlockUtils.fillArea(149, 80, 253, 163, 80, 267, Material.SNOW_BLOCK);
+		
 		for (Player player: Bukkit.getOnlinePlayers()){
 			player.teleport(new Location(Var.WORLD, 156.5, 82, 260.5, -90, 90));
 		}
+		
 		Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Minigames.getInstance(), new Runnable(){
 			public void run(){
 				Console.sendCommand("replaceitem entity @a slot.hotbar.0 minecraft:diamond_shovel 1 0 {display:{Name:\"Spleefanator 8000\"},Unbreakable:1,ench:[{id:32,lvl:10}],CanDestroy:[\"minecraft:snow\"]}");
