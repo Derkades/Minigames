@@ -20,6 +20,7 @@ import xyz.derkades.minigames.Minigames;
 import xyz.derkades.minigames.Var;
 import xyz.derkades.minigames.utils.BlockUtils;
 import xyz.derkades.minigames.utils.Console;
+import xyz.derkades.minigames.utils.Scheduler;
 import xyz.derkades.minigames.utils.Utils;
 
 public class RegeneratingSpleef extends Game {
@@ -66,30 +67,19 @@ public class RegeneratingSpleef extends Game {
 			player.teleport(new Location(Var.WORLD, 156.5, 82, 260.5, -90, 90));
 		}
 		
-		Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Minigames.getInstance(), new Runnable(){
-			public void run(){
-				Console.sendCommand("replaceitem entity @a slot.hotbar.0 minecraft:diamond_shovel 1 0 {display:{Name:\"Spleefanator 8000\"},Unbreakable:1,ench:[{id:32,lvl:10}],CanDestroy:[\"minecraft:snow\"]}");
-				sendMessage("Game has started!");
-			}
-		}, 2*20);
+		Scheduler.runTaskLater(2*20, () -> {
+			Console.sendCommand("replaceitem entity @a slot.hotbar.0 minecraft:diamond_shovel 1 0 {display:{Name:\"Spleefanator 8000\"},Unbreakable:1,ench:[{id:32,lvl:10}],CanDestroy:[\"minecraft:snow\"]}");
+			sendMessage("The game has started!");
+		});
 
-		final Minigames instance = Minigames.getInstance();
-		Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(instance, new Runnable(){
-			public void run(){
-				sendMessage("5 seconds left!");
-				Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(instance, new Runnable(){
-					public void run(){
-						endGame();
-					}
-				}, 5 * 20);
-			}
-		}, 20 * 20);
-	}
-	
-	private void endGame(){
-		Utils.setGameRule("doTileDrops", true);
-		
-		super.startNextGame(Utils.getWinnersFromDeadList(dead));
+		Scheduler.runTaskLater(20*20, () -> {
+			sendMessage("5 seconds left!");
+			Scheduler.runTaskLater(5*20, () -> {
+				//End game
+				Utils.setGameRule("doTileDrops", true);
+				super.startNextGame(Utils.getWinnersFromDeadList(dead));
+			});
+		});
 	}
 	
 	@EventHandler
