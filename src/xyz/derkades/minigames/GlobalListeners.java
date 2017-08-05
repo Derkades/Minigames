@@ -50,6 +50,9 @@ public class GlobalListeners implements Listener {
 			game.resetHashMaps(event.getPlayer());
 		}
 		
+		player.setExp(0.0f);
+		player.setLevel(0);
+		
 		Console.sendCommand("scoreboard teams join all " + player.getName());
 		
 		event.setJoinMessage(ChatColor.AQUA + "" + ChatColor.BOLD + player.getName() + ChatColor.DARK_AQUA + "" + ChatColor.BOLD + " has joined!");
