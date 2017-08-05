@@ -57,8 +57,7 @@ public class UUIDUtils implements Listener {
 	}
 	
 	public static void initialize(Plugin plugin, String fileName, String directory){
-		UUIDUtils.
-		plugin.getServer().getPluginManager().registerEvents(new UUIDUtils(), plugin);
+		UUIDUtils.plugin.getServer().getPluginManager().registerEvents(new UUIDUtils(), plugin);
 		file = new File(plugin.getDataFolder() + "/" + directory, fileName + ".yml");
 	}
 	
