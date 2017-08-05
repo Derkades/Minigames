@@ -56,11 +56,11 @@ public class Utils {
 	}
 	
 	public static void giveInfiniteEffect(Player player, PotionEffectType type, int amplifier){
-		player.addPotionEffect(new PotionEffect(type, 100000, amplifier, true));
+		player.addPotionEffect(new PotionEffect(type, 100000, amplifier, true, false));
 	}
 	
 	public static void giveInfiniteEffect(Player player, PotionEffectType type){
-		player.addPotionEffect(new PotionEffect(type, 100000, 0, true));
+		player.addPotionEffect(new PotionEffect(type, 100000, 0, true, false));
 	}
 	
 	public static void giveInvisibility(Player player){
