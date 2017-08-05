@@ -8,13 +8,16 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import xyz.derkades.derkutils.ListUtils;
 import xyz.derkades.minigames.Minigames;
 import xyz.derkades.minigames.Points;
 import xyz.derkades.minigames.games.dropper.DropperMap;
+import xyz.derkades.minigames.utils.Scheduler;
 import xyz.derkades.minigames.utils.Utils;
 
 public class Dropper extends Game {
@@ -25,19 +28,11 @@ public class Dropper extends Game {
 	private static final String FINISHED = "%s finished.";
 	private static final String FINISHED_FIRST = "%s finished first and got 1 extra point!";
 	private static final String SECONDS_LEFT = "%s seconds left.";
-	
-	private DropperMap map;
-	private List<UUID> winners;
-	
-	public Dropper() {
-		winners = new ArrayList<>();
-	}
-	
+		
 	@Override
 	String[] getDescription() {
 		return new String[] {
 				"Get down without dying.",
-				"Map: " + map.getName(),
 		};
 	}
 
@@ -48,7 +43,7 @@ public class Dropper extends Game {
 
 	@Override
 	public int getRequiredPlayers() {
-		return 2;
+		return 1;
 	}
 
 	@Override
@@ -59,9 +54,17 @@ public class Dropper extends Game {
 	@Override
 	public void resetHashMaps(Player player) {}
 
+	private DropperMap map;
+	private List<UUID> winners;
+	
 	@Override
 	void begin() {
 		map = ListUtils.getRandomValueFromArray(DropperMap.DROPPER_MAPS);
+		winners = new ArrayList<>();
+		
+		map.closeDoor();
+		
+		sendMessage("Map: " + map.getName());
 		
 		for (Player player : Bukkit.getOnlinePlayers()) {
 			player.teleport(map.getLobbyLocation());
@@ -75,6 +78,9 @@ public class Dropper extends Game {
 			public void run() {
 				if (secondsLeft <= 0) {
 					sendMessage("The game has started!");
+					for (Player player : Bukkit.getOnlinePlayers()) {
+						Minigames.setCanTakeDamage(player, true);
+					}
 					map.openDoor();
 					this.cancel();
 					return;
@@ -91,7 +97,11 @@ public class Dropper extends Game {
 			
 			@Override
 			public void run() {
-				if (Utils.allPlayersWon(winners) || secondsLeft <= 0) {
+				if (Utils.allPlayersWon(winners) && secondsLeft > 2) {
+					secondsLeft = 2;
+				}
+				
+				if (secondsLeft <= 0) {
 					this.cancel();
 					endGame();
 					return;
@@ -113,6 +123,10 @@ public class Dropper extends Game {
 	
 	@EventHandler
 	public void onMove(PlayerMoveEvent event) {
+		if (winners.contains(event.getPlayer().getUniqueId())) {
+			return; //Don't teleport players who have finished
+		}
+		
 		if (event.getTo().getBlock().getType() == Material.STATIONARY_WATER) {
 			Player player = event.getPlayer();
 			
@@ -125,7 +139,18 @@ public class Dropper extends Game {
 			}
 			
 			winners.add(player.getUniqueId());
+			Utils.giveInfiniteEffect(player, PotionEffectType.INVISIBILITY);
+			Minigames.setCanTakeDamage(player, false);
+			player.setHealth(player.getMaxHealth());
 		}
+	}
+	
+	@EventHandler
+	public void onDeath(PlayerDeathEvent event) {
+		Scheduler.runTaskLater(1, () -> {
+			event.getEntity().spigot().respawn();
+			event.getEntity().teleport(map.getLobbyLocation());
+		});
 	}
 
 }

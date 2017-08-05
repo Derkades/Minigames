@@ -15,7 +15,7 @@ public class Trees extends DropperMap {
 
 	@Override
 	public Location getLobbyLocation() {
-		return new Location(Var.WORLD, 163.5, 83, 151.5, -90, 0);
+		return new Location(Var.WORLD, 163.5, 84, 151.5, -90, 0);
 	}
 
 	@Override

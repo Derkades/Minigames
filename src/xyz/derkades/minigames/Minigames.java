@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -57,6 +58,7 @@ public class Minigames extends JavaPlugin implements Listener {
 		instance = this;
 		
 		Var.WORLD = Bukkit.getWorld("minigames");
+		Var.LOBBY_LOCATION = new Location(Var.WORLD, 220.5, 67.5, 253.5, 0, 0);
 
 		new RegenerateHunger().runTaskTimer(this, 1*20, 1*20);
 		new Points.UpdateLeaderboard().runTaskTimer(this, 2*20, 10*20);
