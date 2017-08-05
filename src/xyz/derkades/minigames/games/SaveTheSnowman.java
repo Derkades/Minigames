@@ -1,7 +1,8 @@
 package xyz.derkades.minigames.games;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -23,10 +24,6 @@ import xyz.derkades.minigames.utils.Utils;
 
 public class SaveTheSnowman extends ParkourGame {
 
-	private Map<String, Boolean> hasFinished = new HashMap<>();
-	
-	private boolean NO_ONE_FINISHED = true;
-	
 	@Override
 	String[] getDescription() {
 		return new String[]{
@@ -53,23 +50,19 @@ public class SaveTheSnowman extends ParkourGame {
 	}
 
 	@Override
-	public void resetHashMaps(Player player) {
-		hasFinished.put(player.getName(), false);
-	}
+	public void resetHashMaps(Player player) {}
 
+	List<UUID> finished;
+	
 	@Override
 	void begin() {
-		this.NO_ONE_FINISHED = true;
+		finished = new ArrayList<>();
 		
 		for (Player player: Bukkit.getOnlinePlayers()){
 			player.teleport(new Location(Var.WORLD, 277.5, 70, 273.5, -90, 0));
-			//Console.sendCommand("effect " + player.getName() + " invisibility 10000 1 true");
 			player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 100000, 0, true));
 		}
-		timer();
-	}
-	
-	private void timer(){
+		
 		new BukkitRunnable(){
 			public void run(){
 				sendMessage("5 seconds left!");
@@ -83,22 +76,22 @@ public class SaveTheSnowman extends ParkourGame {
 	}
 	
 	private void endGame(){
-		super.startNextGame(Utils.getWinnersFromFinishedHashMap(hasFinished));
+		super.startNextGame(Utils.getPlayerListFromUUIDList(finished));
 	}
 	
 	private void playerWin(Player player){
-		if (NO_ONE_FINISHED){
-			NO_ONE_FINISHED = false;
+		if (finished.isEmpty()) {
 			super.sendMessage(player.getName() + " finished first and got an extra point!");
 			Points.addPoints(player, 1);
 		} else {
 			sendMessage(player.getName() + " has made it to the finish!");
 		}
 		
+		finished.add(player.getUniqueId());
+		
 		player.teleport(new Location(Var.WORLD, 320, 81, 274, 90, 0));
 		//Console.sendCommand("execute @a ~ ~ ~ playsound entity.player.levelup master @p");
 		Utils.playSoundForAllPlayers(Sound.LEVEL_UP, 1);
-		hasFinished.put(player.getName(), true);
 	}
 	
 	@EventHandler(priority = EventPriority.MONITOR)

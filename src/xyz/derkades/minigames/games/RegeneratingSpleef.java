@@ -1,7 +1,8 @@
 package xyz.derkades.minigames.games;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -21,8 +22,6 @@ import xyz.derkades.minigames.utils.Console;
 import xyz.derkades.minigames.utils.Utils;
 
 public class RegeneratingSpleef extends Game {
-
-	public static Map<String, Boolean> isDead = new HashMap<String, Boolean>();
 
 	@Override
 	String[] getDescription() {
@@ -50,12 +49,14 @@ public class RegeneratingSpleef extends Game {
 	}
 
 	@Override
-	public void resetHashMaps(Player player) {
-		isDead.put(player.getName(), false);
-	}
+	public void resetHashMaps(Player player) {}
 
+	List<UUID> dead;
+	
 	@Override
 	void begin() {
+		dead = new ArrayList<>();
+		
 		Utils.setGameRule("doTileDrops", false);
 		Console.sendCommand("fill 163 80 267 149 80 253 snow"); //XXX Bukkit API
 		for (Player player: Bukkit.getOnlinePlayers()){
@@ -67,10 +68,7 @@ public class RegeneratingSpleef extends Game {
 				sendMessage("Game has started!");
 			}
 		}, 2*20);
-		timer();
-	}
-	
-	private void timer(){
+
 		final Minigames instance = Minigames.getInstance();
 		Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(instance, new Runnable(){
 			public void run(){
@@ -87,14 +85,7 @@ public class RegeneratingSpleef extends Game {
 	private void endGame(){
 		Utils.setGameRule("doTileDrops", true);
 		
-		super.startNextGame(Utils.getWinnersFromIsDeadHashMap(isDead));
-	}
-	
-	private void playerDie(Player player){
-		super.sendMessage(player.getName() + " has been eliminated from the game!");
-		player.teleport(new Location(Var.WORLD, 156.5, 89, 260.5, -90, 90));
-		player.getInventory().clear();
-		isDead.put(player.getName(), true);
+		super.startNextGame(Utils.getWinnersFromDeadList(dead));
 	}
 	
 	@EventHandler
@@ -118,7 +109,10 @@ public class RegeneratingSpleef extends Game {
 	public void onMove(PlayerMoveEvent event){
 		Player player = event.getPlayer();
 		if(event.getTo().getBlock().getRelative(BlockFace.DOWN).getType() == Material.BEDROCK){
-			playerDie(player);
+			sendMessage(player.getName() + " has been eliminated from the game!");
+			player.teleport(new Location(Var.WORLD, 156.5, 89, 260.5, -90, 90));
+			player.getInventory().clear();
+			dead.add(player.getUniqueId());
 		}
 	}
 

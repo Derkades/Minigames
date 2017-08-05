@@ -147,6 +147,16 @@ public class Utils {
 		return players;
 	}
 	
+	public static List<Player> getWinnersFromDeadList(List<UUID> dead){
+		List<Player> winners = new ArrayList<>();
+		for (Player player : Bukkit.getOnlinePlayers()) {
+			if (!dead.contains(player.getUniqueId())) {
+				winners.add(player);
+			}
+		}
+		return winners;
+	}
+	
 	public static void playSoundForAllPlayers(Sound sound, float pitch){
 		for (Player player : Bukkit.getOnlinePlayers())
 			player.playSound(player.getLocation(), sound, 1, pitch);

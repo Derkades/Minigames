@@ -4,8 +4,9 @@ import static org.bukkit.ChatColor.AQUA;
 import static org.bukkit.ChatColor.DARK_AQUA;
 import static org.bukkit.ChatColor.DARK_GRAY;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -29,8 +30,6 @@ import xyz.derkades.minigames.utils.Console;
 import xyz.derkades.minigames.utils.Utils;
 
 public class SnowFight extends Game {
-
-	private Map<String, Boolean> isDead = new HashMap<>();
 	
 	@Override
 	String[] getDescription() {
@@ -58,12 +57,14 @@ public class SnowFight extends Game {
 	}
 
 	@Override
-	public void resetHashMaps(Player player) {
-		isDead.put(player.getName(), false);
-	}
+	public void resetHashMaps(Player player) {}
+	
+	private List<UUID> dead;
 
 	@Override
 	void begin() {
+		dead = new ArrayList<>();
+		
 		Utils.setGameRule("doTileDrops", false);
 		
 		for (Player player: Bukkit.getOnlinePlayers()){
@@ -96,12 +97,13 @@ public class SnowFight extends Game {
 		for (Player player: Bukkit.getOnlinePlayers()){
 			player.setHealth(20);
 		}
-		super.startNextGame(Utils.getWinnersFromIsDeadHashMap(isDead));
+		
+		super.startNextGame(Utils.getWinnersFromDeadList(dead));
 	}
 
 	private void playerDie(Player player){
 		player.teleport(new Location(Var.WORLD, 224.5, 79.1, 291.5, 90, 0));
-		isDead.put(player.getName(), true);
+		dead.add(player.getUniqueId());
 		Utils.clearInventory(player);
 		Minigames.setCanTakeDamage(player, false);
 	}
