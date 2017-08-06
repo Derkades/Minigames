@@ -60,8 +60,6 @@ public class DigDug extends Game {
 	private static final int ARENA_MAX_Y = 73;
 	private static final int ARENA_MAX_Z = 103;
 	
-	private static final Location SPAWN_LOCATION = new Location(Var.WORLD, 149, 77.5, 86, 180, 90);
-	
 	private final Map<UUID, Integer> points = new HashMap<>();
 	
 	private int secondsLeft = 0;
@@ -112,7 +110,7 @@ public class DigDug extends Game {
 		for (Player player : Bukkit.getOnlinePlayers()) {
 			sidebar.showTo(player);
 			
-			player.teleport(SPAWN_LOCATION);
+			player.teleport(new Location(Var.WORLD, 149, 77.5, 86, 180, 90));
 			player.sendMessage(ChatColor.DARK_GREEN + "Digging will commence in 5 seconds!");
 		}
 		
