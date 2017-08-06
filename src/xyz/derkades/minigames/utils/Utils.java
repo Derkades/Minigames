@@ -136,6 +136,18 @@ public class Utils {
 		return !missing;
 	}
 	
+	public static int getAliveCountFromDeadList(List<UUID> dead) {
+		int alive = 0;
+		
+		for (Player player : Bukkit.getOnlinePlayers()) {
+			if (!dead.contains(player.getUniqueId())) {
+				alive++;
+			}
+		}
+		
+		return alive;
+	}
+	
 	public static List<Player> getPlayerListFromUUIDList(List<UUID> list){
 		List<Player> players = new ArrayList<>();
 		for (UUID uuid : list) {
