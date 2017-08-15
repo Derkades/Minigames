@@ -21,6 +21,9 @@ import xyz.derkades.minigames.utils.Utils;
 
 public class JungleRun extends ParkourGame implements Listener {
 
+	private static final String SECONDS_LEFT = "%s seconds left.";
+	private static final int DURATION = 30;
+	
 	JungleRun() {
 		super("Jungle Run", 
 				new String[] {
@@ -39,22 +42,33 @@ public class JungleRun extends ParkourGame implements Listener {
 		for (Player player: Bukkit.getOnlinePlayers()){		
 			player.teleport(new Location(Var.WORLD, 282.5, 67, 196.5, -90, 0)); //Teleport all online players to the arena
 		}
-		timer();
-	}
-	
-	private void timer(){
-		new BukkitRunnable(){
-			public void run(){
-				sendMessage("5 seconds left!");
-				new BukkitRunnable(){
-					public void run(){
-						startNextGame(Utils.getPlayerListFromUUIDList(finished));
-					}
-				}.runTaskLater(Minigames.getInstance(), 5 * 20);
+		
+		new BukkitRunnable() {
+			
+			int secondsLeft = DURATION;
+			
+			public void run() {
+				//End the game if everyone is a spectator
+				if (spectator.size() == Bukkit.getOnlinePlayers().size() && secondsLeft > 2) {
+					secondsLeft = 2;
+				}
+				
+				if (secondsLeft <= 0) {
+					this.cancel();
+					startNextGame(Utils.getPlayerListFromUUIDList(finished));
+					return;
+				}
+				
+				if (secondsLeft == 15 || secondsLeft <= 5) {
+					sendMessage(String.format(SECONDS_LEFT, secondsLeft));
+				}
+				
+				secondsLeft--;
 			}
-		}.runTaskLater(Minigames.getInstance(), 20 * 20);
+			
+		}.runTaskTimer(Minigames.getInstance(), 0, 1*20);
 	}
-	
+
 	private void playerDie(Player player){
 		super.sendMessage(player.getName() + " has been eliminated from the game!");
 		player.teleport(new Location(Var.WORLD, 296.5, 80, 204.5, 180, 0));
