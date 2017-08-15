@@ -24,35 +24,16 @@ import xyz.derkades.minigames.utils.Utils;
 
 public class SaveTheSnowman extends ParkourGame {
 
-	@Override
-	String[] getDescription() {
-		return new String[]{
+	SaveTheSnowman() {
+		super("Save the Snowman", new String[] {
 				"Save the Snowman is a small parkour game. The goal of",
 				"this game is to make it to the finish. You",
 				"have 45 seconds, when you fall you will be", 
 				"teleported back to the start."
-		};
+		}, 1, 3, 5);
 	}
 
-	@Override
-	public String getName() {
-		return "Save the Snowman";
-	}
-
-	@Override
-	public int getRequiredPlayers() {
-		return 1;
-	}
-	
-	@Override
-	public GamePoints getPoints() {
-		return new GamePoints(3, 5);
-	}
-
-	@Override
-	public void resetHashMaps(Player player) {}
-
-	List<UUID> finished;
+	private List<UUID> finished;
 	
 	@Override
 	void begin() {

@@ -1,5 +1,10 @@
 package xyz.derkades.minigames.menu;
 
+import static org.bukkit.ChatColor.AQUA;
+import static org.bukkit.ChatColor.DARK_AQUA;
+import static org.bukkit.ChatColor.DARK_RED;
+import static org.bukkit.ChatColor.RED;
+
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
@@ -8,11 +13,6 @@ import xyz.derkades.derkutils.bukkit.ItemBuilder;
 import xyz.derkades.minigames.Minigames;
 import xyz.derkades.minigames.Points;
 import xyz.derkades.minigames.games.Game;
-
-import static org.bukkit.ChatColor.DARK_AQUA;
-import static org.bukkit.ChatColor.AQUA;
-import static org.bukkit.ChatColor.DARK_RED;
-import static org.bukkit.ChatColor.RED;
 
 public class MainMenu extends IconMenu {
 
@@ -29,10 +29,10 @@ public class MainMenu extends IconMenu {
 	public boolean onOptionClick(OptionClickEvent event) {
 		if (event.getName().contains("Games")){
 			Player player = event.getPlayer();
-			for (Game game : Minigames.GAMES){
+			for (Game game : Game.GAMES){
 				player.sendMessage("------------------------------------------");
 				player.sendMessage(DARK_AQUA + "Name: " + AQUA + game.getName());
-				player.sendMessage(DARK_AQUA + "Reward (points): " + AQUA + game.getPoints().getMinimum() + "-" + game.getPoints().getMaximum());
+				player.sendMessage(DARK_AQUA + "Reward (points): " + AQUA + game.getMinimumPoints() + "-" + game.getMaximumPoints());
 				player.sendMessage(DARK_AQUA + "Minimum online players: " + AQUA + game.getRequiredPlayers());
 			}
 			player.sendMessage("------------------------------------------");

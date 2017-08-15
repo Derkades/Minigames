@@ -29,15 +29,53 @@ import xyz.derkades.minigames.utils.Utils;
 
 public abstract class Game implements Listener {
 	
-	abstract String[] getDescription();
+	public static final Game[] GAMES = new Game[] {
+			new Dropper(),
+			new Platform(),
+			new JungleRun(),
+			new RegeneratingSpleef(),
+			new SaveTheSnowman(),
+			new SnowFight(),
+			//new MazePvP(),
+			//new Elytra(),
+			new Speedrun(),
+			new DigDug(),
+			//new Mine(),
+	};
 	
-	public abstract String getName();
+	private String name;
+	private String[] description;
+	private int requiredPlayers;
+	private int minPoints;
+	private int maxPoints;
 	
-	public abstract int getRequiredPlayers();
+	Game(String name, String[] description, int requiredPlayers, int minPoints, int maxPoints) {
+		this.name = name;
+		this.description = description;
+		this.requiredPlayers = requiredPlayers;
+		this.minPoints = minPoints;
+		this.maxPoints = maxPoints;
+	}
 	
-	public abstract GamePoints getPoints();
+	public final String getName() {
+		return name;
+	}
 	
-	public abstract void resetHashMaps(Player player);
+	public final String[] getDescription() {
+		return description;
+	}
+	
+	public final int getRequiredPlayers() {
+		return requiredPlayers;
+	}
+	
+	public final int getMinimumPoints() {
+		return minPoints;
+	}
+	
+	public final int getMaximumPoints() {
+		return maxPoints;
+	}
 	
 	abstract void begin();
 	
@@ -69,7 +107,7 @@ public abstract class Game implements Listener {
 		for (Player player : Bukkit.getOnlinePlayers()){
 			if (winnerNames.contains(player.getName())){
 				//If player has won
-				int points = Random.getRandomInteger(this.getPoints().getMinimum(), this.getPoints().getMaximum());
+				int points = Random.getRandomInteger(this.getMinimumPoints(), this.getMaximumPoints());
 				Points.addPoints(player, points);
 				player.sendTitle(DARK_AQUA + "You've won",  AQUA + "+" + points + " points");
 			} else {
@@ -108,15 +146,12 @@ public abstract class Game implements Listener {
 		//Send description
 		Bukkit.broadcastMessage(DARK_GRAY + "-----------------------------------------");
 		for (String line : getDescription()) Bukkit.broadcastMessage(DARK_AQUA + line);
-		Bukkit.broadcastMessage(DARK_AQUA + "Points: " + AQUA + this.getPoints().getMinimum() + "-" + this.getPoints().getMaximum());
+		Bukkit.broadcastMessage(DARK_AQUA + "Points: " + AQUA + this.getMinimumPoints() + "-" + this.getMaximumPoints());
 		Bukkit.broadcastMessage(DARK_GRAY + "-----------------------------------------");
 		
 		startCountdown();
 		
 		Minigames.getInstance().getConfig().set("last-game", this.getName());
-		
-		for (Player player : Bukkit.getOnlinePlayers())
-			resetHashMaps(player);
 		
 		for (Player player : Bukkit.getOnlinePlayers()){
 			Utils.clearInventory(player);
@@ -204,11 +239,11 @@ public abstract class Game implements Listener {
 	}
 	
 	public static Game getRandomGame(){
-		return ListUtils.getRandomValueFromArray(Minigames.GAMES);
+		return ListUtils.getRandomValueFromArray(GAMES);
 	}
 	
 	public static Game fromString(String string){
-		for (Game game : Minigames.GAMES){
+		for (Game game : GAMES){
 			if (game.getName().equalsIgnoreCase(string)){
 				return game;
 			}

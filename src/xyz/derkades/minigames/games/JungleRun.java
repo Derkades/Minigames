@@ -24,43 +24,25 @@ import xyz.derkades.minigames.utils.Utils;
 
 public class JungleRun extends ParkourGame implements Listener {
 
+	JungleRun() {
+		super("Jungle Run", 
+				new String[] {
+						"Jungle Run is a small parkour game. The goal of",
+						"this game is to make it to the finish. You",
+						"have 25 seconds, when you fall you are out",
+						"of the game."
+				}, 1, 2, 4);
+	}
+
 	private HashMap<String, Boolean> hasFinished = new HashMap<>();
 	private HashMap<String, Boolean> isSpectator = new HashMap<>();
 
 	@Override
-	String[] getDescription() {
-		return new String[]{
-				"Jungle Run is a small parkour game. The goal of",
-				"this game is to make it to the finish. You",
-				"have 25 seconds, when you fall you are out",
-				"of the game."
-		};
-	}
-
-	@Override
-	public String getName() {
-		return "Jungle Run";
-	}
-
-	@Override
-	public int getRequiredPlayers() {
-		return 1;
-	}
-	
-	@Override
-	public GamePoints getPoints() {
-		return new GamePoints(2, 4);
-	}
-
-	@Override
-	public void resetHashMaps(Player player) {
-		hasFinished.put(player.getName(), false);
-		isSpectator.put(player.getName(), false);
-	}
-
-	@Override
 	void begin() {
 		for (Player player: Bukkit.getOnlinePlayers()){
+			hasFinished.put(player.getName(), false);
+			isSpectator.put(player.getName(), false);
+			
 			player.teleport(new Location(Var.WORLD, 282.5, 67, 196.5, -90, 0)); //Teleport all online players to the arena
 		}
 		timer();

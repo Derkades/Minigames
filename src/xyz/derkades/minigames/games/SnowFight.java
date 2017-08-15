@@ -31,33 +31,14 @@ import xyz.derkades.minigames.utils.Utils;
 
 public class SnowFight extends Game {
 	
-	@Override
-	String[] getDescription() {
-		return new String[]{
+	SnowFight() {
+		super("Snow Fight", new String[] {
 				"In this game you have to kill other players",
 				"using snowballs. Snowballs do 2.5 hearts",
 				"damage. Get snowballs by breaking snow",
 				"on the ground. Good luck!"
-				};
+		}, 2, 4, 9);
 	}
-
-	@Override
-	public String getName() {
-		return "Snow Fight";
-	}
-
-	@Override
-	public int getRequiredPlayers() {
-		return 2;
-	}
-
-	@Override
-	public GamePoints getPoints() {
-		return new GamePoints(4, 9);
-	}
-
-	@Override
-	public void resetHashMaps(Player player) {}
 	
 	private List<UUID> dead;
 

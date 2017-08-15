@@ -22,37 +22,16 @@ import xyz.derkades.minigames.utils.Utils;
 
 public class Dropper extends Game {
 	
+	Dropper() {
+		super("Dropper", new String[] {"Get down without dying"}, 1, 3, 4);
+	}
+
 	private static final int WAIT_TIME = 5;
 	private static final int GAME_DURATION = 60;
 	
 	private static final String FINISHED = "%s finished.";
 	private static final String FINISHED_FIRST = "%s finished first and got 1 extra point!";
 	private static final String SECONDS_LEFT = "%s seconds left.";
-		
-	@Override
-	String[] getDescription() {
-		return new String[] {
-				"Get down without dying.",
-		};
-	}
-
-	@Override
-	public String getName() {
-		return "Dropper";
-	}
-
-	@Override
-	public int getRequiredPlayers() {
-		return 1;
-	}
-
-	@Override
-	public GamePoints getPoints() {
-		return new GamePoints(3, 5);
-	}
-
-	@Override
-	public void resetHashMaps(Player player) {}
 
 	private DropperMap map;
 	private List<UUID> winners;

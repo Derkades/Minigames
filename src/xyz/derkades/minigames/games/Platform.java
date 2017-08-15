@@ -25,41 +25,22 @@ import xyz.derkades.minigames.utils.Utils;
 
 public class Platform extends Game {
 	
-	private static final int SPREAD_TIME = 5;
-	private static final int GAME_DURATION = 40;
-	private static final int KNOCKBACK_SWORDS_TIME = 20;
-	
-	private static final String SECONDS_LEFT = "%s seconds left.";
-	
-	@Override
-	public String[] getDescription(){
-		return new String[]{
+	Platform() {
+		super("Platform", new String[] {
 				"Platform is pretty self explanatory, you spawn",
 				"on a platform. The goal of this game is to try",
 				"to knock off other players from the platform.",
 				"At the start of the game and at the " + KNOCKBACK_SWORDS_TIME + " seconds",
 				"left mark you will get a knockback sword, which",
 				"you can only use once."
-		};
+		}, 2, 2, 5);
 	}
+
+	private static final int SPREAD_TIME = 5;
+	private static final int GAME_DURATION = 40;
+	private static final int KNOCKBACK_SWORDS_TIME = 20;
 	
-	@Override
-	public String getName(){
-		return "Platform";
-	}
-	
-	@Override
-	public int getRequiredPlayers(){
-		return 2;
-	}
-	
-	@Override
-	public GamePoints getPoints() {
-		return new GamePoints(2, 5);
-	}
-	
-	@Override
-	public void resetHashMaps(Player player){}
+	private static final String SECONDS_LEFT = "%s seconds left.";
 	
 	private List<UUID> dead;
 	

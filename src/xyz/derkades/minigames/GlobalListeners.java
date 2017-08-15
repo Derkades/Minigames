@@ -30,7 +30,6 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 import net.md_5.bungee.api.ChatColor;
-import xyz.derkades.minigames.games.Game;
 import xyz.derkades.minigames.menu.MainMenu;
 import xyz.derkades.minigames.menu.NameColor;
 import xyz.derkades.minigames.utils.Console;
@@ -45,10 +44,7 @@ public class GlobalListeners implements Listener {
 		player.setGameMode(GameMode.ADVENTURE);
 		player.setAllowFlight(false); //Just in case the player was spectator
 		
-		for (Game game : Minigames.GAMES){
-			Minigames.setCanTakeDamage(player, false);
-			game.resetHashMaps(event.getPlayer());
-		}
+		Minigames.setCanTakeDamage(player, false);
 		
 		player.setExp(0.0f);
 		player.setLevel(0);

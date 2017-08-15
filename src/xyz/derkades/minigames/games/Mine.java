@@ -1,24 +1,7 @@
 package xyz.derkades.minigames.games;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import org.bukkit.Bukkit;
-import org.bukkit.Material;
-import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.scoreboard.DisplaySlot;
-import org.bukkit.scoreboard.Objective;
-import org.bukkit.scoreboard.Scoreboard;
-import org.bukkit.scoreboard.ScoreboardManager;
-
-import net.md_5.bungee.api.ChatColor;
-import xyz.derkades.minigames.Minigames;
-
-public class Mine extends Game {
-	
+public class Mine /*extends Game*/ {
+	/*
 	private void addPoints(Player player, int points){
 		int oldPoints = objective.getScore(ChatColor.AQUA + player.getName()).getScore();
 		objective.getScore(ChatColor.AQUA + player.getName()).setScore(oldPoints + points);
@@ -121,6 +104,6 @@ public class Mine extends Game {
 			int points = blockPoints.get(type);
 			addPoints(event.getPlayer(), points);
 		}
-	}
+	}*/
 
 }

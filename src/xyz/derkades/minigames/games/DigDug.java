@@ -65,38 +65,18 @@ public class DigDug extends Game {
 	private int secondsLeft = 0;
 	private Sidebar sidebar;
 	
-	@Override
-	String[] getDescription() {
-		return new String[] {
-				"Dig away dirt with your shovel, and find",
-				"ores. Right click on ores to collect.",
-				ChatColor.GRAY + "Coal: " + COAL_POINTS + " points",
-				ChatColor.GRAY + "Iron: " + IRON_POINTS + " points",
-				ChatColor.GRAY + "Gold: " + GOLD_POINTS + " points",
-				ChatColor.GRAY + "Emerald: " + EMERALD_POINTS + " points",
-				ChatColor.GRAY + "Netherrack: give others blindness",
-				ChatColor.GRAY + "Quartz: speed",
-				};
-	}
-
-	@Override
-	public String getName() {
-		return "Dig Dug";
-	}
-
-	@Override
-	public int getRequiredPlayers() {
-		return 2;
-	}
-
-	@Override
-	public GamePoints getPoints() {
-		return new GamePoints(3, 5);
-	}
-
-	@Override
-	public void resetHashMaps(Player player) {
-		points.put(player.getUniqueId(), 0);
+	DigDug() {
+		super("Dig Dug", 
+				new String[] {
+						"Dig dirt with your shovel, and find",
+						"ores. Right click on ores to collect.",
+						ChatColor.GRAY + "Coal: " + COAL_POINTS + " points",
+						ChatColor.GRAY + "Iron: " + IRON_POINTS + " points",
+						ChatColor.GRAY + "Gold: " + GOLD_POINTS + " points",
+						ChatColor.GRAY + "Emerald: " + EMERALD_POINTS + " points",
+						ChatColor.GRAY + "Netherrack: give others blindness",
+						ChatColor.GRAY + "Quartz: speed"}, 
+				2, 3, 5);
 	}
 
 	@Override
@@ -105,9 +85,10 @@ public class DigDug extends Game {
 		
 		fillArena();
 		
-		sidebar = new Sidebar(ChatColor.DARK_AQUA + "" + ChatColor.DARK_AQUA + "Score", Minigames.getInstance(), Integer.MAX_VALUE, new SidebarString[] {new SidebarString("test")});
+		sidebar = new Sidebar(ChatColor.DARK_AQUA + "" + ChatColor.DARK_AQUA + "Score", Minigames.getInstance(), Integer.MAX_VALUE, new SidebarString[] {new SidebarString("Loading...")});
 		
 		for (Player player : Bukkit.getOnlinePlayers()) {
+			points.put(player.getUniqueId(), 0);
 			sidebar.showTo(player);
 			
 			player.teleport(new Location(Var.WORLD, 149, 77.5, 86, 180, 90));

@@ -23,41 +23,21 @@ import xyz.derkades.minigames.utils.Utils;
 
 public class Speedrun extends Game {
 
+	Speedrun() {
+		super("Speedrun", new String[] {
+				"Insert description here"
+		}, 1, 2, 4);
+	}
+
 	private Map<String, Boolean> hasFinished = new HashMap<>();
 	
 	private boolean NO_ONE_FINISHED = true;
-	
-	@Override
-	String[] getDescription() {
-		return new String[]{
-				"Insert description here"
-				};
-	}
-
-	@Override
-	public String getName() {
-		return "Speedrun";
-	}
-
-	@Override
-	public int getRequiredPlayers() {
-		return 1;
-	}
-
-	@Override
-	public GamePoints getPoints() {
-		return new GamePoints(2, 4);
-	}
-
-	@Override
-	public void resetHashMaps(Player player) {
-		hasFinished.put(player.getName(), false);
-	}
 
 	@Override
 	void begin(){
 		this.NO_ONE_FINISHED = true;
 		for (Player player : Bukkit.getOnlinePlayers()){
+			hasFinished.put(player.getName(), false);
 			player.teleport(new Location(Var.WORLD, 140.0, 97, 306, -180, 0));
 			Utils.giveInfiniteEffect(player, PotionEffectType.SPEED, 30);
 		}

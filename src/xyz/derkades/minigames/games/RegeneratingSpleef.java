@@ -26,40 +26,21 @@ import xyz.derkades.minigames.utils.Utils;
 
 public class RegeneratingSpleef extends Game {
 
+	RegeneratingSpleef() {
+		super("Regenerating Spleef",
+				new String[] { 
+						"Regenerating Spleef is very similar to the",
+						"classic spleef game. One twist: the blocks", "you break regenerate after 2 seconds, and",
+						"the arena is pretty small." 
+		}, 2, 3, 7);
+	}
+
 	private static final int DURATION = 30;
 	
 	private static final String SECONDS_LEFT = "%s seconds left.";
 	private static final String ELIMINATED = "%s has been eliminated from the game.";
-	
-	@Override
-	String[] getDescription() {
-		return new String[]{
-				"Regenerating Spleef is very similar to the",
-				"classic spleef game. One twist: the blocks",
-				"you break regenerate after 2 seconds, and",
-				"the arena is pretty small."
-				};
-	}
 
-	@Override
-	public String getName() {
-		return "Regenerating Spleef";
-	}
-
-	@Override
-	public int getRequiredPlayers() {
-		return 2;
-	}
-	
-	@Override
-	public GamePoints getPoints() {
-		return new GamePoints(3, 7);
-	}
-
-	@Override
-	public void resetHashMaps(Player player) {}
-
-	List<UUID> dead;
+	private List<UUID> dead;
 	
 	@Override
 	void begin() {

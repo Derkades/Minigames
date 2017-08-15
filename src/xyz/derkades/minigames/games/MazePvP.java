@@ -1,27 +1,7 @@
 package xyz.derkades.minigames.games;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.entity.PlayerDeathEvent;
-import org.bukkit.potion.PotionEffectType;
-
-import net.md_5.bungee.api.ChatColor;
-import xyz.derkades.derkutils.bukkit.ItemBuilder;
-import xyz.derkades.minigames.Minigames;
-import xyz.derkades.minigames.Var;
-import xyz.derkades.minigames.utils.Scheduler;
-import xyz.derkades.minigames.utils.Utils;
-
-public class MazePvP extends Game {
-
+public class MazePvP /*extends Game*/ {
+/*
 	private Map<String, Boolean> isDead = new HashMap<>();
 	
 	@Override
@@ -94,5 +74,5 @@ public class MazePvP extends Game {
 		
 		event.setDeathMessage("");
 	}
-
+*/
 }
