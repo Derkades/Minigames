@@ -105,7 +105,7 @@ public class Speedrun extends Game {
 		Material type = block.getType();
 		if (type == Material.STAINED_CLAY && block.getData() == 14){
 			playerDie(player);
-		} else if(type == Material.STAINED_CLAY && block.getData() == 5){
+		} else if(type == Material.STAINED_CLAY && block.getData() == 7){
 			playerWin(player);
 		}
 	}
