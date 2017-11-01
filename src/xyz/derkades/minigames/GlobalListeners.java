@@ -86,17 +86,17 @@ public class GlobalListeners implements Listener {
 		if (player.getName().equals("Derkades")){
 			event.setFormat(DARK_GRAY + "[" + AQUA + Points.getPoints(player) + DARK_GRAY + "] " + 
 					DARK_GRAY + "[" + ChatColor.GREEN + "Owner" + DARK_GRAY + "] " +
-					NameColor.getNameColor(player) + player.getName() + DARK_GRAY + 
-					": " + GRAY + event.getMessage() + "");
+					NameColor.getNameColor(player) + "%s" + DARK_GRAY + 
+					": " + GRAY + "%s");
 		} else if (VIP.isStaff(player)){
 			event.setFormat(DARK_GRAY + "[" + AQUA + Points.getPoints(player) + DARK_GRAY + "] " + 
 					DARK_GRAY + "[" + ChatColor.AQUA + "VIP" + DARK_GRAY + "] " +
-					NameColor.getNameColor(player) + player.getName() + DARK_GRAY + 
-					": " + GRAY + event.getMessage() + "");
+					NameColor.getNameColor(player) + "%s" + DARK_GRAY + 
+					": " + GRAY + "%s");
 		} else {
 			event.setFormat(DARK_GRAY + "[" + AQUA + Points.getPoints(player) + DARK_GRAY + "] " + 
-					NameColor.getNameColor(player) + player.getName() + DARK_GRAY + 
-					": " + GRAY + event.getMessage() + "");
+					NameColor.getNameColor(player) + "%s" + DARK_GRAY + 
+					": " + GRAY + "%s");
 		}
 	}
 	
