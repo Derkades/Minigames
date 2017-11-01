@@ -55,7 +55,7 @@ public class Speedrun extends Game {
 					}
 				}.runTaskLater(Minigames.getInstance(), 5*20);
 			}
-		}.runTaskLater(Minigames.getInstance(), 25*20);
+		}.runTaskLater(Minigames.getInstance(), 40*20);
 	}
 	
 	private void endGame(){
