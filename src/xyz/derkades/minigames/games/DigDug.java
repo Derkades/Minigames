@@ -178,9 +178,11 @@ public class DigDug extends Game {
 			}
 			block.setType(Material.AIR);
 		} else if (block.getType() == Material.QUARTZ_BLOCK) {
-			player.sendMessage(ChatColor.AQUA + "Your walking speed has been boosted for " + QUARTZ_EFFECT_TIME / 20 + " seconds.");
+			player.sendMessage(ChatColor.AQUA + "Your walking speed and vision has been boosted for " + QUARTZ_EFFECT_TIME / 20 + " seconds.");
 			PotionEffect speed = new PotionEffect(PotionEffectType.SPEED, QUARTZ_EFFECT_TIME, 2, true, false);
+			PotionEffect vision = new PotionEffect(PotionEffectType.NIGHT_VISION, QUARTZ_EFFECT_TIME, 0, true, false);
 			player.addPotionEffect(speed);
+			player.addPotionEffect(vision);
 			block.setType(Material.AIR);
 		}
 	}
