@@ -121,6 +121,7 @@ public class Dropper extends Game {
 			Utils.giveInfiniteEffect(player, PotionEffectType.INVISIBILITY);
 			Minigames.setCanTakeDamage(player, false);
 			player.setHealth(player.getMaxHealth());
+			player.setAllowFlight(true);
 		}
 	}
 	
@@ -129,7 +130,6 @@ public class Dropper extends Game {
 		Scheduler.runTaskLater(1, () -> {
 			event.getEntity().spigot().respawn();
 			event.getEntity().teleport(map.getLobbyLocation());
-			event.getEntity().setAllowFlight(true);
 		});
 	}
 
