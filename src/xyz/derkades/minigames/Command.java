@@ -1,20 +1,13 @@
 package xyz.derkades.minigames;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
+import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.craftbukkit.v1_8_R3.inventory.CraftItemStack;
-import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Fireball;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 
-import net.md_5.bungee.api.ChatColor;
-import net.minecraft.server.v1_8_R3.NBTTagCompound;
-import net.minecraft.server.v1_8_R3.NBTTagList;
-import net.minecraft.server.v1_8_R3.NBTTagString;
-import xyz.derkades.derkutils.bukkit.ItemBuilder;
 import xyz.derkades.minigames.games.Game;
 import xyz.derkades.minigames.menu.MainMenu;
 
@@ -43,27 +36,19 @@ public class Command implements CommandExecutor {
 				player.sendMessage("! STOPPED GAMES !");
 				Minigames.STOP_GAMES = true;
 			} else if (args[0].equals("test")) {
-				ItemStack shovel = new ItemBuilder(Material.DIAMOND_SPADE)
-						.name(ChatColor.GREEN + "The Dig Dug Digger")
-						.create();
-				
-				shovel.addUnsafeEnchantment(Enchantment.DIG_SPEED, 10);
-						
-				net.minecraft.server.v1_8_R3.ItemStack nms = CraftItemStack.asNMSCopy(shovel);
-				NBTTagCompound tag = nms.getTag();
-				
-				NBTTagList list = new NBTTagList();
-				list.add(new NBTTagString("minecraft:dirt"));
-				list.add(new NBTTagString("minecraft:grass"));
-				
-				tag.set("CanDestroy", list);
-				tag.setBoolean("Unbreakable", true);
-				
-				shovel = CraftItemStack.asBukkitCopy(nms);
-				
-				for (Player online : Bukkit.getOnlinePlayers()) {
-					online.getInventory().addItem(shovel);
-				}
+				final Location loc = player.getLocation();
+		        final Location fbLocation = loc.add(
+		        		loc
+		                .getDirection()
+		                .normalize()
+		                .multiply(2)
+		                .toLocation(player.getWorld(), loc.getYaw(),
+		                		loc.getPitch())).add(0, 1D, 0);
+		        final Fireball f = player.getWorld().spawn(fbLocation, Fireball.class);
+		        f.setYield(100);
+		        f.setShooter(player);
+		        f.setIsIncendiary(false);
+		        player.sendMessage("test");
 			} else if (player.isOp()) {
 				Game game = Game.fromString(args[0].replace("_", " "));
 				if (game == null){
