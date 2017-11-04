@@ -208,6 +208,8 @@ public abstract class Game implements Listener {
 		});
 		
 		Scheduler.runTaskLater(5 * 20, () -> {
+			Bukkit.getOnlinePlayers().forEach((player) -> Utils.clearPotionEffects(player));
+
 			begin();
 			Minigames.IS_IN_GAME = true;
 			
@@ -215,8 +217,7 @@ public abstract class Game implements Listener {
 			
 			Utils.setXpBarValue(0f, 0);
 			
-			Bukkit.getOnlinePlayers().forEach((player) -> Utils.clearPotionEffects(player));
-
+			
 			new BukkitRunnable() { // Small delay for last sound, because it needs to be played at the new player location
 				public void run() {
 					Utils.playSoundForAllPlayers(Sound.ARROW_HIT, 1.0f); // PING (GO)
