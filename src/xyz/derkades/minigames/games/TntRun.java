@@ -32,10 +32,13 @@ public class TntRun extends Game {
 	private List<UUID> alive;
 	private List<Block> removedBlocks;
 	
+	boolean removeBlocks;
+	
 	@Override
 	void begin() {
 		alive = new ArrayList<>();
 		removedBlocks = new ArrayList<>();
+		removeBlocks = false;
 		
 		map = ListUtils.getRandomValueFromArray(TNTMap.MAPS);
 		
@@ -51,10 +54,16 @@ public class TntRun extends Game {
 				finish();
 			}
 		}, 20, 20);
+		
+		Bukkit.getScheduler().runTaskLater(Minigames.getInstance(), () -> removeBlocks = true, 4*20);
 	}
 	
 	@EventHandler
 	public void onMove(PlayerMoveEvent event) {
+		if (!removeBlocks) {
+			return;
+		}
+		
 		Player player = event.getPlayer();
 		
 		if (!alive.contains(player.getUniqueId())) {
