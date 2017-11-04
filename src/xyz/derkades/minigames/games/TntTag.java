@@ -23,6 +23,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
 import net.md_5.bungee.api.ChatColor;
+import xyz.derkades.derkutils.ListUtils;
 import xyz.derkades.derkutils.Random;
 import xyz.derkades.minigames.Minigames;
 import xyz.derkades.minigames.Var;
@@ -123,10 +124,20 @@ public class TntTag extends Game {
 	}
 	
 	private Player getRandomPlayer(){
+		//Collection<? extends Player> list = getAlivePlayers();
+		//int size = list.size();
+		//int index = Random.getRandomInteger(0, size - 1); //Size -1 because if the list has 1 entry (entry 0) the length is 1.
+		//return (Player) list.toArray()[index];
+		return ListUtils.getRandomValueFromList(getAlivePlayers());
+	}
+	
+	private List<Player> getAlivePlayers() {
 		Collection<? extends Player> list = Bukkit.getOnlinePlayers();
-		int size = list.size();
-		int index = Random.getRandomInteger(0, size - 1); //Size -1 because if the list has 1 entry (entry 0) the length is 1.
-		return (Player) list.toArray()[index];
+		List<Player> alive = new ArrayList<>();
+		list.forEach((player) -> {
+			if (!dead.contains(player.getUniqueId())) alive.add(player);
+		});
+		return alive;
 	}
 	
 	public class TntCountdown extends BukkitRunnable {
@@ -159,7 +170,7 @@ public class TntTag extends Game {
 					player.playSound(player.getLocation(), Sound.EXPLODE, 1.0f, 1.0f);
 				}
 				
-				int alive = Utils.getAliveCountFromDeadList(dead);
+				int alive = getAlivePlayers().size();
 				sendMessage("Alive: " + alive);
 				if (alive == 1) {
 					startNextGame(Utils.getWinnersFromDeadList(dead));
