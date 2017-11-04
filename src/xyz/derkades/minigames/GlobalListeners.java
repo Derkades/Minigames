@@ -90,7 +90,7 @@ public class GlobalListeners implements Listener {
 					": " + GRAY + "%s");
 		} else if (VIP.isStaff(player)){
 			event.setFormat(DARK_GRAY + "[" + AQUA + Points.getPoints(player) + DARK_GRAY + "] " + 
-					DARK_GRAY + "[" + ChatColor.AQUA + "VIP" + DARK_GRAY + "] " +
+					DARK_GRAY + "[" + ChatColor.AQUA + "Staff" + DARK_GRAY + "] " +
 					NameColor.getNameColor(player) + "%s" + DARK_GRAY + 
 					": " + GRAY + "%s");
 		} else {
