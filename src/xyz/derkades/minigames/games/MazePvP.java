@@ -1,5 +1,6 @@
 package xyz.derkades.minigames.games;
 
+@Deprecated
 public class MazePvP /*extends Game*/ {
 /*
 	private Map<String, Boolean> isDead = new HashMap<>();

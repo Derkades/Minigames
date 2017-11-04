@@ -1,5 +1,6 @@
 package xyz.derkades.minigames.games;
 
+@Deprecated
 public class Mine /*extends Game*/ {
 	/*
 	private void addPoints(Player player, int points){
