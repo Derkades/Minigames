@@ -23,7 +23,7 @@ public class Future extends TNTMap {
 
 	@Override
 	public Location spawnLocation() {
-		return new Location(Var.WORLD, 137.5 82 124.5);
+		return new Location(Var.WORLD, 137.5, 82, 124.5);
 	}
 
 }
