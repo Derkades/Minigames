@@ -1,5 +1,6 @@
 package xyz.derkades.minigames.games;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -39,6 +40,9 @@ public class JungleRun extends ParkourGame implements Listener {
 
 	@Override
 	void begin() {
+		finished = new ArrayList<>();
+		spectator = new ArrayList<>();
+		
 		for (Player player: Bukkit.getOnlinePlayers()){		
 			player.teleport(new Location(Var.WORLD, 282.5, 67, 196.5, -90, 0)); //Teleport all online players to the arena
 		}

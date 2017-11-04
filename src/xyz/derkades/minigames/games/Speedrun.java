@@ -1,5 +1,6 @@
 package xyz.derkades.minigames.games;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -35,7 +36,9 @@ public class Speedrun extends Game {
 
 	@Override
 	void begin(){
+		finished = new ArrayList<>();
 		this.NO_ONE_FINISHED = true;
+		
 		for (Player player : Bukkit.getOnlinePlayers()){
 			player.teleport(new Location(Var.WORLD, 140.0, 97, 306, -180, 0));
 			Utils.giveInfiniteEffect(player, PotionEffectType.SPEED, 30);
