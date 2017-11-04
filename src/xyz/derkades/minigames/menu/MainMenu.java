@@ -5,8 +5,12 @@ import static org.bukkit.ChatColor.DARK_AQUA;
 import static org.bukkit.ChatColor.DARK_RED;
 import static org.bukkit.ChatColor.RED;
 
+import java.util.List;
+
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 import xyz.derkades.derkutils.bukkit.IconMenu;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
@@ -22,6 +26,15 @@ public class MainMenu extends IconMenu {
 		items.put(0, new ItemBuilder(Material.INK_SACK).data(12).name(DARK_AQUA + "Points").lore(AQUA + "You have " + Points.getPoints(player) + " points.").create());
 		items.put(1, new ItemBuilder(Material.INK_SACK).data(12).name(DARK_AQUA + "Games").lore(AQUA + "Click to get game information.").create());
 		items.put(2, new ItemBuilder(Material.INK_SACK).data(12).name(DARK_AQUA + "Shop").lore(AQUA + "Buy items using points.").create());
+		
+		int settingData;
+		if (Minigames.getInstance().getConfig().getStringList("disabled-description").contains(player.getUniqueId().toString())) {
+			settingData = 10;
+		} else {
+			settingData = 8;
+		}
+		
+		items.put(3, new ItemBuilder(Material.INK_SACK).data(settingData).name(DARK_AQUA + "Description").lore(AQUA + "Click to enable or disable game descriptions").create());
 		items.put(8, new ItemBuilder(Material.BARRIER).name(RED + "Close").lore(DARK_RED + "Click to close this menu.").create());
 	}
 	
@@ -43,6 +56,30 @@ public class MainMenu extends IconMenu {
 		} else if (event.getName().contains("Close")){
 			return true;
 		} else if (event.getName().contains("Points")) {
+			return false;
+		} else if (event.getName().contains("Description")) {
+			Player player = event.getPlayer();
+			
+			ItemStack item = event.getItemStack();
+			List<String> list = Minigames.getInstance().getConfig().getStringList("disabled-description");
+			
+			if (item.getDurability() == 10) {
+				player.sendMessage("disabled");
+				list.remove(player.getUniqueId().toString());
+			} else {
+				player.sendMessage("enabled");
+				list.add(player.getUniqueId().toString());
+			}
+			
+			Minigames.getInstance().getConfig().set("disabled-description", list);
+			Minigames.getInstance().saveConfig();
+			
+			this.destroy();
+			
+			Bukkit.getScheduler().scheduleSyncDelayedTask(Minigames.getInstance(), () -> {
+				new MainMenu(player).open();
+			}, 1);
+			
 			return false;
 		} else {
 			event.getPlayer().sendMessage("error");

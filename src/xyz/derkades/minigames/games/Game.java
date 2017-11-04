@@ -40,6 +40,7 @@ public abstract class Game implements Listener {
 			//new Elytra(),
 			new Speedrun(),
 			new DigDug(),
+			new TntTag(),
 			//new Mine(),
 	};
 	
@@ -144,10 +145,14 @@ public abstract class Game implements Listener {
 	
 	public void startGame(){
 		//Send description
-		Bukkit.broadcastMessage(DARK_GRAY + "-----------------------------------------");
-		for (String line : getDescription()) Bukkit.broadcastMessage(DARK_AQUA + line);
-		Bukkit.broadcastMessage(DARK_AQUA + "Points: " + AQUA + this.getMinimumPoints() + "-" + this.getMaximumPoints());
-		Bukkit.broadcastMessage(DARK_GRAY + "-----------------------------------------");
+		for (Player player : Bukkit.getOnlinePlayers()) {
+			if (Minigames.getInstance().getConfig().getStringList("disabled-description").contains(player.getUniqueId().toString())) continue;
+			
+			player.sendMessage(DARK_GRAY + "-----------------------------------------");
+			for (String line : getDescription()) player.sendMessage(DARK_AQUA + line);
+			player.sendMessage(DARK_AQUA + "Points: " + AQUA + this.getMinimumPoints() + "-" + this.getMaximumPoints());
+			player.sendMessage(DARK_GRAY + "-----------------------------------------");
+		}
 		
 		startCountdown();
 		
