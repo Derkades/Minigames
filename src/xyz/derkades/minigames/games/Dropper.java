@@ -127,9 +127,11 @@ public class Dropper extends Game {
 	
 	@EventHandler
 	public void onDeath(PlayerDeathEvent event) {
+		event.setDeathMessage("");
 		Scheduler.runTaskLater(1, () -> {
 			event.getEntity().spigot().respawn();
 			event.getEntity().teleport(map.getLobbyLocation());
+			
 		});
 	}
 
