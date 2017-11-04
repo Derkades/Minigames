@@ -195,10 +195,14 @@ public class DigDug extends Game {
 	private void updateSidebar() {
 		List<SidebarString> sidebarStrings = new ArrayList<>();
 		
-		for (Player player : Bukkit.getOnlinePlayers()) {
-			int points = this.points.get(player.getUniqueId());
-			sidebarStrings.add(new SidebarString(ChatColor.DARK_GREEN + player.getName() + ChatColor.GRAY + ": " + ChatColor.GREEN + points));
-		}
+
+			for (Player player : Bukkit.getOnlinePlayers()) {
+				try {
+					int points = this.points.get(player.getUniqueId());
+					sidebarStrings.add(new SidebarString(ChatColor.DARK_GREEN + player.getName() + ChatColor.GRAY + ": " + ChatColor.GREEN + points));
+				} catch (NullPointerException e) { continue; }
+			}
+		
 		
 		sidebar.setEntries(sidebarStrings);
 		sidebar.addEmpty().addEntry(new SidebarString(ChatColor.GRAY + "Time left: " + secondsLeft + " seconds."));
