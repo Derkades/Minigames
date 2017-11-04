@@ -93,6 +93,8 @@ public class SnowFight extends Game {
 	public void onDamage(EntityDamageByEntityEvent event){
 		if (event.getDamager() instanceof Snowball){
 			event.setDamage(4);
+		} else {
+			event.setCancelled(true);
 		}
 	}
 	
