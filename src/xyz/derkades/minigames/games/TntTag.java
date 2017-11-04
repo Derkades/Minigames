@@ -176,9 +176,22 @@ public class TntTag extends Game {
 					return;
 				}
 				
-				Player randomPlayer = getRandomPlayer();
-				tag(randomPlayer);
-				randomPlayer.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 10*20, 2, true, false));
+				int amount;
+				
+				if (alive > 2) {
+					amount = 2;
+				} else if (alive > 4) {
+					amount = 3;
+				} else {
+					amount = 1;
+				}
+				
+				
+				for (int i = 0; i <= amount; i++) {
+					Player randomPlayer = getRandomPlayer();
+					tag(randomPlayer);
+					randomPlayer.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 10*20, 2, true, false));
+				}
 			}
 		}
 		
