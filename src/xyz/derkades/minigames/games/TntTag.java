@@ -178,14 +178,13 @@ public class TntTag extends Game {
 				
 				int amount;
 				
-				if (alive > 2) {
-					amount = 2;
-				} else if (alive > 4) {
-					amount = 3;
-				} else {
+				//if (alive > 2) {
+				//	amount = 2;
+				//} else if (alive > 4) {
+				//	amount = 3;
+				//} else {
 					amount = 1;
-				}
-				
+				//}				
 				
 				for (int i = 0; i <= amount; i++) {
 					Player randomPlayer = getRandomPlayer();
