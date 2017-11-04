@@ -27,7 +27,7 @@ public class Dropper extends Game {
 	}
 
 	private static final int WAIT_TIME = 5;
-	private static final int GAME_DURATION = 60;
+	private static final int GAME_DURATION = 45;
 	
 	private static final String FINISHED = "%s finished.";
 	private static final String FINISHED_FIRST = "%s finished first and got 1 extra point!";
