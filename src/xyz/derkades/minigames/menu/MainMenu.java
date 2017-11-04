@@ -65,10 +65,10 @@ public class MainMenu extends IconMenu {
 			
 			if (item.getDurability() == 10) {
 				player.sendMessage("disabled");
-				list.remove(player.getUniqueId().toString());
+				list.add(player.getUniqueId().toString());
 			} else {
 				player.sendMessage("enabled");
-				list.add(player.getUniqueId().toString());
+				list.remove(player.getUniqueId().toString());
 			}
 			
 			Minigames.getInstance().getConfig().set("disabled-description", list);
