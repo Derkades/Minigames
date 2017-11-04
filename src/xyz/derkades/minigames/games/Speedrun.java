@@ -80,6 +80,7 @@ public class Speedrun extends Game {
 			finished.add(player.getUniqueId());
 		}
 		player.teleport(new Location(Var.WORLD, 128.0, 98, 274.5, -180, 0));
+		player.setAllowFlight(true);
 	}
 	
 	@SuppressWarnings("deprecation")

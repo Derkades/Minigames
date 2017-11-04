@@ -38,7 +38,7 @@ public class RegeneratingSpleef extends Game {
 	private static final int DURATION = 30;
 	
 	private static final String SECONDS_LEFT = "%s seconds left.";
-	private static final String ELIMINATED = "%s has been eliminated from the game.";
+	//private static final String ELIMINATED = "%s has been eliminated from the game.";
 
 	private List<UUID> dead;
 	
@@ -109,7 +109,7 @@ public class RegeneratingSpleef extends Game {
 	public void onMove(PlayerMoveEvent event){
 		Player player = event.getPlayer();
 		if(event.getTo().getBlock().getRelative(BlockFace.DOWN).getType() == Material.BEDROCK){
-			sendMessage(String.format(ELIMINATED, player.getName()));
+			//sendMessage(String.format(ELIMINATED, player.getName()));
 			player.teleport(new Location(Var.WORLD, 156.5, 89, 260.5, -90, 90));
 			player.getInventory().clear();
 			dead.add(player.getUniqueId());

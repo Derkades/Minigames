@@ -74,7 +74,7 @@ public class JungleRun extends ParkourGame implements Listener {
 	}
 
 	private void playerDie(Player player){
-		super.sendMessage(player.getName() + " has been eliminated from the game!");
+		//super.sendMessage(player.getName() + " has been eliminated from the game!");
 		player.teleport(new Location(Var.WORLD, 296.5, 80, 204.5, 180, 0));
 		
 		spectator(player);
