@@ -60,7 +60,7 @@ public class DigDug extends Game {
 	private static final int ARENA_MAX_Y = 73;
 	private static final int ARENA_MAX_Z = 103;
 	
-	private final Map<UUID, Integer> points = new HashMap<>();
+	private Map<UUID, Integer> points = new HashMap<>();
 	
 	private int secondsLeft = 0;
 	private Sidebar sidebar;
@@ -81,6 +81,8 @@ public class DigDug extends Game {
 
 	@Override
 	void begin() {
+		points.clear();
+		
 		secondsLeft = 40;
 		
 		fillArena();
@@ -193,6 +195,8 @@ public class DigDug extends Game {
 	}
 	
 	private void updateSidebar() {
+		points = Utils.sortByValue(points);
+		
 		List<SidebarString> sidebarStrings = new ArrayList<>();
 		
 
