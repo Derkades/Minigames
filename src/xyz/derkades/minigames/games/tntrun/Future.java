@@ -10,15 +10,15 @@ public class Future extends TNTMap {
 
 	@Override
 	public void restore() {
-		BlockUtils.fillArea(261, 80, 119, 273, 80, 131, Material.TNT);
-		BlockUtils.fillArea(261, 74, 119, 273, 74, 131, Material.TNT);
-		BlockUtils.fillArea(261, 68, 119, 273, 68, 131, Material.TNT);
-		BlockUtils.fillArea(261, 62, 119, 273, 62, 131, Material.TNT);
+		BlockUtils.fillArea(261, 80, 119, 273, 80, 131, Material.IRON_BLOCK);
+		BlockUtils.fillArea(261, 74, 119, 273, 74, 131, Material.IRON_BLOCK);
+		BlockUtils.fillArea(261, 68, 119, 273, 68, 131, Material.IRON_BLOCK);
+		BlockUtils.fillArea(261, 62, 119, 273, 62, 131, Material.IRON_BLOCK);
 	}
 
 	@Override
 	public Material floorMaterial() {
-		return Material.TNT;
+		return Material.IRON_BLOCK;
 	}
 
 	@Override
