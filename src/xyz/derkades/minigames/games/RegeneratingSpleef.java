@@ -58,16 +58,6 @@ public class RegeneratingSpleef extends Game {
 			Console.sendCommand("replaceitem entity @a slot.hotbar.0 minecraft:diamond_shovel 1 0 {display:{Name:\"Spleefanator 8000\"},Unbreakable:1,ench:[{id:32,lvl:10}],CanDestroy:[\"minecraft:snow\"]}");
 			sendMessage("The game has started!");
 		});
-
-		/*Scheduler.runTaskLater(20*20, () -> {
-			sendMessage("5 seconds left!");
-			Scheduler.runTaskLater(5*20, () -> {
-				//End game
-				Utils.setGameRule("doTileDrops", true);
-				super.startNextGame(Utils.getWinnersFromDeadList(dead));
-			});
-		});*/
-		
 		
 		new BukkitRunnable() {
 			
