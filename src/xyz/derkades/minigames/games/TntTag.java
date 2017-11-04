@@ -159,7 +159,7 @@ public class TntTag extends Game {
 				this.cancel();
 			
 				dead.add(player.getUniqueId());
-				sendMessage(player.getName() + " exploded into a million pieces!");
+				
 				player.getInventory().clear();
 				player.getInventory().setHelmet(new ItemStack(Material.AIR));
 				Bukkit.getOnlinePlayers().forEach((online) -> online.hidePlayer(player));
@@ -170,7 +170,7 @@ public class TntTag extends Game {
 				}
 				
 				int alive = getAlivePlayers().size();
-				sendMessage("Alive: " + alive);
+				sendMessage(player.getName() + " exploded into a million pieces! " + alive + " players left.");
 				if (alive == 1) {
 					startNextGame(Utils.getWinnersFromDeadList(dead));
 					return;
