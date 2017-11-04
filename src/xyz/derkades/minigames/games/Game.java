@@ -38,6 +38,7 @@ public abstract class Game implements Listener {
 			new SnowFight(),
 			//new MazePvP(),
 			//new Elytra(),
+			new NyanCat(),
 			new Speedrun(),
 			new DigDug(),
 			new TntTag(),
