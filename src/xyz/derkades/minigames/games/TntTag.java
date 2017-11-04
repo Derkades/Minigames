@@ -162,7 +162,7 @@ public class TntTag extends Game {
 				sendMessage(player.getName() + " exploded into a million pieces!");
 				player.getInventory().clear();
 				player.getInventory().setHelmet(new ItemStack(Material.AIR));
-				Utils.giveInvisibility(player);
+				Bukkit.getOnlinePlayers().forEach((online) -> online.hidePlayer(player));
 				player.setAllowFlight(true);
 				
 				for (Player player : Bukkit.getOnlinePlayers()) {

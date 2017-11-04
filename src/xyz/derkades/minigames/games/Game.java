@@ -93,6 +93,12 @@ public abstract class Game implements Listener {
 		Minigames.IS_IN_GAME = false;
 		HandlerList.unregisterAll(this); //Unregister events
 		
+		for (Player player1 : Bukkit.getOnlinePlayers()) {
+			for (Player player2 : Bukkit.getOnlinePlayers()) {
+				player1.showPlayer(player2);
+			}
+		}
+		
 		List<String> winnerNames = new ArrayList<String>();
 		for (Player winner : winners) winnerNames.add(winner.getName());
 		String winnersText = String.join(", ", winnerNames);
