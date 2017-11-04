@@ -81,7 +81,7 @@ public class DigDug extends Game {
 
 	@Override
 	void begin() {
-		secondsLeft = 65;
+		secondsLeft = 40;
 		
 		fillArena();
 		
