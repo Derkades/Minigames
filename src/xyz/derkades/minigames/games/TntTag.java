@@ -40,10 +40,12 @@ public class TntTag extends Game {
 	
 	private BukkitTask tntCountdownTask;
 	private List<UUID> dead;
+	private float time;
 
 	@Override
 	void begin() {
 		dead = new ArrayList<>();
+		time = 1.1f;
 		
 		sendMessage("You have 5 seconds to spread.");
 		for (Player player : Bukkit.getOnlinePlayers()) {
@@ -120,6 +122,8 @@ public class TntTag extends Game {
 			player.getInventory().setItem(i, new ItemStack(Material.TNT));
 		}
 		player.sendMessage("You have been tagged! Punch someone to get rid of your tnt.");
+		
+		time -= 0.05f;
 	}
 	
 	private Player getRandomPlayer(){
@@ -147,7 +151,7 @@ public class TntTag extends Game {
 		TntCountdown(Player player){
 			this.player = player;
 			
-			progress = 1.1f;
+			progress = time;
 		}
 
 		@Override
@@ -176,21 +180,9 @@ public class TntTag extends Game {
 					return;
 				}
 				
-				int amount;
-				
-				//if (alive > 2) {
-				//	amount = 2;
-				//} else if (alive > 4) {
-				//	amount = 3;
-				//} else {
-					amount = 1;
-				//}				
-				
-				for (int i = 1; i <= amount; i++) {
-					Player randomPlayer = getRandomPlayer();
-					tag(randomPlayer);
-					randomPlayer.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 10*20, 2, true, false));
-				}
+				Player randomPlayer = getRandomPlayer();
+				tag(randomPlayer);
+				randomPlayer.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 10*20, 2, true, false));
 			}
 		}
 		
