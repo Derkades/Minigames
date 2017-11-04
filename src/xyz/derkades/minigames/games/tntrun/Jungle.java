@@ -10,11 +10,11 @@ public class Jungle extends TNTMap {
 
 	@Override
 	public void restore() {
-		BlockUtils.fillArea(161, 83, 138, 273, 83, 150, Material.TNT);
-		BlockUtils.fillArea(161, 78, 138, 273, 78, 150, Material.TNT);
-		BlockUtils.fillArea(161, 73, 138, 273, 73, 150, Material.TNT);
-		BlockUtils.fillArea(161, 68, 138, 273, 68, 150, Material.TNT);
-		BlockUtils.fillArea(161, 63, 138, 273, 63, 150, Material.TNT);
+		BlockUtils.fillArea(261, 83, 138, 273, 83, 150, Material.TNT);
+		BlockUtils.fillArea(261, 78, 138, 273, 78, 150, Material.TNT);
+		BlockUtils.fillArea(261, 73, 138, 273, 73, 150, Material.TNT);
+		BlockUtils.fillArea(261, 68, 138, 273, 68, 150, Material.TNT);
+		BlockUtils.fillArea(261, 63, 138, 273, 63, 150, Material.TNT);
 	}
 
 	@Override
