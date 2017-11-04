@@ -8,6 +8,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.potion.PotionEffectType;
@@ -133,6 +134,11 @@ public class Dropper extends Game {
 			event.getEntity().teleport(map.getLobbyLocation());
 			
 		});
+	}
+	
+	@EventHandler
+	public void onDamageByEntity(EntityDamageByEntityEvent event) {
+		event.setCancelled(true);
 	}
 
 }
