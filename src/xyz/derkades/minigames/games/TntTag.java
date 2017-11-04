@@ -36,8 +36,6 @@ public class TntTag extends Game {
 				"The game is finished when only",
 				"one player has not exploded."
 		}, 2, 2, 5);
-		
-		dead = new ArrayList<>();
 	}
 	
 	private BukkitTask tntCountdownTask;
@@ -45,6 +43,8 @@ public class TntTag extends Game {
 
 	@Override
 	void begin() {
+		dead = new ArrayList<>();
+		
 		sendMessage("You have 5 seconds to spread.");
 		for (Player player : Bukkit.getOnlinePlayers()) {
 			player.teleport(new Location(Var.WORLD, 347, 44, 365, 0, 90));
