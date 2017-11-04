@@ -77,6 +77,7 @@ public class TntRun extends Game {
 			player.setAllowFlight(true);
 			Bukkit.getOnlinePlayers().forEach((online) -> online.hidePlayer(player));
 			alive.remove(player.getUniqueId());
+			sendMessage(player.getName() + " has died. " + alive.size() + " players left.");
 			return;
 		}
 		
