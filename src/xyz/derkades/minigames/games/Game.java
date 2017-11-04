@@ -41,6 +41,7 @@ public abstract class Game implements Listener {
 			//new NyanCat(),
 			new Speedrun(),
 			new DigDug(),
+			new TntRun(),
 			new TntTag(),
 			//new Mine(),
 	};
