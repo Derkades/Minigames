@@ -30,20 +30,22 @@ import xyz.derkades.minigames.utils.Utils;
 public abstract class Game implements Listener {
 	
 	public static final Game[] GAMES = new Game[] {
+			//new CowProtect(),
+			new DigDug(),
 			new Dropper(),
-			new Platform(),
+			new Dropper(),
+			//new Elytra(),
 			new JungleRun(),
+			//new MazePvp(),
+			//new Mine(),
+			//new NyanCat(),
+			new Platform(),
 			new RegeneratingSpleef(),
 			new SaveTheSnowman(),
 			new SnowFight(),
-			//new MazePvP(),
-			//new Elytra(),
-			//new NyanCat(),
-			new Speedrun(),
-			new DigDug(),
+			new Speedrun(),			
 			new TntRun(),
 			new TntTag(),
-			//new Mine(),
 	};
 	
 	private String name;
