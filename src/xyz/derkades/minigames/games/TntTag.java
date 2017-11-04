@@ -23,6 +23,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
 import net.md_5.bungee.api.ChatColor;
+import xyz.derkades.derkutils.Cooldown;
 import xyz.derkades.derkutils.ListUtils;
 import xyz.derkades.minigames.Minigames;
 import xyz.derkades.minigames.Var;
@@ -76,6 +77,13 @@ public class TntTag extends Game {
 		Player target = (Player) event.getEntity();
 		Player attacker = (Player) event.getDamager();
 		
+		long tagProtection = Cooldown.getCooldown("tnttag-anti-tag-back-protection" + target.getUniqueId());
+		if (tagProtection != 0) {
+			attacker.sendMessage(ChatColor.RED + "You can't tag this player yet.");
+			event.setCancelled(true);
+			return;
+		}
+		
 		if (dead.contains(attacker.getUniqueId())) {
 			event.setCancelled(true);
 			return;
@@ -92,6 +100,8 @@ public class TntTag extends Game {
 		
 		attacker.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 10*20, 2, true, false));
 		
+		Cooldown.addCooldown("tnttag-anti-tag-back-protection" + attacker.getUniqueId(), 5000);
+		
 		tag(target);
 	}
 	
@@ -106,6 +116,7 @@ public class TntTag extends Game {
 	public void onMove(PlayerMoveEvent event) {
 		if (event.getPlayer().isSneaking()) {
 			event.getPlayer().sendMessage(ChatColor.RED + "You cannot hide from players by sneaking.");
+			event.setCancelled(true);
 		}
 	}
 	
@@ -121,16 +132,12 @@ public class TntTag extends Game {
 		for (int i = 0; i < 9; i++) {
 			player.getInventory().setItem(i, new ItemStack(Material.TNT));
 		}
-		player.sendMessage("You have been tagged! Punch someone to get rid of your tnt.");
+		player.sendMessage(ChatColor.GOLD + "You have been tagged! Punch someone to get rid of your tnt.");
 		
 		time -= 0.05f;
 	}
 	
 	private Player getRandomPlayer(){
-		//Collection<? extends Player> list = getAlivePlayers();
-		//int size = list.size();
-		//int index = Random.getRandomInteger(0, size - 1); //Size -1 because if the list has 1 entry (entry 0) the length is 1.
-		//return (Player) list.toArray()[index];
 		return ListUtils.getRandomValueFromList(getAlivePlayers());
 	}
 	
