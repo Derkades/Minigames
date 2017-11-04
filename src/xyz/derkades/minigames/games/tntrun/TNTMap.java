@@ -6,6 +6,7 @@ import org.bukkit.Material;
 public abstract class TNTMap {
 	
 	public static final TNTMap[] MAPS = {
+			new Aqua(),
 			new Future(),
 			new Jungle(),
 	};
