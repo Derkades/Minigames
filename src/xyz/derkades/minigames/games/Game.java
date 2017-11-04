@@ -214,6 +214,8 @@ public abstract class Game implements Listener {
 			Bukkit.getPluginManager().registerEvents(this, Minigames.getInstance());
 			
 			Utils.setXpBarValue(0f, 0);
+			
+			Bukkit.getOnlinePlayers().forEach((player) -> Utils.clearPotionEffects(player));
 
 			new BukkitRunnable() { // Small delay for last sound, because it needs to be played at the new player location
 				public void run() {
