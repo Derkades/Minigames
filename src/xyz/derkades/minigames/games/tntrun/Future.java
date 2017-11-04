@@ -1,4 +1,4 @@
-package xyz.derkades.minigames.tntrun;
+package xyz.derkades.minigames.games.tntrun;
 
 import org.bukkit.Location;
 import org.bukkit.Material;

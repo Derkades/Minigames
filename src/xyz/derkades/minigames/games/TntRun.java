@@ -12,7 +12,7 @@ import org.bukkit.scheduler.BukkitTask;
 
 import xyz.derkades.derkutils.ListUtils;
 import xyz.derkades.minigames.Minigames;
-import xyz.derkades.minigames.tntrun.TNTMap;
+import xyz.derkades.minigames.games.tntrun.TNTMap;
 import xyz.derkades.minigames.utils.Utils;
 
 public class TntRun extends Game {
