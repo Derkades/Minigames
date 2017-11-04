@@ -35,7 +35,7 @@ public class TntTag extends Game {
 				"Pass TNT onto other players",
 				"The game is finished when only",
 				"one player has not exploded."
-		}, 2, 2, 5);
+		}, 3, 10, 20);
 	}
 	
 	private BukkitTask tntCountdownTask;
