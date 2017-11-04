@@ -132,7 +132,7 @@ public class DigDug extends Game {
 					player.getInventory().addItem(shovel);
 				}
 			}
-		}.runTaskLater(Minigames.getInstance(), 5*20);
+		}.runTaskLater(Minigames.getInstance(), 3*20);
 		
 		Utils.setGameRule("doTileDrops", false);
 	}
