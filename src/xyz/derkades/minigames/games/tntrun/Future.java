@@ -11,9 +11,9 @@ public class Future extends TNTMap {
 	@Override
 	public void restore() {
 		BlockUtils.fillArea(261, 80, 119, 273, 80, 131, Material.TNT);
-		BlockUtils.fillArea(261, 74, 119, 273, 80, 131, Material.TNT);
-		BlockUtils.fillArea(261, 68, 119, 273, 80, 131, Material.TNT);
-		BlockUtils.fillArea(261, 62, 119, 273, 80, 131, Material.TNT);
+		BlockUtils.fillArea(261, 74, 119, 273, 74, 131, Material.TNT);
+		BlockUtils.fillArea(261, 68, 119, 273, 68, 131, Material.TNT);
+		BlockUtils.fillArea(261, 62, 119, 273, 62, 131, Material.TNT);
 	}
 
 	@Override
@@ -23,7 +23,7 @@ public class Future extends TNTMap {
 
 	@Override
 	public Location spawnLocation() {
-		return new Location(Var.WORLD, 137.5, 82, 124.5);
+		return new Location(Var.WORLD, 267.5, 82, 125.5);
 	}
 
 }
