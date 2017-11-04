@@ -1,7 +1,7 @@
 package xyz.derkades.minigames.games;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
+import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -29,7 +29,7 @@ public class Speedrun extends Game {
 		}, 1, 2, 4);
 	}
 
-	private Map<String, Boolean> hasFinished = new HashMap<>();
+	private List<UUID> finished;
 	
 	private boolean NO_ONE_FINISHED = true;
 
@@ -37,7 +37,6 @@ public class Speedrun extends Game {
 	void begin(){
 		this.NO_ONE_FINISHED = true;
 		for (Player player : Bukkit.getOnlinePlayers()){
-			hasFinished.put(player.getName(), false);
 			player.teleport(new Location(Var.WORLD, 140.0, 97, 306, -180, 0));
 			Utils.giveInfiniteEffect(player, PotionEffectType.SPEED, 30);
 		}
@@ -59,7 +58,7 @@ public class Speedrun extends Game {
 	}
 	
 	private void endGame(){
-		super.startNextGame(Utils.getWinnersFromFinishedHashMap(hasFinished));
+		super.startNextGame(Utils.getPlayerListFromUUIDList(finished));
 	}
 	
 	private void playerDie(Player player){
@@ -72,10 +71,10 @@ public class Speedrun extends Game {
 			NO_ONE_FINISHED = false;
 			super.sendMessage(player.getName() + " finished first and got an extra point!");
 			Points.addPoints(player, 1);
-			hasFinished.put(player.getName(), true);
+			finished.add(player.getUniqueId());
 		} else {
 			super.sendMessage(player.getName() + " has finished!");
-			hasFinished.put(player.getName(), true);
+			finished.add(player.getUniqueId());
 		}
 		player.teleport(new Location(Var.WORLD, 128.0, 98, 274.5, -180, 0));
 	}
@@ -85,7 +84,7 @@ public class Speedrun extends Game {
 	public void onMove(PlayerMoveEvent event){
 		Player player = event.getPlayer();
 		
-		if (hasFinished.get(player.getName())){
+		if (finished.contains(player.getUniqueId())){
 			return;
 		}
 		
