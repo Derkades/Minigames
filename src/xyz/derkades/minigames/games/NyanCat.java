@@ -12,11 +12,13 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
 import xyz.derkades.minigames.Minigames;
 import xyz.derkades.minigames.Var;
+import xyz.derkades.minigames.utils.BlockUtils;
 import xyz.derkades.minigames.utils.Scheduler;
 import xyz.derkades.minigames.utils.Utils;
 
@@ -37,9 +39,15 @@ public class NyanCat extends Game {
 	void begin() {
 		dead = new ArrayList<>();
 		
+		BlockUtils.fillArea(193, 79, 142, 219, 79, 162, Material.STONE);
+		BlockUtils.fillArea(193, 79, 142, 219, 79, 162, Material.STAINED_CLAY);
+		
 		task = new BlockRemover().runTaskTimer(Minigames.getInstance(), 10, 10);
 		
-		Bukkit.getOnlinePlayers().forEach((player) -> player.teleport(new Location(Var.WORLD, 229, 80, 156)));
+		Bukkit.getOnlinePlayers().forEach((player) -> {
+			player.teleport(new Location(Var.WORLD, 229, 80, 156));
+			Utils.giveInfiniteEffect(player, PotionEffectType.REGENERATION, 2);
+		});
 	}
 	
 	private void finish() {
@@ -56,7 +64,6 @@ public class NyanCat extends Game {
 			player.teleport(new Location(Var.WORLD, 229.5, 93, 151));
 			dead.add(player.getUniqueId());
 			player.setHealth(20);
-			player.setAllowFlight(true);
 			Bukkit.getOnlinePlayers().forEach((online) -> online.hidePlayer(player));
 		});
 	}
@@ -84,16 +91,18 @@ public class NyanCat extends Game {
 				}
 				
 				if (block.getData() == 15) { //Black (ground)
-					player.damage(2);
-				} else if (block.getData() == 5) { //Green
+					player.damage(10);
+				} else if (block.getData() == 0) {
 					block.setData((byte) 4); //Yellow
 				} else if (block.getData() == 4) { //Yellow
 					block.setData((byte) 1); //Orange
 				} else if (block.getData() == 1) { //Orange
 					block.setData((byte) 14); //Red
 				} else if (block.getData() == 14) { //Red
-					block.setData((byte) 5); //Green
-					player.damage(2);
+					Bukkit.getScheduler().runTaskLater(Minigames.getInstance(), () -> {
+						block.setType(Material.AIR);
+					}, 20);
+					player.damage(7);
 				}
 			}
 		}
