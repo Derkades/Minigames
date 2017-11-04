@@ -29,9 +29,9 @@ public class MainMenu extends IconMenu {
 		
 		int settingData;
 		if (Minigames.getInstance().getConfig().getStringList("disabled-description").contains(player.getUniqueId().toString())) {
-			settingData = 10;
-		} else {
 			settingData = 8;
+		} else {
+			settingData = 10;
 		}
 		
 		items.put(3, new ItemBuilder(Material.INK_SACK).data(settingData).name(DARK_AQUA + "Description").lore(AQUA + "Click to enable or disable game descriptions").create());
