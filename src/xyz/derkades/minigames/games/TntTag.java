@@ -186,7 +186,7 @@ public class TntTag extends Game {
 					amount = 1;
 				//}				
 				
-				for (int i = 0; i <= amount; i++) {
+				for (int i = 1; i <= amount; i++) {
 					Player randomPlayer = getRandomPlayer();
 					tag(randomPlayer);
 					randomPlayer.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 10*20, 2, true, false));
