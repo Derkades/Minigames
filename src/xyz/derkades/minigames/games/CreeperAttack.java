@@ -20,6 +20,7 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitTask;
 
 import net.md_5.bungee.api.ChatColor;
+import xyz.derkades.derkutils.ListUtils;
 import xyz.derkades.derkutils.Random;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
 import xyz.derkades.minigames.Minigames;
@@ -40,7 +41,7 @@ public class CreeperAttack extends Game {
 	@Override
 	void begin() {
 		alive = new ArrayList<>();
-		chance = 0.1f;
+		chance = 0.35f;
 		
 		ItemStack knockbackStick = new ItemBuilder(Material.STICK)
 				.name(ChatColor.GOLD + "" + ChatColor.BOLD + "Creeper Smasher")
@@ -65,9 +66,8 @@ public class CreeperAttack extends Game {
 				chance += 0.02f;
 				Creeper creeper = Var.WORLD.spawn(new Location(Var.WORLD, 120.5, 105, 317.5), Creeper.class);
 				creeper.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 10000000, 50, true, false));
-				if (chance > 0.5f) {
-					creeper.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 10000000, 1, true, false));
-				}
+				creeper.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 10000000, 1, true, false));
+				creeper.setTarget(ListUtils.getRandomValueFromList(Utils.getPlayerListFromUUIDList(alive)));
 			}
 		}, 20, 10);
 	}
