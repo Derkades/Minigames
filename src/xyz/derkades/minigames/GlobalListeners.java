@@ -49,7 +49,7 @@ public class GlobalListeners implements Listener {
 		player.setExp(0.0f);
 		player.setLevel(0);
 		
-		Console.sendCommand("scoreboard teams join all " + player.getName());
+		//Console.sendCommand("scoreboard teams join all " + player.getName());
 		
 		event.setJoinMessage(ChatColor.YELLOW + "" + ChatColor.BOLD + player.getName() + ChatColor.GOLD + "" + ChatColor.BOLD + " has joined!");
 	}
