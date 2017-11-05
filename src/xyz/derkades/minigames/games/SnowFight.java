@@ -49,7 +49,7 @@ public class SnowFight extends Game {
 		Utils.setGameRule("doTileDrops", false);
 		
 		for (Player player: Bukkit.getOnlinePlayers()){
-			player.teleport(new Location(Var.WORLD, 212.5, 75, 291.5, 0, 90));
+			player.teleport(new Location(Var.WORLD, 218.5, 75, 291.5, 90, 0));
 			
 			Minigames.setCanTakeDamage(player, true);
 		}
