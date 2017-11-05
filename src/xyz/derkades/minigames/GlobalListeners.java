@@ -32,7 +32,6 @@ import org.bukkit.potion.PotionEffectType;
 import net.md_5.bungee.api.ChatColor;
 import xyz.derkades.minigames.menu.MainMenu;
 import xyz.derkades.minigames.menu.NameColor;
-import xyz.derkades.minigames.utils.Console;
 import xyz.derkades.minigames.utils.Utils;
 
 public class GlobalListeners implements Listener {
