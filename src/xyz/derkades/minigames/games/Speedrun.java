@@ -26,7 +26,7 @@ public class Speedrun extends ParkourGame {
 
 	Speedrun() {
 		super("Speedrun", new String[] {
-				"Insert description here"
+				"Jump to the finish with super speed"
 		}, 1, 2, 4);
 	}
 
