@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -23,7 +24,7 @@ import xyz.derkades.minigames.utils.Utils;
 public class TntRun extends Game {
 
 	TntRun() {
-		super("TNT Run", new String[]{"Insert description here"}, 2, 3, 7);
+		super("TNT Run", new String[]{}, 2, 3, 7);
 	}
 
 	private TNTMap map;
@@ -70,9 +71,9 @@ public class TntRun extends Game {
 			return;
 		}
 		
-		Block block = event.getFrom().getBlock().getRelative(BlockFace.DOWN);
+		Block belowPlayer = event.getFrom().getBlock().getRelative(BlockFace.DOWN);
 		
-		if (block.getType().equals(Material.STAINED_CLAY)) {
+		if (belowPlayer.getType().equals(Material.STAINED_CLAY)) {
 			player.teleport(map.spawnLocation());
 			player.setAllowFlight(true);
 			Bukkit.getOnlinePlayers().forEach((online) -> online.hidePlayer(player));
@@ -81,21 +82,38 @@ public class TntRun extends Game {
 			return;
 		}
 		
-		if (block.getType() != map.floorMaterial()) {
-			return;
+		List<Block> blocks = new ArrayList<>();
+		
+		Location loc = player.getLocation();
+		loc.setY(loc.getY() - 1);
+		
+		blocks.add(new Location(loc.getWorld(), loc.getX() + .2, loc.getY(), loc.getZ() + .2).getBlock());
+		blocks.add(new Location(loc.getWorld(), loc.getX() - .2, loc.getY(), loc.getZ() - .2).getBlock());
+		blocks.add(new Location(loc.getWorld(), loc.getX() + .2, loc.getY(), loc.getZ() - .2).getBlock());
+		blocks.add(new Location(loc.getWorld(), loc.getX() - .2, loc.getY(), loc.getZ() + .2).getBlock());
+		
+		blocks.add(new Location(loc.getWorld(), loc.getX() - .2, loc.getY(), loc.getZ() + 0).getBlock());
+		blocks.add(new Location(loc.getWorld(), loc.getX() + .2, loc.getY(), loc.getZ() + 0).getBlock());
+		blocks.add(new Location(loc.getWorld(), loc.getX() + 0, loc.getY(), loc.getZ() - .2).getBlock());
+		blocks.add(new Location(loc.getWorld(), loc.getX() - 0, loc.getY(), loc.getZ() + .2).getBlock());
+		
+		for (Block block : blocks) {
+			if (block.getType() != map.floorMaterial()) {
+				continue;
+			}
+			
+			if (removedBlocks.contains(block)) {
+				continue;
+			}
+			
+			removedBlocks.add(block);
+			
+			Bukkit.getScheduler().runTaskLater(Minigames.getInstance(), () -> {
+				BlockState state = block.getState();
+				state.setType(Material.AIR);
+				state.update(true, false);
+			}, 7);
 		}
-		
-		if (removedBlocks.contains(block)) {
-			return;
-		}
-		
-		removedBlocks.add(block);
-		
-		Bukkit.getScheduler().runTaskLater(Minigames.getInstance(), () -> {
-			BlockState state = block.getState();
-			state.setType(Material.AIR);
-			state.update(true, false);
-		}, 7);
 	}
 	
 	@EventHandler
