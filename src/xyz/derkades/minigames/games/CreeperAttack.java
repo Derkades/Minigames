@@ -13,6 +13,7 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -23,6 +24,7 @@ import xyz.derkades.derkutils.Random;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
 import xyz.derkades.minigames.Minigames;
 import xyz.derkades.minigames.Var;
+import xyz.derkades.minigames.utils.Scheduler;
 import xyz.derkades.minigames.utils.Utils;
 
 public class CreeperAttack extends Game {
@@ -42,8 +44,9 @@ public class CreeperAttack extends Game {
 		
 		ItemStack knockbackStick = new ItemBuilder(Material.STICK)
 				.name(ChatColor.GOLD + "" + ChatColor.BOLD + "Creeper Smasher")
-				.unsafeEnchant(Enchantment.KNOCKBACK, 3)
 				.create();
+		
+		knockbackStick.addUnsafeEnchantment(Enchantment.KNOCKBACK, 3);
 		
 		Bukkit.getOnlinePlayers().forEach((player) -> {
 			alive.add(player.getUniqueId());
@@ -76,8 +79,20 @@ public class CreeperAttack extends Game {
 		}
 	}
 	
+	@EventHandler
+	public void onDeath(PlayerDeathEvent event) {
+		event.setDeathMessage("");
+		alive.remove(event.getEntity().getUniqueId());
+		Scheduler.oneTickDelay(() -> {
+			event.getEntity().spigot().respawn();
+		});
+	}
+	
 	private void finish() {
 		task.cancel();
+		for (Creeper creeper : Var.WORLD.getEntitiesByClass(Creeper.class)) {
+			creeper.remove();
+		}
 		super.startNextGame(Utils.getPlayerListFromUUIDList(alive));
 	}
 
