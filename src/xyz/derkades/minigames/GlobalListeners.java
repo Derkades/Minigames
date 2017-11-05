@@ -51,13 +51,13 @@ public class GlobalListeners implements Listener {
 		
 		Console.sendCommand("scoreboard teams join all " + player.getName());
 		
-		event.setJoinMessage(ChatColor.AQUA + "" + ChatColor.BOLD + player.getName() + ChatColor.DARK_AQUA + "" + ChatColor.BOLD + " has joined!");
+		event.setJoinMessage(ChatColor.YELLOW + "" + ChatColor.BOLD + player.getName() + ChatColor.GOLD + "" + ChatColor.BOLD + " has joined!");
 	}
 	
 	@EventHandler
 	public void onQuit(PlayerQuitEvent event){
 		Player player = event.getPlayer();
-		event.setQuitMessage(ChatColor.AQUA + "" + ChatColor.BOLD + player.getName() + ChatColor.DARK_AQUA + "" + ChatColor.BOLD + " has left.");
+		event.setQuitMessage(ChatColor.YELLOW + "" + ChatColor.BOLD + player.getName() + ChatColor.GOLD + "" + ChatColor.BOLD + " has left.");
 	}
 	
 	@EventHandler
