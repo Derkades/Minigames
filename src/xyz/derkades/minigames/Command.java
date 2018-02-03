@@ -16,15 +16,13 @@ public class Command implements CommandExecutor {
 		Player player = (Player) sender;
 		
 		if (args.length == 1){
-			if (args[0].equalsIgnoreCase("start") &&
-					player.isOp()){
+			if (args[0].equalsIgnoreCase("start") && player.hasPermission("minigames.start")){
 				AutoRotate.startNewRandomGame();
 				Minigames.STOP_GAMES = false;
-			} else if (args[0].equalsIgnoreCase("stop") &&
-					player.isOp()){
+			} else if (args[0].equalsIgnoreCase("stop") && player.hasPermission("minigames.stop")){
 				player.sendMessage("! STOPPED GAMES !");
 				Minigames.STOP_GAMES = true;
-			} else if (args[0].equals("test")) {
+			} else if (args[0].equals("test") && player.hasPermission("minigames.test")) {
 				final Location loc = player.getLocation();
 		        final Location fbLocation = loc.add(
 		        		loc
@@ -38,7 +36,7 @@ public class Command implements CommandExecutor {
 		        f.setShooter(player);
 		        f.setIsIncendiary(false);
 		        player.sendMessage("test");
-			} else if (player.isOp()) {
+			} else if (player.hasPermission("minigames.start.custom")) {
 				Game game = Game.fromString(args[0].replace("_", " "));
 				if (game == null){
 					player.sendMessage("Unknown game");
