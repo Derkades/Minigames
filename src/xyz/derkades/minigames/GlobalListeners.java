@@ -2,7 +2,6 @@ package xyz.derkades.minigames;
 
 import static org.bukkit.ChatColor.AQUA;
 import static org.bukkit.ChatColor.DARK_GRAY;
-import static org.bukkit.ChatColor.GRAY;
 
 import java.util.Arrays;
 import java.util.List;
@@ -17,6 +16,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Villager;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageEvent;
@@ -32,7 +32,6 @@ import org.bukkit.potion.PotionEffectType;
 
 import net.md_5.bungee.api.ChatColor;
 import xyz.derkades.minigames.menu.MainMenu;
-import xyz.derkades.minigames.menu.NameColor;
 import xyz.derkades.minigames.utils.Utils;
 
 public class GlobalListeners implements Listener {
@@ -82,7 +81,7 @@ public class GlobalListeners implements Listener {
 		}
 	}
 	
-	@EventHandler
+	/*@EventHandler
 	public void onChat(AsyncPlayerChatEvent event){
 		Player player = event.getPlayer();
 		if (player.getName().equals("Derkades")){
@@ -100,6 +99,11 @@ public class GlobalListeners implements Listener {
 					NameColor.getNameColor(player) + "%s" + DARK_GRAY + 
 					": " + GRAY + "%s");
 		}
+	}*/
+	
+	@EventHandler(priority = EventPriority.HIGH)
+	public void onChat(AsyncPlayerChatEvent event) {
+		event.setFormat(DARK_GRAY + "[" + AQUA + Points.getPoints(event.getPlayer()) + DARK_GRAY + "] " + event.getFormat());
 	}
 	
 	@EventHandler
