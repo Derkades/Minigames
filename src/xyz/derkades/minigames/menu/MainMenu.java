@@ -74,7 +74,7 @@ public class MainMenu extends IconMenu {
 			Minigames.getInstance().getConfig().set("disabled-description", list);
 			Minigames.getInstance().saveConfig();
 			
-			this.destroy();
+			this.close();
 			
 			Bukkit.getScheduler().scheduleSyncDelayedTask(Minigames.getInstance(), () -> {
 				new MainMenu(player).open();
