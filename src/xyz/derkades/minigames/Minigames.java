@@ -27,6 +27,11 @@ public class Minigames extends JavaPlugin implements Listener {
 	public static boolean STOP_GAMES = false;
 	
 	/**
+	 * Used by connector addon @see {@link #getCurrentGameName()}
+	 */
+	public static String CURRENT_GAME_NAME = "Error";
+	
+	/**
 	 * Used to force the next game to be a certain game.
 	 */
 	public static Game NEXT_GAME = null;
@@ -76,6 +81,17 @@ public class Minigames extends JavaPlugin implements Listener {
 			CAN_TAKE_DAMAGE.remove(player.getUniqueId());
 		}
 		
+	}
+	
+	/**
+	 * Used by connector addon
+	 */
+	public static String getCurrentGameName() {
+		if (!IS_IN_GAME) {
+			return "None";
+		}
+		
+		return CURRENT_GAME_NAME;
 	}
 	
 }

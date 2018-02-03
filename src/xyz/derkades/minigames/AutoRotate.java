@@ -64,6 +64,8 @@ public class AutoRotate {
 		//Enough players, let's announce and start the game!
 		Bukkit.broadcastMessage(DARK_AQUA + "Next minigame: " + AQUA + game.getName());
 		
+		Minigames.CURRENT_GAME_NAME = game.getName();
+		
 		new BukkitRunnable(){
 			public void run(){
 				game.startGame();
