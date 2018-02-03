@@ -6,6 +6,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Fireball;
 import org.bukkit.entity.Player;
 
+import net.md_5.bungee.api.ChatColor;
 import xyz.derkades.minigames.games.Game;
 import xyz.derkades.minigames.menu.MainMenu;
 
@@ -20,7 +21,7 @@ public class Command implements CommandExecutor {
 				AutoRotate.startNewRandomGame();
 				Minigames.STOP_GAMES = false;
 			} else if (args[0].equalsIgnoreCase("stop") && player.hasPermission("minigames.stop")){
-				player.sendMessage("! STOPPED GAMES !");
+				player.sendMessage(ChatColor.RED + "! STOPPED GAMES !");
 				Minigames.STOP_GAMES = true;
 			} else if (args[0].equals("test") && player.hasPermission("minigames.test")) {
 				final Location loc = player.getLocation();
