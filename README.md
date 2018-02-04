@@ -20,6 +20,10 @@ You can add listeners to this class, they'll be registered automatically when th
 
 5. Add your game to the array in xyz.derkades.minigames.games.Game
 
+## Minigame examples
+[Creeper attack](https://github.com/Derkades/Minigames/blob/master/src/xyz/derkades/minigames/games/CreeperAttack.java)
+[Jungle run](https://github.com/Derkades/Minigames/blob/master/src/xyz/derkades/minigames/games/JungleRun.java)
+
 ## Useful methods and variables
 `Var.WORLD`
 
