@@ -12,6 +12,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import net.md_5.bungee.api.ChatColor;
 import xyz.derkades.derkutils.bukkit.IconMenu;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
 import xyz.derkades.minigames.Minigames;
@@ -64,10 +65,10 @@ public class MainMenu extends IconMenu {
 			List<String> list = Minigames.getInstance().getConfig().getStringList("disabled-description");
 			
 			if (item.getDurability() == 10) {
-				player.sendMessage("disabled");
+				player.sendMessage(ChatColor.GOLD + "Minigame descriptions have been disabled.");
 				list.add(player.getUniqueId().toString());
 			} else {
-				player.sendMessage("enabled");
+				player.sendMessage(ChatColor.GOLD + "Minigame descriptions have been enabled.");
 				list.remove(player.getUniqueId().toString());
 			}
 			
