@@ -76,6 +76,7 @@ public class TntRun extends Game {
 		if (belowPlayer.getType().equals(Material.STAINED_CLAY)) {
 			player.teleport(map.spawnLocation());
 			player.setAllowFlight(true);
+			player.setFlying(true);
 			Bukkit.getOnlinePlayers().forEach((online) -> online.hidePlayer(player));
 			alive.remove(player.getUniqueId());
 			sendMessage(player.getName() + " has died. " + alive.size() + " players left.");
