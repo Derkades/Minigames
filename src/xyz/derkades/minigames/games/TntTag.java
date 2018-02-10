@@ -114,6 +114,10 @@ public class TntTag extends Game {
 	
 	@EventHandler
 	public void onMove(PlayerMoveEvent event) {
+		if (dead.contains(event.getPlayer().getUniqueId())) {
+			return;
+		}
+		
 		if (event.getPlayer().isSneaking()) {
 			event.getPlayer().sendMessage(ChatColor.RED + "You cannot hide from players by sneaking.");
 			event.setCancelled(true);
