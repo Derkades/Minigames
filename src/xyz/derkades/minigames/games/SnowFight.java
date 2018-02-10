@@ -31,6 +31,8 @@ import xyz.derkades.minigames.utils.Utils;
 
 public class SnowFight extends Game {
 	
+	private static final int MAX_DURATION = 100;
+	
 	SnowFight() {
 		super("Snow Fight", new String[] {
 				"In this game you have to kill other players",
@@ -55,11 +57,36 @@ public class SnowFight extends Game {
 		}
 		
 		Console.sendCommand("replaceitem entity @a slot.hotbar.0 minecraft:diamond_shovel 1 0 {display:{Name:\"Snow Shoveler\"},Unbreakable:1,ench:[{id:32,lvl:1}],CanDestroy:[\"minecraft:snow_layer\"]}");
-		timer();
-		sendMessage("Game has started!");
+		//timer();
+		//sendMessage("Game has started!");
+		
+		new BukkitRunnable() {
+			
+			int secondsLeft = 2*60;
+			
+			public void run() {
+				//End the game if everyone is a spectator
+				if (dead.size() == Bukkit.getOnlinePlayers().size() && secondsLeft > 2) {
+					secondsLeft = 2;
+				}
+				
+				if (secondsLeft <= 0) {
+					this.cancel();
+					endGame();
+					return;
+				}
+				
+				if (secondsLeft == 30 || secondsLeft == 15 || secondsLeft <= 5) {
+					sendMessage(String.format("%s seconds left", secondsLeft));
+				}
+				
+				secondsLeft--;
+			}
+			
+		}.runTaskTimer(Minigames.getInstance(), 0, 1*20);
 	}
 	
-	private void timer(){
+	/*private void timer(){
 		new BukkitRunnable(){
 			public void run(){
 				sendMessage("5 seconds left!");
@@ -70,7 +97,7 @@ public class SnowFight extends Game {
 				}.runTaskLater(Minigames.getInstance(), 5*20);
 			}
 		}.runTaskLater(Minigames.getInstance(), 25*20);
-	}
+	}*/
 	
 	private void endGame(){
 		Utils.setGameRule("doTileDrops", true);
@@ -101,27 +128,28 @@ public class SnowFight extends Game {
 	@EventHandler
 	public void onBlockBreak(BlockBreakEvent event){
 		Block block = event.getBlock();
-		if (block.getType() == Material.SNOW){
-			Player player = event.getPlayer();
-			Inventory inv = player.getInventory();
-			if (!inv.contains(new ItemStack(Material.SNOW_BALL, 16))){
-				int amount = Random.getRandomInteger(1, 3);
-				inv.addItem(new ItemStack(Material.SNOW_BALL, amount));
-			}
-			
-			final Material oldType = block.getType();
-			@SuppressWarnings("deprecation")
-			final byte oldData = block.getData();
-			
-			new BukkitRunnable(){
-				@SuppressWarnings("deprecation")
-				public void run(){
-					block.setType(oldType);
-					block.setData(oldData);
-				}
-			}.runTaskLater(Minigames.getInstance(), 3*20);
-			
+		if (block.getType() != Material.SNOW){
+			return;
 		}
+			
+		Player player = event.getPlayer();
+		Inventory inv = player.getInventory();
+		if (!inv.contains(new ItemStack(Material.SNOW_BALL, 16))) {
+			int amount = Random.getRandomInteger(1, 3);
+			inv.addItem(new ItemStack(Material.SNOW_BALL, amount));
+		}
+
+		final Material oldType = block.getType();
+		@SuppressWarnings("deprecation")
+		final byte oldData = block.getData();
+
+		new BukkitRunnable() {
+			@SuppressWarnings("deprecation")
+			public void run() {
+				block.setType(oldType);
+				block.setData(oldData);
+			}
+		}.runTaskLater(Minigames.getInstance(), 3 * 20);
 	}
 	
 	@EventHandler
