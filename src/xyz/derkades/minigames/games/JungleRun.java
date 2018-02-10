@@ -45,6 +45,7 @@ public class JungleRun extends ParkourGame implements Listener {
 		
 		for (Player player: Bukkit.getOnlinePlayers()){		
 			player.teleport(new Location(Var.WORLD, 282.5, 67, 196.5, -90, 0)); //Teleport all online players to the arena
+			Utils.giveInvisibility(player);
 		}
 		
 		new BukkitRunnable() {
@@ -97,7 +98,6 @@ public class JungleRun extends ParkourGame implements Listener {
 	private void spectator(Player player) {
 		player.setAllowFlight(true);
 		spectator.add(player.getUniqueId());
-		Utils.giveInvisibility(player);
 	}
 	
 	@EventHandler(priority = EventPriority.HIGH)
