@@ -42,7 +42,7 @@ public class GlobalListeners implements Listener {
 		Utils.teleportToLobby(player); //Teleport the player out of an arena they may be in
 		player.setGameMode(GameMode.ADVENTURE);
 		player.setAllowFlight(false); //Just in case the player was spectator
-		
+		Utils.clearInventory(player);
 		Minigames.setCanTakeDamage(player, false);
 		
 		player.setExp(0.0f);
