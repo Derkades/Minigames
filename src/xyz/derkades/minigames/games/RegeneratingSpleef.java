@@ -54,7 +54,7 @@ public class RegeneratingSpleef extends Game {
 			player.teleport(new Location(Var.WORLD, 156.5, 82, 260.5, -90, 90));
 		}
 		
-		Scheduler.delay(2*20, () -> {
+		Scheduler.delay(3*20, () -> {
 			Console.sendCommand("replaceitem entity @a slot.hotbar.0 minecraft:diamond_shovel 1 0 {display:{Name:\"Spleefanator 8000\"},Unbreakable:1,ench:[{id:32,lvl:10}],CanDestroy:[\"minecraft:snow\"]}");
 			sendMessage("The game has started!");
 		});
