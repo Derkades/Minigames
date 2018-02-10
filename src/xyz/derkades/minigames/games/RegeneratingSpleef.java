@@ -54,7 +54,7 @@ public class RegeneratingSpleef extends Game {
 			player.teleport(new Location(Var.WORLD, 156.5, 82, 260.5, -90, 90));
 		}
 		
-		Scheduler.runTaskLater(2*20, () -> {
+		Scheduler.delay(2*20, () -> {
 			Console.sendCommand("replaceitem entity @a slot.hotbar.0 minecraft:diamond_shovel 1 0 {display:{Name:\"Spleefanator 8000\"},Unbreakable:1,ench:[{id:32,lvl:10}],CanDestroy:[\"minecraft:snow\"]}");
 			sendMessage("The game has started!");
 		});
@@ -108,7 +108,7 @@ public class RegeneratingSpleef extends Game {
 	@EventHandler(priority = EventPriority.MONITOR)
 	public void onMove(PlayerMoveEvent event){
 		Player player = event.getPlayer();
-		if(event.getTo().getBlock().getRelative(BlockFace.DOWN).getType() == Material.BEDROCK){
+		if (event.getTo().getBlock().getRelative(BlockFace.DOWN).getType() == Material.BEDROCK){
 			//sendMessage(String.format(ELIMINATED, player.getName()));
 			player.teleport(new Location(Var.WORLD, 156.5, 89, 260.5, -90, 90));
 			player.getInventory().clear();

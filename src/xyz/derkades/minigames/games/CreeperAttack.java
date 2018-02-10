@@ -83,7 +83,7 @@ public class CreeperAttack extends Game {
 	public void onDeath(PlayerDeathEvent event) {
 		event.setDeathMessage("");
 		alive.remove(event.getEntity().getUniqueId());
-		Scheduler.oneTickDelay(() -> {
+		Scheduler.delay(1, () -> {
 			event.getEntity().spigot().respawn();
 		});
 	}

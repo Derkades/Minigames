@@ -19,7 +19,6 @@ public class Minigames extends JavaPlugin implements Listener {
 
 	private static Minigames instance;
 	
-	//public static final Map<String, Boolean> CAN_TAKE_DAMAGE = new HashMap<>();
 	private static final List<UUID> CAN_TAKE_DAMAGE = new ArrayList<>();
 	
 	public static boolean IS_IN_GAME = false;
@@ -56,7 +55,7 @@ public class Minigames extends JavaPlugin implements Listener {
 		
 		getCommand("games").setExecutor(new Command());
 		
-		Scheduler.runSyncRepeatingTask(20, () -> {
+		Scheduler.repeat(20, () -> {
 			Var.WORLD.setStorm(false);
 		});
 	}
@@ -80,7 +79,6 @@ public class Minigames extends JavaPlugin implements Listener {
 		} else {
 			CAN_TAKE_DAMAGE.remove(player.getUniqueId());
 		}
-		
 	}
 	
 	/**

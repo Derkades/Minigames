@@ -27,6 +27,7 @@ import xyz.derkades.derkutils.Random;
 import xyz.derkades.minigames.Minigames;
 import xyz.derkades.minigames.Var;
 import xyz.derkades.minigames.utils.Console;
+import xyz.derkades.minigames.utils.Scheduler;
 import xyz.derkades.minigames.utils.Utils;
 
 public class SnowFight extends Game {
@@ -62,7 +63,7 @@ public class SnowFight extends Game {
 		
 		new BukkitRunnable() {
 			
-			int secondsLeft = 2*60;
+			int secondsLeft = MAX_DURATION;
 			
 			public void run() {
 				//End the game if everyone is a spectator
@@ -86,19 +87,6 @@ public class SnowFight extends Game {
 		}.runTaskTimer(Minigames.getInstance(), 0, 1*20);
 	}
 	
-	/*private void timer(){
-		new BukkitRunnable(){
-			public void run(){
-				sendMessage("5 seconds left!");
-				new BukkitRunnable(){
-					public void run(){
-						endGame();
-					}
-				}.runTaskLater(Minigames.getInstance(), 5*20);
-			}
-		}.runTaskLater(Minigames.getInstance(), 25*20);
-	}*/
-	
 	private void endGame(){
 		Utils.setGameRule("doTileDrops", true);
 		
@@ -107,13 +95,6 @@ public class SnowFight extends Game {
 		}
 		
 		super.startNextGame(Utils.getWinnersFromDeadList(dead));
-	}
-
-	private void playerDie(Player player){
-		player.teleport(new Location(Var.WORLD, 224.5, 79.1, 291.5, 90, 0));
-		dead.add(player.getUniqueId());
-		Utils.clearInventory(player);
-		Minigames.setCanTakeDamage(player, false);
 	}
 	
 	@EventHandler
@@ -160,13 +141,13 @@ public class SnowFight extends Game {
 			Player player = event.getEntity().getPlayer();
 			String pn = player.getName();
 			event.setDeathMessage(DARK_GRAY + "[" + DARK_AQUA + getName() + DARK_GRAY + "] " + AQUA + killer.getName() + " has killed " + pn + "!");
-			new BukkitRunnable(){
-				public void run(){
-					player.spigot().respawn();
-					playerDie(player);
-				}
-			}.runTaskLater(Minigames.getInstance(), 5L);
-			playerDie(player);
+			Scheduler.delay(1, () -> {
+				player.spigot().respawn();
+				player.teleport(new Location(Var.WORLD, 224.5, 79.1, 291.5, 90, 0));
+				dead.add(player.getUniqueId());
+				Utils.clearInventory(player);
+				Minigames.setCanTakeDamage(player, false);
+			});
 		}
 	}
 	

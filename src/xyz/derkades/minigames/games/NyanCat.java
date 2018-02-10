@@ -58,7 +58,7 @@ public class NyanCat extends Game {
 	@EventHandler
 	public void onDeath(PlayerDeathEvent event) {
 		event.setDeathMessage("");
-		Scheduler.runTaskLater(1, () -> {
+		Scheduler.delay(1, () -> {
 			Player player = event.getEntity();
 			player.spigot().respawn();
 			player.teleport(new Location(Var.WORLD, 229.5, 93, 151));

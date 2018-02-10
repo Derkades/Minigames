@@ -178,47 +178,47 @@ public abstract class Game implements Listener {
 		Utils.playSoundForAllPlayers(Sound.ARROW_HIT, 0.1f); //PING (5)
 		Utils.setXpBarValue(1.0f, 5);
 		
-		Scheduler.runTaskLater(10, () -> {
+		Scheduler.delay(10, () -> {
 			Utils.setXpBarValue(0.9f, 5);
 		});
 
-		Scheduler.runTaskLater(1 * 20, () -> {
+		Scheduler.delay(1 * 20, () -> {
 			Utils.playSoundForAllPlayers(Sound.ARROW_HIT, 0.1f); // PING (4)
 			Utils.setXpBarValue(0.8f, 4);
 		});
 
-		Scheduler.runTaskLater(1 * 20 + 10, () -> {
+		Scheduler.delay(1 * 20 + 10, () -> {
 			Utils.setXpBarValue(0.7f, 4);
 		});
 
-		Scheduler.runTaskLater(2 * 20, () -> {
+		Scheduler.delay(2 * 20, () -> {
 			Utils.playSoundForAllPlayers(Sound.ARROW_HIT, 0.1f); // PING (3)
 			Utils.setXpBarValue(0.6f, 3);
 		});
 
-		Scheduler.runTaskLater(2 * 20 + 10, () -> {
+		Scheduler.delay(2 * 20 + 10, () -> {
 			Utils.setXpBarValue(0.5f, 3);
 		});
 
-		Scheduler.runTaskLater(3 * 20, () -> {
+		Scheduler.delay(3 * 20, () -> {
 			Utils.playSoundForAllPlayers(Sound.ARROW_HIT, 0.1f); // PING (2)
 			Utils.setXpBarValue(0.4f, 2);
 		});
 
-		Scheduler.runTaskLater(3 * 20 + 10, () -> {
+		Scheduler.delay(3 * 20 + 10, () -> {
 			Utils.setXpBarValue(0.3f, 2);
 		});
 
-		Scheduler.runTaskLater(4 * 20, () -> {
+		Scheduler.delay(4 * 20, () -> {
 			Utils.playSoundForAllPlayers(Sound.ARROW_HIT, 0.1f); // PING (1)
 			Utils.setXpBarValue(0.2f, 1);
 		});
 
-		Scheduler.runTaskLater(4 * 20 + 10, () -> {
+		Scheduler.delay(4 * 20 + 10, () -> {
 			Utils.setXpBarValue(0.1f, 1);
 		});
 		
-		Scheduler.runTaskLater(5 * 20, () -> {
+		Scheduler.delay(5 * 20, () -> {
 			Bukkit.getOnlinePlayers().forEach((player) -> Utils.clearPotionEffects(player));
 
 			begin();
