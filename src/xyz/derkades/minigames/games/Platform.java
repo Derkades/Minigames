@@ -28,12 +28,10 @@ public class Platform extends Game {
 	
 	Platform() {
 		super("Platform", new String[] {
-				"Platform is pretty self explanatory, you spawn",
-				"on a platform. The goal of this game is to try",
-				"to knock off other players from the platform.",
-				"At the start of the game and at the " + KNOCKBACK_SWORDS_TIME + " seconds",
-				"left mark you will get a knockback sword, which",
-				"you can only use once."
+				"Knock other players off a platform.",
+				"Use your knockback swords wisely, you",
+				"only get two knockback swords (one at",
+				"the start, one at " + KNOCKBACK_SWORDS_TIME + " seconds.",
 		}, 2, 2, 5);
 	}
 
