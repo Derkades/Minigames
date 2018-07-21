@@ -4,8 +4,9 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
 import net.md_5.bungee.api.ChatColor;
-import xyz.derkades.derkutils.bukkit.IconMenu;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
+import xyz.derkades.derkutils.bukkit.menu.IconMenu;
+import xyz.derkades.derkutils.bukkit.menu.OptionClickEvent;
 import xyz.derkades.minigames.Minigames;
 import xyz.derkades.minigames.Points;
 
