@@ -32,7 +32,7 @@ import xyz.derkades.minigames.utils.Utils;
 
 public class SnowFight extends Game {
 	
-	private static final int MAX_DURATION = 100;
+	private static final int MAX_DURATION = 70;
 	
 	SnowFight() {
 		super("Snow Fight", new String[] {
