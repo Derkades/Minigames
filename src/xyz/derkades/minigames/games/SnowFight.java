@@ -66,8 +66,8 @@ public class SnowFight extends Game {
 			int secondsLeft = MAX_DURATION;
 			
 			public void run() {
-				//End the game if everyone is a spectator except one player
-				if (dead.size() == (Bukkit.getOnlinePlayers().size() - 1) && secondsLeft > 2) {
+				//End the game if everyone is a spectator except one player (or everyone is a spectator)
+				if (dead.size() >= (Bukkit.getOnlinePlayers().size() - 1) && secondsLeft > 2) {
 					secondsLeft = 2;
 				}
 				
