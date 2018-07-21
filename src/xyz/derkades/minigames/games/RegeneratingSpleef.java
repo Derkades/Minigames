@@ -65,7 +65,7 @@ public class RegeneratingSpleef extends Game {
 			sendMessage("The game has started!");
 			ItemStack shovel = new ItemBuilder(Material.DIAMOND_SPADE)
 					.name("Spleefanator 8000")
-					.enchant(Enchantment.DIG_SPEED, 10)
+					.enchant(Enchantment.DIG_SPEED, 5)
 					.create();
 			net.minecraft.server.v1_8_R3.ItemStack nms = CraftItemStack.asNMSCopy(shovel);
 			NBTTagCompound nbt = nms.getTag();
