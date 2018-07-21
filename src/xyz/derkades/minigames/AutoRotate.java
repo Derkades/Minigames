@@ -6,6 +6,7 @@ import static org.bukkit.ChatColor.DARK_AQUA;
 import org.bukkit.Bukkit;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import net.md_5.bungee.api.ChatColor;
 import xyz.derkades.derkutils.Random;
 import xyz.derkades.minigames.games.Game;
 import xyz.derkades.minigames.games.ParkourGame;
@@ -18,14 +19,15 @@ public class AutoRotate {
 			return;
 		}
 		
-		if (Bukkit.getOnlinePlayers().size() == 0){
-			Bukkit.broadcastMessage("No players online! Trying again in 10 seconds...");
+		if (Bukkit.getOnlinePlayers().size() < 2){
+			Bukkit.broadcastMessage(ChatColor.RED + "Minigames will only start with 2 or more players online.");
+			Bukkit.broadcastMessage(ChatColor.GOLD + "If you want to have some fun, invite a friend or two!");
 			new BukkitRunnable(){
 				public void run(){
 					startNewRandomGame();
 				}
 			}.runTaskLater(Minigames.getInstance(), 10*20);
-			return; //Not sure if this return statement is required, but I'll leave it here.
+			return;
 		}
 		
 		//If autorotate is enabled and there is at least one player online, continue!
