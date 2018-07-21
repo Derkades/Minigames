@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.BlockFace;
 import org.bukkit.enchantments.Enchantment;
@@ -18,9 +17,11 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import net.md_5.bungee.api.ChatColor;
+import xyz.derkades.derkutils.ListUtils;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
 import xyz.derkades.minigames.Minigames;
 import xyz.derkades.minigames.Var;
+import xyz.derkades.minigames.games.platform.PlatformMap;
 import xyz.derkades.minigames.utils.Utils;
 
 public class Platform extends Game {
@@ -44,12 +45,18 @@ public class Platform extends Game {
 	
 	private List<UUID> dead;
 	
+	private PlatformMap map;
+	
 	@Override
 	public void begin(){
 		dead = new ArrayList<>();
 		
+		map = ListUtils.getRandomValueFromArray(PlatformMap.MAPS);
+		
+		sendMessage("Map: " + map.getName());
+		
 		for (Player player : Bukkit.getOnlinePlayers()){
-			player.teleport(new Location(Var.WORLD, 229.5, 88, 186.5, 0, 0));
+			player.teleport(map.spawnLocation());
 			Utils.giveInfiniteEffect(player, PotionEffectType.DAMAGE_RESISTANCE, 255);
 		}
 		
@@ -116,7 +123,7 @@ public class Platform extends Game {
 	private void playerDie(Player player){
 		sendMessage(player.getName() + " has been eliminated from the game!");
 		Var.WORLD.spigot().strikeLightningEffect(player.getLocation(), false);
-		player.teleport(new Location(Var.WORLD, 229.5, 93, 178.0, 0, 0));
+		player.teleport(map.spectatorLocation());
 		dead.add(player.getUniqueId());
 		player.getInventory().clear();
 		Utils.giveInvisibility(player);
