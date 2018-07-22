@@ -7,6 +7,7 @@ public abstract class DropperMap {
 	public static DropperMap[] DROPPER_MAPS = new DropperMap[] {
 			new BlackWhite(),
 			new Rainbow(),
+			new Redstone(),
 			new Trees(),
 	};
 	
