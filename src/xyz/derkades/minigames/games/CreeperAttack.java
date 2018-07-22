@@ -86,6 +86,8 @@ public class CreeperAttack extends Game {
 		Scheduler.delay(1, () -> {
 			event.getEntity().spigot().respawn();
 		});
+		
+		sendMessage(event.getEntity().getName() + " has been blown up by a creeper");
 	}
 	
 	private void finish() {
