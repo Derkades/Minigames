@@ -25,7 +25,7 @@ public class BlackWhite extends DropperMap {
 
 	@Override
 	public void closeDoor() {
-		BlockUtils.fillArea(121, 80, 150, 123, 80, 152, Material.WOOL);
+		BlockUtils.fillArea(121, 80, 150, 123, 80, 152, Material.STAINED_GLASS);
 	}
 
 }
