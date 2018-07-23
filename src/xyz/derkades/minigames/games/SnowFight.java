@@ -110,6 +110,7 @@ public class SnowFight extends Game {
 	public void onBlockBreak(BlockBreakEvent event){
 		Block block = event.getBlock();
 		if (block.getType() != Material.SNOW){
+			event.setCancelled(true);
 			return;
 		}
 			
