@@ -9,6 +9,7 @@ public abstract class TNTMap {
 			new Aqua(),
 			new Future(),
 			new Jungle(),
+			new WaterLava(),
 	};
 	
 	public abstract void restore();
