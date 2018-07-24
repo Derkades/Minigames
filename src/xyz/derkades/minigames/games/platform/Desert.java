@@ -8,12 +8,12 @@ public class Desert extends PlatformMap {
 
 	@Override
 	public Location spawnLocation() {
-		return new Location(Var.WORLD, 209.5, 87, 362.5, 90, 90);
+		return new Location(Var.WORLD, 209.5, 87, 362.5);
 	}
 
 	@Override
 	public Location spectatorLocation() {
-		return new Location(Var.WORLD, 209.5, 95, 362.5, 90, 90);
+		return new Location(Var.WORLD, 209.5, 95, 362.5);
 	}
 
 	@Override
