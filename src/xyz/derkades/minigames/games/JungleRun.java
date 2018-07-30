@@ -20,7 +20,7 @@ import xyz.derkades.minigames.Minigames;
 import xyz.derkades.minigames.Var;
 import xyz.derkades.minigames.utils.Utils;
 
-public class JungleRun extends ParkourGame implements Listener {
+public class JungleRun extends ParkourGame {
 
 	private static final String SECONDS_LEFT = "%s seconds left.";
 	private static final int DURATION = 30;
