@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -23,10 +22,10 @@ import org.bukkit.scheduler.BukkitRunnable;
 import net.minecraft.server.v1_8_R3.NBTTagCompound;
 import net.minecraft.server.v1_8_R3.NBTTagList;
 import net.minecraft.server.v1_8_R3.NBTTagString;
+import xyz.derkades.derkutils.ListUtils;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
 import xyz.derkades.minigames.Minigames;
-import xyz.derkades.minigames.Var;
-import xyz.derkades.minigames.utils.BlockUtils;
+import xyz.derkades.minigames.games.spleef.SpleefMap;
 import xyz.derkades.minigames.utils.Scheduler;
 import xyz.derkades.minigames.utils.Utils;
 
@@ -48,16 +47,20 @@ public class RegeneratingSpleef extends Game {
 
 	private List<UUID> dead;
 	
+	private SpleefMap map;
+	
 	@Override
 	void begin() {
 		dead = new ArrayList<>();
 		
+		map = ListUtils.getRandomValueFromArray(SpleefMap.MAPS);
+		
 		Utils.setGameRule("doTileDrops", false);
-
-		BlockUtils.fillArea(149, 80, 253, 163, 80, 267, Material.SNOW_BLOCK);
+		
+		map.fill();
 		
 		for (Player player: Bukkit.getOnlinePlayers()){
-			player.teleport(new Location(Var.WORLD, 156.5, 82, 260.5, -90, 90));
+			player.teleport(map.getStartLocation());
 		}
 		
 		Scheduler.delay(3*20, () -> {
@@ -128,7 +131,7 @@ public class RegeneratingSpleef extends Game {
 		Player player = event.getPlayer();
 		if (event.getTo().getBlock().getRelative(BlockFace.DOWN).getType() == Material.BEDROCK){
 			//sendMessage(String.format(ELIMINATED, player.getName()));
-			player.teleport(new Location(Var.WORLD, 156.5, 89, 260.5, -90, 90));
+			player.teleport(map.getSpectatorLocation());
 			player.getInventory().clear();
 			dead.add(player.getUniqueId());
 		}
