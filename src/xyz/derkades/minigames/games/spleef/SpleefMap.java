@@ -5,8 +5,9 @@ import org.bukkit.Location;
 public abstract class SpleefMap {
 	
 	public static SpleefMap[] MAPS = {
+		new BigStadium(),
+		new LittleStadium(),
 		new Original(),
-		new Stadium(),
 	};
 	
 	public abstract Location getStartLocation();

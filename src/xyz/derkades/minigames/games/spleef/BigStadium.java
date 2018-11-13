@@ -6,7 +6,7 @@ import org.bukkit.Material;
 import xyz.derkades.minigames.Var;
 import xyz.derkades.minigames.utils.BlockUtils;
 
-public class Stadium extends SpleefMap {
+public class BigStadium extends SpleefMap {
 
 	@Override
 	public Location getStartLocation() {
@@ -22,6 +22,5 @@ public class Stadium extends SpleefMap {
 	public void fill() {
 		BlockUtils.fillArea(45, 89, 131, 89, 89, 155, Material.SNOW_BLOCK);
 	}
-	
 
 }
