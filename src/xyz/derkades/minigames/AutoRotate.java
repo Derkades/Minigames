@@ -38,6 +38,7 @@ public class AutoRotate {
 			game = Game.getRandomGame();
 		} else {
 			game = Minigames.NEXT_GAME;
+			Minigames.NEXT_GAME = null;
 		}
 		
 		String lastGame = Minigames.getInstance().getConfig().getString("last-game");
@@ -72,9 +73,7 @@ public class AutoRotate {
 			public void run(){
 				game.startGame();
 			}
-		}.runTaskLater(Minigames.getInstance(), 2*20);
-		
-		Minigames.NEXT_GAME = null;
+		}.runTaskLater(Minigames.getInstance(), 2*20);		
 	}
 
 }

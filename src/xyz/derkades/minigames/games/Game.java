@@ -23,6 +23,7 @@ import xyz.derkades.minigames.AutoRotate;
 import xyz.derkades.minigames.Minigames;
 import xyz.derkades.minigames.Points;
 import xyz.derkades.minigames.Var;
+import xyz.derkades.minigames.menu.VoteMenu;
 import xyz.derkades.minigames.utils.Console;
 import xyz.derkades.minigames.utils.Scheduler;
 import xyz.derkades.minigames.utils.Utils;
@@ -144,11 +145,19 @@ public abstract class Game implements Listener {
 		}
 
 		if (Minigames.STOP_GAMES){
-			Scheduler.runTaskLater(3*20, () -> {
+			Scheduler.runTaskLater(2*20, () -> {
 				Bukkit.broadcastMessage(RED + "An admin stopped the next game from starting. This is probably because some maintenance needs to be done.");
 			});
 			return;
 		}
+		
+		Scheduler.runTaskLater(5, () -> {
+			for (Player player : Bukkit.getOnlinePlayers()) {
+				if (Minigames.VOTE_MENU_CHANCE > Random.getRandomFloat()) {
+					new VoteMenu(player, this.getName()).open();
+				}
+			}
+		});
 		
 		Scheduler.runTaskLater(8*20, () -> {
 			AutoRotate.startNewRandomGame();

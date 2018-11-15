@@ -17,6 +17,8 @@ import xyz.derkades.minigames.utils.Scheduler;
 
 public class Minigames extends JavaPlugin implements Listener {
 
+	public static final float VOTE_MENU_CHANCE = 0.4f;
+	
 	private static Minigames instance;
 	
 	private static final List<UUID> CAN_TAKE_DAMAGE = new ArrayList<>();
