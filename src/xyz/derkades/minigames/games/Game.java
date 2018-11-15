@@ -43,6 +43,7 @@ public abstract class Game implements Listener {
 			new Platform(),
 			new RegeneratingSpleef(),
 			new SaveTheSnowman(),
+			new Sniper(),
 			new SnowFight(),
 			new Speedrun(),			
 			new TntRun(),
