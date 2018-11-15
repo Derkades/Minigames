@@ -16,6 +16,16 @@ public class Command implements CommandExecutor {
 	public boolean onCommand(CommandSender sender, org.bukkit.command.Command arg1, String arg2, String[] args) {
 		Player player = (Player) sender;
 		
+		if (args.length == 2 && args[0].equalsIgnoreCase("next") && player.hasPermission("minigames.next")) {
+			Game game = Game.fromString(args[1].replace("_", " "));
+			if (game == null){
+				player.sendMessage(ChatColor.RED + "Unknown game. Make sure the game is spelled correctly. For spaces use underscores.");
+				return true;
+			} else {
+				Minigames.NEXT_GAME = game;
+			}
+		}
+		
 		if (args.length == 1){
 			if (args[0].equalsIgnoreCase("start") && player.hasPermission("minigames.start")){
 				AutoRotate.startNewRandomGame();
@@ -37,7 +47,7 @@ public class Command implements CommandExecutor {
 		        f.setShooter(player);
 		        f.setIsIncendiary(false);
 		        player.sendMessage("test");
-			} else if (player.hasPermission("minigames.start.custom")) {
+			}/* else if (player.hasPermission("minigames.start.custom")) {
 				Game game = Game.fromString(args[0].replace("_", " "));
 				if (game == null){
 					player.sendMessage("Unknown game");
@@ -46,7 +56,7 @@ public class Command implements CommandExecutor {
 					Minigames.NEXT_GAME = game;
 					AutoRotate.startNewRandomGame();
 				}
-			}
+			}*/
 		} else if (args.length == 0){
 			new MainMenu(player).open();
 		}
