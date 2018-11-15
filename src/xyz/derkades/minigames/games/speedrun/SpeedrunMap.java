@@ -7,7 +7,8 @@ public abstract class SpeedrunMap {
 	
 	public static final SpeedrunMap[] MAPS = {
 		new Classic(),
-	}
+		new Backwards(),
+	};
 	
 	public Material getFloorBlock() {
 		return Material.STAINED_CLAY;
