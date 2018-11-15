@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -17,9 +16,10 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import net.md_5.bungee.api.ChatColor;
+import xyz.derkades.derkutils.ListUtils;
 import xyz.derkades.minigames.Minigames;
 import xyz.derkades.minigames.Points;
-import xyz.derkades.minigames.Var;
+import xyz.derkades.minigames.games.speedrun.SpeedrunMap;
 import xyz.derkades.minigames.utils.Utils;
 
 public class Speedrun extends ParkourGame {
@@ -33,14 +33,17 @@ public class Speedrun extends ParkourGame {
 	private List<UUID> finished;
 	
 	private boolean NO_ONE_FINISHED = true;
+	
+	private SpeedrunMap map;
 
 	@Override
 	void begin(){
 		finished = new ArrayList<>();
 		this.NO_ONE_FINISHED = true;
+		map = ListUtils.getRandomValueFromArray(SpeedrunMap.MAPS);
 		
 		for (Player player : Bukkit.getOnlinePlayers()){
-			player.teleport(new Location(Var.WORLD, 140.0, 97, 306, -180, 0));
+			player.teleport(map.getStartLocation());
 			Utils.giveInfiniteEffect(player, PotionEffectType.SPEED, 30);
 		}
 		
@@ -65,7 +68,7 @@ public class Speedrun extends ParkourGame {
 	}
 	
 	private void playerDie(Player player){
-		player.teleport(new Location(Var.WORLD, 140.0, 97, 306, -180, 0));
+		player.teleport(map.getStartLocation());
 	}
 	
 	private void playerWin(Player player){
@@ -79,7 +82,7 @@ public class Speedrun extends ParkourGame {
 			super.sendMessage(player.getName() + " has finished!");
 			finished.add(player.getUniqueId());
 		}
-		player.teleport(new Location(Var.WORLD, 128.0, 98, 274.5, -180, 0));
+		player.teleport(map.getSpectatorLocation());
 		player.setAllowFlight(true);
 	}
 	
@@ -106,9 +109,9 @@ public class Speedrun extends ParkourGame {
 		
 		Block block = event.getTo().getBlock().getRelative(BlockFace.DOWN);
 		Material type = block.getType();
-		if (type == Material.STAINED_CLAY && block.getData() == 14){
+		if (type == map.getFloorBlock() && block.getData() == map.getFloorData()){
 			playerDie(player);
-		} else if(type == Material.STAINED_CLAY && block.getData() == 7){
+		} else if(type == map.getEndBlock() && block.getData() == map.getEndData()){
 			playerWin(player);
 		}
 	}
