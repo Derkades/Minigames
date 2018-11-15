@@ -53,12 +53,9 @@ public class VoteMenu extends IconMenu {
 	}
 	
 	private void vote(boolean yes) {
-		double multiplier;
-		if (Minigames.getInstance().getConfig().contains("game-voting." + gameName)) {
-			multiplier = Minigames.getInstance().getConfig().getDouble("game-voting." + gameName);
-		} else {
-			multiplier = 1;
-		}
+		double multiplier = Minigames.getInstance().getConfig().contains("game-voting." + gameName)
+				? Minigames.getInstance().getConfig().getDouble("game-voting." + gameName)
+				: 1;
 		
 		if (yes) {
 			multiplier *= 1.1; //Increase chance factor a bit (e.g. from to 1.5 to 1.65)

@@ -6,7 +6,9 @@ import static org.bukkit.ChatColor.DARK_GRAY;
 import static org.bukkit.ChatColor.RED;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
@@ -17,7 +19,6 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import xyz.derkades.derkutils.ListUtils;
 import xyz.derkades.derkutils.Random;
 import xyz.derkades.minigames.AutoRotate;
 import xyz.derkades.minigames.Minigames;
@@ -268,7 +269,20 @@ public abstract class Game implements Listener {
 	}
 	
 	public static Game getRandomGame(){
-		return ListUtils.getRandomValueFromArray(GAMES);
+		Map<Game, Double> weightedList = new HashMap<>();
+		
+		// Populate hashmap
+		for (Game game : GAMES) {
+			String gameName = game.getName();
+			double weight = Minigames.getInstance().getConfig().contains("game-voting." + gameName)
+					? Minigames.getInstance().getConfig().getDouble("game-voting." + gameName)
+					: 1;
+			weightedList.put(game, weight);
+		}
+		
+		Game random = Utils.getWeightedRandom(weightedList);
+		
+		return random;
 	}
 	
 	public static Game fromString(String string){

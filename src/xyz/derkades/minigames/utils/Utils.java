@@ -20,6 +20,7 @@ import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
+import xyz.derkades.derkutils.Random;
 import xyz.derkades.minigames.Var;
 
 public class Utils {
@@ -206,6 +207,23 @@ public class Utils {
 			player.setExp(fill);
 			player.setLevel(level);
 		}
+	}
+	
+	// Taken from https://stackoverflow.com/a/11926952
+	public static <E> E getWeightedRandom(Map<E, Double> weights) {
+	    E result = null;
+	    double bestValue = Double.MAX_VALUE;
+
+	    for (E element : weights.keySet()) {
+	        double value = -Math.log(Random.getRandomDouble()) / weights.get(element);
+
+	        if (value < bestValue) {
+	            bestValue = value;
+	            result = element;
+	        }
+	    }
+
+	    return result;
 	}
 
 }
