@@ -8,6 +8,7 @@ public abstract class SpeedrunMap {
 	public static final SpeedrunMap[] MAPS = {
 		new Backwards(),
 		new Classic(),
+		new Construction(),
 		//new Trees(),
 	};
 	
