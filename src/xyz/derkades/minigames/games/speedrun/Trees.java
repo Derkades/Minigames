@@ -17,7 +17,7 @@ public class Trees extends SpeedrunMap {
 
 	@Override
 	public Location getSpectatorLocation() {
-		return null;;
+		return null;
 	}
 
 }
