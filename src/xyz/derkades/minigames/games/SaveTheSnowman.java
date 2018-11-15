@@ -22,7 +22,7 @@ import xyz.derkades.minigames.Points;
 import xyz.derkades.minigames.Var;
 import xyz.derkades.minigames.utils.Utils;
 
-public class SaveTheSnowman extends ParkourGame {
+public class SaveTheSnowman extends Game {
 
 	SaveTheSnowman() {
 		super("Save the Snowman", new String[] {

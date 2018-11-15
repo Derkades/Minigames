@@ -19,7 +19,7 @@ import xyz.derkades.minigames.Minigames;
 import xyz.derkades.minigames.Var;
 import xyz.derkades.minigames.utils.Utils;
 
-public class JungleRun extends ParkourGame {
+public class JungleRun extends Game {
 
 	private static final String SECONDS_LEFT = "%s seconds left.";
 	private static final int DURATION = 30;

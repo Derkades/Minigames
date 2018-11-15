@@ -22,7 +22,7 @@ import xyz.derkades.minigames.Points;
 import xyz.derkades.minigames.games.speedrun.SpeedrunMap;
 import xyz.derkades.minigames.utils.Utils;
 
-public class Speedrun extends ParkourGame {
+public class Speedrun extends Game {
 
 	Speedrun() {
 		super("Speedrun", new String[] {
