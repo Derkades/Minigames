@@ -53,6 +53,8 @@ public class AutoRotate {
 				? Minigames.getInstance().getConfig().getDouble("game-voting." + game.getName())
 				: 1;
 		
+		weight = Math.round(weight * 100.0) / 100.0;
+				
 		//Enough players, let's announce and start the game!
 		Bukkit.broadcastMessage(DARK_AQUA + "Next minigame: " + AQUA + game.getName() + " " + ChatColor.GRAY + 
 				"(Current weight: " + weight + ")");
