@@ -23,6 +23,7 @@ public class Command implements CommandExecutor {
 				return true;
 			} else {
 				Minigames.NEXT_GAME = game;
+				player.sendMessage(game.getName() + " will be chosen as the next game.");
 			}
 		}
 		
