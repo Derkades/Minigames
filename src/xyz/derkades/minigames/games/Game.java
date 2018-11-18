@@ -11,13 +11,11 @@ import java.util.List;
 import java.util.Map;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import xyz.derkades.derkutils.Random;
 import xyz.derkades.minigames.AutoRotate;
@@ -247,26 +245,6 @@ public abstract class Game implements Listener {
 				}
 			}.runTaskLater(Minigames.getInstance(), 3L);*/
 		});
-	}
-	
-	public class GamePoints {
-		
-		private int min;
-		private int max;
-		
-		GamePoints(int min, int max) {
-			this.min = min;
-			this.max = max;
-		}
-		
-		public int getMinimum(){
-			return min;
-		}
-		
-		public int getMaximum(){
-			return max;
-		}
-		
 	}
 	
 	public static Game getRandomGame(){
