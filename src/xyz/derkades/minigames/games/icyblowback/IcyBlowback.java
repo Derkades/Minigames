@@ -8,7 +8,7 @@ public class IcyBlowback extends IcyBlowbackMap {
 
 	@Override
 	public Location getSpectatorLocation() {
-		return new Location(Var.WORLD, -17.5, 95.5, 88.5);
+		return new Location(Var.WORLD, -18.5, 116, 88.5);
 	}
 	
 	@Override
