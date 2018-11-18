@@ -187,7 +187,7 @@ public abstract class Game implements Listener {
 	}
 	
 	private void startCountdown(){
-		Utils.playSoundForAllPlayers(Sound.ARROW_HIT, 0.1f); //PING (5)
+		//Utils.playSoundForAllPlayers(Sound.ARROW_HIT, 0.1f); //PING (5)
 		Utils.setXpBarValue(1.0f, 5);
 		
 		Scheduler.delay(10, () -> {
@@ -195,7 +195,7 @@ public abstract class Game implements Listener {
 		});
 
 		Scheduler.delay(1 * 20, () -> {
-			Utils.playSoundForAllPlayers(Sound.ARROW_HIT, 0.1f); // PING (4)
+			//Utils.playSoundForAllPlayers(Sound.ARROW_HIT, 0.1f); // PING (4)
 			Utils.setXpBarValue(0.8f, 4);
 		});
 
@@ -204,7 +204,7 @@ public abstract class Game implements Listener {
 		});
 
 		Scheduler.delay(2 * 20, () -> {
-			Utils.playSoundForAllPlayers(Sound.ARROW_HIT, 0.1f); // PING (3)
+			//Utils.playSoundForAllPlayers(Sound.ARROW_HIT, 0.1f); // PING (3)
 			Utils.setXpBarValue(0.6f, 3);
 		});
 
@@ -213,7 +213,7 @@ public abstract class Game implements Listener {
 		});
 
 		Scheduler.delay(3 * 20, () -> {
-			Utils.playSoundForAllPlayers(Sound.ARROW_HIT, 0.1f); // PING (2)
+			//Utils.playSoundForAllPlayers(Sound.ARROW_HIT, 0.1f); // PING (2)
 			Utils.setXpBarValue(0.4f, 2);
 		});
 
@@ -222,7 +222,7 @@ public abstract class Game implements Listener {
 		});
 
 		Scheduler.delay(4 * 20, () -> {
-			Utils.playSoundForAllPlayers(Sound.ARROW_HIT, 0.1f); // PING (1)
+			//Utils.playSoundForAllPlayers(Sound.ARROW_HIT, 0.1f); // PING (1)
 			Utils.setXpBarValue(0.2f, 1);
 		});
 
@@ -241,11 +241,11 @@ public abstract class Game implements Listener {
 			Utils.setXpBarValue(0f, 0);
 			
 			
-			new BukkitRunnable() { // Small delay for last sound, because it needs to be played at the new player location
+			/*new BukkitRunnable() { // Small delay for last sound, because it needs to be played at the new player location
 				public void run() {
 					Utils.playSoundForAllPlayers(Sound.ARROW_HIT, 1.0f); // PING (GO)
 				}
-			}.runTaskLater(Minigames.getInstance(), 3L);
+			}.runTaskLater(Minigames.getInstance(), 3L);*/
 		});
 	}
 	
