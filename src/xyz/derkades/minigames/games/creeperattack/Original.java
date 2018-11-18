@@ -18,7 +18,7 @@ public class Original extends CreeperAttackMap {
 
 	@Override
 	public Location getSpectatorLocation() {
-		return null;
+		return new Location(Var.WORLD, 121.5, 109, 317.5);
 	}
 
 }
