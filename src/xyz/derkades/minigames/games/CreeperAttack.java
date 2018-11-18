@@ -25,6 +25,7 @@ import xyz.derkades.derkutils.Random;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
 import xyz.derkades.minigames.Minigames;
 import xyz.derkades.minigames.Var;
+import xyz.derkades.minigames.games.creeperattack.CreeperAttackMap;
 import xyz.derkades.minigames.utils.Scheduler;
 import xyz.derkades.minigames.utils.Utils;
 
@@ -38,10 +39,13 @@ public class CreeperAttack extends Game {
 	private BukkitTask task;
 	private float chance;
 	
+	private CreeperAttackMap map;
+	
 	@Override
 	void begin() {
 		alive = new ArrayList<>();
 		chance = 0.35f;
+		map = ListUtils.getRandomValueFromArray(CreeperAttackMap.MAPS);
 		
 		ItemStack knockbackStick = new ItemBuilder(Material.STICK)
 				.name(ChatColor.GOLD + "" + ChatColor.BOLD + "Creeper Smasher")
@@ -51,7 +55,7 @@ public class CreeperAttack extends Game {
 		
 		Bukkit.getOnlinePlayers().forEach((player) -> {
 			alive.add(player.getUniqueId());
-			player.teleport(new Location(Var.WORLD, 120.5, 105, 317.5));
+			player.teleport(map.getSpawnLocation());
 			player.getInventory().addItem(knockbackStick);
 			Minigames.setCanTakeDamage(player, true);
 		});
@@ -64,7 +68,7 @@ public class CreeperAttack extends Game {
 			
 			if (Random.getRandomFloat() < chance) {
 				chance += 0.02f;
-				Creeper creeper = Var.WORLD.spawn(new Location(Var.WORLD, 120.5, 105, 317.5), Creeper.class);
+				Creeper creeper = Var.WORLD.spawn(map.getCreeperLocation(), Creeper.class);
 				creeper.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 10000000, 50, true, false));
 				creeper.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 10000000, 1, true, false));
 				creeper.setTarget(ListUtils.getRandomValueFromList(Utils.getPlayerListFromUUIDList(alive)));
@@ -85,6 +89,8 @@ public class CreeperAttack extends Game {
 		alive.remove(event.getEntity().getUniqueId());
 		Scheduler.delay(1, () -> {
 			event.getEntity().spigot().respawn();
+			if (map.getSpectatorLocation() != null)
+				event.getEntity().teleport(map.getSpectatorLocation());
 		});
 		
 		sendMessage(event.getEntity().getName() + " has been blown up by a creeper");
