@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.EntityType;
@@ -23,9 +22,10 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import xyz.derkades.derkutils.ListUtils;
 import xyz.derkades.derkutils.Random;
 import xyz.derkades.minigames.Minigames;
-import xyz.derkades.minigames.Var;
+import xyz.derkades.minigames.games.snowfight.SnowFightMap;
 import xyz.derkades.minigames.utils.Console;
 import xyz.derkades.minigames.utils.Scheduler;
 import xyz.derkades.minigames.utils.Utils;
@@ -44,22 +44,22 @@ public class SnowFight extends Game {
 	}
 	
 	private List<UUID> dead;
-
+	private SnowFightMap map;
+	
 	@Override
 	void begin() {
 		dead = new ArrayList<>();
+		map = ListUtils.getRandomValueFromArray(SnowFightMap.MAPS);
 		
 		Utils.setGameRule("doTileDrops", false);
 		
 		for (Player player: Bukkit.getOnlinePlayers()){
-			player.teleport(new Location(Var.WORLD, 218.5, 75, 291.5, 90, 0));
+			player.teleport(map.getSpawnLocation());
 			
 			Minigames.setCanTakeDamage(player, true);
 		}
 		
 		Console.sendCommand("replaceitem entity @a slot.hotbar.0 minecraft:diamond_shovel 1 0 {display:{Name:\"Snow Shoveler\"},Unbreakable:1,ench:[{id:32,lvl:1}],CanDestroy:[\"minecraft:snow_layer\"]}");
-		//timer();
-		//sendMessage("Game has started!");
 		
 		new BukkitRunnable() {
 			
@@ -144,7 +144,7 @@ public class SnowFight extends Game {
 			event.setDeathMessage(DARK_GRAY + "[" + DARK_AQUA + getName() + DARK_GRAY + "] " + AQUA + killer.getName() + " has killed " + pn + "!");
 			Scheduler.delay(1, () -> {
 				player.spigot().respawn();
-				player.teleport(new Location(Var.WORLD, 224.5, 79.1, 291.5, 90, 0));
+				player.teleport(map.getSpectatorLocation());
 				dead.add(player.getUniqueId());
 				Utils.clearInventory(player);
 				Minigames.setCanTakeDamage(player, false);
