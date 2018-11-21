@@ -64,55 +64,55 @@ public class Points {
 			}
 			OfflinePlayer[] array = list.toArray(new OfflinePlayer[]{});
 			
-			Sign sign1 = (Sign) new Location(Var.WORLD, 221, 69, 260).getBlock().getState();
+			Sign sign1 = (Sign) new Location(Var.WORLD, 225, 66, 273).getBlock().getState();
 			sign1.setLine(0, getSignNumberText(1));
 			sign1.setLine(1, NameColor.getNameColor(array[0]) + array[0].getName());
 			sign1.setLine(2, ChatColor.RESET + "" + Points.getPoints(array[0]));
 			sign1.update();
 			
-			Sign sign2 = (Sign) new Location(Var.WORLD, 220, 69, 260).getBlock().getState();
+			Sign sign2 = (Sign) new Location(Var.WORLD, 225, 66, 274).getBlock().getState();
 			sign2.setLine(0, getSignNumberText(2));
 			sign2.setLine(1, NameColor.getNameColor(array[1]) + array[1].getName());
 			sign2.setLine(2, ChatColor.RESET + "" + Points.getPoints(array[1]));
 			sign2.update();
 			
-			Sign sign3 = (Sign) new Location(Var.WORLD, 219, 69, 260).getBlock().getState();
+			Sign sign3 = (Sign) new Location(Var.WORLD, 225, 66, 275).getBlock().getState();
 			sign3.setLine(0, getSignNumberText(3));
 			sign3.setLine(1, NameColor.getNameColor(array[2]) + array[2].getName());
 			sign3.setLine(2, ChatColor.RESET + "" + Points.getPoints(array[2]));
 			sign3.update();
 			
-			Sign sign4 = (Sign) new Location(Var.WORLD, 221, 68, 260).getBlock().getState();
+			Sign sign4 = (Sign) new Location(Var.WORLD, 225, 65, 273).getBlock().getState();
 			sign4.setLine(0, getSignNumberText(4));
 			sign4.setLine(1, NameColor.getNameColor(array[3]) + array[3].getName());
 			sign4.setLine(2, ChatColor.RESET + "" + Points.getPoints(array[3]));
 			sign4.update();
 			
-			Sign sign5 = (Sign) new Location(Var.WORLD, 220, 68, 260).getBlock().getState();
+			Sign sign5 = (Sign) new Location(Var.WORLD, 225, 65, 274).getBlock().getState();
 			sign5.setLine(0, getSignNumberText(5));
 			sign5.setLine(1, NameColor.getNameColor(array[4]) + array[4].getName());
 			sign5.setLine(2, ChatColor.RESET + "" + Points.getPoints(array[4]));
 			sign5.update();
 			
-			Sign sign6 = (Sign) new Location(Var.WORLD, 219, 68, 260).getBlock().getState();
+			Sign sign6 = (Sign) new Location(Var.WORLD, 225, 65, 275).getBlock().getState();
 			sign6.setLine(0, getSignNumberText(6));
 			sign6.setLine(1, NameColor.getNameColor(array[5]) + array[5].getName());
 			sign6.setLine(2, ChatColor.RESET + "" + Points.getPoints(array[5]));
 			sign6.update();
 			
-			Sign sign7 = (Sign) new Location(Var.WORLD, 221, 67, 260).getBlock().getState();
+			Sign sign7 = (Sign) new Location(Var.WORLD, 225, 64, 273).getBlock().getState();
 			sign7.setLine(0, getSignNumberText(7));
 			sign7.setLine(1, NameColor.getNameColor(array[6]) + array[6].getName());
 			sign7.setLine(2, ChatColor.RESET + "" + Points.getPoints(array[6]));
 			sign7.update();
 			
-			Sign sign8 = (Sign) new Location(Var.WORLD, 220, 67, 260).getBlock().getState();
+			Sign sign8 = (Sign) new Location(Var.WORLD, 225, 64, 274).getBlock().getState();
 			sign8.setLine(0, getSignNumberText(8));
 			sign8.setLine(1, NameColor.getNameColor(array[7]) + array[7].getName());
 			sign8.setLine(2, ChatColor.RESET + "" + Points.getPoints(array[7]));
 			sign8.update();
 			
-			Sign sign9 = (Sign) new Location(Var.WORLD, 219, 67, 260).getBlock().getState();
+			Sign sign9 = (Sign) new Location(Var.WORLD, 225, 64, 275).getBlock().getState();
 			sign9.setLine(0, getSignNumberText(9));
 			sign9.setLine(1, NameColor.getNameColor(array[8]) + array[8].getName());
 			sign9.setLine(2, ChatColor.RESET + "" + Points.getPoints(array[8]));
