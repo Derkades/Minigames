@@ -13,19 +13,11 @@ public abstract class SpeedrunMap {
 	};
 	
 	public Material getFloorBlock() {
-		return Material.STAINED_CLAY;
-	}
-	
-	public short getFloorData() {
-		return 14;
+		return Material.RED_TERRACOTTA;
 	}
 	
 	public Material getEndBlock() {
-		return Material.STAINED_CLAY;
-	}
-	
-	public short getEndData() {
-		return 7;
+		return Material.GRAY_TERRACOTTA;
 	}
 	
 	public abstract Location getStartLocation();

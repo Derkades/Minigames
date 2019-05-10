@@ -14,7 +14,7 @@ public class ShopMenu extends IconMenu {
 	public ShopMenu(Player player) {
 		super(Minigames.getInstance(), "Shop", 9, player);
 		
-		items.put(0, new ItemBuilder(Material.INK_SACK).data(12).name(ChatColor.AQUA + "Name colors (250 points for every color)").create());
+		items.put(0, new ItemBuilder(Material.GRAY_DYE).name(ChatColor.AQUA + "Name colors (250 points for every color)").create());
 		items.put(8, new ItemBuilder(Material.BARRIER).coloredName("&cBack").create());
 	}
 

@@ -25,7 +25,7 @@ public class Trees extends DropperMap {
 	
 	@Override
 	public void closeDoor() {
-		fillDoor(Material.STAINED_GLASS);
+		fillDoor(Material.GREEN_STAINED_GLASS);
 	}
 	
 	private void fillDoor(Material material) {

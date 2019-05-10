@@ -53,7 +53,7 @@ implements ConfigurationSerializable
 		
 		bukkitScoreboard = bukkitManager.getNewScoreboard();
 		
-		bukkitObjective = bukkitScoreboard.registerNewObjective("obj", "dummy");
+		bukkitObjective = bukkitScoreboard.registerNewObjective("obj", "dummy", "mgsb");
 		
 		this.entries = new ArrayList<SidebarString>();
 		this.entries.addAll(Arrays.asList(entries));
@@ -279,7 +279,7 @@ implements ConfigurationSerializable
 	{
 		
 		bukkitObjective.unregister();
-		bukkitObjective = bukkitScoreboard.registerNewObjective("obj", "dummy");
+		bukkitObjective = bukkitScoreboard.registerNewObjective("obj", "dummy", "mgsb");
 		
 		bukkitObjective.setDisplayName(title);
 		bukkitObjective.setDisplaySlot(DisplaySlot.SIDEBAR);

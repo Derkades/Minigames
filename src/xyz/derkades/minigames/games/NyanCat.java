@@ -1,28 +1,7 @@
 package xyz.derkades.minigames.games;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
-
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
-import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.entity.PlayerDeathEvent;
-import org.bukkit.potion.PotionEffectType;
-import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.scheduler.BukkitTask;
-
-import xyz.derkades.minigames.Minigames;
-import xyz.derkades.minigames.Var;
-import xyz.derkades.minigames.utils.BlockUtils;
-import xyz.derkades.minigames.utils.Scheduler;
-import xyz.derkades.minigames.utils.Utils;
-
-public class NyanCat extends Game {
+@Deprecated
+public class NyanCat {/* extends Game {
 
 	NyanCat() {
 		super("Nyan Cat", new String[] {
@@ -40,7 +19,7 @@ public class NyanCat extends Game {
 		dead = new ArrayList<>();
 		
 		BlockUtils.fillArea(193, 79, 142, 219, 79, 162, Material.STONE);
-		BlockUtils.fillArea(193, 79, 142, 219, 79, 162, Material.STAINED_CLAY);
+		BlockUtils.fillArea(193, 79, 142, 219, 79, 162, Material.TERRACOTTA);
 		
 		task = new BlockRemover().runTaskTimer(Minigames.getInstance(), 10, 10);
 		
@@ -107,6 +86,6 @@ public class NyanCat extends Game {
 			}
 		}
 
-	}
+	}*/
 
 }

@@ -5,6 +5,8 @@ author: RobinMC
 description: ohiasohidfasdasimasm
 depends: [nuvotifier]
 
+api-version: 1.13
+
 commands:
   games:
     usage: </command>

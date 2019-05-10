@@ -27,7 +27,7 @@ public class IcyBlowback extends Game {
 
 	private static final int GAME_DURATION = 100;
 	private static final int SPREAD_TIME = 2;
-	private static final ItemStack SWORD = new ItemBuilder(Material.WOOD_SWORD)
+	private static final ItemStack SWORD = new ItemBuilder(Material.WOODEN_SWORD)
 			.name(ChatColor.AQUA + "Knockback sword")
 			.enchant(Enchantment.KNOCKBACK, 2)
 			.create();

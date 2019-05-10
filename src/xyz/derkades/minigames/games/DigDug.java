@@ -11,7 +11,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.craftbukkit.v1_8_R3.inventory.CraftItemStack;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -26,9 +25,6 @@ import com.coloredcarrot.api.sidebar.Sidebar;
 import com.coloredcarrot.api.sidebar.SidebarString;
 
 import net.md_5.bungee.api.ChatColor;
-import net.minecraft.server.v1_8_R3.NBTTagCompound;
-import net.minecraft.server.v1_8_R3.NBTTagList;
-import net.minecraft.server.v1_8_R3.NBTTagString;
 import xyz.derkades.derkutils.Random;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
 import xyz.derkades.minigames.Minigames;
@@ -112,27 +108,15 @@ public class DigDug extends Game {
 		
 		new BukkitRunnable() {
 			public void run() {
-				ItemStack shovel = new ItemBuilder(Material.DIAMOND_SPADE)
+				ItemStack shovel = new ItemBuilder(Material.DIAMOND_SHOVEL)
 						.name(ChatColor.GREEN + "The Dig Dug Digger")
+						.unbreakable()
+						.canDestroy("dirt", "grass")
 						.create();
 				
 				shovel.addUnsafeEnchantment(Enchantment.DIG_SPEED, 10);
-						
-				net.minecraft.server.v1_8_R3.ItemStack nms = CraftItemStack.asNMSCopy(shovel);
-				NBTTagCompound tag = nms.getTag();
 				
-				NBTTagList list = new NBTTagList();
-				list.add(new NBTTagString("minecraft:dirt"));
-				list.add(new NBTTagString("minecraft:grass"));
-				
-				tag.set("CanDestroy", list);
-				tag.setBoolean("Unbreakable", true);
-				
-				shovel = CraftItemStack.asBukkitCopy(nms);
-				
-				for (Player player : Bukkit.getOnlinePlayers()) {
-					player.getInventory().addItem(shovel);
-				}
+				Bukkit.getOnlinePlayers().forEach(player -> player.getInventory().addItem(shovel));
 			}
 		}.runTaskLater(Minigames.getInstance(), 3*20);
 		

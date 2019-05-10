@@ -22,7 +22,7 @@ public class NameColor {
 					.replace(" hi", "");
 			return s;
 		} catch (NullPointerException e){
-			return ChatColor.GRAY.toString();
+			return ChatColor.RESET.toString();
 		}
 	}
 

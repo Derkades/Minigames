@@ -86,7 +86,6 @@ public class Speedrun extends Game {
 		player.setAllowFlight(true);
 	}
 	
-	@SuppressWarnings("deprecation")
 	@EventHandler(priority = EventPriority.MONITOR)
 	public void onMove(PlayerMoveEvent event){
 		Player player = event.getPlayer();
@@ -109,9 +108,9 @@ public class Speedrun extends Game {
 		
 		Block block = event.getTo().getBlock().getRelative(BlockFace.DOWN);
 		Material type = block.getType();
-		if (type == map.getFloorBlock() && block.getData() == map.getFloorData()){
+		if (type == map.getFloorBlock()){
 			playerDie(player);
-		} else if(type == map.getEndBlock() && block.getData() == map.getEndData()){
+		} else if(type == map.getEndBlock()){
 			playerWin(player);
 		}
 	}

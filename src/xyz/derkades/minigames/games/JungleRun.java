@@ -15,6 +15,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import xyz.derkades.derkutils.bukkit.MaterialLists;
 import xyz.derkades.minigames.Minigames;
 import xyz.derkades.minigames.Var;
 import xyz.derkades.minigames.utils.Utils;
@@ -87,7 +88,7 @@ public class JungleRun extends Game {
 		
 		//Play particle effect and sound
 		super.sendConsoleCommand("particle flame 327.5 72 196.5 0 2 2 0.1 1000");
-		player.playSound(player.getLocation(), Sound.LEVEL_UP, 1.0f, 1.0f);
+		player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1.0f, 1.0f);
 		
 		finished.add(player.getUniqueId());
 		
@@ -109,7 +110,7 @@ public class JungleRun extends Game {
 		
 		Material type = event.getTo().getBlock().getRelative(BlockFace.DOWN).getType();
 		
-		if (type == Material.WOOL || type == Material.SOUL_SAND || type == Material.STAINED_CLAY){
+		if (MaterialLists.WOOLS.contains(type) || MaterialLists.TERRACOTTA_BLOCKS.contains(type) || type == Material.SOUL_SAND){
 			playerDie(player);
 		} else if(type == Material.GOLD_BLOCK){
 			playerWin(player);

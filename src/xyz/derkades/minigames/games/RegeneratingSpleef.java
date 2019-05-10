@@ -8,7 +8,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.craftbukkit.v1_8_R3.inventory.CraftItemStack;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -19,9 +18,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import net.minecraft.server.v1_8_R3.NBTTagCompound;
-import net.minecraft.server.v1_8_R3.NBTTagList;
-import net.minecraft.server.v1_8_R3.NBTTagString;
 import xyz.derkades.derkutils.ListUtils;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
 import xyz.derkades.minigames.Minigames;
@@ -66,18 +62,15 @@ public class RegeneratingSpleef extends Game {
 		Scheduler.delay(3*20, () -> {
 			//Console.sendCommand("replaceitem entity @a slot.hotbar.0 minecraft:diamond_shovel 1 0 {display:{Name:\"Spleefanator 8000\"},Unbreakable:1,ench:[{id:32,lvl:10}],CanDestroy:[\"minecraft:snow\"]}");
 			sendMessage("The game has started!");
-			ItemStack shovel = new ItemBuilder(Material.DIAMOND_SPADE)
+			
+			ItemStack shovel = new ItemBuilder(Material.DIAMOND_SHOVEL)
 					.name("Spleefanator 8000")
 					.enchant(Enchantment.DIG_SPEED, 5)
+					.unbreakable()
+					.canDestroy("snow")
 					.create();
-			net.minecraft.server.v1_8_R3.ItemStack nms = CraftItemStack.asNMSCopy(shovel);
-			NBTTagCompound nbt = nms.getTag();
-			nbt.setInt("Unbreakable", 1);
-			NBTTagList canDestroy = new NBTTagList();
-			canDestroy.add(new NBTTagString("minecraft:snow"));
-			nbt.set("CanDestroy", canDestroy);
-			ItemStack shovel2 = CraftItemStack.asBukkitCopy(nms);
-			Bukkit.getOnlinePlayers().forEach((player) -> player.getInventory().setItem(0, shovel2));
+			
+			Bukkit.getOnlinePlayers().forEach((player) -> player.getInventory().setItem(0, shovel));
 		});
 		
 		new BukkitRunnable() {
@@ -113,7 +106,7 @@ public class RegeneratingSpleef extends Game {
 	public void spleefBlock(BlockBreakEvent event) {
 		Player player = event.getPlayer();
 		PlayerInventory inv = player.getInventory();
-		if (inv.getItemInHand().getType() == Material.DIAMOND_SPADE){
+		if (inv.getItemInMainHand().getType() == Material.DIAMOND_SHOVEL){
 			final Block block = event.getBlock();	
 			if (block.getType() == Material.SNOW_BLOCK){
 				block.setType(Material.AIR);

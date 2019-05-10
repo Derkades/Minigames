@@ -11,6 +11,7 @@ import java.util.UUID;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.block.data.type.Snow;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Snowball;
@@ -116,20 +117,18 @@ public class SnowFight extends Game {
 			
 		Player player = event.getPlayer();
 		Inventory inv = player.getInventory();
-		if (!inv.contains(new ItemStack(Material.SNOW_BALL, 16))) {
+		if (!inv.contains(new ItemStack(Material.SNOWBALL, 16))) {
 			int amount = Random.getRandomInteger(1, 3);
-			inv.addItem(new ItemStack(Material.SNOW_BALL, amount));
+			inv.addItem(new ItemStack(Material.SNOWBALL, amount));
 		}
+		
+		Snow snow = (Snow) block.getBlockData();
 
-		final Material oldType = block.getType();
-		@SuppressWarnings("deprecation")
-		final byte oldData = block.getData();
+		int oldLayersNum = snow.getLayers();
 
 		new BukkitRunnable() {
-			@SuppressWarnings("deprecation")
 			public void run() {
-				block.setType(oldType);
-				block.setData(oldData);
+				snow.setLayers(oldLayersNum);
 			}
 		}.runTaskLater(Minigames.getInstance(), 3 * 20);
 	}

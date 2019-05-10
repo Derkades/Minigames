@@ -15,14 +15,14 @@ public class ShopColorMenu extends IconMenu {
 	public ShopColorMenu(Player player) {
 		super(Minigames.getInstance(), "Colors shop", 9, player);
 		
-		items.put(0, new ItemBuilder(Material.INK_SACK).data(6).name(ChatColor.DARK_AQUA + "Cyan").create());
-		items.put(1, new ItemBuilder(Material.INK_SACK).data(4).name(ChatColor.BLUE + "Blue").create());
-		items.put(2, new ItemBuilder(Material.INK_SACK).data(1).name(ChatColor.RED + "Red").create());
-		items.put(3, new ItemBuilder(Material.INK_SACK).data(14).name(ChatColor.GOLD + "Orange").create());
-		items.put(4, new ItemBuilder(Material.INK_SACK).data(11).name(ChatColor.YELLOW + "Yellow").create());
-		items.put(5, new ItemBuilder(Material.INK_SACK).data(2).name(ChatColor.DARK_GREEN + "Green").create());
-		items.put(6, new ItemBuilder(Material.INK_SACK).data(10).name(ChatColor.GREEN + "Light green").create());
-		items.put(7, new ItemBuilder(Material.INK_SACK).data(13).name(ChatColor.LIGHT_PURPLE + "Magenta").create());
+		items.put(0, new ItemBuilder(Material.CYAN_DYE).name(ChatColor.DARK_AQUA + "Cyan").create());
+		items.put(1, new ItemBuilder(Material.LAPIS_LAZULI).name(ChatColor.BLUE + "Blue").create());
+		items.put(2, new ItemBuilder(Material.ROSE_RED).name(ChatColor.RED + "Red").create());
+		items.put(3, new ItemBuilder(Material.ORANGE_DYE).name(ChatColor.GOLD + "Orange").create());
+		items.put(4, new ItemBuilder(Material.DANDELION_YELLOW).name(ChatColor.YELLOW + "Yellow").create());
+		items.put(5, new ItemBuilder(Material.CACTUS_GREEN).name(ChatColor.DARK_GREEN + "Green").create());
+		items.put(6, new ItemBuilder(Material.LIME_DYE).name(ChatColor.GREEN + "Light green").create());
+		items.put(7, new ItemBuilder(Material.MAGENTA_DYE).name(ChatColor.LIGHT_PURPLE + "Magenta").create());
 		items.put(8, new ItemBuilder(Material.BARRIER).name(ChatColor.RED + "Back").create());
 		
 	}

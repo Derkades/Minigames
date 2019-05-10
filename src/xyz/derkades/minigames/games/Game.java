@@ -121,9 +121,10 @@ public abstract class Game implements Listener {
 		for (Player player : Bukkit.getOnlinePlayers()){
 			if (winnerNames.contains(player.getName())){
 				//If player has won
-				int points = Random.getRandomInteger(this.getMinimumPoints(), this.getMaximumPoints());
-				Points.addPoints(player, points);
-				player.sendTitle(DARK_AQUA + "You've won",  AQUA + "+" + points + " points");
+				//int points = Random.getRandomInteger(this.getMinimumPoints(), this.getMaximumPoints());
+				int onlinePlayers = Bukkit.getOnlinePlayers().size();
+				Points.addPoints(player, onlinePlayers < 3 ? 3 : onlinePlayers > 7 ? 7 : onlinePlayers);
+				player.sendTitle(DARK_AQUA + "You've won",  AQUA + "+" + onlinePlayers + " points");
 			} else {
 				Points.addPoints(player, 1);
 				player.sendTitle(DARK_AQUA + "You've lost", AQUA + "+1 point");
@@ -145,9 +146,10 @@ public abstract class Game implements Listener {
 		}
 
 		if (Minigames.STOP_GAMES){
-			Scheduler.runTaskLater(2*20, () -> {
+			Scheduler.runTaskLater(1*20, () -> {
 				Bukkit.broadcastMessage(RED + "An admin stopped the next game from starting. This is probably because some maintenance needs to be done.");
 			});
+			Minigames.STOP_GAMES = false;
 			return;
 		}
 		

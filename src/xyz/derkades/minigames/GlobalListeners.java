@@ -3,9 +3,6 @@ package xyz.derkades.minigames;
 import static org.bukkit.ChatColor.AQUA;
 import static org.bukkit.ChatColor.DARK_GRAY;
 
-import java.util.Arrays;
-import java.util.List;
-
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
@@ -31,7 +28,11 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 import net.md_5.bungee.api.ChatColor;
+import net.md_5.bungee.api.chat.ClickEvent;
+import net.md_5.bungee.api.chat.ComponentBuilder;
+import xyz.derkades.derkutils.bukkit.MaterialLists;
 import xyz.derkades.minigames.menu.MainMenu;
+import xyz.derkades.minigames.utils.Scheduler;
 import xyz.derkades.minigames.utils.Utils;
 
 public class GlobalListeners implements Listener {
@@ -53,6 +54,19 @@ public class GlobalListeners implements Listener {
 		String minMax = ChatColor.GRAY + "(" + Bukkit.getOnlinePlayers().size() + "/" + Bukkit.getMaxPlayers() + ")";
 		
 		event.setJoinMessage(ChatColor.YELLOW + "" + ChatColor.BOLD + player.getName() + ChatColor.GOLD + "" + ChatColor.BOLD + " has joined! " + minMax);
+		
+		Scheduler.delay(1, () -> {
+			player.sendMessage(ChatColor.GRAY + "Welcome to the arcade server!");
+			player.spigot().sendMessage(
+					new ComponentBuilder("For feature requests and bug reports, click here.")
+					.event(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://github.com/Derkades/Minigames/issues"))
+					.create());
+			player.spigot().sendMessage(
+					new ComponentBuilder("To join our discord server, click here.")
+					.event(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://discord.gg/pfbV4GA"))
+					.create());
+		});
+		
 	}
 	
 	@EventHandler
@@ -81,26 +95,6 @@ public class GlobalListeners implements Listener {
 		}
 	}
 	
-	/*@EventHandler
-	public void onChat(AsyncPlayerChatEvent event){
-		Player player = event.getPlayer();
-		if (player.getName().equals("Derkades")){
-			event.setFormat(DARK_GRAY + "[" + AQUA + Points.getPoints(player) + DARK_GRAY + "] " + 
-					DARK_GRAY + "[" + ChatColor.GREEN + "Owner" + DARK_GRAY + "] " +
-					NameColor.getNameColor(player) + "%s" + DARK_GRAY + 
-					": " + GRAY + "%s");
-		} else if (VIP.isStaff(player)){
-			event.setFormat(DARK_GRAY + "[" + AQUA + Points.getPoints(player) + DARK_GRAY + "] " + 
-					DARK_GRAY + "[" + ChatColor.AQUA + "Staff" + DARK_GRAY + "] " +
-					NameColor.getNameColor(player) + "%s" + DARK_GRAY + 
-					": " + GRAY + "%s");
-		} else {
-			event.setFormat(DARK_GRAY + "[" + AQUA + Points.getPoints(player) + DARK_GRAY + "] " + 
-					NameColor.getNameColor(player) + "%s" + DARK_GRAY + 
-					": " + GRAY + "%s");
-		}
-	}*/
-	
 	@EventHandler(priority = EventPriority.HIGH)
 	public void onChat(AsyncPlayerChatEvent event) {
 		event.setFormat(DARK_GRAY + "[" + AQUA + Points.getPoints(event.getPlayer()) + DARK_GRAY + "] " + event.getFormat());
@@ -109,14 +103,16 @@ public class GlobalListeners implements Listener {
 	@EventHandler
 	public void onMove(PlayerMoveEvent event){
 		if (!Minigames.IS_IN_GAME){
+			Player player = event.getPlayer();
+			
 			Material type = event.getTo().getBlock().getType();
 			Material below = event.getTo().getBlock().getRelative(BlockFace.DOWN).getType();
-			if ((type == Material.WATER || type == Material.STATIONARY_WATER) &&
-					event.getPlayer().getGameMode() == GameMode.ADVENTURE){
-				event.getPlayer().teleport(new Location(Var.WORLD, 217.0, 67, 258.0, 90, 0));
+			
+			if (type == Material.WATER && player.getGameMode() == GameMode.ADVENTURE){
+				player.teleport(new Location(Var.WORLD, 217.0, 67, 258.0, 90, 0));
 			} else if (below == Material.SLIME_BLOCK) {
 				PotionEffect jump = new PotionEffect(PotionEffectType.JUMP, 30, 7, true, false);
-				event.getPlayer().addPotionEffect(jump);
+				player.addPotionEffect(jump);
 			}
 		}
 	}
@@ -137,25 +133,9 @@ public class GlobalListeners implements Listener {
 			return;
 		}
 		
-		List<Material> unsafeBlocks = Arrays.asList(
-			Material.ACACIA_DOOR,
-			Material.ACACIA_FENCE_GATE,
-			Material.BIRCH_DOOR,
-			Material.BIRCH_FENCE_GATE,
-			Material.DARK_OAK_DOOR,
-			Material.DARK_OAK_FENCE_GATE,
-			Material.JUNGLE_DOOR,
-			Material.JUNGLE_FENCE_GATE,
-			Material.SPRUCE_DOOR,
-			Material.SPRUCE_FENCE_GATE,
-			Material.TRAP_DOOR,
-			Material.WOOD_DOOR,
-			Material.WOODEN_DOOR
-		);
-		
 		Action action = event.getAction();
 		Block block = event.getClickedBlock();
-		if (action == Action.RIGHT_CLICK_BLOCK && unsafeBlocks.contains(block.getType())) {
+		if (action == Action.RIGHT_CLICK_BLOCK && MaterialLists.INTERACTABLE_BLOCKS.contains(block.getType())) {
 			event.setCancelled(true);
 		}
 	}

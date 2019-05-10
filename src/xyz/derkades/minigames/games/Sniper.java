@@ -28,10 +28,12 @@ public class Sniper extends Game {
 	private static final int MAX_GAME_DURATION = 120;
 	private static final int SPREAD_TIME = 10;
 	
-	private static final ItemStack SWORD = new ItemBuilder(Material.WOOD_SWORD)
+	private static final ItemStack SWORD = new ItemBuilder(Material.WOODEN_SWORD)
+			.unbreakable()
 			.create();
 	
 	private static final ItemStack BOW = new ItemBuilder(Material.BOW)
+			.unbreakable()
 			.name("Insta-kill bow")
 			.lore("Get arrows by killing other players")
 			.create();
@@ -143,7 +145,7 @@ public class Sniper extends Game {
 			return;
 		}
 		
-		ItemStack weapon = ((Player) attackingEntity).getItemInHand();
+		ItemStack weapon = ((PlayerInventory) ((Player) attackingEntity)).getItemInMainHand();
 		
 		if (weapon.isSimilar(SWORD)) {
 			event.setDamage(2);

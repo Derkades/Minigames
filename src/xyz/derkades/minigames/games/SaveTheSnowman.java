@@ -71,8 +71,8 @@ public class SaveTheSnowman extends Game {
 		finished.add(player.getUniqueId());
 		
 		player.teleport(new Location(Var.WORLD, 320, 81, 274, 90, 0));
-		//Console.sendCommand("execute @a ~ ~ ~ playsound entity.player.levelup master @p");
-		Utils.playSoundForAllPlayers(Sound.LEVEL_UP, 1);
+
+		Utils.playSoundForAllPlayers(Sound.ENTITY_PLAYER_LEVELUP, 1);
 	}
 	
 	@EventHandler(priority = EventPriority.MONITOR)

@@ -19,6 +19,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import net.md_5.bungee.api.ChatColor;
 import xyz.derkades.derkutils.ListUtils;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
+import xyz.derkades.derkutils.bukkit.MaterialLists;
 import xyz.derkades.minigames.Minigames;
 import xyz.derkades.minigames.Var;
 import xyz.derkades.minigames.games.platform.PlatformMap;
@@ -98,8 +99,8 @@ public class Platform extends Game {
 	}
 	
 	private void giveSwords(){
-		ItemStack sword = new ItemBuilder(Material.WOOD_SWORD)
-				.data(59)
+		ItemStack sword = new ItemBuilder(Material.WOODEN_SWORD)
+				.damage(59)
 				.name(ChatColor.DARK_AQUA + "" + ChatColor.BOLD + "Knockback Sword")
 				.lore(ChatColor.AQUA + "You can only use this once!")
 				.enchant(Enchantment.KNOCKBACK, 1)
@@ -138,7 +139,7 @@ public class Platform extends Game {
 			return;
 		}
 		
-		if(event.getTo().getBlock().getRelative(BlockFace.DOWN).getType() == Material.STAINED_CLAY){
+		if(MaterialLists.TERRACOTTA_BLOCKS.contains(event.getTo().getBlock().getRelative(BlockFace.DOWN).getType())){
 			playerDie(player);
 		}
 	}

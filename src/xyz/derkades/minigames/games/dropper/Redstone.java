@@ -26,7 +26,7 @@ public class Redstone extends DropperMap {
 
 	@Override
 	public void closeDoor() {
-		BlockUtils.fillArea(121, 81, 129, 123, 81, 131, Material.STAINED_GLASS);
+		BlockUtils.fillArea(121, 81, 129, 123, 81, 131, Material.WHITE_STAINED_GLASS);
 	}
 
 }

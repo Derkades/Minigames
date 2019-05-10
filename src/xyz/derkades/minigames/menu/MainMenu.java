@@ -25,18 +25,18 @@ public class MainMenu extends IconMenu {
 	public MainMenu(Player player) {
 		super(Minigames.getInstance(), "Menu", 9, player);
 		
-		items.put(0, new ItemBuilder(Material.INK_SACK).data(12).name(DARK_AQUA + "Points").lore(AQUA + "You have " + Points.getPoints(player) + " points.").create());
-		items.put(1, new ItemBuilder(Material.INK_SACK).data(12).name(DARK_AQUA + "Games").lore(AQUA + "Click to get game information.").create());
-		items.put(2, new ItemBuilder(Material.INK_SACK).data(12).name(DARK_AQUA + "Shop").lore(AQUA + "Buy items using points.").create());
+		items.put(0, new ItemBuilder(Material.GRAY_DYE).name(DARK_AQUA + "Points").lore(AQUA + "You have " + Points.getPoints(player) + " points.").create());
+		items.put(1, new ItemBuilder(Material.GRAY_DYE).name(DARK_AQUA + "Games").lore(AQUA + "Click to get game information.").create());
+		items.put(2, new ItemBuilder(Material.GRAY_DYE).name(DARK_AQUA + "Shop").lore(AQUA + "Buy items using points.").create());
 		
-		int settingData;
+		Material settingMaterial;
 		if (Minigames.getInstance().getConfig().getStringList("disabled-description").contains(player.getUniqueId().toString())) {
-			settingData = 8;
+			settingMaterial = Material.ROSE_RED;
 		} else {
-			settingData = 10;
+			settingMaterial = Material.LIME_DYE;
 		}
 		
-		items.put(3, new ItemBuilder(Material.INK_SACK).data(settingData).name(DARK_AQUA + "Description").lore(AQUA + "Click to enable or disable game descriptions").create());
+		items.put(3, new ItemBuilder(settingMaterial).name(DARK_AQUA + "Game descriptions").lore(AQUA + "Click to enable or disable game description messages at the start of each game").create());
 		items.put(8, new ItemBuilder(Material.BARRIER).name(RED + "Close").lore(DARK_RED + "Click to close this menu.").create());
 	}
 	
@@ -47,7 +47,7 @@ public class MainMenu extends IconMenu {
 			for (Game game : Game.GAMES){
 				player.sendMessage("------------------------------------------");
 				player.sendMessage(DARK_AQUA + "Name: " + AQUA + game.getName());
-				player.sendMessage(DARK_AQUA + "Reward (points): " + AQUA + game.getMinimumPoints() + "-" + game.getMaximumPoints());
+				//player.sendMessage(DARK_AQUA + "Reward (points): " + AQUA + game.getMinimumPoints() + "-" + game.getMaximumPoints());
 				player.sendMessage(DARK_AQUA + "Minimum online players: " + AQUA + game.getRequiredPlayers());
 			}
 			player.sendMessage("------------------------------------------");
@@ -59,13 +59,13 @@ public class MainMenu extends IconMenu {
 			return true;
 		} else if (event.getName().contains("Points")) {
 			return false;
-		} else if (event.getName().contains("Description")) {
+		} else if (event.getName().contains("Game descriptions")) {
 			Player player = event.getPlayer();
 			
 			ItemStack item = event.getItemStack();
 			List<String> list = Minigames.getInstance().getConfig().getStringList("disabled-description");
 			
-			if (item.getDurability() == 10) {
+			if (item.getType().equals(Material.LIME_DYE)) {
 				player.sendMessage(ChatColor.GOLD + "Minigame descriptions have been disabled.");
 				list.add(player.getUniqueId().toString());
 			} else {

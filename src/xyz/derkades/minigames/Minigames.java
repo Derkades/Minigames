@@ -42,8 +42,9 @@ public class Minigames extends JavaPlugin implements Listener {
 		instance = this;
 		
 		Var.WORLD = Bukkit.getWorld("minigames");
-		Var.LOBBY_LOCATION = new Location(Var.WORLD, 220.5, 67.5, 253.5, 0, 0);
-
+		//Var.LOBBY_LOCATION = new Location(Var.WORLD, 220.5, 67.5, 253.5, 0, 0);
+		Var.LOBBY_LOCATION = new Location(Var.WORLD, 219.5, 64, 279.5, 180, 0);
+		
 		new RegenerateHunger().runTaskTimer(this, 1*20, 1*20);
 		new Points.UpdateLeaderboard().runTaskTimer(this, 2*20, 10*20);
 		

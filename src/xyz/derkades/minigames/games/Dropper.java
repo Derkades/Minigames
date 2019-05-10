@@ -6,6 +6,7 @@ import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
@@ -107,7 +108,7 @@ public class Dropper extends Game {
 			return; //Don't teleport players who have finished
 		}
 		
-		if (event.getTo().getBlock().getType() == Material.STATIONARY_WATER) {
+		if (event.getTo().getBlock().getType() == Material.WATER) {
 			Player player = event.getPlayer();
 			
 			if (winners.isEmpty()) {
@@ -121,7 +122,7 @@ public class Dropper extends Game {
 			winners.add(player.getUniqueId());
 			Utils.giveInfiniteEffect(player, PotionEffectType.INVISIBILITY);
 			Minigames.setCanTakeDamage(player, false);
-			player.setHealth(player.getMaxHealth());
+			player.setHealth(player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue());
 			player.setAllowFlight(true);
 		}
 	}

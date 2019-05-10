@@ -177,11 +177,11 @@ public class TntTag extends Game {
 				
 				player.getInventory().clear();
 				player.getInventory().setHelmet(new ItemStack(Material.AIR));
-				Bukkit.getOnlinePlayers().forEach((online) -> online.hidePlayer(player));
+				Bukkit.getOnlinePlayers().forEach((online) -> online.hidePlayer(Minigames.getInstance(), player));
 				player.setAllowFlight(true);
 				
 				for (Player player : Bukkit.getOnlinePlayers()) {
-					player.playSound(player.getLocation(), Sound.EXPLODE, 1.0f, 1.0f);
+					player.playSound(player.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 1.0f, 1.0f);
 				}
 				
 				int alive = getAlivePlayers().size();
