@@ -17,7 +17,6 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.scheduler.BukkitTask;
 
 import xyz.derkades.derkutils.ListUtils;
-import xyz.derkades.derkutils.bukkit.MaterialLists;
 import xyz.derkades.minigames.Minigames;
 import xyz.derkades.minigames.games.tntrun.TNTMap;
 import xyz.derkades.minigames.utils.Utils;
@@ -74,7 +73,7 @@ public class TntRun extends Game {
 		
 		Block belowPlayer = event.getFrom().getBlock().getRelative(BlockFace.DOWN);
 		
-		if (MaterialLists.TERRACOTTA_BLOCKS.contains(belowPlayer.getType())) {
+		if (belowPlayer.getType().equals(Material.RED_TERRACOTTA)) {
 			player.teleport(map.spawnLocation());
 			player.setAllowFlight(true);
 			player.setFlying(true);
