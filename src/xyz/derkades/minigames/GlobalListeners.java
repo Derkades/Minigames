@@ -24,6 +24,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
@@ -119,6 +120,10 @@ public class GlobalListeners implements Listener {
 	
 	@EventHandler
 	public void onEntityInteract(PlayerInteractEntityEvent event){
+		if (!event.getHand().equals(EquipmentSlot.HAND)) {
+			return;
+		}
+		
 		Player player = event.getPlayer();
 		Entity entity = event.getRightClicked();
 		if (entity instanceof Villager){
@@ -133,9 +138,13 @@ public class GlobalListeners implements Listener {
 			return;
 		}
 		
+		if (!event.getHand().equals(EquipmentSlot.HAND)) {
+			return;
+		}
+		
 		Action action = event.getAction();
 		Block block = event.getClickedBlock();
-		if (action == Action.RIGHT_CLICK_BLOCK && MaterialLists.INTERACTABLE_BLOCKS.contains(block.getType())) {
+		if (action == Action.RIGHT_CLICK_BLOCK && MaterialLists.isInList(block.getType(), MaterialLists.TRAPDOORS, MaterialLists.DOORS, MaterialLists.FENCE_GATES)) {
 			event.setCancelled(true);
 		}
 	}
