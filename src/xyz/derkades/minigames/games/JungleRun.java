@@ -110,7 +110,7 @@ public class JungleRun extends Game {
 		
 		Material type = event.getTo().getBlock().getRelative(BlockFace.DOWN).getType();
 		
-		if (MaterialLists.WOOLS.contains(type) || MaterialLists.TERRACOTTA_BLOCKS.contains(type) || type == Material.SOUL_SAND){
+		if (MaterialLists.isInList(type, MaterialLists.WOOLS, MaterialLists.TERRACOTTA_BLOCKS) || type == Material.SOUL_SAND){
 			playerDie(player);
 		} else if(type == Material.GOLD_BLOCK){
 			playerWin(player);
