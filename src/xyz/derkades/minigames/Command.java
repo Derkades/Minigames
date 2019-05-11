@@ -1,5 +1,6 @@
 package xyz.derkades.minigames;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -34,6 +35,9 @@ public class Command implements CommandExecutor {
 			} else if (args[0].equalsIgnoreCase("stop") && player.hasPermission("minigames.stop")){
 				player.sendMessage(ChatColor.RED + "! STOPPED GAMES !");
 				Minigames.STOP_GAMES = true;
+			} else if (args[0].equalsIgnoreCase("emerg") && player.hasPermission("minigames.emerg")) {
+				player.sendMessage("! EMERGENCY STOP !");
+				Bukkit.reload();
 			} else if (args[0].equals("test") && player.hasPermission("minigames.test")) {
 				final Location loc = player.getLocation();
 		        final Location fbLocation = loc.add(
