@@ -7,7 +7,7 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<jdk.version>1.8</jdk.version>
-		<spigot.version>1.13.2-R0.1-SNAPSHOT</spigot.version>
+		<spigot.version>1.14-R0.1-SNAPSHOT</spigot.version>
 	</properties>
 
 	<build>

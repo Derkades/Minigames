@@ -17,10 +17,10 @@ public class ShopColorMenu extends IconMenu {
 		
 		items.put(0, new ItemBuilder(Material.CYAN_DYE).name(ChatColor.DARK_AQUA + "Cyan").create());
 		items.put(1, new ItemBuilder(Material.LAPIS_LAZULI).name(ChatColor.BLUE + "Blue").create());
-		items.put(2, new ItemBuilder(Material.ROSE_RED).name(ChatColor.RED + "Red").create());
+		items.put(2, new ItemBuilder(Material.RED_DYE).name(ChatColor.RED + "Red").create());
 		items.put(3, new ItemBuilder(Material.ORANGE_DYE).name(ChatColor.GOLD + "Orange").create());
-		items.put(4, new ItemBuilder(Material.DANDELION_YELLOW).name(ChatColor.YELLOW + "Yellow").create());
-		items.put(5, new ItemBuilder(Material.CACTUS_GREEN).name(ChatColor.DARK_GREEN + "Green").create());
+		items.put(4, new ItemBuilder(Material.YELLOW_DYE).name(ChatColor.YELLOW + "Yellow").create());
+		items.put(5, new ItemBuilder(Material.GREEN_DYE).name(ChatColor.DARK_GREEN + "Green").create());
 		items.put(6, new ItemBuilder(Material.LIME_DYE).name(ChatColor.GREEN + "Light green").create());
 		items.put(7, new ItemBuilder(Material.MAGENTA_DYE).name(ChatColor.LIGHT_PURPLE + "Magenta").create());
 		items.put(8, new ItemBuilder(Material.BARRIER).name(ChatColor.RED + "Back").create());
@@ -61,11 +61,11 @@ public class ShopColorMenu extends IconMenu {
 			Points.removePoints(player, 250);
 			player.sendMessage(ChatColor.AQUA + "Changed color to " + name.toLowerCase() + ".");
 			NameColor.setNameColor(player, color + "");
+			return true;
 		} else {
 			player.sendMessage(ChatColor.RED + "Not enough points.");
+			return true;
 		}
-		
-		return false;
 	}
 
 }
