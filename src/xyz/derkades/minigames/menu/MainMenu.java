@@ -7,7 +7,6 @@ import static org.bukkit.ChatColor.RED;
 
 import java.util.List;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -25,13 +24,17 @@ public class MainMenu extends IconMenu {
 	public MainMenu(Player player) {
 		super(Minigames.getInstance(), "Menu", 9, player);
 		
+		addItems(player);
+	}
+	
+	private void addItems(Player player) {
 		items.put(0, new ItemBuilder(Material.GRAY_DYE).name(DARK_AQUA + "Points").lore(AQUA + "You have " + Points.getPoints(player) + " points.").create());
 		items.put(1, new ItemBuilder(Material.GRAY_DYE).name(DARK_AQUA + "Games").lore(AQUA + "Click to get game information.").create());
 		items.put(2, new ItemBuilder(Material.GRAY_DYE).name(DARK_AQUA + "Shop").lore(AQUA + "Buy items using points.").create());
 		
 		Material settingMaterial;
 		if (Minigames.getInstance().getConfig().getStringList("disabled-description").contains(player.getUniqueId().toString())) {
-			settingMaterial = Material.ROSE_RED;
+			settingMaterial = Material.RED_DYE;
 		} else {
 			settingMaterial = Material.LIME_DYE;
 		}
@@ -76,11 +79,8 @@ public class MainMenu extends IconMenu {
 			Minigames.getInstance().getConfig().set("disabled-description", list);
 			Minigames.getInstance().saveConfig();
 			
-			this.close();
-			
-			Bukkit.getScheduler().scheduleSyncDelayedTask(Minigames.getInstance(), () -> {
-				new MainMenu(player).open();
-			}, 1);
+			addItems(player);
+			this.refreshItems();
 			
 			return false;
 		} else {
