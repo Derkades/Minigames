@@ -19,7 +19,6 @@ import org.bukkit.scheduler.BukkitRunnable;
 import net.md_5.bungee.api.ChatColor;
 import xyz.derkades.derkutils.ListUtils;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
-import xyz.derkades.derkutils.bukkit.MaterialLists;
 import xyz.derkades.minigames.Minigames;
 import xyz.derkades.minigames.Var;
 import xyz.derkades.minigames.games.platform.PlatformMap;
@@ -139,7 +138,7 @@ public class Platform extends Game {
 			return;
 		}
 		
-		if(MaterialLists.TERRACOTTA_BLOCKS.contains(event.getTo().getBlock().getRelative(BlockFace.DOWN).getType())){
+		if(event.getTo().getBlock().getRelative(BlockFace.DOWN).getType().equals(Material.RED_TERRACOTTA)){
 			playerDie(player);
 		}
 	}
