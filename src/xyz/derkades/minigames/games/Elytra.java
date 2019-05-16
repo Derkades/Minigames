@@ -1,43 +1,40 @@
 package xyz.derkades.minigames.games;
 
-@Deprecated
-public class Elytra /*extends Game*/ {
-/*
-	@Deprecated
-	private Map<String, Boolean> isDead = new HashMap<>();
-	private Map<String, Boolean> hasFinished = new HashMap<>();
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.block.BlockFace;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionEffectType;
+
+import xyz.derkades.minigames.Var;
+import xyz.derkades.minigames.utils.GameTimer;
+import xyz.derkades.minigames.utils.Utils;
+
+public class Elytra extends Game {
+
+	public static final int GAME_DURATION = 30;
+	public static final int PRE_START_TIME = 5;
 	
-	@Override
-	String[] getDescription() {
-		return new String[]{
+	Elytra() {
+		super("Elytra", new String[]{
 				"Fly to the end of the cave without",
 				"touching the ground. Good luck!"
-		};
+		}, 2, 2, 5, null);
 	}
 
-	@Override
-	public String getName() {
-		return "Elytra";
-	}
+	private List<UUID> dead = new ArrayList<>();
+	private List<UUID> finished = new ArrayList<>();
 
 	@Override
-	public int getRequiredPlayers() {
-		return 2;
-	}
-
-	@Override
-	public GamePoints getPoints() {
-		return new GamePoints(2, 5);
-	}
-
-	@Override
-	public void resetHashMaps(Player player) {
-		isDead.put(player.getName(), false);
-		hasFinished.put(player.getName(), false);
-	}
-
-	@Override
-	void begin() {
+	void begin(GameMap genericMap) {
 		for (Player player : Bukkit.getOnlinePlayers()){
 			player.teleport(new Location(Var.WORLD, 163.5, 76.5, 339.5, 120, 25));
 			player.getInventory().setChestplate(new ItemStack(Material.ELYTRA));
@@ -45,60 +42,60 @@ public class Elytra /*extends Game*/ {
 			Utils.giveInfiniteEffect(player, PotionEffectType.INVISIBILITY, 2);
 		}
 		
-		new BukkitRunnable(){
-			public void run(){
-				for (Player player : Bukkit.getOnlinePlayers())
-					Utils.clearPotionEffects(player);
+		new GameTimer() {
+			
+			int timeLeft = GAME_DURATION + PRE_START_TIME;
+			
+			public void run() {
+				if (timeLeft > GAME_DURATION) {
+					sendMessage("The game will start in " + (timeLeft - GAME_DURATION) + " seconds");
+				}
+				
+				if (timeLeft == GAME_DURATION) {
+					// game starting, remove slowness
+					Utils.clearPotionEffects();
+				}
+				
+				if (timeLeft == 15 || timeLeft < 5) {
+					sendMessage("The game will end in " + timeLeft + " seconds");
+				}
+				
+				if (timeLeft <= 0) {
+					end();
+					this.cancel();
+				}
+				
+				if (Utils.getAliveCountFromDeadList(dead) < 2) {
+					end();
+					this.cancel();
+				}
+				
+				timeLeft--;
 			}
-		}.runTaskLater(Main.getInstance(), 20);
-		
-		timer();
+		};
 	}
 	
-	private void timer(){
-		Scheduler.runTaskLater(13*20, new Runnable(){
-			public void run(){
-				sendMessage("5 seconds left!");
-				Scheduler.runTaskLater(5*20, new Runnable(){
-					public void run(){
-						endGame(Arrays.asList());
-					}
-				});
-			}
-		});
+	private void end(){
+		super.startNextGame(Utils.getPlayerListFromUUIDList(finished));
 	}
 	
-	private void endGame(List<Player> winners){
-		super.startNextGame(Utils.getWinnersFromFinishedHashMap(hasFinished));
-	}
-	
-	private void playerDie(Player player){
-		Utils.clearInventory(player);
-		player.teleport(new Location(Var.WORLD, 151.5, 76, 343.5));
-	}
-	
-	private void playerWin(Player player){
-		Utils.clearInventory(player);
-		player.teleport(new Location(Var.WORLD, 151.5, 76, 343.5));
-		hasFinished.put(player.getName(), true);
-	}
-	
-	@EventHandler(priority = EventPriority.MONITOR)
-	public void onMove(PlayerMoveEvent event){
-		if (!super.isRunning()) return;
-		
+	@EventHandler
+	public void onMove(PlayerMoveEvent event){		
 		Player player = event.getPlayer();
 		Material type = event.getTo().getBlock().getRelative(BlockFace.DOWN).getType();
 		
-		if((type == Material.STONE || 
-				type == Material.COBBLESTONE ||
-				type == Material.LAVA ||
-				type == Material.STATIONARY_LAVA) &&
-				!player.isFlying())
-			playerDie(player);
+		if(!player.isFlying() && (type == Material.STONE || type == Material.COBBLESTONE || type == Material.LAVA)) {
+			// die
+			Utils.clearInventory(player);
+			player.teleport(new Location(Var.WORLD, 151.5, 76, 343.5));
+		}
 			
-		if (type == Material.WOOL)
-			playerWin(player);
-	}*/
+		if (type == Material.LIME_WOOL) {
+			// win
+			Utils.clearInventory(player);
+			player.teleport(new Location(Var.WORLD, 151.5, 76, 343.5));
+			finished.add(player.getUniqueId());
+		}
+	}
 
 }
