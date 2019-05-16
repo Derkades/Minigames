@@ -23,4 +23,9 @@ public class Original extends SpleefMap {
 		BlockUtils.fillArea(149, 80, 253, 163, 80, 267, Material.SNOW_BLOCK);
 	}
 
+	@Override
+	public String getName() {
+		return "Original";
+	}
+
 }

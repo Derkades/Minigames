@@ -16,4 +16,9 @@ public class Maze extends SnowFightMap {
 		return new Location(Var.WORLD, 232.5, 46, 299.0, 180, 0);
 	}
 
+	@Override
+	public String getName() {
+		return "Maze";
+	}
+
 }

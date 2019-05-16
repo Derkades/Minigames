@@ -3,7 +3,9 @@ package xyz.derkades.minigames.games.tntrun;
 import org.bukkit.Location;
 import org.bukkit.Material;
 
-public abstract class TNTMap {
+import xyz.derkades.minigames.games.GameMap;
+
+public abstract class TNTMap implements GameMap {
 	
 	public static final TNTMap[] MAPS = {
 			new Aqua(),

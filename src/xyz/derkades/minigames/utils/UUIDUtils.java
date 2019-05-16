@@ -86,18 +86,6 @@ public class UUIDUtils implements Listener {
 		return getConfig().getString("name." + uuid);
 	}
 	
-	/**
-	 * Returns Bukkit.getOfflinePlayer({@link #getUUID(String) getUUID(playerName)}) with <em>playerName</em> being <em>player.getName()</em>. 
-	 * <br><br>
-	 * Why use this instead of {@link Bukkit#getPlayer(String) Bukkit#getPlayer(playerName)}?
-	 * <ul>
-	 * 	<li>That method is deprecated.</li>
-	 * 	<li>This method works even when Mojang's public API is down</li>
-	 * 	<li>This method doesn't use up any bandwidth, because UUID info is stored offline.
-	 * </ul>
-	 * @param player
-	 * @return
-	 */
 	public static OfflinePlayer getOfflinePlayer(String playerName){
 		UUID uuid = getUUID(playerName);
 		return Bukkit.getOfflinePlayer(uuid);

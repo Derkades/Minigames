@@ -15,7 +15,6 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import xyz.derkades.derkutils.ListUtils;
 import xyz.derkades.minigames.Minigames;
 import xyz.derkades.minigames.Points;
 import xyz.derkades.minigames.games.dropper.DropperMap;
@@ -25,7 +24,7 @@ import xyz.derkades.minigames.utils.Utils;
 public class Dropper extends Game {
 	
 	Dropper() {
-		super("Dropper", new String[] {"Get down without dying"}, 1, 3, 4);
+		super("Dropper", new String[] {"Get down without dying"}, 1, 3, 4, DropperMap.DROPPER_MAPS);
 	}
 
 	private static final int WAIT_TIME = 5;
@@ -39,8 +38,8 @@ public class Dropper extends Game {
 	private List<UUID> winners;
 	
 	@Override
-	void begin() {
-		map = ListUtils.getRandomValueFromArray(DropperMap.DROPPER_MAPS);
+	void begin(GameMap genericMap) {
+		map = (DropperMap) genericMap;
 		winners = new ArrayList<>();
 		
 		map.closeDoor();

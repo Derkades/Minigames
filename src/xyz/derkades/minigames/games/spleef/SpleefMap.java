@@ -2,7 +2,9 @@ package xyz.derkades.minigames.games.spleef;
 
 import org.bukkit.Location;
 
-public abstract class SpleefMap {
+import xyz.derkades.minigames.games.GameMap;
+
+public abstract class SpleefMap implements GameMap {
 	
 	public static SpleefMap[] MAPS = {
 		new BigStadium(),

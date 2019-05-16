@@ -27,4 +27,9 @@ public class Aqua extends TNTMap {
 		return new Location(Var.WORLD, 267.5, 85, 104.615);
 	}
 
+	@Override
+	public String getName() {
+		return "Aqua";
+	}
+
 }

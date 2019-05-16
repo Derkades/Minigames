@@ -10,7 +10,9 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -44,6 +46,11 @@ public class Utils {
 	public static void clearPotionEffects(Player player){
 		for (PotionEffect effect : player.getActivePotionEffects())
 	        player.removePotionEffect(effect.getType());
+	}
+	
+	public static void clearPotionEffects() {
+		for (Player player : Bukkit.getOnlinePlayers())
+			clearPotionEffects(player);
 	}
 	
 	public static void clearInventory(Player player){
@@ -224,6 +231,18 @@ public class Utils {
 	    }
 
 	    return result;
+	}
+	
+	public static void particle(final Particle particle, final Location location, final double speed, final int count, final double offsetX, final double offsetY, final int offsetZ) {
+		Var.WORLD.spawnParticle(particle, location, count, offsetX, offsetY, offsetX, speed);
+	}
+	
+	public static void particle(final Particle particle, final double x, final double y, final double z, final double speed, final int count, final double offsetX, final double offsetY, final int offsetZ) {
+		Var.WORLD.spawnParticle(particle, new Location(Var.WORLD, x, y, z), count, offsetX, offsetY, offsetX, speed);
+	}
+	
+	public static void particle(final Particle particle, final Location location, final int count) {
+		Var.WORLD.spawnParticle(particle, location, count);
 	}
 
 }

@@ -16,7 +16,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import xyz.derkades.derkutils.ListUtils;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
 import xyz.derkades.minigames.Minigames;
 import xyz.derkades.minigames.Var;
@@ -35,17 +34,17 @@ public class IcyBlowback extends Game {
 	IcyBlowback() {
 		super("Icy Blowback", 
 				new String[] {
-						""
-				}, 2, 3, 6);
+						"Try to knoch others off the slippery ice."
+				}, 2, 3, 6, IcyBlowbackMap.MAPS);
 	}
 
 	List<UUID> dead;
 	IcyBlowbackMap map;
 	
 	@Override
-	void begin() {
+	void begin(GameMap genericMap) {
 		dead = new ArrayList<>();
-		map = ListUtils.getRandomValueFromArray(IcyBlowbackMap.MAPS);
+		map = (IcyBlowbackMap) genericMap;
 		
 		
 		Location[] spawnLocations = map.getSpawnLocations();

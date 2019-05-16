@@ -27,4 +27,9 @@ public class Jungle extends TNTMap {
 		return new Location(Var.WORLD, 267.5, 85, 144.5);
 	}
 
+	@Override
+	public String getName() {
+		return "Jungle";
+	}
+
 }

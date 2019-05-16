@@ -73,11 +73,11 @@ public class DigDug extends Game {
 						ChatColor.GRAY + "Emerald: " + EMERALD_POINTS + " points",
 						ChatColor.GRAY + "Netherrack: give others blindness",
 						ChatColor.GRAY + "Quartz: speed"}, 
-				2, 3, 5);
+				2, 3, 5, null);
 	}
 
 	@Override
-	void begin() {
+	void begin(GameMap genericMap) {
 		points.clear();
 		
 		secondsLeft = 40;

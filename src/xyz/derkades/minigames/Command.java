@@ -52,16 +52,7 @@ public class Command implements CommandExecutor {
 		        f.setShooter(player);
 		        f.setIsIncendiary(false);
 		        player.sendMessage("test");
-			}/* else if (player.hasPermission("minigames.start.custom")) {
-				Game game = Game.fromString(args[0].replace("_", " "));
-				if (game == null){
-					player.sendMessage("Unknown game");
-					return true;
-				} else {
-					Minigames.NEXT_GAME = game;
-					AutoRotate.startNewRandomGame();
-				}
-			}*/
+			}
 		} else if (args.length == 0){
 			new MainMenu(player).open();
 		}

@@ -20,5 +20,10 @@ public class IcyBlowback extends IcyBlowbackMap {
 			new Location(Var.WORLD, -1.5, 89, 105.5),
 		};
 	}
+
+	@Override
+	public String getName() {
+		return "Icy Blowback";
+	}
 	
 }

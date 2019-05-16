@@ -16,4 +16,9 @@ public class Construction extends SpeedrunMap {
 		return new Location(Var.WORLD, -27.5, 108.5, 236.5);
 	}
 
+	@Override
+	public String getName() {
+		return "Construction";
+	}
+
 }

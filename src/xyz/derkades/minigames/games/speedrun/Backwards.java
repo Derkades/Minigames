@@ -16,4 +16,9 @@ public class Backwards extends SpeedrunMap {
 		return new Location(Var.WORLD, 10.5, 105.5, 197.5, -180, 0);
 	}
 
+	@Override
+	public String getName() {
+		return "Backwards";
+	}
+
 }

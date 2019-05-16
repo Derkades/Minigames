@@ -18,7 +18,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import xyz.derkades.derkutils.ListUtils;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
 import xyz.derkades.minigames.Minigames;
 import xyz.derkades.minigames.games.spleef.SpleefMap;
@@ -31,9 +30,10 @@ public class RegeneratingSpleef extends Game {
 		super("Regenerating Spleef",
 				new String[] { 
 						"Regenerating Spleef is very similar to the",
-						"classic spleef game. One twist: the blocks", "you break regenerate after 2 seconds, and",
-						"the arena is pretty small." 
-		}, 2, 3, 7);
+						"classic spleef game. One twist: the blocks", 
+						"you break regenerate after 2 seconds, and",
+						"the arena is pretty small (usually)." 
+		}, 2, 3, 7, SpleefMap.MAPS);
 	}
 
 	private static final int DURATION = 30;
@@ -46,10 +46,10 @@ public class RegeneratingSpleef extends Game {
 	private SpleefMap map;
 	
 	@Override
-	void begin() {
+	void begin(GameMap genericMap) {
 		dead = new ArrayList<>();
 		
-		map = ListUtils.getRandomValueFromArray(SpleefMap.MAPS);
+		map = (SpleefMap) genericMap;
 		
 		Utils.setGameRule("doTileDrops", false);
 		
@@ -60,7 +60,6 @@ public class RegeneratingSpleef extends Game {
 		}
 		
 		Scheduler.delay(3*20, () -> {
-			//Console.sendCommand("replaceitem entity @a slot.hotbar.0 minecraft:diamond_shovel 1 0 {display:{Name:\"Spleefanator 8000\"},Unbreakable:1,ench:[{id:32,lvl:10}],CanDestroy:[\"minecraft:snow\"]}");
 			sendMessage("The game has started!");
 			
 			ItemStack shovel = new ItemBuilder(Material.DIAMOND_SHOVEL)

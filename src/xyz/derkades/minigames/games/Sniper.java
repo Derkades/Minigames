@@ -16,7 +16,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import xyz.derkades.derkutils.ListUtils;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
 import xyz.derkades.minigames.Minigames;
 import xyz.derkades.minigames.games.sniper.SniperMap;
@@ -44,16 +43,17 @@ public class Sniper extends Game {
 	Sniper() {
 		super("Sniper", new String[] {
 				"Shoot other players with your instant kill bow.",
-		}, 3, 3, 5);
+		}, 3, 3, 5, SniperMap.MAPS);
 	}
 
 	private List<UUID> dead;
+	
 	private SniperMap map;
 	
 	@Override
-	void begin() {
+	void begin(GameMap genericMap) {
 		dead = new ArrayList<>();
-		map = ListUtils.getRandomValueFromArray(SniperMap.MAPS);
+		map = (SniperMap) genericMap;
 		
 		for (Player player : Bukkit.getOnlinePlayers()) {
 			player.teleport(map.getSpawnLocation());

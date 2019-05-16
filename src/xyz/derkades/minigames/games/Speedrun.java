@@ -16,7 +16,6 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import net.md_5.bungee.api.ChatColor;
-import xyz.derkades.derkutils.ListUtils;
 import xyz.derkades.minigames.Minigames;
 import xyz.derkades.minigames.Points;
 import xyz.derkades.minigames.games.speedrun.SpeedrunMap;
@@ -27,7 +26,7 @@ public class Speedrun extends Game {
 	Speedrun() {
 		super("Speedrun", new String[] {
 				"Jump to the finish with super speed"
-		}, 1, 2, 4);
+		}, 1, 2, 4, SpeedrunMap.MAPS);
 	}
 
 	private List<UUID> finished;
@@ -37,10 +36,10 @@ public class Speedrun extends Game {
 	private SpeedrunMap map;
 
 	@Override
-	void begin(){
+	void begin(GameMap genericMap){
 		finished = new ArrayList<>();
 		this.NO_ONE_FINISHED = true;
-		map = ListUtils.getRandomValueFromArray(SpeedrunMap.MAPS);
+		map = (SpeedrunMap) genericMap;
 		
 		for (Player player : Bukkit.getOnlinePlayers()){
 			player.teleport(map.getStartLocation());

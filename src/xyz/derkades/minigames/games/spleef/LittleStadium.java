@@ -27,5 +27,10 @@ public class LittleStadium extends SpleefMap {
 	public void fill() {
 		BlockUtils.fillArea(348, 79, 230, 367, 79, 240, Material.SNOW_BLOCK);
 	}
+
+	@Override
+	public String getName() {
+		return "Little Stadium";
+	}
 	
 }

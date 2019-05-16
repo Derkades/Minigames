@@ -16,4 +16,9 @@ public class HouseWithFarm extends SniperMap {
 		return null;
 	}
 
+	@Override
+	public String getName() {
+		return "abandoned house with some farmland and stuff";
+	}
+
 }

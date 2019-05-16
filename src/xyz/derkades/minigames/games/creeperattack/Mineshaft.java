@@ -11,7 +11,7 @@ public class Mineshaft extends CreeperAttackMap {
 		return new Location(Var.WORLD, 288, 39, 228);
 		
 	}
-
+	
 	@Override
 	public Location getSpawnLocation() {
 		return new Location(Var.WORLD, 288, 39, 228);

@@ -36,7 +36,7 @@ public class TntTag extends Game {
 				"Pass TNT onto other players",
 				"The game is finished when only",
 				"one player has not exploded."
-		}, 5, 5, 7);
+		}, 5, 5, 7, null);
 	}
 	
 	private BukkitTask tntCountdownTask;
@@ -44,7 +44,7 @@ public class TntTag extends Game {
 	private float time;
 
 	@Override
-	void begin() {
+	void begin(GameMap genericMap) {
 		dead = new ArrayList<>();
 		time = 1.1f;
 		

@@ -16,7 +16,6 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.scheduler.BukkitTask;
 
-import xyz.derkades.derkutils.ListUtils;
 import xyz.derkades.minigames.Minigames;
 import xyz.derkades.minigames.games.tntrun.TNTMap;
 import xyz.derkades.minigames.utils.Utils;
@@ -24,7 +23,7 @@ import xyz.derkades.minigames.utils.Utils;
 public class TntRun extends Game {
 
 	TntRun() {
-		super("TNT Run", new String[]{}, 2, 3, 7);
+		super("TNT Run", new String[]{}, 2, 3, 7, TNTMap.MAPS);
 	}
 
 	private TNTMap map;
@@ -36,12 +35,12 @@ public class TntRun extends Game {
 	boolean removeBlocks;
 	
 	@Override
-	void begin() {
+	void begin(GameMap genericMap) {
 		alive = new ArrayList<>();
 		removedBlocks = new ArrayList<>();
 		removeBlocks = false;
 		
-		map = ListUtils.getRandomValueFromArray(TNTMap.MAPS);
+		map = (TNTMap) genericMap;
 		
 		map.restore();
 		

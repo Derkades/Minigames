@@ -7,6 +7,7 @@ import java.util.UUID;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
@@ -32,14 +33,14 @@ public class JungleRun extends Game {
 						"this game is to make it to the finish. You",
 						"have 25 seconds, when you fall you are out",
 						"of the game."
-				}, 1, 2, 4);
+				}, 1, 2, 4, null);
 	}
 	
 	private List<UUID> finished;
 	private List<UUID> spectator;
 
 	@Override
-	void begin() {
+	void begin(GameMap genericMap) {
 		finished = new ArrayList<>();
 		spectator = new ArrayList<>();
 		
@@ -87,7 +88,7 @@ public class JungleRun extends Game {
 		player.teleport(new Location(Var.WORLD, 296.5, 80, 204.5, 180, 0));
 		
 		//Play particle effect and sound
-		super.sendConsoleCommand("particle flame 327.5 72 196.5 0 2 2 0.1 1000");
+		Utils.particle(Particle.FLAME, 327.5, 72, 196.5, 0.1, 1000, 0, 2, 2);
 		player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1.0f, 1.0f);
 		
 		finished.add(player.getUniqueId());

@@ -16,4 +16,9 @@ public class Classic extends SpeedrunMap {
 		return new Location(Var.WORLD, 128.0, 98, 274.5, -180, 0);
 	}
 
+	@Override
+	public String getName() {
+		return "Classic";
+	}
+
 }

@@ -17,7 +17,6 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import net.md_5.bungee.api.ChatColor;
-import xyz.derkades.derkutils.ListUtils;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
 import xyz.derkades.minigames.Minigames;
 import xyz.derkades.minigames.Var;
@@ -32,7 +31,7 @@ public class Platform extends Game {
 				"Use your knockback swords wisely, you",
 				"only get two knockback swords (one at",
 				"the start, one at " + KNOCKBACK_SWORDS_TIME + " seconds.",
-		}, 2, 2, 5);
+		}, 2, 2, 5, PlatformMap.MAPS);
 	}
 
 	private static final int SPREAD_TIME = 5;
@@ -46,10 +45,10 @@ public class Platform extends Game {
 	private PlatformMap map;
 	
 	@Override
-	public void begin(){
+	public void begin(GameMap genericMap){
 		dead = new ArrayList<>();
 		
-		map = ListUtils.getRandomValueFromArray(PlatformMap.MAPS);
+		map = (PlatformMap) genericMap;
 		
 		sendMessage("Map: " + map.getName());
 		
@@ -113,7 +112,6 @@ public class Platform extends Game {
 	}
 	
 	private void endGame(){
-		//Console.sendCommand("setblock 228 77 217 redstone_block"); //Activates fireworks command blocks
 		sendMessage("The game has ended!");
 		super.startNextGame(Utils.getWinnersFromDeadList(dead));
 	}

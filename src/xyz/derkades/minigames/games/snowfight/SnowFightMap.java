@@ -2,7 +2,9 @@ package xyz.derkades.minigames.games.snowfight;
 
 import org.bukkit.Location;
 
-public abstract class SnowFightMap {
+import xyz.derkades.minigames.games.GameMap;
+
+public abstract class SnowFightMap implements GameMap {
 	
 	public static final SnowFightMap[] MAPS = {
 			new Maze(),

@@ -26,4 +26,9 @@ public class Future extends TNTMap {
 		return new Location(Var.WORLD, 267.5, 82, 125.5);
 	}
 
+	@Override
+	public String getName() {
+		return "Future";
+	}
+
 }

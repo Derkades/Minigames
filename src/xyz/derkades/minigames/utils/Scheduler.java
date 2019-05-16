@@ -26,34 +26,4 @@ public class Scheduler {
 		Bukkit.getScheduler().runTaskAsynchronously(Minigames.getInstance(), runnable);
 	}
 	
-	@Deprecated
-	public static void runTaskLater(long delay, Runnable runnable){
-		Bukkit.getScheduler().scheduleSyncDelayedTask(Minigames.getInstance(), runnable, delay);
-	}
-	
-	@Deprecated
-	public static void oneTickDelay(Runnable runnable){
-		runTaskLater(1, runnable);
-	}
-	
-	@Deprecated
-	public static void runAsyncRepeatingTask(long start, long delay, Runnable runnable){
-		Bukkit.getScheduler().runTaskTimerAsynchronously(Minigames.getInstance(), runnable, start, delay);
-	}
-	
-	@Deprecated
-	public static void runAsyncRepeatingTask(long delay, Runnable runnable){
-		Bukkit.getScheduler().runTaskTimerAsynchronously(Minigames.getInstance(), runnable, 1, delay);
-	}
-	
-	@Deprecated
-	public static void runSyncRepeatingTask(long start, long delay, Runnable runnable){
-		Bukkit.getScheduler().runTaskTimer(Minigames.getInstance(), runnable, start, delay);
-	}
-	
-	@Deprecated
-	public static void runSyncRepeatingTask(long delay, Runnable runnable){
-		Bukkit.getScheduler().runTaskTimer(Minigames.getInstance(), runnable, 0, delay);
-	}
-	
 }

@@ -2,7 +2,9 @@ package xyz.derkades.minigames.games.dropper;
 
 import org.bukkit.Location;
 
-public abstract class DropperMap {
+import xyz.derkades.minigames.games.GameMap;
+
+public abstract class DropperMap implements GameMap {
 	
 	public static DropperMap[] DROPPER_MAPS = new DropperMap[] {
 			new BlackWhite(),
@@ -11,7 +13,7 @@ public abstract class DropperMap {
 			new Trees(),
 	};
 	
-	public abstract String getName();
+	//public abstract String getName();
 	
 	public abstract Location getLobbyLocation();
 	

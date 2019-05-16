@@ -12,6 +12,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.type.Snow;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Snowball;
@@ -23,11 +24,10 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import xyz.derkades.derkutils.ListUtils;
 import xyz.derkades.derkutils.Random;
+import xyz.derkades.derkutils.bukkit.ItemBuilder;
 import xyz.derkades.minigames.Minigames;
 import xyz.derkades.minigames.games.snowfight.SnowFightMap;
-import xyz.derkades.minigames.utils.Console;
 import xyz.derkades.minigames.utils.Scheduler;
 import xyz.derkades.minigames.utils.Utils;
 
@@ -41,26 +41,33 @@ public class SnowFight extends Game {
 				"using snowballs. Snowballs do 2.5 hearts",
 				"damage. Get snowballs by breaking snow",
 				"on the ground. Good luck!"
-		}, 2, 4, 9);
+		}, 2, 4, 9, SnowFightMap.MAPS);
 	}
 	
 	private List<UUID> dead;
 	private SnowFightMap map;
 	
 	@Override
-	void begin() {
+	void begin(GameMap genericMap) {
 		dead = new ArrayList<>();
-		map = ListUtils.getRandomValueFromArray(SnowFightMap.MAPS);
+		map = (SnowFightMap) genericMap;
 		
 		Utils.setGameRule("doTileDrops", false);
+		
+		ItemStack shovel = new ItemBuilder(Material.DIAMOND_SHOVEL)
+				.unbreakable()
+				.name("Snow Shoveler")
+				.lore("Break snow to get snowballs")
+				.canDestroy("snow")
+				.create();
+		
+		shovel.addUnsafeEnchantment(Enchantment.DIG_SPEED, 10);
 		
 		for (Player player: Bukkit.getOnlinePlayers()){
 			player.teleport(map.getSpawnLocation());
 			
 			Minigames.setCanTakeDamage(player, true);
 		}
-		
-		Console.sendCommand("replaceitem entity @a slot.hotbar.0 minecraft:diamond_shovel 1 0 {display:{Name:\"Snow Shoveler\"},Unbreakable:1,ench:[{id:32,lvl:1}],CanDestroy:[\"minecraft:snow_layer\"]}");
 		
 		new BukkitRunnable() {
 			

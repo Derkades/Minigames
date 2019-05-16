@@ -2,7 +2,9 @@ package xyz.derkades.minigames.games.sniper;
 
 import org.bukkit.Location;
 
-public abstract class SniperMap {
+import xyz.derkades.minigames.games.GameMap;
+
+public abstract class SniperMap implements GameMap {
 	
 	public static final SniperMap[] MAPS = {
 			new HouseWithFarm(),

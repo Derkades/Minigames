@@ -23,4 +23,9 @@ public class BigStadium extends SpleefMap {
 		BlockUtils.fillArea(45, 89, 131, 89, 89, 155, Material.SNOW_BLOCK);
 	}
 
+	@Override
+	public String getName() {
+		return "Big Stadium";
+	}
+
 }

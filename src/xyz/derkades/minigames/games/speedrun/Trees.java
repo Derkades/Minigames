@@ -20,4 +20,9 @@ public class Trees extends SpeedrunMap {
 		return null;
 	}
 
+	@Override
+	public String getName() {
+		return "Trees";
+	}
+
 }

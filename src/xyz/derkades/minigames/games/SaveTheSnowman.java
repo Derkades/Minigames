@@ -30,13 +30,13 @@ public class SaveTheSnowman extends Game {
 				"this game is to make it to the finish. You",
 				"have 45 seconds, when you fall you will be", 
 				"teleported back to the start."
-		}, 1, 3, 5);
+		}, 1, 3, 5, null);
 	}
 
 	private List<UUID> finished;
 	
 	@Override
-	void begin() {
+	void begin(GameMap genericMap) {
 		finished = new ArrayList<>();
 		
 		for (Player player: Bukkit.getOnlinePlayers()){

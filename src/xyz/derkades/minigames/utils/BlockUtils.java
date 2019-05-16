@@ -8,13 +8,21 @@ import xyz.derkades.minigames.Var;
 
 public class BlockUtils {
 	
-	public static boolean isSameBlock(Block a, Block b){
+	public static boolean isSameBlock(final Block a, final Block b){
 		return (a.getX() == b.getX() &&
 				a.getY() == b.getY() &&
-				a.getZ() == b.getZ());
+				a.getZ() == b.getZ() &&
+				a.getWorld().getName().equals(b.getWorld().getName()));
 	}
 	
-	public static void fillArea(int minX, int minY, int minZ, int maxX, int maxY, int maxZ, Material material) {
+	public static void fillArea(final int x1, final int y1, final int z1, final int x2, final int y2, final int z2, final Material material) {
+		final int minX = Math.min(x1, x2);
+		final int minY = Math.min(y1, y2);
+		final int minZ = Math.min(z1, z2);
+		final int maxX = Math.max(x1, x2);
+		final int maxY = Math.max(y1, y2);
+		final int maxZ = Math.max(z1, z2);
+
 		for (int x = minX; x <= maxX; x++) {
 			for (int y = minY; y <= maxY; y++) {
 				for (int z = minZ; z <= maxZ; z++) {

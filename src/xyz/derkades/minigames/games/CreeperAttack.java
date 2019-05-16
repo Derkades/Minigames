@@ -31,7 +31,7 @@ import xyz.derkades.minigames.utils.Utils;
 public class CreeperAttack extends Game {
 
 	CreeperAttack() {
-		super("Creeper Attack", new String[] {"Avoid dying from creeper explosions"}, 2, 6, 7);
+		super("Creeper Attack", new String[] {"Avoid dying from creeper explosions"}, 2, 6, 7, CreeperAttackMap.MAPS);
 	}
 
 	private List<UUID> alive;
@@ -41,10 +41,10 @@ public class CreeperAttack extends Game {
 	private CreeperAttackMap map;
 	
 	@Override
-	void begin() {
+	void begin(final GameMap genericMap) {
 		alive = new ArrayList<>();
 		chance = 0.35f;
-		map = ListUtils.getRandomValueFromArray(CreeperAttackMap.MAPS);
+		this.map = (CreeperAttackMap) genericMap;
 		
 		ItemStack knockbackStick = new ItemBuilder(Material.STICK)
 				.name(ChatColor.GOLD + "" + ChatColor.BOLD + "Creeper Smasher")

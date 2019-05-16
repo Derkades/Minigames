@@ -11,19 +11,22 @@ import java.util.List;
 import java.util.Map;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
+import net.md_5.bungee.api.ChatColor;
+import xyz.derkades.derkutils.ListUtils;
 import xyz.derkades.derkutils.Random;
 import xyz.derkades.minigames.AutoRotate;
 import xyz.derkades.minigames.Minigames;
 import xyz.derkades.minigames.Points;
 import xyz.derkades.minigames.Var;
 import xyz.derkades.minigames.menu.VoteMenu;
-import xyz.derkades.minigames.utils.Console;
+import xyz.derkades.minigames.utils.GameTimer;
 import xyz.derkades.minigames.utils.Scheduler;
 import xyz.derkades.minigames.utils.Utils;
 
@@ -35,7 +38,7 @@ public abstract class Game implements Listener {
 			new DigDug(),
 			new Dropper(),
 			new Dropper(),
-			//new Elytra(),
+			new Elytra(),
 			new IcyBlowback(),
 			new JungleRun(),
 			//new MazePvp(),
@@ -56,13 +59,15 @@ public abstract class Game implements Listener {
 	private int requiredPlayers;
 	private int minPoints;
 	private int maxPoints;
+	private GameMap[] maps;
 	
-	Game(String name, String[] description, int requiredPlayers, int minPoints, int maxPoints) {
+	Game(String name, String[] description, int requiredPlayers, int minPoints, int maxPoints, GameMap[] maps) {
 		this.name = name;
 		this.description = description;
 		this.requiredPlayers = requiredPlayers;
 		this.minPoints = minPoints;
 		this.maxPoints = maxPoints;
+		this.maps = maps;
 	}
 	
 	public final String getName() {
@@ -85,14 +90,10 @@ public abstract class Game implements Listener {
 		return maxPoints;
 	}
 	
-	abstract void begin();
+	abstract void begin(final GameMap genericMap);
 	
 	void sendMessage(String message){
 		Bukkit.broadcastMessage(DARK_GRAY + "[" + DARK_AQUA + getName() + DARK_GRAY + "] " + AQUA + message);
-	}
-	
-	void sendConsoleCommand(String command){
-		Console.sendCommand(command);
 	}
 	
 	@SuppressWarnings("deprecation")
@@ -121,7 +122,6 @@ public abstract class Game implements Listener {
 		for (Player player : Bukkit.getOnlinePlayers()){
 			if (winnerNames.contains(player.getName())){
 				//If player has won
-				//int points = Random.getRandomInteger(this.getMinimumPoints(), this.getMaximumPoints());
 				int onlinePlayers = Bukkit.getOnlinePlayers().size();
 				Points.addPoints(player, onlinePlayers < 3 ? 3 : onlinePlayers > 7 ? 7 : onlinePlayers);
 				player.sendTitle(DARK_AQUA + "You've won",  AQUA + "+" + onlinePlayers + " points");
@@ -146,14 +146,14 @@ public abstract class Game implements Listener {
 		}
 
 		if (Minigames.STOP_GAMES){
-			Scheduler.runTaskLater(1*20, () -> {
+			Scheduler.delay(1*20, () -> {
 				Bukkit.broadcastMessage(RED + "An admin stopped the next game from starting. This is probably because some maintenance needs to be done.");
 			});
 			Minigames.STOP_GAMES = false;
 			return;
 		}
 		
-		Scheduler.runTaskLater(5, () -> {
+		Scheduler.delay(5, () -> {
 			for (Player player : Bukkit.getOnlinePlayers()) {
 				if (Minigames.VOTE_MENU_CHANCE > Random.getRandomFloat()) {
 					new VoteMenu(player, this.getName()).open();
@@ -161,92 +161,72 @@ public abstract class Game implements Listener {
 			}
 		});
 		
-		Scheduler.runTaskLater(8*20, () -> {
+		Scheduler.delay(8*20, () -> {
 			AutoRotate.startNewRandomGame();
 		});
 	}
 	
 	public void startGame(){
-		//Send description
+		// Choose random map
+		final GameMap map = maps == null ? null : ListUtils.getRandomValueFromArray(maps);
+		
+		// Send description
 		for (Player player : Bukkit.getOnlinePlayers()) {
-			if (Minigames.getInstance().getConfig().getStringList("disabled-description").contains(player.getUniqueId().toString())) continue;
+			
 			
 			player.sendMessage(DARK_GRAY + "-----------------------------------------");
-			for (String line : getDescription()) player.sendMessage(DARK_AQUA + line);
+			player.sendMessage(ChatColor.GOLD + "  " + ChatColor.BOLD + this.getName());
+			
+			if (!Minigames.getInstance().getConfig().getStringList("disabled-description")
+					.contains(player.getUniqueId().toString())) {
+				for (String line : getDescription()) player.sendMessage(DARK_AQUA + line);
+			}
+			
 			player.sendMessage(DARK_AQUA + "Points: " + AQUA + this.getMinimumPoints() + "-" + this.getMaximumPoints());
+			if (map != null)
+				player.sendMessage(DARK_AQUA + "Map: " + AQUA + map.getName());
+			
 			player.sendMessage(DARK_GRAY + "-----------------------------------------");
 		}
 		
-		startCountdown();
+		//Minigames.getInstance().getConfig().set("last-game", this.getName());
 		
-		Minigames.getInstance().getConfig().set("last-game", this.getName());
+		Minigames.LAST_GAME_NAME = this.getName();
 		
 		for (Player player : Bukkit.getOnlinePlayers()){
 			Utils.clearInventory(player);
 		}
-	}
-	
-	private void startCountdown(){
-		//Utils.playSoundForAllPlayers(Sound.ARROW_HIT, 0.1f); //PING (5)
-		Utils.setXpBarValue(1.0f, 5);
 		
-		Scheduler.delay(10, () -> {
-			Utils.setXpBarValue(0.9f, 5);
-		});
-
-		Scheduler.delay(1 * 20, () -> {
-			//Utils.playSoundForAllPlayers(Sound.ARROW_HIT, 0.1f); // PING (4)
-			Utils.setXpBarValue(0.8f, 4);
-		});
-
-		Scheduler.delay(1 * 20 + 10, () -> {
-			Utils.setXpBarValue(0.7f, 4);
-		});
-
-		Scheduler.delay(2 * 20, () -> {
-			//Utils.playSoundForAllPlayers(Sound.ARROW_HIT, 0.1f); // PING (3)
-			Utils.setXpBarValue(0.6f, 3);
-		});
-
-		Scheduler.delay(2 * 20 + 10, () -> {
-			Utils.setXpBarValue(0.5f, 3);
-		});
-
-		Scheduler.delay(3 * 20, () -> {
-			//Utils.playSoundForAllPlayers(Sound.ARROW_HIT, 0.1f); // PING (2)
-			Utils.setXpBarValue(0.4f, 2);
-		});
-
-		Scheduler.delay(3 * 20 + 10, () -> {
-			Utils.setXpBarValue(0.3f, 2);
-		});
-
-		Scheduler.delay(4 * 20, () -> {
-			//Utils.playSoundForAllPlayers(Sound.ARROW_HIT, 0.1f); // PING (1)
-			Utils.setXpBarValue(0.2f, 1);
-		});
-
-		Scheduler.delay(4 * 20 + 10, () -> {
-			Utils.setXpBarValue(0.1f, 1);
-		});
-		
-		Scheduler.delay(5 * 20, () -> {
-			Bukkit.getOnlinePlayers().forEach((player) -> Utils.clearPotionEffects(player));
-
-			begin();
-			Minigames.IS_IN_GAME = true;
+		new GameTimer() {
+			int timeLeft = 100;
 			
-			Bukkit.getPluginManager().registerEvents(this, Minigames.getInstance());
-			
-			Utils.setXpBarValue(0f, 0);
-			
-			
-			/*new BukkitRunnable() { // Small delay for last sound, because it needs to be played at the new player location
-				public void run() {
-					Utils.playSoundForAllPlayers(Sound.ARROW_HIT, 1.0f); // PING (GO)
+			@Override
+			public void run() {
+				Utils.setXpBarValue((float) timeLeft / 100.0f, (int) (timeLeft / 20.0 + 0.4));
+				
+				if (timeLeft % 20 == 0) {
+					Utils.playSoundForAllPlayers(Sound.ENTITY_ARROW_HIT_PLAYER, 0.1f);
 				}
-			}.runTaskLater(Minigames.getInstance(), 3L);*/
-		});
+				
+				timeLeft--;
+				
+				if (timeLeft < 1) {
+					this.cancel();
+					
+					Utils.playSoundForAllPlayers(Sound.ENTITY_ARROW_HIT_PLAYER, 1.0f);
+					
+					Utils.clearPotionEffects();
+
+					begin(map);
+					
+					Minigames.IS_IN_GAME = true;
+					
+					Bukkit.getPluginManager().registerEvents(Game.this, Minigames.getInstance());
+					
+					Utils.setXpBarValue(0f, 0);
+				}
+			}
+		};
 	}
 	
 	public static Game getRandomGame(){

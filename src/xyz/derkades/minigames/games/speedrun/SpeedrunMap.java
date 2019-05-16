@@ -3,7 +3,9 @@ package xyz.derkades.minigames.games.speedrun;
 import org.bukkit.Location;
 import org.bukkit.Material;
 
-public abstract class SpeedrunMap {
+import xyz.derkades.minigames.games.GameMap;
+
+public abstract class SpeedrunMap implements GameMap {
 	
 	public static final SpeedrunMap[] MAPS = {
 		new Backwards(),

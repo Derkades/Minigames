@@ -2,7 +2,9 @@ package xyz.derkades.minigames.games.icyblowback;
 
 import org.bukkit.Location;
 
-public abstract class IcyBlowbackMap {
+import xyz.derkades.minigames.games.GameMap;
+
+public abstract class IcyBlowbackMap implements GameMap {
 
 	public static final IcyBlowbackMap[] MAPS = {
 			new IcyBlowback(),
