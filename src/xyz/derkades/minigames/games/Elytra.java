@@ -21,7 +21,7 @@ import xyz.derkades.minigames.utils.Utils;
 public class Elytra extends Game {
 
 	public static final int GAME_DURATION = 30;
-	public static final int PRE_START_TIME = 5;
+	public static final int PRE_START_TIME = 3;
 	
 	Elytra() {
 		super("Elytra", new String[]{
@@ -38,7 +38,7 @@ public class Elytra extends Game {
 		for (Player player : Bukkit.getOnlinePlayers()){
 			player.teleport(new Location(Var.WORLD, 163.5, 76.5, 339.5, 120, 25));
 			player.getInventory().setChestplate(new ItemStack(Material.ELYTRA));
-			Utils.giveInfiniteEffect(player, PotionEffectType.SLOW, 2);
+			Utils.giveInfiniteEffect(player, PotionEffectType.SLOW, 5);
 			Utils.giveInfiniteEffect(player, PotionEffectType.INVISIBILITY, 2);
 		}
 		

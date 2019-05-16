@@ -17,6 +17,7 @@ import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import net.md_5.bungee.api.ChatColor;
 import xyz.derkades.derkutils.ListUtils;
@@ -26,7 +27,6 @@ import xyz.derkades.minigames.Minigames;
 import xyz.derkades.minigames.Points;
 import xyz.derkades.minigames.Var;
 import xyz.derkades.minigames.menu.VoteMenu;
-import xyz.derkades.minigames.utils.GameTimer;
 import xyz.derkades.minigames.utils.Scheduler;
 import xyz.derkades.minigames.utils.Utils;
 
@@ -197,7 +197,7 @@ public abstract class Game implements Listener {
 			Utils.clearInventory(player);
 		}
 		
-		new GameTimer() {
+		new BukkitRunnable() {
 			int timeLeft = 100;
 			
 			@Override
@@ -226,7 +226,7 @@ public abstract class Game implements Listener {
 					Utils.setXpBarValue(0f, 0);
 				}
 			}
-		};
+		}.runTaskTimer(Minigames.getInstance(), 0, 1);
 	}
 	
 	public static Game getRandomGame(){

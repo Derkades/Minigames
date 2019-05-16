@@ -1,6 +1,7 @@
 package xyz.derkades.minigames;
 
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -10,6 +11,8 @@ import org.bukkit.entity.Player;
 import net.md_5.bungee.api.ChatColor;
 import xyz.derkades.minigames.games.Game;
 import xyz.derkades.minigames.menu.MainMenu;
+import xyz.derkades.minigames.utils.Scheduler;
+import xyz.derkades.minigames.utils.Utils;
 
 public class Command implements CommandExecutor {
 
@@ -37,7 +40,17 @@ public class Command implements CommandExecutor {
 				Minigames.STOP_GAMES = true;
 			} else if (args[0].equalsIgnoreCase("emerg") && player.hasPermission("minigames.emerg")) {
 				player.sendMessage("! EMERGENCY STOP !");
-				Bukkit.reload();
+				Bukkit.broadcastMessage(ChatColor.RED + "Initiating emergency stop. You may be kicked or experience lag.");
+				Bukkit.getOnlinePlayers().forEach(player2 -> {
+					Utils.teleportToLobby(player2);
+					Utils.clearInventory(player2);
+					Utils.clearPotionEffects(player2);
+					player2.setGameMode(GameMode.ADVENTURE);
+				});
+				Scheduler.delay(20, () -> Bukkit.reload());
+			} else if (args[0].equalsIgnoreCase("min") && player.hasPermission("minigames.min")) {
+				Minigames.BYPASS_PLAYER_MINIMUM_CHECKS = true;
+				player.sendMessage("Bypassing minimum player check");
 			} else if (args[0].equals("test") && player.hasPermission("minigames.test")) {
 				final Location loc = player.getLocation();
 		        final Location fbLocation = loc.add(
@@ -52,6 +65,8 @@ public class Command implements CommandExecutor {
 		        f.setShooter(player);
 		        f.setIsIncendiary(false);
 		        player.sendMessage("test");
+			} else {
+				player.sendMessage("no.");
 			}
 		} else if (args.length == 0){
 			new MainMenu(player).open();

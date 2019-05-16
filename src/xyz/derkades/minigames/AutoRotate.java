@@ -17,7 +17,7 @@ public class AutoRotate {
 			return;
 		}
 		
-		if (Bukkit.getOnlinePlayers().size() < 2){
+		if (Bukkit.getOnlinePlayers().size() < 2 && !Minigames.BYPASS_PLAYER_MINIMUM_CHECKS){
 			Bukkit.broadcastMessage(ChatColor.RED + "Minigames will only start with 2 or more players online.");
 			Bukkit.broadcastMessage(ChatColor.GOLD + "If you want to have some fun, invite a friend or two!");
 			new BukkitRunnable(){
@@ -42,7 +42,7 @@ public class AutoRotate {
 		}	
 		
 		//If there are not enough online players, try again
-		if (!(Bukkit.getOnlinePlayers().size() >= game.getRequiredPlayers())){
+		if (!(Bukkit.getOnlinePlayers().size() >= game.getRequiredPlayers()) && !Minigames.BYPASS_PLAYER_MINIMUM_CHECKS){
 			// This code will never result in a loop. If there are less than 2 players online, this will not run.
 			// There will always be 2 player games.
 			startNewRandomGame();
@@ -60,6 +60,8 @@ public class AutoRotate {
 				"(Current weight: " + weight + ")");
 		
 		Minigames.CURRENT_GAME_NAME = game.getName();
+		
+		Minigames.BYPASS_PLAYER_MINIMUM_CHECKS = false;
 		
 		new BukkitRunnable(){
 			public void run(){

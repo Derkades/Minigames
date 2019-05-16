@@ -1,17 +1,7 @@
 package xyz.derkades.minigames;
 
-import org.bukkit.Bukkit;
-import org.bukkit.OfflinePlayer;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
-
-import com.vexsoftware.votifier.model.Vote;
-import com.vexsoftware.votifier.model.VotifierEvent;
-
-import net.md_5.bungee.api.ChatColor;
-import xyz.derkades.derkutils.Random;
-
-public class Votifier implements Listener {
+@Deprecated
+public class Votifier {/*implements Listener {
 	
 	@EventHandler
 	public void onVote(VotifierEvent event){
@@ -21,6 +11,6 @@ public class Votifier implements Listener {
 		@SuppressWarnings("deprecation")
 		OfflinePlayer player = Bukkit.getOfflinePlayer(vote.getUsername());
 		Points.addPoints(player, points);
-	}
+	}*/
 
 }

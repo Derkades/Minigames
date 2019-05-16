@@ -39,6 +39,8 @@ public class Minigames extends JavaPlugin implements Listener {
 	 */
 	public static Game NEXT_GAME = null;
 	
+	public static boolean BYPASS_PLAYER_MINIMUM_CHECKS = false;
+	
 	@Override
 	public void onEnable(){
 		instance = this;
@@ -50,7 +52,7 @@ public class Minigames extends JavaPlugin implements Listener {
 		new Points.UpdateLeaderboard().runTaskTimer(this, 2*20, 10*20);
 		
 		getServer().getPluginManager().registerEvents(new GlobalListeners(), this);
-		getServer().getPluginManager().registerEvents(new Votifier(), this);
+		//getServer().getPluginManager().registerEvents(new Votifier(), this);
 		
 		File file = new File(getDataFolder(), "config.yml");
 		if (!file.exists()){
