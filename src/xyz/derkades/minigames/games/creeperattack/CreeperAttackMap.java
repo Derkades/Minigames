@@ -8,13 +8,8 @@ public abstract class CreeperAttackMap implements GameMap {
 	
 	public static final CreeperAttackMap[] MAPS = {
 			new Mineshaft(),
-			new Original(),
+			new Hedges(),
 	};
-	
-	@Override
-	public String getName() {
-		return this.getClass().getName();
-	}
 	
 	public abstract Location getCreeperLocation();
 	

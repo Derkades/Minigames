@@ -22,4 +22,9 @@ public class Mineshaft extends CreeperAttackMap {
 		return null;
 	}
 
+	@Override
+	public String getName() {
+		return "Mineshaft";
+	}
+
 }
