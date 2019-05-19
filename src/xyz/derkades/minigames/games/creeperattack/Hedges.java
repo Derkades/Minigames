@@ -4,7 +4,7 @@ import org.bukkit.Location;
 
 import xyz.derkades.minigames.Var;
 
-public class Original extends CreeperAttackMap {
+public class Hedges extends CreeperAttackMap {
 
 	@Override
 	public Location getCreeperLocation() {
@@ -19,6 +19,11 @@ public class Original extends CreeperAttackMap {
 	@Override
 	public Location getSpectatorLocation() {
 		return new Location(Var.WORLD, 121.5, 109, 317.5);
+	}
+
+	@Override
+	public String getName() {
+		return "Hedges";
 	}
 
 }
