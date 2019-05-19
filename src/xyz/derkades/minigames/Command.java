@@ -2,15 +2,15 @@ package xyz.derkades.minigames;
 
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
-import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Fireball;
 import org.bukkit.entity.Player;
 
 import net.md_5.bungee.api.ChatColor;
 import xyz.derkades.minigames.games.Game;
 import xyz.derkades.minigames.menu.MainMenu;
+import xyz.derkades.minigames.utils.BlockUtils;
 import xyz.derkades.minigames.utils.Scheduler;
 import xyz.derkades.minigames.utils.Utils;
 
@@ -52,7 +52,7 @@ public class Command implements CommandExecutor {
 				Minigames.BYPASS_PLAYER_MINIMUM_CHECKS = true;
 				player.sendMessage("Bypassing minimum player check");
 			} else if (args[0].equals("test") && player.hasPermission("minigames.test")) {
-				final Location loc = player.getLocation();
+				/*final Location loc = player.getLocation();
 		        final Location fbLocation = loc.add(
 		        		loc
 		                .getDirection()
@@ -63,7 +63,10 @@ public class Command implements CommandExecutor {
 		        final Fireball f = player.getWorld().spawn(fbLocation, Fireball.class);
 		        f.setYield(100);
 		        f.setShooter(player);
-		        f.setIsIncendiary(false);
+		        f.setIsIncendiary(false);*/
+				BlockUtils.fillArea(244, 67, 161, 212, 74, 131, Material.DIRT);
+				BlockUtils.fillArea(244, 69, 161, 242, 67, 159, Material.AIR);
+				BlockUtils.fillArea(214, 67, 133, 212, 69, 131, Material.AIR);
 		        player.sendMessage("test");
 			} else {
 				player.sendMessage("no.");

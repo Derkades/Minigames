@@ -23,6 +23,7 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 import xyz.derkades.derkutils.Random;
+import xyz.derkades.minigames.Minigames;
 import xyz.derkades.minigames.Var;
 
 public class Utils {
@@ -37,6 +38,10 @@ public class Utils {
 	                (e1, e2) -> e1, 
 	                LinkedHashMap::new
 	              ));
+	}
+	
+	public static void sendTitle(Player player, String title, String subtitle) {
+		player.sendTitle(title, subtitle, 10, 70, 20);
 	}
 	
 	public static void setGameRule(String gameRule, boolean setting){
@@ -243,6 +248,10 @@ public class Utils {
 	
 	public static void particle(final Particle particle, final Location location, final int count) {
 		Var.WORLD.spawnParticle(particle, location, count);
+	}
+	
+	public static void hideForEveryoneElse(Player player) {
+		Bukkit.getOnlinePlayers().forEach((player2) -> player2.hidePlayer(Minigames.getInstance(), player));
 	}
 
 }

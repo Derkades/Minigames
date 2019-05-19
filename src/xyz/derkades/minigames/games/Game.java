@@ -43,6 +43,7 @@ public abstract class Game implements Listener {
 			new JungleRun(),
 			//new MazePvp(),
 			//new Mine(),
+			new MolePvP(),
 			//new NyanCat(),
 			new Platform(),
 			new RegeneratingSpleef(),
