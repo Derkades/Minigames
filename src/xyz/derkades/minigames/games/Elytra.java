@@ -15,7 +15,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
 
 import xyz.derkades.minigames.Var;
-import xyz.derkades.minigames.utils.GameTimer;
 import xyz.derkades.minigames.utils.Utils;
 
 public class Elytra extends Game {
@@ -42,41 +41,29 @@ public class Elytra extends Game {
 			Utils.giveInfiniteEffect(player, PotionEffectType.INVISIBILITY, 2);
 		}
 		
-		new GameTimer() {
-			
-			int timeLeft = GAME_DURATION + PRE_START_TIME;
-			
-			public void run() {
-				if (timeLeft > GAME_DURATION) {
-					sendMessage("The game will start in " + (timeLeft - GAME_DURATION) + " seconds");
-				}
-				
-				if (timeLeft == GAME_DURATION) {
-					// game starting, remove slowness
-					Utils.clearPotionEffects();
-				}
-				
-				if (timeLeft == 15 || timeLeft < 5) {
-					sendMessage("The game will end in " + timeLeft + " seconds");
-				}
-				
-				if (timeLeft <= 0) {
-					end();
-					this.cancel();
-				}
-				
-				if (Utils.getAliveCountFromDeadList(dead) < 2) {
-					end();
-					this.cancel();
-				}
-				
-				timeLeft--;
+		new GameTimer(this, GAME_DURATION, PRE_START_TIME) {
+
+			@Override
+			public void onStart() {
+				// game starting, remove slowness
+				Utils.clearPotionEffects();
 			}
+
+			@Override
+			public int gameTimer(int secondsLeft) {
+				if (Utils.getAliveCountFromDeadList(dead) < 2 && secondsLeft > 2) {
+					return 2;
+				}
+				
+				return secondsLeft;
+			}
+
+			@Override
+			public void onEnd() {
+				Elytra.super.startNextGame(Utils.getPlayerListFromUUIDList(finished));
+			}
+			
 		};
-	}
-	
-	private void end(){
-		super.startNextGame(Utils.getPlayerListFromUUIDList(finished));
 	}
 	
 	@EventHandler
