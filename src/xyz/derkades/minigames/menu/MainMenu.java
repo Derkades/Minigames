@@ -5,6 +5,7 @@ import static org.bukkit.ChatColor.DARK_AQUA;
 import static org.bukkit.ChatColor.DARK_RED;
 import static org.bukkit.ChatColor.RED;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.Material;
@@ -18,6 +19,7 @@ import xyz.derkades.derkutils.bukkit.menu.OptionClickEvent;
 import xyz.derkades.minigames.Minigames;
 import xyz.derkades.minigames.Points;
 import xyz.derkades.minigames.games.Game;
+import xyz.derkades.minigames.games.GameMap;
 
 public class MainMenu extends IconMenu {
 
@@ -39,7 +41,7 @@ public class MainMenu extends IconMenu {
 			settingMaterial = Material.LIME_DYE;
 		}
 		
-		items.put(3, new ItemBuilder(settingMaterial).name(DARK_AQUA + "Game descriptions").lore(AQUA + "Click to enable or disable game description messages at the start of each game").create());
+		items.put(3, new ItemBuilder(settingMaterial).name(DARK_AQUA + "Game descriptions").lore(AQUA + "Click to enable or disable game", AQUA + "description messages at the start of each game").create());
 		items.put(8, new ItemBuilder(Material.BARRIER).name(RED + "Close").lore(DARK_RED + "Click to close this menu.").create());
 	}
 	
@@ -48,10 +50,11 @@ public class MainMenu extends IconMenu {
 		if (event.getName().contains("Games")){
 			Player player = event.getPlayer();
 			for (Game game : Game.GAMES){
-				player.sendMessage("------------------------------------------");
+				player.sendMessage(ChatColor.GRAY + "------------------------------------------");
 				player.sendMessage(DARK_AQUA + "Name: " + AQUA + game.getName());
 				//player.sendMessage(DARK_AQUA + "Reward (points): " + AQUA + game.getMinimumPoints() + "-" + game.getMaximumPoints());
 				player.sendMessage(DARK_AQUA + "Minimum online players: " + AQUA + game.getRequiredPlayers());
+				if (game.getGameMaps() != null) player.sendMessage(DARK_AQUA + "Maps: " + AQUA + getMapsString(game));
 			}
 			player.sendMessage("------------------------------------------");
 			return true;
@@ -87,6 +90,14 @@ public class MainMenu extends IconMenu {
 			event.getPlayer().sendMessage("error");
 			return false;
 		}
+	}
+	
+	private String getMapsString(Game game) {
+		List<String> mapNames = new ArrayList<>();
+		for (GameMap map : game.getGameMaps()) {
+			mapNames.add(map.getName());
+		}
+		return String.join(", ", mapNames);
 	}
 
 }
