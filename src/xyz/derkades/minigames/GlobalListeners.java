@@ -50,22 +50,23 @@ public class GlobalListeners implements Listener {
 		player.setExp(0.0f);
 		player.setLevel(0);
 		
-		//Console.sendCommand("scoreboard teams join all " + player.getName());
+		player.setCollidable(false);
 		
 		String minMax = ChatColor.GRAY + "(" + Bukkit.getOnlinePlayers().size() + "/" + Bukkit.getMaxPlayers() + ")";
 		
 		event.setJoinMessage(ChatColor.YELLOW + "" + ChatColor.BOLD + player.getName() + ChatColor.GOLD + "" + ChatColor.BOLD + " has joined! " + minMax);
 		
 		Scheduler.delay(1, () -> {
-			player.sendMessage(ChatColor.GRAY + "Welcome to the arcade server!");
+			//player.sendMessage(ChatColor.GRAY + "Welcome to the arcade server!");
 			player.spigot().sendMessage(
 					new ComponentBuilder("For feature requests and bug reports, click here.")
+					.color(ChatColor.GRAY)
 					.event(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://github.com/Derkades/Minigames/issues"))
 					.create());
-			player.spigot().sendMessage(
-					new ComponentBuilder("To join our discord server, click here.")
-					.event(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://discord.gg/pfbV4GA"))
-					.create());
+			//player.spigot().sendMessage(
+			//		new ComponentBuilder("To join our discord server, click here.")
+			//		.event(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://discord.gg/pfbV4GA"))
+			//		.create());
 		});
 		
 	}
