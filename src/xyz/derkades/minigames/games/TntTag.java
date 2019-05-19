@@ -33,9 +33,9 @@ public class TntTag extends Game {
 
 	TntTag() {
 		super("Tnt Tag", new String[] {
-				"Pass TNT onto other players",
-				"The game is finished when only",
-				"one player has not exploded."
+				"Run away from players who have tnt on them.",
+				"If you have tnt on you, pass it on to another",
+				"player by punching them."
 		}, 5, 5, 7, null);
 	}
 	

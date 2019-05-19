@@ -34,7 +34,7 @@ public class IcyBlowback extends Game {
 	IcyBlowback() {
 		super("Icy Blowback", 
 				new String[] {
-						"Try to knoch others off the slippery ice."
+						"Try to knock others off the slippery ice."
 				}, 2, 3, 6, IcyBlowbackMap.MAPS);
 	}
 

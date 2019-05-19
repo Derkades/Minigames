@@ -29,10 +29,7 @@ public class JungleRun extends Game {
 	JungleRun() {
 		super("Jungle Run", 
 				new String[] {
-						"Jungle Run is a small parkour game. The goal of",
-						"this game is to make it to the finish. You",
-						"have 25 seconds, when you fall you are out",
-						"of the game."
+						"Yet another parkour game.",
 				}, 1, 2, 4, null);
 	}
 	

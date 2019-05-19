@@ -24,8 +24,8 @@ public class Elytra extends Game {
 	
 	Elytra() {
 		super("Elytra", new String[]{
-				"Fly to the end of the cave without",
-				"touching the ground. Good luck!"
+				"Fly to the end of the cave without touching",
+				"the ground or lava."
 		}, 2, 2, 5, null);
 	}
 

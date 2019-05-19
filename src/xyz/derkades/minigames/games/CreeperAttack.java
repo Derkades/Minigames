@@ -31,7 +31,10 @@ import xyz.derkades.minigames.utils.Utils;
 public class CreeperAttack extends Game {
 
 	CreeperAttack() {
-		super("Creeper Attack", new String[] {"Avoid dying from creeper explosions"}, 2, 6, 7, CreeperAttackMap.MAPS);
+		super("Creeper Attack", new String[] {
+				"Avoid dying from creeper explosions. Use your",
+				"knockback stick to defend yourself against creepers."
+		}, 2, 6, 7, CreeperAttackMap.MAPS);
 	}
 
 	private List<UUID> alive;

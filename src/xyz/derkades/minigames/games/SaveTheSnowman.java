@@ -26,10 +26,8 @@ public class SaveTheSnowman extends Game {
 
 	SaveTheSnowman() {
 		super("Save the Snowman", new String[] {
-				"Save the Snowman is a small parkour game. The goal of",
-				"this game is to make it to the finish. You",
-				"have 45 seconds, when you fall you will be", 
-				"teleported back to the start."
+				"A parkour game on ice. Try to make it to the",
+				"snowman within the game duration."
 		}, 1, 3, 5, null);
 	}
 

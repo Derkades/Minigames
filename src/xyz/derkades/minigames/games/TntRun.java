@@ -23,7 +23,10 @@ import xyz.derkades.minigames.utils.Utils;
 public class TntRun extends Game {
 
 	TntRun() {
-		super("TNT Run", new String[]{}, 2, 3, 7, TNTMap.MAPS);
+		super("TNT Run", new String[]{
+				"The floor disappears where you walk. Avoid",
+				"falling for as long as possible.",
+		}, 2, 3, 7, TNTMap.MAPS);
 	}
 
 	private TNTMap map;

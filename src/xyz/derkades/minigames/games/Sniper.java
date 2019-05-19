@@ -42,7 +42,9 @@ public class Sniper extends Game {
 	
 	Sniper() {
 		super("Sniper", new String[] {
-				"Shoot other players with your instant kill bow.",
+				"Kill other players with a weak wooden sword.",
+				"For every kill you'll get a single arrow. Arrows",
+				"do enough damage to kill any player instantly."
 		}, 3, 3, 5, SniperMap.MAPS);
 	}
 

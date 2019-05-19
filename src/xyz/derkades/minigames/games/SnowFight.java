@@ -39,10 +39,9 @@ public class SnowFight extends Game {
 	
 	SnowFight() {
 		super("Snow Fight", new String[] {
-				"In this game you have to kill other players",
-				"using snowballs. Snowballs do 2.5 hearts",
-				"damage. Get snowballs by breaking snow",
-				"on the ground. Good luck!"
+				"Kill other players using snowballs. Get snowballs",
+				"by breaking snow with your shovel.",
+				"The player with the most kills wins.",
 		}, 2, 4, 9, SnowFightMap.MAPS);
 	}
 	
