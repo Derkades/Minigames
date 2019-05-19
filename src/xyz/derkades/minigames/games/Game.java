@@ -37,7 +37,6 @@ public abstract class Game implements Listener {
 			new CreeperAttack(),
 			new DigDug(),
 			new Dropper(),
-			new Dropper(),
 			new Elytra(),
 			new IcyBlowback(),
 			new JungleRun(),
@@ -47,6 +46,7 @@ public abstract class Game implements Listener {
 			//new NyanCat(),
 			new Platform(),
 			new RegeneratingSpleef(),
+			//new Rooms(),
 			new SaveTheSnowman(),
 			new Sniper(),
 			new SnowFight(),
@@ -89,6 +89,10 @@ public abstract class Game implements Listener {
 	
 	public final int getMaximumPoints() {
 		return maxPoints;
+	}
+	
+	public final GameMap[] getGameMaps() {
+		return maps;
 	}
 	
 	abstract void begin(final GameMap genericMap);

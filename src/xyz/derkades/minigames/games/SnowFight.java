@@ -1,11 +1,9 @@
 package xyz.derkades.minigames.games;
 
-import static org.bukkit.ChatColor.AQUA;
-import static org.bukkit.ChatColor.DARK_AQUA;
-import static org.bukkit.ChatColor.DARK_GRAY;
-
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
@@ -24,6 +22,10 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import com.coloredcarrot.api.sidebar.Sidebar;
+import com.coloredcarrot.api.sidebar.SidebarString;
+
+import net.md_5.bungee.api.ChatColor;
 import xyz.derkades.derkutils.Random;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
 import xyz.derkades.minigames.Minigames;
@@ -47,12 +49,26 @@ public class SnowFight extends Game {
 	private List<UUID> dead;
 	private SnowFightMap map;
 	
+	private Map<UUID, Integer> kills;
+	
+	private Sidebar sidebar;
+	
 	@Override
 	void begin(GameMap genericMap) {
 		dead = new ArrayList<>();
 		map = (SnowFightMap) genericMap;
+		kills = new HashMap<>();
+		
+		sidebar = new Sidebar(ChatColor.DARK_AQUA + "" + ChatColor.DARK_AQUA + "Kills", 
+				Minigames.getInstance(), Integer.MAX_VALUE, new SidebarString[] {new SidebarString("Loading...")});
 		
 		Utils.setGameRule("doTileDrops", false);
+		
+		for (Player player : Bukkit.getOnlinePlayers()){
+			player.teleport(map.getSpawnLocation());
+			
+			Minigames.setCanTakeDamage(player, true);
+		}
 		
 		ItemStack shovel = new ItemBuilder(Material.DIAMOND_SHOVEL)
 				.unbreakable()
@@ -63,46 +79,34 @@ public class SnowFight extends Game {
 		
 		shovel.addUnsafeEnchantment(Enchantment.DIG_SPEED, 10);
 		
-		for (Player player: Bukkit.getOnlinePlayers()){
-			player.teleport(map.getSpawnLocation());
-			
-			Minigames.setCanTakeDamage(player, true);
-		}
-		
-		new BukkitRunnable() {
-			
-			int secondsLeft = MAX_DURATION;
-			
-			public void run() {
+		new GameTimer(this, MAX_DURATION, 2) {
+
+			@Override
+			public void onStart() {
+				for (Player player : Bukkit.getOnlinePlayers()) {
+					player.getInventory().addItem(shovel);
+				}
+			}
+
+			@Override
+			public int gameTimer(final int secondsLeft) {
+				updateSidebar(secondsLeft);
+				
 				//End the game if everyone is a spectator except one player (or everyone is a spectator)
 				if (dead.size() >= (Bukkit.getOnlinePlayers().size() - 1) && secondsLeft > 2) {
-					secondsLeft = 2;
+					return 2;
 				}
 				
-				if (secondsLeft <= 0) {
-					this.cancel();
-					endGame();
-					return;
-				}
-				
-				if (secondsLeft == 30 || secondsLeft == 15 || secondsLeft <= 5) {
-					sendMessage(String.format("%s seconds left", secondsLeft));
-				}
-				
-				secondsLeft--;
+				return secondsLeft;
+			}
+
+			@Override
+			public void onEnd() {								
+				//super.startNextGame(Utils.getWinnersFromDeadList(dead));
+				startNextGame(Utils.getWinnersFromPointsHashmap(kills));
 			}
 			
-		}.runTaskTimer(Minigames.getInstance(), 0, 1*20);
-	}
-	
-	private void endGame(){
-		Utils.setGameRule("doTileDrops", true);
-		
-		for (Player player: Bukkit.getOnlinePlayers()){
-			player.setHealth(20);
-		}
-		
-		super.startNextGame(Utils.getWinnersFromDeadList(dead));
+		};
 	}
 	
 	@EventHandler
@@ -126,6 +130,11 @@ public class SnowFight extends Game {
 		Inventory inv = player.getInventory();
 		if (!inv.contains(new ItemStack(Material.SNOWBALL, 16))) {
 			int amount = Random.getRandomInteger(1, 3);
+			
+			if (amount + inv.getItem(0).getAmount() > 16) {
+				amount = 16;
+			}
+			
 			inv.addItem(new ItemStack(Material.SNOWBALL, amount));
 		}
 		
@@ -137,7 +146,7 @@ public class SnowFight extends Game {
 			public void run() {
 				snow.setLayers(oldLayersNum);
 			}
-		}.runTaskLater(Minigames.getInstance(), 3 * 20);
+		}.runTaskLater(Minigames.getInstance(), 5 * 20);
 	}
 	
 	@EventHandler
@@ -146,8 +155,10 @@ public class SnowFight extends Game {
 		
 		if (event.getEntityType() == EntityType.PLAYER){
 			Player player = event.getEntity().getPlayer();
-			String pn = player.getName();
-			event.setDeathMessage(DARK_GRAY + "[" + DARK_AQUA + getName() + DARK_GRAY + "] " + AQUA + killer.getName() + " has killed " + pn + "!");
+			//event.setDeathMessage(DARK_GRAY + "[" + DARK_AQUA + getName() + DARK_GRAY + "] " + AQUA + killer.getName() + " has killed " + pn + "!");
+			event.setDeathMessage("");
+			sendMessage(killer.getName() + " has killed " + player.getName() + "!");
+			
 			Scheduler.delay(1, () -> {
 				player.spigot().respawn();
 				player.teleport(map.getSpectatorLocation());
@@ -156,6 +167,25 @@ public class SnowFight extends Game {
 				Minigames.setCanTakeDamage(player, false);
 			});
 		}
+	}
+	
+	private void updateSidebar(int secondsLeft) {
+		kills = Utils.sortByValue(kills);
+		
+		List<SidebarString> sidebarStrings = new ArrayList<>();
+
+
+		for (Player player : Bukkit.getOnlinePlayers()) {
+			if (kills.containsKey(player.getUniqueId())) {
+				sidebarStrings.add(new SidebarString(ChatColor.DARK_GREEN + 
+						player.getName() + ChatColor.GRAY + ": " + ChatColor.GREEN + kills.get(player.getUniqueId())));
+			}
+		}
+		
+		sidebar.setEntries(sidebarStrings)
+			.addEmpty()
+			.addEntry(new SidebarString(ChatColor.GRAY + "Time left: " + secondsLeft + " seconds."))
+			.update();
 	}
 	
 }
