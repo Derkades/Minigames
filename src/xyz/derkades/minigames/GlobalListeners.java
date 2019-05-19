@@ -69,6 +69,13 @@ public class GlobalListeners implements Listener {
 			//		.create());
 		});
 		
+		Scheduler.delay(5, () -> {
+			if (Minigames.IS_IN_GAME) {
+				player.sendMessage(ChatColor.GREEN + "A minigame is in progress. When the next minigame starts, you'll join automatically. The next minigame should start in less than a minute.");
+			}
+		});
+		
+		
 	}
 	
 	@EventHandler
