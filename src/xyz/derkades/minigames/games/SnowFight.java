@@ -108,9 +108,6 @@ public class SnowFight extends Game {
 					sidebar.hideFrom(player);
 				}
 				
-				kills.clear();
-				dead.clear();
-				
 				startNextGame(Utils.getWinnersFromPointsHashmap(kills));
 			}
 			
@@ -148,13 +145,11 @@ public class SnowFight extends Game {
 		
 		Snow snow = (Snow) block.getBlockData();
 
-		int oldLayersNum = snow.getLayers();
-
 		new BukkitRunnable() {
 			public void run() {
-				snow.setLayers(oldLayersNum);
+				snow.setLayers(Random.getRandomInteger(0, 4));
 			}
-		}.runTaskLater(Minigames.getInstance(), 5 * 20);
+		}.runTaskLater(Minigames.getInstance(), 3 * 20);
 	}
 	
 	@EventHandler

@@ -121,7 +121,15 @@ public class Utils {
 	}
 	
 	public static List<Player> getWinnersFromPointsHashmap(Map<UUID, Integer> points){
+		if (points == null || points.isEmpty()) {
+			return new ArrayList<>();
+		}
+		
 		int maxPoints = Collections.max(points.values());
+		
+		if (maxPoints == 0) {
+			return new ArrayList<>(); 
+		}
 		
 		List<Player> winners = new ArrayList<>();
 		
