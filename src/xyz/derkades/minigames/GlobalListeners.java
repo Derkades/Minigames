@@ -146,7 +146,7 @@ public class GlobalListeners implements Listener {
 			return;
 		}
 		
-		if (!event.getHand().equals(EquipmentSlot.HAND)) {
+		if (event.getHand() != null && !event.getHand().equals(EquipmentSlot.HAND)) {
 			return;
 		}
 		

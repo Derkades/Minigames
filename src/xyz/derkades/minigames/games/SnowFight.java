@@ -66,6 +66,8 @@ public class SnowFight extends Game {
 		for (Player player : Bukkit.getOnlinePlayers()){
 			player.teleport(map.getSpawnLocation());
 			
+			kills.put(player.getUniqueId(), 0);
+			
 			Minigames.setCanTakeDamage(player, true);
 		}
 		
@@ -84,6 +86,7 @@ public class SnowFight extends Game {
 			public void onStart() {
 				for (Player player : Bukkit.getOnlinePlayers()) {
 					player.getInventory().addItem(shovel);
+					sidebar.showTo(player);
 				}
 			}
 
@@ -101,7 +104,13 @@ public class SnowFight extends Game {
 
 			@Override
 			public void onEnd() {								
-				//super.startNextGame(Utils.getWinnersFromDeadList(dead));
+				for (Player player : Bukkit.getOnlinePlayers()) {
+					sidebar.hideFrom(player);
+				}
+				
+				kills.clear();
+				dead.clear();
+				
 				startNextGame(Utils.getWinnersFromPointsHashmap(kills));
 			}
 			
@@ -152,6 +161,8 @@ public class SnowFight extends Game {
 	public void onKill(PlayerDeathEvent event){
 		Player killer = event.getEntity().getKiller();
 		
+		kills.put(killer.getUniqueId(), kills.get(killer.getUniqueId()) + 1);
+		
 		if (event.getEntityType() == EntityType.PLAYER){
 			Player player = event.getEntity().getPlayer();
 			//event.setDeathMessage(DARK_GRAY + "[" + DARK_AQUA + getName() + DARK_GRAY + "] " + AQUA + killer.getName() + " has killed " + pn + "!");
@@ -160,7 +171,11 @@ public class SnowFight extends Game {
 			
 			Scheduler.delay(1, () -> {
 				player.spigot().respawn();
-				player.teleport(map.getSpectatorLocation());
+				player.teleport(killer.getLocation());
+				
+				Utils.hideForEveryoneElse(player);
+				Utils.giveInvisibility(player);
+				
 				dead.add(player.getUniqueId());
 				Utils.clearInventory(player);
 				Minigames.setCanTakeDamage(player, false);
@@ -172,13 +187,12 @@ public class SnowFight extends Game {
 		kills = Utils.sortByValue(kills);
 		
 		List<SidebarString> sidebarStrings = new ArrayList<>();
-
-
+	
 		for (Player player : Bukkit.getOnlinePlayers()) {
-			if (kills.containsKey(player.getUniqueId())) {
-				sidebarStrings.add(new SidebarString(ChatColor.DARK_GREEN + 
-						player.getName() + ChatColor.GRAY + ": " + ChatColor.GREEN + kills.get(player.getUniqueId())));
-			}
+			try {
+				int points = kills.get(player.getUniqueId());
+				sidebarStrings.add(new SidebarString(ChatColor.DARK_GREEN + player.getName() + ChatColor.GRAY + ": " + ChatColor.GREEN + points));
+			} catch (NullPointerException e) { continue; }
 		}
 		
 		sidebar.setEntries(sidebarStrings)

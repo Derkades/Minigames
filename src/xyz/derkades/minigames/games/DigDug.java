@@ -112,7 +112,7 @@ public class DigDug extends Game {
 				ItemStack shovel = new ItemBuilder(Material.DIAMOND_SHOVEL)
 						.name(ChatColor.GREEN + "The Dig Dug Digger")
 						.unbreakable()
-						.canDestroy("dirt", "grass")
+						.canDestroy("dirt", "grass_block")
 						.create();
 				
 				shovel.addUnsafeEnchantment(Enchantment.DIG_SPEED, 10);

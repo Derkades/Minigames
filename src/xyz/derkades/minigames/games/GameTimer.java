@@ -15,6 +15,9 @@ public abstract class GameTimer {
 			
 			@Override
 			public void run() {
+				secondsLeft--;
+				
+				// pre-start countdown
 				if (secondsLeft > gameSeconds) {
 					return;
 				}
@@ -35,9 +38,7 @@ public abstract class GameTimer {
 				
 				if (secondsLeft == 60 || secondsLeft == 30 || secondsLeft == 10 || secondsLeft <= 5) {
 					game.sendMessage(String.format("%s seconds left", secondsLeft));
-				}				
-				
-				secondsLeft--;
+				}
 			}
 			
 		}.runTaskTimer(Minigames.getInstance(), 0, 20);
