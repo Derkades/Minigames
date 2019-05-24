@@ -1,6 +1,7 @@
 package xyz.derkades.minigames.games;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -11,11 +12,13 @@ import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import xyz.derkades.derkutils.ListUtils;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
 import xyz.derkades.minigames.Minigames;
 import xyz.derkades.minigames.Var;
@@ -98,12 +101,12 @@ public class IcyBlowback extends Game {
 			Utils.giveInfiniteEffect(player, PotionEffectType.DAMAGE_RESISTANCE, 255);
 		}
 		
-		Var.WORLD.setTime(14000);
+		//Var.WORLD.setTime(14000);
 	}
 	
 	private void end() {
-		Var.WORLD.setTime(6000);
-		super.startNextGame(Utils.getWinnersFromDeadList(dead));
+		//Var.WORLD.setTime(6000);
+		super.startNextGame(Arrays.asList(ListUtils.getRandomValueFromList(Utils.getWinnersFromDeadList(dead))));
 	}
 	
 	private void die(Player player) {
@@ -111,8 +114,13 @@ public class IcyBlowback extends Game {
 		player.setAllowFlight(true);
 		Utils.giveInvisibility(player);
 		Var.WORLD.spigot().strikeLightningEffect(player.getLocation(), false);
-		player.teleport(map.getSpectatorLocation());
+		//player.teleport(map.getSpectatorLocation());
 		player.getInventory().clear();
+		Utils.hideForEveryoneElse(player);
+		player.setFlying(true);
+		Location loc = player.getLocation();
+		loc.setY(loc.getY() + 10);
+		player.teleport(loc);
 	}
 	
 	@EventHandler
@@ -120,6 +128,13 @@ public class IcyBlowback extends Game {
 		Player player = event.getPlayer();
 		if (player.getLocation().getY() < 87) {
 			die(player);
+		}
+	}
+	
+	@EventHandler
+	public void onDamage(EntityDamageByEntityEvent event) {
+		if (dead.contains(event.getDamager().getUniqueId())) {
+			event.setCancelled(true);
 		}
 	}
 	
