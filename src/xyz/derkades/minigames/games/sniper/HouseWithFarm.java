@@ -13,7 +13,7 @@ public class HouseWithFarm extends SniperMap {
 
 	@Override
 	public Location getSpectatorLocation() {
-		return null;
+		return Var.NO_SPECATOR_LOCATION;
 	}
 
 	@Override
