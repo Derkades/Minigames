@@ -9,11 +9,12 @@ import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Arrow;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.inventory.ItemStack;
 
@@ -110,24 +111,39 @@ public class TeamsBowBattle extends Game {
 	}
 	
 	@EventHandler
-	public void onDamage(EntityDamageByEntityEvent event) {
-		if (event.getEntity().getType() != EntityType.PLAYER ||
-				event.getDamager().getType() != EntityType.PLAYER) {
+	public void onDamage(EntityDamageByEntityEvent event) {		
+		if (event.getEntity().getType() != EntityType.PLAYER) {
 			return;
 		}
 		
-		Player damager = (Player) event.getDamager();
+		Entity damager = event.getDamager();
+		
 		Player damaged = (Player) event.getEntity();
 		
-		if (damaged.getLastDamageCause().getCause() != DamageCause.PROJECTILE) {
-			System.out.println("not an arrow");
+		if (damaged.getType() != EntityType.PLAYER) {
+			return;
+		}
+		
+		if (damager.getType() == EntityType.PLAYER) {
 			event.setCancelled(true);
 			return;
 		}
 		
-		if (teamBlue.contains(damager.getUniqueId()) && teamRed.contains(damaged.getUniqueId())) {
+		if (damager.getType() != EntityType.ARROW) {
+			return;
+		}
+		
+		Arrow arrow = (Arrow) damager;
+		
+		if (!(arrow.getShooter() instanceof Player)) {
+			return;
+		}
+		
+		Player shooter = (Player) arrow.getShooter();
+		
+		if (teamBlue.contains(shooter.getUniqueId()) && teamRed.contains(damaged.getUniqueId())) {
 			// blue attacks red -> allow
-		} else if (teamRed.contains(damager.getUniqueId()) && teamBlue.contains(damaged.getUniqueId())) {
+		} else if (teamRed.contains(shooter.getUniqueId()) && teamBlue.contains(damaged.getUniqueId())) {
 			// red attacks blue -> allow
 		} else {
 			/*
@@ -144,13 +160,18 @@ public class TeamsBowBattle extends Game {
 	@EventHandler
 	public void onDeath(PlayerDeathEvent event) {
 		Player player = event.getEntity();
-		
 		Player killer = player.getKiller();
+		
 		if (killer == null) {
+			event.setDeathMessage(String.format("%s%s%s %has died.", 
+					getTeamColor(player), ChatColor.BOLD, player.getName(), ChatColor.GRAY));
+		}
+		
+		/*if (killer.getUniqueId().equals(player.getUniqueId())) {
 			event.setDeathMessage(String.format("%s%s%s %has taken their own life.", 
 					getTeamColor(player), ChatColor.BOLD, player.getName(), ChatColor.GRAY));
 			return;
-		}
+		}*/
 		
 		dead.add(player.getUniqueId());
 		
