@@ -94,6 +94,7 @@ public class CreeperAttack extends Game {
 		alive.remove(event.getEntity().getUniqueId());
 		Scheduler.delay(1, () -> {
 			event.getEntity().spigot().respawn();
+			Utils.clearInventory(event.getEntity());
 			if (map.getSpectatorLocation() != null)
 				event.getEntity().teleport(map.getSpectatorLocation());
 		});
