@@ -52,8 +52,6 @@ public class Platform extends Game {
 			Utils.giveInfiniteEffect(player, PotionEffectType.DAMAGE_RESISTANCE, 255);
 		}
 		
-		sendMessage("You have " + SPREAD_TIME + " seconds to spread before the game starts.");
-		
 		new GameTimer(this, GAME_DURATION, SPREAD_TIME) {
 
 			@Override
