@@ -37,7 +37,7 @@ public abstract class Game implements Listener {
 			new CreeperAttack(),
 			new DigDug(),
 			new Dropper(),
-			new Elytra(),
+			//new Elytra(),
 			new IcyBlowback(),
 			new JungleRun(),
 			//new MazePvp(),
