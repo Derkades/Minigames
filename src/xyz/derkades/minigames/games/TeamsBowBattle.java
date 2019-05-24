@@ -60,7 +60,7 @@ public class TeamsBowBattle extends Game {
 				teamRed.add(player.getUniqueId());
 				player.teleport(map.getTeamRedSpawnLocation());
 			} else {
-				Utils.sendTitle(player, "", String.format("%sYou are in the %s%BLUE%s team", ChatColor.GRAY, ChatColor.BLUE, ChatColor.BOLD, ChatColor.GRAY));
+				Utils.sendTitle(player, "", String.format("%sYou are in the %s%sBLUE%s team", ChatColor.GRAY, ChatColor.BLUE, ChatColor.BOLD, ChatColor.GRAY));
 				teamBlue.add(player.getUniqueId());
 				player.teleport(map.getTeamBlueSpawnLocation());
 			}
@@ -215,7 +215,7 @@ public class TeamsBowBattle extends Game {
 		
 		ItemStack bow = new ItemBuilder(Material.BOW)
 				.enchant(Enchantment.ARROW_DAMAGE, 3)
-				.enchant(Enchantment.ARROW_INFINITE, 0)
+				.enchant(Enchantment.ARROW_INFINITE, 1)
 				.unbreakable()
 				.create();
 		
