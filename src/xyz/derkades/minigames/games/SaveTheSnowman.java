@@ -13,8 +13,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerMoveEvent;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import xyz.derkades.minigames.Minigames;
@@ -39,7 +37,7 @@ public class SaveTheSnowman extends Game {
 		
 		for (Player player: Bukkit.getOnlinePlayers()){
 			player.teleport(new Location(Var.WORLD, 277.5, 70, 273.5, -90, 0));
-			player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 100000, 0, true));
+			Utils.hideForEveryoneElse(player);
 		}
 		
 		new BukkitRunnable(){
@@ -71,6 +69,8 @@ public class SaveTheSnowman extends Game {
 		player.teleport(new Location(Var.WORLD, 320, 81, 274, 90, 0));
 
 		Utils.playSoundForAllPlayers(Sound.ENTITY_PLAYER_LEVELUP, 1);
+		
+		Bukkit.getOnlinePlayers().forEach((player2) -> player.showPlayer(Minigames.getInstance(), player2));
 	}
 	
 	@EventHandler(priority = EventPriority.MONITOR)
