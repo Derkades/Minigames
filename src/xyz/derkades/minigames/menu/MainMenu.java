@@ -32,7 +32,8 @@ public class MainMenu extends IconMenu {
 	private void addItems(Player player) {
 		items.put(0, new ItemBuilder(Material.GRAY_DYE).name(DARK_AQUA + "Points").lore(AQUA + "You have " + Points.getPoints(player) + " points.").create());
 		items.put(1, new ItemBuilder(Material.GRAY_DYE).name(DARK_AQUA + "Games").lore(AQUA + "Click to get game information.").create());
-		items.put(2, new ItemBuilder(Material.GRAY_DYE).name(DARK_AQUA + "Shop").lore(AQUA + "Buy items using points.").create());
+		items.put(2, new ItemBuilder(Material.GRAY_DYE).name(DARK_AQUA + "Points explanation").lore(AQUA + "Click to get points information.").create());
+		items.put(3, new ItemBuilder(Material.GRAY_DYE).name(DARK_AQUA + "Shop").lore(AQUA + "Buy perks using GladeCoins").create());
 		
 		Material settingMaterial;
 		if (Minigames.getInstance().getConfig().getStringList("disabled-description").contains(player.getUniqueId().toString())) {
@@ -41,7 +42,7 @@ public class MainMenu extends IconMenu {
 			settingMaterial = Material.LIME_DYE;
 		}
 		
-		items.put(3, new ItemBuilder(settingMaterial).name(DARK_AQUA + "Game descriptions").lore(AQUA + "Click to enable or disable game", AQUA + "description messages at the start of each game").create());
+		items.put(4, new ItemBuilder(settingMaterial).name(DARK_AQUA + "Game descriptions").lore(AQUA + "Click to enable or disable game", AQUA + "description messages at the start of each game").create());
 		
 		items.put(8, new ItemBuilder(Material.BARRIER).name(RED + "Close").lore(DARK_RED + "Click to close this menu.").create());
 	}
@@ -64,6 +65,15 @@ public class MainMenu extends IconMenu {
 			event.getPlayer().sendMessage("The shop is temporarily disabled");
 			return false;
 		} else if (event.getName().contains("Close")){
+			return true;
+		} else if (event.getName().contains("Points explanation")) {
+			Player player = event.getPlayer();
+			player.sendMessage(ChatColor.GREEN + "" + ChatColor.BOLD + "Winning a game");
+			player.sendMessage(ChatColor.GRAY + "  1-2 online players: +3 points, +3 GladeCoins");
+			player.sendMessage(ChatColor.GRAY + "  3-4 online players: +4 points, +4 GladeCoins");
+			player.sendMessage(ChatColor.GRAY + "  5+ online players: +5 points, +5 GladeCoins");
+			player.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "Losing a game");
+			player.sendMessage(ChatColor.GRAY + "  +1 point, +0 GladeCoins");
 			return true;
 		} else if (event.getName().contains("Points")) {
 			return false;

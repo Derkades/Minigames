@@ -124,11 +124,25 @@ public abstract class Game implements Listener {
 			if (winnerNames.contains(player.getName())){
 				//If player has won
 				final int onlinePlayers = Bukkit.getOnlinePlayers().size();
-				final int points = onlinePlayers < 3 ? 3 : onlinePlayers > 7 ? 7 : onlinePlayers;
+				
+				Minigames.economy.depositPlayer(player, 1);
+				
+				final int points;
+				
+				if (onlinePlayers < 3) {
+					points = 3;
+				} else if (onlinePlayers < 5){
+					points = 4;
+				} else {
+					points = 5;
+				}
+				
 				Points.addPoints(player, points);
+				Minigames.economy.depositPlayer(player, points);
 				Utils.sendTitle(player, DARK_AQUA + "You've won",  AQUA + "+" + points + " points");
 			} else {
 				Points.addPoints(player, 1);
+				//Minigames.economy.depositPlayer(player, 0);
 				Utils.sendTitle(player, DARK_AQUA + "You've lost", AQUA + "+1 point");
 			}
 			player.sendMessage(DARK_AQUA + "You currently have " + AQUA + Points.getPoints(player) + DARK_AQUA + " points.");
@@ -188,7 +202,7 @@ public abstract class Game implements Listener {
 			if (!Minigames.getInstance().getConfig().getStringList("disabled-description")
 					.contains(player.getUniqueId().toString())) {
 				for (String line : getDescription()) player.sendMessage(DARK_AQUA + line);
-				player.sendMessage(DARK_AQUA + "Points: " + AQUA + this.getMinimumPoints() + "-" + this.getMaximumPoints());
+				//player.sendMessage(DARK_AQUA + "Points: " + AQUA + this.getMinimumPoints() + "-" + this.getMaximumPoints());
 			}
 			
 			if (map != null)

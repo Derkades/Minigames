@@ -52,7 +52,7 @@ public class Elytra extends Game {
 
 			@Override
 			public int gameTimer(int secondsLeft) {
-				if (Utils.getAliveCountFromDeadList(dead) < 2 && secondsLeft > 2) {
+				if (Bukkit.getOnlinePlayers().size() == dead.size() && secondsLeft > 2) {
 					return 2;
 				}
 				

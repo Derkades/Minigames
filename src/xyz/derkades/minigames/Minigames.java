@@ -9,8 +9,10 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
+import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import net.milkbowl.vault.economy.Economy;
 import xyz.derkades.minigames.games.Game;
 import xyz.derkades.minigames.task.RegenerateHunger;
 import xyz.derkades.minigames.utils.Scheduler;
@@ -41,6 +43,8 @@ public class Minigames extends JavaPlugin implements Listener {
 	
 	public static boolean BYPASS_PLAYER_MINIMUM_CHECKS = false;
 	
+	public static Economy economy = null;
+	
 	@Override
 	public void onEnable(){
 		instance = this;
@@ -64,6 +68,10 @@ public class Minigames extends JavaPlugin implements Listener {
 		Scheduler.repeat(20, () -> {
 			Var.WORLD.setStorm(false);
 		});
+		
+		if (!setupEconomy()) {
+			getLogger().severe("Vault error");
+		}
 	}
 	
 	@Override
@@ -97,5 +105,17 @@ public class Minigames extends JavaPlugin implements Listener {
 		
 		return CURRENT_GAME_NAME;
 	}
+	
+    private boolean setupEconomy() {
+        if (getServer().getPluginManager().getPlugin("Vault") == null) {
+            return false;
+        }
+        RegisteredServiceProvider<Economy> rsp = getServer().getServicesManager().getRegistration(Economy.class);
+        if (rsp == null) {
+            return false;
+        }
+        economy = rsp.getProvider();
+        return economy != null;
+    }
 	
 }
