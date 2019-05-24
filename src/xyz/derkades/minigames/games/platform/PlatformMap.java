@@ -13,6 +13,6 @@ public abstract class PlatformMap implements GameMap {
 	
 	public abstract Location spawnLocation();
 	
-	public abstract Location spectatorLocation();
+	public abstract Location getSpectatorLocation();
 
 }

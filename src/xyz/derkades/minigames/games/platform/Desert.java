@@ -12,7 +12,7 @@ public class Desert extends PlatformMap {
 	}
 
 	@Override
-	public Location spectatorLocation() {
+	public Location getSpectatorLocation() {
 		return new Location(Var.WORLD, 209.5, 95, 362.5);
 	}
 

@@ -14,7 +14,6 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import net.md_5.bungee.api.ChatColor;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
@@ -38,8 +37,6 @@ public class Platform extends Game {
 	private static final int GAME_DURATION = 40;
 	private static final int KNOCKBACK_SWORDS_TIME = 20;
 	
-	private static final String SECONDS_LEFT = "%s seconds left.";
-	
 	private List<UUID> dead;
 	
 	private PlatformMap map;
@@ -57,41 +54,34 @@ public class Platform extends Game {
 		
 		sendMessage("You have " + SPREAD_TIME + " seconds to spread before the game starts.");
 		
-		new BukkitRunnable() {
-			
-			int secondsLeft = GAME_DURATION + SPREAD_TIME;
-			
+		new GameTimer(this, GAME_DURATION, SPREAD_TIME) {
+
 			@Override
-			public void run() {
-				if (secondsLeft == GAME_DURATION) {
-					for (Player player : Bukkit.getOnlinePlayers()) {
-						Minigames.setCanTakeDamage(player, true);
-					}
-					sendMessage("The game has started.");
+			public void onStart() {
+				for (Player player : Bukkit.getOnlinePlayers()) {
+					Minigames.setCanTakeDamage(player, true);
 				}
-				
-				if (Utils.getAliveCountFromDeadList(dead) <= 1 && secondsLeft > 2) {
-					secondsLeft = 2;
-				}
-				
+			}
+
+			@Override
+			public int gameTimer(final int secondsLeft) {
 				if (secondsLeft == 20) {
 					giveSwords();
 				}
 				
-				if (secondsLeft <= 0) {
-					this.cancel();
-					endGame();
-					return;
+				if (Utils.getAliveCountFromDeadList(dead) <= 1 && secondsLeft > 2) {
+					return 2;
 				}
 				
-				if (secondsLeft == 15 || secondsLeft <= 5) {
-					sendMessage(String.format(SECONDS_LEFT, secondsLeft));
-				}
-				
-				secondsLeft--;
+				return secondsLeft;
+			}
+
+			@Override
+			public void onEnd() {
+				startNextGame(Utils.getWinnersFromDeadList(dead));
 			}
 			
-		}.runTaskTimer(Minigames.getInstance(), 0, 20);
+		};
 	}
 	
 	private void giveSwords(){
@@ -109,20 +99,15 @@ public class Platform extends Game {
 		}
 	}
 	
-	private void endGame(){
-		sendMessage("The game has ended!");
-		super.startNextGame(Utils.getWinnersFromDeadList(dead));
-	}
-	
 	private void playerDie(Player player){
 		sendMessage(player.getName() + " has been eliminated from the game!");
+		
 		Var.WORLD.spigot().strikeLightningEffect(player.getLocation(), false);
-		player.teleport(map.spectatorLocation());
+		player.teleport(map.getSpectatorLocation());
 		dead.add(player.getUniqueId());
 		player.getInventory().clear();
 		Utils.giveInvisibility(player);
 		player.setAllowFlight(true);
-		
 		Minigames.setCanTakeDamage(player, false); //Disallow PvP
 	}
 	

@@ -12,7 +12,7 @@ public class Ice extends PlatformMap {
 	}
 
 	@Override
-	public Location spectatorLocation() {
+	public Location getSpectatorLocation() {
 		return new Location(Var.WORLD, 229.5, 93, 178.0, 0, 0);
 	}
 
