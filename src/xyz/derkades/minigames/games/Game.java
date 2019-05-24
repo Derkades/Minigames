@@ -53,7 +53,7 @@ public abstract class Game implements Listener {
 			//new Speedrun(),
 			new TeamsBowBattle(),
 			new TntRun(),
-			new TntTag(),
+			//new TntTag(),
 	};
 	
 	private String name;
