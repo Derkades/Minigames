@@ -77,6 +77,7 @@ public class Elytra extends Game {
 			Utils.clearInventory(player);
 			player.teleport(new Location(Var.WORLD, 151.5, 76, 343.5));
 			sendMessage(player.getName() + " has died");
+			dead.add(player.getUniqueId());
 		}
 			
 		if (type == Material.LIME_WOOL) {
