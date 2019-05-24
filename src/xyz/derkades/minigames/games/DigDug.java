@@ -86,11 +86,12 @@ public class DigDug extends Game {
 		
 		sidebar = new Sidebar(ChatColor.DARK_AQUA + "" + ChatColor.DARK_AQUA + "Score", Minigames.getInstance(), Integer.MAX_VALUE, new SidebarString[] {new SidebarString("Loading...")});
 		
+		Utils.delayedTeleport(new Location(Var.WORLD, 149, 77.5, 86, 180, 90), Bukkit.getOnlinePlayers());
+		
 		for (Player player : Bukkit.getOnlinePlayers()) {
 			points.put(player.getUniqueId(), 0);
 			sidebar.showTo(player);
 			
-			player.teleport(new Location(Var.WORLD, 149, 77.5, 86, 180, 90));
 			player.sendMessage(ChatColor.DARK_GREEN + "Digging will commence in 5 seconds!");
 		}
 		

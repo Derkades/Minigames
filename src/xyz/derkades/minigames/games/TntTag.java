@@ -36,7 +36,7 @@ public class TntTag extends Game {
 				"Run away from players who have tnt on them.",
 				"If you have tnt on you, pass it on to another",
 				"player by punching them."
-		}, 5, 5, 7, null);
+		}, 7, 5, 7, null);
 	}
 	
 	private BukkitTask tntCountdownTask;

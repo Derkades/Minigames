@@ -6,6 +6,7 @@ import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.attribute.Attribute;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Creeper;
 import org.bukkit.entity.EntityType;
@@ -14,8 +15,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitTask;
 
 import net.md_5.bungee.api.ChatColor;
@@ -55,9 +54,12 @@ public class CreeperAttack extends Game {
 		
 		knockbackStick.addUnsafeEnchantment(Enchantment.KNOCKBACK, 3);
 		
+		Utils.setGameRule("doMobLoot", false);
+		
+		Utils.delayedTeleport(map.getSpawnLocation(), Bukkit.getOnlinePlayers());
+		
 		Bukkit.getOnlinePlayers().forEach((player) -> {
 			alive.add(player.getUniqueId());
-			player.teleport(map.getSpawnLocation());
 			player.getInventory().addItem(knockbackStick);
 			Minigames.setCanTakeDamage(player, true);
 		});
@@ -71,8 +73,9 @@ public class CreeperAttack extends Game {
 			if (Random.getRandomFloat() < chance) {
 				chance += 0.02f;
 				Creeper creeper = Var.WORLD.spawn(map.getCreeperLocation(), Creeper.class);
-				creeper.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 10000000, 50, true, false));
-				creeper.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 10000000, 1, true, false));
+				//creeper.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 10000000, 50, true, false));
+				//creeper.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 10000000, 1, true, false));
+				creeper.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).setBaseValue(creeper.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).getBaseValue() * 1.5);
 				creeper.setTarget(ListUtils.getRandomValueFromList(Utils.getPlayerListFromUUIDList(alive)));
 			}
 		}, 20, 10);

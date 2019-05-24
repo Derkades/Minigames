@@ -34,7 +34,7 @@ public class Platform extends Game {
 		}, 2, 2, 5, PlatformMap.MAPS);
 	}
 
-	private static final int SPREAD_TIME = 5;
+	private static final int SPREAD_TIME = 3;
 	private static final int GAME_DURATION = 40;
 	private static final int KNOCKBACK_SWORDS_TIME = 20;
 	
@@ -49,8 +49,6 @@ public class Platform extends Game {
 		dead = new ArrayList<>();
 		
 		map = (PlatformMap) genericMap;
-		
-		sendMessage("Map: " + map.getName());
 		
 		for (Player player : Bukkit.getOnlinePlayers()){
 			player.teleport(map.spawnLocation());

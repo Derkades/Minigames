@@ -8,9 +8,9 @@ import xyz.derkades.minigames.games.GameMap;
 public abstract class TNTMap implements GameMap {
 	
 	public static final TNTMap[] MAPS = {
-			new Aqua(),
-			new Future(),
-			new Jungle(),
+			//new Aqua(),
+			//new Future(),
+			//new Jungle(),
 			new WaterLava(),
 	};
 	

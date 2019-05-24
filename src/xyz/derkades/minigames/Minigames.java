@@ -17,7 +17,7 @@ import xyz.derkades.minigames.utils.Scheduler;
 
 public class Minigames extends JavaPlugin implements Listener {
 
-	public static final float VOTE_MENU_CHANCE = 0.4f;
+	public static final float VOTE_MENU_CHANCE = 0.15f;
 	
 	private static Minigames instance;
 	
@@ -60,6 +60,7 @@ public class Minigames extends JavaPlugin implements Listener {
 		}
 		
 		getCommand("games").setExecutor(new Command());
+		getCommand("bug").setExecutor(new BugCommand());
 		
 		Scheduler.repeat(20, () -> {
 			Var.WORLD.setStorm(false);

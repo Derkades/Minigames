@@ -1,8 +1,5 @@
 package xyz.derkades.minigames;
 
-import static org.bukkit.ChatColor.AQUA;
-import static org.bukkit.ChatColor.DARK_AQUA;
-
 import org.bukkit.Bukkit;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -48,26 +45,14 @@ public class AutoRotate {
 			startNewRandomGame();
 			return;
 		}
-		
-		double weight = Minigames.getInstance().getConfig().contains("game-voting." + game.getName())
-				? Minigames.getInstance().getConfig().getDouble("game-voting." + game.getName())
-				: 1;
-		
-		weight = Math.round(weight * 100.0) / 100.0;
 				
-		//Enough players, let's announce and start the game!
-		Bukkit.broadcastMessage(DARK_AQUA + "Next minigame: " + AQUA + game.getName() + " " + ChatColor.GRAY + 
-				"(Current weight: " + weight + ")");
+		//Enough players, let's start the game
 		
 		Minigames.CURRENT_GAME_NAME = game.getName();
 		
 		Minigames.BYPASS_PLAYER_MINIMUM_CHECKS = false;
 		
-		new BukkitRunnable(){
-			public void run(){
-				game.startGame();
-			}
-		}.runTaskLater(Minigames.getInstance(), 2*20);		
+		game.startGame();	
 	}
 
 }

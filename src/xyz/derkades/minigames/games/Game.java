@@ -44,13 +44,14 @@ public abstract class Game implements Listener {
 			//new Mine(),
 			new MolePvP(),
 			//new NyanCat(),
+			new OneInTheQuiver(),
 			new Platform(),
 			new RegeneratingSpleef(),
 			//new Rooms(),
 			new SaveTheSnowman(),
-			new Sniper(),
-			new SnowFight(),
-			new Speedrun(),			
+			//new SnowFight(),
+			//new Speedrun(),
+			new TeamsBowBattle(),
 			new TntRun(),
 			new TntTag(),
 	};
@@ -101,16 +102,11 @@ public abstract class Game implements Listener {
 		Bukkit.broadcastMessage(DARK_GRAY + "[" + DARK_AQUA + getName() + DARK_GRAY + "] " + AQUA + message);
 	}
 	
-	@SuppressWarnings("deprecation")
 	void startNextGame(List<Player> winners){
 		Minigames.IS_IN_GAME = false;
 		HandlerList.unregisterAll(this); //Unregister events
 		
-		for (Player player1 : Bukkit.getOnlinePlayers()) {
-			for (Player player2 : Bukkit.getOnlinePlayers()) {
-				player1.showPlayer(player2);
-			}
-		}
+		Utils.showEveryoneToEveryone();
 		
 		List<String> winnerNames = new ArrayList<String>();
 		for (Player winner : winners) winnerNames.add(winner.getName());
@@ -127,18 +123,20 @@ public abstract class Game implements Listener {
 		for (Player player : Bukkit.getOnlinePlayers()){
 			if (winnerNames.contains(player.getName())){
 				//If player has won
-				int onlinePlayers = Bukkit.getOnlinePlayers().size();
-				Points.addPoints(player, onlinePlayers < 3 ? 3 : onlinePlayers > 7 ? 7 : onlinePlayers);
-				player.sendTitle(DARK_AQUA + "You've won",  AQUA + "+" + onlinePlayers + " points");
+				final int onlinePlayers = Bukkit.getOnlinePlayers().size();
+				final int points = onlinePlayers < 3 ? 3 : onlinePlayers > 7 ? 7 : onlinePlayers;
+				Points.addPoints(player, points);
+				Utils.sendTitle(player, DARK_AQUA + "You've won",  AQUA + "+" + points + " points");
 			} else {
 				Points.addPoints(player, 1);
-				player.sendTitle(DARK_AQUA + "You've lost", AQUA + "+1 point");
+				Utils.sendTitle(player, DARK_AQUA + "You've lost", AQUA + "+1 point");
 			}
 			player.sendMessage(DARK_AQUA + "You currently have " + AQUA + Points.getPoints(player) + DARK_AQUA + " points.");
 		}
 		
+		Utils.delayedTeleport(Var.LOBBY_LOCATION, Bukkit.getOnlinePlayers());
+		
 		for (Player player : Bukkit.getOnlinePlayers()){			
-			player.teleport(Var.LOBBY_LOCATION);
 			player.setAllowFlight(false);
 			
 			Utils.clearPotionEffects(player);	
@@ -166,7 +164,7 @@ public abstract class Game implements Listener {
 			}
 		});
 		
-		Scheduler.delay(8*20, () -> {
+		Scheduler.delay(3*20, () -> {
 			AutoRotate.startNewRandomGame();
 		});
 	}
@@ -178,23 +176,26 @@ public abstract class Game implements Listener {
 		// Send description
 		for (Player player : Bukkit.getOnlinePlayers()) {
 			
+			double weight = Minigames.getInstance().getConfig().contains("game-voting." + this.getName())
+					? Minigames.getInstance().getConfig().getDouble("game-voting." + this.getName())
+					: 1;
+			
+			weight = Math.round(weight * 100.0) / 100.0;			
 			
 			player.sendMessage(DARK_GRAY + "-----------------------------------------");
-			player.sendMessage(ChatColor.GOLD + "  " + ChatColor.BOLD + this.getName());
+			player.sendMessage(ChatColor.GOLD + "  " + ChatColor.BOLD + this.getName() + ChatColor.GRAY +  " (Current weight: " + weight + ")");
 			
 			if (!Minigames.getInstance().getConfig().getStringList("disabled-description")
 					.contains(player.getUniqueId().toString())) {
 				for (String line : getDescription()) player.sendMessage(DARK_AQUA + line);
+				player.sendMessage(DARK_AQUA + "Points: " + AQUA + this.getMinimumPoints() + "-" + this.getMaximumPoints());
 			}
 			
-			player.sendMessage(DARK_AQUA + "Points: " + AQUA + this.getMinimumPoints() + "-" + this.getMaximumPoints());
 			if (map != null)
 				player.sendMessage(DARK_AQUA + "Map: " + AQUA + map.getName());
 			
 			player.sendMessage(DARK_GRAY + "-----------------------------------------");
 		}
-		
-		//Minigames.getInstance().getConfig().set("last-game", this.getName());
 		
 		Minigames.LAST_GAME_NAME = this.getName();
 		
@@ -203,22 +204,26 @@ public abstract class Game implements Listener {
 		}
 		
 		new BukkitRunnable() {
-			int timeLeft = 100;
+			int timeLeft = 200;
 			
 			@Override
 			public void run() {
-				Utils.setXpBarValue((float) timeLeft / 100.0f, (int) (timeLeft / 20.0 + 0.4));
+				Utils.setXpBarValue((float) ((timeLeft + 10 ) / 210.0f), (int) ((timeLeft + 10) / 20.0));
 				
-				if (timeLeft % 20 == 0) {
+				if (timeLeft < 90 && (timeLeft + 10) % 20 == 0) {
 					Utils.playSoundForAllPlayers(Sound.ENTITY_ARROW_HIT_PLAYER, 0.1f);
 				}
 				
 				timeLeft--;
 				
+				if (timeLeft < 20) {
+					Utils.playSoundForAllPlayers(Sound.ENTITY_ARROW_HIT_PLAYER, Random.getRandomFloat());
+				}
+				
 				if (timeLeft < 1) {
 					this.cancel();
 					
-					Utils.playSoundForAllPlayers(Sound.ENTITY_ARROW_HIT_PLAYER, 1.0f);
+					
 					
 					Utils.clearPotionEffects();
 

@@ -18,7 +18,7 @@ public class Original extends SnowFightMap {
 
 	@Override
 	public String getName() {
-		return "Maze";
+		return "Snow";
 	}
 
 

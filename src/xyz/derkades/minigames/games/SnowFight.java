@@ -8,19 +8,14 @@ import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.block.Block;
-import org.bukkit.block.data.type.Snow;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
-import org.bukkit.entity.Snowball;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import com.coloredcarrot.api.sidebar.Sidebar;
 import com.coloredcarrot.api.sidebar.SidebarString;
@@ -29,6 +24,7 @@ import net.md_5.bungee.api.ChatColor;
 import xyz.derkades.derkutils.Random;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
 import xyz.derkades.minigames.Minigames;
+import xyz.derkades.minigames.Var;
 import xyz.derkades.minigames.games.snowfight.SnowFightMap;
 import xyz.derkades.minigames.utils.Scheduler;
 import xyz.derkades.minigames.utils.Utils;
@@ -87,6 +83,7 @@ public class SnowFight extends Game {
 				for (Player player : Bukkit.getOnlinePlayers()) {
 					player.getInventory().addItem(shovel);
 					sidebar.showTo(player);
+					Minigames.setCanTakeDamage(player, true);
 				}
 			}
 
@@ -114,25 +111,28 @@ public class SnowFight extends Game {
 		};
 	}
 	
-	@EventHandler
+	/*@EventHandler
 	public void onDamage(EntityDamageByEntityEvent event){
-		if (event.getDamager() instanceof Snowball){
+		if (event.getEntity().getLastDamageCause().getCause() == DamageCause.PROJECTILE) {
 			event.setDamage(4);
 		} else {
 			event.setCancelled(true);
 		}
-	}
+	}*/
 	
 	@EventHandler
 	public void onBlockBreak(BlockBreakEvent event){
-		Block block = event.getBlock();
-		if (block.getType() != Material.SNOW){
-			event.setCancelled(true);
-			return;
-		}
+		//Block block = event.getBlock();
+		
+		event.setCancelled(true);
+		
+		//if (block.getType() != Material.SNOW){
+		//	return;
+		//}
 			
 		Player player = event.getPlayer();
 		Inventory inv = player.getInventory();
+		
 		if (!inv.contains(new ItemStack(Material.SNOWBALL, 16))) {
 			int amount = Random.getRandomInteger(1, 3);
 			
@@ -143,13 +143,13 @@ public class SnowFight extends Game {
 			inv.addItem(new ItemStack(Material.SNOWBALL, amount));
 		}
 		
-		Snow snow = (Snow) block.getBlockData();
+		//Snow snow = (Snow) block.getBlockData();
 
-		new BukkitRunnable() {
-			public void run() {
-				snow.setLayers(Random.getRandomInteger(0, 4));
-			}
-		}.runTaskLater(Minigames.getInstance(), 3 * 20);
+		//new BukkitRunnable() {
+		//	public void run() {
+		//		snow.setLayers(Random.getRandomInteger(1, 4));
+		//	}
+		//}.runTaskLater(Minigames.getInstance(), 3 * 20);
 	}
 	
 	@EventHandler
@@ -166,10 +166,10 @@ public class SnowFight extends Game {
 			
 			Scheduler.delay(1, () -> {
 				player.spigot().respawn();
-				player.teleport(killer.getLocation());
+				player.teleport(Var.LOBBY_LOCATION);
 				
-				Utils.hideForEveryoneElse(player);
-				Utils.giveInvisibility(player);
+				//Utils.hideForEveryoneElse(player);
+				//Utils.giveInvisibility(player);
 				
 				dead.add(player.getUniqueId());
 				Utils.clearInventory(player);

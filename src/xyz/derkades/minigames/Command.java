@@ -32,17 +32,17 @@ public class Command implements CommandExecutor {
 		}
 		
 		if (args.length == 1){
-			if (args[0].equalsIgnoreCase("start") && player.hasPermission("minigames.start")){
+			if ((args[0].equalsIgnoreCase("start") || args[0].equals("b")) && player.hasPermission("minigames.start")){
 				AutoRotate.startNewRandomGame();
 				Minigames.STOP_GAMES = false;
-			} else if (args[0].equalsIgnoreCase("stop") && player.hasPermission("minigames.stop")){
+			} else if ((args[0].equalsIgnoreCase("stop") || args[0].equals("e")) && player.hasPermission("minigames.stop")){
 				player.sendMessage(ChatColor.RED + "! STOPPED GAMES !");
 				Minigames.STOP_GAMES = true;
-			} else if (args[0].equalsIgnoreCase("emerg") && player.hasPermission("minigames.emerg")) {
+			} else if (args[0].equalsIgnoreCase("!") && player.hasPermission("minigames.emerg")) {
 				player.sendMessage("! EMERGENCY STOP !");
 				Bukkit.broadcastMessage(ChatColor.RED + "Initiating emergency stop. You may be kicked or experience lag.");
 				Bukkit.getOnlinePlayers().forEach(player2 -> {
-					Utils.teleportToLobby(player2);
+					player2.teleport(Var.LOBBY_LOCATION);
 					Utils.clearInventory(player2);
 					Utils.clearPotionEffects(player2);
 					player2.setGameMode(GameMode.ADVENTURE);

@@ -16,7 +16,6 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import xyz.derkades.derkutils.bukkit.MaterialLists;
 import xyz.derkades.minigames.Minigames;
 import xyz.derkades.minigames.Var;
 import xyz.derkades.minigames.utils.Utils;
@@ -108,7 +107,12 @@ public class JungleRun extends Game {
 		
 		Material type = event.getTo().getBlock().getRelative(BlockFace.DOWN).getType();
 		
-		if (MaterialLists.isInList(type, MaterialLists.WOOLS, MaterialLists.TERRACOTTA_BLOCKS) || type == Material.SOUL_SAND){
+		if (type == Material.SOUL_SAND ||
+				type == Material.GREEN_WOOL ||
+				type == Material.LIME_WOOL ||
+				type == Material.GREEN_CARPET ||
+				type == Material.LIME_CARPET ||
+				type == Material.GREEN_TERRACOTTA){
 			playerDie(player);
 		} else if(type == Material.GOLD_BLOCK){
 			playerWin(player);

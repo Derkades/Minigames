@@ -9,4 +9,8 @@ api-version: 1.13
 
 commands:
   games:
-    usage: </command>
+    usage: /<command>
+    aliases: [g]
+  bug:
+    usage: /<command>
+    aliases: [feedback, idea]

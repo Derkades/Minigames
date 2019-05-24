@@ -1,6 +1,7 @@
 package xyz.derkades.minigames.utils;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -96,6 +97,7 @@ public class Utils {
 				new ItemStack(boots));
 	}
 	
+	@Deprecated
 	public static void teleportToLobby(Player player){
 		player.teleport(Var.LOBBY_LOCATION);
 	}
@@ -258,8 +260,29 @@ public class Utils {
 		Var.WORLD.spawnParticle(particle, location, count);
 	}
 	
-	public static void hideForEveryoneElse(Player player) {
+	public static void hideForEveryoneElse(final Player player) {
 		Bukkit.getOnlinePlayers().forEach((player2) -> player2.hidePlayer(Minigames.getInstance(), player));
+	}
+	
+	public static void showEveryoneToEveryone() {
+		for (Player player1 : Bukkit.getOnlinePlayers()) {
+			for (Player player2 : Bukkit.getOnlinePlayers()) {
+				player1.showPlayer(Minigames.getInstance(), player2);
+			}
+		}
+	}
+	
+	public static void delayedTeleport(final Location location, final Player... players) {
+		int delay = 0;
+		
+		for (final Player player : players) {
+			Scheduler.delay(delay, () -> player.teleport(location));
+			delay +=2;
+		}
+	}
+	
+	public static void delayedTeleport(final Location location, final Collection<? extends Player> players) {
+		delayedTeleport(location, players.toArray(new Player[] {}));
 	}
 
 }

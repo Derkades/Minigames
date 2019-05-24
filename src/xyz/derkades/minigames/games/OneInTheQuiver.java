@@ -22,7 +22,7 @@ import xyz.derkades.minigames.games.sniper.SniperMap;
 import xyz.derkades.minigames.utils.Scheduler;
 import xyz.derkades.minigames.utils.Utils;
 
-public class Sniper extends Game {
+public class OneInTheQuiver extends Game {
 
 	private static final int MAX_GAME_DURATION = 120;
 	private static final int SPREAD_TIME = 10;
@@ -40,8 +40,8 @@ public class Sniper extends Game {
 	private static final ItemStack ARROW = new ItemBuilder(Material.ARROW)
 			.create();
 	
-	Sniper() {
-		super("Sniper", new String[] {
+	OneInTheQuiver() {
+		super("One in the Quiver", new String[] {
 				"Kill other players with a weak wooden sword.",
 				"For every kill you'll get a single arrow. Arrows",
 				"do enough damage to kill any player instantly."

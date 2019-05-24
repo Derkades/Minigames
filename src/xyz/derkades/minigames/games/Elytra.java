@@ -34,8 +34,9 @@ public class Elytra extends Game {
 
 	@Override
 	void begin(GameMap genericMap) {
+		Utils.delayedTeleport(new Location(Var.WORLD, 163.5, 76.5, 339.5, 120, 25), Bukkit.getOnlinePlayers());
+		
 		for (Player player : Bukkit.getOnlinePlayers()){
-			player.teleport(new Location(Var.WORLD, 163.5, 76.5, 339.5, 120, 25));
 			player.getInventory().setChestplate(new ItemStack(Material.ELYTRA));
 			Utils.giveInfiniteEffect(player, PotionEffectType.SLOW, 5);
 			Utils.giveInfiniteEffect(player, PotionEffectType.INVISIBILITY, 2);
@@ -75,6 +76,7 @@ public class Elytra extends Game {
 			// die
 			Utils.clearInventory(player);
 			player.teleport(new Location(Var.WORLD, 151.5, 76, 343.5));
+			sendMessage(player.getName() + " has died");
 		}
 			
 		if (type == Material.LIME_WOOL) {
@@ -82,6 +84,7 @@ public class Elytra extends Game {
 			Utils.clearInventory(player);
 			player.teleport(new Location(Var.WORLD, 151.5, 76, 343.5));
 			finished.add(player.getUniqueId());
+			sendMessage(player.getName() + " has finished");
 		}
 	}
 

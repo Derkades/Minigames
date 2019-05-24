@@ -44,11 +44,7 @@ public class Dropper extends Game {
 		
 		map.closeDoor();
 		
-		sendMessage("Map: " + map.getName());
-		
-		for (Player player : Bukkit.getOnlinePlayers()) {
-			player.teleport(map.getLobbyLocation());
-		}
+		Utils.delayedTeleport(map.getLobbyLocation(), Bukkit.getOnlinePlayers());
 		
 		new BukkitRunnable() {
 			

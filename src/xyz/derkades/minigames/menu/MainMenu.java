@@ -42,6 +42,7 @@ public class MainMenu extends IconMenu {
 		}
 		
 		items.put(3, new ItemBuilder(settingMaterial).name(DARK_AQUA + "Game descriptions").lore(AQUA + "Click to enable or disable game", AQUA + "description messages at the start of each game").create());
+		
 		items.put(8, new ItemBuilder(Material.BARRIER).name(RED + "Close").lore(DARK_RED + "Click to close this menu.").create());
 	}
 	
