@@ -27,7 +27,8 @@ public class Command implements CommandExecutor {
 				return true;
 			} else {
 				Minigames.NEXT_GAME = game;
-				player.sendMessage(game.getName() + " will be chosen as the next game.");
+				Minigames.BYPASS_PLAYER_MINIMUM_CHECKS = true;
+				player.sendMessage("Bypassing player minimum and forcing " + game.getName() + " to be chosen as the next game.");
 			}
 		}
 		
