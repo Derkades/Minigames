@@ -10,24 +10,33 @@ import org.kohsuke.github.GHIssue;
 import org.kohsuke.github.GHRepository;
 import org.kohsuke.github.GitHub;
 
+import xyz.derkades.minigames.utils.Scheduler;
+
 public class BugCommand implements CommandExecutor {
 
 	@Override
 	public boolean onCommand(final CommandSender sender, final Command arg1, final String arg2, final String[] args) {
 		Player player = (Player) sender;
-		try {
-			final String user = Minigames.getInstance().getConfig().getString("github-user");
-			final String pass = Minigames.getInstance().getConfig().getString("github-password");
-			final GitHub github = GitHub.connectUsingPassword(user, pass);
-			final GHRepository repo = github.getRepository("Derkades/Minigames");
-			final String description = String.join(" ", args);
-			final GHIssue issue = repo.createIssue("[" + player.getName() + "] " + description).body(description + "").create();
-			issue.addLabels(repo.getLabel("bot"));
-			player.sendMessage("your feedback has been noted.");
-		} catch (final IOException e) {
-			player.sendMessage("error. oh no.");
-			e.printStackTrace();
+		
+		if (args.length < 3) {
+			player.sendMessage("Please provide a longer description");
 		}
+		
+		Scheduler.async(() -> {
+			try {
+				final String user = Minigames.getInstance().getConfig().getString("github-user");
+				final String pass = Minigames.getInstance().getConfig().getString("github-password");
+				final GitHub github = GitHub.connectUsingPassword(user, pass);
+				final GHRepository repo = github.getRepository("Derkades/Minigames");
+				final String description = String.join(" ", args);
+				final GHIssue issue = repo.createIssue("[" + player.getName() + "] " + description).body(description + "").create();
+				issue.addLabels(repo.getLabel("bot"));
+				player.sendMessage("your feedback has been noted.");
+			} catch (final IOException e) {
+				player.sendMessage("error. oh no.");
+				e.printStackTrace();
+			}
+		});
 		
 		return true;
 	}
