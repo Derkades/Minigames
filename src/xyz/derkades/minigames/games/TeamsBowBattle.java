@@ -116,6 +116,7 @@ public class TeamsBowBattle extends Game {
 		
 		if (damaged.getLastDamageCause().getCause() != DamageCause.PROJECTILE) {
 			System.out.println("not an arrow");
+			event.setCancelled(true);
 			return;
 		}
 		
