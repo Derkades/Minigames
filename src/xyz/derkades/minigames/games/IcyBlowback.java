@@ -123,14 +123,4 @@ public class IcyBlowback extends Game {
 		}
 	}
 	
-	/*@EventHandler
-	public void onDamage(EntityDamageByEntityEvent event) {
-		if (event.getEntity().getType() != EntityType.PLAYER) {
-			return;
-		}
-		
-		Player attacked = (Player) event.getEntity();
-		attacked.setHealth(20);
-	}*/
-	
 }

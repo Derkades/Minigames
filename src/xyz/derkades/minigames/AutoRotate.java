@@ -31,7 +31,6 @@ public class AutoRotate {
 		Game game = Minigames.NEXT_GAME == null ? Game.getRandomGame() : Minigames.NEXT_GAME;
 		Minigames.NEXT_GAME = null;
 		
-		//String lastGame = Minigames.getInstance().getConfig().getString("last-game");
 		//If the randomly selected game is the same as the last game pick a new game
 		if (game.getName() == Minigames.LAST_GAME_NAME){
 			startNewRandomGame();

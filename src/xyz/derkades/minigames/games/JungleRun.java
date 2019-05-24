@@ -72,7 +72,7 @@ public class JungleRun extends Game {
 	}
 
 	private void playerDie(Player player){
-		//super.sendMessage(player.getName() + " has been eliminated from the game!");
+		super.sendMessage(player.getName() + " has died");
 		player.teleport(new Location(Var.WORLD, 296.5, 80, 204.5, 180, 0));
 		
 		spectator(player);

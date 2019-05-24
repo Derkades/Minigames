@@ -97,11 +97,6 @@ public class Utils {
 				new ItemStack(boots));
 	}
 	
-	@Deprecated
-	public static void teleportToLobby(Player player){
-		player.teleport(Var.LOBBY_LOCATION);
-	}
-	
 	public static List<Player> getWinnersFromIsDeadHashMap(Map<String, Boolean> isDead){
 		List<Player> winners = new ArrayList<Player>();
 		for (Player player: Bukkit.getOnlinePlayers()){

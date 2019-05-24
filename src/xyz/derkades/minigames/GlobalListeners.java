@@ -38,7 +38,6 @@ public class GlobalListeners implements Listener {
 	@EventHandler
 	public void onJoin(PlayerJoinEvent event){
 		Player player = event.getPlayer();
-		//Utils.teleportToLobby(player); //Teleport the player out of an arena they may be in
 		
 		if (Minigames.IS_IN_GAME) {
 			player.teleport(new Location(Var.WORLD, 203.5, 80, 245.5, 0, 0));
@@ -54,7 +53,6 @@ public class GlobalListeners implements Listener {
 		player.setExp(0.0f);
 		player.setLevel(0);
 		
-		//player.setCollidable(false);
 		Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "team join global " + player.getName());
 		
 		String minMax = ChatColor.GRAY + "(" + Bukkit.getOnlinePlayers().size() + "/" + Bukkit.getMaxPlayers() + ")";
@@ -80,15 +78,7 @@ public class GlobalListeners implements Listener {
 		player.getInventory().setItem(8, new ItemBuilder(Material.COMPARATOR)
 				.name(ChatColor.AQUA + "" + ChatColor.BOLD + "Menu")
 				.lore(ChatColor.YELLOW + "Click to open menu")
-				.create());
-		
-		/*Scheduler.delay(5, () -> {
-			if (Minigames.IS_IN_GAME) {
-				player.sendMessage(ChatColor.GREEN + "A minigame is in progress. When the next minigame starts, you'll join automatically. The next minigame should start in less than a minute.");
-			}
-		});*/
-		
-		
+				.create());		
 	}
 	
 	@EventHandler
@@ -118,11 +108,6 @@ public class GlobalListeners implements Listener {
 			event.setCancelled(true);
 		}
 	}
-	
-	//@EventHandler(priority = EventPriority.HIGH)
-	//public void onChat(AsyncPlayerChatEvent event) {
-	//	event.setFormat(DARK_GRAY + "[" + AQUA + Points.getPoints(event.getPlayer()) + DARK_GRAY + "] " + event.getFormat());
-	//}
 	
 	@EventHandler
 	public void onMove(PlayerMoveEvent event){
