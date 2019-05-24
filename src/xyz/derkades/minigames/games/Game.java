@@ -125,7 +125,7 @@ public abstract class Game implements Listener {
 				//If player has won
 				final int onlinePlayers = Bukkit.getOnlinePlayers().size();
 				
-				Minigames.economy.depositPlayer(player, 1);
+				//Minigames.economy.depositPlayer(player, 1);
 				
 				final int points;
 				
@@ -138,7 +138,7 @@ public abstract class Game implements Listener {
 				}
 				
 				Points.addPoints(player, points);
-				Minigames.economy.depositPlayer(player, points);
+				//Minigames.economy.depositPlayer(player, points);
 				Utils.sendTitle(player, DARK_AQUA + "You've won",  AQUA + "+" + points + " points");
 			} else {
 				Points.addPoints(player, 1);
