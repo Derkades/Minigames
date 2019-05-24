@@ -147,7 +147,7 @@ public class OneInTheQuiver extends Game {
 			return;
 		}
 		
-		ItemStack weapon = ((PlayerInventory) ((Player) attackingEntity)).getItemInMainHand();
+		ItemStack weapon = ((Player) attackingEntity).getInventory().getItemInMainHand();
 		
 		if (weapon.isSimilar(SWORD)) {
 			event.setDamage(2);
