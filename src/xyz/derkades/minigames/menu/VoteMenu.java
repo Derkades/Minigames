@@ -59,6 +59,10 @@ public class VoteMenu extends IconMenu {
 			multiplier *= 0.9; //Decrease chance factor a bit (e.g. from 1.5 to 1.35)
 		}
 		
+		if (multiplier > 5) {
+			multiplier = 5;
+		}
+		
 		Minigames.getInstance().getConfig().set("game-voting." + gameName, multiplier);
 		Minigames.getInstance().saveConfig();
 	}
