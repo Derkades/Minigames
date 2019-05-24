@@ -14,6 +14,8 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
@@ -59,6 +61,7 @@ public class OneInTheQuiver extends Game {
 		
 		for (Player player : Bukkit.getOnlinePlayers()) {
 			player.teleport(map.getSpawnLocation());
+			player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 5*20, 0, true, false));
 		}
 		
 		new BukkitRunnable() {
