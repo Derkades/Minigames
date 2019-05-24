@@ -90,13 +90,15 @@ public class TntRun extends Game {
 		Location loc = player.getLocation();
 		loc.setY(loc.getY() - 1);
 		
-		blocks.add(new Location(loc.getWorld(), loc.getX() + .2, loc.getY(), loc.getZ() + .2).getBlock());
-		blocks.add(new Location(loc.getWorld(), loc.getX() - .2, loc.getY(), loc.getZ() - .2).getBlock());
-		blocks.add(new Location(loc.getWorld(), loc.getX() + .2, loc.getY(), loc.getZ() - .2).getBlock());
-		blocks.add(new Location(loc.getWorld(), loc.getX() - .2, loc.getY(), loc.getZ() + .2).getBlock());
+		double destroyRange = .4;
 		
-		blocks.add(new Location(loc.getWorld(), loc.getX() - .2, loc.getY(), loc.getZ() + 0).getBlock());
-		blocks.add(new Location(loc.getWorld(), loc.getX() + .2, loc.getY(), loc.getZ() + 0).getBlock());
+		blocks.add(new Location(loc.getWorld(), loc.getX() + destroyRange, loc.getY(), loc.getZ() + destroyRange).getBlock());
+		blocks.add(new Location(loc.getWorld(), loc.getX() - destroyRange, loc.getY(), loc.getZ() - destroyRange).getBlock());
+		blocks.add(new Location(loc.getWorld(), loc.getX() + destroyRange, loc.getY(), loc.getZ() - destroyRange).getBlock());
+		blocks.add(new Location(loc.getWorld(), loc.getX() - destroyRange, loc.getY(), loc.getZ() + destroyRange).getBlock());
+		
+		blocks.add(new Location(loc.getWorld(), loc.getX() - destroyRange, loc.getY(), loc.getZ() + 0).getBlock());
+		blocks.add(new Location(loc.getWorld(), loc.getX() + destroyRange, loc.getY(), loc.getZ() + 0).getBlock());
 		blocks.add(new Location(loc.getWorld(), loc.getX() + 0, loc.getY(), loc.getZ() - .2).getBlock());
 		blocks.add(new Location(loc.getWorld(), loc.getX() - 0, loc.getY(), loc.getZ() + .2).getBlock());
 		
