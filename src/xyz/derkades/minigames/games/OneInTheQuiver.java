@@ -107,7 +107,11 @@ public class OneInTheQuiver extends Game {
 	}
 	
 	private void end() {
-		super.startNextGame(Utils.getWinnersFromDeadList(dead));
+		List<Player> winners = Utils.getWinnersFromDeadList(dead);
+		if (winners.size() > 1) {
+			winners = new ArrayList<>();
+		}
+		super.startNextGame(winners);
 	}
 	
 	@EventHandler
