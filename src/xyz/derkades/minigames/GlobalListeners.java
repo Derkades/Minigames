@@ -40,7 +40,7 @@ public class GlobalListeners implements Listener {
 		Player player = event.getPlayer();
 		
 		if (Minigames.IS_IN_GAME) {
-			player.teleport(new Location(Var.WORLD, 203.5, 80, 245.5, 0, 0));
+			player.teleport(Var.IN_GAME_LOBBY_LOCATION);
 		} else {
 			player.teleport(Var.LOBBY_LOCATION);
 		}
