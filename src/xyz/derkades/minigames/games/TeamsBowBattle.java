@@ -58,15 +58,19 @@ public class TeamsBowBattle extends Game {
 			if (team) {
 				Utils.sendTitle(player, "", String.format("%sYou are in the %s%sRED%s team", ChatColor.GRAY, ChatColor.RED, ChatColor.BOLD, ChatColor.GRAY));
 				teamRed.add(player.getUniqueId());
-				player.teleport(map.getTeamRedSpawnLocation());
+				//player.teleport(map.getTeamRedSpawnLocation());
 			} else {
 				Utils.sendTitle(player, "", String.format("%sYou are in the %s%sBLUE%s team", ChatColor.GRAY, ChatColor.BLUE, ChatColor.BOLD, ChatColor.GRAY));
 				teamBlue.add(player.getUniqueId());
-				player.teleport(map.getTeamBlueSpawnLocation());
+				//player.teleport(map.getTeamBlueSpawnLocation());
 			}
 			
 			team = !team;
 		}
+		
+		Utils.delayedTeleport(map.getTeamRedSpawnLocation(), Utils.getPlayerListFromUUIDList(teamRed));
+		
+		Scheduler.delay(10, () -> Utils.delayedTeleport(map.getTeamBlueSpawnLocation(), Utils.getPlayerListFromUUIDList(teamBlue)));
 		
 		new GameTimer(this, 60, 5) {
 
