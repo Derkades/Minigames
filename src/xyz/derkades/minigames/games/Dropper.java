@@ -119,6 +119,7 @@ public class Dropper extends Game {
 			Minigames.setCanTakeDamage(player, false);
 			player.setHealth(player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue());
 			player.setAllowFlight(true);
+			player.teleport(map.getLobbyLocation());
 		}
 	}
 	
@@ -128,7 +129,6 @@ public class Dropper extends Game {
 		Scheduler.delay(1, () -> {
 			event.getEntity().spigot().respawn();
 			event.getEntity().teleport(map.getLobbyLocation());
-			
 		});
 	}
 	
