@@ -31,10 +31,14 @@ public class Elytra extends Game {
 
 	private List<UUID> dead = new ArrayList<>();
 	private List<UUID> finished = new ArrayList<>();
+	
+	private boolean listener = false;
 
 	@Override
 	void begin(GameMap genericMap) {
 		Utils.delayedTeleport(new Location(Var.WORLD, 163.5, 76.5, 339.5, 120, 25), Bukkit.getOnlinePlayers());
+		
+		listener = false;
 		
 		for (Player player : Bukkit.getOnlinePlayers()){
 			player.getInventory().setChestplate(new ItemStack(Material.ELYTRA));
@@ -48,11 +52,12 @@ public class Elytra extends Game {
 			public void onStart() {
 				// game starting, remove slowness
 				Utils.clearPotionEffects();
+				listener = true;
 			}
 
 			@Override
 			public int gameTimer(int secondsLeft) {
-				if (Bukkit.getOnlinePlayers().size() == dead.size() && secondsLeft > 2) {
+				if (Bukkit.getOnlinePlayers().size() == (dead.size() + finished.size()) && secondsLeft > 2) {
 					return 2;
 				}
 				
@@ -68,7 +73,11 @@ public class Elytra extends Game {
 	}
 	
 	@EventHandler
-	public void onMove(PlayerMoveEvent event){		
+	public void onMove(PlayerMoveEvent event){
+		if (!listener) {
+			return;
+		}
+		
 		Player player = event.getPlayer();
 		Material type = event.getTo().getBlock().getRelative(BlockFace.DOWN).getType();
 		
@@ -77,14 +86,19 @@ public class Elytra extends Game {
 			Utils.clearInventory(player);
 			player.teleport(new Location(Var.WORLD, 151.5, 76, 343.5));
 			sendMessage(player.getName() + " has died");
-			dead.add(player.getUniqueId());
+			
+			if (!dead.contains(player.getUniqueId()))
+				dead.add(player.getUniqueId());
 		}
 			
 		if (type == Material.LIME_WOOL) {
 			// win
 			Utils.clearInventory(player);
 			player.teleport(new Location(Var.WORLD, 151.5, 76, 343.5));
-			finished.add(player.getUniqueId());
+			
+			if (!finished.contains(player.getUniqueId()))
+				finished.add(player.getUniqueId());
+			
 			sendMessage(player.getName() + " has finished");
 		}
 	}
