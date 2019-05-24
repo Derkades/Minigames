@@ -97,6 +97,7 @@ public class CreeperAttack extends Game {
 			Utils.clearInventory(event.getEntity());
 			if (map.getSpectatorLocation() != null)
 				event.getEntity().teleport(map.getSpectatorLocation());
+			Minigames.setCanTakeDamage(event.getEntity(), false);
 		});
 		
 		sendMessage(event.getEntity().getName() + " has been blown up by a creeper");
