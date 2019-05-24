@@ -60,7 +60,8 @@ public class MainMenu extends IconMenu {
 			player.sendMessage("------------------------------------------");
 			return true;
 		} else if (event.getName().contains("Shop")){
-			new ShopMenu(event.getPlayer()).open();
+			//new ShopMenu(event.getPlayer()).open();
+			event.getPlayer().sendMessage("The shop is temporarily disabled");
 			return false;
 		} else if (event.getName().contains("Close")){
 			return true;
