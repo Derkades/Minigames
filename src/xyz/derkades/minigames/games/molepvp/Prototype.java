@@ -15,9 +15,9 @@ public class Prototype extends MolePvPMap {
 	
 	@Override
 	public void setupMap() {
-		BlockUtils.fillArea(244, 67, 161, 212, 74, 131, Material.DIRT);
+		BlockUtils.fillArea(244, 67, 161, 224, 74, 142, Material.DIRT);
 		BlockUtils.fillArea(244, 69, 161, 242, 67, 159, Material.AIR);
-		BlockUtils.fillArea(214, 67, 133, 212, 69, 131, Material.AIR);
+		BlockUtils.fillArea(226, 74, 144, 224, 72, 142, Material.AIR);
 	}
 
 	@Override
@@ -27,7 +27,7 @@ public class Prototype extends MolePvPMap {
 
 	@Override
 	public Location getTeamBlueSpawnLocation() {
-		return new Location(Var.WORLD, 213.5, 67.5, 132.5);
+		return new Location(Var.WORLD, 225.5, 72, 143.5);
 	}
 
 }

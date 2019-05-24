@@ -63,7 +63,7 @@ public class MolePvP extends Game {
 				teamRed.add(player.getUniqueId());
 				player.teleport(map.getTeamRedSpawnLocation());
 			} else {
-				Utils.sendTitle(player, "", String.format("%sYou are in the %s%BLUE%s team", ChatColor.GRAY, ChatColor.BLUE, ChatColor.BOLD, ChatColor.GRAY));
+				Utils.sendTitle(player, "", String.format("%sYou are in the %s%sBLUE%s team", ChatColor.GRAY, ChatColor.BLUE, ChatColor.BOLD, ChatColor.GRAY));
 				teamBlue.add(player.getUniqueId());
 				player.teleport(map.getTeamBlueSpawnLocation());
 			}
@@ -71,7 +71,7 @@ public class MolePvP extends Game {
 			team = !team;
 		}
 		
-		new GameTimer(this, 60, 5) {
+		new GameTimer(this, 100, 5) {
 
 			@Override
 			public void onStart() {
@@ -217,11 +217,11 @@ public class MolePvP extends Game {
 				.enchant(Enchantment.KNOCKBACK, 1)
 				.enchant(Enchantment.DAMAGE_ALL, 1)
 				.unbreakable()
-				.canDestroy("dirt")
 				.create();
 		
 		ItemStack shovel = new ItemBuilder(Material.DIAMOND_SHOVEL)
 				.enchant(Enchantment.DIG_SPEED, 5)
+				.canDestroy("dirt")
 				.unbreakable()
 				.create();
 		
