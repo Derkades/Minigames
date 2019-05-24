@@ -25,7 +25,7 @@ import xyz.derkades.minigames.utils.Utils;
 public class OneInTheQuiver extends Game {
 
 	private static final int MAX_GAME_DURATION = 120;
-	private static final int SPREAD_TIME = 10;
+	private static final int SPREAD_TIME = 5;
 	
 	private static final ItemStack SWORD = new ItemBuilder(Material.WOODEN_SWORD)
 			.unbreakable()
