@@ -106,7 +106,7 @@ public class Minigames extends JavaPlugin implements Listener {
 		return CURRENT_GAME_NAME;
 	}
 	
-    /*private boolean setupEconomy() {
+    private boolean setupEconomy() {
         if (getServer().getPluginManager().getPlugin("Vault") == null) {
             return false;
         }
@@ -116,6 +116,6 @@ public class Minigames extends JavaPlugin implements Listener {
         }
         economy = rsp.getProvider();
         return economy != null;
-    }*/
+    }
 	
 }

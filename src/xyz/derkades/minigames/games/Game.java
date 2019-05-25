@@ -18,6 +18,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.util.Vector;
 
 import net.md_5.bungee.api.ChatColor;
 import xyz.derkades.derkutils.Random;
@@ -126,7 +127,7 @@ public abstract class Game implements Listener {
 				//If player has won
 				final int onlinePlayers = Bukkit.getOnlinePlayers().size();
 				
-				//Minigames.economy.depositPlayer(player, 1);
+				Minigames.economy.depositPlayer(player, 1);
 				
 				final int points;
 				
@@ -139,18 +140,18 @@ public abstract class Game implements Listener {
 				}
 				
 				Points.addPoints(player, points);
-				//Minigames.economy.depositPlayer(player, points);
+				Minigames.economy.depositPlayer(player, points);
 				Utils.sendTitle(player, DARK_AQUA + "You've won",  AQUA + "+" + points + " points");
 			} else {
 				Points.addPoints(player, 1);
-				//Minigames.economy.depositPlayer(player, 0);
+				Minigames.economy.depositPlayer(player, 0);
 				Utils.sendTitle(player, DARK_AQUA + "You've lost", AQUA + "+1 point");
 			}
 			player.sendMessage(DARK_AQUA + "You currently have " + AQUA + Points.getPoints(player) + DARK_AQUA + " points.");
 		}
 		
 		Utils.delayedTeleport(Var.LOBBY_LOCATION, (player) -> {
-			
+			player.setVelocity(new Vector(Random.getRandomDouble() - 0.5, 0.3, -0.3));
 		}, Bukkit.getOnlinePlayers());
 		
 		for (Player player : Bukkit.getOnlinePlayers()){			
