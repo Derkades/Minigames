@@ -8,6 +8,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 import org.bukkit.Bukkit;
@@ -22,6 +23,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.util.Vector;
 
 import xyz.derkades.derkutils.Random;
 import xyz.derkades.minigames.Minigames;
@@ -276,8 +278,29 @@ public class Utils {
 		}
 	}
 	
+	public static void delayedTeleport(final Location location, final Consumer<Player> runnable, final Player... players) {
+		int delay = 0;
+		
+		for (final Player player : players) {
+			Scheduler.delay(delay, () -> { 
+				player.teleport(location); 
+				runnable.accept(player);
+			});
+			delay +=2;
+		}
+	}
+	
 	public static void delayedTeleport(final Location location, final Collection<? extends Player> players) {
 		delayedTeleport(location, players.toArray(new Player[] {}));
 	}
-
+	
+	public static void delayedTeleport(final Location location, final Consumer<Player> runnable, final Collection<? extends Player> players) {
+		delayedTeleport(location, runnable, players.toArray(new Player[] {}));
+	}
+	
+	public static void launch(Player player, double upwardVelocity, double multiplyInLookingDirection){
+		player.setVelocity(player.getLocation().getDirection().multiply(multiplyInLookingDirection));
+		player.setVelocity(new Vector(player.getVelocity().getX(), upwardVelocity, player.getVelocity().getZ()));
+	}
+	
 }
