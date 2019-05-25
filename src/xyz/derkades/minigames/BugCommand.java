@@ -20,6 +20,7 @@ public class BugCommand implements CommandExecutor {
 		
 		if (args.length < 3) {
 			player.sendMessage("Please provide a longer description");
+			return true;
 		}
 		
 		Scheduler.async(() -> {
