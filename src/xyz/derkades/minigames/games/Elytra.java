@@ -67,7 +67,7 @@ public class Elytra extends Game {
 
 			@Override
 			public void onEnd() {
-				Elytra.super.startNextGame(Utils.getPlayerListFromUUIDList(finished));
+				Elytra.super.endGame(Utils.getPlayerListFromUUIDList(finished));
 			}
 			
 		};

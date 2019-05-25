@@ -64,7 +64,7 @@ public class Speedrun extends Game {
 	}
 	
 	private void endGame(){
-		super.startNextGame(Utils.getPlayerListFromUUIDList(finished));
+		super.endGame(Utils.getPlayerListFromUUIDList(finished));
 	}
 	
 	private void playerDie(Player player){

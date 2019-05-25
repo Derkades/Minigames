@@ -112,7 +112,7 @@ public class OneInTheQuiver extends Game {
 		if (winners.size() > 1) {
 			winners.clear();
 		}
-		super.startNextGame(winners);
+		super.endGame(winners);
 	}
 	
 	@EventHandler

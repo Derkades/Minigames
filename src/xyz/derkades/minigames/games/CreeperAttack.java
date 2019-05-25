@@ -109,7 +109,7 @@ public class CreeperAttack extends Game {
 		for (Creeper creeper : Var.WORLD.getEntitiesByClass(Creeper.class)) {
 			creeper.remove();
 		}
-		super.startNextGame(Utils.getPlayerListFromUUIDList(alive));
+		super.endGame(Utils.getPlayerListFromUUIDList(alive));
 	}
 
 }

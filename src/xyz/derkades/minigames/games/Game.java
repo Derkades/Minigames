@@ -20,7 +20,6 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import net.md_5.bungee.api.ChatColor;
-import xyz.derkades.derkutils.ListUtils;
 import xyz.derkades.derkutils.Random;
 import xyz.derkades.minigames.AutoRotate;
 import xyz.derkades.minigames.Minigames;
@@ -41,7 +40,7 @@ public abstract class Game implements Listener {
 			new Dropper(),
 			//new Elytra(),
 			new IcyBlowback(),
-			new JungleRun(),
+			//new JungleRun(),
 			//new MazePvp(),
 			//new Mine(),
 			new MolePvP(),
@@ -50,7 +49,7 @@ public abstract class Game implements Listener {
 			new Platform(),
 			new RegeneratingSpleef(),
 			//new Rooms(),
-			new SaveTheSnowman(),
+			new Parkour(),
 			//new SnowFight(),
 			//new Speedrun(),
 			new TeamsBowBattle(),
@@ -104,7 +103,7 @@ public abstract class Game implements Listener {
 		Bukkit.broadcastMessage(DARK_GRAY + "[" + DARK_AQUA + getName() + DARK_GRAY + "] " + AQUA + message);
 	}
 	
-	void startNextGame(List<Player> winners){
+	void endGame(List<Player> winners){
 		Minigames.IS_IN_GAME = false;
 		HandlerList.unregisterAll(this); //Unregister events
 		
@@ -150,7 +149,9 @@ public abstract class Game implements Listener {
 			player.sendMessage(DARK_AQUA + "You currently have " + AQUA + Points.getPoints(player) + DARK_AQUA + " points.");
 		}
 		
-		Utils.delayedTeleport(Var.LOBBY_LOCATION, Bukkit.getOnlinePlayers());
+		Utils.delayedTeleport(Var.LOBBY_LOCATION, (player) -> {
+			
+		}, Bukkit.getOnlinePlayers());
 		
 		for (Player player : Bukkit.getOnlinePlayers()){			
 			player.setAllowFlight(false);
@@ -237,16 +238,10 @@ public abstract class Game implements Listener {
 				}
 				
 				if (timeLeft < 1) {
-					this.cancel();
-					
-					
-					
+					this.cancel();					
 					Utils.clearPotionEffects();
-
 					begin(map);
-					
 					Minigames.IS_IN_GAME = true;
-					
 					Bukkit.getPluginManager().registerEvents(Game.this, Minigames.getInstance());
 					
 					Utils.setXpBarValue(0f, 0);

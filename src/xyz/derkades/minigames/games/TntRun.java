@@ -129,7 +129,7 @@ public class TntRun extends Game {
 	
 	private void finish() {
 		task.cancel();
-		super.startNextGame(Utils.getPlayerListFromUUIDList(alive));
+		super.endGame(Utils.getPlayerListFromUUIDList(alive));
 	}
 
 }

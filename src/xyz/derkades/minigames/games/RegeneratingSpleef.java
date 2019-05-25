@@ -86,7 +86,7 @@ public class RegeneratingSpleef extends Game {
 					
 					//End game
 					Utils.setGameRule("doTileDrops", true);
-					startNextGame(Utils.getWinnersFromDeadList(dead));
+					endGame(Utils.getWinnersFromDeadList(dead));
 					
 					return;
 				}

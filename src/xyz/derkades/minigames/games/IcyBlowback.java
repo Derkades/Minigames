@@ -101,13 +101,10 @@ public class IcyBlowback extends Game {
 			Utils.giveInfiniteEffect(player, PotionEffectType.SPEED, 0);
 			Utils.giveInfiniteEffect(player, PotionEffectType.DAMAGE_RESISTANCE, 255);
 		}
-		
-		//Var.WORLD.setTime(14000);
 	}
 	
 	private void end() {
-		//Var.WORLD.setTime(6000);
-		super.startNextGame(Arrays.asList(ListUtils.getRandomValueFromList(Utils.getWinnersFromDeadList(dead))));
+		super.endGame(Arrays.asList(ListUtils.getRandomValueFromList(Utils.getWinnersFromDeadList(dead))));
 	}
 	
 	private void die(Player player) {
@@ -115,7 +112,6 @@ public class IcyBlowback extends Game {
 		player.setAllowFlight(true);
 		Utils.giveInvisibility(player);
 		Var.WORLD.spigot().strikeLightningEffect(player.getLocation(), false);
-		//player.teleport(map.getSpectatorLocation());
 		player.getInventory().clear();
 		Utils.hideForEveryoneElse(player);
 		player.setFlying(true);
@@ -125,8 +121,13 @@ public class IcyBlowback extends Game {
 	}
 	
 	@EventHandler
-	public void onMove(PlayerMoveEvent event) {
-		Player player = event.getPlayer();
+	public void onMove(final PlayerMoveEvent event) {
+		final Player player = event.getPlayer();
+		
+		if (dead.contains(player.getUniqueId())) {
+			return;
+		}
+		
 		if (player.getLocation().getY() < 87) {
 			die(player);
 		}

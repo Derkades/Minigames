@@ -188,7 +188,7 @@ public class TntTag extends Game {
 				int alive = getAlivePlayers().size();
 				sendMessage(player.getName() + " exploded into a million pieces! " + alive + " players left.");
 				if (alive == 1) {
-					startNextGame(Utils.getWinnersFromDeadList(dead));
+					endGame(Utils.getWinnersFromDeadList(dead));
 					return;
 				}
 				

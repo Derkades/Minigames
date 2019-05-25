@@ -1,27 +1,6 @@
 package xyz.derkades.minigames.games;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
-
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.Particle;
-import org.bukkit.Sound;
-import org.bukkit.block.BlockFace;
-import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
-import org.bukkit.event.player.PlayerMoveEvent;
-import org.bukkit.scheduler.BukkitRunnable;
-
-import xyz.derkades.minigames.Minigames;
-import xyz.derkades.minigames.Var;
-import xyz.derkades.minigames.games.maps.GameMap;
-import xyz.derkades.minigames.utils.Utils;
-
-public class JungleRun extends Game {
+public class JungleRun { /*extends Game {
 
 	private static final String SECONDS_LEFT = "%s seconds left.";
 	private static final int DURATION = 30;
@@ -58,7 +37,7 @@ public class JungleRun extends Game {
 				
 				if (secondsLeft <= 0) {
 					this.cancel();
-					startNextGame(Utils.getPlayerListFromUUIDList(finished));
+					endGame(Utils.getPlayerListFromUUIDList(finished));
 					return;
 				}
 				
@@ -108,16 +87,7 @@ public class JungleRun extends Game {
 		
 		Material type = event.getTo().getBlock().getRelative(BlockFace.DOWN).getType();
 		
-		if (type == Material.SOUL_SAND ||
-				type == Material.GREEN_WOOL ||
-				type == Material.LIME_WOOL ||
-				type == Material.GREEN_CARPET ||
-				type == Material.LIME_CARPET ||
-				type == Material.GREEN_TERRACOTTA){
-			playerDie(player);
-		} else if(type == Material.GOLD_BLOCK){
-			playerWin(player);
-		}
-	}
+
+	}*/
 
 }

@@ -95,7 +95,7 @@ public class Dropper extends Game {
 	}
 	
 	private void endGame() {
-		super.startNextGame(Utils.getPlayerListFromUUIDList(winners));
+		super.endGame(Utils.getPlayerListFromUUIDList(winners));
 	}
 	
 	@EventHandler

@@ -78,7 +78,7 @@ public class Platform extends Game {
 
 			@Override
 			public void onEnd() {
-				startNextGame(Utils.getWinnersFromDeadList(dead));
+				endGame(Utils.getWinnersFromDeadList(dead));
 			}
 			
 		};

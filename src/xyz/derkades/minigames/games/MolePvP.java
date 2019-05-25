@@ -97,13 +97,13 @@ public class MolePvP extends Game {
 			public void onEnd() {
 				if (getNumPlayersLeftInBlueTeam() == 0) {
 					// blue is dead so team red wins
-					MolePvP.super.startNextGame(Utils.getPlayerListFromUUIDList(teamRed));
+					MolePvP.super.endGame(Utils.getPlayerListFromUUIDList(teamRed));
 				} else if (getNumPlayersLeftInRedTeam() == 0) {
 					// red is dead so team blue wins
-					MolePvP.super.startNextGame(Utils.getPlayerListFromUUIDList(teamBlue));
+					MolePvP.super.endGame(Utils.getPlayerListFromUUIDList(teamBlue));
 				} else {
 					// both teams are still alive
-					MolePvP.super.startNextGame(new ArrayList<>());
+					MolePvP.super.endGame(new ArrayList<>());
 				}
 			}
 

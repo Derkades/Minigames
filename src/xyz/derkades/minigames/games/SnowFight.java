@@ -106,7 +106,7 @@ public class SnowFight extends Game {
 					sidebar.hideFrom(player);
 				}
 				
-				startNextGame(Utils.getWinnersFromPointsHashmap(kills));
+				endGame(Utils.getWinnersFromPointsHashmap(kills));
 			}
 			
 		};

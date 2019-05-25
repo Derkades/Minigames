@@ -133,7 +133,7 @@ public class DigDug extends Game {
 		
 		Utils.setGameRule("doTileDrops", true);
 		
-		super.startNextGame(Utils.getWinnersFromPointsHashmap(points));
+		super.endGame(Utils.getWinnersFromPointsHashmap(points));
 	}
 	
 	@EventHandler

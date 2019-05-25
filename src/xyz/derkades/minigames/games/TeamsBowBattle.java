@@ -98,13 +98,13 @@ public class TeamsBowBattle extends Game {
 			public void onEnd() {
 				if (getNumPlayersLeftInBlueTeam() == 0) {
 					// blue is dead so team red wins
-					TeamsBowBattle.super.startNextGame(Utils.getPlayerListFromUUIDList(teamRed));
+					TeamsBowBattle.super.endGame(Utils.getPlayerListFromUUIDList(teamRed));
 				} else if (getNumPlayersLeftInRedTeam() == 0) {
 					// red is dead so team blue wins
-					TeamsBowBattle.super.startNextGame(Utils.getPlayerListFromUUIDList(teamBlue));
+					TeamsBowBattle.super.endGame(Utils.getPlayerListFromUUIDList(teamBlue));
 				} else {
 					// both teams are still alive
-					TeamsBowBattle.super.startNextGame(new ArrayList<>());
+					TeamsBowBattle.super.endGame(new ArrayList<>());
 				}
 			}
 
