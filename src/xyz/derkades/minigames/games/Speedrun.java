@@ -18,6 +18,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import net.md_5.bungee.api.ChatColor;
 import xyz.derkades.minigames.Minigames;
 import xyz.derkades.minigames.Points;
+import xyz.derkades.minigames.games.maps.GameMap;
 import xyz.derkades.minigames.games.speedrun.SpeedrunMap;
 import xyz.derkades.minigames.utils.Utils;
 

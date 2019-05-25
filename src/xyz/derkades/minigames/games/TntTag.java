@@ -27,6 +27,7 @@ import xyz.derkades.derkutils.Cooldown;
 import xyz.derkades.derkutils.ListUtils;
 import xyz.derkades.minigames.Minigames;
 import xyz.derkades.minigames.Var;
+import xyz.derkades.minigames.games.maps.GameMap;
 import xyz.derkades.minigames.utils.Utils;
 
 public class TntTag extends Game {

@@ -3,6 +3,7 @@ package xyz.derkades.minigames.games.speedrun;
 import org.bukkit.Location;
 
 import xyz.derkades.minigames.Var;
+import xyz.derkades.minigames.games.maps.MapSize;
 
 public class Classic extends SpeedrunMap {
 
@@ -19,6 +20,11 @@ public class Classic extends SpeedrunMap {
 	@Override
 	public String getName() {
 		return "Classic";
+	}
+	
+	@Override
+	public MapSize getSize() {
+		return null;
 	}
 
 }

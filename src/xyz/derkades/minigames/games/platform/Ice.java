@@ -3,6 +3,7 @@ package xyz.derkades.minigames.games.platform;
 import org.bukkit.Location;
 
 import xyz.derkades.minigames.Var;
+import xyz.derkades.minigames.games.maps.MapSize;
 
 public class Ice extends PlatformMap {
 
@@ -19,6 +20,11 @@ public class Ice extends PlatformMap {
 	@Override
 	public String getName() {
 		return "Ice";
+	}
+	
+	@Override
+	public MapSize getSize() {
+		return MapSize.NORMAL;
 	}
 
 }

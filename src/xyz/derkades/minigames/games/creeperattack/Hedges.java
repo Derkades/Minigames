@@ -3,6 +3,7 @@ package xyz.derkades.minigames.games.creeperattack;
 import org.bukkit.Location;
 
 import xyz.derkades.minigames.Var;
+import xyz.derkades.minigames.games.maps.MapSize;
 
 public class Hedges extends CreeperAttackMap {
 
@@ -24,6 +25,11 @@ public class Hedges extends CreeperAttackMap {
 	@Override
 	public String getName() {
 		return "Hedges";
+	}
+	
+	@Override
+	public MapSize getSize() {
+		return MapSize.NORMAL;
 	}
 
 }

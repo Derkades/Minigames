@@ -17,6 +17,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.scheduler.BukkitTask;
 
 import xyz.derkades.minigames.Minigames;
+import xyz.derkades.minigames.games.maps.GameMap;
 import xyz.derkades.minigames.games.tntrun.TNTMap;
 import xyz.derkades.minigames.utils.Utils;
 

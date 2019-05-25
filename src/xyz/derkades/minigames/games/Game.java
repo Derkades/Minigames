@@ -26,6 +26,8 @@ import xyz.derkades.minigames.AutoRotate;
 import xyz.derkades.minigames.Minigames;
 import xyz.derkades.minigames.Points;
 import xyz.derkades.minigames.Var;
+import xyz.derkades.minigames.games.maps.GameMap;
+import xyz.derkades.minigames.games.maps.MapPicking;
 import xyz.derkades.minigames.menu.VoteMenu;
 import xyz.derkades.minigames.utils.Scheduler;
 import xyz.derkades.minigames.utils.Utils;
@@ -185,7 +187,7 @@ public abstract class Game implements Listener {
 	
 	public void startGame(){
 		// Choose random map
-		final GameMap map = maps == null ? null : ListUtils.getRandomValueFromArray(maps);
+		final GameMap map = maps == null ? null : MapPicking.pickRandomMap(maps);
 		
 		// Send description
 		for (Player player : Bukkit.getOnlinePlayers()) {

@@ -4,6 +4,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 
 import xyz.derkades.minigames.Var;
+import xyz.derkades.minigames.games.maps.MapSize;
 import xyz.derkades.minigames.utils.BlockUtils;
 
 public class Trees extends DropperMap {
@@ -30,6 +31,11 @@ public class Trees extends DropperMap {
 	
 	private void fillDoor(Material material) {
 		BlockUtils.fillArea(167, 80, 150, 169, 80, 152, material);
-	}	
+	}
+	
+	@Override
+	public MapSize getSize() {
+		return null;
+	}
 
 }

@@ -15,6 +15,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
 
 import xyz.derkades.minigames.Var;
+import xyz.derkades.minigames.games.maps.GameMap;
 import xyz.derkades.minigames.utils.Utils;
 
 public class Elytra extends Game {

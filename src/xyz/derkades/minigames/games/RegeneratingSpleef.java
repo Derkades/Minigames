@@ -20,6 +20,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
 import xyz.derkades.minigames.Minigames;
+import xyz.derkades.minigames.games.maps.GameMap;
 import xyz.derkades.minigames.games.spleef.SpleefMap;
 import xyz.derkades.minigames.utils.Scheduler;
 import xyz.derkades.minigames.utils.Utils;

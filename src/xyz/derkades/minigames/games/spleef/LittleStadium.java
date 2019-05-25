@@ -5,6 +5,7 @@ import org.bukkit.Material;
 
 import xyz.derkades.derkutils.Random;
 import xyz.derkades.minigames.Var;
+import xyz.derkades.minigames.games.maps.MapSize;
 import xyz.derkades.minigames.utils.BlockUtils;
 
 public class LittleStadium extends SpleefMap {
@@ -31,6 +32,11 @@ public class LittleStadium extends SpleefMap {
 	@Override
 	public String getName() {
 		return "Little Stadium";
+	}
+	
+	@Override
+	public MapSize getSize() {
+		return MapSize.NORMAL;
 	}
 	
 }

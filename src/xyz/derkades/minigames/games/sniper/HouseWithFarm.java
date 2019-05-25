@@ -3,6 +3,7 @@ package xyz.derkades.minigames.games.sniper;
 import org.bukkit.Location;
 
 import xyz.derkades.minigames.Var;
+import xyz.derkades.minigames.games.maps.MapSize;
 
 public class HouseWithFarm extends SniperMap {
 
@@ -19,6 +20,11 @@ public class HouseWithFarm extends SniperMap {
 	@Override
 	public String getName() {
 		return "abandoned house with some farmland and stuff";
+	}
+	
+	@Override
+	public MapSize getSize() {
+		return MapSize.NORMAL;
 	}
 
 }

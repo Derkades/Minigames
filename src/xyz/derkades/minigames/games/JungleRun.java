@@ -18,6 +18,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import xyz.derkades.minigames.Minigames;
 import xyz.derkades.minigames.Var;
+import xyz.derkades.minigames.games.maps.GameMap;
 import xyz.derkades.minigames.utils.Utils;
 
 public class JungleRun extends Game {

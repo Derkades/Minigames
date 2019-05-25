@@ -19,7 +19,7 @@ import xyz.derkades.derkutils.bukkit.menu.OptionClickEvent;
 import xyz.derkades.minigames.Minigames;
 import xyz.derkades.minigames.Points;
 import xyz.derkades.minigames.games.Game;
-import xyz.derkades.minigames.games.GameMap;
+import xyz.derkades.minigames.games.maps.GameMap;
 
 public class MainMenu extends IconMenu {
 

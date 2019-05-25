@@ -4,6 +4,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 
 import xyz.derkades.minigames.Var;
+import xyz.derkades.minigames.games.maps.MapSize;
 import xyz.derkades.minigames.utils.BlockUtils;
 
 public class BlackWhite extends DropperMap {
@@ -26,6 +27,11 @@ public class BlackWhite extends DropperMap {
 	@Override
 	public void closeDoor() {
 		BlockUtils.fillArea(121, 80, 150, 123, 80, 152, Material.WHITE_STAINED_GLASS);
+	}
+	
+	@Override
+	public MapSize getSize() {
+		return null;
 	}
 
 }

@@ -3,6 +3,7 @@ package xyz.derkades.minigames.games.snowfight;
 import org.bukkit.Location;
 
 import xyz.derkades.minigames.Var;
+import xyz.derkades.minigames.games.maps.MapSize;
 
 public class Maze extends SnowFightMap {
 
@@ -19,6 +20,11 @@ public class Maze extends SnowFightMap {
 	@Override
 	public String getName() {
 		return "Maze";
+	}
+	
+	@Override
+	public MapSize getSize() {
+		return MapSize.SMALL;
 	}
 
 }

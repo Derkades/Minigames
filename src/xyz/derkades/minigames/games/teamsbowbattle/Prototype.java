@@ -3,6 +3,7 @@ package xyz.derkades.minigames.games.teamsbowbattle;
 import org.bukkit.Location;
 
 import xyz.derkades.minigames.Var;
+import xyz.derkades.minigames.games.maps.MapSize;
 
 public class Prototype extends TeamsBowBattleMap {
 
@@ -19,6 +20,11 @@ public class Prototype extends TeamsBowBattleMap {
 	@Override
 	public Location getTeamBlueSpawnLocation() {
 		return new Location(Var.WORLD, 402.5, 72, 298.5);
+	}
+
+	@Override
+	public MapSize getSize() {
+		return MapSize.NORMAL;
 	}
 
 }

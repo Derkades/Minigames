@@ -4,6 +4,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 
 import xyz.derkades.minigames.Var;
+import xyz.derkades.minigames.games.maps.MapSize;
 import xyz.derkades.minigames.utils.BlockUtils;
 
 public class Aqua extends TNTMap {
@@ -30,6 +31,11 @@ public class Aqua extends TNTMap {
 	@Override
 	public String getName() {
 		return "Aqua";
+	}
+
+	@Override
+	public MapSize getSize() {
+		return MapSize.LARGE;
 	}
 
 }

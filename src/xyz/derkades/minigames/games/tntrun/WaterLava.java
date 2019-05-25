@@ -4,6 +4,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 
 import xyz.derkades.minigames.Var;
+import xyz.derkades.minigames.games.maps.MapSize;
 import xyz.derkades.minigames.utils.BlockUtils;
 
 public class WaterLava extends TNTMap {
@@ -32,4 +33,9 @@ public class WaterLava extends TNTMap {
 		return "Water-Lava";
 	}
 
+	@Override
+	public MapSize getSize() {
+		return MapSize.SMALL;
+	}
+	
 }

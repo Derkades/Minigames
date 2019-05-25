@@ -30,6 +30,7 @@ import xyz.derkades.derkutils.Random;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
 import xyz.derkades.minigames.Minigames;
 import xyz.derkades.minigames.Var;
+import xyz.derkades.minigames.games.maps.GameMap;
 import xyz.derkades.minigames.utils.BlockUtils;
 import xyz.derkades.minigames.utils.Utils;
 

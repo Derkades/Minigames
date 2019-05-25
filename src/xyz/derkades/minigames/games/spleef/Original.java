@@ -4,6 +4,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 
 import xyz.derkades.minigames.Var;
+import xyz.derkades.minigames.games.maps.MapSize;
 import xyz.derkades.minigames.utils.BlockUtils;
 
 public class Original extends SpleefMap {
@@ -26,6 +27,11 @@ public class Original extends SpleefMap {
 	@Override
 	public String getName() {
 		return "Original";
+	}
+
+	@Override
+	public MapSize getSize() {
+		return MapSize.SMALL;
 	}
 
 }

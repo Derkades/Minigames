@@ -3,6 +3,7 @@ package xyz.derkades.minigames.games.speedrun;
 import org.bukkit.Location;
 
 import xyz.derkades.minigames.Var;
+import xyz.derkades.minigames.games.maps.MapSize;
 
 /**
  * @deprecated Map is not finished
@@ -23,6 +24,11 @@ public class Trees extends SpeedrunMap {
 	@Override
 	public String getName() {
 		return "Trees";
+	}
+	
+	@Override
+	public MapSize getSize() {
+		return null;
 	}
 
 }

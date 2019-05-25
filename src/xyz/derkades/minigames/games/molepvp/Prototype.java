@@ -4,6 +4,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 
 import xyz.derkades.minigames.Var;
+import xyz.derkades.minigames.games.maps.MapSize;
 import xyz.derkades.minigames.utils.BlockUtils;
 
 public class Prototype extends MolePvPMap {
@@ -28,6 +29,11 @@ public class Prototype extends MolePvPMap {
 	@Override
 	public Location getTeamBlueSpawnLocation() {
 		return new Location(Var.WORLD, 225.5, 72, 143.5);
+	}
+	
+	@Override
+	public MapSize getSize() {
+		return MapSize.NORMAL;
 	}
 
 }

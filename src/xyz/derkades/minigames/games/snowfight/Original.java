@@ -3,6 +3,7 @@ package xyz.derkades.minigames.games.snowfight;
 import org.bukkit.Location;
 
 import xyz.derkades.minigames.Var;
+import xyz.derkades.minigames.games.maps.MapSize;
 
 public class Original extends SnowFightMap {
 
@@ -21,6 +22,10 @@ public class Original extends SnowFightMap {
 		return "Snow";
 	}
 
+	@Override
+	public MapSize getSize() {
+		return MapSize.NORMAL;
+	}
 
 
 }

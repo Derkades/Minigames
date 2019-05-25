@@ -23,6 +23,7 @@ import xyz.derkades.derkutils.bukkit.ItemBuilder;
 import xyz.derkades.minigames.Minigames;
 import xyz.derkades.minigames.Var;
 import xyz.derkades.minigames.games.icyblowback.IcyBlowbackMap;
+import xyz.derkades.minigames.games.maps.GameMap;
 import xyz.derkades.minigames.utils.Utils;
 
 public class IcyBlowback extends Game {

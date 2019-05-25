@@ -4,6 +4,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 
 import xyz.derkades.minigames.Var;
+import xyz.derkades.minigames.games.maps.MapSize;
 import xyz.derkades.minigames.utils.BlockUtils;
 
 public class BigStadium extends SpleefMap {
@@ -26,6 +27,11 @@ public class BigStadium extends SpleefMap {
 	@Override
 	public String getName() {
 		return "Big Stadium";
+	}
+	
+	@Override
+	public MapSize getSize() {
+		return MapSize.LARGE;
 	}
 
 }
