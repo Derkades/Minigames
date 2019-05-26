@@ -30,13 +30,13 @@ public class Snow extends ParkourMap {
 	}
 
 	@Override
-	public boolean hasFinished(Player player, Material blockType) {
+	public boolean hasFinished(final Player player, final Material blockType) {
 		return blockType == Material.DIAMOND_BLOCK;
 	}
 
 	@Override
-	public boolean hasDied(Player player, Material blockType) {
-		return blockType == Material.SNOW || blockType == Material.ICE;
+	public boolean hasDied(final Player player, final Material blockType) {
+		return blockType == Material.SNOW_BLOCK || blockType == Material.ICE;
 	}
 
 	@Override
