@@ -105,6 +105,7 @@ public class ChatPoll {
 
 			if (System.currentTimeMillis() - tokens.get(providedToken) > TOKEN_EXPIRE_TIME) {
 				sender.sendMessage(ChatColor.RED + "This poll has expired.");
+				return true;
 			}
 
 			tokens.remove(providedToken);
