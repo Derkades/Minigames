@@ -15,7 +15,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.scheduler.BukkitTask;
 
 import net.md_5.bungee.api.ChatColor;
 import xyz.derkades.derkutils.ListUtils;
@@ -38,78 +37,89 @@ public class CreeperAttack extends Game {
 	}
 
 	private List<UUID> alive;
-	private BukkitTask task;
-	private float chance;
-	
+
+
 	private CreeperAttackMap map;
-	
+
 	@Override
 	void begin(final GameMap genericMap) {
-		alive = new ArrayList<>();
-		chance = 0.35f;
+		this.alive = new ArrayList<>();
 		this.map = (CreeperAttackMap) genericMap;
-		
-		ItemStack knockbackStick = new ItemBuilder(Material.STICK)
+
+		final ItemStack knockbackStick = new ItemBuilder(Material.STICK)
 				.name(ChatColor.GOLD + "" + ChatColor.BOLD + "Creeper Smasher")
 				.create();
-		
+
 		knockbackStick.addUnsafeEnchantment(Enchantment.KNOCKBACK, 3);
-		
+
 		Utils.setGameRule("doMobLoot", false);
-		
-		Utils.delayedTeleport(map.getSpawnLocation(), Bukkit.getOnlinePlayers());
-		
+
+		Utils.delayedTeleport(this.map.getSpawnLocation(), Bukkit.getOnlinePlayers());
+
 		Bukkit.getOnlinePlayers().forEach((player) -> {
-			alive.add(player.getUniqueId());
+			this.alive.add(player.getUniqueId());
 			player.getInventory().addItem(knockbackStick);
 			Minigames.setCanTakeDamage(player, true);
 		});
-		
-		task = Bukkit.getScheduler().runTaskTimer(Minigames.getInstance(), () -> {
-			List<Player> alivePlayers = Utils.getPlayerListFromUUIDList(alive);
-			if (alivePlayers.size() <= 1) {
-				finish();
+
+		new GameTimer(this, 60, 2) {
+
+			private float chance = 0.35f;
+
+			@Override
+			public void onStart() {
+
 			}
-			
-			if (Random.getRandomFloat() < chance) {
-				chance += 0.02f;
-				Creeper creeper = Var.WORLD.spawn(map.getCreeperLocation(), Creeper.class);
-				//creeper.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 10000000, 50, true, false));
-				//creeper.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 10000000, 1, true, false));
-				creeper.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).setBaseValue(creeper.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).getBaseValue() * 1.5);
-				creeper.setTarget(ListUtils.getRandomValueFromList(Utils.getPlayerListFromUUIDList(alive)));
+
+			@Override
+			public int gameTimer(final int secondsLeft) {
+				final List<Player> alivePlayers = Utils.getPlayerListFromUUIDList(CreeperAttack.this.alive);
+				if (alivePlayers.size() <= 1 && secondsLeft > 1) {
+					return 1;
+				}
+
+				if (Random.getRandomFloat() < this.chance) {
+					this.chance += 0.02f;
+					final Creeper creeper = Var.WORLD.spawn(CreeperAttack.this.map.getCreeperLocation(), Creeper.class);
+					creeper.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).setBaseValue(creeper.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).getBaseValue() * 1.5);
+					creeper.setTarget(ListUtils.getRandomValueFromList(Utils.getPlayerListFromUUIDList(CreeperAttack.this.alive)));
+				}
+
+				return secondsLeft;
 			}
-		}, 20, 10);
+
+			@Override
+			public void onEnd() {
+				for (final Creeper creeper : Var.WORLD.getEntitiesByClass(Creeper.class)){
+					creeper.remove();
+				}
+
+				CreeperAttack.this.endGame(Utils.getPlayerListFromUUIDList(CreeperAttack.this.alive));
+			}
+
+		};
 	}
-	
+
 	@EventHandler
-	public void onAttack(EntityDamageByEntityEvent event) {
+	public void onAttack(final EntityDamageByEntityEvent event) {
 		if (event.getEntity().getType() == EntityType.PLAYER && event.getDamager().getType() != EntityType.CREEPER) {
 			event.setCancelled(true);
 		}
 	}
-	
+
 	@EventHandler
-	public void onDeath(PlayerDeathEvent event) {
+	public void onDeath(final PlayerDeathEvent event) {
 		event.setDeathMessage("");
-		alive.remove(event.getEntity().getUniqueId());
+		this.alive.remove(event.getEntity().getUniqueId());
 		Scheduler.delay(1, () -> {
 			event.getEntity().spigot().respawn();
 			Utils.clearInventory(event.getEntity());
-			if (map.getSpectatorLocation() != null)
-				event.getEntity().teleport(map.getSpectatorLocation());
+			if (this.map.getSpectatorLocation() != null)
+				event.getEntity().teleport(this.map.getSpectatorLocation());
 			Minigames.setCanTakeDamage(event.getEntity(), false);
 		});
-		
-		sendMessage(event.getEntity().getName() + " has been blown up by a creeper");
-	}
-	
-	private void finish() {
-		task.cancel();
-		for (Creeper creeper : Var.WORLD.getEntitiesByClass(Creeper.class)) {
-			creeper.remove();
-		}
-		super.endGame(Utils.getPlayerListFromUUIDList(alive));
+
+		this.sendMessage(event.getEntity().getName() + " has been blown up by a creeper");
 	}
 
 }
