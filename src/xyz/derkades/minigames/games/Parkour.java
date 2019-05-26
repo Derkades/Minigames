@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.BlockFace;
@@ -16,7 +15,6 @@ import org.bukkit.event.player.PlayerMoveEvent;
 
 import xyz.derkades.minigames.Minigames;
 import xyz.derkades.minigames.Points;
-import xyz.derkades.minigames.Var;
 import xyz.derkades.minigames.games.maps.GameMap;
 import xyz.derkades.minigames.games.parkour.ParkourMap;
 import xyz.derkades.minigames.utils.Utils;
@@ -77,7 +75,7 @@ public class Parkour extends Game {
 		final Material blockType = event.getTo().getBlock().getRelative(BlockFace.DOWN).getType();
 
 		if (this.map.hasDied(player, blockType)) {
-			player.teleport(new Location(Var.WORLD, 277.5, 70, 273.5, -90, 0));
+			player.teleport(this.map.getStartLocation());
 		}
 
 		if (this.map.hasFinished(player, blockType)) {

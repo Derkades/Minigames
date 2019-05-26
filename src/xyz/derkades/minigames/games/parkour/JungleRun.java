@@ -32,12 +32,12 @@ public class JungleRun extends ParkourMap {
 	}
 
 	@Override
-	public boolean hasFinished(Player player, Material blockType) {
+	public boolean hasFinished(final Player player, final Material blockType) {
 		return blockType == Material.GOLD_BLOCK;
 	}
 
 	@Override
-	public boolean hasDied(Player player, Material blockType) {
+	public boolean hasDied(final Player player, final Material blockType) {
 		return  blockType == Material.SOUL_SAND || // TODO Figure out if it's light or dark green carpet/wool/terracotta
 				blockType == Material.GREEN_WOOL ||
 				blockType == Material.LIME_WOOL ||
@@ -55,9 +55,9 @@ public class JungleRun extends ParkourMap {
 	public int getDuration() {
 		return 30;
 	}
-	
+
 	@Override
-	public void onPlayerFinish(Player player) {
+	public void onPlayerFinish(final Player player) {
 		Utils.particle(Particle.FLAME, 327.5, 72, 196.5, 0.1, 1000, 0, 2, 2);
 	}
 
