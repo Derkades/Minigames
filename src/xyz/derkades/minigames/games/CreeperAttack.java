@@ -18,7 +18,6 @@ import org.bukkit.inventory.ItemStack;
 
 import net.md_5.bungee.api.ChatColor;
 import xyz.derkades.derkutils.ListUtils;
-import xyz.derkades.derkutils.Random;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
 import xyz.derkades.minigames.Minigames;
 import xyz.derkades.minigames.Var;
@@ -64,7 +63,7 @@ public class CreeperAttack extends Game {
 
 		new GameTimer(this, 60, 2) {
 
-			private float chance = 0.35f;
+			private int numberOfCreepers = 1;
 
 			@Override
 			public void onStart() {
@@ -78,8 +77,11 @@ public class CreeperAttack extends Game {
 					return 1;
 				}
 
-				if (Random.getRandomFloat() < this.chance) {
-					this.chance += 0.02f;
+				if (secondsLeft % 5 == 0){
+					this.numberOfCreepers++;
+				}
+
+				for (int i = 0; i < this.numberOfCreepers; i++) {
 					final Creeper creeper = Var.WORLD.spawn(CreeperAttack.this.map.getCreeperLocation(), Creeper.class);
 					creeper.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).setBaseValue(creeper.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).getBaseValue() * 1.5);
 					creeper.setTarget(ListUtils.getRandomValueFromList(Utils.getPlayerListFromUUIDList(CreeperAttack.this.alive)));
