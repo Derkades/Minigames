@@ -19,9 +19,9 @@ public class HouseWithFarm extends SniperMap {
 
 	@Override
 	public String getName() {
-		return "abandoned house with some farmland and stuff";
+		return "Farmhouse";
 	}
-	
+
 	@Override
 	public MapSize getSize() {
 		return MapSize.NORMAL;
