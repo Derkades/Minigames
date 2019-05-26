@@ -44,7 +44,7 @@ public class OneInTheQuiver extends Game {
 			.create();
 
 	OneInTheQuiver() {
-		super("One in the Chamber", new String[] {
+		super("One in the Quiver", new String[] {
 				"Kill other players with a weak wooden sword.",
 				"For every kill you'll get a single arrow. Arrows",
 				"do enough damage to kill any player instantly."
