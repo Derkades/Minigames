@@ -197,7 +197,7 @@ public abstract class Game implements Listener {
 								player.sendMessage(ChatColor.GREEN + "Your vote has been registered");
 							} else if (option == 2){
 								multiplier *= 0.9; //Decrease chance factor a bit (e.g. from 1.5 to 1.35)
-								player.sendMessage(ChatColor.RED + "well fuck you too");
+								player.sendMessage(ChatColor.RED + "\"hou je fucking bek\" - Balzac 2019");
 							}
 
 							if (multiplier > 5) {
