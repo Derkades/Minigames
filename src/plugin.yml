@@ -14,3 +14,5 @@ commands:
   bug:
     usage: /<command>
     aliases: [feedback, idea]
+  vote:
+    usage: /<command> HI HOW ARE YOU DOING

@@ -2,26 +2,27 @@ package xyz.derkades.minigames;
 
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
-import org.bukkit.Material;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import net.md_5.bungee.api.ChatColor;
+import xyz.derkades.minigames.ChatPoll.Poll;
+import xyz.derkades.minigames.ChatPoll.PollAnswer;
+import xyz.derkades.minigames.ChatPoll.PollCallback;
 import xyz.derkades.minigames.games.Game;
 import xyz.derkades.minigames.menu.MainMenu;
-import xyz.derkades.minigames.utils.BlockUtils;
 import xyz.derkades.minigames.utils.Scheduler;
 import xyz.derkades.minigames.utils.Utils;
 
 public class Command implements CommandExecutor {
 
 	@Override
-	public boolean onCommand(CommandSender sender, org.bukkit.command.Command arg1, String arg2, String[] args) {
-		Player player = (Player) sender;
-		
+	public boolean onCommand(final CommandSender sender, final org.bukkit.command.Command arg1, final String arg2, final String[] args) {
+		final Player player = (Player) sender;
+
 		if (args.length == 2 && args[0].equalsIgnoreCase("next") && player.hasPermission("minigames.next")) {
-			Game game = Game.fromString(args[1].replace("_", " "));
+			final Game game = Game.fromString(args[1].replace("_", " "));
 			if (game == null){
 				player.sendMessage(ChatColor.RED + "Unknown game. Make sure the game is spelled correctly. For spaces use underscores.");
 				return true;
@@ -31,7 +32,7 @@ public class Command implements CommandExecutor {
 				player.sendMessage("Bypassing player minimum and forcing " + game.getName() + " to be chosen as the next game.");
 			}
 		}
-		
+
 		if (args.length == 1){
 			if ((args[0].equalsIgnoreCase("start") || args[0].equals("b")) && player.hasPermission("minigames.start")){
 				AutoRotate.startNewRandomGame();
@@ -65,17 +66,32 @@ public class Command implements CommandExecutor {
 		        f.setYield(100);
 		        f.setShooter(player);
 		        f.setIsIncendiary(false);*/
-				BlockUtils.fillArea(244, 67, 161, 212, 74, 131, Material.DIRT);
-				BlockUtils.fillArea(244, 69, 161, 242, 67, 159, Material.AIR);
-				BlockUtils.fillArea(214, 67, 133, 212, 69, 131, Material.AIR);
+				//BlockUtils.fillArea(244, 67, 161, 212, 74, 131, Material.DIRT);
+				//BlockUtils.fillArea(244, 69, 161, 242, 67, 159, Material.AIR);
+				//BlockUtils.fillArea(214, 67, 133, 212, 69, 131, Material.AIR);
 		        player.sendMessage("test");
+
+		        //final Poll poll = new Poll("Test poll?", new PollAnswer(1, "Yes", ChatColor.GREEN), new PollAnswer(2, "No", ChatColor.RED));
+		        //ChatPoll.sendPoll(player, poll);
+
+				final Poll poll = new Poll("Did you enjoy this game?", new PollCallback() {
+
+					@Override
+					public void callback(final Player player, final int option) {
+						Bukkit.broadcastMessage(String.format("[debug] %s picked option %s", player.getName(), option));
+					}
+
+				}, new PollAnswer(1, "Yes", ChatColor.GREEN, "The game will be picked more often"),
+						new PollAnswer(2, "No", ChatColor.RED, "The game will be picked less often"));
+				ChatPoll.sendPoll(player, poll);
+
 			} else {
 				player.sendMessage("no.");
 			}
 		} else if (args.length == 0){
 			new MainMenu(player).open();
 		}
-		
+
 		return true;
 	}
 

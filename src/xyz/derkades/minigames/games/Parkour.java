@@ -26,23 +26,23 @@ public class Parkour extends Game {
 	Parkour() {
 		super("Parkour", new String[] {
 				"Jump to the finish without touching the ground",
-		}, 1, 3, 5, null);
+		}, 1, 3, 5, ParkourMap.MAPS);
 	}
 
 	private ParkourMap map;
 	private List<UUID> finished;
-	
+
 	@Override
-	void begin(GameMap genericMap) {
+	void begin(final GameMap genericMap) {
 		this.map = (ParkourMap) genericMap;
-		finished = new ArrayList<>();
-		
-		for (Player player: Bukkit.getOnlinePlayers()){
-			player.teleport(map.getStartLocation());
+		this.finished = new ArrayList<>();
+
+		for (final Player player: Bukkit.getOnlinePlayers()){
+			player.teleport(this.map.getStartLocation());
 			Utils.hideForEveryoneElse(player);
 		}
-		
-		new GameTimer(this, map.getDuration(), 2) {
+
+		new GameTimer(this, this.map.getDuration(), 2) {
 
 			@Override
 			public void onStart() {
@@ -51,59 +51,59 @@ public class Parkour extends Game {
 
 			@Override
 			public int gameTimer(final int secondsLeft) {
-				if (Bukkit.getOnlinePlayers().size() == finished.size() && secondsLeft > 1) {
+				if (Bukkit.getOnlinePlayers().size() == Parkour.this.finished.size() && secondsLeft > 1) {
 					return 1;
 				}
-				
+
 				return secondsLeft;
 			}
 
 			@Override
 			public void onEnd() {
-				endGame(Utils.getPlayerListFromUUIDList(finished));
+				Parkour.this.endGame(Utils.getPlayerListFromUUIDList(Parkour.this.finished));
 			}
-			
+
 		};
 	}
-	
+
 	@EventHandler(priority = EventPriority.MONITOR)
 	public void onMove(final PlayerMoveEvent event){
 		final Player player = event.getPlayer();
-		
-		if (finished.contains(player.getUniqueId())) {
+
+		if (this.finished.contains(player.getUniqueId())) {
 			return;
 		}
-		
+
 		final Material blockType = event.getTo().getBlock().getRelative(BlockFace.DOWN).getType();
-		
-		if (map.hasDied(player, blockType)) {
+
+		if (this.map.hasDied(player, blockType)) {
 			player.teleport(new Location(Var.WORLD, 277.5, 70, 273.5, -90, 0));
 		}
-		
-		if (map.hasFinished(player, blockType)) {
-			if (finished.isEmpty()) {
+
+		if (this.map.hasFinished(player, blockType)) {
+			if (this.finished.isEmpty()) {
 				super.sendMessage(player.getName() + " finished first and got an extra point!");
 				Points.addPoints(player, 1);
 			} else {
-				sendMessage(player.getName() + " has made it to the finish!");
+				this.sendMessage(player.getName() + " has made it to the finish!");
 			}
-			
-			finished.add(player.getUniqueId());
-			
-			if (map.getSpectatorLocation() != null) player.teleport(map.getSpectatorLocation());
+
+			this.finished.add(player.getUniqueId());
+
+			if (this.map.getSpectatorLocation() != null) player.teleport(this.map.getSpectatorLocation());
 
 			Utils.playSoundForAllPlayers(Sound.ENTITY_PLAYER_LEVELUP, 1);
-			
+
 			// Show all players to the spectator (the spectator is still invisible to others)
 			Bukkit.getOnlinePlayers().forEach((player2) -> player.showPlayer(Minigames.getInstance(), player2));
-			
-			if (map.spectatorFreeFlight()) {
+
+			if (this.map.spectatorFreeFlight()) {
 				player.setAllowFlight(true);
 				player.setFlying(true);
 				Utils.giveInvisibility(player);
 			}
 		}
-			
+
 	}
-	
+
 }
