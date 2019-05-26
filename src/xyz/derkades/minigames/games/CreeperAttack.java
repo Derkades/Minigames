@@ -1,6 +1,7 @@
 package xyz.derkades.minigames.games;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -96,8 +97,12 @@ public class CreeperAttack extends Game {
 					creeper.remove();
 				}
 
-				CreeperAttack.this.endGame(Utils.getPlayerListFromUUIDList(CreeperAttack.this.alive));
-			}
+				if (CreeperAttack.this.alive.size() == 1) {
+					CreeperAttack.this.endGame(Utils.getPlayerListFromUUIDList(CreeperAttack.this.alive));
+				} else {
+					CreeperAttack.this.endGame(Arrays.asList());
+				}
+				}
 
 		};
 	}
