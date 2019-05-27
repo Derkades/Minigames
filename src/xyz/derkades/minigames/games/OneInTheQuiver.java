@@ -122,6 +122,8 @@ public class OneInTheQuiver extends Game {
 		killer.getInventory().addItem(ARROW);
 		this.dead.add(player.getUniqueId());
 
+		Utils.hideForEveryoneElse(player);
+
 		Scheduler.delay(1, () -> {
 			player.spigot().respawn();
 			if (this.map.getSpectatorLocation() != null)
@@ -143,6 +145,7 @@ public class OneInTheQuiver extends Game {
 		}
 
 		if (this.dead.contains(attackingEntity.getUniqueId()) || this.dead.contains(damagedEntity.getUniqueId())) {
+			event.setCancelled(true);
 			return;
 		}
 
