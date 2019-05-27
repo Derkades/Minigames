@@ -93,7 +93,7 @@ public class CreeperAttack extends Game {
 
 			@Override
 			public void onEnd() {
-				for (final Creeper creeper : Var.WORLD.getEntitiesByClass(Creeper.class)){
+				for (final Creeper creeper : Var.WORLD.getEntitiesByClass(Creeper.class)) {
 					creeper.remove();
 				}
 
@@ -102,7 +102,7 @@ public class CreeperAttack extends Game {
 				} else {
 					CreeperAttack.this.endGame(Arrays.asList());
 				}
-				}
+			}
 
 		};
 	}
