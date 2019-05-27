@@ -239,7 +239,7 @@ public abstract class Game implements Listener {
 			if (!Minigames.getInstance().getConfig().getStringList("disabled-description")
 					.contains(player.getUniqueId().toString())) {
 				for (final String line : this.getDescription()) player.sendMessage(DARK_AQUA + line);
-				//player.sendMessage(DARK_AQUA + "Points: " + AQUA + this.getMinimumPoints() + "-" + this.getMaximumPoints());
+				player.sendMessage(DARK_AQUA + "Minumum players: " + AQUA + this.getMinimumPoints());
 			}
 
 			if (map != null)
