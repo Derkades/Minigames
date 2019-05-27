@@ -186,7 +186,7 @@ public class TeamsBowBattle extends Game {
 			Minigames.setCanTakeDamage(player, false);
 			Utils.clearInventory(player);
 			player.setAllowFlight(true);
-			player.teleport(Var.NO_SPECATOR_LOCATION);
+			player.teleport(Var.NO_SPECTATOR_LOCATION);
 		});
 	}
 	

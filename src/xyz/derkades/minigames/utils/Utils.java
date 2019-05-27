@@ -307,4 +307,21 @@ public class Utils {
 		player.setVelocity(new Vector(player.getVelocity().getX(), upwardVelocity, player.getVelocity().getZ()));
 	}
 
+	public static boolean isIn2dBounds(final Location location, final Location cornerOne, final Location cornerTwo) {
+		final int maxX = Math.max(cornerOne.getBlockX(), cornerTwo.getBlockX());
+		final int minX = Math.min(cornerOne.getBlockX(), cornerTwo.getBlockX());
+		final int maxZ = Math.max(cornerOne.getBlockZ(), cornerTwo.getBlockZ());
+		final int minZ = Math.min(cornerOne.getBlockZ(), cornerTwo.getBlockZ());
+
+		final int x = location.getBlockX();
+		final int z = location.getBlockZ();
+
+		return x > minX && x < maxX &&
+				z > minZ && z < maxZ;
+	}
+
+	public static boolean isIn2dBounds(final Player player, final Location cornerOne, final Location cornerTwo) {
+		return isIn2dBounds(player.getLocation(), cornerOne, cornerTwo);
+	}
+
 }

@@ -6,9 +6,11 @@ import static org.bukkit.ChatColor.DARK_GRAY;
 import static org.bukkit.ChatColor.RED;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
@@ -59,6 +61,7 @@ public abstract class Game implements Listener {
 			new TeamsBowBattle(),
 			new TntRun(),
 			//new TntTag(),
+			new Tron(),
 	};
 
 	private final String name;
@@ -105,6 +108,18 @@ public abstract class Game implements Listener {
 
 	void sendMessage(final String message){
 		Bukkit.broadcastMessage(DARK_GRAY + "[" + DARK_AQUA + this.getName() + DARK_GRAY + "] " + AQUA + message);
+	}
+
+	void endGame() {
+		this.endGame(Arrays.asList());
+	}
+
+	void endGame(final UUID winner) {
+		this.endGame(Utils.getPlayerListFromUUIDList(Arrays.asList(winner)));
+	}
+
+	void endGame(final Player winner) {
+		this.endGame(Arrays.asList(winner));
 	}
 
 	void endGame(final List<Player> winners){
@@ -239,7 +254,7 @@ public abstract class Game implements Listener {
 			if (!Minigames.getInstance().getConfig().getStringList("disabled-description")
 					.contains(player.getUniqueId().toString())) {
 				for (final String line : this.getDescription()) player.sendMessage(DARK_AQUA + line);
-				player.sendMessage(DARK_AQUA + "Minumum players: " + AQUA + this.getMinimumPoints());
+				player.sendMessage(DARK_AQUA + "Minimum players: " + AQUA + this.getRequiredPlayers());
 			}
 
 			if (map != null)

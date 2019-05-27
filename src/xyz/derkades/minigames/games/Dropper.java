@@ -23,118 +23,114 @@ import xyz.derkades.minigames.utils.Scheduler;
 import xyz.derkades.minigames.utils.Utils;
 
 public class Dropper extends Game {
-	
+
 	Dropper() {
 		super("Dropper", new String[] {"Get down without dying"}, 1, 3, 4, DropperMap.DROPPER_MAPS);
 	}
 
 	private static final int WAIT_TIME = 5;
 	private static final int GAME_DURATION = 45;
-	
+
 	private static final String FINISHED = "%s finished.";
 	private static final String FINISHED_FIRST = "%s finished first and got 1 extra point!";
 	private static final String SECONDS_LEFT = "%s seconds left.";
 
 	private DropperMap map;
 	private List<UUID> winners;
-	
+
 	@Override
-	void begin(GameMap genericMap) {
-		map = (DropperMap) genericMap;
-		winners = new ArrayList<>();
-		
-		map.closeDoor();
-		
-		Utils.delayedTeleport(map.getLobbyLocation(), Bukkit.getOnlinePlayers());
-		
+	void begin(final GameMap genericMap) {
+		this.map = (DropperMap) genericMap;
+		this.winners = new ArrayList<>();
+
+		this.map.closeDoor();
+
+		Utils.delayedTeleport(this.map.getLobbyLocation(), Bukkit.getOnlinePlayers());
+
 		new BukkitRunnable() {
-			
+
 			int secondsLeft = WAIT_TIME;
-			
+
 			@Override
 			public void run() {
-				if (secondsLeft <= 0) {
-					sendMessage("The game has started!");
-					for (Player player : Bukkit.getOnlinePlayers()) {
+				if (this.secondsLeft <= 0) {
+					Dropper.this.sendMessage("The game has started!");
+					for (final Player player : Bukkit.getOnlinePlayers()) {
 						Minigames.setCanTakeDamage(player, true);
 					}
-					map.openDoor();
+					Dropper.this.map.openDoor();
 					this.cancel();
 					return;
 				}
-				
-				sendMessage("The game will start in " + secondsLeft + " seconds.");
-				secondsLeft--;
+
+				Dropper.this.sendMessage("The game will start in " + this.secondsLeft + " seconds.");
+				this.secondsLeft--;
 			}
 		}.runTaskTimer(Minigames.getInstance(), 0, 20);
-		
+
 		new BukkitRunnable() {
-			
+
 			int secondsLeft = GAME_DURATION;
-			
+
 			@Override
 			public void run() {
-				if (Utils.allPlayersWon(winners) && secondsLeft > 2) {
-					secondsLeft = 2;
+				if (Utils.allPlayersWon(Dropper.this.winners) && this.secondsLeft > 2) {
+					this.secondsLeft = 2;
 				}
-				
-				if (secondsLeft <= 0) {
+
+				if (this.secondsLeft <= 0) {
 					this.cancel();
-					endGame();
+					Dropper.this.endGame(Utils.getPlayerListFromUUIDList(Dropper.this.winners));
 					return;
 				}
-				
-				if (secondsLeft == 30 || secondsLeft <= 5) {
-					sendMessage(String.format(SECONDS_LEFT, secondsLeft));
+
+				if (this.secondsLeft == 30 || this.secondsLeft <= 5) {
+					Dropper.this.sendMessage(String.format(SECONDS_LEFT, this.secondsLeft));
 				}
-				
-				secondsLeft--;
+
+				this.secondsLeft--;
 			}
-			
+
 		}.runTaskTimer(Minigames.getInstance(), 0, 20);
 	}
-	
-	private void endGame() {
-		super.endGame(Utils.getPlayerListFromUUIDList(winners));
-	}
-	
+
 	@EventHandler
-	public void onMove(PlayerMoveEvent event) {
-		if (winners.contains(event.getPlayer().getUniqueId())) {
+	public void onMove(final PlayerMoveEvent event) {
+		if (this.winners.contains(event.getPlayer().getUniqueId())) {
 			return; //Don't teleport players who have finished
 		}
-		
+
 		if (event.getTo().getBlock().getType() == Material.WATER) {
-			Player player = event.getPlayer();
-			
-			if (winners.isEmpty()) {
+			final Player player = event.getPlayer();
+
+			if (this.winners.isEmpty()) {
 				//Player is first winner
 				Points.addPoints(player, 1); //Add bonus point
-				sendMessage(String.format(FINISHED_FIRST, player.getName()));
+				this.sendMessage(String.format(FINISHED_FIRST, player.getName()));
 			} else {
-				sendMessage(String.format(FINISHED, player.getName()));
+				this.sendMessage(String.format(FINISHED, player.getName()));
 			}
-			
-			winners.add(player.getUniqueId());
+
+			this.winners.add(player.getUniqueId());
 			Utils.giveInfiniteEffect(player, PotionEffectType.INVISIBILITY);
 			Minigames.setCanTakeDamage(player, false);
 			player.setHealth(player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue());
 			player.setAllowFlight(true);
-			player.teleport(map.getLobbyLocation());
+			player.teleport(this.map.getLobbyLocation());
 		}
 	}
-	
+
 	@EventHandler
-	public void onDeath(PlayerDeathEvent event) {
+	public void onDeath(final PlayerDeathEvent event) {
 		event.setDeathMessage("");
 		Scheduler.delay(1, () -> {
 			event.getEntity().spigot().respawn();
-			event.getEntity().teleport(map.getLobbyLocation());
+			event.getEntity().teleport(this.map.getLobbyLocation());
 		});
 	}
-	
+
 	@EventHandler
-	public void onDamageByEntity(EntityDamageByEntityEvent event) {
+	public void onDamageByEntity(final EntityDamageByEntityEvent event) {
 		event.setCancelled(true);
 	}
 

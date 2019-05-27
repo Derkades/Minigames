@@ -11,6 +11,6 @@ public class Var {
 	
 	public static Location IN_GAME_LOBBY_LOCATION;
 	
-	public static Location NO_SPECATOR_LOCATION;
+	public static Location NO_SPECTATOR_LOCATION;
 
 }

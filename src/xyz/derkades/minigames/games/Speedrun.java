@@ -31,88 +31,86 @@ public class Speedrun extends Game {
 	}
 
 	private List<UUID> finished;
-	
+
 	private boolean NO_ONE_FINISHED = true;
-	
+
 	private SpeedrunMap map;
 
 	@Override
-	void begin(GameMap genericMap){
-		finished = new ArrayList<>();
+	void begin(final GameMap genericMap){
+		this.finished = new ArrayList<>();
 		this.NO_ONE_FINISHED = true;
-		map = (SpeedrunMap) genericMap;
-		
-		for (Player player : Bukkit.getOnlinePlayers()){
-			player.teleport(map.getStartLocation());
+		this.map = (SpeedrunMap) genericMap;
+
+		for (final Player player : Bukkit.getOnlinePlayers()){
+			player.teleport(this.map.getStartLocation());
 			Utils.giveInfiniteEffect(player, PotionEffectType.SPEED, 30);
 		}
-		
-		timer();
+
+		this.timer();
 	}
-	
+
 	private void timer(){
 		new BukkitRunnable(){
+			@Override
 			public void run(){
-				sendMessage("5 seconds left!");
+				Speedrun.this.sendMessage("5 seconds left!");
 				new BukkitRunnable(){
+					@Override
 					public void run(){
-						endGame();
+						Speedrun.this.endGame(Utils.getPlayerListFromUUIDList(Speedrun.this.finished));
 					}
 				}.runTaskLater(Minigames.getInstance(), 5*20);
 			}
 		}.runTaskLater(Minigames.getInstance(), 40*20);
 	}
-	
-	private void endGame(){
-		super.endGame(Utils.getPlayerListFromUUIDList(finished));
+
+	private void playerDie(final Player player){
+		player.teleport(this.map.getStartLocation());
 	}
-	
-	private void playerDie(Player player){
-		player.teleport(map.getStartLocation());
-	}
-	
-	private void playerWin(Player player){
+
+	private void playerWin(final Player player){
 		Utils.clearPotionEffects(player);
-		if (NO_ONE_FINISHED){
-			NO_ONE_FINISHED = false;
+		if (this.NO_ONE_FINISHED){
+			this.NO_ONE_FINISHED = false;
 			super.sendMessage(player.getName() + " finished first and got an extra point!");
 			Points.addPoints(player, 1);
-			finished.add(player.getUniqueId());
+			this.finished.add(player.getUniqueId());
 		} else {
 			super.sendMessage(player.getName() + " has finished!");
-			finished.add(player.getUniqueId());
+			this.finished.add(player.getUniqueId());
 		}
-		player.teleport(map.getSpectatorLocation());
+		player.teleport(this.map.getSpectatorLocation());
 		player.setAllowFlight(true);
 	}
-	
+
 	@EventHandler(priority = EventPriority.MONITOR)
-	public void onMove(PlayerMoveEvent event){
-		Player player = event.getPlayer();
-		
-		if (finished.contains(player.getUniqueId())){
+	public void onMove(final PlayerMoveEvent event){
+		final Player player = event.getPlayer();
+
+		if (this.finished.contains(player.getUniqueId())){
 			return;
 		}
-		
+
 		if (player.isSneaking()){
 			player.sendMessage(ChatColor.RED + "You cannot sneak!");
-			playerDie(player);
+			this.playerDie(player);
 			return;
 		}
-		
+
 		if (player.isSprinting()){
 			player.sendMessage(ChatColor.RED + "You cannot sprint!");
-			playerDie(player);
+			this.playerDie(player);
 			return;
 		}
-		
-		Block block = event.getTo().getBlock().getRelative(BlockFace.DOWN);
-		Material type = block.getType();
-		if (type == map.getFloorBlock()){
-			playerDie(player);
-		} else if(type == map.getEndBlock()){
-			playerWin(player);
+
+		final Block block = event.getTo().getBlock().getRelative(BlockFace.DOWN);
+		final Material type = block.getType();
+		if (type == this.map.getFloorBlock()){
+			this.playerDie(player);
+		} else if(type == this.map.getEndBlock()){
+			this.playerWin(player);
 		}
 	}
-	
+
 }

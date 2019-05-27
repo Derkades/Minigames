@@ -104,7 +104,7 @@ public class DigDug extends Game {
 				DigDug.this.secondsLeft--;
 
 				if (DigDug.this.secondsLeft == 0) {
-					DigDug.this.endGame();
+					DigDug.this.end();
 					this.cancel();
 				}
 			}
@@ -128,7 +128,7 @@ public class DigDug extends Game {
 		Utils.setGameRule("doTileDrops", false);
 	}
 
-	private void endGame() {
+	private void end() {
 		for (final Player player : Bukkit.getOnlinePlayers()) {
 			this.sidebar.hideFrom(player);
 		}
