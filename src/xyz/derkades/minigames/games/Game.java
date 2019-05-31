@@ -3,7 +3,6 @@ package xyz.derkades.minigames.games;
 import static org.bukkit.ChatColor.AQUA;
 import static org.bukkit.ChatColor.DARK_AQUA;
 import static org.bukkit.ChatColor.DARK_GRAY;
-import static org.bukkit.ChatColor.RED;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -182,14 +181,6 @@ public abstract class Game implements Listener {
 			Minigames.setCanTakeDamage(player, false);
 
 			player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 3, 0, true));
-		}
-
-		if (Minigames.STOP_GAMES){
-			Scheduler.delay(1*20, () -> {
-				Bukkit.broadcastMessage(RED + "An admin stopped the next game from starting. This is probably because some maintenance needs to be done.");
-			});
-			Minigames.STOP_GAMES = false;
-			return;
 		}
 
 		int nextGameDelay = 2;
