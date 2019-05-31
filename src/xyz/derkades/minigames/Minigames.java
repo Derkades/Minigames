@@ -45,6 +45,7 @@ public class Minigames extends JavaPlugin implements Listener {
 
 	public static Economy economy = null;
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public void onEnable(){
 		instance = this;
@@ -76,6 +77,10 @@ public class Minigames extends JavaPlugin implements Listener {
 		}
 
 		ChatPoll.startup(this);
+
+		Scheduler.repeat(60*20, () -> {
+			economy.getBalance("Derkades");
+		});
 	}
 
 	@Override
