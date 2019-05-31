@@ -205,6 +205,26 @@ public class Utils {
 		return winners;
 	}
 
+	public static List<Player> getWinnersFromDeadAndAllList(final List<UUID> dead, final List<UUID> all, final boolean multipleWinnersAllowed){
+		final List<Player> winners = new ArrayList<>();
+
+		for (final Player player : Bukkit.getOnlinePlayers()) {
+			if (!dead.contains(player.getUniqueId())) {
+				winners.add(player);
+			}
+		}
+
+		if (multipleWinnersAllowed) {
+			return winners;
+		}
+
+		if (winners.size() == 1) {
+			return winners;
+		} else {
+			return new ArrayList<>();
+		}
+	}
+
 	public static void playSoundForAllPlayers(final Sound sound, final float pitch){
 		for (final Player player : Bukkit.getOnlinePlayers())
 			player.playSound(player.getLocation(), sound, 1, pitch);

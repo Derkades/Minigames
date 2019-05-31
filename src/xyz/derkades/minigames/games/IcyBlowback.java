@@ -15,7 +15,6 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
 import xyz.derkades.minigames.Minigames;
@@ -40,14 +39,17 @@ public class IcyBlowback extends Game {
 				}, 3, IcyBlowbackMap.MAPS);
 	}
 
-	List<UUID> dead;
-	IcyBlowbackMap map;
+	private List<UUID> dead;
+	private List<UUID> all;
+
+	private IcyBlowbackMap map;
 
 	@Override
 	void begin(final GameMap genericMap) {
 		this.dead = new ArrayList<>();
-		this.map = (IcyBlowbackMap) genericMap;
+		this.all = new ArrayList<>();
 
+		this.map = (IcyBlowbackMap) genericMap;
 
 		final Location[] spawnLocations = this.map.getSpawnLocations();
 		int index = 0;
@@ -60,56 +62,36 @@ public class IcyBlowback extends Game {
 			index--;
 		}
 
-		new BukkitRunnable() {
-
-			int timeLeft = GAME_DURATION + SPREAD_TIME;
+		new GameTimer(this, GAME_DURATION, SPREAD_TIME) {
 
 			@Override
-			public void run() {
-				if (this.timeLeft > GAME_DURATION) {
-					IcyBlowback.this.sendMessage("The game will start in " + (this.timeLeft - GAME_DURATION) + " seconds");
+			public void onStart() {
+				for (final Player player : Bukkit.getOnlinePlayers()) {
+					Minigames.setCanTakeDamage(player, true);
+					player.getInventory().addItem(SWORD);
+					Utils.giveInfiniteEffect(player, PotionEffectType.SPEED, 0);
+					Utils.giveInfiniteEffect(player, PotionEffectType.DAMAGE_RESISTANCE, 255);
+					IcyBlowback.this.all.add(player.getUniqueId());
 				}
-
-				if (this.timeLeft == GAME_DURATION) {
-					IcyBlowback.this.start();
-				}
-
-				if (this.timeLeft == 60 || this.timeLeft == 30 || this.timeLeft == 10 || this.timeLeft < 5) {
-					IcyBlowback.this.sendMessage("The game will end in " + this.timeLeft + " seconds");
-				}
-
-				if (this.timeLeft <= 0) {
-					IcyBlowback.this.end();
-					this.cancel();
-				}
-
-				if (Utils.getAliveCountFromDeadList(IcyBlowback.this.dead) < 2) {
-					IcyBlowback.this.end();
-					this.cancel();
-				}
-
-				this.timeLeft--;
 			}
-		}.runTaskTimer(Minigames.getInstance(), 20, 20);
-	}
 
-	private void start() {
-		for (final Player player : Bukkit.getOnlinePlayers()) {
-			Minigames.setCanTakeDamage(player, true);
-			player.getInventory().addItem(SWORD);
-			Utils.giveInfiniteEffect(player, PotionEffectType.SPEED, 0);
-			Utils.giveInfiniteEffect(player, PotionEffectType.DAMAGE_RESISTANCE, 255);
-		}
-	}
+			@Override
+			public int gameTimer(final int secondsLeft) {
+				if (Utils.getAliveAcountFromDeadAndAllList(IcyBlowback.this.dead, IcyBlowback.this.all) < 2 && secondsLeft > 2) {
+					return 2;
+				}
 
-	private void end() {
-		final List<Player> winners = Utils.getWinnersFromDeadList(this.dead);
-		if (winners.size() == 1) {
-			super.endGame(winners);
-		} else {
-			super.endGame(new ArrayList<>());
-		}
+				return secondsLeft;
+			}
 
+			@Override
+			public void onEnd() {
+				IcyBlowback.this.endGame(Utils.getWinnersFromDeadAndAllList(IcyBlowback.this.dead, IcyBlowback.this.all, false));
+				IcyBlowback.this.dead.clear();
+				IcyBlowback.this.all.clear();
+			}
+
+		};
 	}
 
 	private void die(final Player player) {
