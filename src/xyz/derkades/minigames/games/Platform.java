@@ -87,7 +87,7 @@ public class Platform extends Game {
 
 			@Override
 			public void onEnd() {
-				Platform.this.endGame(Utils.getWinnersFromDeadList(Platform.this.dead));
+				Platform.this.endGame(Utils.getWinnersFromDeadAndAllList(Platform.this.dead, Platform.this.all, false));
 				Platform.this.dead.clear();
 				Platform.this.all.clear();
 			}
