@@ -70,7 +70,7 @@ public class Tron extends Game {
 
 		this.sendMessage("Make sure that you are not facing a wall");
 
-		new GameTimer(this, 100, 5) {
+		new GameTimer(this, 100, 8) {
 
 			@Override
 			public void onStart() {
@@ -116,7 +116,7 @@ public class Tron extends Game {
 		YELLOW(ChatColor.YELLOW, Material.YELLOW_CONCRETE, Material.YELLOW_STAINED_GLASS),
 		GREEN(ChatColor.DARK_GREEN, Material.GREEN_CONCRETE, Material.GREEN_STAINED_GLASS),
 		PINK(ChatColor.LIGHT_PURPLE, Material.PINK_CONCRETE, Material.PINK_STAINED_GLASS),
-		LIME(ChatColor.GREEN, Material.LIME_CONCRETE, Material.LIME_STAINED_GLASS_PANE),
+		LIME(ChatColor.GREEN, Material.LIME_CONCRETE, Material.LIME_STAINED_GLASS),
 		GRAY(ChatColor.GRAY, Material.LIGHT_GRAY_CONCRETE, Material.LIGHT_GRAY_STAINED_GLASS),
 		WHITE(ChatColor.WHITE, Material.WHITE_CONCRETE, Material.WHITE_STAINED_GLASS),
 		BLUE(ChatColor.DARK_BLUE, Material.BLUE_CONCRETE, Material.BLUE_STAINED_GLASS),
