@@ -118,9 +118,9 @@ public class DigDug extends Game {
 			@Override
 			public void onEnd() {
 				Bukkit.getOnlinePlayers().forEach(DigDug.this.sidebar::hideFrom);
-				DigDug.this.points.clear();
 
 				DigDug.this.endGame(Utils.getWinnersFromPointsHashmap(DigDug.this.points));
+				DigDug.this.points.clear();
 			}
 
 		};
