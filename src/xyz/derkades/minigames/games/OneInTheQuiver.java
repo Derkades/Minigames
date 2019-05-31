@@ -6,12 +6,14 @@ import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.potion.PotionEffect;
@@ -133,6 +135,18 @@ public class OneInTheQuiver extends Game {
 			player.getInventory().clear();
 			Minigames.setCanTakeDamage(player, false);
 		});
+	}
+
+	@EventHandler
+	public void onMove(final PlayerMoveEvent event){
+			final Player player = event.getPlayer();
+
+			final Material below = event.getTo().getBlock().getRelative(BlockFace.DOWN).getType();
+
+			if (below == Material.HAY_BLOCK) {
+				final PotionEffect jump = new PotionEffect(PotionEffectType.JUMP, 30, 7, true, false);
+				player.addPotionEffect(jump);
+			}
 	}
 
 	@EventHandler
