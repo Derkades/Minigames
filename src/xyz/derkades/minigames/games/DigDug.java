@@ -20,7 +20,6 @@ import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import com.coloredcarrot.api.sidebar.Sidebar;
 import com.coloredcarrot.api.sidebar.SidebarString;
@@ -58,9 +57,10 @@ public class DigDug extends Game {
 	private static final int ARENA_MAX_Y = 73;
 	private static final int ARENA_MAX_Z = 103;
 
+	private static final int GAME_DURATION = 30;
+
 	private Map<UUID, Integer> points = new HashMap<>();
 
-	private int secondsLeft = 0;
 	private Sidebar sidebar;
 
 	DigDug() {
@@ -81,8 +81,6 @@ public class DigDug extends Game {
 	void begin(final GameMap genericMap) {
 		this.points.clear();
 
-		this.secondsLeft = 30;
-
 		this.fillArena();
 
 		this.sidebar = new Sidebar(ChatColor.DARK_AQUA + "" + ChatColor.DARK_AQUA + "Score", Minigames.getInstance(), Integer.MAX_VALUE, new SidebarString[] {new SidebarString("Loading...")});
@@ -92,27 +90,12 @@ public class DigDug extends Game {
 		for (final Player player : Bukkit.getOnlinePlayers()) {
 			this.points.put(player.getUniqueId(), 0);
 			this.sidebar.showTo(player);
-
-			player.sendMessage(ChatColor.DARK_GREEN + "Digging will commence in 5 seconds!");
 		}
 
-		new BukkitRunnable() {
+		new GameTimer(this, GAME_DURATION, 5) {
+
 			@Override
-			public void run() {
-				DigDug.this.updateSidebar();
-
-				DigDug.this.secondsLeft--;
-
-				if (DigDug.this.secondsLeft == 0) {
-					DigDug.this.end();
-					this.cancel();
-				}
-			}
-		}.runTaskTimer(Minigames.getInstance(), 0, 1*20);
-
-		new BukkitRunnable() {
-			@Override
-			public void run() {
+			public void onStart() {
 				final ItemStack shovel = new ItemBuilder(Material.DIAMOND_SHOVEL)
 						.name(ChatColor.GREEN + "The Dig Dug Digger")
 						.unbreakable()
@@ -122,21 +105,27 @@ public class DigDug extends Game {
 				shovel.addUnsafeEnchantment(Enchantment.DIG_SPEED, 10);
 
 				Bukkit.getOnlinePlayers().forEach(player -> player.getInventory().addItem(shovel));
+
+				Utils.setGameRule("doTileDrops", false);
 			}
-		}.runTaskLater(Minigames.getInstance(), 3*20);
 
-		Utils.setGameRule("doTileDrops", false);
+			@Override
+			public int gameTimer(final int secondsLeft) {
+				DigDug.this.updateSidebar(secondsLeft);
+				return secondsLeft;
+			}
+
+			@Override
+			public void onEnd() {
+				Bukkit.getOnlinePlayers().forEach(DigDug.this.sidebar::hideFrom);
+				DigDug.this.points.clear();
+
+				DigDug.this.endGame(Utils.getWinnersFromPointsHashmap(DigDug.this.points));
+			}
+
+		};
 	}
 
-	private void end() {
-		for (final Player player : Bukkit.getOnlinePlayers()) {
-			this.sidebar.hideFrom(player);
-		}
-
-		Utils.setGameRule("doTileDrops", true);
-
-		super.endGame(Utils.getWinnersFromPointsHashmap(this.points));
-	}
 
 	@EventHandler
 	public void onInteract(final PlayerInteractEvent event) {
@@ -187,7 +176,7 @@ public class DigDug extends Game {
 		this.points.put(player.getUniqueId(), this.points.get(player.getUniqueId()) + pointsToAdd);
 	}
 
-	private void updateSidebar() {
+	private void updateSidebar(final int secondsLeft) {
 		this.points = Utils.sortByValue(this.points);
 
 		final List<SidebarString> sidebarStrings = new ArrayList<>();
@@ -202,7 +191,7 @@ public class DigDug extends Game {
 
 
 		this.sidebar.setEntries(sidebarStrings);
-		this.sidebar.addEmpty().addEntry(new SidebarString(ChatColor.GRAY + "Time left: " + this.secondsLeft + " seconds."));
+		this.sidebar.addEmpty().addEntry(new SidebarString(ChatColor.GRAY + "Time left: " + secondsLeft + " seconds."));
 		this.sidebar.update();
 	}
 
