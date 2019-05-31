@@ -107,7 +107,8 @@ public abstract class Game implements Listener {
 	abstract void begin(final GameMap genericMap);
 
 	void sendMessage(final String message){
-		Bukkit.broadcastMessage(DARK_GRAY + "[" + DARK_AQUA + this.getName() + DARK_GRAY + "] " + AQUA + message);
+		//Bukkit.broadcastMessage(DARK_GRAY + "[" + DARK_AQUA + this.getName() + DARK_GRAY + "] " + AQUA + message);
+		Bukkit.broadcastMessage(String.format("%s[%sG%s] %s| %s%s", ChatColor.BLACK, ChatColor.GOLD, ChatColor.BLACK, ChatColor.DARK_GRAY, ChatColor.GRAY, message));
 	}
 
 	void endGame() {
