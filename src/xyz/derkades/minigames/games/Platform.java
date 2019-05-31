@@ -40,12 +40,14 @@ public class Platform extends Game {
 	private static final int KNOCKBACK_SWORDS_TIME = 20;
 
 	private List<UUID> dead;
+	private List<UUID> all;
 
 	private PlatformMap map;
 
 	@Override
 	public void begin(final GameMap genericMap){
 		this.dead = new ArrayList<>();
+		this.all = new ArrayList<>();
 
 		this.map = (PlatformMap) genericMap;
 
@@ -60,6 +62,7 @@ public class Platform extends Game {
 			public void onStart() {
 				for (final Player player : Bukkit.getOnlinePlayers()) {
 					Minigames.setCanTakeDamage(player, true);
+					Platform.this.all.add(player.getUniqueId());
 				}
 			}
 
@@ -69,7 +72,7 @@ public class Platform extends Game {
 					Platform.this.giveSwords();
 				}
 
-				if (Utils.getAliveCountFromDeadList(Platform.this.dead) <= 1 && secondsLeft > 2) {
+				if (Utils.getAliveAcountFromDeadAndAllList(Platform.this.dead, Platform.this.all) <= 1 && secondsLeft > 2) {
 					return 2;
 				}
 
