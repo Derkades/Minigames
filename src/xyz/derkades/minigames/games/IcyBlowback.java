@@ -123,6 +123,7 @@ public class IcyBlowback extends Game {
 		final Location loc = player.getLocation();
 		loc.setY(loc.getY() + 10);
 		player.teleport(loc);
+		this.sendMessage(player.getName() + " has died");
 	}
 
 	@EventHandler
