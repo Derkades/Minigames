@@ -18,7 +18,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
 import xyz.derkades.minigames.Minigames;
@@ -54,67 +53,56 @@ public class OneInTheQuiver extends Game {
 	}
 
 	private List<UUID> dead;
+	private List<UUID> all;
 
 	private SniperMap map;
 
 	@Override
 	void begin(final GameMap genericMap) {
 		this.dead = new ArrayList<>();
+		this.all = new ArrayList<>();
 		this.map = (SniperMap) genericMap;
 
 		for (final Player player : Bukkit.getOnlinePlayers()) {
 			player.teleport(this.map.getSpawnLocation());
 			player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 5*20, 0, true, false));
+			this.all.add(player.getUniqueId());
 		}
 
-		new BukkitRunnable() {
-
-			int timeLeft = MAX_GAME_DURATION + SPREAD_TIME;
+		new GameTimer(this, MAX_GAME_DURATION, SPREAD_TIME) {
 
 			@Override
-			public void run() {
-				if (this.timeLeft > MAX_GAME_DURATION) {
-					OneInTheQuiver.this.sendMessage("The game will start in " + (this.timeLeft - MAX_GAME_DURATION) + " seconds");
+			public void onStart() {
+				for (final Player player : Bukkit.getOnlinePlayers()) {
+					Minigames.setCanTakeDamage(player, true);
+					final PlayerInventory inv = player.getInventory();
+					inv.addItem(SWORD, BOW, ARROW);
 				}
-
-				if (this.timeLeft == MAX_GAME_DURATION) {
-					OneInTheQuiver.this.start();
-				}
-
-				if (this.timeLeft == 60 || this.timeLeft == 30 || this.timeLeft == 10 || this.timeLeft < 5) {
-					OneInTheQuiver.this.sendMessage("The game will end in " + this.timeLeft + " seconds");
-				}
-
-				if (this.timeLeft <= 0) {
-					OneInTheQuiver.this.end();
-					this.cancel();
-				}
-
-				if (Utils.getAliveCountFromDeadList(OneInTheQuiver.this.dead) < 2) {
-					OneInTheQuiver.this.end();
-					this.cancel();
-				}
-
-				this.timeLeft--;
 			}
 
-		}.runTaskTimer(Minigames.getInstance(), 20, 20);
-	}
+			@Override
+			public int gameTimer(final int secondsLeft) {
+				if (Utils.getAliveAcountFromDeadAndAllList(OneInTheQuiver.this.dead, OneInTheQuiver.this.all) < 2 && secondsLeft > 2) {
+					return 2;
+				}
 
-	private void start() {
-		for (final Player player : Bukkit.getOnlinePlayers()) {
-			Minigames.setCanTakeDamage(player, true);
-			final PlayerInventory inv = player.getInventory();
-			inv.addItem(SWORD, BOW, ARROW);
-		}
-	}
+				return secondsLeft;
+			}
 
-	private void end() {
-		final List<Player> winners = Utils.getWinnersFromDeadList(this.dead);
-		if (winners.size() > 1) {
-			winners.clear();
-		}
-		super.endGame(winners);
+			@Override
+			public void onEnd() {
+				final List<Player> winners = Utils.getWinnersFromDeadList(OneInTheQuiver.this.dead);
+				if (winners.size() > 1) {
+					winners.clear();
+				}
+
+				OneInTheQuiver.this.endGame(winners);
+
+				OneInTheQuiver.this.dead.clear();
+				OneInTheQuiver.this.all.clear();
+			}
+
+		};
 	}
 
 	@EventHandler
@@ -139,14 +127,14 @@ public class OneInTheQuiver extends Game {
 
 	@EventHandler
 	public void onMove(final PlayerMoveEvent event){
-			final Player player = event.getPlayer();
+		final Player player = event.getPlayer();
 
-			final Material below = event.getTo().getBlock().getRelative(BlockFace.DOWN).getType();
+		final Material below = event.getTo().getBlock().getRelative(BlockFace.DOWN).getType();
 
-			if (below == Material.HAY_BLOCK) {
-				final PotionEffect jump = new PotionEffect(PotionEffectType.JUMP, 30, 7, true, false);
-				player.addPotionEffect(jump);
-			}
+		if (below == Material.HAY_BLOCK) {
+			final PotionEffect jump = new PotionEffect(PotionEffectType.JUMP, 30, 7, true, false);
+			player.addPotionEffect(jump);
+		}
 	}
 
 	@EventHandler

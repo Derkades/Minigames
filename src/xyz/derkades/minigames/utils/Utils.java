@@ -172,6 +172,18 @@ public class Utils {
 		return alive;
 	}
 
+	public static int getAliveAcountFromDeadAndAllList(final List<UUID> dead, final List<UUID> all) {
+		int alive = 0;
+
+		for (final Player player : getPlayerListFromUUIDList(all)) {
+			if (!dead.contains(player.getUniqueId())) {
+				alive++;
+			}
+		}
+
+		return alive;
+	}
+
 	public static List<Player> getPlayerListFromUUIDList(final List<UUID> list){
 		final List<Player> players = new ArrayList<>();
 		for (final UUID uuid : list) {
