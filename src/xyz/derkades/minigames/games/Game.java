@@ -39,7 +39,6 @@ import xyz.derkades.minigames.utils.Utils;
 public abstract class Game implements Listener {
 
 	public static final Game[] GAMES = new Game[] {
-			//new CowProtect(),
 			new CreeperAttack(),
 			new DigDug(),
 			new Dropper(),
