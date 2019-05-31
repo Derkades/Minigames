@@ -11,24 +11,26 @@ import xyz.derkades.minigames.Minigames;
 
 public class ShopMenu extends IconMenu {
 
-	public ShopMenu(Player player) {
+	public ShopMenu(final Player player) {
 		super(Minigames.getInstance(), "Shop", 9, player);
-		
-		items.put(0, new ItemBuilder(Material.GRAY_DYE).name(ChatColor.AQUA + "Name colors (250 points for every color)").create());
-		items.put(8, new ItemBuilder(Material.BARRIER).coloredName("&cBack").create());
+
+		final String price = Minigames.economy.format(250);
+
+		this.items.put(0, new ItemBuilder(Material.GRAY_DYE).name(ChatColor.AQUA + "Name colors (" + price + " for every color)").create());
+		this.items.put(8, new ItemBuilder(Material.BARRIER).coloredName("&cBack").create());
 	}
 
 	@Override
-	public boolean onOptionClick(OptionClickEvent event) {
-		Player player = event.getPlayer();
-		String name = event.getName();
+	public boolean onOptionClick(final OptionClickEvent event) {
+		final Player player = event.getPlayer();
+		final String name = event.getName();
 
 		if (name.contains("color")){
 			new ShopColorMenu(player).open();
 		} else {
 			new MainMenu(player).open();
 		}
-		
+
 		return false;
 	}
 

@@ -8,29 +8,28 @@ import xyz.derkades.derkutils.bukkit.ItemBuilder;
 import xyz.derkades.derkutils.bukkit.menu.IconMenu;
 import xyz.derkades.derkutils.bukkit.menu.OptionClickEvent;
 import xyz.derkades.minigames.Minigames;
-import xyz.derkades.minigames.Points;
 
 public class ShopColorMenu extends IconMenu {
 
-	public ShopColorMenu(Player player) {
+	public ShopColorMenu(final Player player) {
 		super(Minigames.getInstance(), "Colors shop", 9, player);
-		
-		items.put(0, new ItemBuilder(Material.CYAN_DYE).name(ChatColor.DARK_AQUA + "Cyan").create());
-		items.put(1, new ItemBuilder(Material.LAPIS_LAZULI).name(ChatColor.BLUE + "Blue").create());
-		items.put(2, new ItemBuilder(Material.RED_DYE).name(ChatColor.RED + "Red").create());
-		items.put(3, new ItemBuilder(Material.ORANGE_DYE).name(ChatColor.GOLD + "Orange").create());
-		items.put(4, new ItemBuilder(Material.YELLOW_DYE).name(ChatColor.YELLOW + "Yellow").create());
-		items.put(5, new ItemBuilder(Material.GREEN_DYE).name(ChatColor.DARK_GREEN + "Green").create());
-		items.put(6, new ItemBuilder(Material.LIME_DYE).name(ChatColor.GREEN + "Light green").create());
-		items.put(7, new ItemBuilder(Material.MAGENTA_DYE).name(ChatColor.LIGHT_PURPLE + "Magenta").create());
-		items.put(8, new ItemBuilder(Material.BARRIER).name(ChatColor.RED + "Back").create());
-		
+
+		this.items.put(0, new ItemBuilder(Material.CYAN_DYE).name(ChatColor.DARK_AQUA + "Cyan").create());
+		this.items.put(1, new ItemBuilder(Material.LAPIS_LAZULI).name(ChatColor.BLUE + "Blue").create());
+		this.items.put(2, new ItemBuilder(Material.RED_DYE).name(ChatColor.RED + "Red").create());
+		this.items.put(3, new ItemBuilder(Material.ORANGE_DYE).name(ChatColor.GOLD + "Orange").create());
+		this.items.put(4, new ItemBuilder(Material.YELLOW_DYE).name(ChatColor.YELLOW + "Yellow").create());
+		this.items.put(5, new ItemBuilder(Material.GREEN_DYE).name(ChatColor.DARK_GREEN + "Green").create());
+		this.items.put(6, new ItemBuilder(Material.LIME_DYE).name(ChatColor.GREEN + "Light green").create());
+		this.items.put(7, new ItemBuilder(Material.MAGENTA_DYE).name(ChatColor.LIGHT_PURPLE + "Magenta").create());
+		this.items.put(8, new ItemBuilder(Material.BARRIER).name(ChatColor.RED + "Back").create());
+
 	}
 
 	@Override
-	public boolean onOptionClick(OptionClickEvent event) {
-		Player player = event.getPlayer();
-		String name = event.getName();
+	public boolean onOptionClick(final OptionClickEvent event) {
+		final Player player = event.getPlayer();
+		final String name = event.getName();
 
 		if (name.contains("Back")) {
 			new ShopMenu(player).open();
@@ -57,13 +56,13 @@ public class ShopColorMenu extends IconMenu {
 			color = ChatColor.LIGHT_PURPLE;
 		}
 
-		if (Points.getPoints(player) >= 250) {
-			Points.removePoints(player, 250);
+		if (Minigames.economy.getBalance(player) >= 250) {
+			Minigames.economy.withdrawPlayer(player, 250);
 			player.sendMessage(ChatColor.AQUA + "Changed color to " + name.toLowerCase() + ".");
 			NameColor.setNameColor(player, color + "");
 			return true;
 		} else {
-			player.sendMessage(ChatColor.RED + "Not enough points.");
+			player.sendMessage(ChatColor.RED + "Not enough money.");
 			return true;
 		}
 	}
