@@ -8,7 +8,7 @@ import xyz.derkades.minigames.games.maps.MapSize;
 public class Desert extends PlatformMap {
 
 	@Override
-	public Location spawnLocation() {
+	public Location getSpawnLocation() {
 		return new Location(Var.WORLD, 209.5, 87, 362.5);
 	}
 

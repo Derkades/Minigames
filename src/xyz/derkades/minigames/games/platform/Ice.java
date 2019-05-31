@@ -8,7 +8,7 @@ import xyz.derkades.minigames.games.maps.MapSize;
 public class Ice extends PlatformMap {
 
 	@Override
-	public Location spawnLocation() {
+	public Location getSpawnLocation() {
 		return new Location(Var.WORLD, 229.5, 88, 186.5, 0, 0);
 	}
 

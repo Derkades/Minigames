@@ -44,6 +44,8 @@ public class Platform extends Game {
 
 	private PlatformMap map;
 
+	private boolean started;
+
 	@Override
 	public void begin(final GameMap genericMap){
 		this.dead = new ArrayList<>();
@@ -51,8 +53,10 @@ public class Platform extends Game {
 
 		this.map = (PlatformMap) genericMap;
 
+		this.started = false;
+
 		for (final Player player : Bukkit.getOnlinePlayers()){
-			player.teleport(this.map.spawnLocation());
+			player.teleport(this.map.getSpawnLocation());
 			Utils.giveInfiniteEffect(player, PotionEffectType.DAMAGE_RESISTANCE, 255);
 		}
 
@@ -64,6 +68,8 @@ public class Platform extends Game {
 					Minigames.setCanTakeDamage(player, true);
 					Platform.this.all.add(player.getUniqueId());
 				}
+
+				Platform.this.started = true;
 			}
 
 			@Override
@@ -82,6 +88,8 @@ public class Platform extends Game {
 			@Override
 			public void onEnd() {
 				Platform.this.endGame(Utils.getWinnersFromDeadList(Platform.this.dead));
+				Platform.this.dead.clear();
+				Platform.this.all.clear();
 			}
 
 		};
@@ -103,6 +111,11 @@ public class Platform extends Game {
 	}
 
 	private void playerDie(final Player player){
+		if (!this.started) {
+			player.teleport(this.map.getSpawnLocation());
+			return;
+		}
+
 		this.sendMessage(player.getName() + " has been eliminated from the game!");
 
 		Var.WORLD.spigot().strikeLightningEffect(player.getLocation(), false);
@@ -130,6 +143,10 @@ public class Platform extends Game {
 	@EventHandler
 	public void onDamage(final EntityDamageByEntityEvent event) {
 		if (this.dead.contains(event.getDamager().getUniqueId())) {
+			event.setCancelled(true);
+		}
+
+		if (!this.started) {
 			event.setCancelled(true);
 		}
 	}

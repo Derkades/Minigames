@@ -11,7 +11,7 @@ public abstract class PlatformMap implements GameMap {
 			new Ice(),
 	};
 	
-	public abstract Location spawnLocation();
+	public abstract Location getSpawnLocation();
 	
 	public abstract Location getSpectatorLocation();
 
