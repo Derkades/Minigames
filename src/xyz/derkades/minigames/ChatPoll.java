@@ -17,7 +17,7 @@ import net.md_5.bungee.api.chat.HoverEvent;
 
 public class ChatPoll {
 
-	private static final long TOKEN_EXPIRE_TIME = 10*1000;
+	private static final long TOKEN_EXPIRE_TIME = 20*1000;
 
 	private static Map<String, Long> tokens;
 	private static Map<String, PollCallback> callbacks;
