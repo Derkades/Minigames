@@ -53,7 +53,7 @@ public class JungleRun extends ParkourMap {
 
 	@Override
 	public int getDuration() {
-		return 30;
+		return 40;
 	}
 
 	@Override
