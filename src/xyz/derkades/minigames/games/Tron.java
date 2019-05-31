@@ -36,7 +36,7 @@ public class Tron extends Game {
 		}, 4, 5, 6, TronMap.MAPS);
 	}
 
-	private static final double MOVEMENT_SPEED = 0.5;
+	private static final double MOVEMENT_SPEED = 0.3;
 
 	private TronMap map;
 	private List<BukkitTask> tasks;
@@ -206,7 +206,7 @@ public class Tron extends Game {
 				location.setZ(location.getBlockZ() + 0.5);
 			}
 
-			if (this.i % 20 == 0) {
+			if (this.i % 40 == 0) {
 				player.teleport(location);
 			}
 
