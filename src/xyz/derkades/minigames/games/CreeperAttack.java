@@ -33,7 +33,7 @@ public class CreeperAttack extends Game {
 		super("Creeper Attack", new String[] {
 				"Avoid dying from creeper explosions. Use your",
 				"knockback stick to defend yourself against creepers."
-		}, 2, 6, 7, CreeperAttackMap.MAPS);
+		}, 2, CreeperAttackMap.MAPS);
 	}
 
 	private List<UUID> alive;

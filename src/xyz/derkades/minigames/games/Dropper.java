@@ -25,7 +25,7 @@ import xyz.derkades.minigames.utils.Utils;
 public class Dropper extends Game {
 
 	Dropper() {
-		super("Dropper", new String[] {"Get down without dying"}, 1, 3, 4, DropperMap.DROPPER_MAPS);
+		super("Dropper", new String[] {"Get down without dying"}, 1, DropperMap.DROPPER_MAPS);
 	}
 
 	private static final int WAIT_TIME = 5;

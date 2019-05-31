@@ -32,76 +32,76 @@ public class TeamsBowBattle extends Game {
 	TeamsBowBattle() {
 		super("TeamsBowBattle", new String[] {
 				"pvp. with bows. in teams."
-		}, 4, 3, 4, TeamsBowBattleMap.MAPS);
+		}, 4, TeamsBowBattleMap.MAPS);
 	}
-	
+
 	private TeamsBowBattleMap map;
-	
+
 	private List<UUID> dead;
 	private List<UUID> teamRed;
 	private List<UUID> teamBlue;
-	
+
 	@Override
-	void begin(GameMap genericMap) {
-		map = (TeamsBowBattleMap) genericMap;
-		
-		dead = new ArrayList<>();
-		teamRed = new ArrayList<>();
-		teamBlue = new ArrayList<>();
-		
+	void begin(final GameMap genericMap) {
+		this.map = (TeamsBowBattleMap) genericMap;
+
+		this.dead = new ArrayList<>();
+		this.teamRed = new ArrayList<>();
+		this.teamBlue = new ArrayList<>();
+
 		boolean team = false;
-		
-		List<Player> players = new ArrayList<>();
-		
+
+		final List<Player> players = new ArrayList<>();
+
 		Bukkit.getOnlinePlayers().forEach((player) -> players.add(player));
-		
+
 		Collections.shuffle(players);
 
-		for (Player player : players) {
+		for (final Player player : players) {
 			if (team) {
 				Utils.sendTitle(player, "", String.format("%sYou are in the %s%sRED%s team", ChatColor.GRAY, ChatColor.RED, ChatColor.BOLD, ChatColor.GRAY));
-				teamRed.add(player.getUniqueId());
+				this.teamRed.add(player.getUniqueId());
 				//player.teleport(map.getTeamRedSpawnLocation());
 			} else {
 				Utils.sendTitle(player, "", String.format("%sYou are in the %s%sBLUE%s team", ChatColor.GRAY, ChatColor.BLUE, ChatColor.BOLD, ChatColor.GRAY));
-				teamBlue.add(player.getUniqueId());
+				this.teamBlue.add(player.getUniqueId());
 				//player.teleport(map.getTeamBlueSpawnLocation());
 			}
-			
+
 			team = !team;
 		}
-		
-		Utils.delayedTeleport(map.getTeamRedSpawnLocation(), Utils.getPlayerListFromUUIDList(teamRed));
-		
-		Scheduler.delay(10, () -> Utils.delayedTeleport(map.getTeamBlueSpawnLocation(), Utils.getPlayerListFromUUIDList(teamBlue)));
-		
+
+		Utils.delayedTeleport(this.map.getTeamRedSpawnLocation(), Utils.getPlayerListFromUUIDList(this.teamRed));
+
+		Scheduler.delay(10, () -> Utils.delayedTeleport(this.map.getTeamBlueSpawnLocation(), Utils.getPlayerListFromUUIDList(this.teamBlue)));
+
 		new GameTimer(this, 60, 5) {
 
 			@Override
-			public void onStart() {				
+			public void onStart() {
 				Bukkit.getOnlinePlayers().forEach((player) -> {
-					giveItems(player);
+					TeamsBowBattle.this.giveItems(player);
 					Minigames.setCanTakeDamage(player, true);
 				});
 			}
-			
+
 			@Override
 			public int gameTimer(final int secondsLeft) {
-				if ((getNumPlayersLeftInBlueTeam() == 0 || getNumPlayersLeftInRedTeam() == 0) && secondsLeft > 1) {
+				if ((TeamsBowBattle.this.getNumPlayersLeftInBlueTeam() == 0 || TeamsBowBattle.this.getNumPlayersLeftInRedTeam() == 0) && secondsLeft > 1) {
 					return 1;
 				}
-				
+
 				return secondsLeft;
 			}
 
 			@Override
 			public void onEnd() {
-				if (getNumPlayersLeftInBlueTeam() == 0) {
+				if (TeamsBowBattle.this.getNumPlayersLeftInBlueTeam() == 0) {
 					// blue is dead so team red wins
-					TeamsBowBattle.super.endGame(Utils.getPlayerListFromUUIDList(teamRed));
-				} else if (getNumPlayersLeftInRedTeam() == 0) {
+					TeamsBowBattle.super.endGame(Utils.getPlayerListFromUUIDList(TeamsBowBattle.this.teamRed));
+				} else if (TeamsBowBattle.this.getNumPlayersLeftInRedTeam() == 0) {
 					// red is dead so team blue wins
-					TeamsBowBattle.super.endGame(Utils.getPlayerListFromUUIDList(teamBlue));
+					TeamsBowBattle.super.endGame(Utils.getPlayerListFromUUIDList(TeamsBowBattle.this.teamBlue));
 				} else {
 					// both teams are still alive
 					TeamsBowBattle.super.endGame(new ArrayList<>());
@@ -110,41 +110,41 @@ public class TeamsBowBattle extends Game {
 
 		};
 	}
-	
+
 	@EventHandler
-	public void onDamage(EntityDamageByEntityEvent event) {		
+	public void onDamage(final EntityDamageByEntityEvent event) {
 		if (event.getEntity().getType() != EntityType.PLAYER) {
 			return;
 		}
-		
-		Entity damager = event.getDamager();
-		
-		Player damaged = (Player) event.getEntity();
-		
+
+		final Entity damager = event.getDamager();
+
+		final Player damaged = (Player) event.getEntity();
+
 		if (damaged.getType() != EntityType.PLAYER) {
 			return;
 		}
-		
+
 		if (damager.getType() == EntityType.PLAYER) {
 			event.setCancelled(true);
 			return;
 		}
-		
+
 		if (damager.getType() != EntityType.ARROW) {
 			return;
 		}
-		
-		Arrow arrow = (Arrow) damager;
-		
+
+		final Arrow arrow = (Arrow) damager;
+
 		if (!(arrow.getShooter() instanceof Player)) {
 			return;
 		}
-		
-		Player shooter = (Player) arrow.getShooter();
-		
-		if (teamBlue.contains(shooter.getUniqueId()) && teamRed.contains(damaged.getUniqueId())) {
+
+		final Player shooter = (Player) arrow.getShooter();
+
+		if (this.teamBlue.contains(shooter.getUniqueId()) && this.teamRed.contains(damaged.getUniqueId())) {
 			// blue attacks red -> allow
-		} else if (teamRed.contains(shooter.getUniqueId()) && teamBlue.contains(damaged.getUniqueId())) {
+		} else if (this.teamRed.contains(shooter.getUniqueId()) && this.teamBlue.contains(damaged.getUniqueId())) {
 			// red attacks blue -> allow
 		} else {
 			/*
@@ -157,29 +157,29 @@ public class TeamsBowBattle extends Game {
 			event.setCancelled(true);
 		}
 	}
-	
+
 	@EventHandler
-	public void onDeath(PlayerDeathEvent event) {
-		Player player = event.getEntity();
-		Player killer = player.getKiller();
-		
+	public void onDeath(final PlayerDeathEvent event) {
+		final Player player = event.getEntity();
+		final Player killer = player.getKiller();
+
 		if (killer == null) {
-			event.setDeathMessage(String.format("%s%s%s %has died.", 
-					getTeamColor(player), ChatColor.BOLD, player.getName(), ChatColor.GRAY));
+			event.setDeathMessage(String.format("%s%s%s %has died.",
+					this.getTeamColor(player), ChatColor.BOLD, player.getName(), ChatColor.GRAY));
 		}
-		
+
 		/*if (killer.getUniqueId().equals(player.getUniqueId())) {
-			event.setDeathMessage(String.format("%s%s%s %has taken their own life.", 
+			event.setDeathMessage(String.format("%s%s%s %has taken their own life.",
 					getTeamColor(player), ChatColor.BOLD, player.getName(), ChatColor.GRAY));
 			return;
 		}*/
-		
-		dead.add(player.getUniqueId());
-		
-		event.setDeathMessage(String.format("%s%s%s %shas been killed by %s%s%s", 
-				getTeamColor(player), ChatColor.BOLD, player.getName(), ChatColor.GRAY,
-				getTeamColor(killer), ChatColor.BOLD, killer.getName()));
-		
+
+		this.dead.add(player.getUniqueId());
+
+		event.setDeathMessage(String.format("%s%s%s %shas been killed by %s%s%s",
+				this.getTeamColor(player), ChatColor.BOLD, player.getName(), ChatColor.GRAY,
+				this.getTeamColor(killer), ChatColor.BOLD, killer.getName()));
+
 		Scheduler.delay(1, () -> {
 			player.spigot().respawn();
 			Utils.hideForEveryoneElse(player);
@@ -189,69 +189,69 @@ public class TeamsBowBattle extends Game {
 			player.teleport(Var.NO_SPECTATOR_LOCATION);
 		});
 	}
-	
+
 	private int getNumPlayersLeftInRedTeam() {
 		int players = 0;
-		for (Player player : Bukkit.getOnlinePlayers()) {
-			if (teamRed.contains(player.getUniqueId()) && !dead.contains(player.getUniqueId())) {
+		for (final Player player : Bukkit.getOnlinePlayers()) {
+			if (this.teamRed.contains(player.getUniqueId()) && !this.dead.contains(player.getUniqueId())) {
 				players++;
 			}
 		};
 		return players;
 	}
-	
+
 	private int getNumPlayersLeftInBlueTeam() {
 		int players = 0;
-		for (Player player : Bukkit.getOnlinePlayers()) {
-			if (teamBlue.contains(player.getUniqueId()) && !dead.contains(player.getUniqueId())) {
+		for (final Player player : Bukkit.getOnlinePlayers()) {
+			if (this.teamBlue.contains(player.getUniqueId()) && !this.dead.contains(player.getUniqueId())) {
 				players++;
 			}
 		};
 		return players;
 	}
-	
-	private ChatColor getTeamColor(Player player) {
-		if (teamRed.contains(player.getUniqueId())) {
+
+	private ChatColor getTeamColor(final Player player) {
+		if (this.teamRed.contains(player.getUniqueId())) {
 			return ChatColor.RED;
-		} else if (teamBlue.contains(player.getUniqueId())) {
+		} else if (this.teamBlue.contains(player.getUniqueId())) {
 			return ChatColor.BLUE;
 		} else {
 			return ChatColor.GREEN;
 		}
 	}
-	
-	private void giveItems(Player player) {
-		ItemBuilder helmet = new ItemBuilder(Material.LEATHER_HELMET);
-		ItemBuilder chestplate = new ItemBuilder(Material.LEATHER_CHESTPLATE);
-		ItemBuilder leggings = new ItemBuilder(Material.LEATHER_LEGGINGS);
-		ItemBuilder boots = new ItemBuilder(Material.LEATHER_BOOTS);
-		
-		if (teamRed.contains(player.getUniqueId())) {
+
+	private void giveItems(final Player player) {
+		final ItemBuilder helmet = new ItemBuilder(Material.LEATHER_HELMET);
+		final ItemBuilder chestplate = new ItemBuilder(Material.LEATHER_CHESTPLATE);
+		final ItemBuilder leggings = new ItemBuilder(Material.LEATHER_LEGGINGS);
+		final ItemBuilder boots = new ItemBuilder(Material.LEATHER_BOOTS);
+
+		if (this.teamRed.contains(player.getUniqueId())) {
 			helmet.leatherArmorColor(Color.RED);
 			chestplate.leatherArmorColor(Color.RED);
 			leggings.leatherArmorColor(Color.RED);
 			boots.leatherArmorColor(Color.RED);
 		}
-		
-		if (teamBlue.contains(player.getUniqueId())) {
+
+		if (this.teamBlue.contains(player.getUniqueId())) {
 			helmet.leatherArmorColor(Color.BLUE);
 			chestplate.leatherArmorColor(Color.BLUE);
 			leggings.leatherArmorColor(Color.BLUE);
 			boots.leatherArmorColor(Color.BLUE);
 		}
-		
+
 		Utils.setArmor(player, helmet.create(), chestplate.create(), leggings.create(), boots.create());
-		
-		ItemStack bow = new ItemBuilder(Material.BOW)
+
+		final ItemStack bow = new ItemBuilder(Material.BOW)
 				.enchant(Enchantment.ARROW_DAMAGE, 3)
 				.enchant(Enchantment.ARROW_INFINITE, 1)
 				.unbreakable()
 				.create();
-		
-		ItemStack arrow = new ItemBuilder(Material.ARROW)
+
+		final ItemStack arrow = new ItemBuilder(Material.ARROW)
 				.create();
-		
-		player.getInventory().addItem(bow, arrow);				
+
+		player.getInventory().addItem(bow, arrow);
 	}
 
 }

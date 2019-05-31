@@ -33,7 +33,7 @@ public class Tron extends Game {
 	Tron() {
 		super("Tron", new String[] {
 				"Snake in Minecraft",
-		}, 4, 5, 6, TronMap.MAPS);
+		}, 4, TronMap.MAPS);
 	}
 
 	private static final double MOVEMENT_SPEED = 0.3;

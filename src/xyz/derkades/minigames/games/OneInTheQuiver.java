@@ -49,7 +49,7 @@ public class OneInTheQuiver extends Game {
 				"Kill other players with a weak wooden sword.",
 				"For every kill you'll get a single arrow. Arrows",
 				"do enough damage to kill any player instantly."
-		}, 3, 3, 5, SniperMap.MAPS);
+		}, 3, SniperMap.MAPS);
 	}
 
 	private List<UUID> dead;

@@ -65,16 +65,12 @@ public abstract class Game implements Listener {
 	private final String name;
 	private final String[] description;
 	private final int requiredPlayers;
-	private final int minPoints;
-	private final int maxPoints;
 	private final GameMap[] maps;
 
-	Game(final String name, final String[] description, final int requiredPlayers, final int minPoints, final int maxPoints, final GameMap[] maps) {
+	Game(final String name, final String[] description, final int requiredPlayers, final GameMap[] maps) {
 		this.name = name;
 		this.description = description;
 		this.requiredPlayers = requiredPlayers;
-		this.minPoints = minPoints;
-		this.maxPoints = maxPoints;
 		this.maps = maps;
 	}
 
@@ -88,14 +84,6 @@ public abstract class Game implements Listener {
 
 	public final int getRequiredPlayers() {
 		return this.requiredPlayers;
-	}
-
-	public final int getMinimumPoints() {
-		return this.minPoints;
-	}
-
-	public final int getMaximumPoints() {
-		return this.maxPoints;
 	}
 
 	public final GameMap[] getGameMaps() {

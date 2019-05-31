@@ -37,7 +37,7 @@ public class IcyBlowback extends Game {
 		super("Icy Blowback",
 				new String[] {
 						"Try to knock others off the slippery ice."
-				}, 3, 3, 6, IcyBlowbackMap.MAPS);
+				}, 3, IcyBlowbackMap.MAPS);
 	}
 
 	List<UUID> dead;

@@ -25,40 +25,40 @@ import xyz.derkades.minigames.games.platform.PlatformMap;
 import xyz.derkades.minigames.utils.Utils;
 
 public class Platform extends Game {
-	
+
 	Platform() {
 		super("Platform", new String[] {
 				"Knock other players off a platform.",
 				"Use your knockback swords wisely, you",
 				"only get two knockback swords (one at",
 				"the start, one at " + KNOCKBACK_SWORDS_TIME + " seconds.",
-		}, 2, 2, 5, PlatformMap.MAPS);
+		}, 2, PlatformMap.MAPS);
 	}
 
 	private static final int SPREAD_TIME = 3;
 	private static final int GAME_DURATION = 40;
 	private static final int KNOCKBACK_SWORDS_TIME = 20;
-	
+
 	private List<UUID> dead;
-	
+
 	private PlatformMap map;
-	
+
 	@Override
-	public void begin(GameMap genericMap){
-		dead = new ArrayList<>();
-		
-		map = (PlatformMap) genericMap;
-		
-		for (Player player : Bukkit.getOnlinePlayers()){
-			player.teleport(map.spawnLocation());
+	public void begin(final GameMap genericMap){
+		this.dead = new ArrayList<>();
+
+		this.map = (PlatformMap) genericMap;
+
+		for (final Player player : Bukkit.getOnlinePlayers()){
+			player.teleport(this.map.spawnLocation());
 			Utils.giveInfiniteEffect(player, PotionEffectType.DAMAGE_RESISTANCE, 255);
 		}
-		
+
 		new GameTimer(this, GAME_DURATION, SPREAD_TIME) {
 
 			@Override
 			public void onStart() {
-				for (Player player : Bukkit.getOnlinePlayers()) {
+				for (final Player player : Bukkit.getOnlinePlayers()) {
 					Minigames.setCanTakeDamage(player, true);
 				}
 			}
@@ -66,67 +66,67 @@ public class Platform extends Game {
 			@Override
 			public int gameTimer(final int secondsLeft) {
 				if (secondsLeft == 20) {
-					giveSwords();
+					Platform.this.giveSwords();
 				}
-				
-				if (Utils.getAliveCountFromDeadList(dead) <= 1 && secondsLeft > 2) {
+
+				if (Utils.getAliveCountFromDeadList(Platform.this.dead) <= 1 && secondsLeft > 2) {
 					return 2;
 				}
-				
+
 				return secondsLeft;
 			}
 
 			@Override
 			public void onEnd() {
-				endGame(Utils.getWinnersFromDeadList(dead));
+				Platform.this.endGame(Utils.getWinnersFromDeadList(Platform.this.dead));
 			}
-			
+
 		};
 	}
-	
+
 	private void giveSwords(){
-		ItemStack sword = new ItemBuilder(Material.WOODEN_SWORD)
+		final ItemStack sword = new ItemBuilder(Material.WOODEN_SWORD)
 				.damage(59)
 				.name(ChatColor.DARK_AQUA + "" + ChatColor.BOLD + "Knockback Sword")
 				.lore(ChatColor.AQUA + "You can only use this once!")
 				.enchant(Enchantment.KNOCKBACK, 1)
 				.create();
-		
-		for (Player player: Bukkit.getOnlinePlayers()){
-			if (!dead.contains(player.getUniqueId())){ //Don't give sword to spectators
+
+		for (final Player player: Bukkit.getOnlinePlayers()){
+			if (!this.dead.contains(player.getUniqueId())){ //Don't give sword to spectators
 				player.getInventory().setItem(0, sword);
 			}
 		}
 	}
-	
-	private void playerDie(Player player){
-		sendMessage(player.getName() + " has been eliminated from the game!");
-		
+
+	private void playerDie(final Player player){
+		this.sendMessage(player.getName() + " has been eliminated from the game!");
+
 		Var.WORLD.spigot().strikeLightningEffect(player.getLocation(), false);
-		player.teleport(map.getSpectatorLocation());
-		dead.add(player.getUniqueId());
+		player.teleport(this.map.getSpectatorLocation());
+		this.dead.add(player.getUniqueId());
 		player.getInventory().clear();
 		Utils.giveInvisibility(player);
 		player.setAllowFlight(true);
 		Minigames.setCanTakeDamage(player, false); //Disallow PvP
 	}
-	
+
 	@EventHandler(priority = EventPriority.MONITOR)
-	public void onMove(PlayerMoveEvent event){
-		Player player = event.getPlayer();
-		
-		if (dead.contains(player.getUniqueId())) {
+	public void onMove(final PlayerMoveEvent event){
+		final Player player = event.getPlayer();
+
+		if (this.dead.contains(player.getUniqueId())) {
 			return;
 		}
-		
+
 		if(event.getTo().getBlock().getRelative(BlockFace.DOWN).getType().equals(Material.RED_TERRACOTTA)){
-			playerDie(player);
+			this.playerDie(player);
 		}
 	}
-	
+
 	@EventHandler
-	public void onDamage(EntityDamageByEntityEvent event) {
-		if (dead.contains(event.getDamager().getUniqueId())) {
+	public void onDamage(final EntityDamageByEntityEvent event) {
+		if (this.dead.contains(event.getDamager().getUniqueId())) {
 			event.setCancelled(true);
 		}
 	}

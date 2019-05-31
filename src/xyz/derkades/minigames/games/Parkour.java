@@ -24,7 +24,7 @@ public class Parkour extends Game {
 	Parkour() {
 		super("Parkour", new String[] {
 				"Jump to the finish without touching the ground",
-		}, 1, 3, 5, ParkourMap.MAPS);
+		}, 1, ParkourMap.MAPS);
 	}
 
 	private ParkourMap map;

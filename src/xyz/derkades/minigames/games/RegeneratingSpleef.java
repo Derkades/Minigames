@@ -29,102 +29,99 @@ public class RegeneratingSpleef extends Game {
 
 	RegeneratingSpleef() {
 		super("Regenerating Spleef",
-				new String[] { 
+				new String[] {
 						"Regenerating Spleef is very similar to the",
-						"classic spleef game. One twist: the blocks", 
+						"classic spleef game. One twist: the blocks",
 						"you break regenerate after 2 seconds, and",
-						"the arena is pretty small (usually)." 
-		}, 2, 3, 7, SpleefMap.MAPS);
+						"the arena is pretty small (usually)."
+		}, 2, SpleefMap.MAPS);
 	}
 
 	private static final int DURATION = 30;
-	
+
 	private static final String SECONDS_LEFT = "%s seconds left.";
 
 	private List<UUID> dead;
-	
+
 	private SpleefMap map;
-	
+
 	@Override
-	void begin(GameMap genericMap) {
-		dead = new ArrayList<>();
-		
-		map = (SpleefMap) genericMap;
-		
+	void begin(final GameMap genericMap) {
+		this.dead = new ArrayList<>();
+
+		this.map = (SpleefMap) genericMap;
+
 		Utils.setGameRule("doTileDrops", false);
-		
-		map.fill();
-		
-		for (Player player: Bukkit.getOnlinePlayers()){
-			player.teleport(map.getStartLocation());
+
+		this.map.fill();
+
+		for (final Player player: Bukkit.getOnlinePlayers()){
+			player.teleport(this.map.getStartLocation());
 		}
-		
+
 		Scheduler.delay(3*20, () -> {
-			sendMessage("The game has started!");
-			
-			ItemStack shovel = new ItemBuilder(Material.DIAMOND_SHOVEL)
+			this.sendMessage("The game has started!");
+
+			final ItemStack shovel = new ItemBuilder(Material.DIAMOND_SHOVEL)
 					.name("Spleefanator 8000")
 					.enchant(Enchantment.DIG_SPEED, 5)
 					.unbreakable()
 					.canDestroy("snow_block")
 					.create();
-			
+
 			Bukkit.getOnlinePlayers().forEach((player) -> player.getInventory().setItem(0, shovel));
 		});
-		
+
 		new BukkitRunnable() {
-			
+
 			int secondsLeft = DURATION;
-			
+
+			@Override
 			public void run() {
-				if (Utils.getAliveCountFromDeadList(dead) <= 1 && secondsLeft > 2) {
-					secondsLeft = 2;
+				if (Utils.getAliveCountFromDeadList(RegeneratingSpleef.this.dead) <= 1 && this.secondsLeft > 2) {
+					this.secondsLeft = 2;
 				}
-				
-				if (secondsLeft <= 0) {
+
+				if (this.secondsLeft <= 0) {
 					this.cancel();
-					
+
 					//End game
 					Utils.setGameRule("doTileDrops", true);
-					endGame(Utils.getWinnersFromDeadList(dead));
-					
+					RegeneratingSpleef.this.endGame(Utils.getWinnersFromDeadList(RegeneratingSpleef.this.dead));
+
 					return;
 				}
-				
-				if (secondsLeft == 30 || secondsLeft <= 5) {
-					sendMessage(String.format(SECONDS_LEFT, secondsLeft));
+
+				if (this.secondsLeft == 30 || this.secondsLeft <= 5) {
+					RegeneratingSpleef.this.sendMessage(String.format(SECONDS_LEFT, this.secondsLeft));
 				}
-				
-				secondsLeft--;
+
+				this.secondsLeft--;
 			}
-			
+
 		}.runTaskTimer(Minigames.getInstance(), 0, 1*20);
 	}
-	
+
 	@EventHandler
-	public void spleefBlock(BlockBreakEvent event) {
-		Player player = event.getPlayer();
-		PlayerInventory inv = player.getInventory();
+	public void spleefBlock(final BlockBreakEvent event) {
+		final Player player = event.getPlayer();
+		final PlayerInventory inv = player.getInventory();
 		if (inv.getItemInMainHand().getType() == Material.DIAMOND_SHOVEL){
-			final Block block = event.getBlock();	
+			final Block block = event.getBlock();
 			if (block.getType() == Material.SNOW_BLOCK){
 				block.setType(Material.AIR);
-				Bukkit.getScheduler().scheduleSyncDelayedTask(Minigames.getInstance(), new Runnable() {
-					public void run() {
-						block.setType(Material.SNOW_BLOCK);
-					}
-				}, 3*20);
+				Bukkit.getScheduler().scheduleSyncDelayedTask(Minigames.getInstance(), () -> block.setType(Material.SNOW_BLOCK), 3*20);
 			}
 		}
 	}
-	
+
 	@EventHandler(priority = EventPriority.MONITOR)
-	public void onMove(PlayerMoveEvent event){
-		Player player = event.getPlayer();
+	public void onMove(final PlayerMoveEvent event){
+		final Player player = event.getPlayer();
 		if (event.getTo().getBlock().getRelative(BlockFace.DOWN).getType() == Material.BEDROCK){
-			player.teleport(map.getSpectatorLocation());
+			player.teleport(this.map.getSpectatorLocation());
 			player.getInventory().clear();
-			dead.add(player.getUniqueId());
+			this.dead.add(player.getUniqueId());
 		}
 	}
 

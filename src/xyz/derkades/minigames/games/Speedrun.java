@@ -27,7 +27,7 @@ public class Speedrun extends Game {
 	Speedrun() {
 		super("Speedrun", new String[] {
 				"Jump to the finish with super speed"
-		}, 1, 2, 4, SpeedrunMap.MAPS);
+		}, 1, SpeedrunMap.MAPS);
 	}
 
 	private List<UUID> finished;
