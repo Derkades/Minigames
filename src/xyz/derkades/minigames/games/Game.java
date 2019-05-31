@@ -46,7 +46,6 @@ public abstract class Game implements Listener {
 			new Dropper(),
 			//new Elytra(),
 			new IcyBlowback(),
-			//new JungleRun(),
 			//new MazePvp(),
 			//new Mine(),
 			new MolePvP(),
