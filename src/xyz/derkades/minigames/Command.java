@@ -21,29 +21,27 @@ public class Command implements CommandExecutor {
 
 	@Override
 	public boolean onCommand(final CommandSender sender, final org.bukkit.command.Command arg1, final String arg2, final String[] args) {
-		final Player player = (Player) sender;
-
-		if (args.length == 2 && args[0].equalsIgnoreCase("next") && player.hasPermission("minigames.next")) {
+		if (args.length == 2 && args[0].equalsIgnoreCase("next") && sender.hasPermission("minigames.next")) {
 			final Game game = Game.fromString(args[1].replace("_", " "));
 			if (game == null){
-				player.sendMessage(ChatColor.RED + "Unknown game. Make sure the game is spelled correctly. For spaces use underscores.");
+				sender.sendMessage(ChatColor.RED + "Unknown game. Make sure the game is spelled correctly. For spaces use underscores.");
 				return true;
 			} else {
 				Minigames.NEXT_GAME = game;
 				Minigames.BYPASS_PLAYER_MINIMUM_CHECKS = true;
-				player.sendMessage("Bypassing player minimum and forcing " + game.getName() + " to be chosen as the next game.");
+				sender.sendMessage("Bypassing player minimum and forcing " + game.getName() + " to be chosen as the next game.");
 			}
 		}
 
 		if (args.length == 1){
-			if ((args[0].equalsIgnoreCase("start") || args[0].equals("b")) && player.hasPermission("minigames.start")){
+			if ((args[0].equalsIgnoreCase("start") || args[0].equals("b")) && sender.hasPermission("minigames.start")){
 				AutoRotate.startNewRandomGame();
 				Minigames.STOP_GAMES = false;
-			} else if ((args[0].equalsIgnoreCase("stop") || args[0].equals("e")) && player.hasPermission("minigames.stop")){
-				player.sendMessage(ChatColor.RED + "! STOPPED GAMES !");
+			} else if ((args[0].equalsIgnoreCase("stop") || args[0].equals("e")) && sender.hasPermission("minigames.stop")){
+				sender.sendMessage(ChatColor.RED + "! STOPPED GAMES !");
 				Minigames.STOP_GAMES = true;
-			} else if (args[0].equalsIgnoreCase("!") && player.hasPermission("minigames.emerg")) {
-				player.sendMessage("! EMERGENCY STOP !");
+			} else if (args[0].equalsIgnoreCase("!") && sender.hasPermission("minigames.emerg")) {
+				sender.sendMessage("! EMERGENCY STOP !");
 				Bukkit.broadcastMessage(ChatColor.RED + "Initiating emergency stop. You may be kicked or experience lag.");
 				Bukkit.getOnlinePlayers().forEach(player2 -> {
 					player2.teleport(Var.LOBBY_LOCATION);
@@ -52,10 +50,12 @@ public class Command implements CommandExecutor {
 					player2.setGameMode(GameMode.ADVENTURE);
 				});
 				Scheduler.delay(20, () -> Bukkit.reload());
-			} else if (args[0].equalsIgnoreCase("min") && player.hasPermission("minigames.min")) {
+			} else if (args[0].equalsIgnoreCase("min") && sender.hasPermission("minigames.min")) {
 				Minigames.BYPASS_PLAYER_MINIMUM_CHECKS = true;
-				player.sendMessage("Bypassing minimum player check");
-			} else if (args[0].equals("test") && player.hasPermission("minigames.test")) {
+				sender.sendMessage("Bypassing minimum player check");
+			} else if (args[0].equals("test") && sender.hasPermission("minigames.test")) {
+				final Player player = (Player) sender;
+
 				/*final Location loc = player.getLocation();
 		        final Location fbLocation = loc.add(
 		        		loc
@@ -71,7 +71,7 @@ public class Command implements CommandExecutor {
 				//BlockUtils.fillArea(244, 67, 161, 212, 74, 131, Material.DIRT);
 				//BlockUtils.fillArea(244, 69, 161, 242, 67, 159, Material.AIR);
 				//BlockUtils.fillArea(214, 67, 133, 212, 69, 131, Material.AIR);
-		        player.sendMessage("test");
+				sender.sendMessage("test");
 
 		        //final Poll poll = new Poll("Test poll?", new PollAnswer(1, "Yes", ChatColor.GREEN), new PollAnswer(2, "No", ChatColor.RED));
 		        //ChatPoll.sendPoll(player, poll);
@@ -106,9 +106,10 @@ public class Command implements CommandExecutor {
 						.create());
 
 			} else {
-				player.sendMessage("no.");
+				sender.sendMessage("no.");
 			}
 		} else if (args.length == 0){
+			final Player player = (Player) sender;
 			new MainMenu(player).open();
 		}
 
