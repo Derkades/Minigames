@@ -119,11 +119,11 @@ public abstract class Game implements Listener {
 		final String winnersText = String.join(", ", winnerNames);
 
 		if (winners.isEmpty()){
-			Bukkit.broadcastMessage(DARK_AQUA + "The " + this.getName() + " game has ended.");
+			this.sendMessage("The " + this.getName() + " game has ended.");
 		} else if (winners.size() == 1){
-			Bukkit.broadcastMessage(DARK_AQUA + "The " + this.getName() + " game has ended! Winner: " + AQUA + winnersText);
+			this.sendMessage("The " + this.getName() + " game has ended! Winner: " + AQUA + winnersText);
 		} else {
-			Bukkit.broadcastMessage(DARK_AQUA + "The " + this.getName() + " game has ended! Winners: " + AQUA + winnersText);
+			this.sendMessage("The " + this.getName() + " game has ended! Winners: " + AQUA + winnersText);
 		}
 
 		for (final Player player : Bukkit.getOnlinePlayers()){
@@ -151,7 +151,7 @@ public abstract class Game implements Listener {
 				Minigames.economy.depositPlayer(player, 0);
 				Utils.sendTitle(player, DARK_AQUA + "You've lost", AQUA + "+1 point");
 			}
-			player.sendMessage(DARK_AQUA + "You currently have " + AQUA + Points.getPoints(player) + DARK_AQUA + " points.");
+			//player.sendMessage(DARK_AQUA + "You currently have " + AQUA + Points.getPoints(player) + DARK_AQUA + " points.");
 		}
 
 		Utils.delayedTeleport(Var.LOBBY_LOCATION, (player) -> {
@@ -167,7 +167,9 @@ public abstract class Game implements Listener {
 
 			Minigames.setCanTakeDamage(player, false);
 
-			player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 3, 0, true));
+			player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 40, 0, true));
+
+			Minigames.giveLobbyInventoryItems(player);
 		}
 
 		int nextGameDelay = 2;
