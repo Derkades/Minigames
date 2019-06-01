@@ -35,7 +35,7 @@ public class Platform extends Game {
 		}, 2, PlatformMap.MAPS);
 	}
 
-	private static final int SPREAD_TIME = 3;
+	private static final int SPREAD_TIME = 5;
 	private static final int GAME_DURATION = 40;
 	private static final int KNOCKBACK_SWORDS_TIME = 20;
 

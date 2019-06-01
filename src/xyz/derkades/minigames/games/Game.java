@@ -22,6 +22,8 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
 import net.md_5.bungee.api.ChatColor;
+import net.md_5.bungee.api.chat.ComponentBuilder;
+import net.md_5.bungee.api.chat.HoverEvent;
 import xyz.derkades.derkutils.Random;
 import xyz.derkades.minigames.AutoRotate;
 import xyz.derkades.minigames.ChatPoll;
@@ -93,7 +95,8 @@ public abstract class Game implements Listener {
 
 	void sendMessage(final String message){
 		//Bukkit.broadcastMessage(DARK_GRAY + "[" + DARK_AQUA + this.getName() + DARK_GRAY + "] " + AQUA + message);
-		Bukkit.broadcastMessage(String.format("%s[%sG%s] %s| %s%s", ChatColor.BLACK, ChatColor.GOLD, ChatColor.BLACK, ChatColor.DARK_GRAY, ChatColor.GRAY, message));
+		//Bukkit.broadcastMessage(String.format("%s[%sG%s] %s| %s%s", ChatColor.BLACK, ChatColor.GOLD, ChatColor.BLACK, ChatColor.DARK_GRAY, ChatColor.GRAY, message));
+		Bukkit.broadcastMessage(Utils.getChatPrefix(ChatColor.GOLD, 'G') + message);
 	}
 
 	void endGame() {
@@ -228,19 +231,40 @@ public abstract class Game implements Listener {
 
 			weight = Math.round(weight * 100.0) / 100.0;
 
-			player.sendMessage(DARK_GRAY + "-----------------------------------------");
-			player.sendMessage(ChatColor.GOLD + "  " + ChatColor.BOLD + this.getName() + ChatColor.GRAY +  " (Current weight: " + weight + ")");
+			final String prefix = Utils.getChatPrefix(ChatColor.GOLD, 'G');
+
+			player.sendMessage(prefix + DARK_GRAY + "-----------------------------------------");
+			player.sendMessage(prefix + ChatColor.GOLD + "" + ChatColor.BOLD + this.getName() + ChatColor.GRAY +  " (" + weight + ")");
+
+			player.spigot().sendMessage(new ComponentBuilder("")
+					.appendLegacy(Utils.getChatPrefix(ChatColor.GOLD, 'G'))
+					.append(this.getName())
+					.bold(true)
+					.color(ChatColor.GOLD)
+					.append(" (" + weight + ")")
+					.color(ChatColor.GRAY)
+					.bold(false)
+					.append(" [hover for help]")
+					.color(ChatColor.YELLOW)
+					.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(
+							"The number shown after the game name in parentheses\n"
+							+ "is the game weight. A higher weight means that the\n"
+							+ "minigame has a higher chance of being picked. The\n"
+							+ "game weight can be increased or decreased by voting\n"
+							+ "on the poll at the end of the game.")
+							.color(ChatColor.GRAY).create()))
+					.create());
 
 			if (!Minigames.getInstance().getConfig().getStringList("disabled-description")
 					.contains(player.getUniqueId().toString())) {
-				for (final String line : this.getDescription()) player.sendMessage(DARK_AQUA + line);
-				player.sendMessage(DARK_AQUA + "Minimum players: " + AQUA + this.getRequiredPlayers());
+				for (final String line : this.getDescription()) player.sendMessage(prefix + line);
+				player.sendMessage(prefix + "Minimum players: " + AQUA + this.getRequiredPlayers());
 			}
 
 			if (map != null)
-				player.sendMessage(DARK_AQUA + "Map: " + AQUA + map.getName());
+				player.sendMessage(prefix + "Map: " + AQUA + map.getName());
 
-			player.sendMessage(DARK_GRAY + "-----------------------------------------");
+			player.sendMessage(prefix + DARK_GRAY + "-----------------------------------------");
 		}
 
 		Minigames.LAST_GAME_NAME = this.getName();

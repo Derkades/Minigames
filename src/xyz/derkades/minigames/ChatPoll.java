@@ -14,6 +14,7 @@ import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;
+import xyz.derkades.minigames.utils.Utils;
 
 public class ChatPoll {
 
@@ -35,10 +36,12 @@ public class ChatPoll {
 
 		callbacks.put(token, poll.callback);
 
-		player.sendMessage(ChatColor.GRAY + "----------------------------------------");
-		player.spigot().sendMessage(new ComponentBuilder(poll.question).create());
+		player.sendMessage(Utils.getChatPrefix(ChatColor.AQUA, 'P') + ChatColor.GRAY + "----------------------------------------");
+		player.spigot().sendMessage(new ComponentBuilder("").appendLegacy(Utils.getChatPrefix(ChatColor.AQUA, 'P')).append(poll.question).create());
 
 		final ComponentBuilder answerMessage = new ComponentBuilder("");
+
+		answerMessage.appendLegacy(Utils.getChatPrefix(ChatColor.AQUA, 'P'));
 
 		for (final PollAnswer answer : poll.answers) {
 			answerMessage.append(String.format(" [%s] ", answer.displayName))
@@ -48,7 +51,7 @@ public class ChatPoll {
 		}
 
 		player.spigot().sendMessage(answerMessage.create());
-		player.sendMessage(ChatColor.GRAY + "----------------------------------------");
+		player.sendMessage(Utils.getChatPrefix(ChatColor.AQUA, 'P') + ChatColor.GRAY + "----------------------------------------");
 
 	}
 

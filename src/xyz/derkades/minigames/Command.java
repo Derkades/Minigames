@@ -7,6 +7,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import net.md_5.bungee.api.ChatColor;
+import net.md_5.bungee.api.chat.ComponentBuilder;
+import net.md_5.bungee.api.chat.HoverEvent;
 import xyz.derkades.minigames.ChatPoll.Poll;
 import xyz.derkades.minigames.ChatPoll.PollAnswer;
 import xyz.derkades.minigames.ChatPoll.PollCallback;
@@ -84,6 +86,24 @@ public class Command implements CommandExecutor {
 				}, new PollAnswer(1, "Yes", ChatColor.GREEN, "The game will be picked more often"),
 						new PollAnswer(2, "No", ChatColor.RED, "The game will be picked less often"));
 				ChatPoll.sendPoll(player, poll);
+
+				player.spigot().sendMessage(new ComponentBuilder("")
+						.append("Game")
+						.bold(true)
+						.color(ChatColor.GOLD)
+						.append(" (" + 3.0 + ")")
+						.color(ChatColor.GRAY)
+						.bold(false)
+						.append(" [hover for help]")
+						.color(ChatColor.YELLOW)
+						.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(
+								"The number shown after the game name in parentheses\n"
+								+ "is the game weight. A higher weight means that the\n"
+								+ "minigame has a higher chance of being picked. The\n"
+								+ "game weight can be increased or decreased by voting\n"
+								+ "on the poll at the end of the game.")
+								.color(ChatColor.GRAY).create()))
+						.create());
 
 			} else {
 				player.sendMessage("no.");

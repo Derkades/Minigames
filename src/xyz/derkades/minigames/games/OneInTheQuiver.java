@@ -118,7 +118,8 @@ public class OneInTheQuiver extends Game {
 
 		final int playersLeft = Utils.getAliveAcountFromDeadAndAllList(this.dead, this.all);
 
-		this.sendMessage(String.format("%s has been killed by %s. There are %s players left.", player, killer, playersLeft));
+		this.sendMessage(String.format("%s has been killed by %s. There are %s players left.",
+				player.getName(), killer.getName(), playersLeft));
 
 		killer.getInventory().addItem(ARROW);
 		this.dead.add(player.getUniqueId());

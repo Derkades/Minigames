@@ -25,6 +25,7 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 
+import net.md_5.bungee.api.ChatColor;
 import xyz.derkades.derkutils.Random;
 import xyz.derkades.minigames.Minigames;
 import xyz.derkades.minigames.Var;
@@ -354,6 +355,10 @@ public class Utils {
 
 	public static boolean isIn2dBounds(final Player player, final Location cornerOne, final Location cornerTwo) {
 		return isIn2dBounds(player.getLocation(), cornerOne, cornerTwo);
+	}
+
+	public static String getChatPrefix(final ChatColor color, final char c) {
+		return ChatColor.BLACK + "[" + color + c + ChatColor.BLACK + "]" + ChatColor.DARK_GRAY + " | " + ChatColor.GRAY;
 	}
 
 }
