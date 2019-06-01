@@ -7,19 +7,22 @@ import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import net.md_5.bungee.api.ChatColor;
 import net.milkbowl.vault.economy.Economy;
+import xyz.derkades.derkutils.bukkit.ItemBuilder;
 import xyz.derkades.minigames.games.Game;
 import xyz.derkades.minigames.task.RegenerateHunger;
 import xyz.derkades.minigames.utils.Scheduler;
 
 public class Minigames extends JavaPlugin implements Listener {
 
-	public static final float VOTE_MENU_CHANCE = 0.4f;
+	public static final float VOTE_MENU_CHANCE = 0.25f;
 
 	private static Minigames instance;
 
@@ -125,6 +128,21 @@ public class Minigames extends JavaPlugin implements Listener {
         }
         economy = rsp.getProvider();
         return economy != null;
+    }
+
+    public static void giveLobbyInventoryItems(final Player player) {
+    	if (player.hasPermission("games.torch")) {
+			player.getInventory().setItem(7, new ItemBuilder(Material.REDSTONE_TORCH)
+					.name(ChatColor.AQUA + "" + ChatColor.BOLD + "Staff lounge key")
+					.lore(ChatColor.YELLOW + "Place in upper-south-east-corner on gray terracotta")
+					.canPlaceOn("cyan_terracotta")
+					.create());
+		}
+
+		player.getInventory().setItem(8, new ItemBuilder(Material.COMPARATOR)
+				.name(ChatColor.AQUA + "" + ChatColor.BOLD + "Menu")
+				.lore(ChatColor.YELLOW + "Click to open menu")
+				.create());
     }
 
 }

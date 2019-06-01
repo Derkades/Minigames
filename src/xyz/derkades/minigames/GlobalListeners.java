@@ -28,7 +28,6 @@ import org.bukkit.potion.PotionEffectType;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
-import xyz.derkades.derkutils.bukkit.ItemBuilder;
 import xyz.derkades.derkutils.bukkit.MaterialLists;
 import xyz.derkades.minigames.menu.MainMenu;
 import xyz.derkades.minigames.utils.Scheduler;
@@ -70,18 +69,7 @@ public class GlobalListeners implements Listener {
 					.create());
 		});
 
-		if (player.hasPermission("games.torch")) {
-			player.getInventory().setItem(7, new ItemBuilder(Material.REDSTONE_TORCH)
-					.name(ChatColor.AQUA + "" + ChatColor.BOLD + "Staff lounge key")
-					.lore(ChatColor.YELLOW + "Place in upper-south-east-corner on gray terracotta")
-					.canPlaceOn("cyan_terracotta")
-					.create());
-		}
-
-		player.getInventory().setItem(8, new ItemBuilder(Material.COMPARATOR)
-				.name(ChatColor.AQUA + "" + ChatColor.BOLD + "Menu")
-				.lore(ChatColor.YELLOW + "Click to open menu")
-				.create());
+		Minigames.giveLobbyInventoryItems(player);
 	}
 
 	@EventHandler
