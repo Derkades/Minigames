@@ -19,6 +19,7 @@ import org.bukkit.inventory.ItemStack;
 import net.md_5.bungee.api.ChatColor;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
 import xyz.derkades.minigames.Minigames;
+import xyz.derkades.minigames.Var;
 import xyz.derkades.minigames.games.maps.GameMap;
 import xyz.derkades.minigames.games.molepvp.MolePvPMap;
 import xyz.derkades.minigames.utils.Scheduler;
@@ -159,6 +160,7 @@ public class MolePvP extends Game {
 			Minigames.setCanTakeDamage(player, false);
 			Utils.clearInventory(player);
 			player.setAllowFlight(true);
+			player.teleport(Var.NO_SPECTATOR_LOCATION);
 		});
 	}
 
