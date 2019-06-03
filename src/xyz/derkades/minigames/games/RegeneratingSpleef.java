@@ -16,13 +16,11 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
 import xyz.derkades.minigames.Minigames;
 import xyz.derkades.minigames.games.maps.GameMap;
 import xyz.derkades.minigames.games.spleef.SpleefMap;
-import xyz.derkades.minigames.utils.Scheduler;
 import xyz.derkades.minigames.utils.Utils;
 
 public class RegeneratingSpleef extends Game {
@@ -39,15 +37,15 @@ public class RegeneratingSpleef extends Game {
 
 	private static final int DURATION = 30;
 
-	private static final String SECONDS_LEFT = "%s seconds left.";
-
 	private List<UUID> dead;
+	private List<UUID> all;
 
 	private SpleefMap map;
 
 	@Override
 	void begin(final GameMap genericMap) {
 		this.dead = new ArrayList<>();
+		this.all = new ArrayList<>();
 
 		this.map = (SpleefMap) genericMap;
 
@@ -59,47 +57,37 @@ public class RegeneratingSpleef extends Game {
 			player.teleport(this.map.getStartLocation());
 		}
 
-		Scheduler.delay(3*20, () -> {
-			this.sendMessage("The game has started!");
-
-			final ItemStack shovel = new ItemBuilder(Material.DIAMOND_SHOVEL)
-					.name("Spleefanator 8000")
-					.enchant(Enchantment.DIG_SPEED, 5)
-					.unbreakable()
-					.canDestroy("snow_block")
-					.create();
-
-			Bukkit.getOnlinePlayers().forEach((player) -> player.getInventory().setItem(0, shovel));
-		});
-
-		new BukkitRunnable() {
-
-			int secondsLeft = DURATION;
+		new GameTimer(this, DURATION, 3) {
 
 			@Override
-			public void run() {
-				if (Utils.getAliveCountFromDeadList(RegeneratingSpleef.this.dead) <= 1 && this.secondsLeft > 2) {
-					this.secondsLeft = 2;
-				}
+			public void onStart() {
+				final ItemStack shovel = new ItemBuilder(Material.DIAMOND_SHOVEL)
+						.name("Spleefanator 8000")
+						.enchant(Enchantment.DIG_SPEED, 5)
+						.unbreakable()
+						.canDestroy("snow_block")
+						.create();
 
-				if (this.secondsLeft <= 0) {
-					this.cancel();
+				Bukkit.getOnlinePlayers().forEach((player) -> player.getInventory().setItem(0, shovel));
 
-					//End game
-					Utils.setGameRule("doTileDrops", true);
-					RegeneratingSpleef.this.endGame(Utils.getWinnersFromDeadList(RegeneratingSpleef.this.dead));
-
-					return;
-				}
-
-				if (this.secondsLeft == 30 || this.secondsLeft <= 5) {
-					RegeneratingSpleef.this.sendMessage(String.format(SECONDS_LEFT, this.secondsLeft));
-				}
-
-				this.secondsLeft--;
+				Bukkit.getOnlinePlayers().forEach((player) -> RegeneratingSpleef.this.all.add(player.getUniqueId()));
 			}
 
-		}.runTaskTimer(Minigames.getInstance(), 0, 1*20);
+			@Override
+			public int gameTimer(final int secondsLeft) {
+				if (Utils.getAliveAcountFromDeadAndAllList(RegeneratingSpleef.this.dead, RegeneratingSpleef.this.all) < 2 && secondsLeft > 1) {
+					return 1;
+				}
+
+				return secondsLeft;
+			}
+
+			@Override
+			public void onEnd() {
+				RegeneratingSpleef.this.endGame(Utils.getWinnersFromDeadAndAllList(RegeneratingSpleef.this.dead, RegeneratingSpleef.this.all, false));
+			}
+
+		};
 	}
 
 	@EventHandler
