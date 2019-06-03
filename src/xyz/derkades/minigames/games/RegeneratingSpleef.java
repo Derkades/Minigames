@@ -15,12 +15,11 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.PlayerInventory;
 
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
-import xyz.derkades.minigames.Minigames;
 import xyz.derkades.minigames.games.maps.GameMap;
 import xyz.derkades.minigames.games.spleef.SpleefMap;
+import xyz.derkades.minigames.utils.Scheduler;
 import xyz.derkades.minigames.utils.Utils;
 
 public class RegeneratingSpleef extends Game {
@@ -45,7 +44,6 @@ public class RegeneratingSpleef extends Game {
 	@Override
 	void begin(final GameMap genericMap) {
 		this.dead = new ArrayList<>();
-		this.all = new ArrayList<>();
 
 		this.map = (SpleefMap) genericMap;
 
@@ -57,7 +55,7 @@ public class RegeneratingSpleef extends Game {
 			player.teleport(this.map.getStartLocation());
 		}
 
-		new GameTimer(this, DURATION, 3) {
+		new GameTimer(this, DURATION, 4) {
 
 			@Override
 			public void onStart() {
@@ -70,13 +68,13 @@ public class RegeneratingSpleef extends Game {
 
 				Bukkit.getOnlinePlayers().forEach((player) -> player.getInventory().setItem(0, shovel));
 
-				Bukkit.getOnlinePlayers().forEach((player) -> RegeneratingSpleef.this.all.add(player.getUniqueId()));
+				all = Utils.getOnlinePlayersUuidList();
 			}
 
 			@Override
 			public int gameTimer(final int secondsLeft) {
-				if (Utils.getAliveAcountFromDeadAndAllList(RegeneratingSpleef.this.dead, RegeneratingSpleef.this.all) < 2 && secondsLeft > 1) {
-					return 1;
+				if (Utils.getAliveAcountFromDeadAndAllList(RegeneratingSpleef.this.dead, RegeneratingSpleef.this.all) < 2 && secondsLeft > 2) {
+					return 2;
 				}
 
 				return secondsLeft;
@@ -85,21 +83,19 @@ public class RegeneratingSpleef extends Game {
 			@Override
 			public void onEnd() {
 				RegeneratingSpleef.this.endGame(Utils.getWinnersFromDeadAndAllList(RegeneratingSpleef.this.dead, RegeneratingSpleef.this.all, false));
+				dead.clear();
+				all.clear();
 			}
 
 		};
 	}
 
 	@EventHandler
-	public void spleefBlock(final BlockBreakEvent event) {
-		final Player player = event.getPlayer();
-		final PlayerInventory inv = player.getInventory();
-		if (inv.getItemInMainHand().getType() == Material.DIAMOND_SHOVEL){
-			final Block block = event.getBlock();
-			if (block.getType() == Material.SNOW_BLOCK){
-				block.setType(Material.AIR);
-				Bukkit.getScheduler().scheduleSyncDelayedTask(Minigames.getInstance(), () -> block.setType(Material.SNOW_BLOCK), 3*20);
-			}
+	public void onBlockBreak(final BlockBreakEvent event) {
+		final Block block = event.getBlock();
+		if (block.getType() == Material.SNOW_BLOCK){
+			block.setType(Material.AIR); // XXX check if this is needed
+			Scheduler.delay(3*20, () -> block.setType(Material.SNOW_BLOCK));
 		}
 	}
 
