@@ -107,26 +107,6 @@ public class Utils {
 				new ItemStack(boots));
 	}
 
-	public static List<Player> getWinnersFromIsDeadHashMap(final Map<String, Boolean> isDead){
-		final List<Player> winners = new ArrayList<Player>();
-		for (final Player player: Bukkit.getOnlinePlayers()){
-			if (!isDead.get(player.getName())){
-				winners.add(player);
-			}
-		}
-		return winners;
-	}
-
-	public static List<Player> getWinnersFromFinishedHashMap(final Map<String, Boolean> hasFinished){
-		final List<Player> winners = new ArrayList<Player>();
-		for (final Player player: Bukkit.getOnlinePlayers()){
-			if (hasFinished.get(player.getName())){
-				winners.add(player);
-			}
-		}
-		return winners;
-	}
-
 	public static List<Player> getWinnersFromPointsHashmap(final Map<UUID, Integer> points){
 		if (points == null || points.isEmpty()) {
 			return new ArrayList<>();
