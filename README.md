@@ -1,4 +1,7 @@
-# Writing a minigame documentation
+![issue resolution time](https://isitmaintained.com/badge/resolution/Derkades/Minigames.svg)
+![open issue percentage](https://isitmaintained.com/badge/open/Derkades/Minigames.svg)
+
+# Writing a minigame documentation (OUTDATED)
 
 ## Cloning the project
 1. Clone the project
