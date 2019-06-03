@@ -64,9 +64,13 @@ public class GlobalListeners implements Listener {
 		Scheduler.delay(1, () -> {
 			player.spigot().sendMessage(
 					Utils.getComponentBuilderWithPrefix(ChatColor.GREEN, 'P')
-					.append("For feature requests and bug reports, click here.")
+					.append("For feature requests and bug reports, ")
 					.color(ChatColor.GRAY)
+					.append("click here")
+					.underlined(true)
 					.event(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://github.com/Derkades/Minigames/issues"))
+					.append(".")
+					.underlined(false)
 					.create());
 		});
 
