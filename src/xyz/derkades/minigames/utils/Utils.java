@@ -26,6 +26,7 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 
 import net.md_5.bungee.api.ChatColor;
+import net.md_5.bungee.api.chat.ComponentBuilder;
 import xyz.derkades.derkutils.Random;
 import xyz.derkades.minigames.Minigames;
 import xyz.derkades.minigames.Var;
@@ -348,6 +349,10 @@ public class Utils {
 
 	public static String getChatPrefix(final ChatColor color, final char c) {
 		return ChatColor.BLACK + "[" + color + c + ChatColor.BLACK + "]" + ChatColor.DARK_GRAY + " | " + ChatColor.GRAY;
+	}
+	
+	public static ComponentBuilder getComponentBuilderWithPrefix(ChatColor prefixColor, char prefixChar) {
+		return new ComponentBuilder("").appendLegacy(Utils.getChatPrefix(prefixColor, prefixChar));
 	}
 
 }
