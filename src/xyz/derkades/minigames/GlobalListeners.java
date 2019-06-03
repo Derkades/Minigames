@@ -27,7 +27,6 @@ import org.bukkit.potion.PotionEffectType;
 
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.ClickEvent;
-import net.md_5.bungee.api.chat.ComponentBuilder;
 import xyz.derkades.derkutils.bukkit.MaterialLists;
 import xyz.derkades.minigames.menu.MainMenu;
 import xyz.derkades.minigames.utils.Scheduler;
