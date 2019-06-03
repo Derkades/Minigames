@@ -228,6 +228,12 @@ public class Utils {
 			return new ArrayList<>();
 		}
 	}
+	
+	public static List<UUID> getOnlinePlayersUuidList(){
+		final List<UUID> list = new ArrayList<>();
+		Bukkit.getOnlinePlayers().forEach((player) -> list.add(player.getUniqueId()));
+		return list;
+	}
 
 	public static void playSoundForAllPlayers(final Sound sound, final float pitch){
 		for (final Player player : Bukkit.getOnlinePlayers())
