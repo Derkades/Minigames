@@ -7,11 +7,13 @@ import java.util.UUID;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.BlockFace;
+import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.inventory.ItemStack;
@@ -116,13 +118,14 @@ public class OneInTheQuiver extends Game {
 
 		event.setDeathMessage("");
 
+		this.dead.add(player.getUniqueId());
+
 		final int playersLeft = Utils.getAliveAcountFromDeadAndAllList(this.dead, this.all);
 
 		this.sendMessage(String.format("%s has been killed by %s. There are %s players left.",
 				player.getName(), killer.getName(), playersLeft));
 
 		killer.getInventory().addItem(ARROW);
-		this.dead.add(player.getUniqueId());
 
 		Utils.hideForEveryoneElse(player);
 
@@ -135,6 +138,21 @@ public class OneInTheQuiver extends Game {
 			player.getInventory().clear();
 			Minigames.setCanTakeDamage(player, false);
 		});
+	}
+
+	@SuppressWarnings("deprecation")
+	@EventHandler
+	public void onShoot(final EntityShootBowEvent event) {
+		if (event.getEntity().getType() != EntityType.PLAYER) {
+			return;
+		}
+
+		if (event.getProjectile().getType() != EntityType.ARROW) {
+			return;
+		}
+
+		final Arrow arrow = (Arrow) event.getProjectile();
+		arrow.setPersistent(false);
 	}
 
 	@EventHandler
