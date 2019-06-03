@@ -288,7 +288,10 @@ public abstract class Game implements Listener {
 
 				if (this.timeLeft < 1) {
 					this.cancel();
+					
 					Utils.clearPotionEffects();
+					Utils.clearInventory();
+					
 					Game.this.begin(map);
 					Minigames.IS_IN_GAME = true;
 					Bukkit.getPluginManager().registerEvents(Game.this, Minigames.getInstance());

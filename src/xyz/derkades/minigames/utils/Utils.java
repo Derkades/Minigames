@@ -58,8 +58,7 @@ public class Utils {
 	}
 
 	public static void clearPotionEffects() {
-		for (final Player player : Bukkit.getOnlinePlayers())
-			clearPotionEffects(player);
+		Bukkit.getOnlinePlayers().forEach(Utils::clearPotionEffects);
 	}
 
 	public static void clearInventory(final Player player){
@@ -70,6 +69,10 @@ public class Utils {
 		inv.setChestplate(air);
 		inv.setLeggings(air);
 		inv.setBoots(air);
+	}
+	
+	public static void clearInventory() {
+		Bukkit.getOnlinePlayers().forEach(Utils::clearInventory);
 	}
 
 	public static void giveEffect(final Player player, final int duration, final PotionEffectType type, final int amplifier) {
