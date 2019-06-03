@@ -125,15 +125,15 @@ public class Points {
 			}
 			
 			Sign globalStats = (Sign) new Location(Var.WORLD, 222, 68, 259).getBlock().getState();
-			globalStats.setLine(0, ChatColor.DARK_AQUA + "Total players");
+			globalStats.setLine(0, ChatColor.YELLOW + "Total players");
 			globalStats.setLine(1, "" + players);
-			globalStats.setLine(2, ChatColor.DARK_AQUA + "Total points");
+			globalStats.setLine(2, ChatColor.YELLOW + "Total points");
 			globalStats.setLine(3, "" + totalPoints);
 			globalStats.update();
 		}
 		
 		private String getSignNumberText(int number){
-			return ChatColor.DARK_GRAY + "[" + ChatColor.AQUA + number + ChatColor.DARK_GRAY + "]";
+			return ChatColor.DARK_GRAY + "[" + ChatColor.YELLOW + number + ChatColor.DARK_GRAY + "]";
 		}
 		
 	}
