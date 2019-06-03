@@ -1,8 +1,8 @@
 package xyz.derkades.minigames.games;
 
-import static org.bukkit.ChatColor.AQUA;
-import static org.bukkit.ChatColor.DARK_AQUA;
 import static org.bukkit.ChatColor.DARK_GRAY;
+import static org.bukkit.ChatColor.GOLD;
+import static org.bukkit.ChatColor.YELLOW;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -124,9 +124,9 @@ public abstract class Game implements Listener {
 		if (winners.isEmpty()){
 			this.sendMessage("The " + this.getName() + " game has ended.");
 		} else if (winners.size() == 1){
-			this.sendMessage("The " + this.getName() + " game has ended! Winner: " + AQUA + winnersText);
+			this.sendMessage("The " + this.getName() + " game has ended! Winner: " + YELLOW + winnersText);
 		} else {
-			this.sendMessage("The " + this.getName() + " game has ended! Winners: " + AQUA + winnersText);
+			this.sendMessage("The " + this.getName() + " game has ended! Winners: " + YELLOW + winnersText);
 		}
 
 		for (final Player player : Bukkit.getOnlinePlayers()){
@@ -148,17 +148,17 @@ public abstract class Game implements Listener {
 
 				Points.addPoints(player, points);
 				Minigames.economy.depositPlayer(player, points);
-				Utils.sendTitle(player, DARK_AQUA + "You've won",  AQUA + "+" + points + " points");
+				Utils.sendTitle(player, GOLD + "You've won",  YELLOW + "+" + points + " points");
 			} else {
 				Points.addPoints(player, 1);
 				Minigames.economy.depositPlayer(player, 0);
-				Utils.sendTitle(player, DARK_AQUA + "You've lost", AQUA + "+1 point");
+				Utils.sendTitle(player, GOLD + "You've lost", YELLOW + "+1 point");
 			}
 			//player.sendMessage(DARK_AQUA + "You currently have " + AQUA + Points.getPoints(player) + DARK_AQUA + " points.");
 		}
 
 		Utils.delayedTeleport(Var.LOBBY_LOCATION, (player) -> {
-			player.setVelocity(new Vector(Random.getRandomDouble() - 0.5, 0.3, -0.3));
+			player.setVelocity(new Vector(Random.getRandomDouble() - 0.5, 0.3, -0.8));
 		}, Bukkit.getOnlinePlayers());
 
 		for (final Player player : Bukkit.getOnlinePlayers()){
@@ -234,7 +234,7 @@ public abstract class Game implements Listener {
 			final String prefix = Utils.getChatPrefix(ChatColor.GOLD, 'G');
 
 			player.sendMessage(prefix + DARK_GRAY + "-----------------------------------------");
-			player.sendMessage(prefix + ChatColor.GOLD + "" + ChatColor.BOLD + this.getName() + ChatColor.GRAY +  " (" + weight + ")");
+			//player.sendMessage(prefix + ChatColor.GOLD + "" + ChatColor.BOLD + this.getName() + ChatColor.GRAY +  " (" + weight + ")");
 
 			player.spigot().sendMessage(new ComponentBuilder("")
 					.appendLegacy(Utils.getChatPrefix(ChatColor.GOLD, 'G'))
@@ -258,20 +258,16 @@ public abstract class Game implements Listener {
 			if (!Minigames.getInstance().getConfig().getStringList("disabled-description")
 					.contains(player.getUniqueId().toString())) {
 				for (final String line : this.getDescription()) player.sendMessage(prefix + line);
-				player.sendMessage(prefix + "Minimum players: " + AQUA + this.getRequiredPlayers());
+				player.sendMessage(prefix + "Minimum players: " + YELLOW + this.getRequiredPlayers());
 			}
 
 			if (map != null)
-				player.sendMessage(prefix + "Map: " + AQUA + map.getName());
+				player.sendMessage(prefix + "Map: " + YELLOW + map.getName());
 
 			player.sendMessage(prefix + DARK_GRAY + "-----------------------------------------");
 		}
 
 		Minigames.LAST_GAME_NAME = this.getName();
-
-		for (final Player player : Bukkit.getOnlinePlayers()){
-			Utils.clearInventory(player);
-		}
 
 		new BukkitRunnable() {
 			int timeLeft = 200;
