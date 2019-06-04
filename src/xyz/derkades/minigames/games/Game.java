@@ -41,6 +41,7 @@ import xyz.derkades.minigames.utils.Utils;
 public abstract class Game implements Listener {
 
 	public static final Game[] GAMES = new Game[] {
+			new BreakTheBlock(),
 			new CreeperAttack(),
 			new DigDug(),
 			new Dropper(),
@@ -288,10 +289,10 @@ public abstract class Game implements Listener {
 
 				if (this.timeLeft < 1) {
 					this.cancel();
-					
+
 					Utils.clearPotionEffects();
 					Utils.clearInventory();
-					
+
 					Game.this.begin(map);
 					Minigames.IS_IN_GAME = true;
 					Bukkit.getPluginManager().registerEvents(Game.this, Minigames.getInstance());
@@ -325,7 +326,7 @@ public abstract class Game implements Listener {
 		} else if (string.equalsIgnoreCase("tbb")) {
 			string = "teamsbowbattle";
 		}
-		
+
 		for (final Game game : GAMES){
 			if (game.getName().equalsIgnoreCase(string)){
 				return game;
