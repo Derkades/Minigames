@@ -22,7 +22,7 @@ import xyz.derkades.minigames.utils.Scheduler;
 
 public class Minigames extends JavaPlugin implements Listener {
 
-	public static final float VOTE_MENU_CHANCE = 0.25f;
+	public static final float VOTE_MENU_CHANCE = 0.3f;
 
 	private static Minigames instance;
 
