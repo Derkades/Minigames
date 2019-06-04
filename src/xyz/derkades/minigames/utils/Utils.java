@@ -26,6 +26,7 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 
 import net.md_5.bungee.api.ChatColor;
+import net.md_5.bungee.api.chat.ComponentBuilder;
 import xyz.derkades.derkutils.Random;
 import xyz.derkades.minigames.Minigames;
 import xyz.derkades.minigames.Var;
@@ -58,8 +59,7 @@ public class Utils {
 	}
 
 	public static void clearPotionEffects() {
-		for (final Player player : Bukkit.getOnlinePlayers())
-			clearPotionEffects(player);
+		Bukkit.getOnlinePlayers().forEach(Utils::clearPotionEffects);
 	}
 
 	public static void clearInventory(final Player player){
@@ -70,6 +70,10 @@ public class Utils {
 		inv.setChestplate(air);
 		inv.setLeggings(air);
 		inv.setBoots(air);
+	}
+	
+	public static void clearInventory() {
+		Bukkit.getOnlinePlayers().forEach(Utils::clearInventory);
 	}
 
 	public static void giveEffect(final Player player, final int duration, final PotionEffectType type, final int amplifier) {
@@ -102,26 +106,6 @@ public class Utils {
 				new ItemStack(chestplate),
 				new ItemStack(leggings),
 				new ItemStack(boots));
-	}
-
-	public static List<Player> getWinnersFromIsDeadHashMap(final Map<String, Boolean> isDead){
-		final List<Player> winners = new ArrayList<Player>();
-		for (final Player player: Bukkit.getOnlinePlayers()){
-			if (!isDead.get(player.getName())){
-				winners.add(player);
-			}
-		}
-		return winners;
-	}
-
-	public static List<Player> getWinnersFromFinishedHashMap(final Map<String, Boolean> hasFinished){
-		final List<Player> winners = new ArrayList<Player>();
-		for (final Player player: Bukkit.getOnlinePlayers()){
-			if (hasFinished.get(player.getName())){
-				winners.add(player);
-			}
-		}
-		return winners;
 	}
 
 	public static List<Player> getWinnersFromPointsHashmap(final Map<UUID, Integer> points){
@@ -224,6 +208,12 @@ public class Utils {
 		} else {
 			return new ArrayList<>();
 		}
+	}
+	
+	public static List<UUID> getOnlinePlayersUuidList(){
+		final List<UUID> list = new ArrayList<>();
+		Bukkit.getOnlinePlayers().forEach((player) -> list.add(player.getUniqueId()));
+		return list;
 	}
 
 	public static void playSoundForAllPlayers(final Sound sound, final float pitch){
@@ -359,6 +349,10 @@ public class Utils {
 
 	public static String getChatPrefix(final ChatColor color, final char c) {
 		return ChatColor.BLACK + "[" + color + c + ChatColor.BLACK + "]" + ChatColor.DARK_GRAY + " | " + ChatColor.GRAY;
+	}
+	
+	public static ComponentBuilder getComponentBuilderWithPrefix(ChatColor prefixColor, char prefixChar) {
+		return new ComponentBuilder("").appendLegacy(Utils.getChatPrefix(prefixColor, prefixChar));
 	}
 
 }

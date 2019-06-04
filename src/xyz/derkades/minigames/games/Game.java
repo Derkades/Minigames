@@ -288,7 +288,10 @@ public abstract class Game implements Listener {
 
 				if (this.timeLeft < 1) {
 					this.cancel();
+					
 					Utils.clearPotionEffects();
+					Utils.clearInventory();
+					
 					Game.this.begin(map);
 					Minigames.IS_IN_GAME = true;
 					Bukkit.getPluginManager().registerEvents(Game.this, Minigames.getInstance());
@@ -316,7 +319,13 @@ public abstract class Game implements Listener {
 		return random;
 	}
 
-	public static Game fromString(final String string){
+	public static Game fromString(String string) {
+		if (string.equalsIgnoreCase("oitq")) {
+			string = "one in the quiver";
+		} else if (string.equalsIgnoreCase("tbb")) {
+			string = "teamsbowbattle";
+		}
+		
 		for (final Game game : GAMES){
 			if (game.getName().equalsIgnoreCase(string)){
 				return game;
