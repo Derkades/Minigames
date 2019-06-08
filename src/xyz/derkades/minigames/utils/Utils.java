@@ -3,7 +3,6 @@ package xyz.derkades.minigames.utils;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -118,21 +117,13 @@ public class Utils {
 		if (maxPoints == 0) {
 			return new ArrayList<>();
 		}
-
-		final List<Player> winners = new ArrayList<>();
-
-		for (final Map.Entry<UUID, Integer> entry : points.entrySet()) {
-			if (entry.getValue() == maxPoints) {
-				final Player player = Bukkit.getPlayer(entry.getKey());
-				if (player != null) {
-					winners.add(player);
-				}
-			}
-		}
-
-		return winners;
+		
+		return points.entrySet().stream().filter(e -> e.getValue() == maxPoints)
+				.map(e -> Bukkit.getPlayer(e.getKey())).filter(p -> p != null)
+				.collect(Collectors.toList());
 	}
 
+	@Deprecated
 	public static boolean allPlayersWon(final List<UUID> winners) {
 		boolean missing = false;
 
@@ -146,15 +137,7 @@ public class Utils {
 	}
 
 	public static int getAliveCountFromDeadList(final List<UUID> dead) {
-		int alive = 0;
-
-		for (final Player player : Bukkit.getOnlinePlayers()) {
-			if (!dead.contains(player.getUniqueId())) {
-				alive++;
-			}
-		}
-
-		return alive;
+		return Bukkit.getOnlinePlayers().stream().map(Player::getUniqueId).filter(dead::contains).toArray().length;
 	}
 
 	public static int getAliveAcountFromDeadAndAllList(final List<UUID> dead, final List<UUID> all) {
@@ -170,34 +153,17 @@ public class Utils {
 	}
 
 	public static List<Player> getPlayerListFromUUIDList(final List<UUID> list){
-		final List<Player> players = new ArrayList<>();
-		for (final UUID uuid : list) {
-			final Player player = Bukkit.getPlayer(uuid);
-			if (player != null) {
-				players.add(player);
-			}
-		}
-		return players;
+		return list.stream().map(Bukkit::getPlayer).filter(p -> p != null).collect(Collectors.toList());
 	}
 
+	@Deprecated
 	public static List<Player> getWinnersFromDeadList(final List<UUID> dead){
-		final List<Player> winners = new ArrayList<>();
-		for (final Player player : Bukkit.getOnlinePlayers()) {
-			if (!dead.contains(player.getUniqueId())) {
-				winners.add(player);
-			}
-		}
-		return winners;
+		return getWinnersFromDeadAndAllList(dead, Bukkit.getOnlinePlayers().stream().map(Player::getUniqueId).collect(Collectors.toList()), true);
 	}
 
 	public static List<Player> getWinnersFromDeadAndAllList(final List<UUID> dead, final List<UUID> all, final boolean multipleWinnersAllowed){
-		final List<Player> winners = new ArrayList<>();
-
-		for (final Player player : Bukkit.getOnlinePlayers()) {
-			if (!dead.contains(player.getUniqueId())) {
-				winners.add(player);
-			}
-		}
+		final List<Player> winners = all.stream().map(Bukkit::getPlayer).filter(p -> p != null)
+				.filter(p -> !dead.contains(p.getUniqueId())).collect(Collectors.toList());
 
 		if (multipleWinnersAllowed) {
 			return winners;
@@ -211,41 +177,29 @@ public class Utils {
 	}
 	
 	public static List<UUID> getOnlinePlayersUuidList(){
-		final List<UUID> list = new ArrayList<>();
-		Bukkit.getOnlinePlayers().forEach((player) -> list.add(player.getUniqueId()));
-		return list;
+		return Bukkit.getOnlinePlayers().stream().map(Player::getUniqueId).collect(Collectors.toList());
 	}
 
-	public static void playSoundForAllPlayers(final Sound sound, final float pitch){
+	public static void playSoundForAllPlayers(final Sound sound, final float pitch) {
 		for (final Player player : Bukkit.getOnlinePlayers())
 			player.playSound(player.getLocation(), sound, 1, pitch);
 	}
 
+	@Deprecated
 	public static Block getBlockStandingOn(final Player player){
-		final Block block = player.getLocation().getBlock();
-		final Block below = block.getRelative(BlockFace.DOWN);
-		return below;
+		return player.getLocation().getBlock().getRelative(BlockFace.DOWN);
 	}
 
-	public static <Key> Map<Key, Integer> getHighestValuesFromHashMap(final Map<Key, Integer> map){
+	public static <Key> List<Key> getHighestValuesFromHashMap(final Map<Key, Integer> map){
 		final Integer max = map.entrySet()
 	            .stream()
 	            .max((entry1, entry2) -> entry1.getValue() > entry2.getValue() ? 1 : -1)
-	            .get()
-	            .getValue();
+	            .get().getValue();
 
-	    final List<Key> listOfMax = map.entrySet()
-	            .stream()
+	    return map.entrySet() .stream()
 	            .filter(entry -> entry.getValue() == max)
 	            .map(Map.Entry::getKey)
 	            .collect(Collectors.toList());
-
-	    final Map<Key, Integer> highest = new HashMap<Key, Integer>();
-	    for (final Key key : listOfMax){
-	    	highest.put(key, map.get(key));
-	    }
-
-	    return highest;
 	}
 
 	public static void setXpBarValue(final float fill, final int level){
