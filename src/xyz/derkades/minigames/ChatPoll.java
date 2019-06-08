@@ -29,32 +29,6 @@ public class ChatPoll {
 		plugin.getCommand("vote").setExecutor(new ChatPollCallbackCommand());
 	}
 
-	public static void sendPoll(final Player player, final Poll poll) {
-		final String token = UUID.randomUUID().toString().replace("-", "");
-
-		tokens.put(token, System.currentTimeMillis());
-
-		callbacks.put(token, poll.callback);
-
-		player.sendMessage(Utils.getChatPrefix(ChatColor.AQUA, 'P') + ChatColor.GRAY + "----------------------------------------");
-		player.spigot().sendMessage(new ComponentBuilder("").appendLegacy(Utils.getChatPrefix(ChatColor.AQUA, 'P')).append(poll.question).create());
-
-		final ComponentBuilder answerMessage = new ComponentBuilder("");
-
-		answerMessage.appendLegacy(Utils.getChatPrefix(ChatColor.AQUA, 'P'));
-
-		for (final PollAnswer answer : poll.answers) {
-			answerMessage.append(String.format(" [%s] ", answer.displayName))
-				.color(answer.answerColor)
-				.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(answer.hoverMessage).color(ChatColor.GRAY).create()))
-				.event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, String.format("/vote %s %s", token, answer.id)));
-		}
-
-		player.spigot().sendMessage(answerMessage.create());
-		player.sendMessage(Utils.getChatPrefix(ChatColor.AQUA, 'P') + ChatColor.GRAY + "----------------------------------------");
-
-	}
-
 	public static class Poll {
 
 		private final String question;
@@ -66,7 +40,32 @@ public class ChatPoll {
 			this.callback = callback;
 			this.answers = answers;
 		}
+		
+		public void send(final Player player) {
+			final String token = UUID.randomUUID().toString().replace("-", "");
 
+			tokens.put(token, System.currentTimeMillis());
+
+			callbacks.put(token, this.callback);
+
+			player.sendMessage(Utils.getChatPrefix(ChatColor.AQUA, 'P') + ChatColor.GRAY + "----------------------------------------");
+			player.spigot().sendMessage(new ComponentBuilder("").appendLegacy(Utils.getChatPrefix(ChatColor.AQUA, 'P')).append(this.question).create());
+
+			final ComponentBuilder answerMessage = new ComponentBuilder("");
+
+			answerMessage.appendLegacy(Utils.getChatPrefix(ChatColor.AQUA, 'P'));
+
+			for (final PollAnswer answer : this.answers) {
+				answerMessage.append(String.format(" [%s] ", answer.displayName))
+					.color(answer.answerColor)
+					.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(answer.hoverMessage).color(ChatColor.GRAY).create()))
+					.event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, String.format("/vote %s %s", token, answer.id)));
+			}
+
+			player.spigot().sendMessage(answerMessage.create());
+			player.sendMessage(Utils.getChatPrefix(ChatColor.AQUA, 'P') + ChatColor.GRAY + "----------------------------------------");
+
+		}
 	}
 
 	public static class PollAnswer {
@@ -85,9 +84,10 @@ public class ChatPoll {
 
 	}
 
-	public abstract static class PollCallback {
+	@FunctionalInterface
+	public static interface PollCallback {
 
-		public abstract void callback(Player player, int option);
+		public void callback(Player player, int option);
 
 	}
 

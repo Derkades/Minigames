@@ -9,9 +9,6 @@ import org.bukkit.entity.Player;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;
-import xyz.derkades.minigames.ChatPoll.Poll;
-import xyz.derkades.minigames.ChatPoll.PollAnswer;
-import xyz.derkades.minigames.ChatPoll.PollCallback;
 import xyz.derkades.minigames.games.Game;
 import xyz.derkades.minigames.menu.MainMenu;
 import xyz.derkades.minigames.utils.Scheduler;
@@ -75,17 +72,6 @@ public class Command implements CommandExecutor {
 
 		        //final Poll poll = new Poll("Test poll?", new PollAnswer(1, "Yes", ChatColor.GREEN), new PollAnswer(2, "No", ChatColor.RED));
 		        //ChatPoll.sendPoll(player, poll);
-
-				final Poll poll = new Poll("Did you enjoy this game?", new PollCallback() {
-
-					@Override
-					public void callback(final Player player, final int option) {
-						Bukkit.broadcastMessage(String.format("[debug] %s picked option %s", player.getName(), option));
-					}
-
-				}, new PollAnswer(1, "Yes", ChatColor.GREEN, "The game will be picked more often"),
-						new PollAnswer(2, "No", ChatColor.RED, "The game will be picked less often"));
-				ChatPoll.sendPoll(player, poll);
 
 				player.spigot().sendMessage(new ComponentBuilder("")
 						.append("Game")

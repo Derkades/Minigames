@@ -26,10 +26,8 @@ import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;
 import xyz.derkades.derkutils.Random;
 import xyz.derkades.minigames.AutoRotate;
-import xyz.derkades.minigames.ChatPoll;
 import xyz.derkades.minigames.ChatPoll.Poll;
 import xyz.derkades.minigames.ChatPoll.PollAnswer;
-import xyz.derkades.minigames.ChatPoll.PollCallback;
 import xyz.derkades.minigames.Minigames;
 import xyz.derkades.minigames.Points;
 import xyz.derkades.minigames.Var;
@@ -182,35 +180,29 @@ public abstract class Game implements Listener {
 			nextGameDelay = 6;
 
 			Scheduler.delay(20, () -> {
-				for (final Player player : Bukkit.getOnlinePlayers()) {
-					final Poll poll = new Poll("Did you enjoy this game?", new PollCallback() {
+				final Poll poll = new Poll("Did you enjoy this game?", (player, option) -> {
+					double multiplier = Minigames.getInstance().getConfig().contains("game-voting." + Game.this.getName())
+							? Minigames.getInstance().getConfig().getDouble("game-voting." + Game.this.getName())
+							: 1;
 
-						@Override
-						public void callback(final Player player, final int option) {
-							double multiplier = Minigames.getInstance().getConfig().contains("game-voting." + Game.this.getName())
-									? Minigames.getInstance().getConfig().getDouble("game-voting." + Game.this.getName())
-									: 1;
+					if (option == 1) {
+						multiplier *= 1.1; //Increase chance factor a bit (e.g. from to 1.5 to 1.65)
+					} else if (option == 2){
+						multiplier *= 0.9; //Decrease chance factor a bit (e.g. from 1.5 to 1.35)
+					}
 
-							if (option == 1) {
-								multiplier *= 1.1; //Increase chance factor a bit (e.g. from to 1.5 to 1.65)
-							} else if (option == 2){
-								multiplier *= 0.9; //Decrease chance factor a bit (e.g. from 1.5 to 1.35)
-							}
+					player.sendMessage(ChatColor.GRAY + "Your vote has been registered.");
 
-							player.sendMessage(ChatColor.GRAY + "Your vote has been registered.");
+					if (multiplier > 5) {
+						multiplier = 5;
+					}
 
-							if (multiplier > 5) {
-								multiplier = 5;
-							}
-
-							Minigames.getInstance().getConfig().set("game-voting." + Game.this.getName(), multiplier);
-							Minigames.getInstance().saveConfig();
-						}
-
-					}, new PollAnswer(1, "Yes", ChatColor.GREEN, "The game will be picked more often"),
-							new PollAnswer(2, "No", ChatColor.RED, "The game will be picked less often"));
-					ChatPoll.sendPoll(player, poll);
-				}
+					Minigames.getInstance().getConfig().set("game-voting." + Game.this.getName(), multiplier);
+					Minigames.getInstance().saveConfig();
+				}, new PollAnswer(1, "Yes", ChatColor.GREEN, "The game will be picked more often"),
+						new PollAnswer(2, "No", ChatColor.RED, "The game will be picked less often"));
+					
+				Bukkit.getOnlinePlayers().forEach(poll::send);
 			});
 		}
 
