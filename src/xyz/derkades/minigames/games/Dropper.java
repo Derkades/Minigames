@@ -36,74 +36,55 @@ public class Dropper extends Game {
 	private static final String SECONDS_LEFT = "%s seconds left.";
 
 	private DropperMap map;
-	private List<UUID> winners;
+	private List<UUID> finished;
+	private List<UUID> all;
 
 	@Override
 	void begin(final GameMap genericMap) {
 		this.map = (DropperMap) genericMap;
-		this.winners = new ArrayList<>();
+
+		this.finished = new ArrayList<>();
+		this.all = Utils.getOnlinePlayersUuidList();
 
 		this.map.closeDoor();
 
 		Utils.delayedTeleport(this.map.getLobbyLocation(), Bukkit.getOnlinePlayers());
-
-		new BukkitRunnable() {
-
-			int secondsLeft = WAIT_TIME;
+		
+		new GameTimer(this, GAME_DURATION, WAIT_TIME) {
 
 			@Override
-			public void run() {
-				if (this.secondsLeft <= 0) {
-					Dropper.this.sendMessage("The game has started!");
-					for (final Player player : Bukkit.getOnlinePlayers()) {
-						Minigames.setCanTakeDamage(player, true);
-					}
-					Dropper.this.map.openDoor();
-					this.cancel();
-					return;
-				}
-
-				Dropper.this.sendMessage("The game will start in " + this.secondsLeft + " seconds.");
-				this.secondsLeft--;
+			public void onStart() {
+				Bukkit.getOnlinePlayers().forEach(p -> Minigames.setCanTakeDamage(p, true));
+				Dropper.this.map.openDoor();
 			}
-		}.runTaskTimer(Minigames.getInstance(), 0, 20);
-
-		new BukkitRunnable() {
-
-			int secondsLeft = GAME_DURATION;
 
 			@Override
-			public void run() {
-				if (Utils.allPlayersWon(Dropper.this.winners) && this.secondsLeft > 2) {
-					this.secondsLeft = 2;
+			public int gameTimer(int secondsLeft) {
+				if (Utils.getWinnersFromFinished(finished, all).size() >= all.size() && secondsLeft > 2) {
+					secondsLeft = 2;
 				}
-
-				if (this.secondsLeft <= 0) {
-					this.cancel();
-					Dropper.this.endGame(Utils.getPlayerListFromUUIDList(Dropper.this.winners));
-					return;
-				}
-
-				if (this.secondsLeft == 30 || this.secondsLeft <= 5) {
-					Dropper.this.sendMessage(String.format(SECONDS_LEFT, this.secondsLeft));
-				}
-
-				this.secondsLeft--;
+				
+				return secondsLeft;
 			}
 
-		}.runTaskTimer(Minigames.getInstance(), 0, 20);
+			@Override
+			public void onEnd() {
+				endGame(Utils.getWinnersFromFinished(finished, all));
+			}
+			
+		};
 	}
 
 	@EventHandler
 	public void onMove(final PlayerMoveEvent event) {
-		if (this.winners.contains(event.getPlayer().getUniqueId())) {
+		if (this.finished.contains(event.getPlayer().getUniqueId())) {
 			return; //Don't teleport players who have finished
 		}
 
 		if (event.getTo().getBlock().getType() == Material.WATER) {
 			final Player player = event.getPlayer();
 
-			if (this.winners.isEmpty()) {
+			if (this.finished.isEmpty()) {
 				//Player is first winner
 				Points.addPoints(player, 1); //Add bonus point
 				this.sendMessage(String.format(FINISHED_FIRST, player.getName()));
@@ -111,12 +92,13 @@ public class Dropper extends Game {
 				this.sendMessage(String.format(FINISHED, player.getName()));
 			}
 
-			this.winners.add(player.getUniqueId());
+			this.finished.add(player.getUniqueId());
 			Utils.giveInfiniteEffect(player, PotionEffectType.INVISIBILITY);
 			Minigames.setCanTakeDamage(player, false);
 			player.setHealth(player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue());
 			player.setAllowFlight(true);
 			player.teleport(this.map.getLobbyLocation());
+			player.setFireTicks(0);
 		}
 	}
 
