@@ -13,7 +13,6 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.potion.PotionEffectType;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import xyz.derkades.minigames.Minigames;
 import xyz.derkades.minigames.Points;
@@ -33,8 +32,7 @@ public class Dropper extends Game {
 
 	private static final String FINISHED = "%s finished.";
 	private static final String FINISHED_FIRST = "%s finished first and got 1 extra point!";
-	private static final String SECONDS_LEFT = "%s seconds left.";
-
+	
 	private DropperMap map;
 	private List<UUID> finished;
 	private List<UUID> all;

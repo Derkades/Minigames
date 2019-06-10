@@ -1,36 +1,7 @@
 package xyz.derkades.minigames.games;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.UUID;
-
-import org.bukkit.Bukkit;
-import org.bukkit.GameMode;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.Sound;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.player.PlayerDropItemEvent;
-import org.bukkit.event.player.PlayerMoveEvent;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
-import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.scheduler.BukkitTask;
-
-import net.md_5.bungee.api.ChatColor;
-import xyz.derkades.derkutils.Cooldown;
-import xyz.derkades.derkutils.ListUtils;
-import xyz.derkades.minigames.Minigames;
-import xyz.derkades.minigames.Var;
-import xyz.derkades.minigames.games.maps.GameMap;
-import xyz.derkades.minigames.utils.Utils;
-
-public class TntTag extends Game {
+@Deprecated
+public class TntTag { /*extends Game {
 
 	TntTag() {
 		super("Tnt Tag", new String[] {
@@ -198,6 +169,6 @@ public class TntTag extends Game {
 			}
 		}
 
-	}
+	}*/
 
 }

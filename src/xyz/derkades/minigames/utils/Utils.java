@@ -15,8 +15,6 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
-import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
@@ -123,19 +121,6 @@ public class Utils {
 				.collect(Collectors.toList());
 	}
 
-	@Deprecated
-	public static boolean allPlayersWon(final List<UUID> winners) {
-		boolean missing = false;
-
-		for (final Player player : Bukkit.getOnlinePlayers()) {
-			if (!winners.contains(player.getUniqueId())) {
-				missing = true;
-			}
-		}
-
-		return !missing;
-	}
-
 	public static int getAliveCountFromDeadList(final List<UUID> dead) {
 		return Bukkit.getOnlinePlayers().stream().map(Player::getUniqueId).filter(uuid -> !dead.contains(uuid)).toArray().length;
 	}
@@ -154,11 +139,6 @@ public class Utils {
 
 	public static List<Player> getPlayerListFromUUIDList(final List<UUID> list){
 		return list.stream().map(Bukkit::getPlayer).filter(p -> p != null).collect(Collectors.toList());
-	}
-
-	@Deprecated
-	public static List<Player> getWinnersFromDeadList(final List<UUID> dead){
-		return getWinnersFromDeadAndAllList(dead, Bukkit.getOnlinePlayers().stream().map(Player::getUniqueId).collect(Collectors.toList()), true);
 	}
 
 	public static List<Player> getWinnersFromDeadAndAllList(final List<UUID> dead, final List<UUID> all, final boolean multipleWinnersAllowed){
@@ -187,11 +167,6 @@ public class Utils {
 	public static void playSoundForAllPlayers(final Sound sound, final float pitch) {
 		for (final Player player : Bukkit.getOnlinePlayers())
 			player.playSound(player.getLocation(), sound, 1, pitch);
-	}
-
-	@Deprecated
-	public static Block getBlockStandingOn(final Player player){
-		return player.getLocation().getBlock().getRelative(BlockFace.DOWN);
 	}
 
 	public static <Key> List<Key> getHighestValuesFromHashMap(final Map<Key, Integer> map){
