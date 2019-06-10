@@ -62,13 +62,12 @@ public class OneInTheQuiver extends Game {
 	@Override
 	void begin(final GameMap genericMap) {
 		this.dead = new ArrayList<>();
-		this.all = new ArrayList<>();
+		this.all = Utils.getOnlinePlayersUuidList();
 		this.map = (SniperMap) genericMap;
 
 		for (final Player player : Bukkit.getOnlinePlayers()) {
 			player.teleport(this.map.getSpawnLocation());
 			player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 5*20, 0, true, false));
-			this.all.add(player.getUniqueId());
 		}
 
 		new GameTimer(this, MAX_GAME_DURATION, SPREAD_TIME) {
@@ -93,12 +92,9 @@ public class OneInTheQuiver extends Game {
 
 			@Override
 			public void onEnd() {
-				final List<Player> winners = Utils.getWinnersFromDeadList(OneInTheQuiver.this.dead);
-				if (winners.size() > 1) {
-					winners.clear();
-				}
+				final List<Player> winners = Utils.getWinnersFromDeadAndAllList(OneInTheQuiver.this.dead, all, false);
 
-				OneInTheQuiver.this.endGame(winners);
+				OneInTheQuiver.super.endGame(winners);
 
 				OneInTheQuiver.this.dead.clear();
 				OneInTheQuiver.this.all.clear();

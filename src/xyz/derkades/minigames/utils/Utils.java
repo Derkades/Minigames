@@ -137,7 +137,7 @@ public class Utils {
 	}
 
 	public static int getAliveCountFromDeadList(final List<UUID> dead) {
-		return Bukkit.getOnlinePlayers().stream().map(Player::getUniqueId).filter(dead::contains).toArray().length;
+		return Bukkit.getOnlinePlayers().stream().map(Player::getUniqueId).filter(uuid -> !dead.contains(uuid)).toArray().length;
 	}
 
 	public static int getAliveAcountFromDeadAndAllList(final List<UUID> dead, final List<UUID> all) {
@@ -174,6 +174,10 @@ public class Utils {
 		} else {
 			return new ArrayList<>();
 		}
+	}
+	
+	public static List<Player> getWinnersFromFinished(List<UUID> finished, List<UUID> all) {
+		return all.stream().filter(finished::contains).map(Bukkit::getPlayer).filter(p -> p != null).collect(Collectors.toList());
 	}
 	
 	public static List<UUID> getOnlinePlayersUuidList(){
