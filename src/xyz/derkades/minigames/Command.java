@@ -2,9 +2,14 @@ package xyz.derkades.minigames;
 
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.FallingBlock;
 import org.bukkit.entity.Player;
+import org.bukkit.util.Vector;
 
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.ComponentBuilder;
@@ -90,6 +95,15 @@ public class Command implements CommandExecutor {
 								+ "on the poll at the end of the game.")
 								.color(ChatColor.GRAY).create()))
 						.create());
+
+				final Block block = player.getTargetBlockExact(3);
+				final FallingBlock fall = block.getWorld().spawnFallingBlock(
+						new Location(Var.WORLD, block.getX() + 0.5, block.getY(), block.getZ() + 0.5),
+						block.getBlockData());
+				final Vector velocity = fall.getVelocity();
+				velocity.setY(1.5);
+				fall.setVelocity(velocity);
+				block.setType(Material.AIR);
 
 			} else {
 				sender.sendMessage("no.");
