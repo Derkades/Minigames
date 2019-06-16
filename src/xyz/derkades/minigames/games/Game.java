@@ -201,7 +201,7 @@ public abstract class Game implements Listener {
 					Minigames.getInstance().saveConfig();
 				}, new PollAnswer(1, "Yes", ChatColor.GREEN, "The game will be picked more often"),
 						new PollAnswer(2, "No", ChatColor.RED, "The game will be picked less often"));
-					
+
 				Bukkit.getOnlinePlayers().forEach(poll::send);
 			});
 		}
@@ -314,9 +314,11 @@ public abstract class Game implements Listener {
 
 	public static Game fromString(String string) {
 		if (string.equalsIgnoreCase("oitq")) {
-			string = "one in the quiver";
+			string = "one_in_the_quiver";
 		} else if (string.equalsIgnoreCase("tbb")) {
 			string = "teamsbowbattle";
+		} else if (string.equalsIgnoreCase("btb")) {
+			string = "break_the_block";
 		}
 
 		for (final Game game : GAMES){
