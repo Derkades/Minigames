@@ -38,6 +38,7 @@ public class RedstoneCave extends ParkourMap {
 	public boolean hasDied(final Player player, final Material blockType) {
 		return blockType.equals(Material.STONE) ||
 				blockType.equals(Material.COBBLESTONE) ||
+				blockType.equals(Material.ANDESITE) ||
 				blockType.equals(Material.REDSTONE_ORE) ||
 				blockType.equals(Material.IRON_ORE) ||
 				blockType.equals(Material.COAL_ORE) ||
