@@ -70,7 +70,11 @@ public class BreakTheBlock extends Game {
 			@Override
 			public void onStart() {
 				BreakTheBlock.this.map.onStart();
-				Bukkit.getOnlinePlayers().forEach((player) -> Minigames.setCanTakeDamage(player, true));
+				Bukkit.getOnlinePlayers().forEach((player) -> {
+					Minigames.setCanTakeDamage(player, true);
+					Utils.giveInfiniteEffect(player, PotionEffectType.SLOW_DIGGING, 1);
+				});
+
 			}
 
 			@Override
