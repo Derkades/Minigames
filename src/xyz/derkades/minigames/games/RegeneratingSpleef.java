@@ -107,6 +107,10 @@ public class RegeneratingSpleef extends Game {
 			return;
 		}
 
+		if (this.dead.contains(event.getPlayer().getUniqueId())){
+			return;
+		}
+
 		final FallingBlock fall = block.getWorld().spawnFallingBlock(
 				new Location(Var.WORLD, block.getX() + 0.5, block.getY(), block.getZ() + 0.5),
 				block.getBlockData());
@@ -123,6 +127,7 @@ public class RegeneratingSpleef extends Game {
 			player.teleport(this.map.getSpectatorLocation());
 			player.getInventory().clear();
 			this.dead.add(player.getUniqueId());
+			player.setAllowFlight(true);
 		}
 	}
 
