@@ -38,11 +38,9 @@ public class JungleRun extends ParkourMap {
 
 	@Override
 	public boolean hasDied(final Player player, final Material blockType) {
-		return  blockType == Material.SOUL_SAND || // TODO Figure out if it's light or dark green carpet/wool/terracotta
+		return  blockType == Material.SOUL_SAND ||
 				blockType == Material.GREEN_WOOL ||
-				blockType == Material.LIME_WOOL ||
 				blockType == Material.GREEN_CARPET ||
-				blockType == Material.LIME_CARPET ||
 				blockType == Material.GREEN_TERRACOTTA;
 	}
 
