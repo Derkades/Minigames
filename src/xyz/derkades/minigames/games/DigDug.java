@@ -57,7 +57,7 @@ public class DigDug extends Game {
 	private static final int ARENA_MAX_Y = 73;
 	private static final int ARENA_MAX_Z = 103;
 
-	private static final int GAME_DURATION = 30;
+	private static final int GAME_DURATION = 40;
 
 	private Map<UUID, Integer> points = new HashMap<>();
 
