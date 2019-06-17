@@ -21,7 +21,7 @@ public class TNT extends ParkourMap {
 
 	@Override
 	public Location getStartLocation() {
-		return new Location(Var.WORLD, 255.5, 40, 143.5);
+		return new Location(Var.WORLD, 225.5, 40, 143.5);
 	}
 
 	@Override
