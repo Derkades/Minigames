@@ -77,7 +77,7 @@ public class IcyBlowback extends Game {
 
 			@Override
 			public int gameTimer(final int secondsLeft) {
-				if (Utils.getAliveAcountFromDeadAndAllList(IcyBlowback.this.dead, IcyBlowback.this.all) < 2 && secondsLeft > 2) {
+				if (Utils.getAliveAcountFromDeadAndAllList(IcyBlowback.this.dead, IcyBlowback.this.all) < 2 && secondsLeft > 5) {
 					return 5;
 				}
 
