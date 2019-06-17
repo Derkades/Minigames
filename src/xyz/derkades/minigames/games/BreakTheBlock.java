@@ -31,7 +31,7 @@ public class BreakTheBlock extends Game {
 		super("Break the Block", new String[] {
 				"Be the first player to break the gold block.",
 				"You can hit players who are standing on red concrete.",
-		}, 2, BreakTheBlockMap.MAPS);
+		}, 4, BreakTheBlockMap.MAPS);
 	}
 
 	private static final int DURATION = 200;
