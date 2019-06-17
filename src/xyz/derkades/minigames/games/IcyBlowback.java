@@ -26,7 +26,7 @@ import xyz.derkades.minigames.utils.Utils;
 public class IcyBlowback extends Game {
 
 	private static final int GAME_DURATION = 100;
-	private static final int SPREAD_TIME = 2;
+	private static final int SPREAD_TIME = 5;
 	private static final ItemStack SWORD = new ItemBuilder(Material.WOODEN_SWORD)
 			.name(ChatColor.AQUA + "Knockback sword")
 			.enchant(Enchantment.KNOCKBACK, 2)
@@ -78,7 +78,7 @@ public class IcyBlowback extends Game {
 			@Override
 			public int gameTimer(final int secondsLeft) {
 				if (Utils.getAliveAcountFromDeadAndAllList(IcyBlowback.this.dead, IcyBlowback.this.all) < 2 && secondsLeft > 2) {
-					return 2;
+					return 5;
 				}
 
 				return secondsLeft;
