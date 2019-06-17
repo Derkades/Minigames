@@ -13,6 +13,7 @@ public abstract class ParkourMap implements GameMap {
 			//new Plains(),
 			new RedstoneCave(),
 			new Snow(),
+			new TNT(),
 	};
 
 	public abstract Location getStartLocation();
