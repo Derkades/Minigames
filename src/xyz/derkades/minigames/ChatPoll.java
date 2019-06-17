@@ -26,7 +26,7 @@ public class ChatPoll {
 	static void startup(final JavaPlugin plugin) {
 		tokens = new HashMap<>();
 		callbacks = new HashMap<>();
-		plugin.getCommand("vote").setExecutor(new ChatPollCallbackCommand());
+		plugin.getCommand("dm90ZSEh").setExecutor(new ChatPollCallbackCommand());
 	}
 
 	public static class Poll {
@@ -40,7 +40,7 @@ public class ChatPoll {
 			this.callback = callback;
 			this.answers = answers;
 		}
-		
+
 		public void send(final Player player) {
 			final String token = UUID.randomUUID().toString().replace("-", "");
 
