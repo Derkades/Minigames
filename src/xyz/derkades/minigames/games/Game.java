@@ -168,6 +168,7 @@ public abstract class Game implements Listener {
 			player.setHealth(20);
 
 			Minigames.setCanTakeDamage(player, false);
+			Minigames.setCanSneak(player, true);
 
 			player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 40, 0, true));
 
@@ -206,7 +207,7 @@ public abstract class Game implements Listener {
 			});
 		}
 
-		Scheduler.delay(nextGameDelay*20, () -> {
+		Scheduler.delay(nextGameDelay * 20, () -> {
 			AutoRotate.startNewRandomGame();
 		});
 	}
