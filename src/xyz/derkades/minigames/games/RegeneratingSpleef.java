@@ -5,24 +5,21 @@ import java.util.List;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.FallingBlock;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.util.Vector;
 
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
-import xyz.derkades.minigames.Var;
 import xyz.derkades.minigames.games.maps.GameMap;
 import xyz.derkades.minigames.games.spleef.SpleefMap;
+import xyz.derkades.minigames.utils.Scheduler;
 import xyz.derkades.minigames.utils.Utils;
 
 public class RegeneratingSpleef extends Game {
@@ -95,29 +92,29 @@ public class RegeneratingSpleef extends Game {
 
 	@EventHandler
 	public void onBlockBreak(final BlockBreakEvent event) {
-//		final Block block = event.getBlock();
-//		if (block.getType() == Material.SNOW_BLOCK){
-//			block.setType(Material.AIR); // XXX check if this is needed
-//			Scheduler.delay(3*20, () -> block.setType(Material.SNOW_BLOCK));
-//		}
-
 		final Block block = event.getBlock();
-
-		if (!block.getType().equals(Material.SNOW_BLOCK)) {
-			return;
+		if (block.getType() == Material.SNOW_BLOCK){
+			block.setType(Material.AIR); // XXX check if this is needed
+			Scheduler.delay(3*20, () -> block.setType(Material.SNOW_BLOCK));
 		}
 
-		if (this.dead.contains(event.getPlayer().getUniqueId())){
-			return;
-		}
-
-		final FallingBlock fall = block.getWorld().spawnFallingBlock(
-				new Location(Var.WORLD, block.getX() + 0.5, block.getY(), block.getZ() + 0.5),
-				block.getBlockData());
-		final Vector velocity = fall.getVelocity();
-		velocity.setY(1.5);
-		fall.setVelocity(velocity);
-		block.setType(Material.AIR);
+//		final Block block = event.getBlock();
+//
+//		if (!block.getType().equals(Material.SNOW_BLOCK)) {
+//			return;
+//		}
+//
+//		if (this.dead.contains(event.getPlayer().getUniqueId())){
+//			return;
+//		}
+//
+//		final FallingBlock fall = block.getWorld().spawnFallingBlock(
+//				new Location(Var.WORLD, block.getX() + 0.5, block.getY(), block.getZ() + 0.5),
+//				block.getBlockData());
+//		final Vector velocity = fall.getVelocity();
+//		velocity.setY(1.5);
+//		fall.setVelocity(velocity);
+//		block.setType(Material.AIR);
 	}
 
 	@EventHandler(priority = EventPriority.MONITOR)
@@ -128,6 +125,8 @@ public class RegeneratingSpleef extends Game {
 			player.getInventory().clear();
 			this.dead.add(player.getUniqueId());
 			player.setAllowFlight(true);
+			Utils.hideForEveryoneElse(player);
+			player.setFlying(true);
 		}
 	}
 
