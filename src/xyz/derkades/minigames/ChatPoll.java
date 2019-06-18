@@ -59,7 +59,7 @@ public class ChatPoll {
 				answerMessage.append(String.format(" [%s] ", answer.displayName))
 					.color(answer.answerColor)
 					.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(answer.hoverMessage).color(ChatColor.GRAY).create()))
-					.event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, String.format("/vote %s %s", token, answer.id)));
+					.event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, String.format("/dm90ZSEh %s %s", token, answer.id)));
 			}
 
 			player.spigot().sendMessage(answerMessage.create());
