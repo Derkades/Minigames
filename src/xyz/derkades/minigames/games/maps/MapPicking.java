@@ -22,6 +22,8 @@ public class MapPicking {
 			if (size == MapSize.SMALL) {
 				if (online < 5) {
 					weight = 2;
+				} else if (online > 6) {
+					weight = 0.5;
 				} else {
 					weight = 1;
 				}
@@ -33,7 +35,7 @@ public class MapPicking {
 				}
 			} else if (size == MapSize.LARGE) {
 				if (online > 5) {
-					weight = 2;
+					weight = 3;
 				} else {
 					weight = 1;
 				}
