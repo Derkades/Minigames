@@ -4,7 +4,6 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
-import xyz.derkades.minigames.Var;
 import xyz.derkades.minigames.games.maps.MapSize;
 import xyz.derkades.minigames.worlds.GameWorld;
 
@@ -22,12 +21,12 @@ public class RedstoneCave extends ParkourMap {
 
 	@Override
 	public Location getStartLocation() {
-		return new Location(Var.WORLD, 273.5, 17, 196.5, -170f, 2.5f);
+		return new Location(this.getWorld(), 7.5, 68, -7.5, -180f, 0f);
 	}
 
 	@Override
 	public Location getSpectatorLocation() {
-		return this.getStartLocation();
+		return null;
 	}
 
 	@Override
@@ -58,7 +57,7 @@ public class RedstoneCave extends ParkourMap {
 
 	@Override
 	public GameWorld getGameWorld() {
-		return null;
+		return GameWorld.PARKOUR_REDSTONECAVE;
 	}
 
 }

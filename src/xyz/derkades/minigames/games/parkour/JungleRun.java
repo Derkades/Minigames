@@ -5,7 +5,6 @@ import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.entity.Player;
 
-import xyz.derkades.minigames.Var;
 import xyz.derkades.minigames.games.maps.MapSize;
 import xyz.derkades.minigames.utils.Utils;
 import xyz.derkades.minigames.worlds.GameWorld;
@@ -24,12 +23,12 @@ public class JungleRun extends ParkourMap {
 
 	@Override
 	public Location getStartLocation() {
-		return new Location(Var.WORLD, 282.5, 67, 196.5, -90, 0);
+		return new Location(this.getWorld(), 18.5, 66, 20.5, -90f, 0f);
 	}
 
 	@Override
 	public Location getSpectatorLocation() {
-		return new Location(Var.WORLD, 296.5, 80, 204.5, 180, 0);
+		return new Location(this.getWorld(), 31.5, 80, 25.5, -135f, 0f);
 	}
 
 	@Override
