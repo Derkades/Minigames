@@ -9,6 +9,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.block.BlockFace;
+import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -20,6 +21,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.projectiles.ProjectileSource;
 
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
 import xyz.derkades.minigames.Minigames;
@@ -148,9 +150,6 @@ public class OneInTheQuiver extends Game {
 		if (event.getProjectile().getType() != EntityType.ARROW) {
 			return;
 		}
-
-//		final Arrow arrow = (Arrow) event.getProjectile();
-//		arrow.setPersistent(false);
 	}
 
 	@EventHandler
@@ -163,6 +162,12 @@ public class OneInTheQuiver extends Game {
 			final PotionEffect jump = new PotionEffect(PotionEffectType.JUMP, 30, 7, true, false);
 			player.addPotionEffect(jump);
 		}
+
+		if (player.getGameMode().equals(GameMode.SPECTATOR) &&
+				(player.getLocation().getX() > 500 || player.getLocation().getX() < -500 ||
+						player.getLocation().getZ() > 500 || player.getLocation().getZ() < -500)) {
+			player.teleport(this.map.getSpawnLocation());
+		}
 	}
 
 	@EventHandler
@@ -170,25 +175,37 @@ public class OneInTheQuiver extends Game {
 		final Entity damagedEntity = event.getEntity();
 		final Entity attackingEntity = event.getDamager();
 
-		if (damagedEntity.getType() != EntityType.PLAYER ||
-				attackingEntity.getType() != EntityType.PLAYER) {
+		if (damagedEntity.getType() != EntityType.PLAYER) {
 			return;
 		}
 
 		final Player damagedPlayer = (Player) damagedEntity;
-		final Player attackingPlayer = (Player) attackingEntity;
+
+		final Player attackingPlayer;
+
+		if (attackingEntity.getType().equals(EntityType.PLAYER)) {
+			attackingPlayer = (Player) attackingEntity;
+		} else if (attackingEntity.getType().equals(EntityType.ARROW)) {
+			final ProjectileSource shooter = ((Arrow) attackingEntity).getShooter();
+			if (shooter instanceof Player) {
+				attackingPlayer = (Player) shooter;
+			} else {
+				return;
+			}
+		} else {
+			return;
+		}
+
+		if (attackingEntity.getType() == EntityType.ARROW) {
+			event.setDamage(20);
+		}
 
 		if (this.dead.contains(attackingEntity.getUniqueId()) || this.dead.contains(damagedEntity.getUniqueId())) {
 			event.setCancelled(true);
 			return;
 		}
 
-		if (attackingEntity.getType() == EntityType.ARROW) {
-			event.setDamage(20);
-			return;
-		}
-
-		final ItemStack weapon = ((Player) attackingEntity).getInventory().getItemInMainHand();
+		final ItemStack weapon = attackingPlayer.getInventory().getItemInMainHand();
 
 		if (weapon.isSimilar(SWORD)) {
 			event.setDamage(2);
@@ -196,6 +213,8 @@ public class OneInTheQuiver extends Game {
 
 		if (damagedPlayer.getHealth() - event.getDamage() < 1) {
 			// Player is dead
+
+			event.setCancelled(true); // Player must not die, or bad things happen.
 
 			damagedPlayer.setGameMode(GameMode.SPECTATOR);
 			SneakPrevention.setCanSneak(damagedPlayer, true);
