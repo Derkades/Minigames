@@ -3,7 +3,6 @@ package xyz.derkades.minigames.games.dropper;
 import org.bukkit.Location;
 import org.bukkit.Material;
 
-import xyz.derkades.minigames.Var;
 import xyz.derkades.minigames.games.maps.MapSize;
 import xyz.derkades.minigames.utils.BlockUtils;
 import xyz.derkades.minigames.worlds.GameWorld;
@@ -17,7 +16,7 @@ public class Trees extends DropperMap {
 
 	@Override
 	public Location getLobbyLocation() {
-		return new Location(Var.WORLD, 163.5, 84, 151.5, -90, 0);
+		return new Location(this.getWorld(), -4.5, 82, -6.5, 90, 0);
 	}
 
 	@Override
@@ -31,7 +30,7 @@ public class Trees extends DropperMap {
 	}
 
 	private void fillDoor(final Material material) {
-		BlockUtils.fillArea(167, 80, 150, 169, 80, 152, material);
+		BlockUtils.fillArea(-9, 80, -6, -11, 80, -8, material);
 	}
 
 	@Override
@@ -41,7 +40,7 @@ public class Trees extends DropperMap {
 
 	@Override
 	public GameWorld getGameWorld() {
-		return null;
+		return GameWorld.DROPPER_TREES;
 	}
 
 }
