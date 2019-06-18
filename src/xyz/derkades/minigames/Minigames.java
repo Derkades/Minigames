@@ -108,6 +108,10 @@ public class Minigames extends JavaPlugin implements Listener {
 	@Override
 	public void onDisable(){
 		instance = null;
+
+		for (final GameWorld gWorld : GameWorld.values()) {
+			gWorld.unload();
+		}
 	}
 
 	public static Minigames getInstance(){
