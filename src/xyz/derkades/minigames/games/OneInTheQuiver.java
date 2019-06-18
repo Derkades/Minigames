@@ -23,6 +23,7 @@ import org.bukkit.potion.PotionEffectType;
 
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
 import xyz.derkades.minigames.Minigames;
+import xyz.derkades.minigames.SneakPrevention;
 import xyz.derkades.minigames.games.maps.GameMap;
 import xyz.derkades.minigames.games.sniper.SniperMap;
 import xyz.derkades.minigames.utils.Scheduler;
@@ -68,6 +69,7 @@ public class OneInTheQuiver extends Game {
 		for (final Player player : Bukkit.getOnlinePlayers()) {
 			player.teleport(this.map.getSpawnLocation());
 			player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 5*20, 0, true, false));
+			SneakPrevention.setCanSneak(player, false);
 		}
 
 		new GameTimer(this, MAX_GAME_DURATION, SPREAD_TIME) {
@@ -92,7 +94,7 @@ public class OneInTheQuiver extends Game {
 
 			@Override
 			public void onEnd() {
-				final List<Player> winners = Utils.getWinnersFromDeadAndAllList(OneInTheQuiver.this.dead, all, false);
+				final List<Player> winners = Utils.getWinnersFromDeadAndAllList(OneInTheQuiver.this.dead, OneInTheQuiver.this.all, false);
 
 				OneInTheQuiver.super.endGame(winners);
 
@@ -133,6 +135,7 @@ public class OneInTheQuiver extends Game {
 			Utils.giveInvisibility(player);
 			player.getInventory().clear();
 			Minigames.setCanTakeDamage(player, false);
+			SneakPrevention.setCanSneak(player, true);
 		});
 	}
 
