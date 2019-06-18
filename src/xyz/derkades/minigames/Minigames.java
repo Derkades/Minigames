@@ -86,6 +86,15 @@ public class Minigames extends JavaPlugin implements Listener {
 		});
 
 		new SneakPrevention(this);
+
+		Scheduler.delay(60, () -> {
+			if (Bukkit.getOnlinePlayers().size() == 0) {
+				Bukkit.broadcastMessage("[System] No players online, starting games automatically");
+				AutoRotate.startNewRandomGame();
+			} else {
+				Bukkit.broadcastMessage("[System] Players online, not starting games automatically");
+			}
+		});
 	}
 
 	@Override
