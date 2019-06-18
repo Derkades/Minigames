@@ -21,6 +21,7 @@ import org.bukkit.potion.PotionEffectType;
 import net.md_5.bungee.api.ChatColor;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
 import xyz.derkades.minigames.Minigames;
+import xyz.derkades.minigames.SneakPrevention;
 import xyz.derkades.minigames.games.breaktheblock.BreakTheBlockMap;
 import xyz.derkades.minigames.games.maps.GameMap;
 import xyz.derkades.minigames.utils.Utils;
@@ -72,6 +73,7 @@ public class BreakTheBlock extends Game {
 				BreakTheBlock.this.map.onStart();
 				Bukkit.getOnlinePlayers().forEach((player) -> {
 					Minigames.setCanTakeDamage(player, true);
+					SneakPrevention.setCanSneak(player, false);
 					Utils.giveInfiniteEffect(player, PotionEffectType.SLOW_DIGGING, 1);
 				});
 
@@ -80,6 +82,10 @@ public class BreakTheBlock extends Game {
 			@Override
 			public int gameTimer(final int secondsLeft) {
 				if (BreakTheBlock.this.blockBreaker != null && secondsLeft > 3) {
+					Bukkit.getOnlinePlayers().forEach((player) -> {
+						SneakPrevention.setCanSneak(player, true);
+					});
+
 					return 3;
 				}
 
