@@ -216,6 +216,7 @@ public class Utils {
 		Var.WORLD.spawnParticle(particle, new Location(Var.WORLD, x, y, z), count, offsetX, offsetY, offsetX, speed);
 	}
 
+	@Deprecated
 	public static void particle(final Particle particle, final Location location, final int count) {
 		location.getWorld().spawnParticle(particle, location, count);
 	}
