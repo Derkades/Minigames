@@ -16,7 +16,5 @@ commands:
     aliases: [feedback, idea]
   dm90ZSEh:
     usage: /<command> HI HOW ARE YOU DOING
-  wc:
-    description: water closet
   wtp:
-    description: teleporteer naar werelden
+  

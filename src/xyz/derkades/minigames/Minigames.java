@@ -20,7 +20,6 @@ import xyz.derkades.minigames.games.Game;
 import xyz.derkades.minigames.task.RegenerateHunger;
 import xyz.derkades.minigames.utils.Scheduler;
 import xyz.derkades.minigames.worlds.GameWorld;
-import xyz.derkades.minigames.worlds.WorldCreateCommand;
 import xyz.derkades.minigames.worlds.WorldTeleportCommand;
 
 public class Minigames extends JavaPlugin implements Listener {
@@ -73,7 +72,6 @@ public class Minigames extends JavaPlugin implements Listener {
 
 		this.getCommand("games").setExecutor(new Command());
 		this.getCommand("bug").setExecutor(new BugCommand());
-		this.getCommand("wc").setExecutor(new WorldCreateCommand());
 		this.getCommand("wtp").setExecutor(new WorldTeleportCommand());
 
 		Scheduler.repeat(20, () -> {
