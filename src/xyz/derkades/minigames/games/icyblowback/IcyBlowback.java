@@ -4,6 +4,7 @@ import org.bukkit.Location;
 
 import xyz.derkades.minigames.Var;
 import xyz.derkades.minigames.games.maps.MapSize;
+import xyz.derkades.minigames.worlds.GameWorld;
 
 public class IcyBlowback extends IcyBlowbackMap {
 
@@ -11,7 +12,7 @@ public class IcyBlowback extends IcyBlowbackMap {
 	public Location getSpectatorLocation() {
 		return new Location(Var.WORLD, -18.5, 116, 88.5);
 	}
-	
+
 	@Override
 	public Location[] getSpawnLocations() {
 		return new Location[] {
@@ -26,10 +27,15 @@ public class IcyBlowback extends IcyBlowbackMap {
 	public String getName() {
 		return "Icy Blowback";
 	}
-	
+
 	@Override
 	public MapSize getSize() {
 		return MapSize.LARGE;
 	}
-	
+
+	@Override
+	public GameWorld getGameWorld() {
+		return null;
+	}
+
 }

@@ -4,6 +4,7 @@ import org.bukkit.Location;
 
 import xyz.derkades.minigames.Var;
 import xyz.derkades.minigames.games.maps.MapSize;
+import xyz.derkades.minigames.worlds.GameWorld;
 
 public class Desert extends PlatformMap {
 
@@ -21,10 +22,15 @@ public class Desert extends PlatformMap {
 	public String getName() {
 		return "Desert";
 	}
-	
+
 	@Override
 	public MapSize getSize() {
 		return MapSize.NORMAL;
+	}
+
+	@Override
+	public GameWorld getGameWorld() {
+		return null;
 	}
 
 }

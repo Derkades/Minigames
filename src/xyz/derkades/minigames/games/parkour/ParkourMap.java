@@ -6,7 +6,7 @@ import org.bukkit.entity.Player;
 
 import xyz.derkades.minigames.games.maps.GameMap;
 
-public abstract class ParkourMap implements GameMap {
+public abstract class ParkourMap extends GameMap {
 
 	public static final ParkourMap[] MAPS = {
 			new JungleRun(),

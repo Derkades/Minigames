@@ -5,6 +5,7 @@ import org.bukkit.Material;
 
 import xyz.derkades.minigames.Var;
 import xyz.derkades.minigames.games.maps.MapSize;
+import xyz.derkades.minigames.worlds.GameWorld;
 
 public class Prototype extends BreakTheBlockMap {
 
@@ -35,7 +36,12 @@ public class Prototype extends BreakTheBlockMap {
 
 	@Override
 	public Location getStartLocation() {
-		return new Location(Var.WORLD, 131.5, 46, 400.5, -80, 0);
+		return new Location(this.getWorld(), 131.5, 46, 400.5, -80, 0);
+	}
+
+	@Override
+	public GameWorld getGameWorld() {
+		return null;
 	}
 
 }

@@ -7,6 +7,7 @@ import org.bukkit.potion.PotionEffectType;
 import xyz.derkades.minigames.Var;
 import xyz.derkades.minigames.games.maps.MapSize;
 import xyz.derkades.minigames.utils.Utils;
+import xyz.derkades.minigames.worlds.GameWorld;
 
 public class Forest extends TeamsBowBattleMap {
 
@@ -33,6 +34,11 @@ public class Forest extends TeamsBowBattleMap {
 	@Override
 	public void onGameStart() {
 		Bukkit.getOnlinePlayers().forEach((player) -> Utils.giveInfiniteEffect(player, PotionEffectType.SPEED, 1));
+	}
+
+	@Override
+	public GameWorld getGameWorld() {
+		return null;
 	}
 
 }

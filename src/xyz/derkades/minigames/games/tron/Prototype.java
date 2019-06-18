@@ -8,6 +8,7 @@ import org.bukkit.Location;
 import xyz.derkades.minigames.Var;
 import xyz.derkades.minigames.games.Tron.TronTeam;
 import xyz.derkades.minigames.games.maps.MapSize;
+import xyz.derkades.minigames.worlds.GameWorld;
 
 public class Prototype extends TronMap {
 
@@ -61,6 +62,11 @@ public class Prototype extends TronMap {
 		map.put(TronTeam.BLUE, new Location(Var.WORLD, 415, 84, 95));
 
 		return map;
+	}
+
+	@Override
+	public GameWorld getGameWorld() {
+		return null;
 	}
 
 

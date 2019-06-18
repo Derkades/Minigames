@@ -6,6 +6,7 @@ import org.bukkit.Material;
 import xyz.derkades.minigames.Var;
 import xyz.derkades.minigames.games.maps.MapSize;
 import xyz.derkades.minigames.utils.BlockUtils;
+import xyz.derkades.minigames.worlds.GameWorld;
 
 public class Rainbow extends DropperMap {
 
@@ -28,9 +29,14 @@ public class Rainbow extends DropperMap {
 	public void closeDoor() {
 		BlockUtils.fillArea(144, 80, 150, 146, 80, 152, Material.SLIME_BLOCK);
 	}
-	
+
 	@Override
 	public MapSize getSize() {
+		return null;
+	}
+
+	@Override
+	public GameWorld getGameWorld() {
 		return null;
 	}
 

@@ -46,6 +46,7 @@ public class Utils {
 		player.sendTitle(title, subtitle, 10, 70, 20);
 	}
 
+	@Deprecated
 	public static void setGameRule(final String gameRule, final boolean setting){
 		Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "gamerule " + gameRule + " " + setting);
 	}
@@ -68,7 +69,7 @@ public class Utils {
 		inv.setLeggings(air);
 		inv.setBoots(air);
 	}
-	
+
 	public static void clearInventory() {
 		Bukkit.getOnlinePlayers().forEach(Utils::clearInventory);
 	}
@@ -115,7 +116,7 @@ public class Utils {
 		if (maxPoints == 0) {
 			return new ArrayList<>();
 		}
-		
+
 		return points.entrySet().stream().filter(e -> e.getValue() == maxPoints)
 				.map(e -> Bukkit.getPlayer(e.getKey())).filter(p -> p != null)
 				.collect(Collectors.toList());
@@ -155,11 +156,11 @@ public class Utils {
 			return new ArrayList<>();
 		}
 	}
-	
-	public static List<Player> getWinnersFromFinished(List<UUID> finished, List<UUID> all) {
+
+	public static List<Player> getWinnersFromFinished(final List<UUID> finished, final List<UUID> all) {
 		return all.stream().filter(finished::contains).map(Bukkit::getPlayer).filter(p -> p != null).collect(Collectors.toList());
 	}
-	
+
 	public static List<UUID> getOnlinePlayersUuidList(){
 		return Bukkit.getOnlinePlayers().stream().map(Player::getUniqueId).collect(Collectors.toList());
 	}
@@ -205,16 +206,18 @@ public class Utils {
 	    return result;
 	}
 
+	@Deprecated
 	public static void particle(final Particle particle, final Location location, final double speed, final int count, final double offsetX, final double offsetY, final int offsetZ) {
 		Var.WORLD.spawnParticle(particle, location, count, offsetX, offsetY, offsetX, speed);
 	}
 
+	@Deprecated
 	public static void particle(final Particle particle, final double x, final double y, final double z, final double speed, final int count, final double offsetX, final double offsetY, final int offsetZ) {
 		Var.WORLD.spawnParticle(particle, new Location(Var.WORLD, x, y, z), count, offsetX, offsetY, offsetX, speed);
 	}
 
 	public static void particle(final Particle particle, final Location location, final int count) {
-		Var.WORLD.spawnParticle(particle, location, count);
+		location.getWorld().spawnParticle(particle, location, count);
 	}
 
 	public static void hideForEveryoneElse(final Player player) {
@@ -283,8 +286,8 @@ public class Utils {
 	public static String getChatPrefix(final ChatColor color, final char c) {
 		return ChatColor.BLACK + "[" + color + c + ChatColor.BLACK + "]" + ChatColor.DARK_GRAY + " | " + ChatColor.GRAY;
 	}
-	
-	public static ComponentBuilder getComponentBuilderWithPrefix(ChatColor prefixColor, char prefixChar) {
+
+	public static ComponentBuilder getComponentBuilderWithPrefix(final ChatColor prefixColor, final char prefixChar) {
 		return new ComponentBuilder("").appendLegacy(Utils.getChatPrefix(prefixColor, prefixChar));
 	}
 

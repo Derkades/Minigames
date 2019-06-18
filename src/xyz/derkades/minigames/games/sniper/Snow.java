@@ -2,8 +2,8 @@ package xyz.derkades.minigames.games.sniper;
 
 import org.bukkit.Location;
 
-import xyz.derkades.minigames.Var;
 import xyz.derkades.minigames.games.maps.MapSize;
+import xyz.derkades.minigames.worlds.GameWorld;
 
 public class Snow extends SniperMap {
 
@@ -19,12 +19,12 @@ public class Snow extends SniperMap {
 
 	@Override
 	public Location getSpawnLocation() {
-		return new Location(Var.WORLD, 218.5, 75, 291.5, 90, 0);
+		return new Location(this.getWorld(), -22, 66, -1);
 	}
 
 	@Override
-	public Location getSpectatorLocation() {
-		return new Location(Var.WORLD, 218.5, 75, 291.5, 90, 0);
+	public GameWorld getGameWorld() {
+		return GameWorld.OITQ_SNOW;
 	}
 
 }

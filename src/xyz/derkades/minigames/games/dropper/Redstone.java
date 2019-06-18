@@ -6,6 +6,7 @@ import org.bukkit.Material;
 import xyz.derkades.minigames.Var;
 import xyz.derkades.minigames.games.maps.MapSize;
 import xyz.derkades.minigames.utils.BlockUtils;
+import xyz.derkades.minigames.worlds.GameWorld;
 
 public class Redstone extends DropperMap {
 
@@ -29,9 +30,14 @@ public class Redstone extends DropperMap {
 	public void closeDoor() {
 		BlockUtils.fillArea(121, 81, 129, 123, 81, 131, Material.WHITE_STAINED_GLASS);
 	}
-	
+
 	@Override
 	public MapSize getSize() {
+		return null;
+	}
+
+	@Override
+	public GameWorld getGameWorld() {
 		return null;
 	}
 

@@ -5,16 +5,16 @@ import java.util.List;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.block.BlockFace;
-import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityShootBowEvent;
-import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
@@ -26,7 +26,6 @@ import xyz.derkades.minigames.Minigames;
 import xyz.derkades.minigames.SneakPrevention;
 import xyz.derkades.minigames.games.maps.GameMap;
 import xyz.derkades.minigames.games.sniper.SniperMap;
-import xyz.derkades.minigames.utils.Scheduler;
 import xyz.derkades.minigames.utils.Utils;
 
 public class OneInTheQuiver extends Game {
@@ -105,41 +104,41 @@ public class OneInTheQuiver extends Game {
 		};
 	}
 
-	@EventHandler
-	public void onDeath(final PlayerDeathEvent event) {
-		final Player player = event.getEntity();
-		final Player killer = player.getKiller();
+//	@EventHandler
+//	public void onDeath(final PlayerDeathEvent event) {
+//		final Player player = event.getEntity();
+//		final Player killer = player.getKiller();
+//
+//		if (killer == null) {
+//			return;
+//		}
+//
+//		event.setDeathMessage("");
+//
+//		this.dead.add(player.getUniqueId());
+//
+//		final int playersLeft = Utils.getAliveAcountFromDeadAndAllList(this.dead, this.all);
+//
+//		this.sendMessage(String.format("%s has been killed by %s. There are %s players left.",
+//				player.getName(), killer.getName(), playersLeft));
+//
+//		killer.getInventory().addItem(ARROW);
+//
+//		Utils.hideForEveryoneElse(player);
+//
+//		Scheduler.delay(1, () -> {
+//			player.spigot().respawn();
+//			if (this.map.getSpectatorLocation() != null)
+//				player.teleport(this.map.getSpectatorLocation());
+//			player.setAllowFlight(true);
+//			Utils.giveInvisibility(player);
+//			player.getInventory().clear();
+//			Minigames.setCanTakeDamage(player, false);
+//			SneakPrevention.setCanSneak(player, true);
+//		});
+//	}
 
-		if (killer == null) {
-			return;
-		}
-
-		event.setDeathMessage("");
-
-		this.dead.add(player.getUniqueId());
-
-		final int playersLeft = Utils.getAliveAcountFromDeadAndAllList(this.dead, this.all);
-
-		this.sendMessage(String.format("%s has been killed by %s. There are %s players left.",
-				player.getName(), killer.getName(), playersLeft));
-
-		killer.getInventory().addItem(ARROW);
-
-		Utils.hideForEveryoneElse(player);
-
-		Scheduler.delay(1, () -> {
-			player.spigot().respawn();
-			if (this.map.getSpectatorLocation() != null)
-				player.teleport(this.map.getSpectatorLocation());
-			player.setAllowFlight(true);
-			Utils.giveInvisibility(player);
-			player.getInventory().clear();
-			Minigames.setCanTakeDamage(player, false);
-			SneakPrevention.setCanSneak(player, true);
-		});
-	}
-
-	@SuppressWarnings("deprecation")
+//	@SuppressWarnings("deprecation")
 	@EventHandler
 	public void onShoot(final EntityShootBowEvent event) {
 		if (event.getEntity().getType() != EntityType.PLAYER) {
@@ -150,8 +149,8 @@ public class OneInTheQuiver extends Game {
 			return;
 		}
 
-		final Arrow arrow = (Arrow) event.getProjectile();
-		arrow.setPersistent(false);
+//		final Arrow arrow = (Arrow) event.getProjectile();
+//		arrow.setPersistent(false);
 	}
 
 	@EventHandler
@@ -171,9 +170,13 @@ public class OneInTheQuiver extends Game {
 		final Entity damagedEntity = event.getEntity();
 		final Entity attackingEntity = event.getDamager();
 
-		if (damagedEntity.getType() != EntityType.PLAYER) {
+		if (damagedEntity.getType() != EntityType.PLAYER ||
+				attackingEntity.getType() != EntityType.PLAYER) {
 			return;
 		}
+
+		final Player damagedPlayer = (Player) damagedEntity;
+		final Player attackingPlayer = (Player) attackingEntity;
 
 		if (this.dead.contains(attackingEntity.getUniqueId()) || this.dead.contains(damagedEntity.getUniqueId())) {
 			event.setCancelled(true);
@@ -185,14 +188,27 @@ public class OneInTheQuiver extends Game {
 			return;
 		}
 
-		if (attackingEntity.getType() != EntityType.PLAYER) {
-			return;
-		}
-
 		final ItemStack weapon = ((Player) attackingEntity).getInventory().getItemInMainHand();
 
 		if (weapon.isSimilar(SWORD)) {
 			event.setDamage(2);
+		}
+
+		if (damagedPlayer.getHealth() - event.getDamage() < 1) {
+			// Player is dead
+
+			damagedPlayer.setGameMode(GameMode.SPECTATOR);
+			SneakPrevention.setCanSneak(damagedPlayer, true);
+
+			this.dead.add(damagedPlayer.getUniqueId());
+
+			final int playersLeft = Utils.getAliveAcountFromDeadAndAllList(this.dead, this.all);
+			this.sendMessage(String.format("%s has been killed by %s. There are %s players left.",
+					damagedPlayer.getName(), attackingEntity.getName(), playersLeft));
+
+			Utils.sendTitle(damagedPlayer, ChatColor.RED + "You've died", "");
+
+			attackingPlayer.getInventory().addItem(ARROW);
 		}
 	}
 

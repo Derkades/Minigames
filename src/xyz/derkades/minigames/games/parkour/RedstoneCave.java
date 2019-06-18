@@ -6,6 +6,7 @@ import org.bukkit.entity.Player;
 
 import xyz.derkades.minigames.Var;
 import xyz.derkades.minigames.games.maps.MapSize;
+import xyz.derkades.minigames.worlds.GameWorld;
 
 public class RedstoneCave extends ParkourMap {
 
@@ -53,6 +54,11 @@ public class RedstoneCave extends ParkourMap {
 	@Override
 	public int getDuration() {
 		return 160;
+	}
+
+	@Override
+	public GameWorld getGameWorld() {
+		return null;
 	}
 
 }

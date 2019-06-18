@@ -4,15 +4,15 @@ import org.bukkit.Location;
 
 import xyz.derkades.minigames.games.maps.GameMap;
 
-public abstract class PlatformMap implements GameMap {
-	
+public abstract class PlatformMap extends GameMap {
+
 	public static final PlatformMap[] MAPS = {
 			new Desert(),
 			new Ice(),
 	};
-	
+
 	public abstract Location getSpawnLocation();
-	
+
 	public abstract Location getSpectatorLocation();
 
 }

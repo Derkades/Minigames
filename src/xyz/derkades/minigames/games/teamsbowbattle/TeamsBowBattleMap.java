@@ -4,7 +4,7 @@ import org.bukkit.Location;
 
 import xyz.derkades.minigames.games.maps.GameMap;
 
-public abstract class TeamsBowBattleMap implements GameMap {
+public abstract class TeamsBowBattleMap extends GameMap {
 
 	public static final TeamsBowBattleMap[] MAPS = {
 			new Forest(),

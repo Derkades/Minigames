@@ -4,6 +4,7 @@ import org.bukkit.Location;
 
 import xyz.derkades.minigames.Var;
 import xyz.derkades.minigames.games.maps.MapSize;
+import xyz.derkades.minigames.worlds.GameWorld;
 
 public class Original extends SnowFightMap {
 
@@ -25,6 +26,11 @@ public class Original extends SnowFightMap {
 	@Override
 	public MapSize getSize() {
 		return MapSize.NORMAL;
+	}
+
+	@Override
+	public GameWorld getGameWorld() {
+		return null;
 	}
 
 

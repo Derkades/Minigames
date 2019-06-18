@@ -6,6 +6,7 @@ import org.bukkit.entity.Player;
 
 import xyz.derkades.minigames.Var;
 import xyz.derkades.minigames.games.maps.MapSize;
+import xyz.derkades.minigames.worlds.GameWorld;
 
 public class Snow extends ParkourMap {
 
@@ -47,6 +48,11 @@ public class Snow extends ParkourMap {
 	@Override
 	public int getDuration() {
 		return 30;
+	}
+
+	@Override
+	public GameWorld getGameWorld() {
+		return null;
 	}
 
 }

@@ -2,8 +2,8 @@ package xyz.derkades.minigames.games.sniper;
 
 import org.bukkit.Location;
 
-import xyz.derkades.minigames.Var;
 import xyz.derkades.minigames.games.maps.MapSize;
+import xyz.derkades.minigames.worlds.GameWorld;
 
 public class Desert extends SniperMap {
 
@@ -19,12 +19,12 @@ public class Desert extends SniperMap {
 
 	@Override
 	public Location getSpawnLocation() {
-		return new Location(Var.WORLD, 466, 73, 187);
+		return new Location(this.getWorld(), -27, 72, -4);
 	}
 
 	@Override
-	public Location getSpectatorLocation() {
-		return new Location(Var.WORLD, 466, 73, 187);
+	public GameWorld getGameWorld() {
+		return GameWorld.OITQ_DESERT;
 	}
 
 }

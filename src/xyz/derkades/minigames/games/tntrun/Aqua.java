@@ -6,6 +6,7 @@ import org.bukkit.Material;
 import xyz.derkades.minigames.Var;
 import xyz.derkades.minigames.games.maps.MapSize;
 import xyz.derkades.minigames.utils.BlockUtils;
+import xyz.derkades.minigames.worlds.GameWorld;
 
 public class Aqua extends TNTMap {
 
@@ -36,6 +37,11 @@ public class Aqua extends TNTMap {
 	@Override
 	public MapSize getSize() {
 		return MapSize.LARGE;
+	}
+
+	@Override
+	public GameWorld getGameWorld() {
+		return null;
 	}
 
 }

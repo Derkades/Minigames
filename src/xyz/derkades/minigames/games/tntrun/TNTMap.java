@@ -5,7 +5,7 @@ import org.bukkit.Material;
 
 import xyz.derkades.minigames.games.maps.GameMap;
 
-public abstract class TNTMap implements GameMap {
+public abstract class TNTMap extends GameMap {
 
 	public static final TNTMap[] MAPS = {
 			new Aqua(),

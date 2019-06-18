@@ -7,7 +7,7 @@ import org.bukkit.Location;
 import xyz.derkades.minigames.games.Tron.TronTeam;
 import xyz.derkades.minigames.games.maps.GameMap;
 
-public abstract class TronMap implements GameMap {
+public abstract class TronMap extends GameMap {
 
 	public static final TronMap[] MAPS = {
 			new Prototype(),

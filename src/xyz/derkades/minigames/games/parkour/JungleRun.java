@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 import xyz.derkades.minigames.Var;
 import xyz.derkades.minigames.games.maps.MapSize;
 import xyz.derkades.minigames.utils.Utils;
+import xyz.derkades.minigames.worlds.GameWorld;
 
 public class JungleRun extends ParkourMap {
 
@@ -57,6 +58,11 @@ public class JungleRun extends ParkourMap {
 	@Override
 	public void onPlayerFinish(final Player player) {
 		Utils.particle(Particle.FLAME, 327.5, 72, 196.5, 0.1, 1000, 0, 2, 2);
+	}
+
+	@Override
+	public GameWorld getGameWorld() {
+		return null;
 	}
 
 }
