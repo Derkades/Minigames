@@ -12,6 +12,7 @@ import java.util.Map;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
@@ -163,6 +164,7 @@ public abstract class Game implements Listener {
 
 		for (final Player player : Bukkit.getOnlinePlayers()){
 			player.setAllowFlight(false);
+			player.setGameMode(GameMode.ADVENTURE);
 
 			Utils.clearPotionEffects(player);
 			Utils.clearInventory(player);
