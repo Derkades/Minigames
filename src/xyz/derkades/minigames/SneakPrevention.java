@@ -36,7 +36,7 @@ public class SneakPrevention extends BukkitRunnable {
 
 		for (final Player player : Bukkit.getOnlinePlayers()) {
 			if (!player.isSneaking()) {
-				return;
+				continue;
 			}
 
 			final UUID uuid = player.getUniqueId();
@@ -47,6 +47,7 @@ public class SneakPrevention extends BukkitRunnable {
 						"Sneaking is disabled here. " + remaining + " warnings remaining");
 				if (remaining <= 0) {
 					player.kickPlayer("Kicked for sneaking");
+					WARNINGS.remove(uuid);
 				}
 			}
 		}
