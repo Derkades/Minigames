@@ -30,7 +30,7 @@ public class Trees extends DropperMap {
 	}
 
 	private void fillDoor(final Material material) {
-		BlockUtils.fillArea(-9, 80, -6, -11, 80, -8, material);
+		BlockUtils.fillArea(this.getWorld(), -9, 80, -6, -11, 80, -8, material);
 	}
 
 	@Override
