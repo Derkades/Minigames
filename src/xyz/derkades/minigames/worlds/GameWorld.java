@@ -47,6 +47,10 @@ public enum GameWorld {
 
 	// XXX Speedrun
 
+	SPLEEF_BIGSTADIUM,
+	SPLEEF_LITTLESTADIUM,
+	SPLEEF_ORIGINAL,
+
 	TBB_FOREST,
 	//TBB_PROTOTYPE,
 
