@@ -13,6 +13,4 @@ public abstract class PlatformMap extends GameMap {
 
 	public abstract Location getSpawnLocation();
 
-	public abstract Location getSpectatorLocation();
-
 }

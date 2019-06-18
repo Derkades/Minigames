@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.BlockFace;
 import org.bukkit.enchantments.Enchantment;
@@ -119,11 +120,14 @@ public class Platform extends Game {
 		this.sendMessage(player.getName() + " has been eliminated from the game!");
 
 		Var.WORLD.spigot().strikeLightningEffect(player.getLocation(), false);
-		player.teleport(this.map.getSpectatorLocation());
+		final Location loc = player.getLocation();
+		loc.setY(loc.getY() + 10);
+		player.teleport(loc);
 		this.dead.add(player.getUniqueId());
 		player.getInventory().clear();
 		Utils.giveInvisibility(player);
 		player.setAllowFlight(true);
+		player.setFlying(true);
 		Minigames.setCanTakeDamage(player, false); //Disallow PvP
 	}
 

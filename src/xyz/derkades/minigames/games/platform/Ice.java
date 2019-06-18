@@ -2,7 +2,6 @@ package xyz.derkades.minigames.games.platform;
 
 import org.bukkit.Location;
 
-import xyz.derkades.minigames.Var;
 import xyz.derkades.minigames.games.maps.MapSize;
 import xyz.derkades.minigames.worlds.GameWorld;
 
@@ -10,12 +9,7 @@ public class Ice extends PlatformMap {
 
 	@Override
 	public Location getSpawnLocation() {
-		return new Location(Var.WORLD, 229.5, 88, 186.5, 0, 0);
-	}
-
-	@Override
-	public Location getSpectatorLocation() {
-		return new Location(Var.WORLD, 229.5, 93, 178.0, 0, 0);
+		return new Location(this.getWorld(), -32.5, 71, 10.5, -180, 0);
 	}
 
 	@Override
