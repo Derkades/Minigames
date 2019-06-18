@@ -223,7 +223,7 @@ public class OneInTheQuiver extends Game {
 
 			final int playersLeft = Utils.getAliveAcountFromDeadAndAllList(this.dead, this.all);
 			this.sendMessage(String.format("%s has been killed by %s. There are %s players left.",
-					damagedPlayer.getName(), attackingEntity.getName(), playersLeft));
+					damagedPlayer.getName(), attackingPlayer.getName(), playersLeft));
 
 			Utils.sendTitle(damagedPlayer, ChatColor.RED + "You've died", "");
 
