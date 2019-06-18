@@ -84,6 +84,8 @@ public class Minigames extends JavaPlugin implements Listener {
 		Scheduler.repeat(60*20, () -> {
 			economy.getBalance("Derkades");
 		});
+
+		new SneakPrevention(this);
 	}
 
 	@Override

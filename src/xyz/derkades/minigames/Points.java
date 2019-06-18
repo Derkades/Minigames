@@ -133,7 +133,7 @@ public class Points {
 		}
 
 		private String getSignNumberText(final int number){
-			return ChatColor.DARK_GRAY + "[" + ChatColor.YELLOW + number + ChatColor.DARK_GRAY + "]";
+			return ChatColor.DARK_GRAY + "[" + ChatColor.GREEN + number + ChatColor.DARK_GRAY + "]";
 		}
 
 	}

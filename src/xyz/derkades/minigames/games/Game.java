@@ -30,6 +30,7 @@ import xyz.derkades.minigames.ChatPoll.Poll;
 import xyz.derkades.minigames.ChatPoll.PollAnswer;
 import xyz.derkades.minigames.Minigames;
 import xyz.derkades.minigames.Points;
+import xyz.derkades.minigames.SneakPrevention;
 import xyz.derkades.minigames.Var;
 import xyz.derkades.minigames.games.maps.GameMap;
 import xyz.derkades.minigames.games.maps.MapPicking;
@@ -168,7 +169,7 @@ public abstract class Game implements Listener {
 			player.setHealth(20);
 
 			Minigames.setCanTakeDamage(player, false);
-			Minigames.setCanSneak(player, true);
+			SneakPrevention.setCanSneak(player, true);
 
 			player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 40, 0, true));
 
@@ -315,11 +316,13 @@ public abstract class Game implements Listener {
 
 	public static Game fromString(String string) {
 		if (string.equalsIgnoreCase("oitq")) {
-			string = "one_in_the_quiver";
+			string = "one in the quiver";
 		} else if (string.equalsIgnoreCase("tbb")) {
 			string = "teamsbowbattle";
 		} else if (string.equalsIgnoreCase("btb")) {
-			string = "break_the_block";
+			string = "break the block";
+		} else if (string.equalsIgnoreCase("spleef")) {
+			string = "regenerating spleef";
 		}
 
 		for (final Game game : GAMES){
