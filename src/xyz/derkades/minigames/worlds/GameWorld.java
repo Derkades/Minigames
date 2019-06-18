@@ -114,21 +114,18 @@ public enum GameWorld {
 	}
 
 	public void unload() {
-		Bukkit.broadcastMessage("[System] Unloading " + this.toString());
-		Bukkit.unloadWorld(this.getWorld(), true);
+		final World world = Bukkit.getWorld(this.getName());
+		if (world == null) {
+			Bukkit.broadcastMessage("[System] " + this.toString() + " is already unloaded");
+		} else {
+			Bukkit.broadcastMessage("[System] Unloading " + this.toString());
+			Bukkit.unloadWorld(this.getWorld(), true);
+		}
+
 	}
 
 	public static void init() {
-		Bukkit.broadcastMessage("[System] Setting up worlds, this may take a long time and cause lag..");
-
 		Bukkit.getOnlinePlayers().stream().filter((p) -> Arrays.asList(GameWorld.values()).stream().map(GameWorld::getName).collect(Collectors.toList()).contains(p.getWorld().getName())).forEach((p) -> p.teleport(Var.LOBBY_LOCATION));
-
-		for (final GameWorld gWorld : GameWorld.values()) {
-			gWorld.getWorld();
-			gWorld.unload();
-		}
-
-		Bukkit.broadcastMessage("[System] Done");
 	}
 
 }
