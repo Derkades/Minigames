@@ -18,6 +18,7 @@ import xyz.derkades.minigames.games.Game;
 import xyz.derkades.minigames.menu.MainMenu;
 import xyz.derkades.minigames.utils.Scheduler;
 import xyz.derkades.minigames.utils.Utils;
+import xyz.derkades.minigames.worlds.GameWorld;
 
 public class Command implements CommandExecutor {
 
@@ -55,6 +56,15 @@ public class Command implements CommandExecutor {
 			} else if (args[0].equalsIgnoreCase("min") && sender.hasPermission("minigames.min")) {
 				Minigames.BYPASS_PLAYER_MINIMUM_CHECKS = true;
 				sender.sendMessage("Bypassing minimum player check");
+			} else if (args[0].equals("reloadworlds") && sender.hasPermission("minigames.world.reload")) {
+				Bukkit.broadcastMessage("[System] Reloading worlds, this may take a long time and cause lag..");
+
+				for (final GameWorld gWorld : GameWorld.values()) {
+					gWorld.getWorld();
+					gWorld.unload();
+				}
+
+				Bukkit.broadcastMessage("[System] Done");
 			} else if (args[0].equals("test") && sender.hasPermission("minigames.test")) {
 				final Player player = (Player) sender;
 
