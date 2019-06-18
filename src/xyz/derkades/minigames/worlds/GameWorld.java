@@ -89,7 +89,28 @@ public enum GameWorld {
 //		final World world = Bukkit.createWorld(creator);
 //		world.getBlockAt(0, 64, 0).setType(Material.SMOOTH_STONE);
 
-		return Bukkit.getServer().createWorld(creator);
+		final World world = Bukkit.getServer().createWorld(creator);
+
+		world.setGameRule(GameRule.DO_WEATHER_CYCLE, false);
+		world.setGameRule(GameRule.DO_DAYLIGHT_CYCLE, false);
+		world.setTime(6000);
+
+		world.setGameRule(GameRule.SPECTATORS_GENERATE_CHUNKS, false);
+		world.setGameRule(GameRule.SPAWN_RADIUS, 0);
+		world.setGameRule(GameRule.DO_MOB_SPAWNING, false);
+		world.setGameRule(GameRule.DO_FIRE_TICK, false);
+		world.setGameRule(GameRule.RANDOM_TICK_SPEED, 0);
+		world.setGameRule(GameRule.ANNOUNCE_ADVANCEMENTS, false);
+		world.setGameRule(GameRule.DO_ENTITY_DROPS, false);
+		world.setGameRule(GameRule.MAX_ENTITY_CRAMMING, 0);
+		world.setGameRule(GameRule.DO_MOB_LOOT, false);
+		world.setGameRule(GameRule.DO_TILE_DROPS, false);
+		world.setGameRule(GameRule.KEEP_INVENTORY, true);
+		world.setGameRule(GameRule.MOB_GRIEFING, false);
+
+		world.setSpawnLocation(0, 65, 0);
+
+		return world;
 	}
 
 	public void unload() {
@@ -103,28 +124,8 @@ public enum GameWorld {
 		Bukkit.getOnlinePlayers().stream().filter((p) -> Arrays.asList(GameWorld.values()).stream().map(GameWorld::getName).collect(Collectors.toList()).contains(p.getWorld().getName())).forEach((p) -> p.teleport(Var.LOBBY_LOCATION));
 
 		for (final GameWorld gWorld : GameWorld.values()) {
-			final World world = gWorld.getWorld();
-
-			world.setGameRule(GameRule.DO_WEATHER_CYCLE, false);
-			world.setGameRule(GameRule.DO_DAYLIGHT_CYCLE, false);
-			world.setTime(6000);
-
-			world.setGameRule(GameRule.SPECTATORS_GENERATE_CHUNKS, false);
-			world.setGameRule(GameRule.SPAWN_RADIUS, 0);
-			world.setGameRule(GameRule.DO_MOB_SPAWNING, false);
-			world.setGameRule(GameRule.DO_FIRE_TICK, false);
-			world.setGameRule(GameRule.RANDOM_TICK_SPEED, 0);
-			world.setGameRule(GameRule.ANNOUNCE_ADVANCEMENTS, false);
-			world.setGameRule(GameRule.DO_ENTITY_DROPS, false);
-			world.setGameRule(GameRule.MAX_ENTITY_CRAMMING, 0);
-			world.setGameRule(GameRule.DO_MOB_LOOT, false);
-			world.setGameRule(GameRule.DO_TILE_DROPS, false);
-			world.setGameRule(GameRule.KEEP_INVENTORY, true);
-			world.setGameRule(GameRule.MOB_GRIEFING, false);
-
-			world.setSpawnLocation(0, 65, 0);
-
-			//gWorld.unload();
+			gWorld.getWorld();
+			gWorld.unload();
 		}
 
 		Bukkit.broadcastMessage("[System] Done");
