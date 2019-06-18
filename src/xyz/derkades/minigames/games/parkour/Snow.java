@@ -4,7 +4,6 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
-import xyz.derkades.minigames.Var;
 import xyz.derkades.minigames.games.maps.MapSize;
 import xyz.derkades.minigames.worlds.GameWorld;
 
@@ -22,12 +21,12 @@ public class Snow extends ParkourMap {
 
 	@Override
 	public Location getStartLocation() {
-		return new Location(Var.WORLD, 277.5, 70, 273.5, -90, 0);
+		return new Location(this.getWorld(), 6.5, 50, 0.5, -90, 0);
 	}
 
 	@Override
 	public Location getSpectatorLocation() {
-		return new Location(Var.WORLD, 320, 81, 274, 90, 0);
+		return new Location(this.getWorld(), 31, 58, 4);
 	}
 
 	@Override
@@ -42,7 +41,7 @@ public class Snow extends ParkourMap {
 
 	@Override
 	public boolean spectatorFreeFlight() {
-		return false;
+		return true;
 	}
 
 	@Override
@@ -52,7 +51,7 @@ public class Snow extends ParkourMap {
 
 	@Override
 	public GameWorld getGameWorld() {
-		return null;
+		return GameWorld.PARKOUR_SNOW;
 	}
 
 }
