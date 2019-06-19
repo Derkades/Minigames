@@ -114,13 +114,13 @@ public enum GameWorld {
 		world.setGameRule(GameRule.KEEP_INVENTORY, true);
 		world.setGameRule(GameRule.MOB_GRIEFING, false);
 
-		final int range = 256;
-
-		for (int x = -range; x <= range; x += 16) {
-			for (int z = -range; z <= range; z += 16) {
-				world.setChunkForceLoaded(x, z, true);
-			}
-		}
+//		final int range = 256;
+//
+//		for (int x = -range; x <= range; x += 16) {
+//			for (int z = -range; z <= range; z += 16) {
+//				world.setChunkForceLoaded(x, z, true);
+//			}
+//		}
 
 		world.setSpawnLocation(0, 65, 0);
 
