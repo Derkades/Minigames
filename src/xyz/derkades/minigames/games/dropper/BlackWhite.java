@@ -3,7 +3,6 @@ package xyz.derkades.minigames.games.dropper;
 import org.bukkit.Location;
 import org.bukkit.Material;
 
-import xyz.derkades.minigames.Var;
 import xyz.derkades.minigames.games.maps.MapSize;
 import xyz.derkades.minigames.utils.BlockUtils;
 import xyz.derkades.minigames.worlds.GameWorld;
@@ -17,17 +16,17 @@ public class BlackWhite extends DropperMap {
 
 	@Override
 	public Location getLobbyLocation() {
-		return new Location(Var.WORLD, 117.5, 82, 151.5, -90, 0);
+		return new Location(this.getWorld(), 0.5, 85, 0.5, -90, 0);
 	}
 
 	@Override
 	public void openDoor() {
-		BlockUtils.fillArea(121, 80, 150, 123, 80, 152, Material.AIR);
+		BlockUtils.fillArea(6, 83, -1, 4, 83, 1, Material.AIR);
 	}
 
 	@Override
 	public void closeDoor() {
-		BlockUtils.fillArea(121, 80, 150, 123, 80, 152, Material.WHITE_STAINED_GLASS);
+		BlockUtils.fillArea(6, 83, -1, 4, 83, 1, Material.WHITE_STAINED_GLASS);
 	}
 
 	@Override
@@ -37,7 +36,7 @@ public class BlackWhite extends DropperMap {
 
 	@Override
 	public GameWorld getGameWorld() {
-		return null;
+		return GameWorld.DROPPER_BLACKWHITE;
 	}
 
 }

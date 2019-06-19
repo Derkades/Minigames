@@ -52,7 +52,7 @@ public class TNT extends ParkourMap {
 
 	@Override
 	public GameWorld getGameWorld() {
-		return null;
+		return GameWorld.PARKOUR_TNT;
 	}
 
 }

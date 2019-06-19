@@ -2,7 +2,6 @@ package xyz.derkades.minigames.games.creeperattack;
 
 import org.bukkit.Location;
 
-import xyz.derkades.minigames.Var;
 import xyz.derkades.minigames.games.maps.MapSize;
 import xyz.derkades.minigames.worlds.GameWorld;
 
@@ -10,13 +9,13 @@ public class Mineshaft extends CreeperAttackMap {
 
 	@Override
 	public Location getCreeperLocation() {
-		return new Location(Var.WORLD, 288, 39, 228);
+		return new Location(this.getWorld(), 288, 39, 228);
 
 	}
 
 	@Override
 	public Location getSpawnLocation() {
-		return new Location(Var.WORLD, 288, 39, 228);
+		return new Location(this.getWorld(), 0.5, 65, 0.5, -180f, 0f);
 	}
 
 	@Override
@@ -36,7 +35,7 @@ public class Mineshaft extends CreeperAttackMap {
 
 	@Override
 	public GameWorld getGameWorld() {
-		return null;
+		return GameWorld.CREEPERATTACK_MINESHAFT;
 	}
 
 }
