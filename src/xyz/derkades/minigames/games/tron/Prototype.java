@@ -44,16 +44,16 @@ public class Prototype extends TronMap {
 	@Override
 	public Map<TronTeam, Location> getSpawnLocations() {
 		final Map<TronTeam, Location> map = new HashMap<>();
-		map.put(TronTeam.LIGHT_BLUE, new Location(this.getWorld(), -28, 64, -38));	// 1
-		map.put(TronTeam.LIME, new Location(this.getWorld(), 28, 64, -38));			// 2
-		map.put(TronTeam.ORANGE, new Location(this.getWorld(), -28, 64, 38));		// 3
-		map.put(TronTeam.RED, new Location(this.getWorld(), 28, 64, 38));			// 4
-		map.put(TronTeam.PURPLE, new Location(this.getWorld(), 28, 64, 0));			// 5
-		map.put(TronTeam.BLUE, new Location(this.getWorld(), -28, 64, 0));			// 6
-		map.put(TronTeam.PINK, new Location(this.getWorld(), 14, 64, 20));			// 7
-		map.put(TronTeam.YELLOW, new Location(this.getWorld(), -14, 64, 20));		// 8
-		map.put(TronTeam.GREEN, new Location(this.getWorld(), 14, 64, -20));		// 9
-		map.put(TronTeam.WHITE, new Location(this.getWorld(), -14, 64, -20));		// 10
+		map.put(TronTeam.LIGHT_BLUE, new Location(this.getWorld(), -28, 65, -38));	// 1
+		map.put(TronTeam.LIME, new Location(this.getWorld(), 28, 65, -38));			// 2
+		map.put(TronTeam.ORANGE, new Location(this.getWorld(), -28, 65, 38));		// 3
+		map.put(TronTeam.RED, new Location(this.getWorld(), 28, 65, 38));			// 4
+		map.put(TronTeam.PURPLE, new Location(this.getWorld(), 28, 65, 0));			// 5
+		map.put(TronTeam.BLUE, new Location(this.getWorld(), -28, 65, 0));			// 6
+		map.put(TronTeam.PINK, new Location(this.getWorld(), 14, 65, 20));			// 7
+		map.put(TronTeam.YELLOW, new Location(this.getWorld(), -14, 65, 20));		// 8
+		map.put(TronTeam.GREEN, new Location(this.getWorld(), 14, 65, -20));		// 9
+		map.put(TronTeam.WHITE, new Location(this.getWorld(), -14, 65, -20));		// 10
 		return map;
 	}
 
