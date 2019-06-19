@@ -21,7 +21,6 @@ import net.md_5.bungee.api.ChatColor;
 import xyz.derkades.derkutils.ListUtils;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
 import xyz.derkades.minigames.Minigames;
-import xyz.derkades.minigames.Var;
 import xyz.derkades.minigames.games.creeperattack.CreeperAttackMap;
 import xyz.derkades.minigames.games.maps.GameMap;
 import xyz.derkades.minigames.utils.Scheduler;
@@ -52,8 +51,6 @@ public class CreeperAttack extends Game {
 
 		knockbackStick.addUnsafeEnchantment(Enchantment.KNOCKBACK, 3);
 
-		Utils.setGameRule("doMobLoot", false);
-
 		Utils.delayedTeleport(this.map.getSpawnLocation(), Bukkit.getOnlinePlayers());
 
 		Bukkit.getOnlinePlayers().forEach((player) -> {
@@ -83,7 +80,7 @@ public class CreeperAttack extends Game {
 				}
 
 				for (int i = 0; i < this.numberOfCreepers; i++) {
-					final Creeper creeper = Var.WORLD.spawn(CreeperAttack.this.map.getCreeperLocation(), Creeper.class);
+					final Creeper creeper = CreeperAttack.this.map.getWorld().spawn(CreeperAttack.this.map.getCreeperLocation(), Creeper.class);
 					creeper.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).setBaseValue(creeper.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).getBaseValue() * 1.5);
 					creeper.setTarget(ListUtils.getRandomValueFromList(Utils.getPlayerListFromUUIDList(CreeperAttack.this.alive)));
 				}
@@ -93,7 +90,7 @@ public class CreeperAttack extends Game {
 
 			@Override
 			public void onEnd() {
-				for (final Creeper creeper : Var.WORLD.getEntitiesByClass(Creeper.class)) {
+				for (final Creeper creeper : CreeperAttack.this.map.getWorld().getEntitiesByClass(Creeper.class)) {
 					creeper.remove();
 				}
 

@@ -142,7 +142,8 @@ public class BreakTheBlock extends Game {
 
 		this.blockBreaker = event.getPlayer().getUniqueId();
 
-		Utils.particle(Particle.EXPLOSION_HUGE, event.getBlock().getLocation(), 1);
+//		Utils.particle(Particle.EXPLOSION_HUGE, event.getBlock().getLocation(), 1);
+		this.map.getWorld().spawnParticle(Particle.EXPLOSION_HUGE, event.getBlock().getLocation(), 1);
 		Utils.playSoundForAllPlayers(Sound.ENTITY_GENERIC_EXPLODE, 1.0f);
 	}
 
