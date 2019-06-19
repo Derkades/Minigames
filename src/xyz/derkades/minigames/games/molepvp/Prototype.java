@@ -17,7 +17,8 @@ public class Prototype extends MolePvPMap {
 
 	@Override
 	public void setupMap() {
-		BlockUtils.fillArea(244, 67, 161, 224, 74, 142, Material.DIRT);
+		// TODO fix molepvp
+		BlockUtils.fillArea(244, 67, 161, 224, 74, 142, Material.DIRT); 
 		BlockUtils.fillArea(244, 69, 161, 242, 67, 159, Material.AIR);
 		BlockUtils.fillArea(226, 74, 144, 224, 72, 142, Material.AIR);
 	}

@@ -3,7 +3,6 @@ package xyz.derkades.minigames.games.tntrun;
 import org.bukkit.Location;
 import org.bukkit.Material;
 
-import xyz.derkades.minigames.Var;
 import xyz.derkades.minigames.games.maps.MapSize;
 import xyz.derkades.minigames.utils.BlockUtils;
 import xyz.derkades.minigames.worlds.GameWorld;
@@ -12,10 +11,10 @@ public class Future extends TNTMap {
 
 	@Override
 	public void restore() {
-		BlockUtils.fillArea(261, 80, 119, 273, 80, 131, Material.IRON_BLOCK);
-		BlockUtils.fillArea(261, 74, 119, 273, 74, 131, Material.IRON_BLOCK);
-		BlockUtils.fillArea(261, 68, 119, 273, 68, 131, Material.IRON_BLOCK);
-		BlockUtils.fillArea(261, 62, 119, 273, 62, 131, Material.IRON_BLOCK);
+		BlockUtils.fillArea(this.getWorld(), -6, 64, 6, 6, 64, -6, Material.IRON_BLOCK);
+		BlockUtils.fillArea(this.getWorld(), -6, 58, 6, 6, 58, -6, Material.IRON_BLOCK);
+		BlockUtils.fillArea(this.getWorld(), -6, 52, 6, 6, 52, -6, Material.IRON_BLOCK);
+		BlockUtils.fillArea(this.getWorld(), -6, 46, 6, 6, 46, -6, Material.IRON_BLOCK);
 	}
 
 	@Override
@@ -25,7 +24,7 @@ public class Future extends TNTMap {
 
 	@Override
 	public Location spawnLocation() {
-		return new Location(Var.WORLD, 267.5, 82, 125.5);
+		return new Location(this.getWorld(), 0.5, 65, 0.5);
 	}
 
 	@Override
@@ -40,7 +39,7 @@ public class Future extends TNTMap {
 
 	@Override
 	public GameWorld getGameWorld() {
-		return null;
+		return GameWorld.TNTRUN_FUTURE;
 	}
 
 }

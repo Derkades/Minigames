@@ -16,7 +16,7 @@ public class Original extends SpleefMap {
 
 	@Override
 	public Location getSpectatorLocation() {
-		return this.getStartLocation();
+		return null; // TP the player upward like 3-5 blocks
 	}
 
 	@Override

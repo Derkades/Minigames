@@ -5,7 +5,6 @@ import java.util.Map;
 
 import org.bukkit.Location;
 
-import xyz.derkades.minigames.Var;
 import xyz.derkades.minigames.games.Tron.TronTeam;
 import xyz.derkades.minigames.games.maps.MapSize;
 import xyz.derkades.minigames.worlds.GameWorld;
@@ -24,49 +23,48 @@ public class Prototype extends TronMap {
 
 	@Override
 	public Location getOuterCornerOne() {
-		return new Location(Var.WORLD, 445, 83, 119);
+		return new Location(this.getWorld(), 30, 65, 40);
 	}
 
 	@Override
 	public Location getOuterCornerTwo() {
-		return new Location(Var.WORLD, 385, 83, 39);
+		return new Location(this.getWorld(), -30, 65, -40);
 	}
 
 	@Override
 	public Location getInnerCornerOne() {
-		return new Location(Var.WORLD, 444, 83, 118);
+		return new Location(this.getWorld(), 29, 64, 39);
 	}
 
 	@Override
 	public Location getInnerCornerTwo() {
-		return new Location(Var.WORLD, 386, 83, 40);
+		return new Location(this.getWorld(), -29, 83, -39);
 	}
 
 	@Override
 	public Location getSpectatorSpawnLocation() {
-		return new Location(Var.WORLD, 420, 105, 78);
+		return null; //TODO TP the player like 3-5 blocks upwards in stead of fixed spawnlocation.
 	}
 
 	@Override
 	public Map<TronTeam, Location> getSpawnLocations() {
 		final Map<TronTeam, Location> map = new HashMap<>();
-		map.put(TronTeam.ORANGE, new Location(Var.WORLD, 443, 84, 117));
-		map.put(TronTeam.PURPLE, new Location(Var.WORLD, 387, 84, 117));
-		map.put(TronTeam.LIGHT_BLUE, new Location(Var.WORLD, 388, 84, 41));
-		map.put(TronTeam.YELLOW, new Location(Var.WORLD, 442, 84, 42));
-		map.put(TronTeam.GREEN, new Location(Var.WORLD, 415, 84, 41));
-		map.put(TronTeam.PINK, new Location(Var.WORLD, 443, 84, 79));
-		map.put(TronTeam.LIME, new Location(Var.WORLD, 415, 84, 117));
-		map.put(TronTeam.GRAY, new Location(Var.WORLD, 387, 84, 79));
-		map.put(TronTeam.WHITE, new Location(Var.WORLD, 415, 84, 63));
-		map.put(TronTeam.BLUE, new Location(Var.WORLD, 415, 84, 95));
-
+		map.put(TronTeam.LIGHT_BLUE, new Location(this.getWorld(), -29, 64, -39));	// 1 
+		map.put(TronTeam.LIME, new Location(this.getWorld(), 29, 64, -39));			// 2
+		map.put(TronTeam.ORANGE, new Location(this.getWorld(), -29, 64, 39));		// 3
+		map.put(TronTeam.RED, new Location(this.getWorld(), 29, 64, 39));			// 4
+		map.put(TronTeam.PURPLE, new Location(this.getWorld(), 28, 64, 0));			// 5
+		map.put(TronTeam.BLUE, new Location(this.getWorld(), -28, 64, 0));			// 6
+		map.put(TronTeam.PINK, new Location(this.getWorld(), 14, 64, 20));			// 7
+		map.put(TronTeam.YELLOW, new Location(this.getWorld(), -14, 64, 20));		// 8
+		map.put(TronTeam.GREEN, new Location(this.getWorld(), 14, 64, -20));		// 9
+		map.put(TronTeam.WHITE, new Location(this.getWorld(), -14, 64, -20));		// 10
 		return map;
 	}
 
 	@Override
 	public GameWorld getGameWorld() {
-		return null;
+		return GameWorld.TRON_PROTOTYPE;
 	}
 
 

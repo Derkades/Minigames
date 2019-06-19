@@ -3,7 +3,6 @@ package xyz.derkades.minigames.games.spleef;
 import org.bukkit.Location;
 import org.bukkit.Material;
 
-import xyz.derkades.minigames.Var;
 import xyz.derkades.minigames.games.maps.MapSize;
 import xyz.derkades.minigames.utils.BlockUtils;
 import xyz.derkades.minigames.worlds.GameWorld;
@@ -12,17 +11,17 @@ public class BigStadium extends SpleefMap {
 
 	@Override
 	public Location getStartLocation() {
-		return new Location(Var.WORLD, 67, 91, 143);
+		return new Location(this.getWorld(), 0, 65, 0);
 	}
 
 	@Override
 	public Location getSpectatorLocation() {
-		return new Location(Var.WORLD, 67, 97, 143);
+		return null; // TP the player upward like 3-5 blocks
 	}
 
 	@Override
 	public void fill() {
-		BlockUtils.fillArea(45, 89, 131, 89, 89, 155, Material.SNOW_BLOCK);
+		BlockUtils.fillArea(this.getWorld(), 22, 64, -12, -22, 64, 13, Material.SNOW_BLOCK);
 	}
 
 	@Override
@@ -37,7 +36,7 @@ public class BigStadium extends SpleefMap {
 
 	@Override
 	public GameWorld getGameWorld() {
-		return null;
+		return GameWorld.SPLEEF_BIGSTADIUM;
 	}
 
 }

@@ -3,7 +3,6 @@ package xyz.derkades.minigames.games.tntrun;
 import org.bukkit.Location;
 import org.bukkit.Material;
 
-import xyz.derkades.minigames.Var;
 import xyz.derkades.minigames.games.maps.MapSize;
 import xyz.derkades.minigames.utils.BlockUtils;
 import xyz.derkades.minigames.worlds.GameWorld;
@@ -12,11 +11,11 @@ public class WaterLava extends TNTMap {
 
 	@Override
 	public void restore() {
-		BlockUtils.fillArea(262, 84, 79, 272, 84, 89, Material.COBBLESTONE);
-		BlockUtils.fillArea(262, 79, 79, 272, 79, 89, Material.COBBLESTONE);
-		BlockUtils.fillArea(262, 74, 79, 272, 74, 89, Material.COBBLESTONE);
-		BlockUtils.fillArea(262, 69, 79, 272, 69, 89, Material.COBBLESTONE);
-		BlockUtils.fillArea(262, 64, 79, 272, 64, 89, Material.COBBLESTONE);
+		BlockUtils.fillArea(this.getWorld(), 5, 64, -5, -5, 64, 5, Material.COBBLESTONE);
+		BlockUtils.fillArea(this.getWorld(), 5, 59, -5, -5, 59, 5, Material.COBBLESTONE);
+		BlockUtils.fillArea(this.getWorld(), 5, 54, -5, -5, 54, 5, Material.COBBLESTONE);
+		BlockUtils.fillArea(this.getWorld(), 5, 49, -5, -5, 49, 5, Material.COBBLESTONE);
+		BlockUtils.fillArea(this.getWorld(), 5, 44, -5, -5, 44, 5, Material.COBBLESTONE);
 	}
 
 	@Override
@@ -26,7 +25,7 @@ public class WaterLava extends TNTMap {
 
 	@Override
 	public Location spawnLocation() {
-		return new Location(Var.WORLD, 267, 85, 84.5);
+		return new Location(this.getWorld(), 0.5, 65, 0.5);
 	}
 
 	@Override
@@ -41,7 +40,7 @@ public class WaterLava extends TNTMap {
 
 	@Override
 	public GameWorld getGameWorld() {
-		return null;
+		return GameWorld.TNTRUN_WATERLAVA;
 	}
 
 }

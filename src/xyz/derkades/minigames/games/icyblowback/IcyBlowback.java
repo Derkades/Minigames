@@ -2,7 +2,6 @@ package xyz.derkades.minigames.games.icyblowback;
 
 import org.bukkit.Location;
 
-import xyz.derkades.minigames.Var;
 import xyz.derkades.minigames.games.maps.MapSize;
 import xyz.derkades.minigames.worlds.GameWorld;
 
@@ -10,16 +9,16 @@ public class IcyBlowback extends IcyBlowbackMap {
 
 	@Override
 	public Location getSpectatorLocation() {
-		return new Location(Var.WORLD, -18.5, 116, 88.5);
+		return null;
 	}
 
 	@Override
 	public Location[] getSpawnLocations() {
 		return new Location[] {
-			new Location(Var.WORLD, -35, 89, 105.5),
-			new Location(Var.WORLD, -35.5, 89, 71.5),
-			new Location(Var.WORLD, -1.5, 89, 71.5),
-			new Location(Var.WORLD, -1.5, 89, 105.5),
+			new Location(this.getWorld(), 17, 38, 17, 135f, 0f),
+			new Location(this.getWorld(), 17, 38, -16, 45f, 0f),
+			new Location(this.getWorld(), -16, 38, -16, -45, 0f),
+			new Location(this.getWorld(), -16, 38, 17, -135f, 0f),
 		};
 	}
 
@@ -35,7 +34,7 @@ public class IcyBlowback extends IcyBlowbackMap {
 
 	@Override
 	public GameWorld getGameWorld() {
-		return null;
+		return GameWorld.ICYBLOWBACK_ICYBLOWBACK;
 	}
 
 }

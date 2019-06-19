@@ -4,7 +4,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.potion.PotionEffectType;
 
-import xyz.derkades.minigames.Var;
 import xyz.derkades.minigames.games.maps.MapSize;
 import xyz.derkades.minigames.utils.Utils;
 import xyz.derkades.minigames.worlds.GameWorld;
@@ -23,12 +22,12 @@ public class Forest extends TeamsBowBattleMap {
 
 	@Override
 	public Location getTeamRedSpawnLocation() {
-		return new Location(Var.WORLD, 315.5, 69, 315.5, 0, 0);
+		return new Location(this.getWorld(), 0.5, 63, -34.5, 0f, 0f);
 	}
 
 	@Override
 	public Location getTeamBlueSpawnLocation() {
-		return new Location(Var.WORLD, 315.5, 69, 385.5, -180, 0);
+		return new Location(this.getWorld(), 0.5, 63, 35.5, -180f, 0f);
 	}
 
 	@Override
@@ -38,7 +37,7 @@ public class Forest extends TeamsBowBattleMap {
 
 	@Override
 	public GameWorld getGameWorld() {
-		return null;
+		return GameWorld.TBB_FOREST;
 	}
 
 }
