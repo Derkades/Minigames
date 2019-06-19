@@ -2,7 +2,6 @@ package xyz.derkades.minigames.games.platform;
 
 import org.bukkit.Location;
 
-import xyz.derkades.minigames.Var;
 import xyz.derkades.minigames.games.maps.MapSize;
 import xyz.derkades.minigames.worlds.GameWorld;
 
@@ -10,7 +9,7 @@ public class Desert extends PlatformMap {
 
 	@Override
 	public Location getSpawnLocation() {
-		return new Location(Var.WORLD, 209.5, 87, 362.5);
+		return new Location(this.getWorld(), 0, 65, 0);
 	}
 
 	@Override
@@ -25,7 +24,7 @@ public class Desert extends PlatformMap {
 
 	@Override
 	public GameWorld getGameWorld() {
-		return null;
+		return GameWorld.PLATFORM_DESERT;
 	}
 
 }
