@@ -58,6 +58,14 @@ public class Command implements CommandExecutor {
 				}
 
 				Bukkit.broadcastMessage("[System] Done");
+			} else if (args[0].equals("unloadworlds") && sender.hasPermission("minigames.world.unload")) {
+				Bukkit.broadcastMessage("[System] Unloading worlds, this may take a long time and cause lag..");
+
+				for (final GameWorld gWorld : GameWorld.values()) {
+					gWorld.unload();
+				}
+
+				Bukkit.broadcastMessage("[System] Done");
 			} else if (args[0].equals("test") && sender.hasPermission("minigames.test")) {
 //				final Player player = (Player) sender;
 
