@@ -18,6 +18,7 @@ import xyz.derkades.minigames.Var;
 import xyz.derkades.minigames.games.maps.GameMap;
 import xyz.derkades.minigames.utils.Utils;
 
+@Deprecated
 public class Elytra extends Game {
 
 	public static final int GAME_DURATION = 30;

@@ -77,8 +77,6 @@ public class MolePvP extends Game {
 
 			@Override
 			public void onStart() {
-				Utils.setGameRule("doTileDrops", false);
-
 				Bukkit.getOnlinePlayers().forEach((player) -> {
 					MolePvP.this.giveItems(player);
 					Minigames.setCanTakeDamage(player, true);

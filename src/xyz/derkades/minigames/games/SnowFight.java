@@ -30,6 +30,7 @@ import xyz.derkades.minigames.games.snowfight.SnowFightMap;
 import xyz.derkades.minigames.utils.Scheduler;
 import xyz.derkades.minigames.utils.Utils;
 
+@Deprecated
 public class SnowFight extends Game {
 
 	private static final int MAX_DURATION = 70;

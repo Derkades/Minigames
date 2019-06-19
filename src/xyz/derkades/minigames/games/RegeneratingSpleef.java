@@ -47,8 +47,6 @@ public class RegeneratingSpleef extends Game {
 
 		this.map = (SpleefMap) genericMap;
 
-		Utils.setGameRule("doTileDrops", false);
-
 		this.map.fill();
 
 		for (final Player player: Bukkit.getOnlinePlayers()){

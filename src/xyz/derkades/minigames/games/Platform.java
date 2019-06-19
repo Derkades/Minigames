@@ -20,7 +20,6 @@ import org.bukkit.potion.PotionEffectType;
 import net.md_5.bungee.api.ChatColor;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
 import xyz.derkades.minigames.Minigames;
-import xyz.derkades.minigames.Var;
 import xyz.derkades.minigames.games.maps.GameMap;
 import xyz.derkades.minigames.games.platform.PlatformMap;
 import xyz.derkades.minigames.utils.Utils;
@@ -119,7 +118,7 @@ public class Platform extends Game {
 
 		this.sendMessage(player.getName() + " has been eliminated from the game!");
 
-		Var.WORLD.spigot().strikeLightningEffect(player.getLocation(), false);
+		this.map.getWorld().spigot().strikeLightningEffect(player.getLocation(), false);
 		final Location loc = player.getLocation();
 		loc.setY(loc.getY() + 10);
 		player.teleport(loc);
