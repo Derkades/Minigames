@@ -29,6 +29,7 @@ import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.ClickEvent;
 import xyz.derkades.derkutils.bukkit.MaterialLists;
 import xyz.derkades.minigames.menu.MainMenu;
+import xyz.derkades.minigames.utils.MinigamesJoinEvent;
 import xyz.derkades.minigames.utils.Scheduler;
 import xyz.derkades.minigames.utils.Utils;
 
@@ -38,48 +39,48 @@ public class GlobalListeners implements Listener {
 	public void onJoin(final PlayerJoinEvent event){
 		final Player player = event.getPlayer();
 
-		if (Minigames.IS_IN_GAME) {
-			player.teleport(Var.IN_GAME_LOBBY_LOCATION);
-		} else {
-			player.teleport(Var.LOBBY_LOCATION);
-		}
-
-		player.setGameMode(GameMode.ADVENTURE);
-		player.setAllowFlight(false); //Just in case the player was spectator
-		Utils.clearInventory(player);
-		Minigames.setCanTakeDamage(player, false);
+		event.setJoinMessage(String.format("[%s+%s] %s| %s%s", ChatColor.GREEN, ChatColor.RESET, ChatColor.DARK_GRAY, ChatColor.GREEN, player.getName()));
 
 		player.setExp(0.0f);
 		player.setLevel(0);
 
 		Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "team join global " + player.getName());
 
-		//final String minMax = ChatColor.GRAY + "(" + Bukkit.getOnlinePlayers().size() + "/" + Bukkit.getMaxPlayers() + ")";
+		Utils.clearInventory(player);
+		Minigames.setCanTakeDamage(player, false);
 
-		//event.setJoinMessage(ChatColor.YELLOW + "" + ChatColor.BOLD + player.getName() + ChatColor.GOLD + "" + ChatColor.BOLD + " has joined! " + minMax);
+		player.setGameMode(GameMode.ADVENTURE);
+		player.setAllowFlight(false); //Just in case the player was spectator
 
-		event.setJoinMessage(String.format("[%s+%s] %s| %s%s", ChatColor.GREEN, ChatColor.RESET, ChatColor.DARK_GRAY, ChatColor.GREEN, player.getName()));
+		final MinigamesJoinEvent event2 = new MinigamesJoinEvent(player);
+		Bukkit.getPluginManager().callEvent(event2);
 
-		Scheduler.delay(1, () -> {
-			player.spigot().sendMessage(
-					Utils.getComponentBuilderWithPrefix(ChatColor.GREEN, 'P')
-					.append("For feature requests and bug reports, ")
-					.color(ChatColor.GRAY)
-					.append("click here")
-					.underlined(true)
-					.event(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://github.com/Derkades/Minigames/issues"))
-					.append(".")
-					.underlined(false)
-					.create());
-		});
+		if (event2.getTeleportPlayerToLobby()) {
+			if (Minigames.IS_IN_GAME) {
+				player.teleport(Var.IN_GAME_LOBBY_LOCATION);
+			} else {
+				player.teleport(Var.LOBBY_LOCATION);
+			}
 
-		Minigames.giveLobbyInventoryItems(player);
+			Scheduler.delay(1, () -> {
+				player.spigot().sendMessage(
+						Utils.getComponentBuilderWithPrefix(ChatColor.GREEN, 'P')
+						.append("For feature requests and bug reports, ")
+						.color(ChatColor.GRAY)
+						.append("click here")
+						.underlined(true)
+						.event(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://github.com/Derkades/Minigames/issues"))
+						.append(".")
+						.underlined(false)
+						.create());
+			});
+			Minigames.giveLobbyInventoryItems(player);
+		}
 	}
 
 	@EventHandler
 	public void onQuit(final PlayerQuitEvent event){
 		final Player player = event.getPlayer();
-		//event.setQuitMessage(ChatColor.YELLOW + "" + ChatColor.BOLD + player.getName() + ChatColor.GOLD + "" + ChatColor.BOLD + " has left.");
 		event.setQuitMessage(String.format("[%s-%s] %s| %s%s", ChatColor.RED, ChatColor.RESET, ChatColor.DARK_GRAY, ChatColor.RED, player.getName()));
 	}
 
