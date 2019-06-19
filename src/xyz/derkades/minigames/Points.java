@@ -128,9 +128,9 @@ public class Points {
 			}
 
 			final Sign globalStats = (Sign) new Location(world, 222, 68, 259).getBlock().getState();
-			globalStats.setLine(0, ChatColor.GOLD + "Total players");
+			globalStats.setLine(0, ChatColor.YELLOW + "Total players");
 			globalStats.setLine(1, ChatColor.WHITE + "" + players);
-			globalStats.setLine(2, ChatColor.GOLD + "Total points");
+			globalStats.setLine(2, ChatColor.YELLOW + "Total points");
 			globalStats.setLine(3, ChatColor.WHITE + "" + totalPoints);
 			globalStats.update();
 		}
