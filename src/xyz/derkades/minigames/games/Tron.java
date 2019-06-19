@@ -51,11 +51,13 @@ public class Tron extends Game {
 		this.spectators = new ArrayList<>();
 		this.teams = new HashMap<>();
 
-		BlockUtils.fillArea(this.map.getInnerCornerOne().getBlockX(), this.map.getInnerCornerOne().getBlockY(), this.map.getInnerCornerOne().getBlockZ(),
+		BlockUtils.fillArea(this.map.getWorld(),
+				this.map.getInnerCornerOne().getBlockX(), this.map.getInnerCornerOne().getBlockY(), this.map.getInnerCornerOne().getBlockZ(),
 				this.map.getInnerCornerTwo().getBlockX(), this.map.getInnerCornerTwo().getBlockY(), this.map.getInnerCornerTwo().getBlockZ(),
 				Material.BLACK_CONCRETE);
 
-		BlockUtils.fillArea(this.map.getInnerCornerOne().getBlockX(), this.map.getInnerCornerOne().getBlockY() + 1, this.map.getInnerCornerOne().getBlockZ(),
+		BlockUtils.fillArea(this.map.getWorld(),
+				this.map.getInnerCornerOne().getBlockX(), this.map.getInnerCornerOne().getBlockY() + 1, this.map.getInnerCornerOne().getBlockZ(),
 				this.map.getInnerCornerTwo().getBlockX(), this.map.getInnerCornerTwo().getBlockY() + 2, this.map.getInnerCornerTwo().getBlockZ(),
 				Material.AIR);
 
