@@ -115,7 +115,7 @@ public class IcyBlowback extends Game {
 			return;
 		}
 
-		if (player.getLocation().getY() < 87) {
+		if (player.getLocation().getY() < this.map.getBottomFloorLevel()) {
 			this.die(player);
 		}
 	}

@@ -12,5 +12,7 @@ public abstract class IcyBlowbackMap extends GameMap {
 
 	public abstract Location[] getSpawnLocations();
 
+	public abstract int getBottomFloorLevel();
+
 
 }

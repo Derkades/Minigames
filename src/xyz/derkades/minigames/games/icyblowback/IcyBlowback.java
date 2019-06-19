@@ -32,4 +32,9 @@ public class IcyBlowback extends IcyBlowbackMap {
 		return GameWorld.ICYBLOWBACK_ICYBLOWBACK;
 	}
 
+	@Override
+	public int getBottomFloorLevel() {
+		return 35;
+	}
+
 }
