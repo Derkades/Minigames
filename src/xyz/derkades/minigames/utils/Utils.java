@@ -275,4 +275,10 @@ public class Utils {
 		return new ComponentBuilder("").appendLegacy(Utils.getChatPrefix(prefixColor, prefixChar));
 	}
 
+	public static void teleportUp(final Player player, final int yUp) {
+		final Location loc = player.getLocation();
+		loc.setY(loc.getY() + yUp);
+		player.teleport(loc);
+	}
+
 }

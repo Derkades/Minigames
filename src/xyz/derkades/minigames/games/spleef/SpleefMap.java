@@ -14,8 +14,6 @@ public abstract class SpleefMap extends GameMap {
 
 	public abstract Location getStartLocation();
 
-	public abstract Location getSpectatorLocation();
-
 	public abstract void fill();
 
 }

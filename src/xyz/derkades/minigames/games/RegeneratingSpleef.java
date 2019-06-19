@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -119,12 +120,11 @@ public class RegeneratingSpleef extends Game {
 	public void onMove(final PlayerMoveEvent event){
 		final Player player = event.getPlayer();
 		if (event.getTo().getBlock().getRelative(BlockFace.DOWN).getType() == Material.BEDROCK){
-			player.teleport(this.map.getSpectatorLocation());
-			player.getInventory().clear();
 			this.dead.add(player.getUniqueId());
-			player.setAllowFlight(true);
-			Utils.hideForEveryoneElse(player);
-			player.setFlying(true);
+			player.getInventory().clear();
+
+			player.setGameMode(GameMode.SPECTATOR);
+			Utils.teleportUp(player, 3);
 		}
 	}
 
