@@ -251,6 +251,10 @@ public class Utils {
 	}
 
 	public static boolean isIn2dBounds(final Location location, final Location cornerOne, final Location cornerTwo) {
+		if (!location.getWorld().equals(cornerOne.getWorld())) {
+			return false;
+		}
+
 		final int maxX = Math.max(cornerOne.getBlockX(), cornerTwo.getBlockX());
 		final int minX = Math.min(cornerOne.getBlockX(), cornerTwo.getBlockX());
 		final int maxZ = Math.max(cornerOne.getBlockZ(), cornerTwo.getBlockZ());
