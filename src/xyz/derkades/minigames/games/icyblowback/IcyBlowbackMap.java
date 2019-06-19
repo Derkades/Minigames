@@ -10,8 +10,6 @@ public abstract class IcyBlowbackMap extends GameMap {
 			new IcyBlowback(),
 	};
 
-	public abstract Location getSpectatorLocation();
-
 	public abstract Location[] getSpawnLocations();
 
 

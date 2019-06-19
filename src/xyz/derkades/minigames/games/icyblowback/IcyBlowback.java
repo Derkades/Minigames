@@ -8,11 +8,6 @@ import xyz.derkades.minigames.worlds.GameWorld;
 public class IcyBlowback extends IcyBlowbackMap {
 
 	@Override
-	public Location getSpectatorLocation() {
-		return null;
-	}
-
-	@Override
 	public Location[] getSpawnLocations() {
 		return new Location[] {
 			new Location(this.getWorld(), 17, 38, 17, 135f, 0f),
