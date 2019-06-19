@@ -33,7 +33,5 @@ public abstract class TronMap extends GameMap {
 	 */
 	public abstract Location getInnerCornerTwo();
 
-	public abstract Location getSpectatorSpawnLocation();
-
 	public abstract Map<TronTeam, Location> getSpawnLocations();
 }
