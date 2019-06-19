@@ -35,8 +35,8 @@ public class WorldTeleportCommand implements CommandExecutor {
 			player.teleport(Var.LOBBY_LOCATION);
 		} else {
 			player.setGameMode(GameMode.CREATIVE);
-			player.setFlying(true);
 			player.teleport(new Location(GameWorld.valueOf(args[0].toUpperCase()).getWorld(), 0, 65, 0));
+			player.setFlying(true);
 		}
 
 		return true;
