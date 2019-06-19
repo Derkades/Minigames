@@ -13,7 +13,6 @@ import java.util.stream.Collectors;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -26,7 +25,6 @@ import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import xyz.derkades.derkutils.Random;
 import xyz.derkades.minigames.Minigames;
-import xyz.derkades.minigames.Var;
 
 public class Utils {
 
@@ -204,21 +202,6 @@ public class Utils {
 	    }
 
 	    return result;
-	}
-
-	@Deprecated
-	public static void particle(final Particle particle, final Location location, final double speed, final int count, final double offsetX, final double offsetY, final int offsetZ) {
-		Var.WORLD.spawnParticle(particle, location, count, offsetX, offsetY, offsetX, speed);
-	}
-
-	@Deprecated
-	public static void particle(final Particle particle, final double x, final double y, final double z, final double speed, final int count, final double offsetX, final double offsetY, final int offsetZ) {
-		Var.WORLD.spawnParticle(particle, new Location(Var.WORLD, x, y, z), count, offsetX, offsetY, offsetX, speed);
-	}
-
-	@Deprecated
-	public static void particle(final Particle particle, final Location location, final int count) {
-		location.getWorld().spawnParticle(particle, location, count);
 	}
 
 	public static void hideForEveryoneElse(final Player player) {
