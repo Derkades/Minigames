@@ -15,11 +15,6 @@ public class Original extends SpleefMap {
 	}
 
 	@Override
-	public Location getSpectatorLocation() {
-		return null; // TP the player upward like 3-5 blocks
-	}
-
-	@Override
 	public void fill() {
 		BlockUtils.fillArea(this.getWorld(), -7, 64, -7, 7, 64, 7, Material.SNOW_BLOCK);
 	}
@@ -37,6 +32,11 @@ public class Original extends SpleefMap {
 	@Override
 	public GameWorld getGameWorld() {
 		return GameWorld.SPLEEF_ORIGINAL;
+	}
+
+	@Override
+	public boolean enableFlyingBlocks() {
+		return true;
 	}
 
 }
