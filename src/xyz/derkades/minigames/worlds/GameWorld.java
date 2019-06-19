@@ -101,7 +101,7 @@ public enum GameWorld {
 		world.setGameRule(GameRule.DO_DAYLIGHT_CYCLE, false);
 		world.setTime(6000);
 
-		world.setGameRule(GameRule.SPECTATORS_GENERATE_CHUNKS, false);
+		world.setGameRule(GameRule.SPECTATORS_GENERATE_CHUNKS, true);
 		world.setGameRule(GameRule.SPAWN_RADIUS, 0);
 		world.setGameRule(GameRule.DO_MOB_SPAWNING, false);
 		world.setGameRule(GameRule.DO_FIRE_TICK, false);
