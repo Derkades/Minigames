@@ -21,12 +21,12 @@ public class Rainbow extends DropperMap {
 
 	@Override
 	public void openDoor() {
-		BlockUtils.fillArea(4, 83, 1, 6, 83, -1, Material.AIR);
+		BlockUtils.fillArea(this.getWorld(), 4, 83, 1, 6, 83, -1, Material.AIR);
 	}
 
 	@Override
 	public void closeDoor() {
-		BlockUtils.fillArea(4, 83, 1, 6, 83, -1, Material.SLIME_BLOCK);
+		BlockUtils.fillArea(this.getWorld(),  4, 83, 1, 6, 83, -1, Material.SLIME_BLOCK);
 	}
 
 	@Override
