@@ -28,7 +28,7 @@ import net.md_5.bungee.api.ChatColor;
 import xyz.derkades.derkutils.Random;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
 import xyz.derkades.minigames.Minigames;
-import xyz.derkades.minigames.Var;
+import xyz.derkades.minigames.games.digdug.DigDugMap;
 import xyz.derkades.minigames.games.maps.GameMap;
 import xyz.derkades.minigames.utils.BlockUtils;
 import xyz.derkades.minigames.utils.Utils;
@@ -49,13 +49,13 @@ public class DigDug extends Game {
 	private static final int NETHERRACK_EFFECT_TIME = 5*20;
 	private static final int QUARTZ_EFFECT_TIME = 10*20;
 
-	private static final int ARENA_MIN_X = 130;
-	private static final int ARENA_MIN_Y = 53;
-	private static final int ARENA_MIN_Z = 67;
-
-	private static final int ARENA_MAX_X = 169;
-	private static final int ARENA_MAX_Y = 73;
-	private static final int ARENA_MAX_Z = 103;
+//	private static final int ARENA_MIN_X = 130;
+//	private static final int ARENA_MIN_Y = 53;
+//	private static final int ARENA_MIN_Z = 67;
+//
+//	private static final int ARENA_MAX_X = 169;
+//	private static final int ARENA_MAX_Y = 73;
+//	private static final int ARENA_MAX_Z = 103;
 
 	private static final int GAME_DURATION = 40;
 
@@ -77,15 +77,20 @@ public class DigDug extends Game {
 				2, null);
 	}
 
+	private DigDugMap map;
+
 	@Override
 	void begin(final GameMap genericMap) {
+		this.map = (DigDugMap) genericMap;
+
 		this.points.clear();
 
 		this.fillArena();
 
 		this.sidebar = new Sidebar(ChatColor.DARK_AQUA + "" + ChatColor.DARK_AQUA + "Score", Minigames.getInstance(), Integer.MAX_VALUE, new SidebarString[] {new SidebarString("Loading...")});
 
-		Utils.delayedTeleport(new Location(Var.WORLD, 149, 77.5, 86, 180, 90), Bukkit.getOnlinePlayers());
+//		Utils.delayedTeleport(new Location(Var.WORLD, 149, 77.5, 86, 180, 90), Bukkit.getOnlinePlayers());
+		Utils.delayedTeleport(this.map.getSpawnLocation(), Bukkit.getOnlinePlayers());
 
 		for (final Player player : Bukkit.getOnlinePlayers()) {
 			this.points.put(player.getUniqueId(), 0);
@@ -106,7 +111,7 @@ public class DigDug extends Game {
 
 				Bukkit.getOnlinePlayers().forEach(player -> player.getInventory().addItem(shovel));
 
-				Utils.setGameRule("doTileDrops", false);
+//				Utils.setGameRule("doTileDrops", false);
 			}
 
 			@Override
@@ -196,49 +201,58 @@ public class DigDug extends Game {
 	}
 
 	private void fillArena() {
-		BlockUtils.fillArea(ARENA_MIN_X, ARENA_MIN_Y, ARENA_MIN_Z, ARENA_MAX_X, ARENA_MAX_Y - 1, ARENA_MAX_Z, Material.DIRT);
-		BlockUtils.fillArea(ARENA_MIN_X, ARENA_MAX_Y, ARENA_MIN_Z, ARENA_MAX_X, ARENA_MAX_Y, ARENA_MAX_Z, Material.GRASS_BLOCK); // Top grass layer
+		final int minX = this.map.getBlocksMinLocation().getBlockX();
+		final int minY = this.map.getBlocksMinLocation().getBlockY();
+		final int minZ = this.map.getBlocksMinLocation().getBlockZ();
+		final int maxX = this.map.getBlocksMinLocation().getBlockX();
+		final int maxY = this.map.getBlocksMinLocation().getBlockY();
+		final int maxZ = this.map.getBlocksMinLocation().getBlockZ();
+
+		// Place dirt first, then fill with ores
+
+		BlockUtils.fillArea(this.map.getWorld(), minX, minY, minZ, maxX, maxY - 1, maxZ, Material.DIRT);
+		BlockUtils.fillArea(this.map.getWorld(), minX, maxY, minZ, maxX, maxY, maxZ, Material.GRASS_BLOCK); // Top grass layer
 
 		for (int i = 0; i <= COAL_AMOUNT; i++) {
-			final int x = Random.getRandomInteger(ARENA_MIN_X, ARENA_MAX_X);
-			final int y = Random.getRandomInteger(ARENA_MIN_Y, ARENA_MAX_Y - 1);
-			final int z = Random.getRandomInteger(ARENA_MIN_Z, ARENA_MAX_Z);
-			new Location(Var.WORLD, x, y, z).getBlock().setType(Material.COAL_ORE);
+			final int x = Random.getRandomInteger(minX, maxX);
+			final int y = Random.getRandomInteger(minY, maxY - 1);
+			final int z = Random.getRandomInteger(minZ, maxZ);
+			new Location(this.map.getWorld(), x, y, z).getBlock().setType(Material.COAL_ORE);
 		}
 
 		for (int i = 0; i <= IRON_AMOUNT; i++) {
-			final int x = Random.getRandomInteger(ARENA_MIN_X, ARENA_MAX_X);
-			final int y = Random.getRandomInteger(ARENA_MIN_Y, ARENA_MAX_Y - 1);
-			final int z = Random.getRandomInteger(ARENA_MIN_Z, ARENA_MAX_Z);
-			new Location(Var.WORLD, x, y, z).getBlock().setType(Material.IRON_ORE);
+			final int x = Random.getRandomInteger(minX, maxX);
+			final int y = Random.getRandomInteger(minY, maxY - 1);
+			final int z = Random.getRandomInteger(minZ, maxZ);
+			new Location(this.map.getWorld(), x, y, z).getBlock().setType(Material.IRON_ORE);
 		}
 
 		for (int i = 0; i <= GOLD_AMOUNT; i++) {
-			final int x = Random.getRandomInteger(ARENA_MIN_X, ARENA_MAX_X);
-			final int y = Random.getRandomInteger(ARENA_MIN_Y, ARENA_MAX_Y - 1);
-			final int z = Random.getRandomInteger(ARENA_MIN_Z, ARENA_MAX_Z);
-			new Location(Var.WORLD, x, y, z).getBlock().setType(Material.GOLD_ORE);
+			final int x = Random.getRandomInteger(minX, maxX);
+			final int y = Random.getRandomInteger(minY, maxY - 1);
+			final int z = Random.getRandomInteger(minZ, maxZ);
+			new Location(this.map.getWorld(), x, y, z).getBlock().setType(Material.GOLD_ORE);
 		}
 
 		for (int i = 0; i <= EMERALD_AMOUNT; i++) {
-			final int x = Random.getRandomInteger(ARENA_MIN_X, ARENA_MAX_X);
-			final int y = Random.getRandomInteger(ARENA_MIN_Y, ARENA_MAX_Y - 1);
-			final int z = Random.getRandomInteger(ARENA_MIN_Z, ARENA_MAX_Z);
-			new Location(Var.WORLD, x, y, z).getBlock().setType(Material.EMERALD_ORE);
+			final int x = Random.getRandomInteger(minX, maxX);
+			final int y = Random.getRandomInteger(minY, maxY - 1);
+			final int z = Random.getRandomInteger(minZ, maxZ);
+			new Location(this.map.getWorld(), x, y, z).getBlock().setType(Material.EMERALD_ORE);
 		}
 
 		for (int i = 0; i <= NETHERRACK_AMOUNT; i++) {
-			final int x = Random.getRandomInteger(ARENA_MIN_X, ARENA_MAX_X);
-			final int y = Random.getRandomInteger(ARENA_MIN_Y, ARENA_MAX_Y - 1);
-			final int z = Random.getRandomInteger(ARENA_MIN_Z, ARENA_MAX_Z);
-			new Location(Var.WORLD, x, y, z).getBlock().setType(Material.NETHERRACK);
+			final int x = Random.getRandomInteger(minX, maxX);
+			final int y = Random.getRandomInteger(minY, maxY - 1);
+			final int z = Random.getRandomInteger(minZ, maxZ);
+			new Location(this.map.getWorld(), x, y, z).getBlock().setType(Material.NETHERRACK);
 		}
 
 		for (int i = 0; i <= QUARTZ_AMOUNT; i++) {
-			final int x = Random.getRandomInteger(ARENA_MIN_X, ARENA_MAX_X);
-			final int y = Random.getRandomInteger(ARENA_MIN_Y, ARENA_MAX_Y - 1);
-			final int z = Random.getRandomInteger(ARENA_MIN_Z, ARENA_MAX_Z);
-			new Location(Var.WORLD, x, y, z).getBlock().setType(Material.QUARTZ_BLOCK);
+			final int x = Random.getRandomInteger(minX, maxX);
+			final int y = Random.getRandomInteger(minY, maxY - 1);
+			final int z = Random.getRandomInteger(minZ, maxZ);
+			new Location(this.map.getWorld(), x, y, z).getBlock().setType(Material.QUARTZ_BLOCK);
 		}
 	}
 
