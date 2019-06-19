@@ -13,8 +13,6 @@ public abstract class DropperMap extends GameMap {
 			new Trees(),
 	};
 
-	//public abstract String getName();
-
 	public abstract Location getLobbyLocation();
 
 	public abstract void openDoor();
