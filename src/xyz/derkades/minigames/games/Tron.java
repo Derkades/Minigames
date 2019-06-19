@@ -68,6 +68,7 @@ public class Tron extends Game {
 			this.teams.put(player.getUniqueId(), playerTeam);
 			player.teleport(this.map.getSpawnLocations().get(playerTeam));
 			Utils.giveInfiniteEffect(player, PotionEffectType.SLOW, 100);
+			Utils.giveInfiniteEffect(player, PotionEffectType.JUMP, 200);
 		}
 
 		this.sendMessage("Make sure that you are not facing a wall");
