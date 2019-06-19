@@ -42,14 +42,9 @@ public class Prototype extends TronMap {
 	}
 
 	@Override
-	public Location getSpectatorSpawnLocation() {
-		return null; //TODO TP the player like 3-5 blocks upwards in stead of fixed spawnlocation.
-	}
-
-	@Override
 	public Map<TronTeam, Location> getSpawnLocations() {
 		final Map<TronTeam, Location> map = new HashMap<>();
-		map.put(TronTeam.LIGHT_BLUE, new Location(this.getWorld(), -29, 64, -39));	// 1 
+		map.put(TronTeam.LIGHT_BLUE, new Location(this.getWorld(), -29, 64, -39));	// 1
 		map.put(TronTeam.LIME, new Location(this.getWorld(), 29, 64, -39));			// 2
 		map.put(TronTeam.ORANGE, new Location(this.getWorld(), -29, 64, 39));		// 3
 		map.put(TronTeam.RED, new Location(this.getWorld(), 29, 64, 39));			// 4

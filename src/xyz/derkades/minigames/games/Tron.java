@@ -220,7 +220,8 @@ public class Tron extends Game {
 
 				Tron.this.sendMessage(player.getName() + " has died.");
 
-				player.teleport(Tron.this.map.getSpectatorSpawnLocation());
+				Utils.teleportUp(player, 20);
+				player.setGameMode(GameMode.SPECTATOR);
 			}
 		}
 
