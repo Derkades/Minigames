@@ -21,6 +21,7 @@ import xyz.derkades.minigames.task.RegenerateHunger;
 import xyz.derkades.minigames.utils.Scheduler;
 import xyz.derkades.minigames.worlds.GameWorld;
 import xyz.derkades.minigames.worlds.WorldTeleportCommand;
+import xyz.derkades.minigames.worlds.WorldTeleportCommandCompleter;
 
 public class Minigames extends JavaPlugin implements Listener {
 
@@ -73,6 +74,7 @@ public class Minigames extends JavaPlugin implements Listener {
 		this.getCommand("games").setExecutor(new Command());
 		this.getCommand("bug").setExecutor(new BugCommand());
 		this.getCommand("wtp").setExecutor(new WorldTeleportCommand());
+		this.getCommand("wtp").setTabCompleter(new WorldTeleportCommandCompleter());
 
 		Scheduler.repeat(20, () -> {
 			Var.WORLD.setStorm(false);
