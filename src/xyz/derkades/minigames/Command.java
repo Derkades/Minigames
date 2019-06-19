@@ -2,18 +2,11 @@ package xyz.derkades.minigames;
 
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.block.Block;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.FallingBlock;
 import org.bukkit.entity.Player;
-import org.bukkit.util.Vector;
 
 import net.md_5.bungee.api.ChatColor;
-import net.md_5.bungee.api.chat.ComponentBuilder;
-import net.md_5.bungee.api.chat.HoverEvent;
 import xyz.derkades.minigames.games.Game;
 import xyz.derkades.minigames.menu.MainMenu;
 import xyz.derkades.minigames.utils.Scheduler;
@@ -66,7 +59,7 @@ public class Command implements CommandExecutor {
 
 				Bukkit.broadcastMessage("[System] Done");
 			} else if (args[0].equals("test") && sender.hasPermission("minigames.test")) {
-				final Player player = (Player) sender;
+//				final Player player = (Player) sender;
 
 				/*final Location loc = player.getLocation();
 		        final Location fbLocation = loc.add(
@@ -88,32 +81,32 @@ public class Command implements CommandExecutor {
 		        //final Poll poll = new Poll("Test poll?", new PollAnswer(1, "Yes", ChatColor.GREEN), new PollAnswer(2, "No", ChatColor.RED));
 		        //ChatPoll.sendPoll(player, poll);
 
-				player.spigot().sendMessage(new ComponentBuilder("")
-						.append("Game")
-						.bold(true)
-						.color(ChatColor.GOLD)
-						.append(" (" + 3.0 + ")")
-						.color(ChatColor.GRAY)
-						.bold(false)
-						.append(" [hover for help]")
-						.color(ChatColor.YELLOW)
-						.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(
-								"The number shown after the game name in parentheses\n"
-								+ "is the game weight. A higher weight means that the\n"
-								+ "minigame has a higher chance of being picked. The\n"
-								+ "game weight can be increased or decreased by voting\n"
-								+ "on the poll at the end of the game.")
-								.color(ChatColor.GRAY).create()))
-						.create());
-
-				final Block block = player.getTargetBlockExact(3);
-				final FallingBlock fall = block.getWorld().spawnFallingBlock(
-						new Location(Var.WORLD, block.getX() + 0.5, block.getY(), block.getZ() + 0.5),
-						block.getBlockData());
-				final Vector velocity = fall.getVelocity();
-				velocity.setY(1.5);
-				fall.setVelocity(velocity);
-				block.setType(Material.AIR);
+//				player.spigot().sendMessage(new ComponentBuilder("")
+//						.append("Game")
+//						.bold(true)
+//						.color(ChatColor.GOLD)
+//						.append(" (" + 3.0 + ")")
+//						.color(ChatColor.GRAY)
+//						.bold(false)
+//						.append(" [hover for help]")
+//						.color(ChatColor.YELLOW)
+//						.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(
+//								"The number shown after the game name in parentheses\n"
+//								+ "is the game weight. A higher weight means that the\n"
+//								+ "minigame has a higher chance of being picked. The\n"
+//								+ "game weight can be increased or decreased by voting\n"
+//								+ "on the poll at the end of the game.")
+//								.color(ChatColor.GRAY).create()))
+//						.create());
+//
+//				final Block block = player.getTargetBlockExact(3);
+//				final FallingBlock fall = block.getWorld().spawnFallingBlock(
+//						new Location(Var.WORLD, block.getX() + 0.5, block.getY(), block.getZ() + 0.5),
+//						block.getBlockData());
+//				final Vector velocity = fall.getVelocity();
+//				velocity.setY(1.5);
+//				fall.setVelocity(velocity);
+//				block.setType(Material.AIR);
 
 			} else {
 				sender.sendMessage("no.");
