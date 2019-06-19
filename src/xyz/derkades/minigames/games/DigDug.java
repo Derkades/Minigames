@@ -204,9 +204,9 @@ public class DigDug extends Game {
 		final int minX = this.map.getBlocksMinLocation().getBlockX();
 		final int minY = this.map.getBlocksMinLocation().getBlockY();
 		final int minZ = this.map.getBlocksMinLocation().getBlockZ();
-		final int maxX = this.map.getBlocksMinLocation().getBlockX();
-		final int maxY = this.map.getBlocksMinLocation().getBlockY();
-		final int maxZ = this.map.getBlocksMinLocation().getBlockZ();
+		final int maxX = this.map.getBlocksMaxLocation().getBlockX();
+		final int maxY = this.map.getBlocksMaxLocation().getBlockY();
+		final int maxZ = this.map.getBlocksMaxLocation().getBlockZ();
 
 		// Place dirt first, then fill with ores
 
