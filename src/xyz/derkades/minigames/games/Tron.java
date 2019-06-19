@@ -169,8 +169,8 @@ public class Tron extends Game {
 				return;
 			}
 
-			if (player.getGameMode().equals(GameMode.CREATIVE)) {
-				player.sendMessage("cancel");
+			if (!player.getGameMode().equals(GameMode.ADVENTURE)) {
+				player.sendMessage("Player is no(t) (longer) in gamemode ADVENTURE");
 				this.cancel();
 				return;
 			}
