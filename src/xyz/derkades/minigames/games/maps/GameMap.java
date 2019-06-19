@@ -1,8 +1,8 @@
 package xyz.derkades.minigames.games.maps;
 
+import org.bukkit.Bukkit;
 import org.bukkit.World;
 
-import xyz.derkades.minigames.Var;
 import xyz.derkades.minigames.worlds.GameWorld;
 
 public abstract class GameMap {
@@ -13,10 +13,11 @@ public abstract class GameMap {
 
 	public abstract GameWorld getGameWorld();
 
-	@SuppressWarnings("deprecation")
 	public World getWorld() {
 		if (this.getGameWorld() == null) {
-			return Var.WORLD;
+			Bukkit.broadcastMessage("[WARNING] A game used the get world method without setting a world. Performing emergency shutdown to prevent damage.");
+			Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "g !");
+			return null;
 		} else {
 			return this.getGameWorld().getWorld();
 		}
