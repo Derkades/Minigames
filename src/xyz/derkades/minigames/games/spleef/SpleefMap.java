@@ -16,4 +16,6 @@ public abstract class SpleefMap extends GameMap {
 
 	public abstract void fill();
 
+	public abstract boolean enableFlyingBlocks();
+
 }

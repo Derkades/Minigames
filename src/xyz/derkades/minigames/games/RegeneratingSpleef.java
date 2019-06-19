@@ -6,16 +6,19 @@ import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.FallingBlock;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.util.Vector;
 
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
 import xyz.derkades.minigames.games.maps.GameMap;
@@ -91,29 +94,30 @@ public class RegeneratingSpleef extends Game {
 
 	@EventHandler
 	public void onBlockBreak(final BlockBreakEvent event) {
-		final Block block = event.getBlock();
-		if (block.getType() == Material.SNOW_BLOCK){
-			block.setType(Material.AIR); // XXX check if this is needed
-			Scheduler.delay(3*20, () -> block.setType(Material.SNOW_BLOCK));
-		}
+		if (this.map.enableFlyingBlocks()) {
+			final Block block = event.getBlock();
+				if (!block.getType().equals(Material.SNOW_BLOCK)) {
+					return;
+				}
 
-//		final Block block = event.getBlock();
-//
-//		if (!block.getType().equals(Material.SNOW_BLOCK)) {
-//			return;
-//		}
-//
-//		if (this.dead.contains(event.getPlayer().getUniqueId())){
-//			return;
-//		}
-//
-//		final FallingBlock fall = block.getWorld().spawnFallingBlock(
-//				new Location(Var.WORLD, block.getX() + 0.5, block.getY(), block.getZ() + 0.5),
-//				block.getBlockData());
-//		final Vector velocity = fall.getVelocity();
-//		velocity.setY(1.5);
-//		fall.setVelocity(velocity);
-//		block.setType(Material.AIR);
+				if (this.dead.contains(event.getPlayer().getUniqueId())){
+					return;
+				}
+
+				final FallingBlock fall = block.getWorld().spawnFallingBlock(
+						new Location(this.map.getWorld(), block.getX() + 0.5, block.getY(), block.getZ() + 0.5),
+						block.getBlockData());
+				final Vector velocity = fall.getVelocity();
+				velocity.setY(1.5);
+				fall.setVelocity(velocity);
+				//block.setType(Material.AIR);
+		} else {
+			final Block block = event.getBlock();
+			if (block.getType() == Material.SNOW_BLOCK){
+				//block.setType(Material.AIR);
+				Scheduler.delay(3*20, () -> block.setType(Material.SNOW_BLOCK));
+			}
+		}
 	}
 
 	@EventHandler(priority = EventPriority.MONITOR)
