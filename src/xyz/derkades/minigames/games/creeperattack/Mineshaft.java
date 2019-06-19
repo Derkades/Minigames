@@ -9,7 +9,7 @@ public class Mineshaft extends CreeperAttackMap {
 
 	@Override
 	public Location getCreeperLocation() {
-		return new Location(this.getWorld(), 288, 39, 228);
+		return new Location(this.getWorld(), 0.5, 65, 0.5);
 
 	}
 
