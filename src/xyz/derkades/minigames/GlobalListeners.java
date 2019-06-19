@@ -114,7 +114,7 @@ public class GlobalListeners implements Listener {
 			final Material below = event.getTo().getBlock().getRelative(BlockFace.DOWN).getType();
 
 			if (type == Material.WATER && player.getGameMode() == GameMode.ADVENTURE){
-				player.teleport(new Location(Var.WORLD, 217.0, 67, 258.0, 90, 0));
+				player.teleport(new Location(Var.LOBBY_LOCATION.getWorld(), 217.0, 67, 258.0, 90, 0));
 			} else if (below == Material.SLIME_BLOCK) {
 				final PotionEffect jump = new PotionEffect(PotionEffectType.JUMP, 30, 7, true, false);
 				player.addPotionEffect(jump);
