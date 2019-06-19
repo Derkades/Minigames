@@ -2,7 +2,6 @@ package xyz.derkades.minigames.games.creeperattack;
 
 import org.bukkit.Location;
 
-import xyz.derkades.minigames.Var;
 import xyz.derkades.minigames.games.maps.MapSize;
 import xyz.derkades.minigames.worlds.GameWorld;
 
@@ -10,17 +9,17 @@ public class Hedges extends CreeperAttackMap {
 
 	@Override
 	public Location getCreeperLocation() {
-		return new Location(Var.WORLD, 120.5, 105, 317.5);
+		return new Location(this.getWorld(), 0.5, 65, 0.5);
 	}
 
 	@Override
 	public Location getSpawnLocation() {
-		return new Location(Var.WORLD, 120.5, 105, 317.5);
+		return new Location(this.getWorld(), 0.5, 65, 0.5);
 	}
 
 	@Override
 	public Location getSpectatorLocation() {
-		return new Location(Var.WORLD, 121.5, 109, 317.5);
+		return null;
 	}
 
 	@Override
@@ -35,7 +34,7 @@ public class Hedges extends CreeperAttackMap {
 
 	@Override
 	public GameWorld getGameWorld() {
-		return null;
+		return GameWorld.CREEPERATTACK_HEDGES;
 	}
 
 }
