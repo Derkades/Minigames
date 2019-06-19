@@ -74,7 +74,7 @@ public class DigDug extends Game {
 						ChatColor.GRAY + "Emerald: " + EMERALD_POINTS + " points",
 						ChatColor.GRAY + "Netherrack: give others blindness",
 						ChatColor.GRAY + "Quartz: speed"},
-				2, null);
+				2, DigDugMap.MAPS);
 	}
 
 	private DigDugMap map;
