@@ -84,7 +84,7 @@ public enum GameWorld {
 	 * Creates world or just loads it if it already exists
 	 */
 	public World load() {
-		Bukkit.broadcastMessage("[System] Loading/generating " + this.toString());
+		Bukkit.broadcastMessage("[System] Loading " + this.toString());
 
 		final WorldCreator creator = new WorldCreator(this.getName());
 		creator.generateStructures(false);
@@ -122,7 +122,7 @@ public enum GameWorld {
 	public void unload() {
 		final World world = Bukkit.getWorld(this.getName());
 		if (world == null) {
-			Bukkit.broadcastMessage("[System] " + this.toString() + " is already unloaded");
+			//Bukkit.broadcastMessage("[System] " + this.toString() + " is already unloaded");
 		} else {
 			Bukkit.broadcastMessage("[System] Unloading " + this.toString());
 			Bukkit.unloadWorld(this.getWorld(), true);
