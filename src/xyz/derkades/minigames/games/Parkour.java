@@ -18,6 +18,7 @@ import xyz.derkades.minigames.Points;
 import xyz.derkades.minigames.Spectator;
 import xyz.derkades.minigames.games.maps.GameMap;
 import xyz.derkades.minigames.games.parkour.ParkourMap;
+import xyz.derkades.minigames.utils.MinigamesJoinEvent;
 import xyz.derkades.minigames.utils.Utils;
 
 public class Parkour extends Game {
@@ -104,6 +105,15 @@ public class Parkour extends Game {
 			Spectator.finish(player);
 		}
 
+	}
+
+	@EventHandler
+	public void onJoin(final MinigamesJoinEvent event) {
+		final Player player = event.getPlayer();
+		event.setTeleportPlayerToLobby(false);
+
+		Utils.hideForEveryoneElse(player);
+		player.teleport(this.map.getStartLocation());
 	}
 
 }
