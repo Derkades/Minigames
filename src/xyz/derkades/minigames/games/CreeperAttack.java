@@ -14,16 +14,16 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.inventory.ItemStack;
 
 import net.md_5.bungee.api.ChatColor;
 import xyz.derkades.derkutils.ListUtils;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
 import xyz.derkades.minigames.Minigames;
+import xyz.derkades.minigames.Spectator;
 import xyz.derkades.minigames.games.creeperattack.CreeperAttackMap;
 import xyz.derkades.minigames.games.maps.GameMap;
-import xyz.derkades.minigames.utils.Scheduler;
+import xyz.derkades.minigames.utils.MinigamesPlayerDamageEvent;
 import xyz.derkades.minigames.utils.Utils;
 
 public class CreeperAttack extends Game {
@@ -112,18 +112,30 @@ public class CreeperAttack extends Game {
 	}
 
 	@EventHandler
-	public void onDeath(final PlayerDeathEvent event) {
-		event.setDeathMessage("");
-		this.alive.remove(event.getEntity().getUniqueId());
-		Scheduler.delay(1, () -> {
-			event.getEntity().spigot().respawn();
-			Utils.clearInventory(event.getEntity());
-			if (this.map.getSpectatorLocation() != null)
-				event.getEntity().teleport(this.map.getSpectatorLocation());
-			Minigames.setCanTakeDamage(event.getEntity(), false);
-		});
+	public void onDamage(final MinigamesPlayerDamageEvent event) {
+		if (event.willBeDead()) {
+			event.setCancelled(true);
+			final Player player = event.getPlayer();
+			this.alive.remove(player.getUniqueId());
+			Spectator.die(player);
 
-		this.sendMessage(event.getEntity().getName() + " has been blown up by a creeper");
+			this.sendMessage(player.getName() + " has been blown up by a creeper");
+		}
 	}
+
+//	@EventHandler
+//	public void onDeath(final PlayerDeathEvent event) {
+//		//event.setDeathMessage("");
+//
+//		Scheduler.delay(1, () -> {
+//			event.getEntity().spigot().respawn();
+//			Utils.clearInventory(event.getEntity());
+//			if (this.map.getSpectatorLocation() != null)
+//				event.getEntity().teleport(this.map.getSpectatorLocation());
+//			Minigames.setCanTakeDamage(event.getEntity(), false);
+//		});
+//
+//
+//	}
 
 }

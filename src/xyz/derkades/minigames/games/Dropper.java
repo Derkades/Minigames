@@ -12,10 +12,10 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
-import org.bukkit.potion.PotionEffectType;
 
 import xyz.derkades.minigames.Minigames;
 import xyz.derkades.minigames.Points;
+import xyz.derkades.minigames.Spectator;
 import xyz.derkades.minigames.games.dropper.DropperMap;
 import xyz.derkades.minigames.games.maps.GameMap;
 import xyz.derkades.minigames.utils.Scheduler;
@@ -32,7 +32,7 @@ public class Dropper extends Game {
 
 	private static final String FINISHED = "%s finished.";
 	private static final String FINISHED_FIRST = "%s finished first and got 1 extra point!";
-	
+
 	private DropperMap map;
 	private List<UUID> finished;
 	private List<UUID> all;
@@ -47,7 +47,7 @@ public class Dropper extends Game {
 		this.map.closeDoor();
 
 		Utils.delayedTeleport(this.map.getLobbyLocation(), Bukkit.getOnlinePlayers());
-		
+
 		new GameTimer(this, GAME_DURATION, WAIT_TIME) {
 
 			@Override
@@ -58,18 +58,18 @@ public class Dropper extends Game {
 
 			@Override
 			public int gameTimer(int secondsLeft) {
-				if (Utils.getWinnersFromFinished(finished, all).size() >= all.size() && secondsLeft > 2) {
+				if (Utils.getWinnersFromFinished(Dropper.this.finished, Dropper.this.all).size() >= Dropper.this.all.size() && secondsLeft > 2) {
 					secondsLeft = 2;
 				}
-				
+
 				return secondsLeft;
 			}
 
 			@Override
 			public void onEnd() {
-				endGame(Utils.getWinnersFromFinished(finished, all));
+				Dropper.this.endGame(Utils.getWinnersFromFinished(Dropper.this.finished, Dropper.this.all));
 			}
-			
+
 		};
 	}
 
@@ -91,12 +91,13 @@ public class Dropper extends Game {
 			}
 
 			this.finished.add(player.getUniqueId());
-			Utils.giveInfiniteEffect(player, PotionEffectType.INVISIBILITY);
-			Minigames.setCanTakeDamage(player, false);
+			//Utils.giveInfiniteEffect(player, PotionEffectType.INVISIBILITY);
+			//Minigames.setCanTakeDamage(player, false);
 			player.setHealth(player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue());
-			player.setAllowFlight(true);
-			player.teleport(this.map.getLobbyLocation());
+			//player.setAllowFlight(true);
+			//player.teleport(this.map.getLobbyLocation());
 			player.setFireTicks(0);
+			Spectator.finishTo(player, this.map.getLobbyLocation());
 		}
 	}
 

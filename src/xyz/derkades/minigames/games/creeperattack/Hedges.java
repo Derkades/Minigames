@@ -18,11 +18,6 @@ public class Hedges extends CreeperAttackMap {
 	}
 
 	@Override
-	public Location getSpectatorLocation() {
-		return null;
-	}
-
-	@Override
 	public String getName() {
 		return "Hedges";
 	}

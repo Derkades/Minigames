@@ -15,6 +15,4 @@ public abstract class CreeperAttackMap extends GameMap {
 
 	public abstract Location getSpawnLocation();
 
-	public abstract Location getSpectatorLocation();
-
 }

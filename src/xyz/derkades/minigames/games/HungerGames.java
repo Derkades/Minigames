@@ -13,7 +13,6 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.potion.PotionEffectType;
 
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
 import xyz.derkades.derkutils.bukkit.lootchests.LootChest;
@@ -80,10 +79,10 @@ public class HungerGames extends Game {
 
 		this.placeBlocks(spawnLocations, Material.GLASS);
 
-		for (final Player player : Bukkit.getOnlinePlayers()) {
+		//for (final Player player : Bukkit.getOnlinePlayers()) {
 			//Utils.giveInfiniteEffect(player, PotionEffectType.SLOW, 100);
-			Utils.giveInfiniteEffect(player, PotionEffectType.JUMP, 200);
-		}
+			//Utils.giveInfiniteEffect(player, PotionEffectType.JUMP, 200);
+		//}
 
 		for (final Location location : this.map.getLootLevelOneLocations()) {
 			new LootChest(location, LOOT_1).fill();
@@ -136,7 +135,7 @@ public class HungerGames extends Game {
 			this.dead.add(player.getUniqueId());
 			Spectator.dieUp(player, 2);
 
-			if (event.getType().equals(DamageType.SELF)) {
+			if (event.getType().equals(DamageType.ENTITY)) {
 				final Player killer = event.getDamagerPlayer();
 
 				if (killer == null) {
@@ -146,7 +145,7 @@ public class HungerGames extends Game {
 				final int playersLeft = Utils.getAliveAcountFromDeadAndAllList(this.dead, this.all);
 				this.sendMessage(String.format("%s has been killed by %s. There are %s players left.",
 						player.getName(), killer.getName(), playersLeft));
-			} else if (event.getType().equals(DamageType.ENTITY)) {
+			} else if (event.getType().equals(DamageType.SELF)) {
 				final int playersLeft = Utils.getAliveAcountFromDeadAndAllList(this.dead, this.all);
 				this.sendMessage(String.format("%s has died. There are %s players left.",
 						player.getName(), playersLeft));

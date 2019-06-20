@@ -15,6 +15,7 @@ import org.bukkit.event.player.PlayerMoveEvent;
 
 import xyz.derkades.minigames.Minigames;
 import xyz.derkades.minigames.Points;
+import xyz.derkades.minigames.Spectator;
 import xyz.derkades.minigames.games.maps.GameMap;
 import xyz.derkades.minigames.games.parkour.ParkourMap;
 import xyz.derkades.minigames.utils.Utils;
@@ -88,18 +89,19 @@ public class Parkour extends Game {
 
 			this.finished.add(player.getUniqueId());
 
-			if (this.map.getSpectatorLocation() != null) player.teleport(this.map.getSpectatorLocation());
+			//if (this.map.getSpectatorLocation() != null) player.teleport(this.map.getSpectatorLocation());
 
 			Utils.playSoundForAllPlayers(Sound.ENTITY_PLAYER_LEVELUP, 1);
 
 			// Show all players to the spectator (the spectator is still invisible to others)
 			Bukkit.getOnlinePlayers().forEach((player2) -> player.showPlayer(Minigames.getInstance(), player2));
 
-			if (this.map.spectatorFreeFlight()) {
-				player.setAllowFlight(true);
-				player.setFlying(true);
-				Utils.giveInvisibility(player);
-			}
+			//if (this.map.spectatorFreeFlight()) {
+			//	player.setAllowFlight(true);
+			//	player.setFlying(true);
+			//	Utils.giveInvisibility(player);
+			//}
+			Spectator.finish(player);
 		}
 
 	}

@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.BlockFace;
 import org.bukkit.enchantments.Enchantment;
@@ -20,6 +19,7 @@ import org.bukkit.potion.PotionEffectType;
 import net.md_5.bungee.api.ChatColor;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
 import xyz.derkades.minigames.Minigames;
+import xyz.derkades.minigames.Spectator;
 import xyz.derkades.minigames.games.maps.GameMap;
 import xyz.derkades.minigames.games.platform.PlatformMap;
 import xyz.derkades.minigames.utils.Utils;
@@ -116,18 +116,19 @@ public class Platform extends Game {
 			return;
 		}
 
-		this.sendMessage(player.getName() + " has been eliminated from the game!");
+		this.sendMessage(player.getName() + " has died");
 
 		this.map.getWorld().spigot().strikeLightningEffect(player.getLocation(), false);
-		final Location loc = player.getLocation();
-		loc.setY(loc.getY() + 10);
-		player.teleport(loc);
+		//final Location loc = player.getLocation();
+		//loc.setY(loc.getY() + 10);
+		//player.teleport(loc);
 		this.dead.add(player.getUniqueId());
-		player.getInventory().clear();
-		Utils.giveInvisibility(player);
-		player.setAllowFlight(true);
-		player.setFlying(true);
-		Minigames.setCanTakeDamage(player, false); //Disallow PvP
+		//player.getInventory().clear();
+		//Utils.giveInvisibility(player);
+		//player.setAllowFlight(true);
+		//player.setFlying(true);
+		//Minigames.setCanTakeDamage(player, false); //Disallow PvP
+		Spectator.dieUp(player, 10);
 	}
 
 	@EventHandler(priority = EventPriority.MONITOR)

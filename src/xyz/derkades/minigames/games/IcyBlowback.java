@@ -18,6 +18,7 @@ import org.bukkit.potion.PotionEffectType;
 
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
 import xyz.derkades.minigames.Minigames;
+import xyz.derkades.minigames.Spectator;
 import xyz.derkades.minigames.games.icyblowback.IcyBlowbackMap;
 import xyz.derkades.minigames.games.maps.GameMap;
 import xyz.derkades.minigames.utils.Utils;
@@ -95,15 +96,16 @@ public class IcyBlowback extends Game {
 
 	private void die(final Player player) {
 		this.dead.add(player.getUniqueId());
-		player.setAllowFlight(true);
-		Utils.giveInvisibility(player);
+		//player.setAllowFlight(true);
+		//Utils.giveInvisibility(player);
 		this.map.getWorld().spigot().strikeLightningEffect(player.getLocation(), false);
 		player.getInventory().clear();
-		Utils.hideForEveryoneElse(player);
-		player.setFlying(true);
-		final Location loc = player.getLocation();
-		loc.setY(loc.getY() + 10);
-		player.teleport(loc);
+		//Utils.hideForEveryoneElse(player);
+		//player.setFlying(true);
+		//final Location loc = player.getLocation();
+		//loc.setY(loc.getY() + 10);
+		//player.teleport(loc);
+		Spectator.dieUp(player, 10);
 		this.sendMessage(player.getName() + " has died");
 	}
 

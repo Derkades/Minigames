@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.block.BlockFace;
@@ -26,6 +25,7 @@ import org.bukkit.projectiles.ProjectileSource;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
 import xyz.derkades.minigames.Minigames;
 import xyz.derkades.minigames.SneakPrevention;
+import xyz.derkades.minigames.Spectator;
 import xyz.derkades.minigames.games.maps.GameMap;
 import xyz.derkades.minigames.games.sniper.SniperMap;
 import xyz.derkades.minigames.utils.Utils;
@@ -216,16 +216,13 @@ public class OneInTheQuiver extends Game {
 
 			event.setCancelled(true); // Player must not die, or bad things happen.
 
-			damagedPlayer.setGameMode(GameMode.SPECTATOR);
-			SneakPrevention.setCanSneak(damagedPlayer, true);
+			Spectator.dieUp(damagedPlayer, 3);
 
 			this.dead.add(damagedPlayer.getUniqueId());
 
 			final int playersLeft = Utils.getAliveAcountFromDeadAndAllList(this.dead, this.all);
 			this.sendMessage(String.format("%s has been killed by %s. There are %s players left.",
 					damagedPlayer.getName(), attackingPlayer.getName(), playersLeft));
-
-			Utils.sendTitle(damagedPlayer, ChatColor.RED + "You've died", "");
 
 			attackingPlayer.getInventory().addItem(ARROW);
 		}

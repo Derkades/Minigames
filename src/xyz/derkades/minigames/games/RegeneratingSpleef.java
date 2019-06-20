@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
-import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -21,6 +20,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
+import xyz.derkades.minigames.Spectator;
 import xyz.derkades.minigames.games.maps.GameMap;
 import xyz.derkades.minigames.games.spleef.SpleefMap;
 import xyz.derkades.minigames.utils.Scheduler;
@@ -125,10 +125,11 @@ public class RegeneratingSpleef extends Game {
 		final Player player = event.getPlayer();
 		if (event.getTo().getBlock().getRelative(BlockFace.DOWN).getType() == Material.BEDROCK){
 			this.dead.add(player.getUniqueId());
-			player.getInventory().clear();
+			//player.getInventory().clear();
 
-			player.setGameMode(GameMode.SPECTATOR);
-			Utils.teleportUp(player, 3);
+			//player.setGameMode(GameMode.SPECTATOR);
+			//Utils.teleportUp(player, 3);
+			Spectator.dieUp(player, 3);
 		}
 	}
 

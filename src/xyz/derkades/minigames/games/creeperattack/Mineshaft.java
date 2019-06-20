@@ -19,11 +19,6 @@ public class Mineshaft extends CreeperAttackMap {
 	}
 
 	@Override
-	public Location getSpectatorLocation() {
-		return null;
-	}
-
-	@Override
 	public String getName() {
 		return "Mineshaft";
 	}

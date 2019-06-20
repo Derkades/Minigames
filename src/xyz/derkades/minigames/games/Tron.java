@@ -23,6 +23,7 @@ import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.util.Vector;
 
 import xyz.derkades.minigames.Minigames;
+import xyz.derkades.minigames.Spectator;
 import xyz.derkades.minigames.games.maps.GameMap;
 import xyz.derkades.minigames.games.tron.TronMap;
 import xyz.derkades.minigames.utils.BlockUtils;
@@ -209,7 +210,7 @@ public class Tron extends Game {
 				location.setZ(location.getBlockZ() + 0.5);
 			}
 
-			if (this.i % 40 == 0) {
+			if (this.i % 30 == 0) {
 				player.teleport(location);
 			}
 
@@ -221,8 +222,9 @@ public class Tron extends Game {
 
 				Tron.this.sendMessage(player.getName() + " has died.");
 
-				Utils.teleportUp(player, 20);
-				player.setGameMode(GameMode.SPECTATOR);
+				//Utils.teleportUp(player, 20);
+				//player.setGameMode(GameMode.SPECTATOR);
+				Spectator.dieUp(player, 20);
 			}
 		}
 
