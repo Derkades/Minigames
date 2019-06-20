@@ -30,12 +30,12 @@ public class Spectator {
 	}
 
 	public static void die(final Player player) {
-		Utils.sendTitle(player, ChatColor.RED + "", "You've died");
+		Utils.sendTitle(player, "", ChatColor.RED + "You've died");
 		spectator(player);
 	}
 
 	public static void finish(final Player player) {
-		Utils.sendTitle(player, ChatColor.GREEN + "", "You've finished");
+		Utils.sendTitle(player, "", ChatColor.GREEN + "You've finished");
 		spectator(player);
 	}
 
