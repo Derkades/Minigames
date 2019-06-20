@@ -177,6 +177,10 @@ public class GlobalListeners implements Listener {
 
 	@EventHandler
 	public void onDamageTriggerCustomEvent(final EntityDamageEvent event) {
+		if (!event.getEntity().getType().equals(EntityType.PLAYER)) {
+			return;
+		}
+
 		if (event instanceof EntityDamageByEntityEvent) {
 			final EntityDamageByEntityEvent event2 = (EntityDamageByEntityEvent) event;
 			System.out.println("damage by entity");
