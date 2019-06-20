@@ -169,6 +169,10 @@ public class HungerGames extends Game {
 			block.getRelative(BlockFace.EAST).setType(type);
 			block.getRelative(BlockFace.SOUTH).setType(type);
 			block.getRelative(BlockFace.WEST).setType(type);
+			block.getRelative(BlockFace.UP).getRelative(BlockFace.NORTH).setType(type);
+			block.getRelative(BlockFace.UP).getRelative(BlockFace.EAST).setType(type);
+			block.getRelative(BlockFace.UP).getRelative(BlockFace.SOUTH).setType(type);
+			block.getRelative(BlockFace.UP).getRelative(BlockFace.WEST).setType(type);
 		}
 	}
 
