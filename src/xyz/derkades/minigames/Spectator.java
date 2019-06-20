@@ -7,6 +7,7 @@ import org.bukkit.entity.Player;
 import net.md_5.bungee.api.ChatColor;
 import xyz.derkades.minigames.utils.Utils;
 
+@Deprecated
 public class Spectator {
 
 	public static void dieTo(final Player player, final Location location) {

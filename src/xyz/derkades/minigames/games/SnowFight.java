@@ -1,37 +1,7 @@
 package xyz.derkades.minigames.games;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
-
-import org.bukkit.Bukkit;
-import org.bukkit.Material;
-import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.event.entity.PlayerDeathEvent;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
-
-import com.coloredcarrot.api.sidebar.Sidebar;
-import com.coloredcarrot.api.sidebar.SidebarString;
-
-import net.md_5.bungee.api.ChatColor;
-import xyz.derkades.derkutils.Random;
-import xyz.derkades.derkutils.bukkit.ItemBuilder;
-import xyz.derkades.minigames.Minigames;
-import xyz.derkades.minigames.Var;
-import xyz.derkades.minigames.games.maps.GameMap;
-import xyz.derkades.minigames.games.snowfight.SnowFightMap;
-import xyz.derkades.minigames.utils.Scheduler;
-import xyz.derkades.minigames.utils.Utils;
-
 @Deprecated
-public class SnowFight extends Game {
+public class SnowFight {/*extends Game {
 
 	private static final int MAX_DURATION = 70;
 
@@ -113,14 +83,14 @@ public class SnowFight extends Game {
 		};
 	}
 
-	/*@EventHandler
+	@EventHandler
 	public void onDamage(EntityDamageByEntityEvent event){
 		if (event.getEntity().getLastDamageCause().getCause() == DamageCause.PROJECTILE) {
 			event.setDamage(4);
 		} else {
 			event.setCancelled(true);
 		}
-	}*/
+	}
 
 	@EventHandler
 	public void onBlockBreak(final BlockBreakEvent event){
@@ -196,6 +166,6 @@ public class SnowFight extends Game {
 			.addEmpty()
 			.addEntry(new SidebarString(ChatColor.GRAY + "Time left: " + secondsLeft + " seconds."))
 			.update();
-	}
+	}*/
 
 }

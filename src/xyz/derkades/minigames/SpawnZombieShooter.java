@@ -1,11 +1,9 @@
 package xyz.derkades.minigames;
 
-import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.Player;
 import org.bukkit.entity.Villager;
 import org.bukkit.entity.Zombie;
 import org.bukkit.inventory.ItemStack;
@@ -13,7 +11,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import net.md_5.bungee.api.ChatColor;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
-import xyz.derkades.minigames.utils.Utils;
+import xyz.derkades.minigames.utils.MPlayer;
 
 public class SpawnZombieShooter {
 
@@ -51,7 +49,7 @@ public class SpawnZombieShooter {
 				zombie.setTarget(bait);
 			}
 
-			for (final Player player : Bukkit.getOnlinePlayers()) {
+			for (final MPlayer player : Minigames.getOnlinePlayers()) {
 				if (!player.getGameMode().equals(GameMode.ADVENTURE)) {
 					continue;
 				}
@@ -60,10 +58,9 @@ public class SpawnZombieShooter {
 					continue;
 				}
 
-				if (Utils.isIn2dBounds(player, new Location(Var.LOBBY_WORLD, 221, 64, 279),
-						new Location(Var.LOBBY_WORLD, 217, 64, 283))) {
+				if (player.isIn2dBounds(Var.LOBBY_WORLD, 221, 279, 217, 283)) {
 					if (!player.getInventory().contains(BOW)) {
-						player.getInventory().addItem(BOW, ARROW);
+						player.giveItem(BOW, ARROW);
 					}
 				} else {
 					player.getInventory().removeItem(BOW, ARROW);

@@ -32,6 +32,7 @@ import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.ClickEvent;
 import xyz.derkades.derkutils.bukkit.MaterialLists;
 import xyz.derkades.minigames.menu.MainMenu;
+import xyz.derkades.minigames.utils.MPlayer;
 import xyz.derkades.minigames.utils.MinigamesJoinEvent;
 import xyz.derkades.minigames.utils.MinigamesPlayerDamageEvent;
 import xyz.derkades.minigames.utils.Scheduler;
@@ -41,22 +42,18 @@ public class GlobalListeners implements Listener {
 
 	@EventHandler
 	public void onJoin(final PlayerJoinEvent event){
-		final Player player = event.getPlayer();
+		final MPlayer player = new MPlayer(event.getPlayer());
 
 		event.setJoinMessage(String.format("[%s+%s] %s| %s%s", ChatColor.GREEN, ChatColor.RESET, ChatColor.DARK_GRAY, ChatColor.GREEN, player.getName()));
 
-		player.setExp(0.0f);
-		player.setLevel(0);
-
+		// Anti collision
 		Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "team join global " + player.getName());
 
-		Utils.clearInventory(player);
-		Minigames.setCanTakeDamage(player, false);
+		player.clearInventory();
 
-		player.setGameMode(GameMode.ADVENTURE);
-		player.setAllowFlight(false); //Just in case the player was spectator
+		player.applyLobbySettings();
 
-		final MinigamesJoinEvent event2 = new MinigamesJoinEvent(player);
+		final MinigamesJoinEvent event2 = new MinigamesJoinEvent(player.bukkit());
 		Bukkit.getPluginManager().callEvent(event2);
 
 		if (event2.getTeleportPlayerToLobby()) {
@@ -78,7 +75,7 @@ public class GlobalListeners implements Listener {
 						.underlined(false)
 						.create());
 			});
-			Minigames.giveLobbyInventoryItems(player);
+			player.giveLobbyInventoryItems();
 		}
 	}
 
@@ -104,31 +101,18 @@ public class GlobalListeners implements Listener {
 		if (!(event.getEntity() instanceof Player))
 			return;
 
-		final Player player = (Player) event.getEntity();
-		if (!Minigames.canTakeDamage(player)){
+		final MPlayer player = new MPlayer(event);
+		if (player.getDisableDamage()){
 			event.setCancelled(true);
 		}
 	}
 
 	@EventHandler
-	public void onMove(final PlayerMoveEvent event){
-		if (!Minigames.IS_IN_GAME){
-			final Player player = event.getPlayer();
-
-			final Material type = event.getTo().getBlock().getType();
-			final Material below = event.getTo().getBlock().getRelative(BlockFace.DOWN).getType();
-
-			if (type == Material.WATER && player.getGameMode() == GameMode.ADVENTURE){
-				player.teleport(new Location(Var.LOBBY_LOCATION.getWorld(), 217.0, 67, 258.0, 90, 0));
-			} else if (below == Material.SLIME_BLOCK) {
-				final PotionEffect jump = new PotionEffect(PotionEffectType.JUMP, 30, 7, true, false);
-				player.addPotionEffect(jump);
-			}
+	public void gamesMenuOpen(final PlayerInteractEntityEvent event){
+		if (Minigames.IS_IN_GAME) {
+			return;
 		}
-	}
 
-	@EventHandler
-	public void onEntityInteract(final PlayerInteractEntityEvent event){
 		if (!event.getHand().equals(EquipmentSlot.HAND)) {
 			return;
 		}
@@ -166,11 +150,8 @@ public class GlobalListeners implements Listener {
 
 	@EventHandler
 	public void inventoryClickEvent(final InventoryClickEvent event) {
-		if (Minigames.CAN_MOVE_ITEMS.contains(event.getView().getPlayer().getUniqueId())) {
-			return;
-		}
-
-		if (event.getView().getPlayer().getGameMode() == GameMode.ADVENTURE) {
+		final MPlayer player = new MPlayer((Player) event.getView().getPlayer());
+		if (player.getDisableItemMoving() && player.getGameMode().equals(GameMode.ADVENTURE)) {
 			event.setCancelled(true);
 		}
 	}
@@ -221,6 +202,23 @@ public class GlobalListeners implements Listener {
 	public void onDeath(final PlayerDeathEvent event) {
 		event.setDeathMessage("");
 		Minigames.getInstance().getLogger().warning("A player died: " + event.getEntity().getName());
+	}
+
+	@EventHandler
+	public void lobbyEffects(final PlayerMoveEvent event){
+		if (!Minigames.IS_IN_GAME){
+			final Player player = event.getPlayer();
+
+			final Material type = event.getTo().getBlock().getType();
+			final Material below = event.getTo().getBlock().getRelative(BlockFace.DOWN).getType();
+
+			if (type == Material.WATER && player.getGameMode() == GameMode.ADVENTURE){
+				player.teleport(new Location(Var.LOBBY_LOCATION.getWorld(), 217.0, 67, 258.0, 90, 0));
+			} else if (below == Material.SLIME_BLOCK) {
+				final PotionEffect jump = new PotionEffect(PotionEffectType.JUMP, 30, 7, true, false);
+				player.addPotionEffect(jump);
+			}
+		}
 	}
 
 }

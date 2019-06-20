@@ -1,9 +1,6 @@
 package xyz.derkades.minigames.games;
 
-import xyz.derkades.minigames.games.harvest.HarvestMap;
-import xyz.derkades.minigames.games.maps.GameMap;
-
-public class Harvest extends Game {
+public class Harvest {/*extends Game {
 
 	private static final int GAME_DURATION = 60;
 	private static final int PRE_START = 5;
@@ -39,6 +36,6 @@ public class Harvest extends Game {
 			}
 
 		};
-	}
+	}*/
 
 }

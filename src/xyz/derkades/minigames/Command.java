@@ -10,9 +10,9 @@ import org.bukkit.entity.Player;
 
 import net.md_5.bungee.api.ChatColor;
 import xyz.derkades.minigames.games.Game;
+import xyz.derkades.minigames.games.maps.GameMap;
 import xyz.derkades.minigames.menu.MainMenu;
-import xyz.derkades.minigames.utils.Scheduler;
-import xyz.derkades.minigames.utils.Utils;
+import xyz.derkades.minigames.utils.Queue;
 import xyz.derkades.minigames.worlds.GameWorld;
 
 public class Command implements CommandExecutor {
@@ -20,7 +20,7 @@ public class Command implements CommandExecutor {
 	@Override
 	public boolean onCommand(final CommandSender sender, final org.bukkit.command.Command arg1, final String arg2, final String[] args) {
 		if (args.length == 2 && args[0].equalsIgnoreCase("next") && sender.hasPermission("minigames.next")) {
-			final Game game = Game.fromString(args[1].replace("_", " "));
+			final Game<? extends GameMap> game = Game.fromString(args[1].replace("_", " "));
 			if (game == null){
 				sender.sendMessage(ChatColor.RED + "Unknown game. Make sure the game is spelled correctly. For spaces use underscores.");
 				return true;
@@ -41,13 +41,15 @@ public class Command implements CommandExecutor {
 			} else if (args[0].equalsIgnoreCase("!") && sender.hasPermission("minigames.emerg")) {
 				sender.sendMessage("! EMERGENCY STOP !");
 				Bukkit.broadcastMessage(ChatColor.RED + "Initiating emergency stop. You may be kicked or experience lag.");
-				Bukkit.getOnlinePlayers().forEach(player2 -> {
-					player2.teleport(Var.LOBBY_LOCATION);
-					Utils.clearInventory(player2);
-					Utils.clearPotionEffects(player2);
-					player2.setGameMode(GameMode.ADVENTURE);
+
+				Minigames.getOnlinePlayers().forEach((p) -> {
+					p.clearInventory();
+					p.clearPotionEffects();
+					p.setGameMode(GameMode.ADVENTURE);
+					p.queueTeleport(Var.LOBBY_LOCATION);
 				});
-				Scheduler.delay(20, () -> Bukkit.reload());
+
+				Queue.add(Bukkit::reload);
 			} else if (args[0].equalsIgnoreCase("min") && sender.hasPermission("minigames.min")) {
 				Minigames.BYPASS_PLAYER_MINIMUM_CHECKS = true;
 				sender.sendMessage("Bypassing minimum player check");

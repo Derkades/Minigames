@@ -16,8 +16,8 @@ public class MinigamesJoinEvent extends Event {
 		this.teleportPlayer = true;
 	}
 
-	public Player getPlayer() {
-		return this.player;
+	public MPlayer getPlayer() {
+		return new MPlayer(this.player);
 	}
 
 	public boolean getTeleportPlayerToLobby() {

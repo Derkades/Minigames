@@ -1,8 +1,9 @@
 package xyz.derkades.minigames.games;
 
-import static org.bukkit.ChatColor.DARK_GRAY;
-import static org.bukkit.ChatColor.GOLD;
-import static org.bukkit.ChatColor.YELLOW;
+import static net.md_5.bungee.api.ChatColor.DARK_GRAY;
+import static net.md_5.bungee.api.ChatColor.GOLD;
+import static net.md_5.bungee.api.ChatColor.GRAY;
+import static net.md_5.bungee.api.ChatColor.YELLOW;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -12,12 +13,10 @@ import java.util.Map;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
-import org.bukkit.GameMode;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
-import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
@@ -25,22 +24,22 @@ import org.bukkit.util.Vector;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;
+import xyz.derkades.derkutils.ListUtils;
 import xyz.derkades.derkutils.Random;
 import xyz.derkades.minigames.AutoRotate;
 import xyz.derkades.minigames.ChatPoll.Poll;
 import xyz.derkades.minigames.ChatPoll.PollAnswer;
 import xyz.derkades.minigames.Minigames;
-import xyz.derkades.minigames.Points;
-import xyz.derkades.minigames.SneakPrevention;
 import xyz.derkades.minigames.Var;
 import xyz.derkades.minigames.games.maps.GameMap;
-import xyz.derkades.minigames.games.maps.MapPicking;
+import xyz.derkades.minigames.utils.MPlayer;
+import xyz.derkades.minigames.utils.Queue;
 import xyz.derkades.minigames.utils.Scheduler;
 import xyz.derkades.minigames.utils.Utils;
 
-public abstract class Game implements Listener {
+public abstract class Game<M extends GameMap> implements Listener {
 
-	public static final Game[] GAMES = new Game[] {
+	public static final Game<? extends GameMap>[] GAMES = new Game<?>[] {
 			new BreakTheBlock(),
 			new CreeperAttack(),
 			new DigDug(),
@@ -66,39 +65,153 @@ public abstract class Game implements Listener {
 			new Tron(),
 	};
 
-	private final String name;
-	private final String[] description;
-	private final int requiredPlayers;
-	private final GameMap[] maps;
+	public abstract String getName();
 
-	Game(final String name, final String[] description, final int requiredPlayers, final GameMap[] maps) {
-		this.name = name;
-		this.description = description;
-		this.requiredPlayers = requiredPlayers;
-		this.maps = maps;
+	public abstract String[] getDescription();
+
+	public abstract int getRequiredPlayers();
+
+	public abstract M[] getGameMaps();
+
+	public abstract int getDuration();
+
+	public int getPreDuration() {
+		return 10;
 	}
 
-	public final String getName() {
-		return this.name;
+	public abstract void onPreStart();
+
+	public abstract void onStart();
+
+	public abstract int gameTimer(int secondsLeft);
+
+	public abstract void onEnd();
+
+	protected M map = null;
+
+	public void start() {
+		// Pick random map
+		this.map = ListUtils.getRandomValueFromArray(this.getGameMaps());
+
+		// Send description
+		for (final Player player : Bukkit.getOnlinePlayers()) {
+
+			double weight = Minigames.getInstance().getConfig().contains("game-voting." + this.getName())
+					? Minigames.getInstance().getConfig().getDouble("game-voting." + this.getName())
+					: 1;
+
+			weight = Math.round(weight * 100.0) / 100.0;
+
+			final String prefix = Utils.getChatPrefix(GOLD, 'G');
+
+			player.sendMessage(prefix + DARK_GRAY + "-----------------------------------------");
+			player.spigot().sendMessage(new ComponentBuilder("").appendLegacy(Utils.getChatPrefix(GOLD, 'G'))
+					.append(this.getName()).bold(true).color(GOLD).append(" (" + weight + ")")
+					.color(GRAY).bold(false).append(" [hover for help]").color(YELLOW)
+					.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
+							new ComponentBuilder("The number shown after the game name in parentheses\n"
+									+ "is the game weight. A higher weight means that the\n"
+									+ "minigame has a higher chance of being picked. The\n"
+									+ "game weight can be increased or decreased by voting\n"
+									+ "on the poll at the end of the game.").color(GRAY).create()))
+					.create());
+
+			if (!Minigames.getInstance().getConfig().getStringList("disabled-description")
+					.contains(player.getUniqueId().toString())) {
+				for (final String line : this.getDescription())
+					player.sendMessage(prefix + line);
+				player.sendMessage(prefix + "Minimum players: " + YELLOW + this.getRequiredPlayers());
+			}
+
+			if (this.map != null)
+				player.sendMessage(prefix + "Map: " + YELLOW + this.map.getName());
+
+			player.sendMessage(prefix + DARK_GRAY + "-----------------------------------------");
+		}
+
+		// Set current game name. This is used to check prevent the same game from starting again after this.
+		Minigames.LAST_GAME_NAME = this.getName();
+
+		// Countdown using sounds and the XP bar
+		new BukkitRunnable() {
+			int timeLeft = 200;
+
+			@Override
+			public void run() {
+				for (final MPlayer player : Minigames.getOnlinePlayers()) {
+					player.setExp((this.timeLeft + 10 ) / 210.0f);
+					player.setLevel((int) ((this.timeLeft + 10) / 20.0));
+					if (this.timeLeft < 90 && (this.timeLeft + 10) % 20 == 0) {
+						player.playSound(Sound.ENTITY_ARROW_HIT_PLAYER, 0.1f);
+					}
+					if (this.timeLeft == 20) {
+						player.playSound(Sound.ENTITY_ARROW_HIT_PLAYER, 1.5f);
+					}
+				}
+
+				this.timeLeft--;
+
+				if (this.timeLeft < 5) {
+					this.cancel();
+
+					for (final MPlayer player : Minigames.getOnlinePlayers()) {
+						player.clearPotionEffects();
+						player.clearInventory();
+						player.setLevel(0);
+						player.setExp(0);
+					}
+
+					Minigames.IS_IN_GAME = true;
+					Bukkit.getPluginManager().registerEvents(Game.this, Minigames.getInstance());
+					Game.this.begin();
+				}
+			}
+		}.runTaskTimer(Minigames.getInstance(), 0, 1);
 	}
 
-	public final String[] getDescription() {
-		return this.description;
+	private void begin() {
+		this.onPreStart();
+
+		this.sendMessage(String.format("The game will start in %s seconds.", this.getPreDuration()));
+
+		new BukkitRunnable() {
+
+			private int secondsLeft = Game.this.getDuration() + Game.this.getPreDuration();
+
+			@Override
+			public void run() {
+				this.secondsLeft--;
+
+				// pre-start countdown
+				if (this.secondsLeft > Game.this.getDuration()) {
+					return;
+				}
+
+				if (this.secondsLeft == Game.this.getDuration()) {
+					Game.this.sendMessage("The game has started.");
+					Game.this.onStart();
+					return;
+				}
+
+				final int newSecondsLeft = Game.this.gameTimer(this.secondsLeft);
+				this.secondsLeft = newSecondsLeft > 0 ? newSecondsLeft : this.secondsLeft;
+
+				if (this.secondsLeft <= 0) {
+					this.cancel();
+					Game.this.onEnd();
+					return;
+				}
+
+				if (this.secondsLeft == 60 || this.secondsLeft == 30 || this.secondsLeft == 10 || this.secondsLeft <= 5) {
+					Game.this.sendMessage(String.format("%s seconds left", this.secondsLeft));
+				}
+			}
+
+		}.runTaskTimer(Minigames.getInstance(), 0, 20);
 	}
 
-	public final int getRequiredPlayers() {
-		return this.requiredPlayers;
-	}
-
-	public final GameMap[] getGameMaps() {
-		return this.maps;
-	}
-
-	abstract void begin(final GameMap genericMap);
 
 	void sendMessage(final String message){
-		//Bukkit.broadcastMessage(DARK_GRAY + "[" + DARK_AQUA + this.getName() + DARK_GRAY + "] " + AQUA + message);
-		//Bukkit.broadcastMessage(String.format("%s[%sG%s] %s| %s%s", ChatColor.BLACK, ChatColor.GOLD, ChatColor.BLACK, ChatColor.DARK_GRAY, ChatColor.GRAY, message));
 		Bukkit.broadcastMessage(Utils.getChatPrefix(ChatColor.GOLD, 'G') + message);
 	}
 
@@ -114,12 +227,11 @@ public abstract class Game implements Listener {
 		this.endGame(Arrays.asList(winner));
 	}
 
-	void endGame(final List<Player> winners){
+	void endGame(final List<Player> winners){ // This method is called by the game, usually in onEnd()
 		Minigames.IS_IN_GAME = false;
 		HandlerList.unregisterAll(this); //Unregister events
 
-		Utils.showEveryoneToEveryone();
-
+		// Announce winners
 		final List<String> winnerNames = new ArrayList<String>();
 		for (final Player winner : winners) winnerNames.add(winner.getName());
 		final String winnersText = String.join(", ", winnerNames);
@@ -132,12 +244,11 @@ public abstract class Game implements Listener {
 			this.sendMessage("The " + this.getName() + " game has ended! Winners: " + YELLOW + winnersText);
 		}
 
-		for (final Player player : Bukkit.getOnlinePlayers()){
+		// Give rewards
+		for (final MPlayer player : Minigames.getOnlinePlayers()){
 			if (winnerNames.contains(player.getName())){
 				//If player has won
 				final int onlinePlayers = Bukkit.getOnlinePlayers().size();
-
-				Minigames.economy.depositPlayer(player, 1);
 
 				final int points;
 
@@ -149,36 +260,26 @@ public abstract class Game implements Listener {
 					points = 5;
 				}
 
-				Points.addPoints(player, points);
-				Minigames.economy.depositPlayer(player, points);
-				Utils.sendTitle(player, GOLD + "You've won",  YELLOW + "+" + points + " points");
+				player.addPoints(points);
+				Queue.add(() -> Minigames.economy.depositPlayer(player.bukkit(), points));
+				player.sendTitle(GOLD + "You've won",  YELLOW + "+" + points + " points");
 			} else {
-				Points.addPoints(player, 1);
-				Minigames.economy.depositPlayer(player, 0);
-				Utils.sendTitle(player, GOLD + "You've lost", YELLOW + "+1 point");
+				player.addPoints(1);
+				player.sendTitle(GOLD + "You've lost", YELLOW + "+1 point");
 			}
 			//player.sendMessage(DARK_AQUA + "You currently have " + AQUA + Points.getPoints(player) + DARK_AQUA + " points.");
 		}
 
-		Utils.delayedTeleport(Var.LOBBY_LOCATION, (player) -> {
-			player.setVelocity(new Vector(Random.getRandomDouble() - 0.5, 0.3, -0.8));
-		}, Bukkit.getOnlinePlayers());
+		Utils.showEveryoneToEveryone();
 
-		for (final Player player : Bukkit.getOnlinePlayers()){
-			player.setAllowFlight(false);
-			player.setGameMode(GameMode.ADVENTURE);
-
-			Utils.clearPotionEffects(player);
-			Utils.clearInventory(player);
-			player.setHealth(20);
-
-			Minigames.setCanTakeDamage(player, false);
-			SneakPrevention.setCanSneak(player, true);
-
-			player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 40, 0, true));
-
-			Minigames.giveLobbyInventoryItems(player);
-			Minigames.CAN_MOVE_ITEMS.clear();
+		for (final MPlayer player : Minigames.getOnlinePlayers()){
+			// Teleport the player and give them a bit of forwards and sidewards velocity
+			Queue.add(() -> {
+				player.teleport(Var.LOBBY_LOCATION);
+				player.bukkit().setVelocity(new Vector(Random.getRandomDouble() - 0.5, 0.3, -0.8));
+				player.giveEffect(PotionEffectType.INVISIBILITY, 40, 0);
+				player.applyLobbySettings();
+			});
 		}
 
 		int nextGameDelay = 2;
@@ -214,99 +315,19 @@ public abstract class Game implements Listener {
 		}
 
 		Scheduler.delay(nextGameDelay * 20, () -> {
+			// Unload world from previous game. It can be done now, because all players should
+			// be teleported to the lobby by now.
+			this.map.getGameWorld().unload();
+
 			AutoRotate.startNewRandomGame();
 		});
 	}
 
-	public void startGame(){
-		// Choose random map
-		final GameMap map = this.maps == null ? null : MapPicking.pickRandomMap(this.maps);
-
-		// Send description
-		for (final Player player : Bukkit.getOnlinePlayers()) {
-
-			double weight = Minigames.getInstance().getConfig().contains("game-voting." + this.getName())
-					? Minigames.getInstance().getConfig().getDouble("game-voting." + this.getName())
-					: 1;
-
-			weight = Math.round(weight * 100.0) / 100.0;
-
-			final String prefix = Utils.getChatPrefix(ChatColor.GOLD, 'G');
-
-			player.sendMessage(prefix + DARK_GRAY + "-----------------------------------------");
-			//player.sendMessage(prefix + ChatColor.GOLD + "" + ChatColor.BOLD + this.getName() + ChatColor.GRAY +  " (" + weight + ")");
-
-			player.spigot().sendMessage(new ComponentBuilder("")
-					.appendLegacy(Utils.getChatPrefix(ChatColor.GOLD, 'G'))
-					.append(this.getName())
-					.bold(true)
-					.color(ChatColor.GOLD)
-					.append(" (" + weight + ")")
-					.color(ChatColor.GRAY)
-					.bold(false)
-					.append(" [hover for help]")
-					.color(ChatColor.YELLOW)
-					.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(
-							"The number shown after the game name in parentheses\n"
-							+ "is the game weight. A higher weight means that the\n"
-							+ "minigame has a higher chance of being picked. The\n"
-							+ "game weight can be increased or decreased by voting\n"
-							+ "on the poll at the end of the game.")
-							.color(ChatColor.GRAY).create()))
-					.create());
-
-			if (!Minigames.getInstance().getConfig().getStringList("disabled-description")
-					.contains(player.getUniqueId().toString())) {
-				for (final String line : this.getDescription()) player.sendMessage(prefix + line);
-				player.sendMessage(prefix + "Minimum players: " + YELLOW + this.getRequiredPlayers());
-			}
-
-			if (map != null)
-				player.sendMessage(prefix + "Map: " + YELLOW + map.getName());
-
-			player.sendMessage(prefix + DARK_GRAY + "-----------------------------------------");
-		}
-
-		Minigames.LAST_GAME_NAME = this.getName();
-
-		new BukkitRunnable() {
-			int timeLeft = 200;
-
-			@Override
-			public void run() {
-				Utils.setXpBarValue((this.timeLeft + 10 ) / 210.0f, (int) ((this.timeLeft + 10) / 20.0));
-
-				if (this.timeLeft < 90 && (this.timeLeft + 10) % 20 == 0) {
-					Utils.playSoundForAllPlayers(Sound.ENTITY_ARROW_HIT_PLAYER, 0.1f);
-				}
-
-				this.timeLeft--;
-
-				if (this.timeLeft < 20) {
-					Utils.playSoundForAllPlayers(Sound.ENTITY_ARROW_HIT_PLAYER, Random.getRandomFloat());
-				}
-
-				if (this.timeLeft < 1) {
-					this.cancel();
-
-					Utils.clearPotionEffects();
-					Utils.clearInventory();
-
-					Game.this.begin(map);
-					Minigames.IS_IN_GAME = true;
-					Bukkit.getPluginManager().registerEvents(Game.this, Minigames.getInstance());
-
-					Utils.setXpBarValue(0f, 0);
-				}
-			}
-		}.runTaskTimer(Minigames.getInstance(), 0, 1);
-	}
-
-	public static Game getRandomGame(){
-		final Map<Game, Double> weightedList = new HashMap<>();
+	public static Game<? extends GameMap> getRandomGame(){
+		final Map<Game<? extends GameMap>, Double> weightedList = new HashMap<>();
 
 		// Populate hashmap
-		for (final Game game : GAMES) {
+		for (final Game<?> game : GAMES) {
 			final String gameName = game.getName();
 			final double weight = Minigames.getInstance().getConfig().contains("game-voting." + gameName)
 					? Minigames.getInstance().getConfig().getDouble("game-voting." + gameName)
@@ -314,12 +335,12 @@ public abstract class Game implements Listener {
 			weightedList.put(game, weight);
 		}
 
-		final Game random = Utils.getWeightedRandom(weightedList);
+		final Game<?> random = Utils.getWeightedRandom(weightedList);
 
 		return random;
 	}
 
-	public static Game fromString(String string) {
+	public static Game<? extends GameMap> fromString(String string) {
 		if (string.equalsIgnoreCase("oitq")) {
 			string = "one in the quiver";
 		} else if (string.equalsIgnoreCase("tbb")) {
@@ -332,7 +353,7 @@ public abstract class Game implements Listener {
 			string = "hunger games";
 		}
 
-		for (final Game game : GAMES){
+		for (final Game<? extends GameMap> game : GAMES){
 			if (game.getName().equalsIgnoreCase(string)){
 				return game;
 			}

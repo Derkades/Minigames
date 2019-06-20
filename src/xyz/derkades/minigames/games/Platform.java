@@ -11,7 +11,6 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
@@ -19,80 +18,90 @@ import org.bukkit.potion.PotionEffectType;
 import net.md_5.bungee.api.ChatColor;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
 import xyz.derkades.minigames.Minigames;
-import xyz.derkades.minigames.Spectator;
-import xyz.derkades.minigames.games.maps.GameMap;
 import xyz.derkades.minigames.games.platform.PlatformMap;
+import xyz.derkades.minigames.utils.MPlayer;
 import xyz.derkades.minigames.utils.Utils;
 
-public class Platform extends Game {
+public class Platform extends Game<PlatformMap> {
 
-	Platform() {
-		super("Platform", new String[] {
+	@Override
+	public String getName() {
+		return "Platform";
+	}
+
+	@Override
+	public String[] getDescription() {
+		return new String[] {
 				"Knock other players off a platform.",
 				"Use your knockback swords wisely, you",
 				"only get two knockback swords (one at",
 				"the start, one at " + KNOCKBACK_SWORDS_TIME + " seconds.",
-		}, 2, PlatformMap.MAPS);
+		};
 	}
 
-	private static final int SPREAD_TIME = 5;
-	private static final int GAME_DURATION = 40;
+	@Override
+	public int getRequiredPlayers() {
+		return 2;
+	}
+
+	@Override
+	public PlatformMap[] getGameMaps() {
+		return PlatformMap.MAPS;
+	}
+
+	@Override
+	public int getDuration() {
+		return 40;
+	}
+
 	private static final int KNOCKBACK_SWORDS_TIME = 20;
 
 	private List<UUID> dead;
 	private List<UUID> all;
 
-	private PlatformMap map;
-
 	private boolean started;
 
 	@Override
-	public void begin(final GameMap genericMap){
+	public void onPreStart() {
 		this.dead = new ArrayList<>();
 		this.all = new ArrayList<>();
 
-		this.map = (PlatformMap) genericMap;
-
 		this.started = false;
 
-		for (final Player player : Bukkit.getOnlinePlayers()){
-			player.teleport(this.map.getSpawnLocation());
-			Utils.giveInfiniteEffect(player, PotionEffectType.DAMAGE_RESISTANCE, 255);
+		for (final MPlayer player : Minigames.getOnlinePlayers()){
+			player.queueTeleport(this.map.getSpawnLocation());
+		}
+	}
+
+	@Override
+	public void onStart() {
+		for (final MPlayer player : Minigames.getOnlinePlayers()) {
+			player.setDisableDamage(false);
+			player.giveInfiniteEffect(PotionEffectType.DAMAGE_RESISTANCE, 255);
+			Platform.this.all.add(player.getUniqueId());
 		}
 
-		new GameTimer(this, GAME_DURATION, SPREAD_TIME) {
+		Platform.this.started = true;
+	}
 
-			@Override
-			public void onStart() {
-				for (final Player player : Bukkit.getOnlinePlayers()) {
-					Minigames.setCanTakeDamage(player, true);
-					Platform.this.all.add(player.getUniqueId());
-				}
+	@Override
+	public int gameTimer(final int secondsLeft) {
+		if (secondsLeft == 20) {
+			Platform.this.giveSwords();
+		}
 
-				Platform.this.started = true;
-			}
+		if (Utils.getAliveAcountFromDeadAndAllList(Platform.this.dead, Platform.this.all) <= 1 && secondsLeft > 5) {
+			return 5;
+		}
 
-			@Override
-			public int gameTimer(final int secondsLeft) {
-				if (secondsLeft == 20) {
-					Platform.this.giveSwords();
-				}
+		return secondsLeft;
+	}
 
-				if (Utils.getAliveAcountFromDeadAndAllList(Platform.this.dead, Platform.this.all) <= 1 && secondsLeft > 2) {
-					return 2;
-				}
-
-				return secondsLeft;
-			}
-
-			@Override
-			public void onEnd() {
-				Platform.this.endGame(Utils.getWinnersFromDeadAndAllList(Platform.this.dead, Platform.this.all, false));
-				Platform.this.dead.clear();
-				Platform.this.all.clear();
-			}
-
-		};
+	@Override
+	public void onEnd() {
+		Platform.this.endGame(Utils.getWinnersFromDeadAndAllList(Platform.this.dead, Platform.this.all, false));
+		Platform.this.dead.clear();
+		Platform.this.all.clear();
 	}
 
 	private void giveSwords(){
@@ -110,48 +119,27 @@ public class Platform extends Game {
 		}
 	}
 
-	private void playerDie(final Player player){
-		if (!this.started) {
-			player.teleport(this.map.getSpawnLocation());
-			return;
-		}
-
-		this.sendMessage(player.getName() + " has died");
-
-		this.map.getWorld().spigot().strikeLightningEffect(player.getLocation(), false);
-		//final Location loc = player.getLocation();
-		//loc.setY(loc.getY() + 10);
-		//player.teleport(loc);
-		this.dead.add(player.getUniqueId());
-		//player.getInventory().clear();
-		//Utils.giveInvisibility(player);
-		//player.setAllowFlight(true);
-		//player.setFlying(true);
-		//Minigames.setCanTakeDamage(player, false); //Disallow PvP
-		Spectator.dieUp(player, 10);
-	}
-
 	@EventHandler(priority = EventPriority.MONITOR)
 	public void onMove(final PlayerMoveEvent event){
-		final Player player = event.getPlayer();
+		final MPlayer player = new MPlayer(event);
 
 		if (this.dead.contains(player.getUniqueId())) {
 			return;
 		}
 
-		if(event.getTo().getBlock().getRelative(BlockFace.DOWN).getType().equals(Material.RED_TERRACOTTA)){
-			this.playerDie(player);
-		}
-	}
+		if (event.getTo().getBlock().getRelative(BlockFace.DOWN).getType().equals(Material.RED_TERRACOTTA)){
+			// Die
 
-	@EventHandler
-	public void onDamage(final EntityDamageByEntityEvent event) {
-		if (this.dead.contains(event.getDamager().getUniqueId())) {
-			event.setCancelled(true);
-		}
+			// Put player back if game hasn't started yet
+			if (!this.started) {
+				player.teleport(this.map.getSpawnLocation());
+				return;
+			}
 
-		if (!this.started) {
-			event.setCancelled(true);
+			this.dead.add(player.getUniqueId());
+			this.sendMessage(player.getName() + " died");
+			player.dieUp(10);
+			this.map.getWorld().spigot().strikeLightningEffect(player.getLocation(), false);
 		}
 	}
 

@@ -5,6 +5,7 @@ import static org.bukkit.ChatColor.RED;
 import org.bukkit.Bukkit;
 
 import xyz.derkades.minigames.games.Game;
+import xyz.derkades.minigames.games.maps.GameMap;
 import xyz.derkades.minigames.utils.Scheduler;
 
 public class AutoRotate {
@@ -30,7 +31,7 @@ public class AutoRotate {
 		}
 
 		// If a next game is set by a command, do that game next. Otherwise, pick a random game.
-		final Game game = Minigames.NEXT_GAME == null ? Game.getRandomGame() : Minigames.NEXT_GAME;
+		final Game<? extends GameMap> game = Minigames.NEXT_GAME == null ? Game.getRandomGame() : Minigames.NEXT_GAME;
 
 
 		// If the randomly selected game is the same as the last game pick a new game
@@ -54,7 +55,7 @@ public class AutoRotate {
 
 		Minigames.BYPASS_PLAYER_MINIMUM_CHECKS = false;
 
-		game.startGame();
+		game.start();
 	}
 
 }

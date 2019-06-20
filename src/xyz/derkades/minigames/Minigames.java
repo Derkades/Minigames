@@ -1,23 +1,22 @@
 package xyz.derkades.minigames;
 
 import java.io.File;
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
-import java.util.UUID;
+import java.util.stream.Collectors;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import net.md_5.bungee.api.ChatColor;
 import net.milkbowl.vault.economy.Economy;
-import xyz.derkades.derkutils.bukkit.ItemBuilder;
 import xyz.derkades.minigames.games.Game;
+import xyz.derkades.minigames.games.maps.GameMap;
 import xyz.derkades.minigames.task.RegenerateHunger;
+import xyz.derkades.minigames.utils.MPlayer;
+import xyz.derkades.minigames.utils.Queue;
 import xyz.derkades.minigames.utils.Scheduler;
 import xyz.derkades.minigames.worlds.GameWorld;
 import xyz.derkades.minigames.worlds.WorldTeleportCommand;
@@ -28,10 +27,6 @@ public class Minigames extends JavaPlugin implements Listener {
 	public static final float VOTE_MENU_CHANCE = 0.3f;
 
 	private static Minigames instance;
-
-	private static final List<UUID> CAN_TAKE_DAMAGE = new ArrayList<>();
-
-	public static final List<UUID> CAN_MOVE_ITEMS = new ArrayList<>();
 
 	public static boolean IS_IN_GAME = false;
 
@@ -47,7 +42,7 @@ public class Minigames extends JavaPlugin implements Listener {
 	/**
 	 * Used to force the next game to be a certain game.
 	 */
-	public static Game NEXT_GAME = null;
+	public static Game<? extends GameMap> NEXT_GAME = null;
 
 	public static boolean BYPASS_PLAYER_MINIMUM_CHECKS = false;
 
@@ -94,6 +89,8 @@ public class Minigames extends JavaPlugin implements Listener {
 
 		new SneakPrevention(this);
 
+		Queue.start();
+
 		Scheduler.delay(20, () -> {
 			GameWorld.init();
 
@@ -103,12 +100,18 @@ public class Minigames extends JavaPlugin implements Listener {
 			} else {
 				Bukkit.broadcastMessage("[System] Players online, not starting games automatically");
 			}
+
+			for (final MPlayer player : getOnlinePlayers()) {
+				player.applyLobbySettings();
+			}
 		});
 
 		// To keep database connection alive
 		Scheduler.repeat(60*20, () -> {
-			economy.getBalance("Derkades");
+			Queue.add(() -> economy.getBalance("Derkades"));
 		});
+
+
 	}
 
 	@Override
@@ -122,18 +125,6 @@ public class Minigames extends JavaPlugin implements Listener {
 
 	public static Minigames getInstance(){
 		return instance;
-	}
-
-	public static boolean canTakeDamage(final Player player){
-		return CAN_TAKE_DAMAGE.contains(player.getUniqueId());
-	}
-
-	public static void setCanTakeDamage(final Player player, final boolean value){
-		if (value) {
-			CAN_TAKE_DAMAGE.add(player.getUniqueId());
-		} else {
-			CAN_TAKE_DAMAGE.remove(player.getUniqueId());
-		}
 	}
 
 	/**
@@ -159,19 +150,14 @@ public class Minigames extends JavaPlugin implements Listener {
         return economy != null;
     }
 
-    public static void giveLobbyInventoryItems(final Player player) {
-    	if (player.hasPermission("games.torch")) {
-			player.getInventory().setItem(7, new ItemBuilder(Material.REDSTONE_TORCH)
-					.name(ChatColor.AQUA + "" + ChatColor.BOLD + "Staff lounge key")
-					.lore(ChatColor.YELLOW + "Place in upper-south-east-corner on gray terracotta")
-					.canPlaceOn("cyan_terracotta")
-					.create());
-		}
+    public static List<MPlayer> getOnlinePlayers() {
+    	return Bukkit.getOnlinePlayers().stream().map(MPlayer::new).collect(Collectors.toList());
+    }
 
-		player.getInventory().setItem(8, new ItemBuilder(Material.COMPARATOR)
-				.name(ChatColor.AQUA + "" + ChatColor.BOLD + "Menu")
-				.lore(ChatColor.YELLOW + "Click to open menu")
-				.create());
+    public static List<MPlayer> getOnlinePlayersInRandomOrder(){
+    	final List<MPlayer> players = getOnlinePlayers();
+    	Collections.shuffle(players);
+    	return players;
     }
 
 }

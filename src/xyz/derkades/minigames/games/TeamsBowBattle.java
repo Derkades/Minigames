@@ -20,31 +20,47 @@ import org.bukkit.inventory.ItemStack;
 
 import net.md_5.bungee.api.ChatColor;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
-import xyz.derkades.minigames.Minigames;
 import xyz.derkades.minigames.Var;
-import xyz.derkades.minigames.games.maps.GameMap;
 import xyz.derkades.minigames.games.teamsbowbattle.TeamsBowBattleMap;
+import xyz.derkades.minigames.utils.MPlayer;
 import xyz.derkades.minigames.utils.Scheduler;
 import xyz.derkades.minigames.utils.Utils;
 
-public class TeamsBowBattle extends Game {
+public class TeamsBowBattle extends Game<TeamsBowBattleMap> {
 
-	TeamsBowBattle() {
-		super("TeamsBowBattle", new String[] {
-				"pvp. with bows. in teams."
-		}, 4, TeamsBowBattleMap.MAPS);
+	@Override
+	public String getName() {
+		return "TeamsBowBattle";
 	}
 
-	private TeamsBowBattleMap map;
+	@Override
+	public String[] getDescription() {
+		return new String[] {
+				"pvp. with bows. in teams."
+		};
+	}
+
+	@Override
+	public int getRequiredPlayers() {
+		return 4;
+	}
+
+	@Override
+	public TeamsBowBattleMap[] getGameMaps() {
+		return TeamsBowBattleMap.MAPS;
+	}
+
+	@Override
+	public int getDuration() {
+		return 120;
+	}
 
 	private List<UUID> dead;
 	private List<UUID> teamRed;
 	private List<UUID> teamBlue;
 
 	@Override
-	void begin(final GameMap genericMap) {
-		this.map = (TeamsBowBattleMap) genericMap;
-
+	public void onPreStart() {
 		this.dead = new ArrayList<>();
 		this.teamRed = new ArrayList<>();
 		this.teamBlue = new ArrayList<>();
@@ -56,6 +72,7 @@ public class TeamsBowBattle extends Game {
 		Bukkit.getOnlinePlayers().forEach((player) -> players.add(player));
 
 		Collections.shuffle(players);
+
 
 		for (final Player player : players) {
 			if (team) {
@@ -75,40 +92,38 @@ public class TeamsBowBattle extends Game {
 
 		Scheduler.delay(10, () -> Utils.delayedTeleport(this.map.getTeamBlueSpawnLocation(), Utils.getPlayerListFromUUIDList(this.teamBlue)));
 
-		new GameTimer(this, 60, 5) {
+	}
 
-			@Override
-			public void onStart() {
-				Bukkit.getOnlinePlayers().forEach((player) -> {
-					TeamsBowBattle.this.giveItems(player);
-					Minigames.setCanTakeDamage(player, true);
-				});
-			}
+	@Override
+	public void onStart() {
+		Bukkit.getOnlinePlayers().forEach((player) -> {
+			TeamsBowBattle.this.giveItems(player);
+			new MPlayer(player).setDisableDamage(false);
+		});
+	}
 
-			@Override
-			public int gameTimer(final int secondsLeft) {
-				if ((TeamsBowBattle.this.getNumPlayersLeftInBlueTeam() == 0 || TeamsBowBattle.this.getNumPlayersLeftInRedTeam() == 0) && secondsLeft > 1) {
-					return 1;
-				}
+	@Override
+	public int gameTimer(final int secondsLeft) {
+		if ((TeamsBowBattle.this.getNumPlayersLeftInBlueTeam() == 0 || TeamsBowBattle.this.getNumPlayersLeftInRedTeam() == 0) && secondsLeft > 1) {
+			return 1;
+		}
 
-				return secondsLeft;
-			}
+		return secondsLeft;
+	}
 
-			@Override
-			public void onEnd() {
-				if (TeamsBowBattle.this.getNumPlayersLeftInBlueTeam() == 0) {
-					// blue is dead so team red wins
-					TeamsBowBattle.super.endGame(Utils.getPlayerListFromUUIDList(TeamsBowBattle.this.teamRed));
-				} else if (TeamsBowBattle.this.getNumPlayersLeftInRedTeam() == 0) {
-					// red is dead so team blue wins
-					TeamsBowBattle.super.endGame(Utils.getPlayerListFromUUIDList(TeamsBowBattle.this.teamBlue));
-				} else {
-					// both teams are still alive
-					TeamsBowBattle.super.endGame(new ArrayList<>());
-				}
-			}
+	@Override
+	public void onEnd() {
+		if (TeamsBowBattle.this.getNumPlayersLeftInBlueTeam() == 0) {
+			// blue is dead so team red wins
+			TeamsBowBattle.super.endGame(Utils.getPlayerListFromUUIDList(TeamsBowBattle.this.teamRed));
+		} else if (TeamsBowBattle.this.getNumPlayersLeftInRedTeam() == 0) {
+			// red is dead so team blue wins
+			TeamsBowBattle.super.endGame(Utils.getPlayerListFromUUIDList(TeamsBowBattle.this.teamBlue));
+		} else {
+			// both teams are still alive
+			TeamsBowBattle.super.endGame(new ArrayList<>());
+		}
 
-		};
 	}
 
 	@EventHandler
@@ -183,7 +198,7 @@ public class TeamsBowBattle extends Game {
 		Scheduler.delay(1, () -> {
 			player.spigot().respawn();
 			Utils.hideForEveryoneElse(player);
-			Minigames.setCanTakeDamage(player, false);
+			new MPlayer(player).setDisableDamage(true);
 			Utils.clearInventory(player);
 			player.setAllowFlight(true);
 			player.teleport(Var.NO_SPECTATOR_LOCATION);
@@ -253,5 +268,6 @@ public class TeamsBowBattle extends Game {
 
 		player.getInventory().addItem(bow, arrow);
 	}
+
 
 }

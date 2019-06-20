@@ -24,30 +24,48 @@ import org.bukkit.util.Vector;
 
 import xyz.derkades.minigames.Minigames;
 import xyz.derkades.minigames.Spectator;
-import xyz.derkades.minigames.games.maps.GameMap;
 import xyz.derkades.minigames.games.tron.TronMap;
 import xyz.derkades.minigames.utils.BlockUtils;
 import xyz.derkades.minigames.utils.Utils;
 
-public class Tron extends Game {
-
-	Tron() {
-		super("Tron", new String[] {
-				"Snake in Minecraft",
-		}, 4, TronMap.MAPS);
-	}
+public class Tron extends Game<TronMap> {
 
 	private static final double MOVEMENT_SPEED = 0.3;
 
-	private TronMap map;
+	@Override
+	public String getName() {
+		return "Tron";
+	}
+
+	@Override
+	public String[] getDescription() {
+		return new String[] {
+				"Snake in Minecraft",
+		};
+	}
+
+	@Override
+	public int getRequiredPlayers() {
+		return 4;
+	}
+
+	@Override
+	public TronMap[] getGameMaps() {
+		return TronMap.MAPS;
+	}
+
+	@Override
+	public int getDuration() {
+		return 100;
+	}
+
 	private List<BukkitTask> tasks;
 	private List<UUID> spectators;
 
 	Map<UUID, TronTeam> teams;
 
 	@Override
-	void begin(final GameMap genericMap) {
-		this.map = (TronMap) genericMap;
+	public void onPreStart() {
 		this.tasks = new ArrayList<>();
 		this.spectators = new ArrayList<>();
 		this.teams = new HashMap<>();
@@ -73,43 +91,39 @@ public class Tron extends Game {
 		}
 
 		this.sendMessage("Make sure that you are not facing a wall");
+	}
 
-		new GameTimer(this, 100, 8) {
+	@Override
+	public void onStart() {
+		Bukkit.getOnlinePlayers().forEach(Utils::clearPotionEffects);
 
-			@Override
-			public void onStart() {
-				Bukkit.getOnlinePlayers().forEach(Utils::clearPotionEffects);
+		for (final Player player : Bukkit.getOnlinePlayers()) {
+			new BlockPlacerTask(player).runTaskTimer(Minigames.getInstance(), 1, 1);
+		}
+	}
 
-				for (final Player player : Bukkit.getOnlinePlayers()) {
-					new BlockPlacerTask(player).runTaskTimer(Minigames.getInstance(), 1, 1);
-				}
-			}
+	@Override
+	public int gameTimer(final int secondsLeft) {
+		if (Tron.this.teams.size() < 2 && secondsLeft > 2) {
+			return 2;
+		}
 
-			@Override
-			public int gameTimer(final int secondsLeft) {
-				if (Tron.this.teams.size() < 2 && secondsLeft > 2) {
-					return 2;
-				}
+		return secondsLeft;
+	}
 
-				return secondsLeft;
-			}
+	@Override
+	public void onEnd() {
+		Tron.this.tasks.forEach((task) -> task.cancel());
+		Tron.this.tasks.clear();
+		Tron.this.spectators.clear();
 
-			@Override
-			public void onEnd() {
-				Tron.this.tasks.forEach((task) -> task.cancel());
-				Tron.this.tasks.clear();
-				Tron.this.spectators.clear();
+		if (Tron.this.teams.size() == 1) {
+			Tron.this.endGame(Tron.this.teams.keySet().toArray(new UUID[] {})[0]);
+		} else {
+			Tron.this.endGame();
+		}
 
-				if (Tron.this.teams.size() == 1) {
-					Tron.this.endGame(Tron.this.teams.keySet().toArray(new UUID[] {})[0]);
-				} else {
-					Tron.this.endGame();
-				}
-
-				Tron.this.teams.clear();
-			}
-
-		};
+		Tron.this.teams.clear();
 	}
 
 	public static enum TronTeam {

@@ -17,26 +17,45 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import xyz.derkades.minigames.Minigames;
 import xyz.derkades.minigames.Points;
 import xyz.derkades.minigames.Spectator;
-import xyz.derkades.minigames.games.maps.GameMap;
 import xyz.derkades.minigames.games.parkour.ParkourMap;
+import xyz.derkades.minigames.utils.MPlayer;
 import xyz.derkades.minigames.utils.MinigamesJoinEvent;
 import xyz.derkades.minigames.utils.Utils;
 
-public class Parkour extends Game {
+public class Parkour extends Game<ParkourMap> {
 
-	Parkour() {
-		super("Parkour", new String[] {
-				"Jump to the finish without touching the ground",
-		}, 1, ParkourMap.MAPS);
+	@Override
+	public String getName() {
+		return "Parkour";
 	}
 
-	private ParkourMap map;
+	@Override
+	public String[] getDescription() {
+		return new String[] {
+				"Jump to the finish without touching the ground",
+		};
+	}
+
+	@Override
+	public int getRequiredPlayers() {
+		return 0;
+	}
+
+	@Override
+	public ParkourMap[] getGameMaps() {
+		return ParkourMap.MAPS;
+	}
+
+	@Override
+	public int getDuration() {
+		return this.map.getDuration();
+	}
+
 	private List<UUID> finished;
 	private List<UUID> all;
 
 	@Override
-	void begin(final GameMap genericMap) {
-		this.map = (ParkourMap) genericMap;
+	public void onPreStart() {
 		this.finished = new ArrayList<>();
 		this.all = Utils.getOnlinePlayersUuidList();
 
@@ -45,28 +64,25 @@ public class Parkour extends Game {
 			Utils.hideForEveryoneElse(player);
 		}
 
-		new GameTimer(this, this.map.getDuration(), 2) {
+	}
 
-			@Override
-			public void onStart() {
-				Bukkit.getOnlinePlayers().forEach(Utils::hideForEveryoneElse);
-			}
+	@Override
+	public void onStart() {
+		Bukkit.getOnlinePlayers().forEach(Utils::hideForEveryoneElse);
+	}
 
-			@Override
-			public int gameTimer(final int secondsLeft) {
-				if (Parkour.this.all.size() >= Parkour.this.finished.size() && secondsLeft > 5) {
-					return 5;
-				}
+	@Override
+	public int gameTimer(final int secondsLeft) {
+		if (Parkour.this.all.size() >= Parkour.this.finished.size() && secondsLeft > 5) {
+			return 5;
+		}
 
-				return secondsLeft;
-			}
+		return secondsLeft;
+	}
 
-			@Override
-			public void onEnd() {
-				Parkour.this.endGame(Utils.getPlayerListFromUUIDList(Parkour.this.finished));
-			}
-
-		};
+	@Override
+	public void onEnd() {
+		Parkour.this.endGame(Utils.getPlayerListFromUUIDList(Parkour.this.finished));
 	}
 
 	@EventHandler(priority = EventPriority.MONITOR)
@@ -93,18 +109,11 @@ public class Parkour extends Game {
 
 			this.finished.add(player.getUniqueId());
 
-			//if (this.map.getSpectatorLocation() != null) player.teleport(this.map.getSpectatorLocation());
-
 			Utils.playSoundForAllPlayers(Sound.ENTITY_PLAYER_LEVELUP, 1);
 
 			// Show all players to the spectator (the spectator is still invisible to others)
 			Bukkit.getOnlinePlayers().forEach((player2) -> player.showPlayer(Minigames.getInstance(), player2));
 
-			//if (this.map.spectatorFreeFlight()) {
-			//	player.setAllowFlight(true);
-			//	player.setFlying(true);
-			//	Utils.giveInvisibility(player);
-			//}
 			Spectator.finish(player);
 		}
 
@@ -112,12 +121,12 @@ public class Parkour extends Game {
 
 	@EventHandler
 	public void onJoin(final MinigamesJoinEvent event) {
-		final Player player = event.getPlayer();
+		final MPlayer player = event.getPlayer();
 		event.setTeleportPlayerToLobby(false);
 
 		this.all.add(player.getUniqueId());
 
-		Utils.hideForEveryoneElse(player);
+		player.hideForEveryoneElse();
 		player.teleport(this.map.getStartLocation());
 	}
 

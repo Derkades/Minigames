@@ -15,23 +15,39 @@ import org.bukkit.event.player.PlayerMoveEvent;
 
 import xyz.derkades.minigames.Minigames;
 import xyz.derkades.minigames.Spectator;
-import xyz.derkades.minigames.games.maps.GameMap;
 import xyz.derkades.minigames.games.tntrun.TNTMap;
 import xyz.derkades.minigames.utils.Utils;
 
-public class TntRun extends Game {
+public class TntRun extends Game<TNTMap> {
 
-	TntRun() {
-		super("TNT Run", new String[]{
-				"The floor disappears where you walk. Avoid",
-				"falling for as long as possible.",
-		}, 2, TNTMap.MAPS);
+	@Override
+	public String getName() {
+		return "TNT Run";
 	}
 
-	private static final int DURATION = 200;
-	private static final int PRE_START = 5;
+	@Override
+	public String[] getDescription() {
+		return new String[]{
+				"The floor disappears where you walk. Avoid",
+				"falling for as long as possible.",
+		};
+	}
 
-	private TNTMap map;
+	@Override
+	public int getRequiredPlayers() {
+		return 2;
+	}
+
+	@Override
+	public TNTMap[] getGameMaps() {
+		return TNTMap.MAPS;
+	}
+
+	@Override
+	public int getDuration() {
+		return 200;
+	}
+
 
 	private List<UUID> dead;
 	private List<UUID> all;
@@ -40,47 +56,41 @@ public class TntRun extends Game {
 	boolean removeBlocks;
 
 	@Override
-	void begin(final GameMap genericMap) {
+	public void onPreStart() {
 		this.dead = new ArrayList<>();
 		this.removedBlocks = new ArrayList<>();
 		this.removeBlocks = false;
-
-		this.map = (TNTMap) genericMap;
 
 		this.map.restore();
 
 		Bukkit.getOnlinePlayers().forEach((player) -> {
 			player.teleport(this.map.spawnLocation());
 		});
+	}
 
-		new GameTimer(this, DURATION, PRE_START) {
+	@Override
+	public void onStart() {
+		TntRun.this.removeBlocks = true;
+		TntRun.this.all = Utils.getOnlinePlayersUuidList();
+	}
 
-			@Override
-			public void onStart() {
-				TntRun.this.removeBlocks = true;
-				TntRun.this.all = Utils.getOnlinePlayersUuidList();
-			}
+	@Override
+	public int gameTimer(final int secondsLeft) {
+		if (Utils.getAliveAcountFromDeadAndAllList(TntRun.this.dead, TntRun.this.all) < 2 && secondsLeft > 2){
+			return 2;
+		}
 
-			@Override
-			public int gameTimer(final int secondsLeft) {
-				if (Utils.getAliveAcountFromDeadAndAllList(TntRun.this.dead, TntRun.this.all) < 2 && secondsLeft > 2){
-					return 2;
-				}
+		Bukkit.getOnlinePlayers().forEach(TntRun.this::removeBlocks);
 
-				Bukkit.getOnlinePlayers().forEach(TntRun.this::removeBlocks);
+		return secondsLeft;
+	}
 
-				return secondsLeft;
-			}
-
-			@Override
-			public void onEnd() {
-				TntRun.this.endGame(Utils.getWinnersFromDeadAndAllList(TntRun.this.dead, TntRun.this.all, false));
-				TntRun.this.removedBlocks.clear();
-				TntRun.this.all.clear();
-				TntRun.this.dead.clear();
-			}
-
-		};
+	@Override
+	public void onEnd() {
+		TntRun.this.endGame(Utils.getWinnersFromDeadAndAllList(TntRun.this.dead, TntRun.this.all, false));
+		TntRun.this.removedBlocks.clear();
+		TntRun.this.all.clear();
+		TntRun.this.dead.clear();
 	}
 
 	@EventHandler
@@ -98,10 +108,6 @@ public class TntRun extends Game {
 		final Block belowPlayer = event.getFrom().getBlock().getRelative(BlockFace.DOWN);
 
 		if (belowPlayer.getType().equals(Material.RED_TERRACOTTA)) {
-			//player.teleport(this.map.spawnLocation());
-			//player.setAllowFlight(true);
-			//player.setFlying(true);
-			//Bukkit.getOnlinePlayers().forEach((online) -> online.hidePlayer(Minigames.getInstance(), player));
 			this.dead.add(player.getUniqueId());
 			this.sendMessage(player.getName() + " has died. " + Utils.getAliveAcountFromDeadAndAllList(this.dead, this.all) + " players left.");
 			Spectator.dieUp(player, 10);

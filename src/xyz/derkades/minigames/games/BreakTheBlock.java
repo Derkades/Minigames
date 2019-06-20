@@ -23,96 +23,98 @@ import xyz.derkades.derkutils.bukkit.ItemBuilder;
 import xyz.derkades.minigames.Minigames;
 import xyz.derkades.minigames.SneakPrevention;
 import xyz.derkades.minigames.games.breaktheblock.BreakTheBlockMap;
-import xyz.derkades.minigames.games.maps.GameMap;
-import xyz.derkades.minigames.utils.Utils;
+import xyz.derkades.minigames.utils.MPlayer;
 
-public class BreakTheBlock extends Game {
+public class BreakTheBlock extends Game<BreakTheBlockMap> {
 
-	BreakTheBlock() {
-		super("Break the Block", new String[] {
-				"Be the first player to break the gold block.",
-				"You can hit players who are standing on red concrete.",
-		}, 4, BreakTheBlockMap.MAPS);
+	@Override
+	public String getName() {
+		return "Break the Block";
 	}
 
-	private static final int DURATION = 200;
-	private static final int PRE_START = 10;
+	@Override
+	public String[] getDescription() {
+		return new String[] {
+				"Be the first player to break the gold block.",
+				"You can hit players who are standing on red concrete."
+				};
+	}
 
-	private BreakTheBlockMap map;
+	@Override
+	public int getRequiredPlayers() {
+		return 4;
+	}
+
+	@Override
+	public BreakTheBlockMap[] getGameMaps() {
+		return BreakTheBlockMap.MAPS;
+	}
+
+	@Override
+	public int getDuration() {
+		return 200;
+	}
 
 	private UUID blockBreaker;
 
 	@Override
-	void begin(final GameMap genericMap) {
-		this.map = (BreakTheBlockMap) genericMap;
+	public void onPreStart() {
 		this.blockBreaker = null;
-
 		this.map.onPreStart();
+	}
 
+	@Override
+	public void onStart() {
 		final ItemStack pickaxe = new ItemBuilder(Material.IRON_PICKAXE)
 				.unbreakable()
 				.name(ChatColor.GOLD + "Block breaker")
 				.lore(ChatColor.YELLOW + "Use this gold pickaxe to break the ", ChatColor.YELLOW + "gold block at the end of the game.")
 				.canDestroy("gold_block")
 				.create();
-
-
-
-		Bukkit.getOnlinePlayers().forEach((player) -> {
-			player.getInventory().addItem(pickaxe);
-
-			player.teleport(this.map.getStartLocation());
-
-			Utils.giveInfiniteEffect(player, PotionEffectType.DAMAGE_RESISTANCE, 10);
+		Minigames.getOnlinePlayers().forEach((p) -> {
+			p.giveItem(pickaxe);
+			p.queueTeleport(this.map.getStartLocation());
+			p.giveInfiniteEffect(PotionEffectType.DAMAGE_RESISTANCE, 10);
+		});
+		BreakTheBlock.this.map.onStart();
+		Minigames.getOnlinePlayers().forEach((player) -> {
+			player.setDisableDamage(false);
+			player.setDisableSneaking(true);
+			player.giveInfiniteEffect(PotionEffectType.SLOW_DIGGING, 1);
 		});
 
-		new GameTimer(this, DURATION, PRE_START) {
+	}
 
-			@Override
-			public void onStart() {
-				BreakTheBlock.this.map.onStart();
-				Bukkit.getOnlinePlayers().forEach((player) -> {
-					Minigames.setCanTakeDamage(player, true);
-					SneakPrevention.setCanSneak(player, false);
-					Utils.giveInfiniteEffect(player, PotionEffectType.SLOW_DIGGING, 1);
-				});
+	@Override
+	public int gameTimer(final int secondsLeft) {
+		if (BreakTheBlock.this.blockBreaker != null && secondsLeft > 5) {
+			Bukkit.getOnlinePlayers().forEach((player) -> {
+				SneakPrevention.setCanSneak(player, true);
+			});
 
-			}
+			return 5;
+		}
 
-			@Override
-			public int gameTimer(final int secondsLeft) {
-				if (BreakTheBlock.this.blockBreaker != null && secondsLeft > 3) {
-					Bukkit.getOnlinePlayers().forEach((player) -> {
-						SneakPrevention.setCanSneak(player, true);
-					});
+		BreakTheBlock.this.map.timer();
 
-					return 3;
-				}
+		return secondsLeft;
+	}
 
-				BreakTheBlock.this.map.timer();
-
-				return secondsLeft;
-			}
-
-			@Override
-			public void onEnd() {
-				final Player winner = Bukkit.getPlayer(BreakTheBlock.this.blockBreaker);
-				if (winner != null) {
-					BreakTheBlock.this.endGame(winner);
-				} else {
-					BreakTheBlock.this.endGame();
-				}
-			}
-
-		};
-
+	@Override
+	public void onEnd() {
+		final Player winner = Bukkit.getPlayer(BreakTheBlock.this.blockBreaker);
+		if (winner != null) {
+			BreakTheBlock.this.endGame(winner);
+		} else {
+			BreakTheBlock.this.endGame();
+		}
 	}
 
 	@EventHandler
 	public void onMove(final PlayerMoveEvent event) {
-		final Player player = event.getPlayer();
+		final MPlayer player = new MPlayer(event);
 
-		if (player.getLocation().getBlock().getType() == Material.WATER){
+		if (player.getBlockIn().getType() == Material.WATER){
 			player.teleport(this.map.getStartLocation());
 		}
 
@@ -128,7 +130,7 @@ public class BreakTheBlock extends Game {
 			final ItemStack elytra = new ItemBuilder(Material.ELYTRA)
 					.unbreakable()
 					.create();
-			Utils.setArmor(player, null, elytra, null, null);
+			player.setArmor(null, elytra, null, null);
 		}
 	}
 
@@ -142,9 +144,9 @@ public class BreakTheBlock extends Game {
 
 		this.blockBreaker = event.getPlayer().getUniqueId();
 
-//		Utils.particle(Particle.EXPLOSION_HUGE, event.getBlock().getLocation(), 1);
 		this.map.getWorld().spawnParticle(Particle.EXPLOSION_HUGE, event.getBlock().getLocation(), 1);
-		Utils.playSoundForAllPlayers(Sound.ENTITY_GENERIC_EXPLODE, 1.0f);
+
+		for (final MPlayer all : Minigames.getOnlinePlayers()) all.playSound(Sound.ENTITY_GENERIC_EXPLODE, 1.0f);
 	}
 
 	@EventHandler

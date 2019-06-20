@@ -1,25 +1,7 @@
 package xyz.derkades.minigames.games;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
-
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.block.BlockFace;
-import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.player.PlayerMoveEvent;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.potion.PotionEffectType;
-
-import xyz.derkades.minigames.Var;
-import xyz.derkades.minigames.games.maps.GameMap;
-import xyz.derkades.minigames.utils.Utils;
-
 @Deprecated
-public class Elytra extends Game {
+public class Elytra {/*extends Game {
 
 	public static final int GAME_DURATION = 30;
 	public static final int PRE_START_TIME = 3;
@@ -103,6 +85,6 @@ public class Elytra extends Game {
 
 			this.sendMessage(player.getName() + " has finished");
 		}
-	}
+	}*/
 
 }

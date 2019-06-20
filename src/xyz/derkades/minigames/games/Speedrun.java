@@ -1,28 +1,6 @@
 package xyz.derkades.minigames.games;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
-
-import org.bukkit.Bukkit;
-import org.bukkit.Material;
-import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
-import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
-import org.bukkit.event.player.PlayerMoveEvent;
-import org.bukkit.potion.PotionEffectType;
-import org.bukkit.scheduler.BukkitRunnable;
-
-import net.md_5.bungee.api.ChatColor;
-import xyz.derkades.minigames.Minigames;
-import xyz.derkades.minigames.Points;
-import xyz.derkades.minigames.games.maps.GameMap;
-import xyz.derkades.minigames.games.speedrun.SpeedrunMap;
-import xyz.derkades.minigames.utils.Utils;
-
-public class Speedrun extends Game {
+public class Speedrun {/*extends Game {
 
 	Speedrun() {
 		super("Speedrun", new String[] {
@@ -111,6 +89,6 @@ public class Speedrun extends Game {
 		} else if(type == this.map.getEndBlock()){
 			this.playerWin(player);
 		}
-	}
+	}*/
 
 }

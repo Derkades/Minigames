@@ -21,35 +21,48 @@ import org.bukkit.util.Vector;
 
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
 import xyz.derkades.minigames.Spectator;
-import xyz.derkades.minigames.games.maps.GameMap;
 import xyz.derkades.minigames.games.spleef.SpleefMap;
 import xyz.derkades.minigames.utils.Scheduler;
 import xyz.derkades.minigames.utils.Utils;
 
-public class RegeneratingSpleef extends Game {
+public class RegeneratingSpleef extends Game<SpleefMap> {
 
-	RegeneratingSpleef() {
-		super("Regenerating Spleef",
-				new String[] {
-						"Regenerating Spleef is very similar to the",
-						"classic spleef game. One twist: the blocks",
-						"you break regenerate after 2 seconds, and",
-						"the arena is pretty small (usually)."
-		}, 2, SpleefMap.MAPS);
+	@Override
+	public String getName() {
+		return "Regenerating Spleef";
 	}
 
-	private static final int DURATION = 30;
+	@Override
+	public String[] getDescription() {
+		return new String[] {
+				"Regenerating Spleef is very similar to the",
+				"classic spleef game. One twist: the blocks",
+				"you break regenerate after 2 seconds, and",
+				"the arena is pretty small (usually)."
+		};
+	}
+
+	@Override
+	public int getRequiredPlayers() {
+		return 2;
+	}
+
+	@Override
+	public SpleefMap[] getGameMaps() {
+		return SpleefMap.MAPS;
+	}
+
+	@Override
+	public int getDuration() {
+		return 60;
+	}
 
 	private List<UUID> dead;
 	private List<UUID> all;
 
-	private SpleefMap map;
-
 	@Override
-	void begin(final GameMap genericMap) {
+	public void onPreStart() {
 		this.dead = new ArrayList<>();
-
-		this.map = (SpleefMap) genericMap;
 
 		this.map.fill();
 
@@ -57,39 +70,36 @@ public class RegeneratingSpleef extends Game {
 			player.teleport(this.map.getStartLocation());
 		}
 
-		new GameTimer(this, DURATION, 4) {
+	}
 
-			@Override
-			public void onStart() {
-				final ItemStack shovel = new ItemBuilder(Material.DIAMOND_SHOVEL)
-						.name("Spleefanator 8000")
-						.enchant(Enchantment.DIG_SPEED, 5)
-						.unbreakable()
-						.canDestroy("snow_block")
-						.create();
+	@Override
+	public void onStart() {
+		final ItemStack shovel = new ItemBuilder(Material.DIAMOND_SHOVEL)
+				.name("Spleefanator 8000")
+				.enchant(Enchantment.DIG_SPEED, 5)
+				.unbreakable()
+				.canDestroy("snow_block")
+				.create();
 
-				Bukkit.getOnlinePlayers().forEach((player) -> player.getInventory().setItem(0, shovel));
+		Bukkit.getOnlinePlayers().forEach((player) -> player.getInventory().setItem(0, shovel));
 
-				RegeneratingSpleef.this.all = Utils.getOnlinePlayersUuidList();
-			}
+		RegeneratingSpleef.this.all = Utils.getOnlinePlayersUuidList();
+	}
 
-			@Override
-			public int gameTimer(final int secondsLeft) {
-				if (Utils.getAliveAcountFromDeadAndAllList(RegeneratingSpleef.this.dead, RegeneratingSpleef.this.all) < 2 && secondsLeft > 2) {
-					return 2;
-				}
+	@Override
+	public int gameTimer(final int secondsLeft) {
+		if (Utils.getAliveAcountFromDeadAndAllList(RegeneratingSpleef.this.dead, RegeneratingSpleef.this.all) < 2 && secondsLeft > 2) {
+			return 2;
+		}
 
-				return secondsLeft;
-			}
+		return secondsLeft;
+	}
 
-			@Override
-			public void onEnd() {
-				RegeneratingSpleef.this.endGame(Utils.getWinnersFromDeadAndAllList(RegeneratingSpleef.this.dead, RegeneratingSpleef.this.all, false));
-				RegeneratingSpleef.this.dead.clear();
-				RegeneratingSpleef.this.all.clear();
-			}
-
-		};
+	@Override
+	public void onEnd() {
+		RegeneratingSpleef.this.endGame(Utils.getWinnersFromDeadAndAllList(RegeneratingSpleef.this.dead, RegeneratingSpleef.this.all, false));
+		RegeneratingSpleef.this.dead.clear();
+		RegeneratingSpleef.this.all.clear();
 	}
 
 	@EventHandler
@@ -110,11 +120,9 @@ public class RegeneratingSpleef extends Game {
 				final Vector velocity = fall.getVelocity();
 				velocity.setY(1.5);
 				fall.setVelocity(velocity);
-				//block.setType(Material.AIR);
 		} else {
 			final Block block = event.getBlock();
 			if (block.getType() == Material.SNOW_BLOCK){
-				//block.setType(Material.AIR);
 				Scheduler.delay(3*20, () -> block.setType(Material.SNOW_BLOCK));
 			}
 		}
@@ -125,10 +133,7 @@ public class RegeneratingSpleef extends Game {
 		final Player player = event.getPlayer();
 		if (event.getTo().getBlock().getRelative(BlockFace.DOWN).getType() == Material.BEDROCK){
 			this.dead.add(player.getUniqueId());
-			//player.getInventory().clear();
-
-			//player.setGameMode(GameMode.SPECTATOR);
-			//Utils.teleportUp(player, 3);
+			this.sendMessage(player.getName() + " died");
 			Spectator.dieUp(player, 3);
 		}
 	}

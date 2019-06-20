@@ -17,6 +17,8 @@ import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
+import org.bukkit.metadata.FixedMetadataValue;
+import org.bukkit.metadata.MetadataValue;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
@@ -40,6 +42,7 @@ public class Utils {
 	              ));
 	}
 
+	@Deprecated
 	public static void sendTitle(final Player player, final String title, final String subtitle) {
 		player.sendTitle(title, subtitle, 10, 70, 20);
 	}
@@ -49,15 +52,18 @@ public class Utils {
 		Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "gamerule " + gameRule + " " + setting);
 	}
 
+	@Deprecated
 	public static void clearPotionEffects(final Player player){
 		for (final PotionEffect effect : player.getActivePotionEffects())
 	        player.removePotionEffect(effect.getType());
 	}
 
+	@Deprecated
 	public static void clearPotionEffects() {
 		Bukkit.getOnlinePlayers().forEach(Utils::clearPotionEffects);
 	}
 
+	@Deprecated
 	public static void clearInventory(final Player player){
 		final PlayerInventory inv = player.getInventory();
 		inv.clear();
@@ -68,26 +74,32 @@ public class Utils {
 		inv.setBoots(air);
 	}
 
+	@Deprecated
 	public static void clearInventory() {
 		Bukkit.getOnlinePlayers().forEach(Utils::clearInventory);
 	}
 
+	@Deprecated
 	public static void giveEffect(final Player player, final int duration, final PotionEffectType type, final int amplifier) {
 		player.addPotionEffect(new PotionEffect(type, duration * 20, amplifier, true, false));
 	}
 
+	@Deprecated
 	public static void giveInfiniteEffect(final Player player, final PotionEffectType type, final int amplifier){
 		player.addPotionEffect(new PotionEffect(type, 100000, amplifier, true, false));
 	}
 
+	@Deprecated
 	public static void giveInfiniteEffect(final Player player, final PotionEffectType type){
 		player.addPotionEffect(new PotionEffect(type, 100000, 0, true, false));
 	}
 
+	@Deprecated
 	public static void giveInvisibility(final Player player){
 		giveInfiniteEffect(player, PotionEffectType.INVISIBILITY);
 	}
 
+	@Deprecated
 	public static void setArmor(final Player player, final ItemStack helmet, final ItemStack chestplate, final ItemStack leggings, final ItemStack boots){
 		final PlayerInventory inv = player.getInventory();
 		inv.setHelmet(helmet);
@@ -96,6 +108,7 @@ public class Utils {
 		inv.setBoots(boots);
 	}
 
+	@Deprecated
 	public static void setArmor(final Player player, final Material helmet, final Material chestplate, final Material leggings, final Material boots){
 		setArmor(player,
 				new ItemStack(helmet),
@@ -163,6 +176,7 @@ public class Utils {
 		return Bukkit.getOnlinePlayers().stream().map(Player::getUniqueId).collect(Collectors.toList());
 	}
 
+	@Deprecated
 	public static void playSoundForAllPlayers(final Sound sound, final float pitch) {
 		for (final Player player : Bukkit.getOnlinePlayers())
 			player.playSound(player.getLocation(), sound, 1, pitch);
@@ -180,6 +194,7 @@ public class Utils {
 	            .collect(Collectors.toList());
 	}
 
+	@Deprecated
 	public static void setXpBarValue(final float fill, final int level){
 		for (final Player player : Bukkit.getOnlinePlayers()){
 			player.setExp(fill);
@@ -204,6 +219,7 @@ public class Utils {
 	    return result;
 	}
 
+	@Deprecated
 	public static void hideForEveryoneElse(final Player player) {
 		Bukkit.getOnlinePlayers().forEach((player2) -> player2.hidePlayer(Minigames.getInstance(), player));
 	}
@@ -237,10 +253,12 @@ public class Utils {
 		}
 	}
 
+	@Deprecated
 	public static void delayedTeleport(final Location location, final Collection<? extends Player> players) {
 		delayedTeleport(location, players.toArray(new Player[] {}));
 	}
 
+	@Deprecated
 	public static void delayedTeleport(final Location location, final Consumer<Player> runnable, final Collection<? extends Player> players) {
 		delayedTeleport(location, runnable, players.toArray(new Player[] {}));
 	}
@@ -267,6 +285,7 @@ public class Utils {
 				z > minZ && z < maxZ;
 	}
 
+	@Deprecated
 	public static boolean isIn2dBounds(final Player player, final Location cornerOne, final Location cornerTwo) {
 		return isIn2dBounds(player.getLocation(), cornerOne, cornerTwo);
 	}
@@ -283,6 +302,15 @@ public class Utils {
 		final Location loc = player.getLocation();
 		loc.setY(loc.getY() + yUp);
 		player.teleport(loc);
+	}
+
+	public static void setMetadata(final Player player, final String key, final Object value) {
+		player.removeMetadata("minigames_" + key, Minigames.getInstance());
+		player.setMetadata("minigames_" + key, new FixedMetadataValue(Minigames.getInstance(), value));
+	}
+
+	public static MetadataValue getMetadata(final Player player, final String key) {
+		return player.getMetadata("minigames_" + key).get(0);
 	}
 
 }

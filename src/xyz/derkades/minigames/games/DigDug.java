@@ -29,11 +29,11 @@ import xyz.derkades.derkutils.Random;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
 import xyz.derkades.minigames.Minigames;
 import xyz.derkades.minigames.games.digdug.DigDugMap;
-import xyz.derkades.minigames.games.maps.GameMap;
 import xyz.derkades.minigames.utils.BlockUtils;
+import xyz.derkades.minigames.utils.MPlayer;
 import xyz.derkades.minigames.utils.Utils;
 
-public class DigDug extends Game {
+public class DigDug extends Game<DigDugMap> {
 
 	private static final int COAL_AMOUNT = 100;
 	private static final int IRON_AMOUNT = 90;
@@ -49,88 +49,83 @@ public class DigDug extends Game {
 	private static final int NETHERRACK_EFFECT_TIME = 5*20;
 	private static final int QUARTZ_EFFECT_TIME = 10*20;
 
-//	private static final int ARENA_MIN_X = 130;
-//	private static final int ARENA_MIN_Y = 53;
-//	private static final int ARENA_MIN_Z = 67;
-//
-//	private static final int ARENA_MAX_X = 169;
-//	private static final int ARENA_MAX_Y = 73;
-//	private static final int ARENA_MAX_Z = 103;
-
-	private static final int GAME_DURATION = 40;
-
-	private Map<UUID, Integer> points = new HashMap<>();
-
-	private Sidebar sidebar;
-
-	DigDug() {
-		super("Dig Dug",
-				new String[] {
-						"Dig dirt with your shovel, and find",
-						"ores. Right click on ores to collect.",
-						ChatColor.GRAY + "Coal: " + COAL_POINTS + " points",
-						ChatColor.GRAY + "Iron: " + IRON_POINTS + " points",
-						ChatColor.GRAY + "Gold: " + GOLD_POINTS + " points",
-						ChatColor.GRAY + "Emerald: " + EMERALD_POINTS + " points",
-						ChatColor.GRAY + "Netherrack: give others blindness",
-						ChatColor.GRAY + "Quartz: speed"},
-				2, DigDugMap.MAPS);
+	@Override
+	public String getName() {
+		return "Dig Dug";
 	}
 
-	private DigDugMap map;
-
 	@Override
-	void begin(final GameMap genericMap) {
-		this.map = (DigDugMap) genericMap;
-
-		this.points.clear();
-
-		this.fillArena();
-
-		this.sidebar = new Sidebar(ChatColor.DARK_AQUA + "" + ChatColor.DARK_AQUA + "Score", Minigames.getInstance(), Integer.MAX_VALUE, new SidebarString[] {new SidebarString("Loading...")});
-
-//		Utils.delayedTeleport(new Location(Var.WORLD, 149, 77.5, 86, 180, 90), Bukkit.getOnlinePlayers());
-		Utils.delayedTeleport(this.map.getSpawnLocation(), Bukkit.getOnlinePlayers());
-
-		for (final Player player : Bukkit.getOnlinePlayers()) {
-			this.points.put(player.getUniqueId(), 0);
-			this.sidebar.showTo(player);
-		}
-
-		new GameTimer(this, GAME_DURATION, 5) {
-
-			@Override
-			public void onStart() {
-				final ItemStack shovel = new ItemBuilder(Material.DIAMOND_SHOVEL)
-						.name(ChatColor.GREEN + "The Dig Dug Digger")
-						.unbreakable()
-						.canDestroy("dirt", "grass_block")
-						.create();
-
-				shovel.addUnsafeEnchantment(Enchantment.DIG_SPEED, 10);
-
-				Bukkit.getOnlinePlayers().forEach(player -> player.getInventory().addItem(shovel));
-
-//				Utils.setGameRule("doTileDrops", false);
-			}
-
-			@Override
-			public int gameTimer(final int secondsLeft) {
-				DigDug.this.updateSidebar(secondsLeft);
-				return secondsLeft;
-			}
-
-			@Override
-			public void onEnd() {
-				Bukkit.getOnlinePlayers().forEach(DigDug.this.sidebar::hideFrom);
-
-				DigDug.this.endGame(Utils.getWinnersFromPointsHashmap(DigDug.this.points));
-				DigDug.this.points.clear();
-			}
-
+	public String[] getDescription() {
+		return new String[] {
+				"Dig dirt with your shovel, and find",
+				"ores. Right click on ores to collect.",
+				ChatColor.GRAY + "Coal: " + COAL_POINTS + " points",
+				ChatColor.GRAY + "Iron: " + IRON_POINTS + " points",
+				ChatColor.GRAY + "Gold: " + GOLD_POINTS + " points",
+				ChatColor.GRAY + "Emerald: " + EMERALD_POINTS + " points",
+				ChatColor.GRAY + "Netherrack: give others blindness",
+				ChatColor.GRAY + "Quartz: speed"
 		};
 	}
 
+	@Override
+	public int getRequiredPlayers() {
+		return 2;
+	}
+
+	@Override
+	public DigDugMap[] getGameMaps() {
+		return DigDugMap.MAPS;
+	}
+
+	@Override
+	public int getDuration() {
+		return 40;
+	}
+
+	private Map<UUID, Integer> points = new HashMap<>();
+	private Sidebar sidebar;
+
+	@Override
+	public void onPreStart() {
+		this.points.clear();
+		this.sidebar = new Sidebar(ChatColor.DARK_AQUA + "" + ChatColor.DARK_AQUA + "Score",
+				Minigames.getInstance(), Integer.MAX_VALUE, new SidebarString("Loading..."));
+		this.fillArena();
+
+		for (final MPlayer player : Minigames.getOnlinePlayers()) {
+			this.points.put(player.getUniqueId(), 0);
+			this.sidebar.showTo(player.bukkit());
+			player.queueTeleport(this.map.getSpawnLocation());
+		}
+	}
+
+	@Override
+	public void onStart() {
+		final ItemStack shovel = new ItemBuilder(Material.DIAMOND_SHOVEL)
+				.name(ChatColor.GREEN + "The Dig Dug Digger")
+				.unbreakable()
+				.canDestroy("dirt", "grass_block")
+				.create();
+
+		shovel.addUnsafeEnchantment(Enchantment.DIG_SPEED, 10);
+
+		Bukkit.getOnlinePlayers().forEach(player -> player.getInventory().addItem(shovel));
+	}
+
+	@Override
+	public int gameTimer(final int secondsLeft) {
+		DigDug.this.updateSidebar(secondsLeft);
+		return secondsLeft;
+	}
+
+	@Override
+	public void onEnd() {
+		Bukkit.getOnlinePlayers().forEach(DigDug.this.sidebar::hideFrom);
+
+		DigDug.this.endGame(Utils.getWinnersFromPointsHashmap(DigDug.this.points));
+		DigDug.this.points.clear();
+	}
 
 	@EventHandler
 	public void onInteract(final PlayerInteractEvent event) {
@@ -213,46 +208,20 @@ public class DigDug extends Game {
 		BlockUtils.fillArea(this.map.getWorld(), minX, minY, minZ, maxX, maxY - 1, maxZ, Material.DIRT);
 		BlockUtils.fillArea(this.map.getWorld(), minX, maxY, minZ, maxX, maxY, maxZ, Material.GRASS_BLOCK); // Top grass layer
 
-		for (int i = 0; i <= COAL_AMOUNT; i++) {
-			final int x = Random.getRandomInteger(minX, maxX);
-			final int y = Random.getRandomInteger(minY, maxY - 1);
-			final int z = Random.getRandomInteger(minZ, maxZ);
-			new Location(this.map.getWorld(), x, y, z).getBlock().setType(Material.COAL_ORE);
-		}
+		this.placeOre(Material.COAL_ORE, COAL_AMOUNT, minX, maxX, minY, maxY, minZ, maxZ);
+		this.placeOre(Material.IRON_ORE, IRON_AMOUNT, minX, maxX, minY, maxY, minZ, maxZ);
+		this.placeOre(Material.GOLD_ORE, GOLD_AMOUNT, minX, maxX, minY, maxY, minZ, maxZ);
+		this.placeOre(Material.EMERALD_ORE, EMERALD_AMOUNT, minX, maxX, minY, maxY, minZ, maxZ);
+		this.placeOre(Material.NETHERRACK, NETHERRACK_AMOUNT, minX, maxX, minY, maxY, minZ, maxZ);
+		this.placeOre(Material.QUARTZ_BLOCK, QUARTZ_AMOUNT, minX, maxX, minY, maxY, minZ, maxZ);
+	}
 
-		for (int i = 0; i <= IRON_AMOUNT; i++) {
+	private void placeOre(final Material oreType, final int amount, final int minX, final int maxX, final int minY, final int maxY, final int minZ, final int maxZ) {
+		for (int i = 0; i <= amount; i++) {
 			final int x = Random.getRandomInteger(minX, maxX);
 			final int y = Random.getRandomInteger(minY, maxY - 1);
 			final int z = Random.getRandomInteger(minZ, maxZ);
-			new Location(this.map.getWorld(), x, y, z).getBlock().setType(Material.IRON_ORE);
-		}
-
-		for (int i = 0; i <= GOLD_AMOUNT; i++) {
-			final int x = Random.getRandomInteger(minX, maxX);
-			final int y = Random.getRandomInteger(minY, maxY - 1);
-			final int z = Random.getRandomInteger(minZ, maxZ);
-			new Location(this.map.getWorld(), x, y, z).getBlock().setType(Material.GOLD_ORE);
-		}
-
-		for (int i = 0; i <= EMERALD_AMOUNT; i++) {
-			final int x = Random.getRandomInteger(minX, maxX);
-			final int y = Random.getRandomInteger(minY, maxY - 1);
-			final int z = Random.getRandomInteger(minZ, maxZ);
-			new Location(this.map.getWorld(), x, y, z).getBlock().setType(Material.EMERALD_ORE);
-		}
-
-		for (int i = 0; i <= NETHERRACK_AMOUNT; i++) {
-			final int x = Random.getRandomInteger(minX, maxX);
-			final int y = Random.getRandomInteger(minY, maxY - 1);
-			final int z = Random.getRandomInteger(minZ, maxZ);
-			new Location(this.map.getWorld(), x, y, z).getBlock().setType(Material.NETHERRACK);
-		}
-
-		for (int i = 0; i <= QUARTZ_AMOUNT; i++) {
-			final int x = Random.getRandomInteger(minX, maxX);
-			final int y = Random.getRandomInteger(minY, maxY - 1);
-			final int z = Random.getRandomInteger(minZ, maxZ);
-			new Location(this.map.getWorld(), x, y, z).getBlock().setType(Material.QUARTZ_BLOCK);
+			new Location(this.map.getWorld(), x, y, z).getBlock().setType(oreType);
 		}
 	}
 
