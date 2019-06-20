@@ -8,6 +8,8 @@ public class Var {
 	@Deprecated
 	public static World WORLD;
 
+	public static World LOBBY_WORLD;
+
 	public static Location LOBBY_LOCATION;
 
 	public static Location IN_GAME_LOBBY_LOCATION;

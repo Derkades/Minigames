@@ -1,5 +1,7 @@
 package xyz.derkades.minigames;
 
+import java.util.Arrays;
+
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.command.CommandExecutor;
@@ -115,6 +117,8 @@ public class Command implements CommandExecutor {
 //				velocity.setY(1.5);
 //				fall.setVelocity(velocity);
 //				block.setType(Material.AIR);
+
+				sender.sendMessage(String.join(" ", (String[]) Arrays.asList(Game.GAMES).stream().map((s) -> s.getName().replace(" ", "_").toLowerCase())/*.filter((s) -> s.startsWith(args[1]))*/.toArray()));
 
 			} else {
 				sender.sendMessage("no.");

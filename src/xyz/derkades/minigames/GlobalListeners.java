@@ -7,12 +7,15 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Villager;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
@@ -30,6 +33,7 @@ import net.md_5.bungee.api.chat.ClickEvent;
 import xyz.derkades.derkutils.bukkit.MaterialLists;
 import xyz.derkades.minigames.menu.MainMenu;
 import xyz.derkades.minigames.utils.MinigamesJoinEvent;
+import xyz.derkades.minigames.utils.MinigamesPlayerDamageEvent;
 import xyz.derkades.minigames.utils.Scheduler;
 import xyz.derkades.minigames.utils.Utils;
 
@@ -162,9 +166,55 @@ public class GlobalListeners implements Listener {
 
 	@EventHandler
 	public void inventoryClickEvent(final InventoryClickEvent event) {
+		if (Minigames.CAN_MOVE_ITEMS.contains(event.getView().getPlayer().getUniqueId())) {
+			return;
+		}
+
 		if (event.getView().getPlayer().getGameMode() == GameMode.ADVENTURE) {
 			event.setCancelled(true);
 		}
+	}
+
+	@EventHandler
+	public void onDamageTriggerCustomEvent(final EntityDamageEvent event) {
+		if (event instanceof EntityDamageByEntityEvent) {
+			final EntityDamageByEntityEvent event2 = (EntityDamageByEntityEvent) event;
+			System.out.println("damage by entity");
+
+			if (event2.getEntity().getType() != EntityType.PLAYER) {
+				return;
+			}
+
+			final MinigamesPlayerDamageEvent event3 = new MinigamesPlayerDamageEvent((Player) event2.getEntity(),
+					event2.getDamager(), event.getDamage());
+
+			Bukkit.getPluginManager().callEvent(event3);
+
+			event.setDamage(event3.getDamage());
+
+			event.setCancelled(event3.isCancelled());
+		} else {
+			System.out.println("regular damage");
+			final MinigamesPlayerDamageEvent event3 = new MinigamesPlayerDamageEvent((Player) event.getEntity(),
+					event.getDamage());
+
+			Bukkit.getPluginManager().callEvent(event3);
+
+			event.setDamage(event3.getDamage());
+
+			event.setCancelled(event3.isCancelled());
+		}
+	}
+
+	@EventHandler
+	public void onDamageTriggerCustomEvent(final EntityDamageByEntityEvent event) {
+
+	}
+
+	@EventHandler
+	public void onDeath(final PlayerDeathEvent event) {
+		event.setDeathMessage("");
+		Minigames.getInstance().getLogger().warning("A player died: " + event.getEntity().getName());
 	}
 
 }

@@ -46,6 +46,8 @@ public abstract class Game implements Listener {
 			new DigDug(),
 			new Dropper(),
 			//new Elytra(),
+			//new Harvest(),
+			new HungerGames(),
 			new IcyBlowback(),
 			//new MazePvp(),
 			//new Mine(),
@@ -176,6 +178,7 @@ public abstract class Game implements Listener {
 			player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 40, 0, true));
 
 			Minigames.giveLobbyInventoryItems(player);
+			Minigames.CAN_MOVE_ITEMS.clear();
 		}
 
 		int nextGameDelay = 2;
@@ -325,6 +328,8 @@ public abstract class Game implements Listener {
 			string = "break the block";
 		} else if (string.equalsIgnoreCase("spleef")) {
 			string = "regenerating spleef";
+		} else if (string.equalsIgnoreCase("hg")) {
+			string = "hunger games";
 		}
 
 		for (final Game game : GAMES){

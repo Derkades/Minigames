@@ -31,6 +31,8 @@ public class Minigames extends JavaPlugin implements Listener {
 
 	private static final List<UUID> CAN_TAKE_DAMAGE = new ArrayList<>();
 
+	public static final List<UUID> CAN_MOVE_ITEMS = new ArrayList<>();
+
 	public static boolean IS_IN_GAME = false;
 
 	public static boolean STOP_GAMES = false;
@@ -57,6 +59,7 @@ public class Minigames extends JavaPlugin implements Listener {
 		instance = this;
 
 		Var.WORLD = Bukkit.getWorld("minigames");
+		Var.LOBBY_WORLD = Bukkit.getWorld("minigames");
 		Var.LOBBY_LOCATION = new Location(Var.WORLD, 219.5, 64, 279.5, 180, 0);
 		Var.IN_GAME_LOBBY_LOCATION = new Location(Var.WORLD, 203.5, 80, 245.5, 0, 0);
 		Var.NO_SPECTATOR_LOCATION = new Location(Var.WORLD, 199.5, 81, 247.5, 0, 0);
@@ -72,6 +75,7 @@ public class Minigames extends JavaPlugin implements Listener {
 		}
 
 		this.getCommand("games").setExecutor(new Command());
+		this.getCommand("games").setTabCompleter(new CommandTabCompleter());
 		this.getCommand("bug").setExecutor(new BugCommand());
 		this.getCommand("wtp").setExecutor(new WorldTeleportCommand());
 		this.getCommand("wtp").setTabCompleter(new WorldTeleportCommandCompleter());
@@ -83,6 +87,8 @@ public class Minigames extends JavaPlugin implements Listener {
 		if (!this.setupEconomy()) {
 			this.getLogger().severe("Vault error");
 		}
+
+		SpawnZombieShooter.init();
 
 		ChatPoll.startup(this);
 
