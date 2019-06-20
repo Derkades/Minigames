@@ -196,7 +196,8 @@ public class GlobalListeners implements Listener {
 
 			event.setDamage(event3.getDamage());
 
-			event.setCancelled(event3.isCancelled());
+			if (event3.isCancelled())
+				event.setCancelled(true);
 		} else {
 			System.out.println("regular damage");
 			final MinigamesPlayerDamageEvent event3 = new MinigamesPlayerDamageEvent((Player) event.getEntity(),
@@ -206,7 +207,8 @@ public class GlobalListeners implements Listener {
 
 			event.setDamage(event3.getDamage());
 
-			event.setCancelled(event3.isCancelled());
+			if (event3.isCancelled())
+				event.setCancelled(true);
 		}
 	}
 
