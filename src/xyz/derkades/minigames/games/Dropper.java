@@ -12,12 +12,14 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 
 import xyz.derkades.minigames.Minigames;
 import xyz.derkades.minigames.Points;
 import xyz.derkades.minigames.Spectator;
 import xyz.derkades.minigames.games.dropper.DropperMap;
 import xyz.derkades.minigames.games.maps.GameMap;
+import xyz.derkades.minigames.utils.MinigamesJoinEvent;
 import xyz.derkades.minigames.utils.Scheduler;
 import xyz.derkades.minigames.utils.Utils;
 
@@ -114,5 +116,22 @@ public class Dropper extends Game {
 	public void onDamageByEntity(final EntityDamageByEntityEvent event) {
 		event.setCancelled(true);
 	}
+
+	@EventHandler
+	public void onJoin(final MinigamesJoinEvent event) {
+		final Player player = event.getPlayer();
+		event.setTeleportPlayerToLobby(false);
+
+		Utils.hideForEveryoneElse(player);
+		player.teleport(this.map.getLobbyLocation());
+		Minigames.setCanTakeDamage(player, true);
+		this.all.add(player.getUniqueId());
+	}
+
+	@EventHandler
+	public void onQuit(final PlayerQuitEvent event) {
+		this.all.remove(event.getPlayer().getUniqueId());
+	}
+
 
 }
