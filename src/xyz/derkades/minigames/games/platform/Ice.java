@@ -24,7 +24,7 @@ public class Ice extends PlatformMap {
 
 	@Override
 	public GameWorld getGameWorld() {
-		return null;
+		return GameWorld.PLATFORM_ICE;
 	}
 
 }
