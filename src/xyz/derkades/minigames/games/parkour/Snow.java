@@ -46,7 +46,7 @@ public class Snow extends ParkourMap {
 
 	@Override
 	public int getDuration() {
-		return 30;
+		return 50;
 	}
 
 	@Override
