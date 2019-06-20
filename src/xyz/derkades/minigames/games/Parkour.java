@@ -12,6 +12,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 
 import xyz.derkades.minigames.Minigames;
 import xyz.derkades.minigames.Points;
@@ -31,11 +32,13 @@ public class Parkour extends Game {
 
 	private ParkourMap map;
 	private List<UUID> finished;
+	private List<UUID> all;
 
 	@Override
 	void begin(final GameMap genericMap) {
 		this.map = (ParkourMap) genericMap;
 		this.finished = new ArrayList<>();
+		this.all = Utils.getOnlinePlayersUuidList();
 
 		for (final Player player: Bukkit.getOnlinePlayers()){
 			player.teleport(this.map.getStartLocation());
@@ -51,8 +54,8 @@ public class Parkour extends Game {
 
 			@Override
 			public int gameTimer(final int secondsLeft) {
-				if (Bukkit.getOnlinePlayers().size() == Parkour.this.finished.size() && secondsLeft > 1) {
-					return 1;
+				if (Parkour.this.all.size() >= Parkour.this.finished.size() && secondsLeft > 5) {
+					return 5;
 				}
 
 				return secondsLeft;
@@ -112,8 +115,15 @@ public class Parkour extends Game {
 		final Player player = event.getPlayer();
 		event.setTeleportPlayerToLobby(false);
 
+		this.all.add(player.getUniqueId());
+
 		Utils.hideForEveryoneElse(player);
 		player.teleport(this.map.getStartLocation());
+	}
+
+	@EventHandler
+	public void onQuit(final PlayerQuitEvent event) {
+		this.all.remove(event.getPlayer().getUniqueId());
 	}
 
 }
