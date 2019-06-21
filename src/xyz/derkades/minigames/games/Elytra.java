@@ -1,90 +1,119 @@
 package xyz.derkades.minigames.games;
 
-@Deprecated
-public class Elytra {/*extends Game {
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
-	public static final int GAME_DURATION = 30;
-	public static final int PRE_START_TIME = 3;
+import org.bukkit.GameMode;
+import org.bukkit.Material;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.potion.PotionEffectType;
 
-	Elytra() {
-		super("Elytra", new String[]{
-				"Fly to the end of the cave without touching",
-				"the ground or lava."
-		}, 2, null);
-	}
+import xyz.derkades.minigames.Minigames;
+import xyz.derkades.minigames.games.elytra.ElytraMap;
+import xyz.derkades.minigames.utils.MPlayer;
+import xyz.derkades.minigames.utils.MinigamesJoinEvent;
+import xyz.derkades.minigames.utils.Utils;
 
-	private final List<UUID> dead = new ArrayList<>();
-	private final List<UUID> finished = new ArrayList<>();
-
-	private boolean listener = false;
+public class Elytra extends Game<ElytraMap> {
 
 	@Override
-	void begin(final GameMap genericMap) {
-		Utils.delayedTeleport(new Location(Var.WORLD, 163.5, 76.5, 339.5, 120, 25), Bukkit.getOnlinePlayers());
+	public String getName() {
+		return "Elytra";
+	}
 
-		this.listener = false;
+	@Override
+	public String[] getDescription() {
+		return new String[]{
+				"Fly to the end of the cave without touching",
+				"the ground or lava."
+		};
+	}
 
-		for (final Player player : Bukkit.getOnlinePlayers()){
-			player.getInventory().setChestplate(new ItemStack(Material.ELYTRA));
-			Utils.giveInfiniteEffect(player, PotionEffectType.SLOW, 5);
-			Utils.giveInfiniteEffect(player, PotionEffectType.INVISIBILITY, 2);
+	@Override
+	public int getRequiredPlayers() {
+		return 2;
+	}
+
+	@Override
+	public ElytraMap[] getGameMaps() {
+		return ElytraMap.MAPS;
+	}
+
+	@Override
+	public int getDuration() {
+		return 30;
+	}
+
+	private final List<UUID> finished = new ArrayList<>();
+
+	@Override
+	public void onPreStart() {
+		for (final MPlayer player : Minigames.getOnlinePlayers()){
+			player.setArmor(null, Material.ELYTRA, null, null);
+			player.giveInfiniteEffect(PotionEffectType.SLOW, 5);
+			player.giveInfiniteEffect(PotionEffectType.INVISIBILITY, 2);
+			player.queueTeleport(this.map.getStartLocation());
+		}
+	}
+
+	@Override
+	public void onStart() {
+		Minigames.getOnlinePlayers().forEach(MPlayer::clearPotionEffects);
+	}
+
+	@Override
+	public int gameTimer(final int secondsLeft) {
+		if (Utils.allPlayersFinished(this.finished) && secondsLeft > 5) {
+			return 5;
 		}
 
-		new GameTimer(this, GAME_DURATION, PRE_START_TIME) {
+		return secondsLeft;
+	}
 
-			@Override
-			public void onStart() {
-				// game starting, remove slowness
-				Utils.clearPotionEffects();
-				Elytra.this.listener = true;
-			}
-
-			@Override
-			public int gameTimer(final int secondsLeft) {
-				if (Bukkit.getOnlinePlayers().size() == (Elytra.this.dead.size() + Elytra.this.finished.size()) && secondsLeft > 2) {
-					return 2;
-				}
-
-				return secondsLeft;
-			}
-
-			@Override
-			public void onEnd() {
-				Elytra.super.endGame(Utils.getPlayerListFromUUIDList(Elytra.this.finished));
-			}
-
-		};
+	@Override
+	public void onEnd() {
+		Elytra.super.endGame(Utils.getPlayerListFromUUIDList(Elytra.this.finished));
 	}
 
 	@EventHandler
 	public void onMove(final PlayerMoveEvent event){
-		if (!this.listener) {
+		final MPlayer player = new MPlayer(event);
+
+		if (!this.started && !this.map.isSafeOnSpawnPlatform(player))
+			player.teleport(this.map.getStartLocation());
+
+		if (this.finished.contains(player.getUniqueId()))
 			return;
-		}
 
-		final Player player = event.getPlayer();
-		final Material type = event.getTo().getBlock().getRelative(BlockFace.DOWN).getType();
+		if (this.map.isDead(player))
+			player.teleport(this.map.getStartLocation());
 
-		if(!player.isFlying() && (type == Material.STONE || type == Material.COBBLESTONE || type == Material.LAVA)) {
-			// die
-			Utils.clearInventory(player);
-			player.teleport(new Location(Var.WORLD, 151.5, 76, 343.5));
-			this.sendMessage(player.getName() + " has died");
+		if (this.map.hasFinished(player)) {
+			player.clearInventory();
+			player.dieTo(this.map.getSpectatorLocation());
 
-			if (!this.dead.contains(player.getUniqueId()))
-				this.dead.add(player.getUniqueId());
-		}
-
-		if (type == Material.LIME_WOOL) {
-			// win
-			Utils.clearInventory(player);
-			player.teleport(new Location(Var.WORLD, 151.5, 76, 343.5));
-
-			if (!this.finished.contains(player.getUniqueId()))
-				this.finished.add(player.getUniqueId());
+			this.finished.add(player.getUniqueId());
 
 			this.sendMessage(player.getName() + " has finished");
 		}
-	}*/
+	}
+
+	@EventHandler
+	public void join(final MinigamesJoinEvent event) {
+		event.setTeleportPlayerToLobby(false);
+
+		final MPlayer player = event.getPlayer();
+
+		if (this.finished.contains(player.getUniqueId())) {
+			player.setGameMode(GameMode.SPECTATOR);
+			player.teleport(this.map.getSpectatorLocation());
+		} else {
+			player.setGameMode(GameMode.ADVENTURE);
+			player.setArmor(null, Material.ELYTRA, null, null);
+			player.teleport(this.map.getStartLocation());
+		}
+	}
 
 }

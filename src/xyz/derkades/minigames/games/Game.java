@@ -44,7 +44,7 @@ public abstract class Game<M extends GameMap> implements Listener {
 			new CreeperAttack(),
 			new DigDug(),
 			new Dropper(),
-			//new Elytra(),
+			new Elytra(),
 			//new Harvest(),
 			new HungerGames(),
 			new IcyBlowback(),
