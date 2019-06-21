@@ -7,23 +7,20 @@ import java.util.UUID;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.block.BlockFace;
-import org.bukkit.entity.Arrow;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-import org.bukkit.projectiles.ProjectileSource;
 
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
 import xyz.derkades.minigames.Minigames;
-import xyz.derkades.minigames.Spectator;
 import xyz.derkades.minigames.games.sniper.SniperMap;
 import xyz.derkades.minigames.utils.MPlayer;
+import xyz.derkades.minigames.utils.MinigamesPlayerDamageEvent;
+import xyz.derkades.minigames.utils.MinigamesPlayerDamageEvent.DamageType;
 import xyz.derkades.minigames.utils.Utils;
 
 public class OneInTheQuiver extends Game<SniperMap> {
@@ -131,61 +128,48 @@ public class OneInTheQuiver extends Game<SniperMap> {
 	}
 
 	@EventHandler
-	public void onDamage(final EntityDamageByEntityEvent event) {
-		final Entity damagedEntity = event.getEntity();
-		final Entity attackingEntity = event.getDamager();
+	public void onDamage(final MinigamesPlayerDamageEvent event) {
+		final MPlayer player = event.getPlayer();
 
-		if (damagedEntity.getType() != EntityType.PLAYER) {
-			return;
-		}
-
-		final Player damagedPlayer = (Player) damagedEntity;
-
-		final Player attackingPlayer;
-
-		if (attackingEntity.getType().equals(EntityType.PLAYER)) {
-			attackingPlayer = (Player) attackingEntity;
-		} else if (attackingEntity.getType().equals(EntityType.ARROW)) {
-			final ProjectileSource shooter = ((Arrow) attackingEntity).getShooter();
-			if (shooter instanceof Player) {
-				attackingPlayer = (Player) shooter;
-			} else {
-				return;
-			}
-		} else {
-			return;
-		}
-
-		if (attackingEntity.getType() == EntityType.ARROW) {
-			event.setDamage(20);
-		}
-
-		if (this.dead.contains(attackingEntity.getUniqueId()) || this.dead.contains(damagedEntity.getUniqueId())) {
+		if (this.dead.contains(event.getDamagerEntity().getUniqueId()) || this.dead.contains(event.getDamagerEntity().getUniqueId())) {
 			event.setCancelled(true);
 			return;
 		}
 
-		final ItemStack weapon = attackingPlayer.getInventory().getItemInMainHand();
-
-		if (weapon.isSimilar(SWORD)) {
-			event.setDamage(2);
+		if (event.getDamagerEntity().getType().equals(EntityType.ARROW)){
+			event.setDamage(20);
 		}
 
-		if (damagedPlayer.getHealth() - event.getDamage() < 1) {
-			// Player is dead
+		if (event.getType().equals(DamageType.ENTITY)) {
+			final MPlayer attacker = event.getDamagerPlayer();
+			final ItemStack weapon = attacker.getInventory().getItemInMainHand();
 
-			event.setCancelled(true); // Player must not die, or bad things happen.
-
-			Spectator.dieUp(damagedPlayer, 3);
-
-			this.dead.add(damagedPlayer.getUniqueId());
-
-			final int playersLeft = Utils.getAliveAcountFromDeadAndAllList(this.dead, this.all);
-			this.sendMessage(String.format("%s has been killed by %s. There are %s players left.",
-					damagedPlayer.getName(), attackingPlayer.getName(), playersLeft));
-
-			attackingPlayer.getInventory().addItem(ARROW);
+			if (weapon.isSimilar(SWORD)) {
+				event.setDamage(3);
+			}
 		}
+
+		if (event.willBeDead()) {
+			event.setCancelled(true);
+
+			if (event.getType().equals(DamageType.ENTITY)) {
+				final MPlayer killer = event.getDamagerPlayer();
+
+				final int playersLeft = Utils.getAliveAcountFromDeadAndAllList(this.dead, this.all);
+				this.sendMessage(String.format("%s has been killed by %s. There are %s players left.",
+						player.getName(), killer.getName(), playersLeft));
+
+				killer.getInventory().addItem(ARROW);
+			} else {
+				final int playersLeft = Utils.getAliveAcountFromDeadAndAllList(this.dead, this.all);
+				this.sendMessage(String.format("%s has died. There are %s players left.",
+						player.getName(), playersLeft));
+			}
+
+			this.dead.add(player.getUniqueId());
+			player.dieUp(2);
+		}
+
 	}
 
 }
