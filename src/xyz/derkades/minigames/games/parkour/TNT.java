@@ -2,9 +2,9 @@ package xyz.derkades.minigames.games.parkour;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.entity.Player;
 
 import xyz.derkades.minigames.games.maps.MapSize;
+import xyz.derkades.minigames.utils.MPlayer;
 import xyz.derkades.minigames.worlds.GameWorld;
 
 public class TNT extends ParkourMap {
@@ -30,12 +30,12 @@ public class TNT extends ParkourMap {
 	}
 
 	@Override
-	public boolean hasFinished(final Player player, final Material blockType) {
+	public boolean hasFinished(final MPlayer player, final Material blockType) {
 		return blockType.equals(Material.GREEN_TERRACOTTA);
 	}
 
 	@Override
-	public boolean hasDied(final Player player, final Material blockType) {
+	public boolean hasDied(final MPlayer player, final Material blockType) {
 		return blockType.equals(Material.RED_CONCRETE) || blockType.equals(Material.REDSTONE_BLOCK) ||
 				blockType.equals(Material.FURNACE);
 	}

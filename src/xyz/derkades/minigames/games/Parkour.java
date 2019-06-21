@@ -15,8 +15,6 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 import xyz.derkades.minigames.Minigames;
-import xyz.derkades.minigames.Points;
-import xyz.derkades.minigames.Spectator;
 import xyz.derkades.minigames.games.parkour.ParkourMap;
 import xyz.derkades.minigames.utils.MPlayer;
 import xyz.derkades.minigames.utils.MinigamesJoinEvent;
@@ -51,6 +49,11 @@ public class Parkour extends Game<ParkourMap> {
 		return this.map.getDuration();
 	}
 
+	@Override
+	public int getPreDuration() {
+		return 2;
+	}
+
 	private List<UUID> finished;
 	private List<UUID> all;
 
@@ -73,7 +76,7 @@ public class Parkour extends Game<ParkourMap> {
 
 	@Override
 	public int gameTimer(final int secondsLeft) {
-		if (Parkour.this.all.size() >= Parkour.this.finished.size() && secondsLeft > 5) {
+		if (Parkour.this.finished.size() >= Parkour.this.finished.size() && secondsLeft > 5) {
 			return 5;
 		}
 
@@ -87,7 +90,7 @@ public class Parkour extends Game<ParkourMap> {
 
 	@EventHandler(priority = EventPriority.MONITOR)
 	public void onMove(final PlayerMoveEvent event){
-		final Player player = event.getPlayer();
+		final MPlayer player = new MPlayer(event);
 
 		if (this.finished.contains(player.getUniqueId())) {
 			return;
@@ -102,19 +105,20 @@ public class Parkour extends Game<ParkourMap> {
 		if (this.map.hasFinished(player, blockType)) {
 			if (this.finished.isEmpty()) {
 				super.sendMessage(player.getName() + " finished first and got an extra point!");
-				Points.addPoints(player, 1);
+				player.addPoints(1);
 			} else {
 				this.sendMessage(player.getName() + " has made it to the finish!");
 			}
 
 			this.finished.add(player.getUniqueId());
 
-			Utils.playSoundForAllPlayers(Sound.ENTITY_PLAYER_LEVELUP, 1);
+			Minigames.getOnlinePlayers().forEach((player2) -> {
+				// Show all players to the spectator (the spectator is still invisible to others)
+				player.showPlayer(player2);
+				player2.playSound(Sound.ENTITY_PLAYER_LEVELUP, 1);
+			});
 
-			// Show all players to the spectator (the spectator is still invisible to others)
-			Bukkit.getOnlinePlayers().forEach((player2) -> player.showPlayer(Minigames.getInstance(), player2));
-
-			Spectator.finish(player);
+			player.finishTo(this.map.getStartLocation());
 		}
 
 	}

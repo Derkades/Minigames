@@ -43,7 +43,7 @@ public class HungerGames extends Game<HungerGamesMap> {
 
 	@Override
 	public HungerGamesMap[] getGameMaps() {
-		return null;
+		return HungerGamesMap.MAPS;
 	}
 
 	@Override

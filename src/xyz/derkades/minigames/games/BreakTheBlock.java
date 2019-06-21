@@ -55,27 +55,34 @@ public class BreakTheBlock extends Game<BreakTheBlockMap> {
 		return 200;
 	}
 
+	@Override
+	public int getPreDuration() {
+		return 2;
+	}
+
 	private UUID blockBreaker;
 
 	@Override
 	public void onPreStart() {
 		this.blockBreaker = null;
 		this.map.onPreStart();
-	}
 
-	@Override
-	public void onStart() {
 		final ItemStack pickaxe = new ItemBuilder(Material.IRON_PICKAXE)
 				.unbreakable()
 				.name(ChatColor.GOLD + "Block breaker")
 				.lore(ChatColor.YELLOW + "Use this gold pickaxe to break the ", ChatColor.YELLOW + "gold block at the end of the game.")
 				.canDestroy("gold_block")
 				.create();
+
 		Minigames.getOnlinePlayers().forEach((p) -> {
 			p.giveItem(pickaxe);
 			p.queueTeleport(this.map.getStartLocation());
 			p.giveInfiniteEffect(PotionEffectType.DAMAGE_RESISTANCE, 10);
 		});
+	}
+
+	@Override
+	public void onStart() {
 		BreakTheBlock.this.map.onStart();
 		Minigames.getOnlinePlayers().forEach((player) -> {
 			player.setDisableDamage(false);

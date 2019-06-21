@@ -11,11 +11,11 @@ public class Jungle extends TNTMap {
 
 	@Override
 	public void restore() {
-		BlockUtils.fillArea(this.getWorld(), -6, 64, 6, 6, 64, -6, Material.IRON_BLOCK);
-		BlockUtils.fillArea(this.getWorld(), -6, 59, 6, 6, 59, -6, Material.IRON_BLOCK);
-		BlockUtils.fillArea(this.getWorld(), -6, 54, 6, 6, 54, -6, Material.IRON_BLOCK);
-		BlockUtils.fillArea(this.getWorld(), -6, 49, 6, 6, 49, -6, Material.IRON_BLOCK);
-		BlockUtils.fillArea(this.getWorld(), -6, 44, 6, 6, 44, -6, Material.IRON_BLOCK);
+		BlockUtils.fillArea(this.getWorld(), -6, 64, 6, 6, 64, -6, this.floorMaterial());
+		BlockUtils.fillArea(this.getWorld(), -6, 59, 6, 6, 59, -6, this.floorMaterial());
+		BlockUtils.fillArea(this.getWorld(), -6, 54, 6, 6, 54, -6, this.floorMaterial());
+		BlockUtils.fillArea(this.getWorld(), -6, 49, 6, 6, 49, -6, this.floorMaterial());
+		BlockUtils.fillArea(this.getWorld(), -6, 44, 6, 6, 44, -6, this.floorMaterial());
 	}
 
 	@Override

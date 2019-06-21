@@ -89,9 +89,19 @@ public abstract class Game<M extends GameMap> implements Listener {
 
 	protected M map = null;
 
+	// Can be used by listeners in game classes to check if the game has started.
+	protected boolean started = false;
+
 	public void start() {
+		this.started = false;
+
 		// Pick random map
-		this.map = ListUtils.getRandomValueFromArray(this.getGameMaps());
+		if (this.getGameMaps() == null) {
+			this.map = null;
+			Bukkit.broadcastMessage("Warning, no map!");
+		} else {
+			this.map = ListUtils.getRandomValueFromArray(this.getGameMaps());
+		}
 
 		// Send description
 		for (final Player player : Bukkit.getOnlinePlayers()) {
@@ -190,6 +200,7 @@ public abstract class Game<M extends GameMap> implements Listener {
 				if (this.secondsLeft == Game.this.getDuration()) {
 					Game.this.sendMessage("The game has started.");
 					Game.this.onStart();
+					Game.this.started = true;
 					return;
 				}
 
@@ -317,7 +328,11 @@ public abstract class Game<M extends GameMap> implements Listener {
 		Scheduler.delay(nextGameDelay * 20, () -> {
 			// Unload world from previous game. It can be done now, because all players should
 			// be teleported to the lobby by now.
-			this.map.getGameWorld().unload();
+			if (this.map != null) {
+				this.map.getGameWorld().unload();
+			} else {
+				Bukkit.broadcastMessage("[warning] map is not in dedicated game world");
+			}
 
 			AutoRotate.startNewRandomGame();
 		});
@@ -344,7 +359,7 @@ public abstract class Game<M extends GameMap> implements Listener {
 		if (string.equalsIgnoreCase("oitq")) {
 			string = "one in the quiver";
 		} else if (string.equalsIgnoreCase("tbb")) {
-			string = "teamsbowbattle";
+			string = "teams bow battle";
 		} else if (string.equalsIgnoreCase("btb")) {
 			string = "break the block";
 		} else if (string.equalsIgnoreCase("spleef")) {

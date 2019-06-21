@@ -77,7 +77,7 @@ public class OneInTheQuiver extends Game<SniperMap> {
 
 		for (final MPlayer player : Minigames.getOnlinePlayers()) {
 			player.queueTeleport(this.map.getSpawnLocation());
-			player.giveEffect(PotionEffectType.INVISIBILITY, 5*20, 0);
+			player.giveEffect(PotionEffectType.INVISIBILITY, 5, 0);
 		}
 	}
 

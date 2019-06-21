@@ -6,6 +6,7 @@ import org.bukkit.Particle;
 import org.bukkit.entity.Player;
 
 import xyz.derkades.minigames.games.maps.MapSize;
+import xyz.derkades.minigames.utils.MPlayer;
 import xyz.derkades.minigames.worlds.GameWorld;
 
 public class JungleRun extends ParkourMap {
@@ -31,12 +32,12 @@ public class JungleRun extends ParkourMap {
 	}
 
 	@Override
-	public boolean hasFinished(final Player player, final Material blockType) {
+	public boolean hasFinished(final MPlayer player, final Material blockType) {
 		return blockType == Material.GOLD_BLOCK;
 	}
 
 	@Override
-	public boolean hasDied(final Player player, final Material blockType) {
+	public boolean hasDied(final MPlayer player, final Material blockType) {
 		return  blockType == Material.SOUL_SAND ||
 				blockType == Material.GREEN_WOOL ||
 				blockType == Material.GREEN_CARPET ||

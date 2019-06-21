@@ -322,4 +322,16 @@ public class MPlayer {
 		this.player.playSound(this.player.getLocation(), sound, 1, pitch);
 	}
 
+	public void showPlayer(final MPlayer target) {
+		this.player.showPlayer(Minigames.getInstance(), target.bukkit());
+	}
+
+	public void hidePlayer(final MPlayer target) {
+		this.player.hidePlayer(Minigames.getInstance(), target.bukkit());
+	}
+
+	public boolean isFlying() {
+		return this.player.isFlying();
+	}
+
 }

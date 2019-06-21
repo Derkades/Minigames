@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -104,6 +105,10 @@ public class RegeneratingSpleef extends Game<SpleefMap> {
 
 	@EventHandler
 	public void onBlockBreak(final BlockBreakEvent event) {
+		if (event.getPlayer().getGameMode().equals(GameMode.CREATIVE)) {
+			return;
+		}
+
 		if (this.map.enableFlyingBlocks()) {
 			final Block block = event.getBlock();
 				if (!block.getType().equals(Material.SNOW_BLOCK)) {

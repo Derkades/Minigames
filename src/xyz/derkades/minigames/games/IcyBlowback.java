@@ -70,7 +70,7 @@ public class IcyBlowback extends Game<IcyBlowbackMap> {
 
 	@Override
 	public String getName() {
-		return null;
+		return "Icy Blowback";
 	}
 
 	@Override

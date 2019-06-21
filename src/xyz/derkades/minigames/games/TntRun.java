@@ -45,7 +45,7 @@ public class TntRun extends Game<TNTMap> {
 
 	@Override
 	public int getDuration() {
-		return 200;
+		return 150;
 	}
 
 

@@ -132,6 +132,7 @@ public class MolePvP extends Game<MolePvPMap> {
 		}
 
 		if (event.willBeDead()) {
+			event.setCancelled(true);
 			if (event.getType().equals(DamageType.ENTITY)) {
 				final MPlayer killer = event.getDamagerPlayer();
 				this.sendMessage(String.format("%s%s%s %shas been killed by %s%s%s",
@@ -142,6 +143,7 @@ public class MolePvP extends Game<MolePvPMap> {
 						this.getTeamColor(player), ChatColor.BOLD, player.getName(), ChatColor.GRAY));
 			}
 
+			this.dead.add(player.getUniqueId());
 			player.die();
 		}
 	}

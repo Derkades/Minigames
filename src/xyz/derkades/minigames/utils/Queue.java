@@ -25,7 +25,7 @@ public class Queue {
 		@Override
 		public void run() {
 			if (QUEUE.size() > 0) {
-				Bukkit.broadcastMessage("[debug] Processing task queue, " + QUEUE.size() + " entries left.");
+				System.out.println("[debug] Processing task queue, " + QUEUE.size() + " entries left.");
 				QUEUE.remove(0).run();
 			}
 		}

@@ -5,6 +5,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
 import xyz.derkades.minigames.games.maps.GameMap;
+import xyz.derkades.minigames.utils.MPlayer;
 
 public abstract class ParkourMap extends GameMap {
 
@@ -20,9 +21,9 @@ public abstract class ParkourMap extends GameMap {
 
 	public abstract Location getSpectatorLocation();
 
-	public abstract boolean hasFinished(Player player, Material blockType);
+	public abstract boolean hasFinished(MPlayer player, Material blockType);
 
-	public abstract boolean hasDied(Player player, Material blockType);
+	public abstract boolean hasDied(MPlayer player, Material blockType);
 
 	public abstract boolean spectatorFreeFlight();
 

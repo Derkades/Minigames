@@ -47,7 +47,6 @@ public class Dropper extends Game<DropperMap> {
 	private static final String FINISHED = "%s finished.";
 	private static final String FINISHED_FIRST = "%s finished first and got 1 extra point!";
 
-	private DropperMap map;
 	private List<UUID> finished;
 	private List<UUID> all;
 
@@ -119,6 +118,7 @@ public class Dropper extends Game<DropperMap> {
 		if (event.willBeDead()) {
 			event.setCancelled(true);
 			event.getPlayer().queueTeleport(this.map.getLobbyLocation());
+			event.getPlayer().heal();
 		}
 	}
 

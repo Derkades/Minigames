@@ -30,7 +30,7 @@ public class TeamsBowBattle extends Game<TeamsBowBattleMap> {
 
 	@Override
 	public String getName() {
-		return "TeamsBowBattle";
+		return "Teams Bow Battle";
 	}
 
 	@Override

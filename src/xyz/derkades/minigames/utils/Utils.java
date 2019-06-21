@@ -313,4 +313,13 @@ public class Utils {
 		return player.getMetadata("minigames_" + key).get(0);
 	}
 
+	public static boolean allPlayersFinished(final List<UUID> finished) {
+		for (final Player player : Bukkit.getOnlinePlayers()) {
+			if (!finished.contains(player.getUniqueId())) {
+				return false;
+			}
+		}
+		return true;
+	}
+
 }
