@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerMoveEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
 
 import xyz.derkades.minigames.Minigames;
 import xyz.derkades.minigames.games.dropper.DropperMap;
@@ -48,18 +48,14 @@ public class Dropper extends Game<DropperMap> {
 	private static final String FINISHED_FIRST = "%s finished first and got 1 extra point!";
 
 	private List<UUID> finished;
-	private List<UUID> all;
 
 	@Override
 	public void onPreStart() {
 		this.finished = new ArrayList<>();
-		this.all = Utils.getOnlinePlayersUuidList();
 
 		this.map.closeDoor();
 
-		for (final MPlayer player : Minigames.getOnlinePlayers()) {
-			player.queueTeleport(this.map.getLobbyLocation());
-		}
+		Minigames.getOnlinePlayers().forEach((p) -> p.queueTeleport(this.map.getLobbyLocation()));
 	}
 
 	@Override
@@ -70,7 +66,7 @@ public class Dropper extends Game<DropperMap> {
 
 	@Override
 	public int gameTimer(final int secondsLeft) {
-		if (Utils.getWinnersFromFinished(Dropper.this.finished, Dropper.this.all).size() >= Dropper.this.all.size() && secondsLeft > 5) {
+		if (Utils.allPlayersFinished(this.finished) && secondsLeft > 5) {
 			return 5;
 		}
 
@@ -79,9 +75,8 @@ public class Dropper extends Game<DropperMap> {
 
 	@Override
 	public void onEnd() {
-		Dropper.this.endGame(Utils.getWinnersFromFinished(Dropper.this.finished, Dropper.this.all));
+		Dropper.this.endGame(Utils.getWinnersFromFinished(Dropper.this.finished));
 		this.finished.clear();
-		this.all.clear();
 	}
 
 	@EventHandler
@@ -126,15 +121,16 @@ public class Dropper extends Game<DropperMap> {
 	public void onJoin(final MinigamesJoinEvent event) {
 		final MPlayer player = event.getPlayer();
 		event.setTeleportPlayerToLobby(false);
-		player.hideForEveryoneElse();
-		player.teleport(this.map.getLobbyLocation());
-		player.setDisableDamage(false);
-		this.all.add(player.getUniqueId());
-	}
 
-	@EventHandler
-	public void onQuit(final PlayerQuitEvent event) {
-		this.all.remove(event.getPlayer().getUniqueId());
+		player.teleport(this.map.getLobbyLocation());
+
+		if (this.finished.contains(player.getUniqueId())) {
+			player.setGameMode(GameMode.SPECTATOR);
+
+		} else {
+			player.hideForEveryoneElse();
+			player.setDisableDamage(false);
+		}
 	}
 
 }

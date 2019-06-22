@@ -172,6 +172,10 @@ public class Utils {
 		return all.stream().filter(finished::contains).map(Bukkit::getPlayer).filter(p -> p != null).collect(Collectors.toList());
 	}
 
+	public static List<Player> getWinnersFromFinished(final List<UUID> finished) {
+		return Bukkit.getOnlinePlayers().stream().filter((p) -> finished.contains(p.getUniqueId())).collect(Collectors.toList());
+	}
+
 	public static List<UUID> getOnlinePlayersUuidList(){
 		return Bukkit.getOnlinePlayers().stream().map(Player::getUniqueId).collect(Collectors.toList());
 	}
