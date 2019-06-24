@@ -6,6 +6,7 @@ import xyz.derkades.minigames.Var;
 import xyz.derkades.minigames.games.maps.MapSize;
 import xyz.derkades.minigames.worlds.GameWorld;
 
+@Deprecated
 public class Prototype extends HungerGamesMap {
 
 	@Override

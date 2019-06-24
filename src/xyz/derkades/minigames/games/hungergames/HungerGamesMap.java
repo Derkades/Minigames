@@ -7,7 +7,8 @@ import xyz.derkades.minigames.games.maps.GameMap;
 public abstract class HungerGamesMap extends GameMap {
 
 	public static final HungerGamesMap[] MAPS = {
-			new Prototype(),
+			//new Prototype(),
+			new Treehouse(),
 	};
 
 	public abstract Location[] getStartLocations();
