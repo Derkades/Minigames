@@ -33,7 +33,7 @@ public class Elytra extends Game<ElytraMap> {
 
 	@Override
 	public int getRequiredPlayers() {
-		return 2;
+		return 1;
 	}
 
 	@Override
