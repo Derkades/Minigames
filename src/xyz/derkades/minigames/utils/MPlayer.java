@@ -302,7 +302,19 @@ public class MPlayer {
 		inv.setBoots(boots);
 	}
 
-	public void setArmor(final Material helmet, final Material chestplate, final Material leggings, final Material boots){
+	public void setArmor(Material helmet, Material chestplate, Material leggings, Material boots){
+		if (helmet == null)
+			helmet = Material.AIR;
+
+		if (chestplate == null)
+			chestplate = Material.AIR;
+
+		if (leggings == null)
+			leggings = Material.AIR;
+
+		if (boots == null)
+			boots = Material.AIR;
+
 		this.setArmor(
 				new ItemStack(helmet),
 				new ItemStack(chestplate),
