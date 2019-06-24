@@ -48,7 +48,7 @@ public class ChatPoll {
 
 			callbacks.put(token, this.callback);
 
-			player.sendMessage(Utils.getChatPrefix(ChatColor.AQUA, 'P') + ChatColor.GRAY + "----------------------------------------");
+			player.sendMessage(Utils.getChatPrefix(ChatColor.AQUA, 'P') + ChatColor.DARK_GRAY + "-----------------------------------------");
 			player.spigot().sendMessage(new ComponentBuilder("").appendLegacy(Utils.getChatPrefix(ChatColor.AQUA, 'P')).append(this.question).create());
 
 			final ComponentBuilder answerMessage = new ComponentBuilder("");
@@ -63,7 +63,7 @@ public class ChatPoll {
 			}
 
 			player.spigot().sendMessage(answerMessage.create());
-			player.sendMessage(Utils.getChatPrefix(ChatColor.AQUA, 'P') + ChatColor.GRAY + "----------------------------------------");
+			player.sendMessage(Utils.getChatPrefix(ChatColor.AQUA, 'P') + ChatColor.DARK_GRAY + "-----------------------------------------");
 
 		}
 	}
