@@ -29,11 +29,9 @@ public enum GameWorld {
 	DROPPER_REDSTONE,
 	DROPPER_TREES,
 
-	//HARVEST_PROTOTYPE,
+	HG_TREEHOUSE,
 
 	ICYBLOWBACK_ICYBLOWBACK,
-
-	//MOLEPVP_PROTOTYPE,
 
 	PARKOUR_JUNGLE,
 	PARKOUR_REDSTONECAVE,
@@ -54,7 +52,6 @@ public enum GameWorld {
 	SPLEEF_ORIGINAL,
 
 	TBB_FOREST,
-	//TBB_PROTOTYPE,
 
 	TNTRUN_AQUA,
 	TNTRUN_FUTURE,
@@ -84,7 +81,7 @@ public enum GameWorld {
 	 * Creates world or just loads it if it already exists
 	 */
 	public World load() {
-		Bukkit.broadcastMessage("[System] Loading " + this.toString());
+		System.out.println("[System] Loading " + this.toString());
 
 		final WorldCreator creator = new WorldCreator(this.getName());
 		creator.generateStructures(false);
@@ -124,7 +121,7 @@ public enum GameWorld {
 		if (world == null) {
 			//Bukkit.broadcastMessage("[System] " + this.toString() + " is already unloaded");
 		} else {
-			Bukkit.broadcastMessage("[System] Unloading " + this.toString());
+			System.out.println("[System] Unloading " + this.toString());
 			Bukkit.unloadWorld(this.getWorld(), true);
 		}
 
