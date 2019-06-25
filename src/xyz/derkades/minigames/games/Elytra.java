@@ -92,7 +92,7 @@ public class Elytra extends Game<ElytraMap> {
 
 		if (this.map.hasFinished(player)) {
 			player.clearInventory();
-			player.dieTo(this.map.getSpectatorLocation());
+			player.finishTo(this.map.getSpectatorLocation());
 
 			this.finished.add(player.getUniqueId());
 
