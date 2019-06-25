@@ -17,6 +17,10 @@ public enum GameWorld {
 
 	// DO NOT CHANGE THESE VALUES!!
 
+	//MGR_RAILSOFWAR,
+	MGR_ISLAND,
+	MGR_SANTIAGO,
+
 	BTB_PROTOTYPE,
 
 	CREEPERATTACK_HEDGES,
@@ -31,7 +35,9 @@ public enum GameWorld {
 
 	ELYTRA_CAVE,
 
+	//HG_BEACH,
 	HG_TREEHOUSE,
+	//HG_BOAT,
 
 	ICYBLOWBACK_ICYBLOWBACK,
 
@@ -54,6 +60,7 @@ public enum GameWorld {
 	SPLEEF_ORIGINAL,
 
 	TBB_FOREST,
+	TBB_MEDIEVALMOUNTAIN, // http://www.minecraftmaps.com/creation-maps/medieval-mountain
 
 	TNTRUN_AQUA,
 	TNTRUN_FUTURE,

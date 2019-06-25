@@ -51,7 +51,7 @@ public class MainMenu extends IconMenu {
 	public boolean onOptionClick(final OptionClickEvent event) {
 		if (event.getName().contains("Games")){
 			final Player player = event.getPlayer();
-			for (final Game game : Game.GAMES){
+			for (final Game<? extends GameMap> game : Game.GAMES){
 				player.sendMessage(ChatColor.GRAY + "------------------------------------------");
 				player.sendMessage(DARK_AQUA + "Name: " + AQUA + game.getName());
 				//player.sendMessage(DARK_AQUA + "Reward (points): " + AQUA + game.getMinimumPoints() + "-" + game.getMaximumPoints());
@@ -104,7 +104,7 @@ public class MainMenu extends IconMenu {
 		}
 	}
 
-	private String getMapsString(final Game game) {
+	private String getMapsString(final Game<? extends GameMap> game) {
 		final List<String> mapNames = new ArrayList<>();
 		for (final GameMap map : game.getGameMaps()) {
 			mapNames.add(map.getName());

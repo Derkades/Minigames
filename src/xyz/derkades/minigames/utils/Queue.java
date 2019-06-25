@@ -3,7 +3,6 @@ package xyz.derkades.minigames.utils;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.bukkit.Bukkit;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import xyz.derkades.minigames.Minigames;

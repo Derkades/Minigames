@@ -48,7 +48,7 @@ public class HungerGames extends Game<HungerGamesMap> {
 
 	@Override
 	public int getDuration() {
-		return 2000;
+		return 200;
 	}
 
 	private List<UUID> all;

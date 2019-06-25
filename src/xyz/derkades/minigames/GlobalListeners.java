@@ -87,7 +87,7 @@ public class GlobalListeners implements Listener {
 
 	@EventHandler
 	public void onPlayerDropItem(final PlayerDropItemEvent event){
-		if (event.getPlayer().getGameMode() == GameMode.ADVENTURE) {
+		if (event.getPlayer().getGameMode() == GameMode.ADVENTURE && new MPlayer(event).getDisableItemMoving()) {
 			event.setCancelled(true); //Cancel players dropping items
 		}
 	}
@@ -164,7 +164,6 @@ public class GlobalListeners implements Listener {
 
 		if (event instanceof EntityDamageByEntityEvent) {
 			final EntityDamageByEntityEvent event2 = (EntityDamageByEntityEvent) event;
-			System.out.println("damage by entity");
 
 			if (event2.getEntity().getType() != EntityType.PLAYER) {
 				return;
@@ -180,7 +179,6 @@ public class GlobalListeners implements Listener {
 			if (event3.isCancelled())
 				event.setCancelled(true);
 		} else {
-			System.out.println("regular damage");
 			final MinigamesPlayerDamageEvent event3 = new MinigamesPlayerDamageEvent((Player) event.getEntity(),
 					event.getDamage());
 

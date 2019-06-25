@@ -29,7 +29,7 @@ public class Treehouse extends HungerGamesMap {
 				// Middle tree
 				new Location(this.getWorld(), -29, 48, -60),
 				new Location(this.getWorld(), -27, 48, -61),
-				new Location(this.getWorld(), -28, -49, -62),
+				new Location(this.getWorld(), -28, 49, -62),
 				new Location(this.getWorld(), -29, 48, -60),
 
 				// Cave
@@ -56,13 +56,13 @@ public class Treehouse extends HungerGamesMap {
 				new Location(this.getWorld(), -45, 56, -91),
 
 				// Chest in wooden house
-				new Location(this.getWorld(), -20, 53, 98),
+				new Location(this.getWorld(), -20, 54, -98),
 
 				// Chests under trees
 				new Location(this.getWorld(), -27, 50, -87),
 				new Location(this.getWorld(), -13, 50, -90),
 				new Location(this.getWorld(), -7, 52, -82),
-				new Location(this.getWorld(), -12, -49, -54),
+				new Location(this.getWorld(), -12, 49, -54),
 
 				// Chests on/near mountains
 				new Location(this.getWorld(), -52, 52, -55),

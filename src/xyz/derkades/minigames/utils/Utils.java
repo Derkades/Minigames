@@ -176,6 +176,20 @@ public class Utils {
 		return Bukkit.getOnlinePlayers().stream().filter((p) -> finished.contains(p.getUniqueId())).collect(Collectors.toList());
 	}
 
+	public static List<Player> getWinnersFromAliveList(final List<UUID> alive, final boolean multipleWinnersAllowed){
+		final List<Player> winners = alive.stream().map(Bukkit::getPlayer).filter(p -> p != null).collect(Collectors.toList());
+
+		if (multipleWinnersAllowed) {
+			return winners;
+		}
+
+		if (winners.size() == 1) {
+			return winners;
+		} else {
+			return new ArrayList<>();
+		}
+	}
+
 	public static List<UUID> getOnlinePlayersUuidList(){
 		return Bukkit.getOnlinePlayers().stream().map(Player::getUniqueId).collect(Collectors.toList());
 	}

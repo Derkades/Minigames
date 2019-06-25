@@ -48,6 +48,7 @@ public abstract class Game<M extends GameMap> implements Listener {
 			//new Harvest(),
 			new HungerGames(),
 			new IcyBlowback(),
+			new GladeRoyale(),
 			//new MazePvp(),
 			//new Mine(),
 			new MolePvP(),
@@ -329,9 +330,13 @@ public abstract class Game<M extends GameMap> implements Listener {
 			// Unload world from previous game. It can be done now, because all players should
 			// be teleported to the lobby by now.
 			if (this.map != null) {
-				this.map.getGameWorld().unload();
+				if (this.map.getGameWorld() != null) {
+					this.map.getGameWorld().unload();
+				} else {
+					Bukkit.broadcastMessage("[warning] game is not in dedicated world");
+				}
 			} else {
-				Bukkit.broadcastMessage("[warning] map is not in dedicated game world");
+				Bukkit.broadcastMessage("[warning] game does not have map support");
 			}
 
 			AutoRotate.startNewRandomGame();
