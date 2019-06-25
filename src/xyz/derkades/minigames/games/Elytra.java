@@ -46,10 +46,12 @@ public class Elytra extends Game<ElytraMap> {
 		return 30;
 	}
 
-	private final List<UUID> finished = new ArrayList<>();
+	private List<UUID> finished;
 
 	@Override
 	public void onPreStart() {
+		this.finished = new ArrayList<>();;
+
 		for (final MPlayer player : Minigames.getOnlinePlayers()){
 			player.setArmor(null, Material.ELYTRA, null, null);
 			player.giveInfiniteEffect(PotionEffectType.SLOW, 5);
