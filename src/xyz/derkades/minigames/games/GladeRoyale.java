@@ -3,6 +3,7 @@ package xyz.derkades.minigames.games;
 import java.util.List;
 import java.util.UUID;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -28,6 +29,9 @@ import xyz.derkades.minigames.utils.Scheduler;
 import xyz.derkades.minigames.utils.Utils;
 
 public class GladeRoyale extends Game<GladeRoyaleMap> {
+
+	private static final int MIN_Y = 20;
+	private static final int MAX_Y = 150;
 
 	@Override
 	public String getName() {
@@ -68,6 +72,8 @@ public class GladeRoyale extends Game<GladeRoyaleMap> {
 
 	@Override
 	public void onPreStart() {
+		this.currentBorderSize = this.map.getWorldborderSize();
+
 		this.gameEnded = false;
 		this.alive = Utils.getOnlinePlayersUuidList();
 
@@ -77,17 +83,46 @@ public class GladeRoyale extends Game<GladeRoyaleMap> {
 		border.setDamageAmount(1);
 		border.setSize(20);
 
-		this.sendMessage("When the game starts, you will be teleported into the sky. Don't forget to activate your elytra!");
+
 
 		for (final MPlayer player : Minigames.getOnlinePlayers()) {
 			player.queueTeleport(this.map.getMapCenter());
 			player.setDisableItemMoving(false);
 		}
+
+		Queue.add(() -> {
+			this.sendMessage("Starting world reset, you will experience lag.");
+
+			final int minX = this.map.getMapCenter().getBlockX() - this.currentBorderSize / 2;
+			final int maxX = this.map.getMapCenter().getBlockX() + this.currentBorderSize / 2;
+			final int minZ = this.map.getMapCenter().getBlockZ() - this.currentBorderSize / 2;
+			final int maxZ = this.map.getMapCenter().getBlockZ() + this.currentBorderSize / 2;
+
+			int i = 0;
+			int j = 0;
+
+			for (int x = minX; x <= maxX; x++) {
+				for (int y = MIN_Y; y <= MAX_Y; y++) {
+					for (int z = minZ; z <= maxZ; z++) {
+						i++;
+						final Block block = new Location(this.map.getWorld(), x, y, z).getBlock();
+						if (block.getType().equals(Material.TERRACOTTA) || block.getType().equals(Material.CHEST)) {
+							j++;
+							Bukkit.broadcastMessage(String.format("[debug] removed %s block at (%s, %s, %s). removed: %s. total: %s", block.getType(), x, y, z, j, i));
+							block.setType(Material.AIR);
+						}
+					}
+				}
+			}
+		});
+
+		Queue.add(() ->{
+			this.sendMessage("When the game starts, you will be teleported into the sky. Don't forget to activate your elytra!");
+		});
 	}
 
 	@Override
 	public void onStart() {
-		this.currentBorderSize = this.map.getWorldborderSize();
 		this.map.getWorld().getWorldBorder().setSize(this.currentBorderSize);
 
 		for (final MPlayer player : Minigames.getOnlinePlayers()) {
@@ -245,7 +280,7 @@ public class GladeRoyale extends Game<GladeRoyaleMap> {
 
 		Location location = null;
 
-		for (int y = 255; y > 40; y--) {
+		for (int y = MAX_Y; y > MIN_Y; y--) {
 			final Location locTemp = new Location(this.map.getWorld(), x, y, z);
 
 			if (locTemp.getBlock().getType() != Material.AIR) {
