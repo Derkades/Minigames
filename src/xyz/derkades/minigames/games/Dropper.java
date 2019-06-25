@@ -31,7 +31,7 @@ public class Dropper extends Game<DropperMap> {
 
 	@Override
 	public int getRequiredPlayers() {
-		return 0;
+		return 1;
 	}
 
 	@Override
