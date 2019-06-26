@@ -9,7 +9,7 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<jdk.version>1.8</jdk.version>
-		<spigot.version>1.14.2-R0.1-SNAPSHOT</spigot.version>
+		<spigot.version></spigot.version>
 	</properties>
 
 	<build>
@@ -51,10 +51,10 @@
 
 	<dependencies>
 
-		<dependency> <!-- Spigot (this includes Spigot API, Bukkit API, Craftbukkit and NMS) -->
+		<dependency> <!-- Spigot API -->
 			<groupId>org.spigotmc</groupId>
-			<artifactId>spigot</artifactId>
-			<version>${spigot.version}</version>
+			<artifactId>spigot-api</artifactId>
+			<version>1.14.3-R0.1-SNAPSHOT</version>
 			<scope>provided</scope>
 		</dependency>
 

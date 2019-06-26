@@ -1,7 +1,5 @@
 package xyz.derkades.minigames.games.elytra;
 
-import javax.annotation.Nullable;
-
 import org.bukkit.Location;
 
 import xyz.derkades.minigames.games.maps.GameMap;
@@ -21,7 +19,6 @@ public abstract class ElytraMap extends GameMap {
 
 	public abstract Location getStartLocation();
 
-	@Nullable
 	public abstract Location getSpectatorLocation();
 
 }
