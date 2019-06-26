@@ -47,7 +47,7 @@ public class TNT extends ParkourMap {
 
 	@Override
 	public int getDuration() {
-		return 60;
+		return 80;
 	}
 
 	@Override
