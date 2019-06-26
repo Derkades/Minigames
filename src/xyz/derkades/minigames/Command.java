@@ -19,7 +19,7 @@ public class Command implements CommandExecutor {
 
 	@Override
 	public boolean onCommand(final CommandSender sender, final org.bukkit.command.Command arg1, final String arg2, final String[] args) {
-		if (args.length == 2 && args[0].equalsIgnoreCase("next") && sender.hasPermission("minigames.next")) {
+		if (args.length == 2 && (args[0].equalsIgnoreCase("next") || args[0].equalsIgnoreCase("n")) && sender.hasPermission("minigames.next")) {
 			final Game<? extends GameMap> game = Game.fromString(args[1].replace("_", " "));
 			if (game == null){
 				sender.sendMessage(ChatColor.RED + "Unknown game. Make sure the game is spelled correctly. For spaces use underscores.");
