@@ -327,6 +327,10 @@ public abstract class Game<M extends GameMap> implements Listener {
 		}
 
 		Scheduler.delay(nextGameDelay * 20, () -> {
+			AutoRotate.startNewRandomGame();
+		});
+
+		Scheduler.delay(20*20, () -> {
 			// Unload world from previous game. It can be done now, because all players should
 			// be teleported to the lobby by now.
 			if (this.map != null) {
@@ -338,8 +342,6 @@ public abstract class Game<M extends GameMap> implements Listener {
 			} else {
 				Bukkit.broadcastMessage("[warning] game does not have map support");
 			}
-
-			AutoRotate.startNewRandomGame();
 		});
 	}
 
