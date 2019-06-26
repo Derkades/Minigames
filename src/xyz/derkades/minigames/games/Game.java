@@ -233,7 +233,7 @@ public abstract class Game<M extends GameMap> implements Listener {
 
 
 	void sendMessage(final String message){
-		Bukkit.broadcastMessage(Utils.getChatPrefix(ChatColor.GOLD, 'G') + message);
+		Bukkit.broadcastMessage(Utils.getChatPrefix(ChatColor.RED, 'G') + message);
 	}
 
 	void endGame() {
