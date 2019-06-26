@@ -18,6 +18,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.util.Vector;
 
 import net.md_5.bungee.api.ChatColor;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
@@ -205,13 +206,19 @@ public class MPlayer {
 		this.player.getInventory().addItem(itemStacks);
 	}
 
+	public void teleportUp(final int yUp) {
+		final Location loc = this.player.getLocation();
+		loc.setY(loc.getY() + yUp);
+		this.player.teleport(loc);
+	}
+
 	public void dieTo(final Location location) {
 		this.player.teleport(location);
 		this.die();
 	}
 
 	public void dieUp(final int yUp) {
-		Utils.teleportUp(this.player, yUp);
+		this.teleportUp(yUp);
 		this.die();
 	}
 
@@ -221,7 +228,7 @@ public class MPlayer {
 	}
 
 	public void finishUp(final int yUp) {
-		Utils.teleportUp(this.player, yUp);
+		this.teleportUp(yUp);
 		this.finish();
 	}
 
@@ -344,6 +351,11 @@ public class MPlayer {
 
 	public boolean isFlying() {
 		return this.player.isFlying();
+	}
+
+	public void launch(final double upwardVelocity, final double multiplyInLookingDirection){
+		this.player.setVelocity(this.player.getLocation().getDirection().multiply(multiplyInLookingDirection));
+		this.player.setVelocity(new Vector(this.player.getVelocity().getX(), upwardVelocity, this.player.getVelocity().getZ()));
 	}
 
 }

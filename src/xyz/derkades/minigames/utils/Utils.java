@@ -281,6 +281,7 @@ public class Utils {
 		delayedTeleport(location, runnable, players.toArray(new Player[] {}));
 	}
 
+	@Deprecated
 	public static void launch(final Player player, final double upwardVelocity, final double multiplyInLookingDirection){
 		player.setVelocity(player.getLocation().getDirection().multiply(multiplyInLookingDirection));
 		player.setVelocity(new Vector(player.getVelocity().getX(), upwardVelocity, player.getVelocity().getZ()));
@@ -316,6 +317,7 @@ public class Utils {
 		return new ComponentBuilder("").appendLegacy(Utils.getChatPrefix(prefixColor, prefixChar));
 	}
 
+	@Deprecated
 	public static void teleportUp(final Player player, final int yUp) {
 		final Location loc = player.getLocation();
 		loc.setY(loc.getY() + yUp);
