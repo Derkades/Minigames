@@ -10,15 +10,11 @@ public class Windmill extends HungerGamesMap {
 	@Override
 	public Location[] getStartLocations() {
 		return new Location[] {
-				new Location(this.getWorld(), 237.5, 70.5, 120.5),
-				new Location(this.getWorld(), 134.5, 70.5, 120.5),
-
 				new Location(this.getWorld(), 227.5, 70.5, 203.5),
 				new Location(this.getWorld(), 227.5, 70.5, 200.5),
-
+				new Location(this.getWorld(), 234.5, 70.5, 210.5),
 				new Location(this.getWorld(), 234.5, 70.5, 193.5),
-				new Location(this.getWorld(), 237.5, 70.5, 193.5),
-
+				new Location(this.getWorld(), 234.5, 70.5, 193.5),
 				new Location(this.getWorld(), 244.5, 70.5, 200.5),
 				new Location(this.getWorld(), 244.5, 70.5, 203.5),
 
@@ -81,7 +77,7 @@ public class Windmill extends HungerGamesMap {
 		return new Location[] {
 				//house next to windmill
 				new Location(this.getWorld(), 258, 69, 171),
-				new Location(this.getWorld(), 152, 69, 173),
+				new Location(this.getWorld(), 252, 69, 173),
 
 				//houses
 				new Location(this.getWorld(), 273, 71, 296),

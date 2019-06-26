@@ -9,6 +9,7 @@ public abstract class HungerGamesMap extends GameMap {
 	public static final HungerGamesMap[] MAPS = {
 			//new Prototype(),
 			new Treehouse(),
+			new Windmill(),
 	};
 
 	public abstract Location[] getStartLocations();
