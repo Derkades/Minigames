@@ -21,8 +21,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
-import xyz.derkades.minigames.Spectator;
 import xyz.derkades.minigames.games.spleef.SpleefMap;
+import xyz.derkades.minigames.utils.MPlayer;
 import xyz.derkades.minigames.utils.Scheduler;
 import xyz.derkades.minigames.utils.Utils;
 
@@ -51,6 +51,11 @@ public class RegeneratingSpleef extends Game<SpleefMap> {
 	@Override
 	public SpleefMap[] getGameMaps() {
 		return SpleefMap.MAPS;
+	}
+
+	@Override
+	public int getPreDuration() {
+		return 7;
 	}
 
 	@Override
@@ -89,8 +94,8 @@ public class RegeneratingSpleef extends Game<SpleefMap> {
 
 	@Override
 	public int gameTimer(final int secondsLeft) {
-		if (Utils.getAliveAcountFromDeadAndAllList(RegeneratingSpleef.this.dead, RegeneratingSpleef.this.all) < 2 && secondsLeft > 2) {
-			return 2;
+		if (Utils.getAliveAcountFromDeadAndAllList(RegeneratingSpleef.this.dead, RegeneratingSpleef.this.all) < 2 && secondsLeft > 5) {
+			return 5;
 		}
 
 		return secondsLeft;
@@ -135,11 +140,11 @@ public class RegeneratingSpleef extends Game<SpleefMap> {
 
 	@EventHandler(priority = EventPriority.MONITOR)
 	public void onMove(final PlayerMoveEvent event){
-		final Player player = event.getPlayer();
+		final MPlayer player = new MPlayer(event);
 		if (event.getTo().getBlock().getRelative(BlockFace.DOWN).getType() == Material.BEDROCK){
 			this.dead.add(player.getUniqueId());
 			this.sendMessage(player.getName() + " died");
-			Spectator.dieUp(player, 3);
+			player.dieUp(3);
 		}
 	}
 
