@@ -160,6 +160,15 @@ public abstract class Game<M extends GameMap> implements Listener {
 					}
 				}
 
+				if (this.timeLeft == 100) {
+					final int online = Bukkit.getOnlinePlayers().size();
+					if (online < 4) {
+						Game.this.sendMessage("Many games require more players. Larger games are generally more fun, so get a few more friends online to play them!");
+					} else if (online < 5) {
+						Game.this.sendMessage("Some games require more players. Get a few more friends online to play them!");
+					}
+				}
+
 				this.timeLeft--;
 
 				if (this.timeLeft < 5) {

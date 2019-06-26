@@ -111,7 +111,7 @@ public class Minigames extends JavaPlugin implements Listener {
 			Queue.add(() -> economy.getBalance("Derkades"));
 		});
 
-
+		Bukkit.broadcastMessage("enabled");
 	}
 
 	@Override
@@ -121,6 +121,8 @@ public class Minigames extends JavaPlugin implements Listener {
 		for (final GameWorld gWorld : GameWorld.values()) {
 			gWorld.unload();
 		}
+
+		Bukkit.broadcastMessage("disabled");
 	}
 
 	public static Minigames getInstance(){
