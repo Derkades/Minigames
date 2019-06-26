@@ -13,7 +13,7 @@ public class Cave extends ElytraMap {
 	@Override
 	public boolean isDead(final MPlayer player) {
 		final Material type = player.getBlockOn().getType();
-		return !player.isFlying() && (type == Material.STONE || type == Material.COBBLESTONE || type == Material.LAVA);
+		return !player.isFlying() && (type == Material.STONE || type == Material.COBBLESTONE || type == Material.LAVA || type == Material.ANDESITE);
 	}
 
 	@Override
