@@ -7,6 +7,7 @@ import java.util.UUID;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.block.BlockFace;
+import org.bukkit.entity.Arrow;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -83,6 +84,8 @@ public class OneInTheQuiver extends Game<SniperMap> {
 
 	@Override
 	public void onStart() {
+		this.map.getWorld().getEntitiesByClass(Arrow.class).forEach(Arrow::remove);
+
 		for (final MPlayer player : Minigames.getOnlinePlayers()) {
 			player.setDisableSneaking(true);
 			player.setDisableDamage(false);
