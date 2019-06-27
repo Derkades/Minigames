@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.stream.Collectors;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Difficulty;
 import org.bukkit.GameRule;
 import org.bukkit.World;
 import org.bukkit.World.Environment;
@@ -123,6 +124,8 @@ public enum GameWorld {
 		world.setGameRule(GameRule.DO_TILE_DROPS, false);
 		world.setGameRule(GameRule.KEEP_INVENTORY, true);
 		world.setGameRule(GameRule.MOB_GRIEFING, false);
+
+		world.setDifficulty(Difficulty.NORMAL);
 
 		world.setSpawnLocation(0, 65, 0);
 
