@@ -31,6 +31,14 @@ public class Command implements CommandExecutor {
 			}
 		}
 
+		if (args.length == 2 && (args[0].equalsIgnoreCase("map") || args[0].equalsIgnoreCase("m")) && sender.hasPermission("minigames.nextmap")) {
+			//final Game<? extends GameMap> game = Game.fromString(args[1].replace("_", " "));
+			Minigames.NEXT_MAP = args[1].replace("_", " ");
+			//sender.sendMessage("Bypassing player minimum and forcing " + game.getName() + " to be chosen as the next game.");
+			sender.sendMessage("If exists, " + args[1] + " will be chosen as the next map");
+			return true;
+		}
+
 		if (args.length == 1){
 			if ((args[0].equalsIgnoreCase("start") || args[0].equals("b")) && sender.hasPermission("minigames.start")){
 				AutoRotate.startNewRandomGame();

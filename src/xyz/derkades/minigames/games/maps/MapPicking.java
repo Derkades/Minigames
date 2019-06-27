@@ -5,11 +5,23 @@ import java.util.Map;
 
 import org.bukkit.Bukkit;
 
+import xyz.derkades.minigames.Minigames;
 import xyz.derkades.minigames.utils.Utils;
 
 public class MapPicking {
 
 	public static GameMap pickRandomMap(final GameMap[] maps) {
+		if (Minigames.NEXT_MAP != null) {
+			final String next = Minigames.NEXT_MAP;
+			Minigames.NEXT_MAP = null;
+			for (final GameMap map : maps) {
+				if (map.getName().equalsIgnoreCase(next)) {
+					return map;
+				}
+			}
+			Bukkit.broadcastMessage("Map was forced to " + next + " but it doesn't exist");
+		}
+
 		final Map<GameMap, Double> weightedList = new HashMap<>();
 
 		// Populate hashmap

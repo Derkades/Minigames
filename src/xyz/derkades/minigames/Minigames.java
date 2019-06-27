@@ -44,6 +44,11 @@ public class Minigames extends JavaPlugin implements Listener {
 	 */
 	public static Game<? extends GameMap> NEXT_GAME = null;
 
+	/**
+	 * Used to force the next map
+	 */
+	public static String NEXT_MAP;
+
 	public static boolean BYPASS_PLAYER_MINIMUM_CHECKS = false;
 
 	public static Economy economy = null;

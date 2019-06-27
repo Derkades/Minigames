@@ -27,7 +27,7 @@ public class GamesListMenu extends IconMenu {
 			final List<String> lore = new ArrayList<>();
 			lore.add(GOLD + "Minimum online players: " + YELLOW + game.getRequiredPlayers());
 			if (game.getGameMaps() != null) lore.add(GOLD + "Maps: " + YELLOW + this.getMapsString(game));
-			if (player.hasPermission("minigames.games_list_detailed")) {
+			if (player.hasPermission("minigames.list_admin")) {
 				lore.add("");
 				lore.add(ChatColor.GRAY + "Name: " + game.getName());
 				lore.add(ChatColor.GRAY + "Name for commands: " + game.getName().toLowerCase().replace(" ", "_"));
