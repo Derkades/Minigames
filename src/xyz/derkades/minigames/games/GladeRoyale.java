@@ -24,6 +24,7 @@ import xyz.derkades.minigames.games.gladeroyale.GladeRoyaleMap;
 import xyz.derkades.minigames.utils.MPlayer;
 import xyz.derkades.minigames.utils.MinigamesJoinEvent;
 import xyz.derkades.minigames.utils.MinigamesPlayerDamageEvent;
+import xyz.derkades.minigames.utils.MinigamesPlayerDamageEvent.DamageType;
 import xyz.derkades.minigames.utils.Queue;
 import xyz.derkades.minigames.utils.Scheduler;
 import xyz.derkades.minigames.utils.Utils;
@@ -269,6 +270,12 @@ public class GladeRoyale extends Game<GladeRoyaleMap> {
 			event.setCancelled(true);
 			event.getPlayer().dieUp(5);
 			this.alive.remove(event.getPlayer().getUniqueId());
+
+			if (event.getType() == DamageType.ENTITY) {
+				this.sendMessage(String.format("%s has been killed by %s", event.getPlayer().getName(), event.getDamagerPlayer().getName()));
+			} else {
+				this.sendMessage(String.format("%s has died", event.getPlayer().getName()));
+			}
 		}
 	}
 
