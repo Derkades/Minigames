@@ -43,12 +43,12 @@ public class Elytra extends Game<ElytraMap> {
 
 	@Override
 	public int getPreDuration() {
-		return 5;
+		return 0;
 	}
 
 	@Override
 	public int getDuration() {
-		return 30;
+		return 40;
 	}
 
 	private List<UUID> finished;
