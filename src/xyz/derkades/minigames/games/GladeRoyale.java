@@ -3,7 +3,6 @@ package xyz.derkades.minigames.games;
 import java.util.List;
 import java.util.UUID;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -99,21 +98,21 @@ public class GladeRoyale extends Game<GladeRoyaleMap> {
 			final int maxZ = this.map.getMapCenter().getBlockZ() + this.currentBorderSize / 2;
 
 			int i = 0;
-			int j = 0;
 
 			for (int x = minX; x <= maxX; x++) {
 				for (int y = MIN_Y; y <= MAX_Y; y++) {
 					for (int z = minZ; z <= maxZ; z++) {
-						i++;
 						final Block block = new Location(this.map.getWorld(), x, y, z).getBlock();
 						if (block.getType().equals(Material.TERRACOTTA) || block.getType().equals(Material.CHEST)) {
-							j++;
-							Bukkit.broadcastMessage(String.format("[debug] removed %s block at (%s, %s, %s). removed: %s. total: %s", block.getType(), x, y, z, j, i));
+							i++;
+							//Bukkit.broadcastMessage(String.format("[debug] removed %s block at (%s, %s, %s). removed: %s. total: %s", block.getType(), x, y, z, j, i));
 							block.setType(Material.AIR);
 						}
 					}
 				}
 			}
+
+			this.sendMessage("Removed " + i + " blocks");
 		});
 
 		Queue.add(() ->{
