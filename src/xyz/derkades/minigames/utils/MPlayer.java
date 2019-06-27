@@ -129,13 +129,13 @@ public class MPlayer {
 	}
 
     public void giveLobbyInventoryItems() {
-    	if (this.player.hasPermission("games.torch")) {
+    	/*if (this.player.hasPermission("games.torch")) {
 			this.player.getInventory().setItem(7, new ItemBuilder(Material.REDSTONE_TORCH)
 					.name(ChatColor.AQUA + "" + ChatColor.BOLD + "Staff lounge key")
 					.lore(ChatColor.YELLOW + "Place in upper-south-east-corner on gray terracotta")
 					.canPlaceOn("cyan_terracotta")
 					.create());
-		}
+		}*/
 
 		this.player.getInventory().setItem(8, new ItemBuilder(Material.COMPARATOR)
 				.name(ChatColor.AQUA + "" + ChatColor.BOLD + "Menu")
