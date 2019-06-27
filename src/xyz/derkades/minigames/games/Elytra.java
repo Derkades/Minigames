@@ -42,6 +42,11 @@ public class Elytra extends Game<ElytraMap> {
 	}
 
 	@Override
+	public int getPreDuration() {
+		return 5;
+	}
+
+	@Override
 	public int getDuration() {
 		return 30;
 	}
