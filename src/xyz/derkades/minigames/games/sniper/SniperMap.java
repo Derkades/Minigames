@@ -7,6 +7,7 @@ import xyz.derkades.minigames.games.maps.GameMap;
 public abstract class SniperMap extends GameMap {
 
 	public static final SniperMap[] MAPS = {
+			new Castle(),
 			new Desert(),
 			new HouseWithFarm(),
 			new Snow(),
