@@ -10,6 +10,7 @@ import org.bukkit.WorldBorder;
 import org.bukkit.block.Block;
 import org.bukkit.block.Chest;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Item;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerQuitEvent;
 
@@ -111,6 +112,8 @@ public class GladeRoyale extends Game<GladeRoyaleMap> {
 			}
 
 			this.sendMessage("Removed " + i + " blocks");
+
+			this.map.getWorld().getEntitiesByClass(Item.class).forEach(Item::remove);
 		});
 
 		Queue.add(() ->{
