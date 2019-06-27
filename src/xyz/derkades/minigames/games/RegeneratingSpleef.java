@@ -9,7 +9,6 @@ import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.FallingBlock;
 import org.bukkit.entity.Player;
@@ -137,7 +136,12 @@ public class RegeneratingSpleef extends Game<SpleefMap> {
 	@EventHandler(priority = EventPriority.MONITOR)
 	public void onMove(final PlayerMoveEvent event){
 		final MPlayer player = new MPlayer(event);
-		if (event.getTo().getBlock().getRelative(BlockFace.DOWN).getType() == Material.BEDROCK){
+
+		if (this.dead.contains(player.getUniqueId())) {
+			return;
+		}
+
+		if (player.getBlockOn().getType() == Material.BEDROCK){
 			this.dead.add(player.getUniqueId());
 			this.sendMessage(player.getName() + " died");
 			player.dieUp(3);
