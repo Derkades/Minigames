@@ -120,10 +120,6 @@ public class RegeneratingSpleef extends Game<SpleefMap> {
 					return;
 				}
 
-				if (this.dead.contains(event.getPlayer().getUniqueId())){
-					return;
-				}
-
 				final FallingBlock fall = block.getWorld().spawnFallingBlock(
 						new Location(this.map.getWorld(), block.getX() + 0.5, block.getY(), block.getZ() + 0.5),
 						block.getBlockData());
