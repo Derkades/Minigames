@@ -1,7 +1,6 @@
 package xyz.derkades.minigames.games;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -77,9 +76,7 @@ public class CreeperAttack extends Game<CreeperAttackMap> {
 	}
 
 	@Override
-	public void onStart() {
-
-	}
+	public void onStart() {}
 
 	@Override
 	public int gameTimer(final int secondsLeft) {
@@ -93,9 +90,11 @@ public class CreeperAttack extends Game<CreeperAttackMap> {
 		}
 
 		for (int i = 0; i < this.numberOfCreepers; i++) {
-			final Creeper creeper = CreeperAttack.this.map.getWorld().spawn(CreeperAttack.this.map.getCreeperLocation(), Creeper.class);
-			creeper.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).setBaseValue(creeper.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).getBaseValue() * 1.5);
-			creeper.setTarget(ListUtils.getRandomValueFromList(Utils.getPlayerListFromUUIDList(CreeperAttack.this.alive)));
+			if (this.alive.size() > 0) {
+				final Creeper creeper = CreeperAttack.this.map.getWorld().spawn(CreeperAttack.this.map.getCreeperLocation(), Creeper.class);
+				creeper.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).setBaseValue(creeper.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).getBaseValue() * 1.5);
+				creeper.setTarget(ListUtils.getRandomValueFromList(Utils.getPlayerListFromUUIDList(CreeperAttack.this.alive)));
+			}
 		}
 
 		return secondsLeft;
@@ -107,11 +106,7 @@ public class CreeperAttack extends Game<CreeperAttackMap> {
 			creeper.remove();
 		}
 
-		if (CreeperAttack.this.alive.size() == 1) {
-			CreeperAttack.this.endGame(Utils.getPlayerListFromUUIDList(CreeperAttack.this.alive));
-		} else {
-			CreeperAttack.this.endGame(Arrays.asList());
-		}
+		this.endGame(Utils.getWinnersFromAliveList(this.alive, false));
 
 		this.alive.clear();
 	}
