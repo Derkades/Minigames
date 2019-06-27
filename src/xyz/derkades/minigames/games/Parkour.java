@@ -49,7 +49,7 @@ public class Parkour extends Game<ParkourMap> {
 
 	@Override
 	public int getPreDuration() {
-		return 2;
+		return 0;
 	}
 
 	private List<UUID> finished;
