@@ -113,10 +113,10 @@ public abstract class Game<M extends GameMap> implements Listener {
 
 			weight = Math.round(weight * 100.0) / 100.0;
 
-			final String prefix = Utils.getChatPrefix(GOLD, 'G');
+			final String prefix = Utils.getChatPrefix(ChatColor.AQUA, 'G');
 
 			player.sendMessage(prefix + DARK_GRAY + "-----------------------------------------");
-			player.spigot().sendMessage(new ComponentBuilder("").appendLegacy(Utils.getChatPrefix(GOLD, 'G'))
+			player.spigot().sendMessage(new ComponentBuilder("").appendLegacy(prefix)
 					.append(this.getName()).bold(true).color(GOLD).append(" (" + weight + ")")
 					.color(GRAY).bold(false).append(" [hover for help]").color(YELLOW)
 					.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
@@ -233,7 +233,7 @@ public abstract class Game<M extends GameMap> implements Listener {
 
 
 	void sendMessage(final String message){
-		Bukkit.broadcastMessage(Utils.getChatPrefix(ChatColor.RED, 'G') + message);
+		Bukkit.broadcastMessage(Utils.getChatPrefix(ChatColor.AQUA, 'G') + message);
 	}
 
 	void endGame() {
