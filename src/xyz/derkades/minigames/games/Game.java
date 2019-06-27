@@ -337,6 +337,14 @@ public abstract class Game<M extends GameMap> implements Listener {
 			});
 		}
 
+		if (Bukkit.getOnlinePlayers().size() > 4) {
+			nextGameDelay += 5;
+		}
+
+		if (Bukkit.getOnlinePlayers().size() > 7) {
+			nextGameDelay += 5;
+		}
+
 		Scheduler.delay(nextGameDelay * 20, () -> {
 			AutoRotate.startNewRandomGame();
 		});
