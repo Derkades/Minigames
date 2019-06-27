@@ -82,8 +82,6 @@ public class GladeRoyale extends Game<GladeRoyaleMap> {
 		border.setDamageAmount(1);
 		border.setSize(20);
 
-
-
 		for (final MPlayer player : Minigames.getOnlinePlayers()) {
 			player.queueTeleport(this.map.getMapCenter());
 			player.setDisableItemMoving(false);
@@ -156,7 +154,7 @@ public class GladeRoyale extends Game<GladeRoyaleMap> {
 			}
 		}
 
-		if (secondsLeft > 10 && secondsLeft % 10 == 0) {
+		if ((secondsLeft > 360 && secondsLeft > 10) || secondsLeft % 30 == 0) {
 			this.spawnSupplyDrop();
 		}
 
