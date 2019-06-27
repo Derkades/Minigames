@@ -17,7 +17,7 @@ public class ShopMenu extends IconMenu {
 		final String price = Minigames.economy.format(250);
 
 		this.items.put(0, new ItemBuilder(Material.GRAY_DYE).name(ChatColor.AQUA + "Name colors (" + price + " for every color)").create());
-		this.items.put(8, new ItemBuilder(Material.BARRIER).coloredName("&cBack").create());
+		this.items.put(8, Menu.BACK_BUTTON);
 	}
 
 	@Override

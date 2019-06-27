@@ -192,7 +192,9 @@ public abstract class Game<M extends GameMap> implements Listener {
 	private void begin() {
 		this.onPreStart();
 
-		this.sendMessage(String.format("The game will start in %s seconds.", this.getPreDuration()));
+		if (this.getPreDuration() > 0) {
+			this.sendMessage(String.format("The game will start in %s seconds.", this.getPreDuration()));
+		}
 
 		new BukkitRunnable() {
 

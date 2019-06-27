@@ -22,7 +22,7 @@ public class ShopColorMenu extends IconMenu {
 		this.items.put(5, new ItemBuilder(Material.GREEN_DYE).name(ChatColor.DARK_GREEN + "Green").create());
 		this.items.put(6, new ItemBuilder(Material.LIME_DYE).name(ChatColor.GREEN + "Light green").create());
 		this.items.put(7, new ItemBuilder(Material.MAGENTA_DYE).name(ChatColor.LIGHT_PURPLE + "Magenta").create());
-		this.items.put(8, new ItemBuilder(Material.BARRIER).name(ChatColor.RED + "Back").create());
+		this.items.put(8, Menu.BACK_BUTTON);
 
 	}
 

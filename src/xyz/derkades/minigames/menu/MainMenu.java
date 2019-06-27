@@ -2,10 +2,7 @@ package xyz.derkades.minigames.menu;
 
 import static org.bukkit.ChatColor.AQUA;
 import static org.bukkit.ChatColor.DARK_AQUA;
-import static org.bukkit.ChatColor.DARK_RED;
-import static org.bukkit.ChatColor.RED;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.Material;
@@ -18,8 +15,6 @@ import xyz.derkades.derkutils.bukkit.menu.IconMenu;
 import xyz.derkades.derkutils.bukkit.menu.OptionClickEvent;
 import xyz.derkades.minigames.Minigames;
 import xyz.derkades.minigames.Points;
-import xyz.derkades.minigames.games.Game;
-import xyz.derkades.minigames.games.maps.GameMap;
 
 public class MainMenu extends IconMenu {
 
@@ -44,25 +39,16 @@ public class MainMenu extends IconMenu {
 
 		this.items.put(4, new ItemBuilder(settingMaterial).name(DARK_AQUA + "Game descriptions").lore(AQUA + "Click to enable or disable game", AQUA + "description messages at the start of each game").create());
 
-		this.items.put(8, new ItemBuilder(Material.BARRIER).name(RED + "Close").lore(DARK_RED + "Click to close this menu.").create());
+		this.items.put(8, Menu.CLOSE_BUTTON);
 	}
 
 	@Override
 	public boolean onOptionClick(final OptionClickEvent event) {
 		if (event.getName().contains("Games")){
-			final Player player = event.getPlayer();
-			for (final Game<? extends GameMap> game : Game.GAMES){
-				player.sendMessage(ChatColor.GRAY + "------------------------------------------");
-				player.sendMessage(DARK_AQUA + "Name: " + AQUA + game.getName());
-				//player.sendMessage(DARK_AQUA + "Reward (points): " + AQUA + game.getMinimumPoints() + "-" + game.getMaximumPoints());
-				player.sendMessage(DARK_AQUA + "Minimum online players: " + AQUA + game.getRequiredPlayers());
-				if (game.getGameMaps() != null) player.sendMessage(DARK_AQUA + "Maps: " + AQUA + this.getMapsString(game));
-			}
-			player.sendMessage("------------------------------------------");
-			return true;
+			new GamesListMenu(event.getPlayer()).open();
+			return false;
 		} else if (event.getName().contains("Shop")){
 			new ShopMenu(event.getPlayer()).open();
-			//event.getPlayer().sendMessage("The shop is temporarily disabled");
 			return false;
 		} else if (event.getName().contains("Close")){
 			return true;
@@ -102,14 +88,6 @@ public class MainMenu extends IconMenu {
 			event.getPlayer().sendMessage("error");
 			return false;
 		}
-	}
-
-	private String getMapsString(final Game<? extends GameMap> game) {
-		final List<String> mapNames = new ArrayList<>();
-		for (final GameMap map : game.getGameMaps()) {
-			mapNames.add(map.getName());
-		}
-		return String.join(", ", mapNames);
 	}
 
 }
