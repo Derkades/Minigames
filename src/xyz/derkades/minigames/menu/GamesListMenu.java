@@ -1,15 +1,17 @@
 package xyz.derkades.minigames.menu;
 
+import static org.bukkit.ChatColor.DARK_GRAY;
 import static org.bukkit.ChatColor.GOLD;
+import static org.bukkit.ChatColor.GRAY;
 import static org.bukkit.ChatColor.YELLOW;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
-import net.md_5.bungee.api.ChatColor;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
 import xyz.derkades.derkutils.bukkit.menu.IconMenu;
 import xyz.derkades.derkutils.bukkit.menu.OptionClickEvent;
@@ -25,19 +27,43 @@ public class GamesListMenu extends IconMenu {
 		int slot = 0;
 		for (final Game<? extends GameMap> game : Game.GAMES){
 			final List<String> lore = new ArrayList<>();
+
+			lore.addAll(Arrays.asList(game.getDescription()));
+
+			double gameWeight = Minigames.getInstance().getConfig().contains("game-voting." + game.getName())
+					? Minigames.getInstance().getConfig().getDouble("game-voting." + game.getName())
+					: 1;
+
+			gameWeight = Math.round(gameWeight * 100.0) / 100.0;
+
+			lore.add(GOLD + "Game multiplier: " + YELLOW + gameWeight);
 			lore.add(GOLD + "Minimum online players: " + YELLOW + game.getRequiredPlayers());
-			if (game.getGameMaps() != null) lore.add(GOLD + "Maps: " + YELLOW + this.getMapsString(game));
+			if (game.getGameMaps() == null) {
+				lore.add(GOLD + "Maps: " + YELLOW + "none");
+			} else {
+				lore.add(GOLD + "Maps:");
+				for (final GameMap map : game.getGameMaps()) {
+					lore.add("  " + YELLOW + map.getName());
+					final String configPath = "game-voting.map." + game.getName() + "." + map.getName();
+					double mapWeight = Minigames.getInstance().getConfig().getDouble(configPath, 1);
+					mapWeight = Math.round(mapWeight * 100.0) / 100.0;
+					lore.add(GRAY + "  Multiplier: " + YELLOW + mapWeight);
+					if (player.hasPermission("minigames.list_admin")) {
+						lore.add(GRAY + "  Name for commands: " + map.getName().replace(" ", "_").toLowerCase());
+					}
+				}
+			}
+
 			if (player.hasPermission("minigames.list_admin")) {
 				lore.add("");
-				lore.add(ChatColor.GRAY + "Name: " + game.getName());
-				lore.add(ChatColor.GRAY + "Name for commands: " + game.getName().toLowerCase().replace(" ", "_"));
-				lore.add(ChatColor.GRAY + "Game class: " + game.getClass());
+				lore.add(GRAY + "Name for commands: " + game.getName().toLowerCase().replace(" ", "_"));
+				lore.add(DARK_GRAY + "" + game.getClass());
 				if (game.getGameMaps() == null) {
-					lore.add("No map support");
+					lore.add(DARK_GRAY + "No map support");
 				} else if (game.getGameMaps().length == 0) {
-					lore.add("No maps defined");
+					lore.add(DARK_GRAY + "No maps defined");
 				} else {
-					lore.add(ChatColor.GRAY + "Map class: " + game.getGameMaps().getClass());
+					lore.add(DARK_GRAY + "" + game.getGameMaps().getClass());
 				}
 			}
 
@@ -60,14 +86,6 @@ public class GamesListMenu extends IconMenu {
 		}
 
 		return false;
-	}
-
-	private String getMapsString(final Game<? extends GameMap> game) {
-		final List<String> mapNames = new ArrayList<>();
-		for (final GameMap map : game.getGameMaps()) {
-			mapNames.add(map.getName());
-		}
-		return String.join(", ", mapNames);
 	}
 
 }

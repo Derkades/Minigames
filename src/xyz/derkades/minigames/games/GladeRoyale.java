@@ -158,7 +158,7 @@ public class GladeRoyale extends Game<GladeRoyaleMap> {
 			}
 		}
 
-		if ((secondsLeft > 360 && secondsLeft > 10) || secondsLeft % 30 == 0) {
+		if ((secondsLeft > 360 && secondsLeft % 10 == 0) || secondsLeft % 30 == 0) {
 			this.spawnSupplyDrop();
 		}
 

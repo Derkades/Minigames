@@ -6,15 +6,16 @@ import java.util.Map;
 import org.bukkit.Bukkit;
 
 import xyz.derkades.minigames.Minigames;
+import xyz.derkades.minigames.games.Game;
 import xyz.derkades.minigames.utils.Utils;
 
 public class MapPicking {
 
-	public static GameMap pickRandomMap(final GameMap[] maps) {
+	public static GameMap pickRandomMap(final Game<? extends GameMap> game) {
 		if (Minigames.NEXT_MAP != null) {
 			final String next = Minigames.NEXT_MAP;
 			Minigames.NEXT_MAP = null;
-			for (final GameMap map : maps) {
+			for (final GameMap map : game.getGameMaps()) {
 				if (map.getName().equalsIgnoreCase(next)) {
 					return map;
 				}
@@ -25,11 +26,11 @@ public class MapPicking {
 		final Map<GameMap, Double> weightedList = new HashMap<>();
 
 		// Populate hashmap
-		for (final GameMap map : maps) {
+		for (final GameMap map : game.getGameMaps()) {
 			final MapSize size = map.getSize();
 			final int online = Bukkit.getOnlinePlayers().size();
 
-			final double weight;
+			double weight;
 
 			if (size == MapSize.SMALL) {
 				if (online < 5) {
@@ -54,6 +55,10 @@ public class MapPicking {
 			} else {
 				weight = 1;
 			}
+
+			final String configPath = "game-voting.map." + game.getName() + "." + map.getName();
+			final double multiplier = Minigames.getInstance().getConfig().getDouble(configPath, 1);
+			weight *= multiplier;
 
 			weightedList.put(map, weight);
 		}

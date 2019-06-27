@@ -22,12 +22,6 @@ public class Cave extends ElytraMap {
 	}
 
 	@Override
-	public boolean isSafeOnSpawnPlatform(final MPlayer player) {
-		final Material type = player.getBlockOn().getType();
-		return type.equals(Material.OAK_PLANKS) || type.equals(Material.OAK_LOG) || type.equals(Material.OAK_STAIRS);
-	}
-
-	@Override
 	public Location getStartLocation() {
 		return new Location(Var.WORLD, 163.5, 76.5, 339.5, 120, 25);
 	}

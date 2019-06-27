@@ -107,17 +107,21 @@ public abstract class Game<M extends GameMap> implements Listener {
 		// Send description
 		for (final Player player : Bukkit.getOnlinePlayers()) {
 
-			double weight = Minigames.getInstance().getConfig().contains("game-voting." + this.getName())
+			double gameWeight = Minigames.getInstance().getConfig().contains("game-voting." + this.getName())
 					? Minigames.getInstance().getConfig().getDouble("game-voting." + this.getName())
 					: 1;
 
-			weight = Math.round(weight * 100.0) / 100.0;
+			gameWeight = Math.round(gameWeight * 100.0) / 100.0;
+
+			final String configPath = "game-voting.map." + this.getName() + "." + this.map.getName();
+			double mapWeight = Minigames.getInstance().getConfig().getDouble(configPath, 1);
+			mapWeight = Math.round(mapWeight * 100.0) / 100.0;
 
 			final String prefix = Utils.getChatPrefix(ChatColor.AQUA, 'G');
 
 			player.sendMessage(prefix + DARK_GRAY + "-----------------------------------------");
 			player.spigot().sendMessage(new ComponentBuilder("").appendLegacy(prefix)
-					.append(this.getName()).bold(true).color(GOLD).append(" (" + weight + ")")
+					.append(this.getName()).bold(true).color(GOLD).append(" (" + gameWeight + ")")
 					.color(GRAY).bold(false).append(" [hover for help]").color(YELLOW)
 					.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
 							new ComponentBuilder("The number shown after the game name in parentheses\n"
@@ -135,7 +139,7 @@ public abstract class Game<M extends GameMap> implements Listener {
 			}
 
 			if (this.map != null)
-				player.sendMessage(prefix + "Map: " + YELLOW + this.map.getName());
+				player.sendMessage(prefix + "Map: " + YELLOW + this.map.getName() + GRAY + " (" + mapWeight + ")");
 
 			player.sendMessage(prefix + DARK_GRAY + "-----------------------------------------");
 		}
@@ -332,6 +336,30 @@ public abstract class Game<M extends GameMap> implements Listener {
 					Minigames.getInstance().saveConfig();
 				}, new PollAnswer(1, "Yes", ChatColor.GREEN, "The game will be picked more often"),
 						new PollAnswer(2, "No", ChatColor.RED, "The game will be picked less often"));
+
+				Bukkit.getOnlinePlayers().forEach(poll::send);
+			});
+			Scheduler.delay(20, () -> {
+				final Poll poll = new Poll("Did you enjoy this map?", (player, option) -> {
+					final String configPath = "game-voting.map." + Game.this.getName() + "." + this.map.getName();
+					double multiplier = Minigames.getInstance().getConfig().getDouble(configPath, 1);
+
+					if (option == 1) {
+						multiplier *= 1.1; //Increase chance factor a bit (e.g. from to 1.5 to 1.65)
+					} else if (option == 2){
+						multiplier *= 0.9; //Decrease chance factor a bit (e.g. from 1.5 to 1.35)
+					}
+
+					player.sendMessage(ChatColor.GRAY + "Your vote has been registered.");
+
+					if (multiplier > 5) {
+						multiplier = 5;
+					}
+
+					Minigames.getInstance().getConfig().set(configPath, multiplier);
+					Minigames.getInstance().saveConfig();
+				}, new PollAnswer(1, "Yes", ChatColor.GREEN, "The map will be picked more often"),
+						new PollAnswer(2, "No", ChatColor.RED, "The map will be picked less often"));
 
 				Bukkit.getOnlinePlayers().forEach(poll::send);
 			});

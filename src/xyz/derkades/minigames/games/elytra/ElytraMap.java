@@ -15,8 +15,6 @@ public abstract class ElytraMap extends GameMap {
 
 	public abstract boolean hasFinished(MPlayer player);
 
-	public abstract boolean isSafeOnSpawnPlatform(MPlayer player);
-
 	public abstract Location getStartLocation();
 
 	public abstract Location getSpectatorLocation();

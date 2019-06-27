@@ -8,7 +8,6 @@ import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerMoveEvent;
-import org.bukkit.potion.PotionEffectType;
 
 import xyz.derkades.minigames.Minigames;
 import xyz.derkades.minigames.games.elytra.ElytraMap;
@@ -56,18 +55,14 @@ public class Elytra extends Game<ElytraMap> {
 	@Override
 	public void onPreStart() {
 		this.finished = new ArrayList<>();;
-
-		for (final MPlayer player : Minigames.getOnlinePlayers()){
-			player.setArmor(null, Material.ELYTRA, null, null);
-			player.giveInfiniteEffect(PotionEffectType.SLOW, 5);
-			player.giveInfiniteEffect(PotionEffectType.INVISIBILITY, 2);
-			player.queueTeleport(this.map.getStartLocation());
-		}
 	}
 
 	@Override
 	public void onStart() {
-		Minigames.getOnlinePlayers().forEach(MPlayer::clearPotionEffects);
+		for (final MPlayer player : Minigames.getOnlinePlayers()){
+			player.setArmor(null, Material.ELYTRA, null, null);
+			player.queueTeleport(this.map.getStartLocation());
+		}
 	}
 
 	@Override
@@ -87,9 +82,6 @@ public class Elytra extends Game<ElytraMap> {
 	@EventHandler
 	public void onMove(final PlayerMoveEvent event){
 		final MPlayer player = new MPlayer(event);
-
-		if (!this.started && !this.map.isSafeOnSpawnPlatform(player))
-			player.teleport(this.map.getStartLocation());
 
 		if (this.finished.contains(player.getUniqueId()))
 			return;
