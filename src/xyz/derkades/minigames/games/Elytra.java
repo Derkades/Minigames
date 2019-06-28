@@ -42,7 +42,7 @@ public class Elytra extends Game<ElytraMap> {
 
 	@Override
 	public int getPreDuration() {
-		return 0;
+		return 2;
 	}
 
 	@Override
@@ -54,7 +54,7 @@ public class Elytra extends Game<ElytraMap> {
 
 	@Override
 	public void onPreStart() {
-		this.finished = new ArrayList<>();;
+		this.finished = new ArrayList<>();
 	}
 
 	@Override
@@ -82,6 +82,10 @@ public class Elytra extends Game<ElytraMap> {
 	@EventHandler
 	public void onMove(final PlayerMoveEvent event){
 		final MPlayer player = new MPlayer(event);
+
+		if (!this.started) {
+			return;
+		}
 
 		if (this.finished.contains(player.getUniqueId()))
 			return;

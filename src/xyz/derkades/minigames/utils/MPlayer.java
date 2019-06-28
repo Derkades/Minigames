@@ -358,4 +358,22 @@ public class MPlayer {
 		this.player.setVelocity(new Vector(this.player.getVelocity().getX(), upwardVelocity, this.player.getVelocity().getZ()));
 	}
 
+	public void dropItems() {
+		for (final ItemStack item : this.player.getInventory().getContents()) {
+			this.dropItem(item);
+		}
+
+		for (final ItemStack item : this.player.getInventory().getArmorContents()) {
+			this.dropItem(item);
+		}
+
+		for (final ItemStack item : this.player.getInventory().getExtraContents()) {
+			this.dropItem(item);
+		}
+	}
+
+	private void dropItem(final ItemStack item) {
+		this.player.getLocation().getWorld().dropItemNaturally(this.player.getLocation(), item);
+	}
+
 }

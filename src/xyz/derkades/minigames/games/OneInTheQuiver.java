@@ -76,6 +76,8 @@ public class OneInTheQuiver extends Game<SniperMap> {
 		this.dead = new ArrayList<>();
 		this.all = Utils.getOnlinePlayersUuidList();
 
+		this.map.getWorld().getEntitiesByClass(Arrow.class).forEach(Arrow::remove);
+
 		for (final MPlayer player : Minigames.getOnlinePlayers()) {
 			player.queueTeleport(this.map.getSpawnLocation());
 			player.giveEffect(PotionEffectType.INVISIBILITY, 5, 0);
@@ -84,8 +86,6 @@ public class OneInTheQuiver extends Game<SniperMap> {
 
 	@Override
 	public void onStart() {
-		this.map.getWorld().getEntitiesByClass(Arrow.class).forEach(Arrow::remove);
-
 		for (final MPlayer player : Minigames.getOnlinePlayers()) {
 			player.setDisableSneaking(true);
 			player.setDisableDamage(false);
@@ -155,6 +155,8 @@ public class OneInTheQuiver extends Game<SniperMap> {
 		if (event.willBeDead()) {
 			event.setCancelled(true);
 
+			this.dead.add(player.getUniqueId());
+
 			if (event.getType().equals(DamageType.ENTITY)) {
 				final MPlayer killer = event.getDamagerPlayer();
 
@@ -169,7 +171,6 @@ public class OneInTheQuiver extends Game<SniperMap> {
 						player.getName(), playersLeft));
 			}
 
-			this.dead.add(player.getUniqueId());
 			player.dieUp(2);
 		}
 
