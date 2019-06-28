@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
-import org.bukkit.GameRule;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -49,7 +48,7 @@ public class HungerGames extends Game<HungerGamesMap> {
 
 	@Override
 	public int getDuration() {
-		return 200;
+		return 250;
 	}
 
 	private List<UUID> all;
@@ -59,8 +58,6 @@ public class HungerGames extends Game<HungerGamesMap> {
 	public void onPreStart() {
 		this.all = Utils.getOnlinePlayersUuidList();
 		this.dead = new ArrayList<>();
-
-		this.map.getWorld().setGameRule(GameRule.KEEP_INVENTORY, false);
 
 		final Location[] spawnLocations = this.map.getStartLocations();
 		int index = 0;
@@ -121,6 +118,7 @@ public class HungerGames extends Game<HungerGamesMap> {
 
 			this.dead.add(player.getUniqueId());
 			player.dieUp(2);
+			player.dropItems();
 
 			if (event.getType().equals(DamageType.ENTITY)) {
 				final MPlayer killer = event.getDamagerPlayer();

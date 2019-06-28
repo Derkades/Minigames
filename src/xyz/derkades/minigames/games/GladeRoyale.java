@@ -270,6 +270,7 @@ public class GladeRoyale extends Game<GladeRoyaleMap> {
 			event.setCancelled(true);
 			event.getPlayer().dieUp(5);
 			this.alive.remove(event.getPlayer().getUniqueId());
+			event.getPlayer().dropItems();
 
 			if (event.getType() == DamageType.ENTITY) {
 				this.sendMessage(String.format("%s has been killed by %s", event.getPlayer().getName(), event.getDamagerPlayer().getName()));
