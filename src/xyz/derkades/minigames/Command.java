@@ -11,6 +11,7 @@ import org.bukkit.entity.Player;
 import net.md_5.bungee.api.ChatColor;
 import xyz.derkades.minigames.games.Game;
 import xyz.derkades.minigames.games.maps.GameMap;
+import xyz.derkades.minigames.menu.GamesListMenu;
 import xyz.derkades.minigames.menu.MainMenu;
 import xyz.derkades.minigames.utils.Queue;
 import xyz.derkades.minigames.worlds.GameWorld;
@@ -78,6 +79,8 @@ public class Command implements CommandExecutor {
 				}
 
 				Bukkit.broadcastMessage("[System] Done");
+			} else if (args[0].equalsIgnoreCase("list")) {
+				new GamesListMenu((Player) sender).open();
 			} else if (args[0].equals("test") && sender.hasPermission("minigames.test")) {
 //				final Player player = (Player) sender;
 
