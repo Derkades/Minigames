@@ -15,6 +15,8 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scheduler.BukkitTask;
 
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
 import xyz.derkades.minigames.Minigames;
@@ -71,12 +73,13 @@ public class OneInTheQuiver extends Game<SniperMap> {
 	private List<UUID> dead;
 	private List<UUID> all;
 
+	private BukkitTask arrowRemoveTask;
+
 	@Override
 	public void onPreStart() {
 		this.dead = new ArrayList<>();
 		this.all = Utils.getOnlinePlayersUuidList();
-
-		this.map.getWorld().getEntitiesByClass(Arrow.class).forEach(Arrow::remove);
+		this.arrowRemoveTask = new ArrowRemoveTask().runTaskTimer(Minigames.getInstance(), 1, 1);
 
 		for (final MPlayer player : Minigames.getOnlinePlayers()) {
 			player.queueTeleport(this.map.getSpawnLocation());
@@ -104,6 +107,8 @@ public class OneInTheQuiver extends Game<SniperMap> {
 
 	@Override
 	public void onEnd() {
+		this.arrowRemoveTask.cancel();
+
 		final List<Player> winners = Utils.getWinnersFromDeadAndAllList(OneInTheQuiver.this.dead, OneInTheQuiver.this.all, false);
 
 		OneInTheQuiver.super.endGame(winners);
@@ -156,6 +161,7 @@ public class OneInTheQuiver extends Game<SniperMap> {
 			event.setCancelled(true);
 
 			this.dead.add(player.getUniqueId());
+			player.clearInventory();
 
 			if (event.getType().equals(DamageType.ENTITY)) {
 				final MPlayer killer = event.getDamagerPlayer();
@@ -172,6 +178,18 @@ public class OneInTheQuiver extends Game<SniperMap> {
 			}
 
 			player.dieUp(2);
+		}
+	}
+
+	private class ArrowRemoveTask extends BukkitRunnable {
+
+		@Override
+		public void run() {
+			for (final Arrow arrow : OneInTheQuiver.this.map.getWorld().getEntitiesByClass(Arrow.class)) {
+				if (arrow.isOnGround()) {
+					arrow.remove();
+				}
+			}
 		}
 
 	}

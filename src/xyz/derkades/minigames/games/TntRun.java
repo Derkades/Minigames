@@ -58,8 +58,8 @@ public class TntRun extends Game<TNTMap> {
 
 		this.map.restore();
 
-		Bukkit.getOnlinePlayers().forEach((player) -> {
-			player.teleport(this.map.spawnLocation());
+		Minigames.getOnlinePlayers().forEach((player) -> {
+			player.queueTeleport(this.map.spawnLocation());
 		});
 	}
 
