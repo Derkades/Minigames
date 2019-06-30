@@ -22,6 +22,7 @@ import xyz.derkades.minigames.games.sniper.SniperMap;
 import xyz.derkades.minigames.utils.MPlayer;
 import xyz.derkades.minigames.utils.MinigamesPlayerDamageEvent;
 import xyz.derkades.minigames.utils.MinigamesPlayerDamageEvent.DamageType;
+import xyz.derkades.minigames.utils.Queue;
 import xyz.derkades.minigames.utils.Utils;
 
 public class OneInTheQuiver extends Game<SniperMap> {
@@ -76,11 +77,17 @@ public class OneInTheQuiver extends Game<SniperMap> {
 		this.dead = new ArrayList<>();
 		this.all = Utils.getOnlinePlayersUuidList();
 
-		this.map.getWorld().getEntitiesByClass(Arrow.class).forEach(Arrow::remove);
+		boolean bool = true;
 
 		for (final MPlayer player : Minigames.getOnlinePlayers()) {
 			player.queueTeleport(this.map.getSpawnLocation());
+
 			player.giveEffect(PotionEffectType.INVISIBILITY, 5, 0);
+
+			if (bool) {
+				Queue.add(() -> this.map.getWorld().getEntitiesByClass(Arrow.class).forEach(Arrow::remove));
+				bool = false;
+			}
 		}
 	}
 
@@ -156,6 +163,7 @@ public class OneInTheQuiver extends Game<SniperMap> {
 			event.setCancelled(true);
 
 			this.dead.add(player.getUniqueId());
+			player.clearInventory();
 
 			if (event.getType().equals(DamageType.ENTITY)) {
 				final MPlayer killer = event.getDamagerPlayer();
