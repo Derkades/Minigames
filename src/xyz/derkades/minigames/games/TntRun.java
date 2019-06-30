@@ -9,13 +9,14 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 
 import xyz.derkades.minigames.Minigames;
-import xyz.derkades.minigames.Spectator;
 import xyz.derkades.minigames.games.tntrun.TNTMap;
+import xyz.derkades.minigames.utils.MPlayer;
+import xyz.derkades.minigames.utils.MinigamesJoinEvent;
 import xyz.derkades.minigames.utils.Utils;
 
 public class TntRun extends Game<TNTMap> {
@@ -48,18 +49,12 @@ public class TntRun extends Game<TNTMap> {
 		return 150;
 	}
 
-
-	private List<UUID> dead;
-	private List<UUID> all;
+	private List<UUID> alive;
 	private List<Block> removedBlocks;
-
-	boolean removeBlocks;
 
 	@Override
 	public void onPreStart() {
-		this.dead = new ArrayList<>();
 		this.removedBlocks = new ArrayList<>();
-		this.removeBlocks = false;
 
 		this.map.restore();
 
@@ -70,54 +65,52 @@ public class TntRun extends Game<TNTMap> {
 
 	@Override
 	public void onStart() {
-		TntRun.this.removeBlocks = true;
-		TntRun.this.all = Utils.getOnlinePlayersUuidList();
+		this.alive = Utils.getOnlinePlayersUuidList();
 	}
 
 	@Override
 	public int gameTimer(final int secondsLeft) {
-		if (Utils.getAliveAcountFromDeadAndAllList(TntRun.this.dead, TntRun.this.all) < 2 && secondsLeft > 2){
-			return 2;
+		if (Utils.getWinnersFromAliveList(this.alive, true).size() < 5 && secondsLeft > 5){
+			return 5;
 		}
 
-		Bukkit.getOnlinePlayers().forEach(TntRun.this::removeBlocks);
+		Minigames.getOnlinePlayers().forEach(TntRun.this::removeBlocks);
 
 		return secondsLeft;
 	}
 
 	@Override
 	public void onEnd() {
-		TntRun.this.endGame(Utils.getWinnersFromDeadAndAllList(TntRun.this.dead, TntRun.this.all, false));
+		TntRun.this.endGame(Utils.getWinnersFromAliveList(this.alive, false));
 		TntRun.this.removedBlocks.clear();
-		TntRun.this.all.clear();
-		TntRun.this.dead.clear();
+		TntRun.this.alive.clear();
 	}
 
 	@EventHandler
 	public void onMove(final PlayerMoveEvent event) {
-		if (!this.removeBlocks) {
+		if (!this.started) {
 			return;
 		}
 
-		final Player player = event.getPlayer();
+		final MPlayer player = new MPlayer(event);
 
-		if (this.dead.contains(player.getUniqueId())) {
+		if (!this.alive.contains(player.getUniqueId())) {
 			return;
 		}
 
 		final Block belowPlayer = event.getFrom().getBlock().getRelative(BlockFace.DOWN);
 
 		if (belowPlayer.getType().equals(Material.RED_TERRACOTTA)) {
-			this.dead.add(player.getUniqueId());
-			this.sendMessage(player.getName() + " has died. " + Utils.getAliveAcountFromDeadAndAllList(this.dead, this.all) + " players left.");
-			Spectator.dieUp(player, 10);
+			this.alive.remove(player.getUniqueId());
+			this.sendMessage(player.getName() + " has died. " + Utils.getWinnersFromAliveList(this.alive, true).size() + " players left.");
+			player.dieUp(10);
 			return;
 		}
 
 		this.removeBlocks(player);
 	}
 
-	private void removeBlocks(final Player player) {
+	private void removeBlocks(final MPlayer player) {
 		final List<Block> blocks = new ArrayList<>();
 
 		final Location loc = player.getLocation();
@@ -148,11 +141,21 @@ public class TntRun extends Game<TNTMap> {
 
 			Bukkit.getScheduler().runTaskLater(Minigames.getInstance(), () -> {
 				block.setType(Material.AIR);
-				//final BlockState state = block.getState();
-				//state.setType(Material.AIR);
-				//state.update(true, false);
 			}, 7);
 		}
+	}
+
+	@EventHandler
+	public void onJoin(final MinigamesJoinEvent event) {
+		event.setTeleportPlayerToLobby(false);
+		final MPlayer player = event.getPlayer();
+		this.alive.remove(player.getUniqueId());
+		player.dieTo(this.map.spawnLocation());
+	}
+
+	@EventHandler
+	public void onQuit(final PlayerQuitEvent event) {
+		this.alive.remove(event.getPlayer().getUniqueId());
 	}
 
 }
