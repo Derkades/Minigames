@@ -8,10 +8,12 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
+import org.bukkit.block.data.Powerable;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.event.EventHandler;
 
 import net.md_5.bungee.api.ChatColor;
+import xyz.derkades.derkutils.ListUtils;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
 import xyz.derkades.minigames.Minigames;
 import xyz.derkades.minigames.games.mysterymurder.MurderyMisterMap;
@@ -105,6 +107,11 @@ public class MurderyMister extends Game<MurderyMisterMap> {
 		for (final Location location : this.map.getCandles()) {
 			location.setY(location.getY() + 1.15);
 			location.getWorld().spawnParticle(Particle.FLAME, location, 0, 0, 0, 0.001, 2);
+		}
+
+		if (secondsLeft % 2 == 0) {
+			final Powerable powerable = (Powerable) ListUtils.getRandomValueFromArray(this.map.getFlickeringRedstomeLamps()).getBlock().getBlockData();
+			powerable.setPowered(!powerable.isPowered());
 		}
 
 		return secondsLeft;
