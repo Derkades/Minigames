@@ -162,6 +162,8 @@ public abstract class Game<M extends GameMap> implements Listener {
 					if (this.timeLeft == 20) {
 						player.playSound(Sound.ENTITY_ARROW_HIT_PLAYER, 1.5f);
 					}
+
+					player.getInventory().setHeldItemSlot(this.timeLeft % 8);
 				}
 
 				if (this.timeLeft == 100) {
