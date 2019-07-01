@@ -6,6 +6,7 @@ import java.util.UUID;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.event.EventHandler;
@@ -99,6 +100,11 @@ public class MurderyMister extends Game<MurderyMisterMap> {
 	public int gameTimer(int secondsLeft) {
 		if (Utils.getWinnersFromAliveList(this.alive, true).size() < 1 && secondsLeft > 5) {
 			secondsLeft = 5;
+		}
+
+		for (final Location location : this.map.getCandles()) {
+			location.setY(location.getY() + 1.15);
+			location.getWorld().spawnParticle(Particle.FLAME, location, 0, 0, 0, 0.001, 2);
 		}
 
 		return secondsLeft;
