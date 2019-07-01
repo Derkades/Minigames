@@ -82,12 +82,12 @@ public class Points {
 			for (int i = 0; i < 9; i++) {
 				final OfflinePlayer player = array[i];
 				final PlayerData icoreData = new PlayerData(player);
-				final String nickname = icoreData.getNickName();
+				final String nickname = icoreData.getNickName().equals("") ? player.getName() : icoreData.getNickName();
 				final ChatColor color = icoreData.getNameColor();
 				final Sign sign = (Sign) signLocations[i].getBlock().getState();
 				sign.setLine(0, ChatColor.DARK_GRAY + "[" + ChatColor.GREEN + (i + 1) + ChatColor.DARK_GRAY + "]");
 				sign.setLine(1, color + nickname);
-				sign.setLine(2, ChatColor.RESET + "" + Points.getPoints(array[0]));
+				sign.setLine(2, ChatColor.WHITE + "" + Points.getPoints(array[i]));
 				sign.update();
 			}
 

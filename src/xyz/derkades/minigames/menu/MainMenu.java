@@ -1,7 +1,8 @@
 package xyz.derkades.minigames.menu;
 
-import static org.bukkit.ChatColor.AQUA;
-import static org.bukkit.ChatColor.DARK_AQUA;
+import static org.bukkit.ChatColor.GOLD;
+import static org.bukkit.ChatColor.GRAY;
+import static org.bukkit.ChatColor.YELLOW;
 
 import java.util.List;
 
@@ -25,10 +26,11 @@ public class MainMenu extends IconMenu {
 	}
 
 	private void addItems(final Player player) {
-		this.items.put(0, new ItemBuilder(Material.GRAY_DYE).name(DARK_AQUA + "Points").lore(AQUA + "You have " + Points.getPoints(player) + " points.").create());
-		this.items.put(1, new ItemBuilder(Material.GRAY_DYE).name(DARK_AQUA + "Games").lore(AQUA + "Click to get game information.").create());
-		this.items.put(2, new ItemBuilder(Material.GRAY_DYE).name(DARK_AQUA + "Points explanation").lore(AQUA + "Click to get points information.").create());
-		this.items.put(3, new ItemBuilder(Material.GRAY_DYE).name(DARK_AQUA + "Shop").lore(AQUA + "Buy perks using GladeCoins").create());
+		this.items.put(0, new ItemBuilder(Material.GRAY_DYE).name(GOLD + "Points").lore(GRAY + "You have " + YELLOW + Points.getPoints(player) + GRAY + " points.", GRAY + "Click for more information.").create());
+		this.items.put(1, new ItemBuilder(Material.GRAY_DYE).name(GOLD + "Games").lore(GRAY + "Click to open games list menu.").create());
+
+		//this.items.put(2, new ItemBuilder(Material.GRAY_DYE).name(GOLD + "Points explanation").lore(AQUA + "Click to get points information.").create());
+		//this.items.put(3, new ItemBuilder(Material.GRAY_DYE).name(DARK_AQUA + "Shop").lore(AQUA + "Buy perks using GladeCoins").create());
 
 		Material settingMaterial;
 		if (Minigames.getInstance().getConfig().getStringList("disabled-description").contains(player.getUniqueId().toString())) {
@@ -37,7 +39,7 @@ public class MainMenu extends IconMenu {
 			settingMaterial = Material.LIME_DYE;
 		}
 
-		this.items.put(4, new ItemBuilder(settingMaterial).name(DARK_AQUA + "Game descriptions").lore(AQUA + "Click to enable or disable game", AQUA + "description messages at the start of each game").create());
+		this.items.put(2, new ItemBuilder(settingMaterial).name(GOLD + "Game descriptions").lore(GRAY + "Click to enable or disable game", GRAY + "description messages at the start of each game").create());
 
 		this.items.put(8, Menu.CLOSE_BUTTON);
 	}
@@ -47,22 +49,14 @@ public class MainMenu extends IconMenu {
 		if (event.getName().contains("Games")){
 			new GamesListMenu(event.getPlayer()).open();
 			return false;
-		} else if (event.getName().contains("Shop")){
-			new ShopMenu(event.getPlayer()).open();
+		//} else if (event.getName().contains("Shop")){
+		//	new ShopMenu(event.getPlayer()).open();
+		//	return false;
+		} else if (event.getName().contains("Points")) {
+			new PointsListMenu(event.getPlayer()).open();
 			return false;
 		} else if (event.getName().contains("Close")){
 			return true;
-		} else if (event.getName().contains("Points explanation")) {
-			final Player player = event.getPlayer();
-			player.sendMessage(ChatColor.GREEN + "" + ChatColor.BOLD + "Winning a game");
-			player.sendMessage(ChatColor.GRAY + "  1-2 online players: +3 points, +3 GladeCoins");
-			player.sendMessage(ChatColor.GRAY + "  3-4 online players: +4 points, +4 GladeCoins");
-			player.sendMessage(ChatColor.GRAY + "  5+ online players: +5 points, +5 GladeCoins");
-			player.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "Losing a game");
-			player.sendMessage(ChatColor.GRAY + "  +1 point, +0 GladeCoins");
-			return true;
-		} else if (event.getName().contains("Points")) {
-			return false;
 		} else if (event.getName().contains("Game descriptions")) {
 			final Player player = event.getPlayer();
 
