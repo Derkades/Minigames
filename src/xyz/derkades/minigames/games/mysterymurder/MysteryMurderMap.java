@@ -8,4 +8,8 @@ public abstract class MysteryMurderMap extends GameMap {
 
 	public abstract Location[] getSpawnLocations();
 
+	public abstract Location[] getFlickeringRedstomeLamps();
+
+	public abstract Location[] getCandles();
+
 }
