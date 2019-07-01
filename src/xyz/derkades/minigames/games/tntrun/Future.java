@@ -42,4 +42,9 @@ public class Future extends TNTMap {
 		return GameWorld.TNTRUN_FUTURE;
 	}
 
+	@Override
+	public String getCredits() {
+		return null;
+	}
+
 }

@@ -33,4 +33,9 @@ public class Prototype extends TeamsBowBattleMap {
 		return null;
 	}
 
+	@Override
+	public String getCredits() {
+		return null;
+	}
+
 }

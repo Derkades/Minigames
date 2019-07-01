@@ -27,4 +27,9 @@ public class Snow extends SniperMap {
 		return GameWorld.OITQ_SNOW;
 	}
 
+	@Override
+	public String getCredits() {
+		return null;
+	}
+
 }

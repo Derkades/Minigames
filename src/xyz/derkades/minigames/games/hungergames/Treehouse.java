@@ -92,4 +92,9 @@ public class Treehouse extends HungerGamesMap {
 		return GameWorld.HG_TREEHOUSE;
 	}
 
+	@Override
+	public String getCredits() {
+		return null;
+	}
+
 }

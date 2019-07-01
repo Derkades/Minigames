@@ -62,5 +62,10 @@ public class Prototype extends TronMap {
 		return GameWorld.TRON_PROTOTYPE;
 	}
 
+	@Override
+	public String getCredits() {
+		return null;
+	}
+
 
 }

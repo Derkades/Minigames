@@ -39,4 +39,9 @@ public class BlackWhite extends DropperMap {
 		return GameWorld.DROPPER_BLACKWHITE;
 	}
 
+	@Override
+	public String getCredits() {
+		return "Mr_Roky_HD, EnderAdamGaming, RedstonerNor, IWolfyyyyy, Dankoames, Partydragen";
+	}
+
 }

@@ -32,4 +32,9 @@ public class Hedges extends CreeperAttackMap {
 		return GameWorld.CREEPERATTACK_HEDGES;
 	}
 
+	@Override
+	public String getCredits() {
+		return null;
+	}
+
 }

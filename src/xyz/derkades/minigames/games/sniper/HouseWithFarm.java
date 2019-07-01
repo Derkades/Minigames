@@ -28,4 +28,9 @@ public class HouseWithFarm extends SniperMap {
 		return GameWorld.OITQ_FARMHOUSE;
 	}
 
+	@Override
+	public String getCredits() {
+		return null;
+	}
+
 }

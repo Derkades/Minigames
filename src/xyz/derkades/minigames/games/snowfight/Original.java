@@ -33,5 +33,10 @@ public class Original extends SnowFightMap {
 		return null;
 	}
 
+	@Override
+	public String getCredits() {
+		return null;
+	}
+
 
 }

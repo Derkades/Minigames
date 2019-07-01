@@ -43,4 +43,9 @@ public class Trees extends DropperMap {
 		return GameWorld.DROPPER_TREES;
 	}
 
+	@Override
+	public String getCredits() {
+		return null;
+	}
+
 }

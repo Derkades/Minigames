@@ -43,4 +43,9 @@ public class Aqua extends TNTMap {
 		return GameWorld.TNTRUN_AQUA;
 	}
 
+	@Override
+	public String getCredits() {
+		return null;
+	}
+
 }

@@ -39,4 +39,9 @@ public class Original extends SpleefMap {
 		return true;
 	}
 
+	@Override
+	public String getCredits() {
+		return null;
+	}
+
 }

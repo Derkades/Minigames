@@ -27,4 +27,9 @@ public class Castle extends SniperMap {
 		return GameWorld.OITQ_CASTLE;
 	}
 
+	@Override
+	public String getCredits() {
+		return null;
+	}
+
 }

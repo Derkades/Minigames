@@ -27,4 +27,9 @@ public class Ice extends PlatformMap {
 		return GameWorld.PLATFORM_ICE;
 	}
 
+	@Override
+	public String getCredits() {
+		return null;
+	}
+
 }

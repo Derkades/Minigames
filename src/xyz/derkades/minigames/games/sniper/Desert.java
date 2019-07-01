@@ -27,4 +27,9 @@ public class Desert extends SniperMap {
 		return GameWorld.OITQ_DESERT;
 	}
 
+	@Override
+	public String getCredits() {
+		return "funlolxxl";
+	}
+
 }

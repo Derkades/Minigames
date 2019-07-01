@@ -54,4 +54,9 @@ public class Snow extends ParkourMap {
 		return GameWorld.PARKOUR_SNOW;
 	}
 
+	@Override
+	public String getCredits() {
+		return null;
+	}
+
 }

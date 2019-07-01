@@ -60,4 +60,9 @@ public class RedstoneCave extends ParkourMap {
 		return GameWorld.PARKOUR_REDSTONECAVE;
 	}
 
+	@Override
+	public String getCredits() {
+		return null;
+	}
+
 }

@@ -8,9 +8,17 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
-import org.bukkit.block.data.Powerable;
+import org.bukkit.block.data.Lightable;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Arrow;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.entity.EntityShootBowEvent;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scheduler.BukkitTask;
 
 import net.md_5.bungee.api.ChatColor;
 import xyz.derkades.derkutils.ListUtils;
@@ -20,6 +28,7 @@ import xyz.derkades.minigames.games.mysterymurder.MurderyMisterMap;
 import xyz.derkades.minigames.utils.MPlayer;
 import xyz.derkades.minigames.utils.MinigamesPlayerDamageEvent;
 import xyz.derkades.minigames.utils.MinigamesPlayerDamageEvent.DamageType;
+import xyz.derkades.minigames.utils.Scheduler;
 import xyz.derkades.minigames.utils.Utils;
 
 public class MurderyMister extends Game<MurderyMisterMap> {
@@ -38,12 +47,12 @@ public class MurderyMister extends Game<MurderyMisterMap> {
 
 	@Override
 	public int getRequiredPlayers() {
-		return 0;
+		return 4;
 	}
 
 	@Override
 	public MurderyMisterMap[] getGameMaps() {
-		return null;
+		return MurderyMisterMap.MAPS;
 	}
 
 	@Override
@@ -53,11 +62,17 @@ public class MurderyMister extends Game<MurderyMisterMap> {
 
 	private UUID murderer;
 	private List<UUID> alive; // All alive players, except murderer
+	private BukkitTask arrowRemoveTask;
+
+	private boolean murdererDead;
 
 	@Override
 	public void onPreStart() {
 		this.murderer = null;
 		this.alive = Utils.getOnlinePlayersUuidList();
+		this.murdererDead = false;
+
+		this.arrowRemoveTask = new ArrowRemoveTask().runTaskTimer(Minigames.getInstance(), 1, 1);
 
 		final Location[] spawnLocations = this.map.getSpawnLocations();
 		int index = 0;
@@ -96,6 +111,9 @@ public class MurderyMister extends Game<MurderyMisterMap> {
 
 		final MPlayer sheriff = all.remove(0);
 		sheriff.giveItem(new ItemBuilder(Material.BOW).unbreakable().create());
+		sheriff.giveItem(new ItemStack(Material.ARROW));
+
+		this.map.getWorld().setTime(21000);
 	}
 
 	@Override
@@ -104,14 +122,20 @@ public class MurderyMister extends Game<MurderyMisterMap> {
 			secondsLeft = 5;
 		}
 
+		if (this.murdererDead && secondsLeft > 5) {
+			secondsLeft = 5;
+		}
+
 		for (final Location location : this.map.getCandles()) {
+			location.setX(location.getX() + .5);
 			location.setY(location.getY() + 1.15);
+			location.setZ(location.getZ() + .5);
 			location.getWorld().spawnParticle(Particle.FLAME, location, 0, 0, 0, 0.001, 2);
 		}
 
 		if (secondsLeft % 2 == 0) {
-			final Powerable powerable = (Powerable) ListUtils.getRandomValueFromArray(this.map.getFlickeringRedstomeLamps()).getBlock().getBlockData();
-			powerable.setPowered(!powerable.isPowered());
+			final Lightable powerable = (Lightable) ListUtils.getRandomValueFromArray(this.map.getFlickeringRedstomeLamps()).getBlock().getBlockData();
+			powerable.setLit(!powerable.isLit());
 		}
 
 		return secondsLeft;
@@ -119,13 +143,36 @@ public class MurderyMister extends Game<MurderyMisterMap> {
 
 	@Override
 	public void onEnd() {
+		this.arrowRemoveTask.cancel();
 		super.endGame(Utils.getWinnersFromAliveList(this.alive, true));
+	}
+
+	@EventHandler
+	public void onDamage(final EntityShootBowEvent event) {
+		if (event.getEntity().getType().equals(EntityType.PLAYER)) {
+			Scheduler.delay(5*20, () -> {
+				((Player) event.getEntity()).getInventory().addItem(new ItemStack(Material.ARROW));
+			});
+		}
 	}
 
 	@EventHandler
 	public void onDamage(final MinigamesPlayerDamageEvent event) {
 		if (event.getType().equals(DamageType.SELF)) {
+			event.setDamage(0);
 			event.setCancelled(true);
+		} else {
+			if (event.getDamagerEntity().getType().equals(EntityType.PLAYER)) {
+				final Player attacker = (Player) event.getDamagerEntity();
+				if (attacker.getInventory().getItemInMainHand().getType().equals(Material.TRIDENT)) {
+					event.setDamage(40);
+				} else {
+					event.setDamage(0);
+					event.setCancelled(true);
+				}
+			} else {
+				event.setDamage(40);
+			}
 		}
 
 		if (event.willBeDead()) {
@@ -136,20 +183,51 @@ public class MurderyMister extends Game<MurderyMisterMap> {
 			this.sendMessage(player.getName() + " has been killed");
 			Minigames.getOnlinePlayers().forEach((p) -> p.playSound(Sound.ENTITY_PLAYER_HURT_SWEET_BERRY_BUSH, 1.0f));
 			this.alive.remove(player.getUniqueId());
-			player.clearInventory();
 
 			if (player.getUniqueId().equals(this.murderer)) {
 				// Murder is dead, all alive players win (except murderer)
-				super.endGame(Utils.getWinnersFromAliveList(this.alive, true));
-			} else if (player.getInventory().contains(Material.BOW)) {
-				// Sheriff is dead, drop bow
-				player.getLocation().getWorld().dropItemNaturally(player.getLocation(), new ItemBuilder(Material.BOW).unbreakable().create());
+				this.arrowRemoveTask.cancel();
+				this.murdererDead = true;
 				player.die();
+				this.sendMessage("The murderer has been killed by " + event.getDamagerPlayer().getName() + "!");
+			} else if (player.getInventory().contains(Material.BOW)) {
+				// Sheriff is dead, give bow to random player
+				if (this.alive.size() > 0) {
+					final Player target = Bukkit.getPlayer(ListUtils.getRandomValueFromList(this.alive));
+					if (target != null) {
+						target.getInventory().addItem(new ItemBuilder(Material.BOW).unbreakable().create());
+						target.getInventory().addItem(new ItemBuilder(Material.ARROW).create());
+					}
+				}
+				//player.getLocation().getWorld().dropItemNaturally(player.getLocation(), new ItemBuilder(Material.BOW).unbreakable().create());
+				player.die();
+				System.out.println("Sheriff died");
 			} else {
 				// Innocent is dead
 				player.die();
+				System.out.println("Innocent died");
+			}
+			player.clearInventory();
+		}
+	}
+
+	@EventHandler
+	public void chat(final AsyncPlayerChatEvent event) {
+		new MPlayer(event).sendTitle("", ChatColor.RED + "Chat is disabled");
+		event.setCancelled(true);
+	}
+
+	private class ArrowRemoveTask extends BukkitRunnable {
+
+		@Override
+		public void run() {
+			for (final Arrow arrow : MurderyMister.this.map.getWorld().getEntitiesByClass(Arrow.class)) {
+				if (arrow.isOnGround()) {
+					arrow.remove();
+				}
 			}
 		}
+
 	}
 
 }

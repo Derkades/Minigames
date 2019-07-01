@@ -33,4 +33,9 @@ public class Mineshaft extends CreeperAttackMap {
 		return GameWorld.CREEPERATTACK_MINESHAFT;
 	}
 
+	@Override
+	public String getCredits() {
+		return null;
+	}
+
 }

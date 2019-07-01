@@ -27,4 +27,9 @@ public class Desert extends PlatformMap {
 		return GameWorld.PLATFORM_DESERT;
 	}
 
+	@Override
+	public String getCredits() {
+		return null;
+	}
+
 }

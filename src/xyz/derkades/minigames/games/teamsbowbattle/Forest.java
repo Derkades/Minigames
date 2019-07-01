@@ -40,4 +40,9 @@ public class Forest extends TeamsBowBattleMap {
 		return GameWorld.TBB_FOREST;
 	}
 
+	@Override
+	public String getCredits() {
+		return "Yaraka";
+	}
+
 }

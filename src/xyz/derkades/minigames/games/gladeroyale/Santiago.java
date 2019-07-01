@@ -32,4 +32,9 @@ public class Santiago extends GladeRoyaleMap {
 		return GameWorld.MGR_SANTIAGO;
 	}
 
+	@Override
+	public String getCredits() {
+		return "'Santiago Valley' by Juancy on Planet Minecraft";
+	}
+
 }

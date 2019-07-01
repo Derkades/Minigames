@@ -36,4 +36,9 @@ public class Prototype extends HarvestMap {
 		return null;
 	}
 
+	@Override
+	public String getCredits() {
+		return null;
+	}
+
 }

@@ -39,4 +39,9 @@ public class LittleStadium extends SpleefMap {
 		return false;
 	}
 
+	@Override
+	public String getCredits() {
+		return null;
+	}
+
 }

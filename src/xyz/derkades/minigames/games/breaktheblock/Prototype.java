@@ -43,4 +43,9 @@ public class Prototype extends BreakTheBlockMap {
 		return GameWorld.BTB_PROTOTYPE;
 	}
 
+	@Override
+	public String getCredits() {
+		return null;
+	}
+
 }

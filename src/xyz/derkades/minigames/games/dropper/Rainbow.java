@@ -39,4 +39,9 @@ public class Rainbow extends DropperMap {
 		return GameWorld.DROPPER_RAINBOW;
 	}
 
+	@Override
+	public String getCredits() {
+		return "Partydragen, RedstonerNor, Mr_Roky_HD, EnderAdamGaming";
+	}
+
 }

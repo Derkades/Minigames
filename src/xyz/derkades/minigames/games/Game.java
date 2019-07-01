@@ -164,7 +164,9 @@ public abstract class Game<M extends GameMap> implements Listener {
 						player.playSound(Sound.ENTITY_ARROW_HIT_PLAYER, 1.5f);
 					}
 
-					player.getInventory().setHeldItemSlot(this.timeLeft % 8);
+					if (this.timeLeft < 35) {
+						player.getInventory().setHeldItemSlot(Math.abs((16 - this.timeLeft % 16)) / 2);
+					}
 				}
 
 				if (this.timeLeft == 100) {
@@ -423,6 +425,8 @@ public abstract class Game<M extends GameMap> implements Listener {
 			string = "regenerating spleef";
 		} else if (string.equalsIgnoreCase("hg")) {
 			string = "hunger games";
+		} else if (string.equalsIgnoreCase("mm")) {
+			string = "murdery mister";
 		}
 
 		for (final Game<? extends GameMap> game : GAMES){

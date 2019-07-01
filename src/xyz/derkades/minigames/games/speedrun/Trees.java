@@ -37,4 +37,9 @@ public class Trees extends SpeedrunMap {
 		return null;
 	}
 
+	@Override
+	public String getCredits() {
+		return null;
+	}
+
 }

@@ -60,4 +60,9 @@ public class HauntedHouse extends MurderyMisterMap {
 		return GameWorld.MM_HAUNTEDHOUSE;
 	}
 
+	@Override
+	public String getCredits() {
+		return "funlolxxl";
+	}
+
 }

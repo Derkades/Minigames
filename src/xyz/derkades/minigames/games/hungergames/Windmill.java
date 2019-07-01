@@ -120,4 +120,9 @@ public class Windmill extends HungerGamesMap {
 		return GameWorld.HG_WINDMILL;
 	}
 
+	@Override
+	public String getCredits() {
+		return "Maps list on MCProHosting";
+	}
+
 }

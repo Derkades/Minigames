@@ -39,4 +39,9 @@ public class BigStadium extends SpleefMap {
 		return false;
 	}
 
+	@Override
+	public String getCredits() {
+		return "MissChikoo";
+	}
+
 }

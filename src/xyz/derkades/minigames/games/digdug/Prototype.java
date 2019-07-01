@@ -37,4 +37,9 @@ public class Prototype extends DigDugMap {
 		return GameWorld.DIGDUG_PROTOTYPE;
 	}
 
+	@Override
+	public String getCredits() {
+		return null;
+	}
+
 }

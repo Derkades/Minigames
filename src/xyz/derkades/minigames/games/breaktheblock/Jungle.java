@@ -22,9 +22,9 @@ public class Jungle extends BreakTheBlockMap {
 
 	@Override
 	public void timer() {
-		for (MPlayer player : Minigames.getOnlinePlayers()) {
+		for (final MPlayer player : Minigames.getOnlinePlayers()) {
 			if (player.getBlockIn().getType() == Material.LAVA ) {
-				player.teleport(getStartLocation());
+				player.teleport(this.getStartLocation());
 				player.removeFire();
 			}
 		}
@@ -48,6 +48,11 @@ public class Jungle extends BreakTheBlockMap {
 	@Override
 	public GameWorld getGameWorld() {
 		return GameWorld.BTB_JUNGLE;
+	}
+
+	@Override
+	public String getCredits() {
+		return "funlolxxl";
 	}
 
 }

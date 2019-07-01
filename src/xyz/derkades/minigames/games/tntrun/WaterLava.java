@@ -43,4 +43,9 @@ public class WaterLava extends TNTMap {
 		return GameWorld.TNTRUN_WATERLAVA;
 	}
 
+	@Override
+	public String getCredits() {
+		return null;
+	}
+
 }

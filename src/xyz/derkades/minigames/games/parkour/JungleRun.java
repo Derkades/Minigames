@@ -64,4 +64,9 @@ public class JungleRun extends ParkourMap {
 		return GameWorld.PARKOUR_JUNGLE;
 	}
 
+	@Override
+	public String getCredits() {
+		return null;
+	}
+
 }

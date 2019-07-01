@@ -40,4 +40,9 @@ public class Redstone extends DropperMap {
 		return GameWorld.DROPPER_REDSTONE;
 	}
 
+	@Override
+	public String getCredits() {
+		return "RedstonerNor, Chaspyr";
+	}
+
 }

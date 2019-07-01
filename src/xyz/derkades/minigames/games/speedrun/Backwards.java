@@ -33,4 +33,9 @@ public class Backwards extends SpeedrunMap {
 		return null;
 	}
 
+	@Override
+	public String getCredits() {
+		return null;
+	}
+
 }

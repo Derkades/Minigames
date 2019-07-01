@@ -43,4 +43,9 @@ public class Jungle extends TNTMap {
 		return GameWorld.TNTRUN_JUNGLE;
 	}
 
+	@Override
+	public String getCredits() {
+		return null;
+	}
+
 }

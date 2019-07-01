@@ -49,4 +49,9 @@ public class Cave extends ElytraMap {
 		return null;
 	}
 
+	@Override
+	public String getCredits() {
+		return null;
+	}
+
 }

@@ -37,4 +37,9 @@ public class IcyBlowback extends IcyBlowbackMap {
 		return 35;
 	}
 
+	@Override
+	public String getCredits() {
+		return "Yaraka";
+	}
+
 }
