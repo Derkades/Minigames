@@ -52,6 +52,7 @@ public abstract class Game<M extends GameMap> implements Listener {
 			//new MazePvp(),
 			//new Mine(),
 			new MolePvP(),
+			new MurderyMister(),
 			//new NyanCat(),
 			new OneInTheQuiver(),
 			new Platform(),
