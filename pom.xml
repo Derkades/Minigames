@@ -42,7 +42,7 @@
 				<version>3.2.1</version>
 				<configuration>
 					<createDependencyReducedPom>false</createDependencyReducedPom>
-					<minimizeJar>true</minimizeJar>
+					<minimizeJar>false</minimizeJar> <!-- Reduce compile time, jar size doesn't matter -->
 				</configuration>
 			</plugin>
 
@@ -63,7 +63,7 @@
 			<artifactId>Derkutils</artifactId>
 			<version>1.5.1</version>
 		</dependency>
-		
+
 		<dependency> <!-- GitHub API -->
 			<groupId>org.kohsuke</groupId>
 			<artifactId>github-api</artifactId>
@@ -74,6 +74,13 @@
 			<groupId>net.milkbowl.vault</groupId>
 			<artifactId>VaultAPI</artifactId>
 			<version>1.7</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>com.mineglade</groupId>
+			<artifactId>icore</artifactId>
+			<version>0.03-alpha</version>
 			<scope>provided</scope>
 		</dependency>
 
