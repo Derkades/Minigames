@@ -4,7 +4,11 @@ import org.bukkit.Location;
 
 import xyz.derkades.minigames.games.maps.GameMap;
 
-public abstract class MysteryMurderMap extends GameMap {
+public abstract class MurderyMisterMap extends GameMap {
+
+	public static final MurderyMisterMap[] MAPS = {
+
+	};
 
 	public abstract Location[] getSpawnLocations();
 

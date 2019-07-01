@@ -13,13 +13,13 @@ import org.bukkit.event.EventHandler;
 import net.md_5.bungee.api.ChatColor;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
 import xyz.derkades.minigames.Minigames;
-import xyz.derkades.minigames.games.mysterymurder.MysteryMurderMap;
+import xyz.derkades.minigames.games.mysterymurder.MurderyMisterMap;
 import xyz.derkades.minigames.utils.MPlayer;
 import xyz.derkades.minigames.utils.MinigamesPlayerDamageEvent;
 import xyz.derkades.minigames.utils.MinigamesPlayerDamageEvent.DamageType;
 import xyz.derkades.minigames.utils.Utils;
 
-public class MurderyMister extends Game<MysteryMurderMap> {
+public class MurderyMister extends Game<MurderyMisterMap> {
 
 	@Override
 	public String getName() {
@@ -39,7 +39,7 @@ public class MurderyMister extends Game<MysteryMurderMap> {
 	}
 
 	@Override
-	public MysteryMurderMap[] getGameMaps() {
+	public MurderyMisterMap[] getGameMaps() {
 		return null;
 	}
 
