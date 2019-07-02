@@ -28,7 +28,7 @@ public class BugCommand implements CommandExecutor {
 				String issueLabel;
 				if (label.equalsIgnoreCase("bug")) {
 					issueLabel = "bug";
-				} else if (label.equalsIgnoreCase("ide")) {
+				} else if (label.equalsIgnoreCase("idea")) {
 					issueLabel = "enhancement";
 				} else {
 					issueLabel = null;
