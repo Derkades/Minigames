@@ -48,6 +48,7 @@ public class GamesListMenu extends IconMenu {
 					double mapWeight = Minigames.getInstance().getConfig().getDouble(configPath, 1);
 					mapWeight = Math.round(mapWeight * 100.0) / 100.0;
 					lore.add(GRAY + "  Multiplier: " + YELLOW + mapWeight);
+					lore.add(GRAY + "Credits: " + map.getCredits());
 					if (player.hasPermission("minigames.list_admin")) {
 						lore.add(GRAY + "  Name for commands: " + map.getName().replace(" ", "_").toLowerCase());
 					}
