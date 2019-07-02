@@ -57,7 +57,11 @@ public class MPlayer {
 	}
 
 	public boolean getDisableHunger() {
-		return Utils.getMetadata(this.player, "disable_hunger").asBoolean();
+		try {
+			return Utils.getMetadata(this.player, "disable_hunger").asBoolean();
+		} catch (final IndexOutOfBoundsException e) {
+			return true;
+		}
 	}
 
 	public void setDisableItemMoving(final boolean disableItemMoving) {
