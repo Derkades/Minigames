@@ -13,6 +13,7 @@ import xyz.derkades.minigames.games.Game;
 import xyz.derkades.minigames.games.maps.GameMap;
 import xyz.derkades.minigames.menu.GamesListMenu;
 import xyz.derkades.minigames.menu.MainMenu;
+import xyz.derkades.minigames.utils.MPlayer;
 import xyz.derkades.minigames.utils.Queue;
 import xyz.derkades.minigames.worlds.GameWorld;
 
@@ -81,6 +82,10 @@ public class Command implements CommandExecutor {
 				Bukkit.broadcastMessage("[System] Done");
 			} else if (args[0].equalsIgnoreCase("list")) {
 				new GamesListMenu((Player) sender).open();
+			} else if (args[0].equals("damage") && sender.hasPermission("minigames.damage")) {
+				final MPlayer player = new MPlayer((Player) sender);
+				player.setDisableDamage(false);
+				sender.sendMessage("Set damageDisabled to false");
 			} else if (args[0].equals("test") && sender.hasPermission("minigames.test")) {
 //				final Player player = (Player) sender;
 
