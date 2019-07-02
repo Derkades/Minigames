@@ -161,15 +161,24 @@ public class OneInTheQuiver extends Game<SniperMap> {
 			if (event.getType().equals(DamageType.ENTITY)) {
 				final MPlayer killer = event.getDamagerPlayer();
 
-				final int playersLeft = Utils.getAliveAcountFromDeadAndAllList(this.dead, this.all);
-				this.sendMessage(String.format("%s has been killed by %s. There are %s players left.",
-						player.getName(), killer.getName(), playersLeft));
-
 				killer.getInventory().addItem(ARROW);
+
+				final int playersLeft = Utils.getAliveAcountFromDeadAndAllList(this.dead, this.all);
+				if (playersLeft > 1) {
+					this.sendMessage(String.format("%s has been killed by %s. There are %s players left.",
+							player.getName(), killer.getName(), playersLeft));
+				} else {
+					this.sendMessage(String.format("%s has been killed by %s.",
+							player.getName(), killer.getName()));
+				}
 			} else {
 				final int playersLeft = Utils.getAliveAcountFromDeadAndAllList(this.dead, this.all);
-				this.sendMessage(String.format("%s has died. There are %s players left.",
-						player.getName(), playersLeft));
+				if (playersLeft > 1) {
+					this.sendMessage(String.format("%s has died. There are %s players left.",
+							player.getName(), playersLeft));
+				} else {
+					this.sendMessage(player.getName() + " has died.");
+				}
 			}
 
 			player.dieUp(2);
