@@ -4,13 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
@@ -22,6 +20,7 @@ import xyz.derkades.minigames.Minigames;
 import xyz.derkades.minigames.games.icyblowback.IcyBlowbackMap;
 import xyz.derkades.minigames.utils.MPlayer;
 import xyz.derkades.minigames.utils.MinigamesJoinEvent;
+import xyz.derkades.minigames.utils.Queue;
 import xyz.derkades.minigames.utils.Utils;
 
 public class IcyBlowback extends Game<IcyBlowbackMap> {
@@ -33,40 +32,6 @@ public class IcyBlowback extends Game<IcyBlowbackMap> {
 
 	private List<UUID> dead;
 	private List<UUID> all;
-
-	@EventHandler
-	public void onMove(final PlayerMoveEvent event) {
-		final MPlayer player = new MPlayer(event);
-
-		if (this.dead.contains(player.getUniqueId())) {
-			return;
-		}
-
-		if (player.getY() < this.map.getBottomFloorLevel()) {
-			//die
-			this.dead.add(player.getUniqueId());
-			this.map.getWorld().spigot().strikeLightningEffect(player.getLocation(), false);
-			player.dieUp(10);
-			this.sendMessage(player.getName() + " has died");
-		}
-	}
-
-	@EventHandler
-	public void onDamage(final EntityDamageByEntityEvent event) {
-		if (this.dead.contains(event.getDamager().getUniqueId())) {
-			event.setCancelled(true);
-		}
-	}
-
-	@EventHandler
-	public void onJoin(final MinigamesJoinEvent event) {
-		final MPlayer player = event.getPlayer();
-		event.setTeleportPlayerToLobby(false);
-		player.setGameMode(GameMode.SPECTATOR);
-		final Location loc = this.map.getSpawnLocations()[0];
-		loc.setY(loc.getY() + 10);
-		player.teleport(loc);
-	}
 
 	@Override
 	public String getName() {
@@ -102,12 +67,18 @@ public class IcyBlowback extends Game<IcyBlowbackMap> {
 
 		final Location[] spawnLocations = this.map.getSpawnLocations();
 		int index = 0;
-		for (final Player player : Bukkit.getOnlinePlayers()) {
+		for (final MPlayer player : Minigames.getOnlinePlayers()) {
 			if (index < 1) {
 				index = spawnLocations.length - 1;
 			}
 
-			player.teleport(spawnLocations[index]);
+			final Location loc = spawnLocations[index];
+
+			Queue.add(() -> {
+				player.queueTeleport(loc);
+				player.placeCage(true);
+			});
+
 			index--;
 		}
 	}
@@ -119,6 +90,7 @@ public class IcyBlowback extends Game<IcyBlowbackMap> {
 			player.giveItem(SWORD);
 			player.giveInfiniteEffect(PotionEffectType.SPEED);
 			player.giveInfiniteEffect(PotionEffectType.DAMAGE_RESISTANCE, 255);
+			player.placeCage(false);
 			IcyBlowback.this.all.add(player.getUniqueId());
 		}
 	}
@@ -137,6 +109,40 @@ public class IcyBlowback extends Game<IcyBlowbackMap> {
 		IcyBlowback.this.endGame(Utils.getWinnersFromDeadAndAllList(IcyBlowback.this.dead, IcyBlowback.this.all, false));
 		IcyBlowback.this.dead.clear();
 		IcyBlowback.this.all.clear();
+	}
+
+	@EventHandler
+	public void onMove(final PlayerMoveEvent event) {
+		final MPlayer player = new MPlayer(event);
+
+		if (this.dead.contains(player.getUniqueId())) {
+			return;
+		}
+
+		if (player.getY() < this.map.getBottomFloorLevel()) {
+			//die
+			this.dead.add(player.getUniqueId());
+			this.map.getWorld().spigot().strikeLightningEffect(player.getLocation(), false);
+			player.dieUp(10);
+			this.sendMessage(player.getName() + " has died");
+		}
+	}
+
+	@EventHandler
+	public void onDamage(final EntityDamageByEntityEvent event) {
+		if (this.dead.contains(event.getDamager().getUniqueId())) {
+			event.setCancelled(true);
+		}
+	}
+
+	@EventHandler
+	public void onJoin(final MinigamesJoinEvent event) {
+		final MPlayer player = event.getPlayer();
+		event.setTeleportPlayerToLobby(false);
+		player.setGameMode(GameMode.SPECTATOR);
+		final Location loc = this.map.getSpawnLocations()[0];
+		loc.setY(loc.getY() + 10);
+		player.teleport(loc);
 	}
 
 }
