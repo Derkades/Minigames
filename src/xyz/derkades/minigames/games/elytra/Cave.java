@@ -3,7 +3,6 @@ package xyz.derkades.minigames.games.elytra;
 import org.bukkit.Location;
 import org.bukkit.Material;
 
-import xyz.derkades.minigames.Var;
 import xyz.derkades.minigames.games.maps.MapSize;
 import xyz.derkades.minigames.utils.MPlayer;
 import xyz.derkades.minigames.worlds.GameWorld;
@@ -26,12 +25,12 @@ public class Cave extends ElytraMap {
 
 	@Override
 	public Location getStartLocation() {
-		return new Location(Var.WORLD, 163.5, 76.5, 339.5, 120, 25);
+		return new Location(this.getWorld(), 163.5, 76.5, 339.5, 120, 25);
 	}
 
 	@Override
 	public Location getSpectatorLocation() {
-		return new Location(Var.WORLD, 151.5, 76, 343.5);
+		return new Location(this.getWorld(), 151.5, 76, 343.5);
 	}
 
 	@Override
@@ -46,7 +45,7 @@ public class Cave extends ElytraMap {
 
 	@Override
 	public GameWorld getGameWorld() {
-		return null;
+		return GameWorld.ELYTRA_CAVE;
 	}
 
 	@Override
