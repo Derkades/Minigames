@@ -90,9 +90,10 @@ public class Elytra extends Game<ElytraMap> {
 		if (this.finished.contains(player.getUniqueId()))
 			return;
 
-		if (this.map.isDead(player))
+		if (this.map.isDead(player)) {
 			player.removeFire();
 			player.teleport(this.map.getStartLocation());
+		}
 
 		if (this.map.hasFinished(player)) {
 			player.clearInventory();
