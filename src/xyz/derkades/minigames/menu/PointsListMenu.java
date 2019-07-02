@@ -3,6 +3,7 @@ package xyz.derkades.minigames.menu;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
@@ -20,10 +21,14 @@ public class PointsListMenu extends IconMenu {
 
 		int slot = 0;
 		for (final MPlayer target : Minigames.getOnlinePlayers()) {
-			this.items.put(slot, new ItemBuilder(target.bukkit()).name(target.getName()).lore(ChatColor.GOLD + "Points: " + ChatColor.YELLOW + target.getPoints()).create());
+			this.items.put(slot, new ItemBuilder(target.bukkit())
+					.name(ChatColor.GOLD + target.getName())
+					.lore(ChatColor.GRAY + "Points: " + ChatColor.YELLOW + target.getPoints())
+					.create());
 			slot++;
 		}
 
+		this.items.put(24, new ItemBuilder(Material.PLAYER_HEAD).name(ChatColor.GOLD + "View all players").create());
 		final OfflinePlayer mhfQuestion = Bukkit.getOfflinePlayer(UUID.fromString("606e2ff0-ed77-4842-9d6c-e1d3321c7838"));
 		this.items.put(25, new ItemBuilder(mhfQuestion).name(ChatColor.GOLD + "Points explanation")
 				.lore(ChatColor.GREEN + "" + ChatColor.BOLD + "Winning a game",
@@ -40,6 +45,8 @@ public class PointsListMenu extends IconMenu {
 		final Player player = event.getPlayer();
 		if (event.getPosition() == 26) {
 			new MainMenu(player).open();
+		} else if (event.getPosition() == 24) {
+			new PointsLeaderboardMenu(player).open();
 		}
 		return false;
 	}
