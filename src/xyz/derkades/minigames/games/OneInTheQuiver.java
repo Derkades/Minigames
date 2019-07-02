@@ -141,14 +141,11 @@ public class OneInTheQuiver extends Game<SniperMap> {
 
 		if (event.getDamagerEntity().getType().equals(EntityType.ARROW)){
 			event.setDamage(20);
-		}
-
-		if (event.getType().equals(DamageType.ENTITY)) {
-			final MPlayer attacker = event.getDamagerPlayer();
-			final ItemStack weapon = attacker.getInventory().getItemInMainHand();
-
-			if (weapon.isSimilar(SWORD)) {
-				event.setDamage(3);
+		} else {
+			if (event.getType().equals(DamageType.ENTITY)) {
+				if (event.getDamagerEntity().getType().equals(EntityType.PLAYER)) {
+					event.setDamage(3);
+				}
 			}
 		}
 
