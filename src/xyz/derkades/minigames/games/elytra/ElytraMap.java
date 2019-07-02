@@ -17,6 +17,4 @@ public abstract class ElytraMap extends GameMap {
 
 	public abstract Location getStartLocation();
 
-	public abstract Location getSpectatorLocation();
-
 }

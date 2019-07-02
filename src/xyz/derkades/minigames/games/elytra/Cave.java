@@ -25,12 +25,7 @@ public class Cave extends ElytraMap {
 
 	@Override
 	public Location getStartLocation() {
-		return new Location(this.getWorld(), 163.5, 76.5, 339.5, 120, 25);
-	}
-
-	@Override
-	public Location getSpectatorLocation() {
-		return new Location(this.getWorld(), 151.5, 76, 343.5);
+		return new Location(this.getWorld(), 0, 65, 0, 120, 25);
 	}
 
 	@Override
