@@ -139,11 +139,6 @@ public class OneInTheQuiver extends Game<SniperMap> {
 	public void onDamage(final MinigamesPlayerDamageEvent event) {
 		final MPlayer player = event.getPlayer();
 
-		if (this.dead.contains(event.getDamagerEntity().getUniqueId()) || this.dead.contains(event.getDamagerEntity().getUniqueId())) {
-			event.setCancelled(true);
-			return;
-		}
-
 		if (event.getDamagerEntity().getType().equals(EntityType.ARROW)){
 			event.setDamage(20);
 		}
