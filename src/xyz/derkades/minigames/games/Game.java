@@ -164,9 +164,9 @@ public abstract class Game<M extends GameMap> implements Listener {
 						player.playSound(Sound.ENTITY_ARROW_HIT_PLAYER, 1.5f);
 					}
 
-					if (this.timeLeft < 35) {
-						player.getInventory().setHeldItemSlot(Math.abs((16 - this.timeLeft % 16)) / 2);
-					}
+					//if (this.timeLeft < 35) {
+					//	player.getInventory().setHeldItemSlot(Math.abs((16 - this.timeLeft % 16)) / 2);
+					//}
 				}
 
 				if (this.timeLeft == 100) {
@@ -188,6 +188,7 @@ public abstract class Game<M extends GameMap> implements Listener {
 						player.clearInventory();
 						player.setLevel(0);
 						player.setExp(0);
+						player.getInventory().setHeldItemSlot(0);
 					}
 
 					Minigames.IS_IN_GAME = true;
