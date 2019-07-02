@@ -52,14 +52,14 @@ public class GamesListMenu extends IconMenu {
 						lore.add(GRAY + "  Credits: " + map.getCredits());
 					}
 					if (player.hasPermission("minigames.list_admin")) {
-						lore.add(GRAY + "  Name for commands: " + map.getName().replace(" ", "_").toLowerCase());
+						lore.add(DARK_GRAY + "  Name for commands: " + map.getName().replace(" ", "_").toLowerCase());
 					}
 				}
 			}
 
 			if (player.hasPermission("minigames.list_admin")) {
 				lore.add("");
-				lore.add(GRAY + "Name for commands: " + game.getName().toLowerCase().replace(" ", "_"));
+				lore.add(DARK_GRAY + "Name for commands: " + game.getName().toLowerCase().replace(" ", "_"));
 				lore.add(DARK_GRAY + "" + game.getClass());
 				if (game.getGameMaps() == null) {
 					lore.add(DARK_GRAY + "No map support");
