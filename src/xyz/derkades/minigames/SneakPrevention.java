@@ -17,7 +17,7 @@ import xyz.derkades.minigames.utils.Utils;
  */
 public class SneakPrevention extends BukkitRunnable {
 
-	private static final int MAX_WARNINGS = 20;
+	private static final int MAX_WARNINGS = 10;
 
 	/**
 	 * player not in map - Sneak prevention disabled
