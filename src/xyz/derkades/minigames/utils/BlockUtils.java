@@ -92,4 +92,12 @@ public class BlockUtils {
 		}
 	}
 
+	public static void replaceBlocks(final Material original, final Material new_, final Block... blocks) {
+		for (final Block block : blocks) {
+			if (block.getType().equals(original)) {
+				block.setType(new_);
+			}
+		}
+	}
+
 }

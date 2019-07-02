@@ -21,6 +21,8 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 
 import net.md_5.bungee.api.ChatColor;
+import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.TextComponent;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
 import xyz.derkades.minigames.Minigames;
 import xyz.derkades.minigames.Points;
@@ -374,6 +376,31 @@ public class MPlayer {
 
 	private void dropItem(final ItemStack item) {
 		this.player.getLocation().getWorld().dropItemNaturally(this.player.getLocation(), item);
+	}
+
+	public void placeCage(final boolean cage) {
+		final Block block = this.player.getLocation().getBlock();
+		final Block[] blocks = new Block[] {
+				block.getRelative(BlockFace.NORTH),
+				block.getRelative(BlockFace.EAST),
+				block.getRelative(BlockFace.SOUTH),
+				block.getRelative(BlockFace.WEST),
+				block.getRelative(BlockFace.UP).getRelative(BlockFace.NORTH),
+				block.getRelative(BlockFace.UP).getRelative(BlockFace.EAST),
+				block.getRelative(BlockFace.UP).getRelative(BlockFace.SOUTH),
+				block.getRelative(BlockFace.UP).getRelative(BlockFace.WEST),
+				block.getRelative(BlockFace.UP).getRelative(BlockFace.UP),
+		};
+
+		if (cage) {
+			BlockUtils.replaceBlocks(Material.AIR, Material.GLASS, blocks);
+		} else {
+			BlockUtils.replaceBlocks(Material.GLASS, Material.AIR, blocks);
+		}
+	}
+
+	public void sendActionBar(final String message) {
+		this.player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(message));
 	}
 
 }

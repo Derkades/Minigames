@@ -28,6 +28,7 @@ import xyz.derkades.minigames.games.mysterymurder.MurderyMisterMap;
 import xyz.derkades.minigames.utils.MPlayer;
 import xyz.derkades.minigames.utils.MinigamesPlayerDamageEvent;
 import xyz.derkades.minigames.utils.MinigamesPlayerDamageEvent.DamageType;
+import xyz.derkades.minigames.utils.Queue;
 import xyz.derkades.minigames.utils.Scheduler;
 import xyz.derkades.minigames.utils.Utils;
 
@@ -82,7 +83,12 @@ public class MurderyMister extends Game<MurderyMisterMap> {
 				index = spawnLocations.length - 1;
 			}
 
-			player.teleport(spawnLocations[index]);
+			final Location location = spawnLocations[index];
+
+			Queue.add(() -> {
+				player.teleport(location);
+				player.placeCage(true);
+			});
 			index--;
 		}
 	}
@@ -114,6 +120,11 @@ public class MurderyMister extends Game<MurderyMisterMap> {
 		sheriff.giveItem(new ItemStack(Material.ARROW));
 
 		this.map.getWorld().setTime(21000);
+
+		for (final MPlayer player : Minigames.getOnlinePlayers()) {
+			player.placeCage(false);
+			player.setDisableSneaking(true);
+		}
 	}
 
 	@Override
@@ -199,13 +210,18 @@ public class MurderyMister extends Game<MurderyMisterMap> {
 						target.getInventory().addItem(new ItemBuilder(Material.ARROW).create());
 					}
 				}
-				//player.getLocation().getWorld().dropItemNaturally(player.getLocation(), new ItemBuilder(Material.BOW).unbreakable().create());
 				player.die();
 				System.out.println("Sheriff died");
 			} else {
 				// Innocent is dead
 				player.die();
 				System.out.println("Innocent died");
+				if (event.getType().equals(DamageType.ENTITY) && !event.getDamagerPlayer().getUniqueId().equals(this.murderer)) {
+					final MPlayer killer = event.getDamagerPlayer();
+					killer.bukkit().damage(40);
+					killer.sendActionBar(ChatColor.RED + "You killed an innocent player!");
+
+				}
 			}
 			player.clearInventory();
 		}
@@ -213,8 +229,10 @@ public class MurderyMister extends Game<MurderyMisterMap> {
 
 	@EventHandler
 	public void chat(final AsyncPlayerChatEvent event) {
-		new MPlayer(event).sendTitle("", ChatColor.RED + "Chat is disabled");
-		event.setCancelled(true);
+		if (this.started) {
+			new MPlayer(event).sendTitle("", ChatColor.RED + "Chat is disabled");
+			event.setCancelled(true);
+		}
 	}
 
 	private class ArrowRemoveTask extends BukkitRunnable {
