@@ -70,7 +70,7 @@ public class TntRun extends Game<TNTMap> {
 
 	@Override
 	public int gameTimer(final int secondsLeft) {
-		if (Utils.getWinnersFromAliveList(this.alive, true).size() < 5 && secondsLeft > 5){
+		if (Utils.getWinnersFromAliveList(this.alive, true).size() < 2 && secondsLeft > 5){
 			return 5;
 		}
 
