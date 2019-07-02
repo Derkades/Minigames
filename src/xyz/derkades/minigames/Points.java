@@ -76,7 +76,6 @@ public class Points {
 					new Location(Var.LOBBY_WORLD, 225, 64, 273),
 					new Location(Var.LOBBY_WORLD, 225, 64, 274),
 					new Location(Var.LOBBY_WORLD, 225, 64, 275),
-
 			};
 
 			for (int i = 0; i < 9; i++) {
