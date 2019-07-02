@@ -202,9 +202,9 @@ public abstract class Game<M extends GameMap> implements Listener {
 	private void begin() {
 		this.onPreStart();
 
-		if (this.getPreDuration() > 0) {
-			this.sendMessage(String.format("The game will start in %s seconds.", this.getPreDuration()));
-		}
+		//if (this.getPreDuration() > 2) {
+		//	this.sendMessage(String.format("The game will start in %s seconds.", this.getPreDuration()));
+		//}
 
 		new BukkitRunnable() {
 
@@ -216,10 +216,22 @@ public abstract class Game<M extends GameMap> implements Listener {
 
 				// pre-start countdown
 				if (this.secondsLeft > Game.this.getDuration()) {
+					if (Game.this.getPreDuration() > 2) {
+						final int preSeconds = this.secondsLeft - Game.this.getDuration();
+						for (final MPlayer player : Minigames.getOnlinePlayers()) {
+							if (preSeconds > 3) {
+								player.sendTitle("", GRAY + "" + preSeconds);
+							} else {
+								player.sendTitle(GOLD + "" + preSeconds, "");
+							}
+						}
+					}
+
 					return;
 				}
 
 				if (this.secondsLeft == Game.this.getDuration()) {
+					Minigames.getOnlinePlayers().forEach((p) -> p.sendTitle("", ""));
 					Game.this.sendMessage("The game has started.");
 					Game.this.onStart();
 					Game.this.started = true;
