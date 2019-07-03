@@ -10,6 +10,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 
 import xyz.derkades.minigames.games.Game;
+import xyz.derkades.minigames.games.maps.GameMap;
 
 public class CommandTabCompleter implements TabCompleter {
 
@@ -25,6 +26,20 @@ public class CommandTabCompleter implements TabCompleter {
 					.map((s) -> s.getName().replace(" ", "_").toLowerCase())
 					.filter((s) -> s.startsWith(args[1]))
 					.collect(Collectors.toList());
+		} else if (args.length == 2 && args[0].equalsIgnoreCase("map")) {
+			final List<String> mapIdentifiers = new ArrayList<>();
+			if (args[1].equals("")) {
+				mapIdentifiers.add("<map>");
+			}
+
+			for (final Game<? extends GameMap> game : Game.GAMES) {
+				for (final GameMap map : game.getGameMaps()) {
+					if (map.getIdentifier().startsWith(args[1])){
+						mapIdentifiers.add(map.getIdentifier());
+					}
+				}
+			}
+			return mapIdentifiers;
 		} else {
 			return new ArrayList<>();
 		}
