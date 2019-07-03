@@ -2,7 +2,7 @@ package xyz.derkades.minigames.games.platform;
 
 import org.bukkit.Location;
 
-import xyz.derkades.minigames.games.maps.MapSize;
+import xyz.derkades.minigames.random.Size;
 import xyz.derkades.minigames.worlds.GameWorld;
 
 public class Ice extends PlatformMap {
@@ -18,11 +18,6 @@ public class Ice extends PlatformMap {
 	}
 
 	@Override
-	public MapSize getSize() {
-		return MapSize.NORMAL;
-	}
-
-	@Override
 	public GameWorld getGameWorld() {
 		return GameWorld.PLATFORM_ICE;
 	}
@@ -30,6 +25,16 @@ public class Ice extends PlatformMap {
 	@Override
 	public String getCredits() {
 		return null;
+	}
+
+	@Override
+	public Size getSize() {
+		return Size.NORMAL;
+	}
+
+	@Override
+	public String getIdentifier() {
+		return "platform_ice";
 	}
 
 }

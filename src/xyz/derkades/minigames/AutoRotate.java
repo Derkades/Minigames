@@ -6,6 +6,7 @@ import org.bukkit.Bukkit;
 
 import xyz.derkades.minigames.games.Game;
 import xyz.derkades.minigames.games.maps.GameMap;
+import xyz.derkades.minigames.random.RandomPicking;
 import xyz.derkades.minigames.utils.Scheduler;
 
 public class AutoRotate {
@@ -30,18 +31,7 @@ public class AutoRotate {
 			return;
 		}
 
-		// If a next game is set by a command, do that game next. Otherwise, pick a random game.
-		final Game<? extends GameMap> game = Minigames.NEXT_GAME == null ? Game.getRandomGame() : Minigames.NEXT_GAME;
-
-
-		// If the randomly selected game is the same as the last game pick a new game
-		// Skip check when next minigame has been set
-		if (Minigames.NEXT_GAME == null && game.getName() == Minigames.LAST_GAME_NAME){
-			startNewRandomGame();
-			return;
-		}
-
-		Minigames.NEXT_GAME = null;
+		final Game<? extends GameMap> game = RandomPicking.getRandomGame();
 
 		//If there are not enough online players, try again
 		if (Bukkit.getOnlinePlayers().size() < game.getRequiredPlayers() && !Minigames.BYPASS_PLAYER_MINIMUM_CHECKS){
@@ -51,7 +41,7 @@ public class AutoRotate {
 
 		//Enough players, let's start the game
 
-		Minigames.CURRENT_GAME_NAME = game.getName();
+		Minigames.CURRENT_GAME_NAME = game.getName(); // For SSX-Connector
 
 		Minigames.BYPASS_PLAYER_MINIMUM_CHECKS = false;
 

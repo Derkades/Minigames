@@ -7,9 +7,7 @@ import static net.md_5.bungee.api.ChatColor.YELLOW;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
@@ -30,14 +28,17 @@ import xyz.derkades.minigames.AutoRotate;
 import xyz.derkades.minigames.ChatPoll.Poll;
 import xyz.derkades.minigames.ChatPoll.PollAnswer;
 import xyz.derkades.minigames.Minigames;
+import xyz.derkades.minigames.Minigames.ShutdownReason;
 import xyz.derkades.minigames.Var;
 import xyz.derkades.minigames.games.maps.GameMap;
+import xyz.derkades.minigames.random.RandomlyPickable;
+import xyz.derkades.minigames.random.Size;
 import xyz.derkades.minigames.utils.MPlayer;
 import xyz.derkades.minigames.utils.Queue;
 import xyz.derkades.minigames.utils.Scheduler;
 import xyz.derkades.minigames.utils.Utils;
 
-public abstract class Game<M extends GameMap> implements Listener {
+public abstract class Game<M extends GameMap> implements Listener, RandomlyPickable {
 
 	public static final Game<? extends GameMap>[] GAMES = new Game<?>[] {
 			new BreakTheBlock(),
@@ -99,8 +100,7 @@ public abstract class Game<M extends GameMap> implements Listener {
 
 		// Pick random map
 		if (this.getGameMaps() == null) {
-			this.map = null;
-			Bukkit.broadcastMessage("Warning, no map!");
+			Minigames.shutdown(ShutdownReason.EMERGENCY_AUTOMATIC, "Minigame does not have a map - " + this.getName());
 		} else {
 			this.map = ListUtils.getRandomValueFromArray(this.getGameMaps());
 		}
@@ -146,7 +146,7 @@ public abstract class Game<M extends GameMap> implements Listener {
 		}
 
 		// Set current game name. This is used to check prevent the same game from starting again after this.
-		Minigames.LAST_GAME_NAME = this.getName();
+		//Minigames.LAST_GAME_NAME = this.getName();
 
 		// Countdown using sounds and the XP bar
 		new BukkitRunnable() {
@@ -202,10 +202,6 @@ public abstract class Game<M extends GameMap> implements Listener {
 	private void begin() {
 		this.onPreStart();
 		this.map.onPreStart();
-
-		//if (this.getPreDuration() > 2) {
-		//	this.sendMessage(String.format("The game will start in %s seconds.", this.getPreDuration()));
-		//}
 
 		new BukkitRunnable() {
 
@@ -316,7 +312,6 @@ public abstract class Game<M extends GameMap> implements Listener {
 				player.addPoints(1);
 				player.sendTitle(GOLD + "You've lost", YELLOW + "+1 point");
 			}
-			//player.sendMessage(DARK_AQUA + "You currently have " + AQUA + Points.getPoints(player) + DARK_AQUA + " points.");
 		}
 
 		Utils.showEveryoneToEveryone();
@@ -339,24 +334,21 @@ public abstract class Game<M extends GameMap> implements Listener {
 			Scheduler.delay(20, () -> {
 				if (this.getRequiredPlayers() > 1) {
 					final Poll poll = new Poll("Did you enjoy this game?", (player, option) -> {
-						double multiplier = Minigames.getInstance().getConfig().contains("game-voting." + Game.this.getName())
-								? Minigames.getInstance().getConfig().getDouble("game-voting." + Game.this.getName())
-								: 1;
+						double weight = this.getWeight();
 
 						if (option == 1) {
-							multiplier *= 1.1; //Increase chance factor a bit (e.g. from to 1.5 to 1.65)
+							weight *= 1.1; //Increase chance factor a bit (e.g. from to 1.5 to 1.65)
 						} else if (option == 2){
-							multiplier *= 0.9; //Decrease chance factor a bit (e.g. from 1.5 to 1.35)
+							weight *= 0.9; //Decrease chance factor a bit (e.g. from 1.5 to 1.35)
 						}
 
 						player.sendMessage(ChatColor.GRAY + "Your vote has been registered.");
 
-						if (multiplier > 5) {
-							multiplier = 5;
+						if (weight > 5) {
+							weight = 5;
 						}
 
-						Minigames.getInstance().getConfig().set("game-voting." + Game.this.getName(), multiplier);
-						Minigames.getInstance().saveConfig();
+						this.setWeight(weight);
 					}, new PollAnswer(1, "Yes", ChatColor.GREEN, "The game will be picked more often"),
 							new PollAnswer(2, "No", ChatColor.RED, "The game will be picked less often"));
 
@@ -364,23 +356,21 @@ public abstract class Game<M extends GameMap> implements Listener {
 				}
 
 				final Poll poll = new Poll("Did you enjoy this map?", (player, option) -> {
-					final String configPath = "game-voting.map." + Game.this.getName() + "." + this.map.getName();
-					double multiplier = Minigames.getInstance().getConfig().getDouble(configPath, 1);
+					double weight = this.map.getWeight();
 
 					if (option == 1) {
-						multiplier *= 1.1; //Increase chance factor a bit (e.g. from to 1.5 to 1.65)
+						weight *= 1.1; //Increase chance factor a bit (e.g. from to 1.5 to 1.65)
 					} else if (option == 2){
-						multiplier *= 0.9; //Decrease chance factor a bit (e.g. from 1.5 to 1.35)
+						weight *= 0.9; //Decrease chance factor a bit (e.g. from 1.5 to 1.35)
 					}
 
 					player.sendMessage(ChatColor.GRAY + "Your vote has been registered.");
 
-					if (multiplier > 5) {
-						multiplier = 5;
+					if (weight > 5) {
+						weight = 5;
 					}
 
-					Minigames.getInstance().getConfig().set(configPath, multiplier);
-					Minigames.getInstance().saveConfig();
+					this.map.setWeight(weight);
 				}, new PollAnswer(1, "Yes", ChatColor.GREEN, "The map will be picked more often"),
 						new PollAnswer(2, "No", ChatColor.RED, "The map will be picked less often"));
 
@@ -415,25 +405,42 @@ public abstract class Game<M extends GameMap> implements Listener {
 		});
 	}
 
-	public static Game<? extends GameMap> getRandomGame(){
-		final Map<Game<? extends GameMap>, Double> weightedList = new HashMap<>();
-
-		// Populate hashmap
-		for (final Game<?> game : GAMES) {
-			final String gameName = game.getName();
-			final double weight = Minigames.getInstance().getConfig().contains("game-voting." + gameName)
-					? Minigames.getInstance().getConfig().getDouble("game-voting." + gameName)
-					: 1;
-			weightedList.put(game, weight);
+	@Override
+	public void setWeight(final double weight) {
+		if (this.getName() == null) {
+			Minigames.shutdown(ShutdownReason.EMERGENCY_AUTOMATIC, "Game name is null");
+			return;
 		}
 
-		final Game<?> random = Utils.getWeightedRandom(weightedList);
+		final String configPath = "game-voting." + this.getName();
+		Minigames.getInstance().getConfig().set(configPath, weight);
+		Minigames.getInstance().saveConfig();
+	}
 
-		return random;
+	@Override
+	public double getWeight() {
+		if (this.getName() == null) {
+			Minigames.shutdown(ShutdownReason.EMERGENCY_AUTOMATIC, "Game name is null");
+			return 0;
+		}
+
+		final String configPath = "game-voting." + this.getName();
+		return Minigames.getInstance().getConfig().getDouble(configPath, 1);
+	}
+
+	@Override
+	public Size getSize() {
+		if (this.getRequiredPlayers() > 4) {
+			return Size.LARGE;
+		} else if (this.getRequiredPlayers() > 2) {
+			return Size.NORMAL;
+		} else {
+			return Size.SMALL;
+		}
 	}
 
 	public static Game<? extends GameMap> fromString(String string) {
-		if (string.equalsIgnoreCase("oitq")) {
+		if (string.equalsIgnoreCase("oitq")) { // TODO Proper aliases support
 			string = "one in the quiver";
 		} else if (string.equalsIgnoreCase("tbb")) {
 			string = "teams bow battle";

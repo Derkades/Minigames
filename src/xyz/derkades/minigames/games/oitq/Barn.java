@@ -2,7 +2,7 @@ package xyz.derkades.minigames.games.oitq;
 
 import org.bukkit.Location;
 
-import xyz.derkades.minigames.games.maps.MapSize;
+import xyz.derkades.minigames.random.Size;
 import xyz.derkades.minigames.worlds.GameWorld;
 
 public class Barn extends OITQMap {
@@ -18,11 +18,6 @@ public class Barn extends OITQMap {
 	}
 
 	@Override
-	public MapSize getSize() {
-		return null;
-	}
-
-	@Override
 	public GameWorld getGameWorld() {
 		return GameWorld.OITQ_BARN;
 	}
@@ -30,6 +25,16 @@ public class Barn extends OITQMap {
 	@Override
 	public String getCredits() {
 		return "funlolxxl";
+	}
+
+	@Override
+	public Size getSize() {
+		return Size.LARGE;
+	}
+
+	@Override
+	public String getIdentifier() {
+		return "oneinthequiver_barn";
 	}
 
 }

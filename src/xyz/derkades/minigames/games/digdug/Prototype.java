@@ -2,7 +2,7 @@ package xyz.derkades.minigames.games.digdug;
 
 import org.bukkit.Location;
 
-import xyz.derkades.minigames.games.maps.MapSize;
+import xyz.derkades.minigames.random.Size;
 import xyz.derkades.minigames.worlds.GameWorld;
 
 public class Prototype extends DigDugMap {
@@ -28,11 +28,6 @@ public class Prototype extends DigDugMap {
 	}
 
 	@Override
-	public MapSize getSize() {
-		return MapSize.NORMAL;
-	}
-
-	@Override
 	public GameWorld getGameWorld() {
 		return GameWorld.DIGDUG_PROTOTYPE;
 	}
@@ -40,6 +35,16 @@ public class Prototype extends DigDugMap {
 	@Override
 	public String getCredits() {
 		return null;
+	}
+
+	@Override
+	public Size getSize() {
+		return Size.NORMAL;
+	}
+
+	@Override
+	public String getIdentifier() {
+		return "digdug_prototype";
 	}
 
 }

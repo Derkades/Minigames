@@ -11,7 +11,6 @@ public abstract class SpeedrunMap extends GameMap {
 		new Backwards(),
 		new Classic(),
 		new Construction(),
-		//new Trees(),
 	};
 
 	public Material getFloorBlock() {

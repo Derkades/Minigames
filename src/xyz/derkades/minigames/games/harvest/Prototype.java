@@ -5,7 +5,7 @@ import org.bukkit.Material;
 import org.bukkit.block.data.Ageable;
 
 import xyz.derkades.minigames.Var;
-import xyz.derkades.minigames.games.maps.MapSize;
+import xyz.derkades.minigames.random.Size;
 import xyz.derkades.minigames.utils.BlockUtils;
 import xyz.derkades.minigames.worlds.GameWorld;
 
@@ -14,11 +14,6 @@ public class Prototype extends HarvestMap {
 	@Override
 	public String getName() {
 		return "Prototype";
-	}
-
-	@Override
-	public MapSize getSize() {
-		return null;
 	}
 
 	@Override
@@ -39,6 +34,16 @@ public class Prototype extends HarvestMap {
 	@Override
 	public String getCredits() {
 		return null;
+	}
+
+	@Override
+	public Size getSize() {
+		return Size.SMALL;
+	}
+
+	@Override
+	public String getIdentifier() {
+		return "harvest_prototype";
 	}
 
 }

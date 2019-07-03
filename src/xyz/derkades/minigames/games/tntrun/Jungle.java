@@ -3,7 +3,7 @@ package xyz.derkades.minigames.games.tntrun;
 import org.bukkit.Location;
 import org.bukkit.Material;
 
-import xyz.derkades.minigames.games.maps.MapSize;
+import xyz.derkades.minigames.random.Size;
 import xyz.derkades.minigames.utils.BlockUtils;
 import xyz.derkades.minigames.worlds.GameWorld;
 
@@ -34,11 +34,6 @@ public class Jungle extends TNTMap {
 	}
 
 	@Override
-	public MapSize getSize() {
-		return MapSize.SMALL;
-	}
-
-	@Override
 	public GameWorld getGameWorld() {
 		return GameWorld.TNTRUN_JUNGLE;
 	}
@@ -46,6 +41,16 @@ public class Jungle extends TNTMap {
 	@Override
 	public String getCredits() {
 		return null;
+	}
+
+	@Override
+	public Size getSize() {
+		return Size.SMALL;
+	}
+
+	@Override
+	public String getIdentifier() {
+		return "tntrun_jungle";
 	}
 
 }

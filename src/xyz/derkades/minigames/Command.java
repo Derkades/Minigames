@@ -3,18 +3,17 @@ package xyz.derkades.minigames;
 import java.util.Arrays;
 
 import org.bukkit.Bukkit;
-import org.bukkit.GameMode;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import net.md_5.bungee.api.ChatColor;
+import xyz.derkades.minigames.Minigames.ShutdownReason;
 import xyz.derkades.minigames.games.Game;
-import xyz.derkades.minigames.games.maps.GameMap;
 import xyz.derkades.minigames.menu.GamesListMenu;
 import xyz.derkades.minigames.menu.MainMenu;
+import xyz.derkades.minigames.random.RandomPicking;
 import xyz.derkades.minigames.utils.MPlayer;
-import xyz.derkades.minigames.utils.Queue;
 import xyz.derkades.minigames.worlds.GameWorld;
 
 public class Command implements CommandExecutor {
@@ -22,20 +21,14 @@ public class Command implements CommandExecutor {
 	@Override
 	public boolean onCommand(final CommandSender sender, final org.bukkit.command.Command arg1, final String arg2, final String[] args) {
 		if (args.length == 2 && (args[0].equalsIgnoreCase("next") || args[0].equalsIgnoreCase("n")) && sender.hasPermission("minigames.next")) {
-			final Game<? extends GameMap> game = Game.fromString(args[1].replace("_", " "));
-			if (game == null){
-				sender.sendMessage(ChatColor.RED + "Unknown game. Make sure the game is spelled correctly. For spaces use underscores.");
-				return true;
-			} else {
-				Minigames.NEXT_GAME = game;
-				Minigames.BYPASS_PLAYER_MINIMUM_CHECKS = true;
-				sender.sendMessage("Bypassing player minimum and forcing " + game.getName() + " to be chosen as the next game.");
-			}
+			RandomPicking.FORCE_GAME = args[1].replace("_", " ");
+			Minigames.BYPASS_PLAYER_MINIMUM_CHECKS = true;
+			sender.sendMessage("If exists, " + args[1] + " will be chosen as the next game");
 		}
 
 		if (args.length == 2 && (args[0].equalsIgnoreCase("map") || args[0].equalsIgnoreCase("m")) && sender.hasPermission("minigames.nextmap")) {
 			//final Game<? extends GameMap> game = Game.fromString(args[1].replace("_", " "));
-			Minigames.NEXT_MAP = args[1].replace("_", " ");
+			RandomPicking.FORCE_MAP = args[1].replace("_", " ");
 			//sender.sendMessage("Bypassing player minimum and forcing " + game.getName() + " to be chosen as the next game.");
 			sender.sendMessage("If exists, " + args[1] + " will be chosen as the next map");
 			return true;
@@ -49,17 +42,7 @@ public class Command implements CommandExecutor {
 				sender.sendMessage(ChatColor.RED + "! STOPPED GAMES !");
 				Minigames.STOP_GAMES = true;
 			} else if (args[0].equalsIgnoreCase("!") && sender.hasPermission("minigames.emerg")) {
-				sender.sendMessage("! EMERGENCY STOP !");
-				Bukkit.broadcastMessage(ChatColor.RED + "Initiating emergency stop. You may be kicked or experience lag.");
-
-				Minigames.getOnlinePlayers().forEach((p) -> {
-					p.clearInventory();
-					p.clearPotionEffects();
-					p.setGameMode(GameMode.ADVENTURE);
-					p.queueTeleport(Var.LOBBY_LOCATION);
-				});
-
-				Queue.add(Bukkit::reload);
+				Minigames.shutdown(ShutdownReason.EMERGENCY_MANUAL, "The /games ! command was executed");
 			} else if (args[0].equalsIgnoreCase("min") && sender.hasPermission("minigames.min")) {
 				Minigames.BYPASS_PLAYER_MINIMUM_CHECKS = true;
 				sender.sendMessage("Bypassing minimum player check");

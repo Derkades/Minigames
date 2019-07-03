@@ -2,7 +2,7 @@ package xyz.derkades.minigames.games.oitq;
 
 import org.bukkit.Location;
 
-import xyz.derkades.minigames.games.maps.MapSize;
+import xyz.derkades.minigames.random.Size;
 import xyz.derkades.minigames.worlds.GameWorld;
 
 public class HouseWithFarm extends OITQMap {
@@ -19,11 +19,6 @@ public class HouseWithFarm extends OITQMap {
 	}
 
 	@Override
-	public MapSize getSize() {
-		return MapSize.NORMAL;
-	}
-
-	@Override
 	public GameWorld getGameWorld() {
 		return GameWorld.OITQ_FARMHOUSE;
 	}
@@ -31,6 +26,16 @@ public class HouseWithFarm extends OITQMap {
 	@Override
 	public String getCredits() {
 		return null;
+	}
+
+	@Override
+	public Size getSize() {
+		return Size.SMALL;
+	}
+
+	@Override
+	public String getIdentifier() {
+		return "oneinthequiver_farmhouse";
 	}
 
 }

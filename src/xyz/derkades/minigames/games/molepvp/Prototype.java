@@ -4,7 +4,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 
 import xyz.derkades.minigames.Var;
-import xyz.derkades.minigames.games.maps.MapSize;
+import xyz.derkades.minigames.random.Size;
 import xyz.derkades.minigames.utils.BlockUtils;
 import xyz.derkades.minigames.worlds.GameWorld;
 
@@ -34,11 +34,6 @@ public class Prototype extends MolePvPMap {
 	}
 
 	@Override
-	public MapSize getSize() {
-		return MapSize.NORMAL;
-	}
-
-	@Override
 	public GameWorld getGameWorld() {
 		return null;
 	}
@@ -46,6 +41,16 @@ public class Prototype extends MolePvPMap {
 	@Override
 	public String getCredits() {
 		return null;
+	}
+
+	@Override
+	public Size getSize() {
+		return null;
+	}
+
+	@Override
+	public String getIdentifier() {
+		return "molepvp_prototype";
 	}
 
 }

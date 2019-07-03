@@ -3,7 +3,7 @@ package xyz.derkades.minigames.games.spleef;
 import org.bukkit.Location;
 import org.bukkit.Material;
 
-import xyz.derkades.minigames.games.maps.MapSize;
+import xyz.derkades.minigames.random.Size;
 import xyz.derkades.minigames.utils.BlockUtils;
 import xyz.derkades.minigames.worlds.GameWorld;
 
@@ -25,11 +25,6 @@ public class Original extends SpleefMap {
 	}
 
 	@Override
-	public MapSize getSize() {
-		return MapSize.SMALL;
-	}
-
-	@Override
 	public GameWorld getGameWorld() {
 		return GameWorld.SPLEEF_ORIGINAL;
 	}
@@ -42,6 +37,16 @@ public class Original extends SpleefMap {
 	@Override
 	public String getCredits() {
 		return null;
+	}
+
+	@Override
+	public Size getSize() {
+		return Size.SMALL;
+	}
+
+	@Override
+	public String getIdentifier() {
+		return "spleef_original";
 	}
 
 }

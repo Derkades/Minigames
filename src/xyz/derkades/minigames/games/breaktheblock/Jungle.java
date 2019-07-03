@@ -4,7 +4,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 
 import xyz.derkades.minigames.Minigames;
-import xyz.derkades.minigames.games.maps.MapSize;
+import xyz.derkades.minigames.random.Size;
 import xyz.derkades.minigames.utils.MPlayer;
 import xyz.derkades.minigames.worlds.GameWorld;
 
@@ -36,11 +36,6 @@ public class Jungle extends BreakTheBlockMap {
 	}
 
 	@Override
-	public MapSize getSize() {
-		return null;
-	}
-
-	@Override
 	public GameWorld getGameWorld() {
 		return GameWorld.BTB_JUNGLE;
 	}
@@ -48,6 +43,16 @@ public class Jungle extends BreakTheBlockMap {
 	@Override
 	public String getCredits() {
 		return "funlolxxl";
+	}
+
+	@Override
+	public Size getSize() {
+		return null;
+	}
+
+	@Override
+	public String getIdentifier() {
+		return "breaktheblock_jungle";
 	}
 
 }

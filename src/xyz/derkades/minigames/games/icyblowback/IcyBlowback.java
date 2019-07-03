@@ -2,7 +2,7 @@ package xyz.derkades.minigames.games.icyblowback;
 
 import org.bukkit.Location;
 
-import xyz.derkades.minigames.games.maps.MapSize;
+import xyz.derkades.minigames.random.Size;
 import xyz.derkades.minigames.worlds.GameWorld;
 
 public class IcyBlowback extends IcyBlowbackMap {
@@ -23,11 +23,6 @@ public class IcyBlowback extends IcyBlowbackMap {
 	}
 
 	@Override
-	public MapSize getSize() {
-		return MapSize.LARGE;
-	}
-
-	@Override
 	public GameWorld getGameWorld() {
 		return GameWorld.ICYBLOWBACK_ICYBLOWBACK;
 	}
@@ -40,6 +35,16 @@ public class IcyBlowback extends IcyBlowbackMap {
 	@Override
 	public String getCredits() {
 		return "Yaraka";
+	}
+
+	@Override
+	public Size getSize() {
+		return null;
+	}
+
+	@Override
+	public String getIdentifier() {
+		return "icyblowback_icyblowback";
 	}
 
 }

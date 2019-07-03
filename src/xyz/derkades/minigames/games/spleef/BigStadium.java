@@ -3,7 +3,7 @@ package xyz.derkades.minigames.games.spleef;
 import org.bukkit.Location;
 import org.bukkit.Material;
 
-import xyz.derkades.minigames.games.maps.MapSize;
+import xyz.derkades.minigames.random.Size;
 import xyz.derkades.minigames.utils.BlockUtils;
 import xyz.derkades.minigames.worlds.GameWorld;
 
@@ -25,11 +25,6 @@ public class BigStadium extends SpleefMap {
 	}
 
 	@Override
-	public MapSize getSize() {
-		return MapSize.LARGE;
-	}
-
-	@Override
 	public GameWorld getGameWorld() {
 		return GameWorld.SPLEEF_BIGSTADIUM;
 	}
@@ -42,6 +37,16 @@ public class BigStadium extends SpleefMap {
 	@Override
 	public String getCredits() {
 		return "MissChikoo";
+	}
+
+	@Override
+	public Size getSize() {
+		return Size.LARGE;
+	}
+
+	@Override
+	public String getIdentifier() {
+		return "spleef_bigstadium";
 	}
 
 }

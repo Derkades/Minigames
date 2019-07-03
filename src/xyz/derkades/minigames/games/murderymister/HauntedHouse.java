@@ -2,7 +2,7 @@ package xyz.derkades.minigames.games.murderymister;
 
 import org.bukkit.Location;
 
-import xyz.derkades.minigames.games.maps.MapSize;
+import xyz.derkades.minigames.random.Size;
 import xyz.derkades.minigames.worlds.GameWorld;
 
 public class HauntedHouse extends MurderyMisterMap {
@@ -51,11 +51,6 @@ public class HauntedHouse extends MurderyMisterMap {
 	}
 
 	@Override
-	public MapSize getSize() {
-		return null;
-	}
-
-	@Override
 	public GameWorld getGameWorld() {
 		return GameWorld.MM_HAUNTEDHOUSE;
 	}
@@ -63,6 +58,16 @@ public class HauntedHouse extends MurderyMisterMap {
 	@Override
 	public String getCredits() {
 		return "funlolxxl";
+	}
+
+	@Override
+	public Size getSize() {
+		return Size.NORMAL;
+	}
+
+	@Override
+	public String getIdentifier() {
+		return "murderymister_hauntedhouse";
 	}
 
 }

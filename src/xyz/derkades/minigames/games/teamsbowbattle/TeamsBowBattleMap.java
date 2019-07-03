@@ -8,7 +8,6 @@ public abstract class TeamsBowBattleMap extends GameMap {
 
 	public static final TeamsBowBattleMap[] MAPS = {
 			new Forest(),
-			new Prototype(),
 	};
 
 	public abstract Location getTeamRedSpawnLocation();

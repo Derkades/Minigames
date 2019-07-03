@@ -3,7 +3,7 @@ package xyz.derkades.minigames.games.dropper;
 import org.bukkit.Location;
 import org.bukkit.Material;
 
-import xyz.derkades.minigames.games.maps.MapSize;
+import xyz.derkades.minigames.random.Size;
 import xyz.derkades.minigames.utils.BlockUtils;
 import xyz.derkades.minigames.worlds.GameWorld;
 
@@ -30,11 +30,6 @@ public class Rainbow extends DropperMap {
 	}
 
 	@Override
-	public MapSize getSize() {
-		return null;
-	}
-
-	@Override
 	public GameWorld getGameWorld() {
 		return GameWorld.DROPPER_RAINBOW;
 	}
@@ -42,6 +37,16 @@ public class Rainbow extends DropperMap {
 	@Override
 	public String getCredits() {
 		return "Partydragen, RedstonerNor, Mr_Roky_HD, EnderAdamGaming";
+	}
+
+	@Override
+	public Size getSize() {
+		return null;
+	}
+
+	@Override
+	public String getIdentifier() {
+		return "dropper_rainbow";
 	}
 
 }

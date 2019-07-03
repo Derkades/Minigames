@@ -3,7 +3,7 @@ package xyz.derkades.minigames.games.dropper;
 import org.bukkit.Location;
 import org.bukkit.Material;
 
-import xyz.derkades.minigames.games.maps.MapSize;
+import xyz.derkades.minigames.random.Size;
 import xyz.derkades.minigames.utils.BlockUtils;
 import xyz.derkades.minigames.worlds.GameWorld;
 
@@ -34,11 +34,6 @@ public class Trees extends DropperMap {
 	}
 
 	@Override
-	public MapSize getSize() {
-		return null;
-	}
-
-	@Override
 	public GameWorld getGameWorld() {
 		return GameWorld.DROPPER_TREES;
 	}
@@ -46,6 +41,16 @@ public class Trees extends DropperMap {
 	@Override
 	public String getCredits() {
 		return null;
+	}
+
+	@Override
+	public Size getSize() {
+		return null;
+	}
+
+	@Override
+	public String getIdentifier() {
+		return "dropper_trees";
 	}
 
 }

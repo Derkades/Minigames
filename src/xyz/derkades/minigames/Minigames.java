@@ -6,14 +6,14 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import net.md_5.bungee.api.ChatColor;
 import net.milkbowl.vault.economy.Economy;
-import xyz.derkades.minigames.games.Game;
-import xyz.derkades.minigames.games.maps.GameMap;
 import xyz.derkades.minigames.task.RegenerateHunger;
 import xyz.derkades.minigames.utils.MPlayer;
 import xyz.derkades.minigames.utils.Queue;
@@ -32,22 +32,12 @@ public class Minigames extends JavaPlugin implements Listener {
 
 	public static boolean STOP_GAMES = false;
 
-	public static String LAST_GAME_NAME = null;
+	//public static String LAST_GAME_NAME = null;
 
 	/**
 	 * Used by connector addon @see {@link #getCurrentGameName()}
 	 */
 	public static String CURRENT_GAME_NAME = "Error";
-
-	/**
-	 * Used to force the next game to be a certain game.
-	 */
-	public static Game<? extends GameMap> NEXT_GAME = null;
-
-	/**
-	 * Used to force the next map
-	 */
-	public static String NEXT_MAP;
 
 	public static boolean BYPASS_PLAYER_MINIMUM_CHECKS = false;
 
@@ -165,6 +155,29 @@ public class Minigames extends JavaPlugin implements Listener {
     	final List<MPlayer> players = getOnlinePlayers();
     	Collections.shuffle(players);
     	return players;
+    }
+
+    public static void shutdown(final ShutdownReason reason, final String text) {
+    	if (reason == ShutdownReason.EMERGENCY_AUTOMATIC) {
+    		Bukkit.broadcastMessage(ChatColor.RED + "Something went wrong, so an emergency shutdown been performed automatically. "
+    				+ "Please notify a server administrator if they are not online.");
+    	} else if (reason == ShutdownReason.EMERGENCY_MANUAL) {
+    		Bukkit.broadcastMessage(ChatColor.RED + "An administrator has performed an emergency shutdown.");
+    	} else {
+    		shutdown(ShutdownReason.EMERGENCY_AUTOMATIC, "Shutdown reason is invalid or null. Original text: " + text);
+    	}
+
+		Minigames.getOnlinePlayers().forEach((p) -> {
+			p.clearInventory();
+			p.setGameMode(GameMode.ADVENTURE);
+			p.teleport(Var.LOBBY_LOCATION);
+		});
+
+		Bukkit.reload();
+    }
+
+    public static enum ShutdownReason {
+    	EMERGENCY_MANUAL, EMERGENCY_AUTOMATIC;
     }
 
 }

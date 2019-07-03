@@ -6,7 +6,7 @@ import java.util.Map;
 import org.bukkit.Location;
 
 import xyz.derkades.minigames.games.Tron.TronTeam;
-import xyz.derkades.minigames.games.maps.MapSize;
+import xyz.derkades.minigames.random.Size;
 import xyz.derkades.minigames.worlds.GameWorld;
 
 public class Prototype extends TronMap {
@@ -14,11 +14,6 @@ public class Prototype extends TronMap {
 	@Override
 	public String getName() {
 		return "Prototype";
-	}
-
-	@Override
-	public MapSize getSize() {
-		return MapSize.LARGE;
 	}
 
 	@Override
@@ -65,6 +60,16 @@ public class Prototype extends TronMap {
 	@Override
 	public String getCredits() {
 		return null;
+	}
+
+	@Override
+	public Size getSize() {
+		return null;
+	}
+
+	@Override
+	public String getIdentifier() {
+		return "tron_prototype";
 	}
 
 

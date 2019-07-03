@@ -2,7 +2,7 @@ package xyz.derkades.minigames.games.gladeroyale;
 
 import org.bukkit.Location;
 
-import xyz.derkades.minigames.games.maps.MapSize;
+import xyz.derkades.minigames.random.Size;
 import xyz.derkades.minigames.worlds.GameWorld;
 
 public class Santiago extends GladeRoyaleMap {
@@ -23,11 +23,6 @@ public class Santiago extends GladeRoyaleMap {
 	}
 
 	@Override
-	public MapSize getSize() {
-		return null;
-	}
-
-	@Override
 	public GameWorld getGameWorld() {
 		return GameWorld.MGR_SANTIAGO;
 	}
@@ -35,6 +30,16 @@ public class Santiago extends GladeRoyaleMap {
 	@Override
 	public String getCredits() {
 		return "'Santiago Valley' by Juancy on Planet Minecraft";
+	}
+
+	@Override
+	public Size getSize() {
+		return Size.LARGE;
+	}
+
+	@Override
+	public String getIdentifier() {
+		return "gladeroyale_santiago";
 	}
 
 }

@@ -4,7 +4,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.potion.PotionEffectType;
 
-import xyz.derkades.minigames.games.maps.MapSize;
+import xyz.derkades.minigames.random.Size;
 import xyz.derkades.minigames.utils.Utils;
 import xyz.derkades.minigames.worlds.GameWorld;
 
@@ -13,11 +13,6 @@ public class Forest extends TeamsBowBattleMap {
 	@Override
 	public String getName() {
 		return "Forest";
-	}
-
-	@Override
-	public MapSize getSize() {
-		return MapSize.LARGE;
 	}
 
 	@Override
@@ -43,6 +38,16 @@ public class Forest extends TeamsBowBattleMap {
 	@Override
 	public String getCredits() {
 		return "Yaraka";
+	}
+
+	@Override
+	public Size getSize() {
+		return Size.LARGE;
+	}
+
+	@Override
+	public String getIdentifier() {
+		return "teamsbowbattle_forest";
 	}
 
 }

@@ -3,7 +3,7 @@ package xyz.derkades.minigames.games.parkour;
 import org.bukkit.Location;
 import org.bukkit.Material;
 
-import xyz.derkades.minigames.games.maps.MapSize;
+import xyz.derkades.minigames.random.Size;
 import xyz.derkades.minigames.utils.MPlayer;
 import xyz.derkades.minigames.worlds.GameWorld;
 
@@ -12,11 +12,6 @@ public class TNT extends ParkourMap {
 	@Override
 	public String getName() {
 		return "TNT";
-	}
-
-	@Override
-	public MapSize getSize() {
-		return MapSize.NORMAL;
 	}
 
 	@Override
@@ -58,6 +53,16 @@ public class TNT extends ParkourMap {
 	@Override
 	public String getCredits() {
 		return null;
+	}
+
+	@Override
+	public Size getSize() {
+		return null;
+	}
+
+	@Override
+	public String getIdentifier() {
+		return "parkour_tnt";
 	}
 
 }

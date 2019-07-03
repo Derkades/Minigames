@@ -3,7 +3,7 @@ package xyz.derkades.minigames.games.breaktheblock;
 import org.bukkit.Location;
 import org.bukkit.Material;
 
-import xyz.derkades.minigames.games.maps.MapSize;
+import xyz.derkades.minigames.random.Size;
 import xyz.derkades.minigames.worlds.GameWorld;
 
 public class Prototype extends BreakTheBlockMap {
@@ -11,11 +11,6 @@ public class Prototype extends BreakTheBlockMap {
 	@Override
 	public String getName() {
 		return "Prototype";
-	}
-
-	@Override
-	public MapSize getSize() {
-		return null;
 	}
 
 	@Override
@@ -36,6 +31,16 @@ public class Prototype extends BreakTheBlockMap {
 	@Override
 	public String getCredits() {
 		return null;
+	}
+
+	@Override
+	public Size getSize() {
+		return Size.SMALL;
+	}
+
+	@Override
+	public String getIdentifier() {
+		return "breaktheblock_prototype";
 	}
 
 }

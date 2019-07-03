@@ -5,7 +5,7 @@ import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.entity.Player;
 
-import xyz.derkades.minigames.games.maps.MapSize;
+import xyz.derkades.minigames.random.Size;
 import xyz.derkades.minigames.utils.MPlayer;
 import xyz.derkades.minigames.worlds.GameWorld;
 
@@ -14,11 +14,6 @@ public class JungleRun extends ParkourMap {
 	@Override
 	public String getName() {
 		return "Jungle";
-	}
-
-	@Override
-	public MapSize getSize() {
-		return null;
 	}
 
 	@Override
@@ -67,6 +62,16 @@ public class JungleRun extends ParkourMap {
 	@Override
 	public String getCredits() {
 		return null;
+	}
+
+	@Override
+	public Size getSize() {
+		return null;
+	}
+
+	@Override
+	public String getIdentifier() {
+		return "parkour_jungle";
 	}
 
 }
