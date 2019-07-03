@@ -1,6 +1,7 @@
 package xyz.derkades.minigames;
 
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandExecutor;
@@ -10,6 +11,7 @@ import org.bukkit.entity.Player;
 import net.md_5.bungee.api.ChatColor;
 import xyz.derkades.minigames.Minigames.ShutdownReason;
 import xyz.derkades.minigames.games.Game;
+import xyz.derkades.minigames.games.maps.GameMap;
 import xyz.derkades.minigames.menu.GamesListMenu;
 import xyz.derkades.minigames.menu.MainMenu;
 import xyz.derkades.minigames.random.RandomPicking;
@@ -119,8 +121,16 @@ public class Command implements CommandExecutor {
 //				fall.setVelocity(velocity);
 //				block.setType(Material.AIR);
 
-				sender.sendMessage(String.join(" ", (String[]) Arrays.asList(Game.GAMES).stream().map((s) -> s.getName().replace(" ", "_").toLowerCase())/*.filter((s) -> s.startsWith(args[1]))*/.toArray()));
-
+				final List<String> mapIdentifiers = new ArrayList<>();
+				mapIdentifiers.add("<map>");
+				for (final Game<? extends GameMap> game : Game.GAMES) {
+					for (final GameMap map : game.getGameMaps()) {
+						//if (args[1].startsWith(map.getIdentifier())){
+							mapIdentifiers.add(map.getIdentifier());
+						//}
+					}
+				}
+				sender.sendMessage(String.join(", ", mapIdentifiers));
 			} else {
 				sender.sendMessage("no.");
 			}
