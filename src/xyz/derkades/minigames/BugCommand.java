@@ -10,7 +10,12 @@ import org.kohsuke.github.GHIssue;
 import org.kohsuke.github.GHRepository;
 import org.kohsuke.github.GitHub;
 
+import net.md_5.bungee.api.ChatColor;
+import net.md_5.bungee.api.chat.ClickEvent;
+import net.md_5.bungee.api.chat.ComponentBuilder;
+import net.md_5.bungee.api.chat.HoverEvent;
 import xyz.derkades.minigames.utils.Scheduler;
+import xyz.derkades.minigames.utils.Utils;
 
 public class BugCommand implements CommandExecutor {
 
@@ -45,7 +50,16 @@ public class BugCommand implements CommandExecutor {
 				} else {
 					issue.addLabels(repo.getLabel("bot"), repo.getLabel(issueLabel));
 				}
-				player.sendMessage("your feedback has been noted.");
+				player.spigot().sendMessage(new ComponentBuilder("")
+						.appendLegacy(Utils.getChatPrefix(ChatColor.AQUA, 'P') + "Thanks for letting us know. You can view all open issues ")
+						.append("here.")
+						.color(ChatColor.YELLOW)
+						.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
+								new ComponentBuilder("Click to visit https://github.com/Derkades/Minigames/issues")
+								.color(ChatColor.GRAY).create()))
+						.event(new ClickEvent(ClickEvent.Action.OPEN_URL,
+								"https://github.com/Derkades/Minigames/issues"))
+						.create());
 			} catch (final IOException e) {
 				player.sendMessage("error. oh no.");
 				e.printStackTrace();
