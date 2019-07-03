@@ -24,16 +24,6 @@ public class Prototype extends BreakTheBlockMap {
 	}
 
 	@Override
-	public void onStart() {
-
-	}
-
-	@Override
-	public void timer() {
-
-	}
-
-	@Override
 	public Location getStartLocation() {
 		return new Location(this.getWorld(), 0.5, 65, 0.5, -90f, 0f);
 	}

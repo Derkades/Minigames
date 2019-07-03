@@ -11,12 +11,6 @@ public abstract class BreakTheBlockMap extends GameMap {
 			new Jungle(),
 	};
 
-	public abstract void onPreStart();
-
-	public abstract void onStart();
-
-	public abstract void timer();
-
 	public abstract Location getStartLocation();
 
 }

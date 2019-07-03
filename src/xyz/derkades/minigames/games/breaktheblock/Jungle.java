@@ -12,16 +12,11 @@ public class Jungle extends BreakTheBlockMap {
 
 	@Override
 	public void onPreStart() {
-	}
-
-	@Override
-	public void onStart() {
 		new Location(this.getWorld(), 38, 65, -21).getBlock().setType(Material.GOLD_BLOCK);
-
 	}
 
 	@Override
-	public void timer() {
+	public void onTimer(final int secondsLeft) {
 		for (final MPlayer player : Minigames.getOnlinePlayers()) {
 			if (player.getBlockIn().getType() == Material.LAVA ) {
 				player.teleport(this.getStartLocation());

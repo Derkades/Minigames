@@ -65,7 +65,6 @@ public class BreakTheBlock extends Game<BreakTheBlockMap> {
 	@Override
 	public void onPreStart() {
 		this.blockBreaker = null;
-		this.map.onPreStart();
 
 		final ItemStack pickaxe = new ItemBuilder(Material.IRON_PICKAXE)
 				.unbreakable()
@@ -83,7 +82,6 @@ public class BreakTheBlock extends Game<BreakTheBlockMap> {
 
 	@Override
 	public void onStart() {
-		BreakTheBlock.this.map.onStart();
 		Minigames.getOnlinePlayers().forEach((player) -> {
 			player.setDisableDamage(false);
 			player.setDisableSneaking(true);
@@ -101,8 +99,6 @@ public class BreakTheBlock extends Game<BreakTheBlockMap> {
 
 			return 5;
 		}
-
-		BreakTheBlock.this.map.timer();
 
 		return secondsLeft;
 	}
