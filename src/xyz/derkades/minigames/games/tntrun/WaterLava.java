@@ -11,11 +11,11 @@ public class WaterLava extends TNTMap {
 
 	@Override
 	public void restore() {
-		BlockUtils.fillArea(this.getWorld(), 5, 64, -5, -5, 64, 5, Material.COBBLESTONE);
-		BlockUtils.fillArea(this.getWorld(), 5, 59, -5, -5, 59, 5, Material.COBBLESTONE);
-		BlockUtils.fillArea(this.getWorld(), 5, 54, -5, -5, 54, 5, Material.COBBLESTONE);
-		BlockUtils.fillArea(this.getWorld(), 5, 49, -5, -5, 49, 5, Material.COBBLESTONE);
-		BlockUtils.fillArea(this.getWorld(), 5, 44, -5, -5, 44, 5, Material.COBBLESTONE);
+		BlockUtils.fillArea(this.getWorld(), 5, 64, -5, -5, 64, 5, this.floorMaterial());
+		BlockUtils.fillArea(this.getWorld(), 5, 59, -5, -5, 59, 5, this.floorMaterial());
+		BlockUtils.fillArea(this.getWorld(), 5, 54, -5, -5, 54, 5, this.floorMaterial());
+		BlockUtils.fillArea(this.getWorld(), 5, 49, -5, -5, 49, 5, this.floorMaterial());
+		BlockUtils.fillArea(this.getWorld(), 5, 44, -5, -5, 44, 5, this.floorMaterial());
 	}
 
 	@Override

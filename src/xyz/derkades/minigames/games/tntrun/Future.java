@@ -11,10 +11,10 @@ public class Future extends TNTMap {
 
 	@Override
 	public void restore() {
-		BlockUtils.fillArea(this.getWorld(), -6, 64, 6, 6, 64, -6, Material.IRON_BLOCK);
-		BlockUtils.fillArea(this.getWorld(), -6, 58, 6, 6, 58, -6, Material.IRON_BLOCK);
-		BlockUtils.fillArea(this.getWorld(), -6, 52, 6, 6, 52, -6, Material.IRON_BLOCK);
-		BlockUtils.fillArea(this.getWorld(), -6, 46, 6, 6, 46, -6, Material.IRON_BLOCK);
+		BlockUtils.fillArea(this.getWorld(), -6, 64, 6, 6, 64, -6, this.floorMaterial());
+		BlockUtils.fillArea(this.getWorld(), -6, 58, 6, 6, 58, -6, this.floorMaterial());
+		BlockUtils.fillArea(this.getWorld(), -6, 52, 6, 6, 52, -6, this.floorMaterial());
+		BlockUtils.fillArea(this.getWorld(), -6, 46, 6, 6, 46, -6, this.floorMaterial());
 	}
 
 	@Override

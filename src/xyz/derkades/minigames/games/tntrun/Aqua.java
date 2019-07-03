@@ -11,11 +11,11 @@ public class Aqua extends TNTMap {
 
 	@Override
 	public void restore() {
-		BlockUtils.fillArea(this.getWorld(), 12, 64, -6, -12, 64, 6, Material.PACKED_ICE);
-		BlockUtils.fillArea(this.getWorld(), 12, 59, -6, -12, 59, 6, Material.PACKED_ICE);
-		BlockUtils.fillArea(this.getWorld(), 12, 54, -6, -12, 54, 6, Material.PACKED_ICE);
-		BlockUtils.fillArea(this.getWorld(), 12, 49, -6, -12, 49, 6, Material.PACKED_ICE);
-		BlockUtils.fillArea(this.getWorld(), 12, 45, -6, -12, 45, 6, Material.PACKED_ICE);
+		BlockUtils.fillArea(this.getWorld(), 12, 64, -6, -12, 64, 6, this.floorMaterial());
+		BlockUtils.fillArea(this.getWorld(), 12, 59, -6, -12, 59, 6, this.floorMaterial());
+		BlockUtils.fillArea(this.getWorld(), 12, 54, -6, -12, 54, 6, this.floorMaterial());
+		BlockUtils.fillArea(this.getWorld(), 12, 49, -6, -12, 49, 6, this.floorMaterial());
+		BlockUtils.fillArea(this.getWorld(), 12, 45, -6, -12, 45, 6, this.floorMaterial());
 	}
 
 	@Override
