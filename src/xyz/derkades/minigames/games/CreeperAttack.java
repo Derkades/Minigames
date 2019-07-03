@@ -91,7 +91,7 @@ public class CreeperAttack extends Game<CreeperAttackMap> {
 		}
 
 		for (int i = 0; i < this.numberOfCreepers; i++) {
-			if (this.alive.size() > 0) {
+			if (this.alive.size() > 1) {
 				final Creeper creeper = CreeperAttack.this.map.getWorld().spawn(CreeperAttack.this.map.getCreeperLocation(), Creeper.class);
 				creeper.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).setBaseValue(creeper.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).getBaseValue() * 1.5);
 				creeper.setTarget(ListUtils.getRandomValueFromList(Utils.getPlayerListFromUUIDList(CreeperAttack.this.alive)));
