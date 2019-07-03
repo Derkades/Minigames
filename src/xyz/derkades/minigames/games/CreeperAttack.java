@@ -60,6 +60,7 @@ public class CreeperAttack extends Game<CreeperAttackMap> {
 	@Override
 	public void onPreStart() {
 		this.alive = new ArrayList<>();
+		this.numberOfCreepers = 1;
 
 		final ItemStack knockbackStick = new ItemBuilder(Material.STICK)
 				.name(ChatColor.GOLD + "" + ChatColor.BOLD + "Creeper Smasher")
