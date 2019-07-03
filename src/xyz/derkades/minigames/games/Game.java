@@ -54,7 +54,6 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 			//new Mine(),
 			new MolePvP(),
 			new MurderyMister(),
-			//new NyanCat(),
 			new OneInTheQuiver(),
 			new Platform(),
 			new RegeneratingSpleef(),
