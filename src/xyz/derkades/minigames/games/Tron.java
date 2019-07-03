@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
@@ -23,10 +22,9 @@ import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.util.Vector;
 
 import xyz.derkades.minigames.Minigames;
-import xyz.derkades.minigames.Spectator;
 import xyz.derkades.minigames.games.tron.TronMap;
 import xyz.derkades.minigames.utils.BlockUtils;
-import xyz.derkades.minigames.utils.Utils;
+import xyz.derkades.minigames.utils.MPlayer;
 
 public class Tron extends Game<TronMap> {
 
@@ -82,12 +80,12 @@ public class Tron extends Game<TronMap> {
 
 		final List<TronTeam> availableTeams = new LinkedList<TronTeam>(Arrays.asList(TronTeam.values()));
 
-		for (final Player player : Bukkit.getOnlinePlayers()) {
+		for (final MPlayer player : Minigames.getOnlinePlayers()) {
 			final TronTeam playerTeam = availableTeams.remove(0);
 			this.teams.put(player.getUniqueId(), playerTeam);
-			player.teleport(this.map.getSpawnLocations().get(playerTeam));
-			Utils.giveInfiniteEffect(player, PotionEffectType.SLOW, 100);
-			Utils.giveInfiniteEffect(player, PotionEffectType.JUMP, 200);
+			player.queueTeleport(this.map.getSpawnLocations().get(playerTeam));
+			player.giveInfiniteEffect(PotionEffectType.SLOW, 100);
+			player.giveInfiniteEffect(PotionEffectType.JUMP, 200);
 		}
 
 		this.sendMessage("Make sure that you are not facing a wall");
@@ -95,9 +93,8 @@ public class Tron extends Game<TronMap> {
 
 	@Override
 	public void onStart() {
-		Bukkit.getOnlinePlayers().forEach(Utils::clearPotionEffects);
-
-		for (final Player player : Bukkit.getOnlinePlayers()) {
+		for (final MPlayer player : Minigames.getOnlinePlayers()) {
+			player.clearPotionEffects();
 			new BlockPlacerTask(player).runTaskTimer(Minigames.getInstance(), 1, 1);
 		}
 	}
@@ -159,8 +156,8 @@ public class Tron extends Game<TronMap> {
 		private final OfflinePlayer offlinePlayer;
 		int i = 0;
 
-		BlockPlacerTask(final OfflinePlayer player){
-			this.offlinePlayer = player;
+		BlockPlacerTask(final MPlayer player){
+			this.offlinePlayer = player.bukkit();
 		}
 
 		@Override
@@ -171,7 +168,7 @@ public class Tron extends Game<TronMap> {
 				return;
 			}
 
-			final Player player = (Player) this.offlinePlayer;
+			final MPlayer player = new MPlayer((Player) this.offlinePlayer);
 
 			if (!Tron.this.teams.containsKey(player.getUniqueId())) {
 				System.out.println("Player " + this.offlinePlayer.getName() + " is not in the teams hashmap");
@@ -179,14 +176,14 @@ public class Tron extends Game<TronMap> {
 				return;
 			}
 
-			if (!Utils.isIn2dBounds(player, Tron.this.map.getOuterCornerOne(), Tron.this.map.getOuterCornerTwo())) {
+			if (!player.isIn2dBounds(Tron.this.map.getOuterCornerOne(), Tron.this.map.getOuterCornerTwo())) {
 				System.out.println("Player " + this.offlinePlayer.getName() + " is out of bounds!! Canceling task.");
 				this.cancel();
 				return;
 			}
 
 			if (!player.getGameMode().equals(GameMode.ADVENTURE)) {
-				player.sendMessage("Player is no(t) (longer) in gamemode ADVENTURE");
+				player.bukkit().sendMessage("Player is no(t) (longer) in gamemode ADVENTURE");
 				this.cancel();
 				return;
 			}
@@ -208,19 +205,19 @@ public class Tron extends Game<TronMap> {
 
 			if (direction.equals("north")) {
 				walkingTo.setZ(walkingTo.getZ() - 1);
-				player.setVelocity(new Vector(0, 0, -MOVEMENT_SPEED));
+				player.bukkit().setVelocity(new Vector(0, 0, -MOVEMENT_SPEED));
 				location.setX(location.getBlockX() + 0.5);
 			} else if (direction.equals("east")) {
 				walkingTo.setX(walkingTo.getX() + 1);
-				player.setVelocity(new Vector(MOVEMENT_SPEED, 0, 0));
+				player.bukkit().setVelocity(new Vector(MOVEMENT_SPEED, 0, 0));
 				location.setZ(location.getBlockZ() + 0.5);
 			} else if (direction.equals("south")) {
 				walkingTo.setZ(walkingTo.getZ() + 1);
-				player.setVelocity(new Vector(0, 0, MOVEMENT_SPEED));
+				player.bukkit().setVelocity(new Vector(0, 0, MOVEMENT_SPEED));
 				location.setX(location.getBlockX() + 0.5);
 			} else if (direction.equals("west")) {
 				walkingTo.setX(walkingTo.getX() - 1);
-				player.setVelocity(new Vector(-MOVEMENT_SPEED, 0, 0));
+				player.bukkit().setVelocity(new Vector(-MOVEMENT_SPEED, 0, 0));
 				location.setZ(location.getBlockZ() + 0.5);
 			}
 
@@ -236,13 +233,11 @@ public class Tron extends Game<TronMap> {
 
 				Tron.this.sendMessage(player.getName() + " has died.");
 
-				//Utils.teleportUp(player, 20);
-				//player.setGameMode(GameMode.SPECTATOR);
-				Spectator.dieUp(player, 20);
+				player.dieUp(20);
 			}
 		}
 
-	    public String getDirection(final Player player) {
+	    public String getDirection(final MPlayer player) {
 		    float yaw = player.getLocation().getYaw();
 		    if (yaw < 0) {
 		        yaw += 360;
