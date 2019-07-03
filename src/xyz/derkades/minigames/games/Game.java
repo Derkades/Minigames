@@ -22,7 +22,6 @@ import org.bukkit.util.Vector;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;
-import xyz.derkades.derkutils.ListUtils;
 import xyz.derkades.derkutils.Random;
 import xyz.derkades.minigames.AutoRotate;
 import xyz.derkades.minigames.ChatPoll.Poll;
@@ -31,6 +30,7 @@ import xyz.derkades.minigames.Minigames;
 import xyz.derkades.minigames.Minigames.ShutdownReason;
 import xyz.derkades.minigames.Var;
 import xyz.derkades.minigames.games.maps.GameMap;
+import xyz.derkades.minigames.random.RandomPicking;
 import xyz.derkades.minigames.random.RandomlyPickable;
 import xyz.derkades.minigames.random.Size;
 import xyz.derkades.minigames.utils.MPlayer;
@@ -93,6 +93,7 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 	// Can be used by listeners in game classes to check if the game has started.
 	protected boolean started = false;
 
+	@SuppressWarnings("unchecked")
 	public void start() {
 		this.started = false;
 
@@ -100,7 +101,7 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 		if (this.getGameMaps() == null) {
 			Minigames.shutdown(ShutdownReason.EMERGENCY_AUTOMATIC, "Minigame does not have a map - " + this.getName());
 		} else {
-			this.map = ListUtils.getRandomValueFromArray(this.getGameMaps());
+			this.map = (M) RandomPicking.getRandomMap(Arrays.asList(this.getGameMaps()));
 		}
 
 		// Send description
@@ -380,14 +381,10 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 		Scheduler.delay(20*20, () -> {
 			// Unload world from previous game. It can be done now, because all players should
 			// be teleported to the lobby by now.
-			if (this.map != null) {
-				if (this.map.getGameWorld() != null) {
-					this.map.getGameWorld().unload();
-				} else {
-					Bukkit.broadcastMessage("[warning] game is not in dedicated world");
-				}
+			if (this.map.getGameWorld() != null) {
+				this.map.getGameWorld().unload();
 			} else {
-				Bukkit.broadcastMessage("[warning] game does not have map support");
+				Bukkit.broadcastMessage("[warning] game is not in dedicated world");
 			}
 		});
 	}
