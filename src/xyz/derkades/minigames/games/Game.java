@@ -107,22 +107,11 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 
 		// Send description
 		for (final Player player : Bukkit.getOnlinePlayers()) {
-
-			double gameWeight = Minigames.getInstance().getConfig().contains("game-voting." + this.getName())
-					? Minigames.getInstance().getConfig().getDouble("game-voting." + this.getName())
-					: 1;
-
-			gameWeight = Math.round(gameWeight * 100.0) / 100.0;
-
-			final String configPath = "game-voting.map." + this.getName() + "." + this.map.getName();
-			double mapWeight = Minigames.getInstance().getConfig().getDouble(configPath, 1);
-			mapWeight = Math.round(mapWeight * 100.0) / 100.0;
-
 			final String prefix = Utils.getChatPrefix(ChatColor.AQUA, 'G');
 
 			player.sendMessage(prefix + DARK_GRAY + "-----------------------------------------");
 			player.spigot().sendMessage(new ComponentBuilder("").appendLegacy(prefix)
-					.append(this.getName()).bold(true).color(GOLD).append(" (" + gameWeight + ")")
+					.append(this.getName()).bold(true).color(GOLD).append(" (" + this.getWeight() + ")")
 					.color(GRAY).bold(false).append(" [hover for help]").color(YELLOW)
 					.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
 							new ComponentBuilder("The number shown after the game name in parentheses\n"
@@ -140,7 +129,7 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 			}
 
 			if (this.map != null)
-				player.sendMessage(prefix + "Map: " + YELLOW + this.map.getName() + GRAY + " (" + mapWeight + ")");
+				player.sendMessage(prefix + "Map: " + YELLOW + this.map.getName() + GRAY + " (" + this.map.getWeight() + ")");
 
 			player.sendMessage(prefix + DARK_GRAY + "-----------------------------------------");
 		}
