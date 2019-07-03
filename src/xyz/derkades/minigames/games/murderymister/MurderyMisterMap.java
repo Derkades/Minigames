@@ -1,4 +1,4 @@
-package xyz.derkades.minigames.games.mysterymurder;
+package xyz.derkades.minigames.games.murderymister;
 
 import org.bukkit.Location;
 

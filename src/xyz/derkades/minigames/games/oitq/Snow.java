@@ -1,11 +1,11 @@
-package xyz.derkades.minigames.games.sniper;
+package xyz.derkades.minigames.games.oitq;
 
 import org.bukkit.Location;
 
 import xyz.derkades.minigames.games.maps.MapSize;
 import xyz.derkades.minigames.worlds.GameWorld;
 
-public class Snow extends SniperMap {
+public class Snow extends OITQMap {
 
 	@Override
 	public String getName() {

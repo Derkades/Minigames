@@ -20,13 +20,13 @@ import org.bukkit.scheduler.BukkitTask;
 
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
 import xyz.derkades.minigames.Minigames;
-import xyz.derkades.minigames.games.sniper.SniperMap;
+import xyz.derkades.minigames.games.oitq.OITQMap;
 import xyz.derkades.minigames.utils.MPlayer;
 import xyz.derkades.minigames.utils.MinigamesPlayerDamageEvent;
 import xyz.derkades.minigames.utils.MinigamesPlayerDamageEvent.DamageType;
 import xyz.derkades.minigames.utils.Utils;
 
-public class OneInTheQuiver extends Game<SniperMap> {
+public class OneInTheQuiver extends Game<OITQMap> {
 
 	private static final ItemStack SWORD = new ItemBuilder(Material.WOODEN_SWORD)
 			.unbreakable()
@@ -61,8 +61,8 @@ public class OneInTheQuiver extends Game<SniperMap> {
 	}
 
 	@Override
-	public SniperMap[] getGameMaps() {
-		return SniperMap.MAPS;
+	public OITQMap[] getGameMaps() {
+		return OITQMap.MAPS;
 	}
 
 	@Override

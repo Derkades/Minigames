@@ -1,11 +1,11 @@
-package xyz.derkades.minigames.games.sniper;
+package xyz.derkades.minigames.games.oitq;
 
 import org.bukkit.Location;
 
 import xyz.derkades.minigames.games.maps.MapSize;
 import xyz.derkades.minigames.worlds.GameWorld;
 
-public class Barn extends SniperMap {
+public class Barn extends OITQMap {
 
 	@Override
 	public Location getSpawnLocation() {

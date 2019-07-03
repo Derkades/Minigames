@@ -1,31 +1,30 @@
-package xyz.derkades.minigames.games.sniper;
+package xyz.derkades.minigames.games.oitq;
 
 import org.bukkit.Location;
 
 import xyz.derkades.minigames.games.maps.MapSize;
 import xyz.derkades.minigames.worlds.GameWorld;
 
-public class HouseWithFarm extends SniperMap {
+public class Castle extends OITQMap {
 
 	@Override
 	public Location getSpawnLocation() {
-		//return new Location(Var.WORLD, 183.5, 86, 213.5);
-		return new Location(this.getWorld(), -21, 58, -3);
+		return new Location(this.getWorld(), 0, 65.5, 0);
 	}
 
 	@Override
 	public String getName() {
-		return "Farmhouse";
+		return "Castle";
 	}
 
 	@Override
 	public MapSize getSize() {
-		return MapSize.NORMAL;
+		return null;
 	}
 
 	@Override
 	public GameWorld getGameWorld() {
-		return GameWorld.OITQ_FARMHOUSE;
+		return GameWorld.OITQ_CASTLE;
 	}
 
 	@Override
