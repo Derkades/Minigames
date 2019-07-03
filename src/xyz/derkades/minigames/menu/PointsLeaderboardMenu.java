@@ -18,7 +18,7 @@ import xyz.derkades.minigames.utils.Utils;
 public class PointsLeaderboardMenu extends IconMenu {
 
 	public PointsLeaderboardMenu(final Player player) {
-		super(Minigames.getInstance(), "Points", 6*9, player);
+		super(Minigames.getInstance(), "Points leaderboard", 6*9, player);
 
 		this.items.put(53, Menu.BACK_BUTTON);
 
