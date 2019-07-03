@@ -333,31 +333,32 @@ public abstract class Game<M extends GameMap> implements Listener {
 			nextGameDelay = 6;
 
 			Scheduler.delay(20, () -> {
-				final Poll poll = new Poll("Did you enjoy this game?", (player, option) -> {
-					double multiplier = Minigames.getInstance().getConfig().contains("game-voting." + Game.this.getName())
-							? Minigames.getInstance().getConfig().getDouble("game-voting." + Game.this.getName())
-							: 1;
+				if (this.getRequiredPlayers() > 1) {
+					final Poll poll = new Poll("Did you enjoy this game?", (player, option) -> {
+						double multiplier = Minigames.getInstance().getConfig().contains("game-voting." + Game.this.getName())
+								? Minigames.getInstance().getConfig().getDouble("game-voting." + Game.this.getName())
+								: 1;
 
-					if (option == 1) {
-						multiplier *= 1.1; //Increase chance factor a bit (e.g. from to 1.5 to 1.65)
-					} else if (option == 2){
-						multiplier *= 0.9; //Decrease chance factor a bit (e.g. from 1.5 to 1.35)
-					}
+						if (option == 1) {
+							multiplier *= 1.1; //Increase chance factor a bit (e.g. from to 1.5 to 1.65)
+						} else if (option == 2){
+							multiplier *= 0.9; //Decrease chance factor a bit (e.g. from 1.5 to 1.35)
+						}
 
-					player.sendMessage(ChatColor.GRAY + "Your vote has been registered.");
+						player.sendMessage(ChatColor.GRAY + "Your vote has been registered.");
 
-					if (multiplier > 5) {
-						multiplier = 5;
-					}
+						if (multiplier > 5) {
+							multiplier = 5;
+						}
 
-					Minigames.getInstance().getConfig().set("game-voting." + Game.this.getName(), multiplier);
-					Minigames.getInstance().saveConfig();
-				}, new PollAnswer(1, "Yes", ChatColor.GREEN, "The game will be picked more often"),
-						new PollAnswer(2, "No", ChatColor.RED, "The game will be picked less often"));
+						Minigames.getInstance().getConfig().set("game-voting." + Game.this.getName(), multiplier);
+						Minigames.getInstance().saveConfig();
+					}, new PollAnswer(1, "Yes", ChatColor.GREEN, "The game will be picked more often"),
+							new PollAnswer(2, "No", ChatColor.RED, "The game will be picked less often"));
 
-				Bukkit.getOnlinePlayers().forEach(poll::send);
-			});
-			Scheduler.delay(20, () -> {
+					Bukkit.getOnlinePlayers().forEach(poll::send);
+				}
+
 				final Poll poll = new Poll("Did you enjoy this map?", (player, option) -> {
 					final String configPath = "game-voting.map." + Game.this.getName() + "." + this.map.getName();
 					double multiplier = Minigames.getInstance().getConfig().getDouble(configPath, 1);
