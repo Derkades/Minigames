@@ -201,6 +201,7 @@ public abstract class Game<M extends GameMap> implements Listener {
 
 	private void begin() {
 		this.onPreStart();
+		this.map.onPreStart();
 
 		//if (this.getPreDuration() > 2) {
 		//	this.sendMessage(String.format("The game will start in %s seconds.", this.getPreDuration()));
@@ -234,16 +235,19 @@ public abstract class Game<M extends GameMap> implements Listener {
 					Minigames.getOnlinePlayers().forEach((p) -> p.sendTitle("", ""));
 					Game.this.sendMessage("The game has started.");
 					Game.this.onStart();
+					Game.this.map.onStart();
 					Game.this.started = true;
 					return;
 				}
 
 				final int newSecondsLeft = Game.this.gameTimer(this.secondsLeft);
 				this.secondsLeft = newSecondsLeft > 0 ? newSecondsLeft : this.secondsLeft;
+				Game.this.map.onTimer(this.secondsLeft);
 
 				if (this.secondsLeft <= 0) {
 					this.cancel();
 					Game.this.onEnd();
+					Game.this.map.onEnd();
 					return;
 				}
 

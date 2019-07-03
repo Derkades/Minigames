@@ -15,6 +15,14 @@ public abstract class GameMap {
 
 	public abstract String getCredits();
 
+	public void onPreStart() {}
+
+	public void onStart() {}
+
+	public void onEnd() {}
+
+	public void onTimer(final int secondsLeft) {}
+
 	public World getWorld() {
 		if (this.getGameWorld() == null) {
 			Bukkit.broadcastMessage("[WARNING] A game used the get world method without setting a world. Performing emergency shutdown to prevent damage.");
