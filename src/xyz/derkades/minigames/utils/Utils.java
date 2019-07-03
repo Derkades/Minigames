@@ -1,7 +1,6 @@
 package xyz.derkades.minigames.utils;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -12,16 +11,10 @@ import java.util.stream.Collectors;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.metadata.MetadataValue;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
-import org.bukkit.util.Vector;
 
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.ComponentBuilder;
@@ -40,81 +33,6 @@ public class Utils {
 	                (e1, e2) -> e1,
 	                LinkedHashMap::new
 	              ));
-	}
-
-	@Deprecated
-	public static void sendTitle(final Player player, final String title, final String subtitle) {
-		player.sendTitle(title, subtitle, 10, 70, 20);
-	}
-
-	@Deprecated
-	public static void setGameRule(final String gameRule, final boolean setting){
-		Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "gamerule " + gameRule + " " + setting);
-	}
-
-	@Deprecated
-	public static void clearPotionEffects(final Player player){
-		for (final PotionEffect effect : player.getActivePotionEffects())
-	        player.removePotionEffect(effect.getType());
-	}
-
-	@Deprecated
-	public static void clearPotionEffects() {
-		Bukkit.getOnlinePlayers().forEach(Utils::clearPotionEffects);
-	}
-
-	@Deprecated
-	public static void clearInventory(final Player player){
-		final PlayerInventory inv = player.getInventory();
-		inv.clear();
-		final ItemStack air = new ItemStack(Material.AIR);
-		inv.setHelmet(air);
-		inv.setChestplate(air);
-		inv.setLeggings(air);
-		inv.setBoots(air);
-	}
-
-	@Deprecated
-	public static void clearInventory() {
-		Bukkit.getOnlinePlayers().forEach(Utils::clearInventory);
-	}
-
-	@Deprecated
-	public static void giveEffect(final Player player, final int duration, final PotionEffectType type, final int amplifier) {
-		player.addPotionEffect(new PotionEffect(type, duration * 20, amplifier, true, false));
-	}
-
-	@Deprecated
-	public static void giveInfiniteEffect(final Player player, final PotionEffectType type, final int amplifier){
-		player.addPotionEffect(new PotionEffect(type, 100000, amplifier, true, false));
-	}
-
-	@Deprecated
-	public static void giveInfiniteEffect(final Player player, final PotionEffectType type){
-		player.addPotionEffect(new PotionEffect(type, 100000, 0, true, false));
-	}
-
-	@Deprecated
-	public static void giveInvisibility(final Player player){
-		giveInfiniteEffect(player, PotionEffectType.INVISIBILITY);
-	}
-
-	@Deprecated
-	public static void setArmor(final Player player, final ItemStack helmet, final ItemStack chestplate, final ItemStack leggings, final ItemStack boots){
-		final PlayerInventory inv = player.getInventory();
-		inv.setHelmet(helmet);
-		inv.setChestplate(chestplate);
-		inv.setLeggings(leggings);
-		inv.setBoots(boots);
-	}
-
-	@Deprecated
-	public static void setArmor(final Player player, final Material helmet, final Material chestplate, final Material leggings, final Material boots){
-		setArmor(player,
-				new ItemStack(helmet),
-				new ItemStack(chestplate),
-				new ItemStack(leggings),
-				new ItemStack(boots));
 	}
 
 	public static List<Player> getWinnersFromPointsHashmap(final Map<UUID, Integer> points){
@@ -212,14 +130,6 @@ public class Utils {
 	            .collect(Collectors.toList());
 	}
 
-	@Deprecated
-	public static void setXpBarValue(final float fill, final int level){
-		for (final Player player : Bukkit.getOnlinePlayers()){
-			player.setExp(fill);
-			player.setLevel(level);
-		}
-	}
-
 	// Taken from https://stackoverflow.com/a/11926952
 	public static <E> E getWeightedRandom(final Map<E, Double> weights) {
 	    E result = null;
@@ -271,22 +181,6 @@ public class Utils {
 		}
 	}
 
-	@Deprecated
-	public static void delayedTeleport(final Location location, final Collection<? extends Player> players) {
-		delayedTeleport(location, players.toArray(new Player[] {}));
-	}
-
-	@Deprecated
-	public static void delayedTeleport(final Location location, final Consumer<Player> runnable, final Collection<? extends Player> players) {
-		delayedTeleport(location, runnable, players.toArray(new Player[] {}));
-	}
-
-	@Deprecated
-	public static void launch(final Player player, final double upwardVelocity, final double multiplyInLookingDirection){
-		player.setVelocity(player.getLocation().getDirection().multiply(multiplyInLookingDirection));
-		player.setVelocity(new Vector(player.getVelocity().getX(), upwardVelocity, player.getVelocity().getZ()));
-	}
-
 	public static boolean isIn2dBounds(final Location location, final Location cornerOne, final Location cornerTwo) {
 		if (!location.getWorld().equals(cornerOne.getWorld())) {
 			return false;
@@ -304,24 +198,12 @@ public class Utils {
 				z > minZ && z < maxZ;
 	}
 
-	@Deprecated
-	public static boolean isIn2dBounds(final Player player, final Location cornerOne, final Location cornerTwo) {
-		return isIn2dBounds(player.getLocation(), cornerOne, cornerTwo);
-	}
-
 	public static String getChatPrefix(final ChatColor color, final char c) {
 		return ChatColor.DARK_GRAY + "[" + color + c + ChatColor.DARK_GRAY + "]" + ChatColor.DARK_GRAY + " | " + ChatColor.GRAY;
 	}
 
 	public static ComponentBuilder getComponentBuilderWithPrefix(final ChatColor prefixColor, final char prefixChar) {
 		return new ComponentBuilder("").appendLegacy(Utils.getChatPrefix(prefixColor, prefixChar));
-	}
-
-	@Deprecated
-	public static void teleportUp(final Player player, final int yUp) {
-		final Location loc = player.getLocation();
-		loc.setY(loc.getY() + yUp);
-		player.teleport(loc);
 	}
 
 	public static void setMetadata(final Player player, final String key, final Object value) {
