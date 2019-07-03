@@ -29,9 +29,6 @@ public class MainMenu extends IconMenu {
 		this.items.put(0, new ItemBuilder(Material.GRAY_DYE).name(GOLD + "Points").lore(GRAY + "You have " + YELLOW + Points.getPoints(player) + GRAY + " points.", GRAY + "Click for more information.").create());
 		this.items.put(1, new ItemBuilder(Material.GRAY_DYE).name(GOLD + "Games").lore(GRAY + "Click to open games list menu.").create());
 
-		//this.items.put(2, new ItemBuilder(Material.GRAY_DYE).name(GOLD + "Points explanation").lore(AQUA + "Click to get points information.").create());
-		//this.items.put(3, new ItemBuilder(Material.GRAY_DYE).name(DARK_AQUA + "Shop").lore(AQUA + "Buy perks using GladeCoins").create());
-
 		Material settingMaterial;
 		if (Minigames.getInstance().getConfig().getStringList("disabled-description").contains(player.getUniqueId().toString())) {
 			settingMaterial = Material.RED_DYE;
@@ -49,9 +46,6 @@ public class MainMenu extends IconMenu {
 		if (event.getName().contains("Games")){
 			new GamesListMenu(event.getPlayer()).open();
 			return false;
-		//} else if (event.getName().contains("Shop")){
-		//	new ShopMenu(event.getPlayer()).open();
-		//	return false;
 		} else if (event.getName().contains("Points")) {
 			new PointsListMenu(event.getPlayer()).open();
 			return false;
