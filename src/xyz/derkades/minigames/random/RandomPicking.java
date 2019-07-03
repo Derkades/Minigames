@@ -47,8 +47,6 @@ public class RandomPicking {
 	}
 
 	private static RandomlyPickable getRandom(final List<? extends RandomlyPickable> list) {
-		// TODO Forcing next game/map
-
 		final Map<RandomlyPickable, Double> weightedList = new HashMap<>();
 
 		// Populate hashmap
