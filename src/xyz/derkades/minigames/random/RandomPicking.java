@@ -20,12 +20,12 @@ public class RandomPicking {
 	public static Game<? extends GameMap> getRandomGame() {
 		if (FORCE_GAME != null) {
 			final Game<? extends GameMap> map = Game.fromString(FORCE_GAME);
+			FORCE_GAME = null;
 			if (map != null) {
 				return map;
 			} else {
 				Bukkit.broadcastMessage("A game was forced, but the provided identifier is invalid.");
 			}
-			FORCE_GAME = null;
 		}
 
 
@@ -35,12 +35,12 @@ public class RandomPicking {
 	public static GameMap getRandomMap(final List<GameMap> maps) {
 		if (FORCE_MAP != null) {
 			final GameMap map = GameMap.fromIdentifier(FORCE_MAP);
+			FORCE_MAP = null;
 			if (map != null) {
 				return map;
 			} else {
 				Bukkit.broadcastMessage("A map was forced, but the provided identifier is invalid.");
 			}
-			FORCE_MAP = null;
 		}
 
 		return (GameMap) getRandom(maps);
