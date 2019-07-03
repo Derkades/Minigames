@@ -153,6 +153,7 @@ public class GladeRoyale extends Game<GladeRoyaleMap> {
 		if (this.alive.size() < 2 && !this.gameEnded) {
 			secondsLeft = 10;
 			this.gameEnded = true;
+			this.map.getWorld().getWorldBorder().setSize(this.map.getWorldborderSize());
 			for (final MPlayer player : Minigames.getOnlinePlayers()) {
 				player.playSound(Sound.UI_TOAST_CHALLENGE_COMPLETE, 1.0f);
 			}
