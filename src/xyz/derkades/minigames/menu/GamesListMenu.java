@@ -12,6 +12,7 @@ import java.util.List;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
+import xyz.derkades.derkutils.NumberUtils;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
 import xyz.derkades.derkutils.bukkit.menu.IconMenu;
 import xyz.derkades.derkutils.bukkit.menu.OptionClickEvent;
@@ -30,11 +31,7 @@ public class GamesListMenu extends IconMenu {
 
 			lore.addAll(Arrays.asList(game.getDescription()));
 
-			double gameWeight = Minigames.getInstance().getConfig().contains("game-voting." + game.getName())
-					? Minigames.getInstance().getConfig().getDouble("game-voting." + game.getName())
-					: 1;
-
-			gameWeight = Math.round(gameWeight * 100.0) / 100.0;
+			final double gameWeight = NumberUtils.roundApprox(game.getWeight(), 2);
 
 			lore.add(GOLD + "Game multiplier: " + YELLOW + gameWeight);
 			lore.add(GOLD + "Minimum online players: " + YELLOW + game.getRequiredPlayers());
@@ -44,9 +41,7 @@ public class GamesListMenu extends IconMenu {
 				lore.add(GOLD + "Maps:");
 				for (final GameMap map : game.getGameMaps()) {
 					lore.add("  " + YELLOW + map.getName());
-					final String configPath = "game-voting.map." + game.getName() + "." + map.getName();
-					double mapWeight = Minigames.getInstance().getConfig().getDouble(configPath, 1);
-					mapWeight = Math.round(mapWeight * 100.0) / 100.0;
+					final double mapWeight = NumberUtils.roundApprox(map.getWeight(), 2);
 					lore.add(GRAY + "  Multiplier: " + YELLOW + mapWeight);
 					if (map.getCredits() != null) {
 						lore.add(GRAY + "  Credits: " + map.getCredits());

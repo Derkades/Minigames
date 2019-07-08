@@ -22,6 +22,7 @@ import org.bukkit.util.Vector;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;
+import xyz.derkades.derkutils.NumberUtils;
 import xyz.derkades.derkutils.Random;
 import xyz.derkades.minigames.AutoRotate;
 import xyz.derkades.minigames.ChatPoll.Poll;
@@ -110,7 +111,7 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 
 			player.sendMessage(prefix + DARK_GRAY + "-----------------------------------------");
 			player.spigot().sendMessage(new ComponentBuilder("").appendLegacy(prefix)
-					.append(this.getName()).bold(true).color(GOLD).append(" (" + this.getWeight() + ")")
+					.append(this.getName()).bold(true).color(GOLD).append(" (" + NumberUtils.roundApprox(this.getWeight(), 1) + ")")
 					.color(GRAY).bold(false).append(" [hover for help]").color(YELLOW)
 					.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
 							new ComponentBuilder("The number shown after the game name in parentheses\n"
@@ -128,7 +129,7 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 			}
 
 			if (this.map != null)
-				player.sendMessage(prefix + "Map: " + YELLOW + this.map.getName() + GRAY + " (" + this.map.getWeight() + ")");
+				player.sendMessage(prefix + "Map: " + YELLOW + this.map.getName() + GRAY + " (" + NumberUtils.roundApprox(this.map.getWeight(), 1) + ")");
 
 			player.sendMessage(prefix + DARK_GRAY + "-----------------------------------------");
 		}
@@ -265,7 +266,7 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 		HandlerList.unregisterAll(this); //Unregister events
 
 		// Announce winners
-		final List<String> winnerNames = new ArrayList<String>();
+		final List<String> winnerNames = new ArrayList<>();
 		for (final Player winner : winners) winnerNames.add(winner.getName());
 		final String winnersText = String.join(", ", winnerNames);
 
