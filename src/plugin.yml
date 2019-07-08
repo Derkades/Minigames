@@ -9,7 +9,7 @@ api-version: 1.13
 
 commands:
   games:
-    aliases: [g]
+    aliases: ['.']
   bug:
     usage: /<command>
     aliases: [feedback, idea]
