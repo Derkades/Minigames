@@ -28,6 +28,8 @@ public class BugCommand implements CommandExecutor {
 			return true;
 		}
 
+		sender.sendMessage(Utils.getChatPrefix(ChatColor.AQUA, 'P') + "Submitting feedback..");
+
 		Scheduler.async(() -> {
 			try {
 				String issueLabel;
