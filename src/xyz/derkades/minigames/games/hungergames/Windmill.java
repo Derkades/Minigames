@@ -69,6 +69,10 @@ public class Windmill extends HungerGamesMap {
 				new Location(this.getWorld(), 206, 63, 131),
 				new Location(this.getWorld(), 228, 63, 123),
 				new Location(this.getWorld(), 226, 63, 102),
+
+				//XXX look up where these chests are and put in categories above
+				new Location(this.getWorld(), 222, 72, 208),
+				new Location(this.getWorld(), 351, 76, 178),
 		};
 	}
 
