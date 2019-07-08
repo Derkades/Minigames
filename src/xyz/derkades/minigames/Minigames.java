@@ -64,6 +64,7 @@ public class Minigames extends JavaPlugin implements Listener {
 			super.saveDefaultConfig();
 		}
 
+		this.getCommand("spectate").setExecutor(new SpectatorCommand());
 		this.getCommand("games").setExecutor(new Command());
 		this.getCommand("games").setTabCompleter(new CommandTabCompleter());
 		this.getCommand("bug").setExecutor(new BugCommand());
