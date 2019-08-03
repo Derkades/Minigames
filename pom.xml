@@ -80,7 +80,7 @@
 		<dependency>
 			<groupId>com.mineglade</groupId>
 			<artifactId>icore</artifactId>
-			<version>0.03-alpha</version>
+			<version>dev</version>
 			<scope>provided</scope>
 		</dependency>
 
