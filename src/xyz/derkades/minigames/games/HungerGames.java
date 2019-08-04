@@ -117,8 +117,8 @@ public class HungerGames extends Game<HungerGamesMap> {
 			event.setCancelled(true); // Player must not die, or bad things happen.
 
 			this.dead.add(player.getUniqueId());
-			player.dieUp(2);
 			player.dropItems();
+			player.dieUp(2);
 
 			if (event.getType().equals(DamageType.ENTITY)) {
 				final MPlayer killer = event.getDamagerPlayer();
