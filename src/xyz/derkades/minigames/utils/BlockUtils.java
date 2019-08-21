@@ -9,6 +9,7 @@ import org.bukkit.block.Block;
 
 import xyz.derkades.minigames.Var;
 
+@Deprecated
 public class BlockUtils {
 
 	public static boolean isSameBlock(final Block a, final Block b){
