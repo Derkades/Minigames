@@ -181,6 +181,7 @@ public class Utils {
 		}
 	}
 
+	@Deprecated
 	public static boolean isIn2dBounds(final Location location, final Location cornerOne, final Location cornerTwo) {
 		if (!location.getWorld().equals(cornerOne.getWorld())) {
 			return false;
