@@ -20,8 +20,6 @@ public class WorldTeleportCommand implements CommandExecutor {
 		}
 
 		if (args.length != 1) {
-			//sender.sendMessage("specify world name");
-			//Bukkit.getWorlds().stream().map(World::getName).forEach(sender::sendMessage);
 			sender.sendMessage("");
 			sender.sendMessage("lobby");
 			sender.sendMessage("");
