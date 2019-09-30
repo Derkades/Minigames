@@ -61,7 +61,7 @@
 		<dependency> <!-- Derkutils -->
 			<groupId>xyz.derkades</groupId>
 			<artifactId>Derkutils</artifactId>
-			<version>1.5.1</version>
+			<version>master</version>
 		</dependency>
 
 		<dependency> <!-- GitHub API -->
