@@ -33,6 +33,8 @@ public enum GameWorld {
 
 	ELYTRA_CAVE,
 
+	FREEFALL_PROTOTYPE,
+
 	//HG_BEACH,
 	HG_TREEHOUSE,
 	//HG_BOAT,

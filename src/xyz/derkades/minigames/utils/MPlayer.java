@@ -260,6 +260,10 @@ public class MPlayer {
 				.color(ChatColor.GRAY).create());
 	}
 
+	public boolean isSpectator() {
+		return this.getGameMode().equals(GameMode.SPECTATOR);
+	}
+
 	public void giveEffect(final PotionEffectType type, final int duration, final int amplifier) {
 		this.player.addPotionEffect(new PotionEffect(type, duration * 20, amplifier, true, false));
 	}
