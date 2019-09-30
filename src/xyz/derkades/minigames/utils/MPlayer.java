@@ -23,7 +23,9 @@ import org.bukkit.util.Vector;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
+import xyz.derkades.derkutils.bukkit.BlockUtils;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
+import xyz.derkades.derkutils.bukkit.LocationUtils;
 import xyz.derkades.minigames.Minigames;
 import xyz.derkades.minigames.Points;
 import xyz.derkades.minigames.SneakPrevention;
@@ -99,7 +101,7 @@ public class MPlayer {
 	}
 
 	public boolean isIn2dBounds(final Location cornerOne, final Location cornerTwo) {
-		return Utils.isIn2dBounds(this.player.getLocation(), cornerOne, cornerTwo);
+		return LocationUtils.isIn2dBounds(this.player.getLocation(), cornerOne, cornerTwo);
 	}
 
 	public boolean isIn2dBounds(final World world, final double x1, final double z1, final double x2, final double z2) {
@@ -196,8 +198,9 @@ public class MPlayer {
     }
 
 	public void clearPotionEffects(){
-		for (final PotionEffect effect : this.player.getActivePotionEffects())
-	        this.player.removePotionEffect(effect.getType());
+		for (final PotionEffect effect : this.player.getActivePotionEffects()) {
+			this.player.removePotionEffect(effect.getType());
+		}
 	}
 
 	public void sendTitle(final String title, final String subtitle) {
@@ -316,17 +319,21 @@ public class MPlayer {
 	}
 
 	public void setArmor(Material helmet, Material chestplate, Material leggings, Material boots){
-		if (helmet == null)
+		if (helmet == null) {
 			helmet = Material.AIR;
+		}
 
-		if (chestplate == null)
+		if (chestplate == null) {
 			chestplate = Material.AIR;
+		}
 
-		if (leggings == null)
+		if (leggings == null) {
 			leggings = Material.AIR;
+		}
 
-		if (boots == null)
+		if (boots == null) {
 			boots = Material.AIR;
+		}
 
 		this.setArmor(
 				new ItemStack(helmet),

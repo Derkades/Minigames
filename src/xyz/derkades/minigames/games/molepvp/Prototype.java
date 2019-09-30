@@ -3,9 +3,9 @@ package xyz.derkades.minigames.games.molepvp;
 import org.bukkit.Location;
 import org.bukkit.Material;
 
+import xyz.derkades.derkutils.bukkit.BlockUtils;
 import xyz.derkades.minigames.Var;
 import xyz.derkades.minigames.random.Size;
-import xyz.derkades.minigames.utils.BlockUtils;
 import xyz.derkades.minigames.worlds.GameWorld;
 
 public class Prototype extends MolePvPMap {
@@ -18,9 +18,9 @@ public class Prototype extends MolePvPMap {
 	@Override
 	public void setupMap() {
 		// TODO fix molepvp
-		BlockUtils.fillArea(244, 67, 161, 224, 74, 142, Material.DIRT);
-		BlockUtils.fillArea(244, 69, 161, 242, 67, 159, Material.AIR);
-		BlockUtils.fillArea(226, 74, 144, 224, 72, 142, Material.AIR);
+		BlockUtils.fillArea(Var.WORLD, 244, 67, 161, 224, 74, 142, Material.DIRT);
+		BlockUtils.fillArea(Var.WORLD, 244, 69, 161, 242, 67, 159, Material.AIR);
+		BlockUtils.fillArea(Var.WORLD, 226, 74, 144, 224, 72, 142, Material.AIR);
 	}
 
 	@Override

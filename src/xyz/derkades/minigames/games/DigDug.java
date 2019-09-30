@@ -26,10 +26,10 @@ import com.coloredcarrot.api.sidebar.SidebarString;
 
 import net.md_5.bungee.api.ChatColor;
 import xyz.derkades.derkutils.Random;
+import xyz.derkades.derkutils.bukkit.BlockUtils;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
 import xyz.derkades.minigames.Minigames;
 import xyz.derkades.minigames.games.digdug.DigDugMap;
-import xyz.derkades.minigames.utils.BlockUtils;
 import xyz.derkades.minigames.utils.MPlayer;
 import xyz.derkades.minigames.utils.Utils;
 
@@ -129,13 +129,11 @@ public class DigDug extends Game<DigDugMap> {
 
 	@EventHandler
 	public void onInteract(final PlayerInteractEvent event) {
-		if (event.getAction() != Action.RIGHT_CLICK_BLOCK) {
+		if (event.getAction() != Action.RIGHT_CLICK_BLOCK)
 			return;
-		}
 
-		if (!event.getHand().equals(EquipmentSlot.HAND)) {
+		if (!event.getHand().equals(EquipmentSlot.HAND))
 			return;
-		}
 
 		final Player player = event.getPlayer();
 		final Block block = event.getClickedBlock();

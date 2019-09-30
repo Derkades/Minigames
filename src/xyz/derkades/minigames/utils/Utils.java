@@ -36,15 +36,13 @@ public class Utils {
 	}
 
 	public static List<Player> getWinnersFromPointsHashmap(final Map<UUID, Integer> points){
-		if (points == null || points.isEmpty()) {
+		if (points == null || points.isEmpty())
 			return new ArrayList<>();
-		}
 
 		final int maxPoints = Collections.max(points.values());
 
-		if (maxPoints == 0) {
+		if (maxPoints == 0)
 			return new ArrayList<>();
-		}
 
 		return points.entrySet().stream().filter(e -> e.getValue() == maxPoints)
 				.map(e -> Bukkit.getPlayer(e.getKey())).filter(p -> p != null)
@@ -75,15 +73,13 @@ public class Utils {
 		final List<Player> winners = all.stream().map(Bukkit::getPlayer).filter(p -> p != null)
 				.filter(p -> !dead.contains(p.getUniqueId())).collect(Collectors.toList());
 
-		if (multipleWinnersAllowed) {
+		if (multipleWinnersAllowed)
 			return winners;
-		}
 
-		if (winners.size() == 1) {
+		if (winners.size() == 1)
 			return winners;
-		} else {
+		else
 			return new ArrayList<>();
-		}
 	}
 
 	public static List<Player> getWinnersFromFinished(final List<UUID> finished, final List<UUID> all) {
@@ -97,15 +93,13 @@ public class Utils {
 	public static List<Player> getWinnersFromAliveList(final List<UUID> alive, final boolean multipleWinnersAllowed){
 		final List<Player> winners = alive.stream().map(Bukkit::getPlayer).filter(p -> p != null).collect(Collectors.toList());
 
-		if (multipleWinnersAllowed) {
+		if (multipleWinnersAllowed)
 			return winners;
-		}
 
-		if (winners.size() == 1) {
+		if (winners.size() == 1)
 			return winners;
-		} else {
+		else
 			return new ArrayList<>();
-		}
 	}
 
 	public static List<UUID> getOnlinePlayersUuidList(){
@@ -114,8 +108,9 @@ public class Utils {
 
 	@Deprecated
 	public static void playSoundForAllPlayers(final Sound sound, final float pitch) {
-		for (final Player player : Bukkit.getOnlinePlayers())
+		for (final Player player : Bukkit.getOnlinePlayers()) {
 			player.playSound(player.getLocation(), sound, 1, pitch);
+		}
 	}
 
 	public static <Key> List<Key> getHighestValuesFromHashMap(final Map<Key, Integer> map){
@@ -181,24 +176,6 @@ public class Utils {
 		}
 	}
 
-	@Deprecated
-	public static boolean isIn2dBounds(final Location location, final Location cornerOne, final Location cornerTwo) {
-		if (!location.getWorld().equals(cornerOne.getWorld())) {
-			return false;
-		}
-
-		final int maxX = Math.max(cornerOne.getBlockX(), cornerTwo.getBlockX());
-		final int minX = Math.min(cornerOne.getBlockX(), cornerTwo.getBlockX());
-		final int maxZ = Math.max(cornerOne.getBlockZ(), cornerTwo.getBlockZ());
-		final int minZ = Math.min(cornerOne.getBlockZ(), cornerTwo.getBlockZ());
-
-		final int x = location.getBlockX();
-		final int z = location.getBlockZ();
-
-		return x > minX && x < maxX &&
-				z > minZ && z < maxZ;
-	}
-
 	public static String getChatPrefix(final ChatColor color, final char c) {
 		return ChatColor.DARK_GRAY + "[" + color + c + ChatColor.DARK_GRAY + "]" + ChatColor.DARK_GRAY + " | " + ChatColor.GRAY;
 	}
@@ -218,9 +195,8 @@ public class Utils {
 
 	public static boolean allPlayersFinished(final List<UUID> finished) {
 		for (final Player player : Bukkit.getOnlinePlayers()) {
-			if (!finished.contains(player.getUniqueId())) {
+			if (!finished.contains(player.getUniqueId()))
 				return false;
-			}
 		}
 		return true;
 	}

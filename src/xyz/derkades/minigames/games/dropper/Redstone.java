@@ -3,8 +3,8 @@ package xyz.derkades.minigames.games.dropper;
 import org.bukkit.Location;
 import org.bukkit.Material;
 
+import xyz.derkades.derkutils.bukkit.BlockUtils;
 import xyz.derkades.minigames.random.Size;
-import xyz.derkades.minigames.utils.BlockUtils;
 import xyz.derkades.minigames.worlds.GameWorld;
 
 public class Redstone extends DropperMap {

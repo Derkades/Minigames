@@ -21,9 +21,9 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.util.Vector;
 
+import xyz.derkades.derkutils.bukkit.BlockUtils;
 import xyz.derkades.minigames.Minigames;
 import xyz.derkades.minigames.games.tron.TronMap;
-import xyz.derkades.minigames.utils.BlockUtils;
 import xyz.derkades.minigames.utils.MPlayer;
 
 public class Tron extends Game<TronMap> {
@@ -78,7 +78,7 @@ public class Tron extends Game<TronMap> {
 				this.map.getInnerCornerTwo().getBlockX(), this.map.getInnerCornerTwo().getBlockY() + 2, this.map.getInnerCornerTwo().getBlockZ(),
 				Material.AIR);
 
-		final List<TronTeam> availableTeams = new LinkedList<TronTeam>(Arrays.asList(TronTeam.values()));
+		final List<TronTeam> availableTeams = new LinkedList<>(Arrays.asList(TronTeam.values()));
 
 		for (final MPlayer player : Minigames.getOnlinePlayers()) {
 			final TronTeam playerTeam = availableTeams.remove(0);
@@ -101,9 +101,8 @@ public class Tron extends Game<TronMap> {
 
 	@Override
 	public int gameTimer(final int secondsLeft) {
-		if (Tron.this.teams.size() < 2 && secondsLeft > 2) {
+		if (Tron.this.teams.size() < 2 && secondsLeft > 2)
 			return 2;
-		}
 
 		return secondsLeft;
 	}
@@ -242,15 +241,14 @@ public class Tron extends Game<TronMap> {
 		    if (yaw < 0) {
 		        yaw += 360;
 		    }
-		    if (yaw >= 315 || yaw < 45) {
-		        return "south";
-		    } else if (yaw < 135) {
-		        return "west";
-		    } else if (yaw < 225) {
-		        return "north";
-		    } else if (yaw < 315) {
-		        return "east";
-		    }
+		    if (yaw >= 315 || yaw < 45)
+				return "south";
+			else if (yaw < 135)
+				return "west";
+			else if (yaw < 225)
+				return "north";
+			else if (yaw < 315)
+				return "east";
 		    return "north";
 		}
 
