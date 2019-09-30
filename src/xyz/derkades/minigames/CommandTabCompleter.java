@@ -3,7 +3,6 @@ package xyz.derkades.minigames;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -17,15 +16,23 @@ public class CommandTabCompleter implements TabCompleter {
 	@Override
 	public List<String> onTabComplete(final CommandSender arg0, final Command arg1, final String label, final String[] args) {
 		if (args.length == 2 && args[0].equalsIgnoreCase("next")) {
-			if (args[1] == null) {
+			if (args[1] == null)
 				return Arrays.asList("error");
+
+			final List<String> list = new ArrayList<>();
+
+			for (final Game<? extends GameMap> game : Game.GAMES) {
+				list.add(game.getName().replace(" ", "_").toLowerCase());
+				list.add(game.getAlias());
 			}
 
-			return Arrays.asList(Game.GAMES)
-					.stream()
-					.map((s) -> s.getName().replace(" ", "_").toLowerCase())
-					.filter((s) -> s.startsWith(args[1]))
-					.collect(Collectors.toList());
+			return list;
+
+//			return Arrays.asList(Game.GAMES)
+//					.stream()
+//					.map((s) -> s.getName().replace(" ", "_").toLowerCase())
+//					.filter((s) -> s.startsWith(args[1]))
+//					.collect(Collectors.toList());
 		} else if (args.length == 2 && args[0].equalsIgnoreCase("map")) {
 			final List<String> mapIdentifiers = new ArrayList<>();
 			if (args[1].equals("")) {
@@ -40,9 +47,8 @@ public class CommandTabCompleter implements TabCompleter {
 				}
 			}
 			return mapIdentifiers;
-		} else {
+		} else
 			return new ArrayList<>();
-		}
 	}
 
 }

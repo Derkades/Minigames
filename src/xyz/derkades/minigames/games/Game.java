@@ -69,6 +69,8 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 
 	public abstract String getName();
 
+	public String getAlias(){ return ""; }
+
 	public abstract String[] getDescription();
 
 	public abstract int getRequiredPlayers();
@@ -123,19 +125,18 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 
 			if (!Minigames.getInstance().getConfig().getStringList("disabled-description")
 					.contains(player.getUniqueId().toString())) {
-				for (final String line : this.getDescription())
+				for (final String line : this.getDescription()) {
 					player.sendMessage(prefix + line);
+				}
 				player.sendMessage(prefix + "Minimum players: " + YELLOW + this.getRequiredPlayers());
 			}
 
-			if (this.map != null)
+			if (this.map != null) {
 				player.sendMessage(prefix + "Map: " + YELLOW + this.map.getName() + GRAY + " (" + NumberUtils.roundApprox(this.map.getWeight(), 1) + ")");
+			}
 
 			player.sendMessage(prefix + DARK_GRAY + "-----------------------------------------");
 		}
-
-		// Set current game name. This is used to check prevent the same game from starting again after this.
-		//Minigames.LAST_GAME_NAME = this.getName();
 
 		// Countdown using sounds and the XP bar
 		new BukkitRunnable() {
@@ -267,7 +268,9 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 
 		// Announce winners
 		final List<String> winnerNames = new ArrayList<>();
-		for (final Player winner : winners) winnerNames.add(winner.getName());
+		for (final Player winner : winners) {
+			winnerNames.add(winner.getName());
+		}
 		final String winnersText = String.join(", ", winnerNames);
 
 		if (winners.isEmpty()){
@@ -415,34 +418,21 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 
 	@Override
 	public Size getSize() {
-		if (this.getRequiredPlayers() > 4) {
+		if (this.getRequiredPlayers() > 4)
 			return Size.LARGE;
-		} else if (this.getRequiredPlayers() > 2) {
+		else if (this.getRequiredPlayers() > 2)
 			return Size.NORMAL;
-		} else {
+		else
 			return Size.SMALL;
-		}
 	}
 
-	public static Game<? extends GameMap> fromString(String string) {
-		if (string.equalsIgnoreCase("oitq")) { // TODO Proper aliases support
-			string = "one in the quiver";
-		} else if (string.equalsIgnoreCase("tbb")) {
-			string = "teams bow battle";
-		} else if (string.equalsIgnoreCase("btb")) {
-			string = "break the block";
-		} else if (string.equalsIgnoreCase("spleef")) {
-			string = "regenerating spleef";
-		} else if (string.equalsIgnoreCase("hg")) {
-			string = "hunger games";
-		} else if (string.equalsIgnoreCase("mm")) {
-			string = "murdery mister";
-		}
-
+	public static Game<? extends GameMap> fromString(final String string) {
 		for (final Game<? extends GameMap> game : GAMES){
-			if (game.getName().equalsIgnoreCase(string)){
+			if (game.getName().equalsIgnoreCase(string))
 				return game;
-			}
+
+			if (string.equalsIgnoreCase(game.getAlias()))
+				return game;
 		}
 		return null;
 	}

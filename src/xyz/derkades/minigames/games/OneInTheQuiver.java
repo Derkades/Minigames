@@ -47,6 +47,11 @@ public class OneInTheQuiver extends Game<OITQMap> {
 	}
 
 	@Override
+	public String getAlias() {
+		return "oitq";
+	}
+
+	@Override
 	public String[] getDescription() {
 		return new String[] {
 				"Kill other players with a weak wooden sword.",
@@ -98,9 +103,8 @@ public class OneInTheQuiver extends Game<OITQMap> {
 
 	@Override
 	public int gameTimer(final int secondsLeft) {
-		if (Utils.getAliveAcountFromDeadAndAllList(OneInTheQuiver.this.dead, OneInTheQuiver.this.all) < 2 && secondsLeft > 2) {
+		if (Utils.getAliveAcountFromDeadAndAllList(OneInTheQuiver.this.dead, OneInTheQuiver.this.all) < 2 && secondsLeft > 2)
 			return 2;
-		}
 
 		return secondsLeft;
 	}
