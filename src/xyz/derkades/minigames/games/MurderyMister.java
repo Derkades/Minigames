@@ -11,8 +11,10 @@ import org.bukkit.Sound;
 import org.bukkit.block.data.Lightable;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Arrow;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Trident;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
@@ -75,6 +77,8 @@ public class MurderyMister extends Game<MurderyMisterMap> {
 
 		this.arrowRemoveTask = new ArrowRemoveTask().runTaskTimer(Minigames.getInstance(), 1, 1);
 
+		this.map.getWorld().getEntitiesByClass(Trident.class).forEach(Entity::remove);
+
 		final Location[] spawnLocations = this.map.getSpawnLocations();
 		int index = 0;
 
@@ -95,9 +99,8 @@ public class MurderyMister extends Game<MurderyMisterMap> {
 
 	@Override
 	public void onStart() {
-		if (Bukkit.getOnlinePlayers().size() < 1) {
+		if (Bukkit.getOnlinePlayers().size() < 1)
 			return; // Just in case everyone leaves, so the code below doesn't crash
-		}
 
 		final MPlayer murderer = Minigames.getOnlinePlayersInRandomOrder().get(0);
 		murderer.sendTitle("", ChatColor.RED + "You are the murderer!");
