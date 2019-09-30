@@ -1,5 +1,6 @@
 package xyz.derkades.minigames.games;
 
+@Deprecated
 public class Harvest {/*extends Game {
 
 	private static final int GAME_DURATION = 60;

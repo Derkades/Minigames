@@ -154,7 +154,7 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 						player.playSound(Sound.ENTITY_ARROW_HIT_PLAYER, 1.5f);
 					}
 
-					//if (this.timeLeft < 35) {
+					//if (this.timeLeft < 35) { Hotbar scrolling joke
 					//	player.getInventory().setHeldItemSlot(Math.abs((16 - this.timeLeft % 16)) / 2);
 					//}
 				}

@@ -42,6 +42,11 @@ public class MurderyMister extends Game<MurderyMisterMap> {
 	}
 
 	@Override
+	public String getAlias() {
+		return "mm";
+	}
+
+	@Override
 	public String[] getDescription() {
 		return new String[] {
 				"Description",

@@ -1,8 +1,5 @@
 package xyz.derkades.minigames;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -10,8 +7,6 @@ import org.bukkit.entity.Player;
 
 import net.md_5.bungee.api.ChatColor;
 import xyz.derkades.minigames.Minigames.ShutdownReason;
-import xyz.derkades.minigames.games.Game;
-import xyz.derkades.minigames.games.maps.GameMap;
 import xyz.derkades.minigames.menu.GamesListMenu;
 import xyz.derkades.minigames.menu.MainMenu;
 import xyz.derkades.minigames.random.RandomPicking;
@@ -29,9 +24,7 @@ public class Command implements CommandExecutor {
 		}
 
 		if (args.length == 2 && (args[0].equalsIgnoreCase("map") || args[0].equalsIgnoreCase("m")) && sender.hasPermission("minigames.nextmap")) {
-			//final Game<? extends GameMap> game = Game.fromString(args[1].replace("_", " "));
 			RandomPicking.FORCE_MAP = args[1].replace("_", " ");
-			//sender.sendMessage("Bypassing player minimum and forcing " + game.getName() + " to be chosen as the next game.");
 			sender.sendMessage("If exists, " + args[1] + " will be chosen as the next map");
 			return true;
 		}
@@ -72,27 +65,25 @@ public class Command implements CommandExecutor {
 				player.setDisableDamage(false);
 				sender.sendMessage("Set damageDisabled to false");
 			} else if (args[0].equals("test") && sender.hasPermission("minigames.test")) {
-//				final Player player = (Player) sender;
+//		        final Location fbLocation = loc.add(
+//		        		loc
+//		                .getDirection()
+//		                .normalize()
+//		                .multiply(2)
+//		                .toLocation(player.getWorld(), loc.getYaw(),
+//		                		loc.getPitch())).add(0, 1D, 0);
+//		        final Fireball f = player.getWorld().spawn(fbLocation, Fireball.class);
+//		        f.setYield(100);
+//		        f.setShooter(player);
+//		        f.setIsIncendiary(false);
 
-				/*final Location loc = player.getLocation();
-		        final Location fbLocation = loc.add(
-		        		loc
-		                .getDirection()
-		                .normalize()
-		                .multiply(2)
-		                .toLocation(player.getWorld(), loc.getYaw(),
-		                		loc.getPitch())).add(0, 1D, 0);
-		        final Fireball f = player.getWorld().spawn(fbLocation, Fireball.class);
-		        f.setYield(100);
-		        f.setShooter(player);
-		        f.setIsIncendiary(false);*/
-				//BlockUtils.fillArea(244, 67, 161, 212, 74, 131, Material.DIRT);
-				//BlockUtils.fillArea(244, 69, 161, 242, 67, 159, Material.AIR);
-				//BlockUtils.fillArea(214, 67, 133, 212, 69, 131, Material.AIR);
+//				BlockUtils.fillArea(244, 67, 161, 212, 74, 131, Material.DIRT);
+//				BlockUtils.fillArea(244, 69, 161, 242, 67, 159, Material.AIR);
+//				BlockUtils.fillArea(214, 67, 133, 212, 69, 131, Material.AIR);
 				sender.sendMessage("test");
 
-		        //final Poll poll = new Poll("Test poll?", new PollAnswer(1, "Yes", ChatColor.GREEN), new PollAnswer(2, "No", ChatColor.RED));
-		        //ChatPoll.sendPoll(player, poll);
+//		        final Poll poll = new Poll("Test poll?", new PollAnswer(1, "Yes", ChatColor.GREEN), new PollAnswer(2, "No", ChatColor.RED));
+//		        ChatPoll.sendPoll(player, poll);
 
 //				player.spigot().sendMessage(new ComponentBuilder("")
 //						.append("Game")
@@ -121,16 +112,14 @@ public class Command implements CommandExecutor {
 //				fall.setVelocity(velocity);
 //				block.setType(Material.AIR);
 
-				final List<String> mapIdentifiers = new ArrayList<>();
-				mapIdentifiers.add("<map>");
-				for (final Game<? extends GameMap> game : Game.GAMES) {
-					for (final GameMap map : game.getGameMaps()) {
-						//if (args[1].startsWith(map.getIdentifier())){
-							mapIdentifiers.add(map.getIdentifier());
-						//}
-					}
-				}
-				sender.sendMessage(String.join(", ", mapIdentifiers));
+//				final List<String> mapIdentifiers = new ArrayList<>();
+//				mapIdentifiers.add("<map>");
+//				for (final Game<? extends GameMap> game : Game.GAMES) {
+//					for (final GameMap map : game.getGameMaps()) {
+//						mapIdentifiers.add(map.getIdentifier());
+//					}
+//				}
+//				sender.sendMessage(String.join(", ", mapIdentifiers));
 			} else {
 				sender.sendMessage("no.");
 			}

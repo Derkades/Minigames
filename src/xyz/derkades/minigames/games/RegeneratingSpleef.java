@@ -33,6 +33,11 @@ public class RegeneratingSpleef extends Game<SpleefMap> {
 	}
 
 	@Override
+	public String getAlias() {
+		return "spleef";
+	}
+
+	@Override
 	public String[] getDescription() {
 		return new String[] {
 				"Regenerating Spleef is very similar to the",
@@ -93,9 +98,8 @@ public class RegeneratingSpleef extends Game<SpleefMap> {
 
 	@Override
 	public int gameTimer(final int secondsLeft) {
-		if (Utils.getAliveAcountFromDeadAndAllList(RegeneratingSpleef.this.dead, RegeneratingSpleef.this.all) < 2 && secondsLeft > 5) {
+		if (Utils.getAliveAcountFromDeadAndAllList(RegeneratingSpleef.this.dead, RegeneratingSpleef.this.all) < 2 && secondsLeft > 5)
 			return 5;
-		}
 
 		return secondsLeft;
 	}
@@ -109,15 +113,13 @@ public class RegeneratingSpleef extends Game<SpleefMap> {
 
 	@EventHandler
 	public void onBlockBreak(final BlockBreakEvent event) {
-		if (event.getPlayer().getGameMode().equals(GameMode.CREATIVE)) {
+		if (event.getPlayer().getGameMode().equals(GameMode.CREATIVE))
 			return;
-		}
 
 		if (this.map.enableFlyingBlocks()) {
 			final Block block = event.getBlock();
-				if (!block.getType().equals(Material.SNOW_BLOCK)) {
+				if (!block.getType().equals(Material.SNOW_BLOCK))
 					return;
-				}
 
 				final FallingBlock fall = block.getWorld().spawnFallingBlock(
 						new Location(this.map.getWorld(), block.getX() + 0.5, block.getY(), block.getZ() + 0.5),
@@ -137,9 +139,8 @@ public class RegeneratingSpleef extends Game<SpleefMap> {
 	public void onMove(final PlayerMoveEvent event){
 		final MPlayer player = new MPlayer(event);
 
-		if (this.dead.contains(player.getUniqueId())) {
+		if (this.dead.contains(player.getUniqueId()))
 			return;
-		}
 
 		if (player.getBlockOn().getType() == Material.BEDROCK){
 			this.dead.add(player.getUniqueId());

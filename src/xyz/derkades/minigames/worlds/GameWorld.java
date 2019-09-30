@@ -12,6 +12,7 @@ import org.bukkit.World.Environment;
 import org.bukkit.WorldCreator;
 import org.bukkit.WorldType;
 
+import xyz.derkades.derkutils.bukkit.VoidGenerator;
 import xyz.derkades.minigames.Var;
 
 public enum GameWorld {
@@ -108,9 +109,6 @@ public enum GameWorld {
 		creator.type(WorldType.FLAT);
 		creator.generator(new VoidGenerator());
 		creator.environment(Environment.NORMAL);
-
-//		final World world = Bukkit.createWorld(creator);
-//		world.getBlockAt(0, 64, 0).setType(Material.SMOOTH_STONE);
 
 		final World world = Bukkit.getServer().createWorld(creator);
 

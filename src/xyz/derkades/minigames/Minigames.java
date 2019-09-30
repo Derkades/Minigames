@@ -32,8 +32,6 @@ public class Minigames extends JavaPlugin implements Listener {
 
 	public static boolean STOP_GAMES = false;
 
-	//public static String LAST_GAME_NAME = null;
-
 	/**
 	 * Used by connector addon @see {@link #getCurrentGameName()}
 	 */
@@ -129,21 +127,18 @@ public class Minigames extends JavaPlugin implements Listener {
 	 * Used by connector addon
 	 */
 	public static String getCurrentGameName() {
-		if (!IS_IN_GAME) {
+		if (!IS_IN_GAME)
 			return "None";
-		}
 
 		return CURRENT_GAME_NAME;
 	}
 
     private boolean setupEconomy() {
-        if (this.getServer().getPluginManager().getPlugin("Vault") == null) {
-            return false;
-        }
+        if (this.getServer().getPluginManager().getPlugin("Vault") == null)
+			return false;
         final RegisteredServiceProvider<Economy> rsp = this.getServer().getServicesManager().getRegistration(Economy.class);
-        if (rsp == null) {
-            return false;
-        }
+        if (rsp == null)
+			return false;
         economy = rsp.getProvider();
         return economy != null;
     }
