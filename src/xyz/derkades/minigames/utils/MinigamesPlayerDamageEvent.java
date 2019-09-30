@@ -7,6 +7,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
+import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.projectiles.ProjectileSource;
 
 public class MinigamesPlayerDamageEvent extends Event implements Cancellable {
@@ -16,22 +17,25 @@ public class MinigamesPlayerDamageEvent extends Event implements Cancellable {
 	private final Player player;
 	private final Entity damager;
 	private double damage;
+	private final DamageCause cause;
 	private final DamageType type;
 
 	private boolean cancelled;
 
-	public MinigamesPlayerDamageEvent(final Player player, final Entity damager, final double damage) {
+	public MinigamesPlayerDamageEvent(final Player player, final Entity damager, final DamageCause cause, final double damage) {
 		this.player = player;
 		this.damager = damager;
 		this.damage = damage;
+		this.cause = cause;
 		this.type = DamageType.ENTITY;
 	}
 
 
-	public MinigamesPlayerDamageEvent(final Player player, final double damage) {
+	public MinigamesPlayerDamageEvent(final Player player, final DamageCause cause, final double damage) {
 		this.player = player;
 		this.damager = null;
 		this.damage = damage;
+		this.cause = cause;
 		this.type = DamageType.SELF;
 	}
 
@@ -44,18 +48,16 @@ public class MinigamesPlayerDamageEvent extends Event implements Cancellable {
 	}
 
 	public MPlayer getDamagerPlayer() {
-		if (this.damager.getType().equals(EntityType.PLAYER)) {
+		if (this.damager.getType().equals(EntityType.PLAYER))
 			return new MPlayer((Player) this.damager);
-		} else if (this.damager.getType().equals(EntityType.ARROW)) {
+		else if (this.damager.getType().equals(EntityType.ARROW)) {
 			final ProjectileSource shooter = ((Arrow) this.damager).getShooter();
-			if (shooter instanceof Player) {
+			if (shooter instanceof Player)
 				return new MPlayer((Player) shooter);
-			} else {
+			else
 				return null;
-			}
-		} else {
+		} else
 			return null;
-		}
 
 	}
 
@@ -73,6 +75,10 @@ public class MinigamesPlayerDamageEvent extends Event implements Cancellable {
 
 	public DamageType getType() {
 		return this.type;
+	}
+
+	public DamageCause getCause() {
+		return this.cause;
 	}
 
 	@Override

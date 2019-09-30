@@ -109,13 +109,11 @@ public class GlobalListeners implements Listener {
 
 	@EventHandler
 	public void gamesMenuOpen(final PlayerInteractEntityEvent event){
-		if (Minigames.IS_IN_GAME) {
+		if (Minigames.IS_IN_GAME)
 			return;
-		}
 
-		if (!event.getHand().equals(EquipmentSlot.HAND)) {
+		if (!event.getHand().equals(EquipmentSlot.HAND))
 			return;
-		}
 
 		final Player player = event.getPlayer();
 		final Entity entity = event.getRightClicked();
@@ -127,13 +125,11 @@ public class GlobalListeners implements Listener {
 
 	@EventHandler
 	public void onInteract(final PlayerInteractEvent event) {
-		if (event.getPlayer().getGameMode() != GameMode.ADVENTURE) {
+		if (event.getPlayer().getGameMode() != GameMode.ADVENTURE)
 			return;
-		}
 
-		if (event.getHand() != null && !event.getHand().equals(EquipmentSlot.HAND)) {
+		if (event.getHand() != null && !event.getHand().equals(EquipmentSlot.HAND))
 			return;
-		}
 
 		final Action action = event.getAction();
 		final Block block = event.getClickedBlock();
@@ -158,36 +154,36 @@ public class GlobalListeners implements Listener {
 
 	@EventHandler
 	public void onDamageTriggerCustomEvent(final EntityDamageEvent event) {
-		if (!event.getEntity().getType().equals(EntityType.PLAYER)) {
+		if (!event.getEntity().getType().equals(EntityType.PLAYER))
 			return;
-		}
 
 		if (event instanceof EntityDamageByEntityEvent) {
 			final EntityDamageByEntityEvent event2 = (EntityDamageByEntityEvent) event;
 
-			if (event2.getEntity().getType() != EntityType.PLAYER) {
+			if (event2.getEntity().getType() != EntityType.PLAYER)
 				return;
-			}
 
 			final MinigamesPlayerDamageEvent event3 = new MinigamesPlayerDamageEvent((Player) event2.getEntity(),
-					event2.getDamager(), event.getDamage());
+					event2.getDamager(), event.getCause(), event.getDamage());
 
 			Bukkit.getPluginManager().callEvent(event3);
 
 			event.setDamage(event3.getDamage());
 
-			if (event3.isCancelled())
+			if (event3.isCancelled()) {
 				event.setCancelled(true);
+			}
 		} else {
 			final MinigamesPlayerDamageEvent event3 = new MinigamesPlayerDamageEvent((Player) event.getEntity(),
-					event.getDamage());
+					event.getCause(), event.getDamage());
 
 			Bukkit.getPluginManager().callEvent(event3);
 
 			event.setDamage(event3.getDamage());
 
-			if (event3.isCancelled())
+			if (event3.isCancelled()) {
 				event.setCancelled(true);
+			}
 		}
 	}
 
