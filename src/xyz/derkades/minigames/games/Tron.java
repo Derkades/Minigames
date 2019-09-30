@@ -224,13 +224,42 @@ public class Tron extends Game<TronMap> {
 				player.teleport(location);
 			}
 
-			if (walkingTo.getBlock().getType() != Material.AIR) {
+			final Material toType = walkingTo.getBlock().getType();
+			if (toType != Material.AIR) {
 				//dead
 				Tron.this.spectators.add(player.getUniqueId());
 				Tron.this.teams.remove(player.getUniqueId());
 				this.cancel();
 
-				Tron.this.sendMessage(player.getName() + " has died.");
+
+				// Try to get killer
+				TronTeam killerTeam = null;
+				for (final TronTeam team2 : TronTeam.values()) {
+					if (toType.equals(team2.glassBlock)) {
+						killerTeam = team2;
+						break;
+					}
+				}
+
+				if (killerTeam != null) {
+					// Try to get player
+					MPlayer killer = null;
+					for (final MPlayer player2 : Minigames.getOnlinePlayers()) {
+						if (Tron.this.teams.get(player2.getUniqueId()).equals(killerTeam)) {
+							killer = player2;
+						}
+					}
+
+					if (killer != null) {
+						Tron.this.sendMessage(player.getName() + " was killed by " + killer.getName());
+					} else {
+						// can occur for example if the killer has logged out
+						final String killerTeamName = killerTeam.name().toLowerCase().replace("_", " ");
+						Tron.this.sendMessage(player.getName() + " was killed by the " + killerTeamName + " team");
+					}
+				} else {
+					Tron.this.sendMessage(player.getName() + " has died.");
+				}
 
 				player.dieUp(20);
 			}

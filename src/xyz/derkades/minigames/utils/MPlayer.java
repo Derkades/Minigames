@@ -77,12 +77,10 @@ public class MPlayer {
 	}
 
 	public void setDisableSneaking(final boolean disableSneaking) {
-		//Utils.setMetadata(this.player, "disable_sneaking", disableSneaking);
 		SneakPrevention.setCanSneak(this.player, !disableSneaking);
 	}
 
 	public boolean getDisableSneaking() {
-		//return Utils.getMetadata(this.player, "disable_sneaking").asBoolean();
 		return !SneakPrevention.getCanSneak(this.player);
 	}
 
