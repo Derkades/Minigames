@@ -22,6 +22,8 @@ import org.bukkit.util.Vector;
 
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.BaseComponent;
+import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.TextComponent;
 import xyz.derkades.derkutils.bukkit.BlockUtils;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
@@ -254,6 +256,8 @@ public class MPlayer {
 	public void spectator() {
 		this.player.setGameMode(GameMode.SPECTATOR);
 		SneakPrevention.setCanSneak(this.player, true);
+		this.sendActionBar(new ComponentBuilder("You are now a specator. Use /spec <player> to spectate a player.")
+				.color(ChatColor.GRAY).create());
 	}
 
 	public void giveEffect(final PotionEffectType type, final int duration, final int amplifier) {
@@ -411,7 +415,11 @@ public class MPlayer {
 	}
 
 	public void sendActionBar(final String message) {
-		this.player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(message));
+		this.sendActionBar(TextComponent.fromLegacyText(message));
+	}
+
+	public void sendActionBar(final BaseComponent[] components) {
+		this.player.spigot().sendMessage(ChatMessageType.ACTION_BAR, components);
 	}
 
 }
