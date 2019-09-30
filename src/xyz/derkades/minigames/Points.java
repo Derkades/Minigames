@@ -14,9 +14,6 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.block.Sign;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import com.mineglade.icore.utils.PlayerData;
-import com.mineglade.icore.utils.PlayerNotLoggedException;
-
 import net.md_5.bungee.api.ChatColor;
 import xyz.derkades.minigames.utils.Utils;
 
@@ -60,7 +57,7 @@ public class Points {
 			final Map<OfflinePlayer, Integer> sorted = Utils.sortByValue(map);
 
 			final Iterator<Entry<OfflinePlayer, Integer>> iterator = sorted.entrySet().iterator();
-			final List<OfflinePlayer> list = new ArrayList<OfflinePlayer>();
+			final List<OfflinePlayer> list = new ArrayList<>();
 			while (iterator.hasNext()){
 				list.add(iterator.next().getKey());
 			}
@@ -80,15 +77,17 @@ public class Points {
 			};
 
 			for (int i = 0; i < 9; i++) {
-				final OfflinePlayer player = array[i];
-				final PlayerData icoreData = new PlayerData(player);
-				String nickname;
-				try {
-					nickname = icoreData.getNickName().equals("") ? player.getName() : icoreData.getNickName();
-				} catch (final PlayerNotLoggedException e) {
-					continue;
-				}
-				final ChatColor color = icoreData.getNameColor();
+//				final OfflinePlayer player = array[i];
+//				final PlayerData icoreData = new PlayerData(player);
+//				String nickname;
+//				try {
+//					nickname = icoreData.getNickName().equals("") ? player.getName() : icoreData.getNickName();
+//				} catch (final PlayerNotLoggedException e) {
+//					continue;
+//				}
+//				final ChatColor color = icoreData.getNameColor();
+				final ChatColor color = ChatColor.BLACK;
+				final String nickname = "?";
 				final Sign sign = (Sign) signLocations[i].getBlock().getState();
 				sign.setLine(0, ChatColor.DARK_GRAY + "[" + ChatColor.GREEN + (i + 1) + ChatColor.DARK_GRAY + "]");
 				sign.setLine(1, color + nickname);

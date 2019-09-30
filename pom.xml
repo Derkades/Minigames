@@ -77,12 +77,12 @@
 			<scope>provided</scope>
 		</dependency>
 
-		<dependency>
+		<!--<dependency>
 			<groupId>com.mineglade</groupId>
 			<artifactId>icore</artifactId>
 			<version>dev</version>
 			<scope>provided</scope>
-		</dependency>
+		</dependency>-->
 
 	</dependencies>
 
