@@ -60,7 +60,7 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 			//new Rooms(),
 			new Parkour(),
 			//new SnowFight(),
-			//new Speedrun(),
+			new Speedrun(),
 			new TeamsBowBattle(),
 			new TntRun(),
 			//new TntTag(),
