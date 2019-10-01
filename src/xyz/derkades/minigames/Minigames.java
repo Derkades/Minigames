@@ -150,6 +150,8 @@ public class Minigames extends JavaPlugin implements Listener {
     }
 
     public static void shutdown(final ShutdownReason reason, final String text) {
+    	System.out.println(text);
+
     	if (reason == ShutdownReason.EMERGENCY_AUTOMATIC) {
     		Bukkit.broadcastMessage(ChatColor.RED + "Something went wrong, so an emergency shutdown been performed automatically. "
     				+ "Please notify a server administrator if they are not online.");
