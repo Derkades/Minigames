@@ -4,13 +4,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import net.md_5.bungee.api.ChatColor;
-import xyz.derkades.minigames.utils.Utils;
+import xyz.derkades.minigames.utils.MPlayer;
 
 /**
  * Runs every 5 ticks
@@ -34,8 +33,8 @@ public class SneakPrevention extends BukkitRunnable {
 //		Bukkit.getOnlinePlayers().stream().map(Player::getUniqueId).filter(WARNINGS::containsKey)
 //			.forEach(u -> WARNINGS.put(u, WARNINGS.get(u) + 1));
 
-		for (final Player player : Bukkit.getOnlinePlayers()) {
-			if (!player.isSneaking()) {
+		for (final MPlayer player : Minigames.getOnlinePlayers()) {
+			if (!player.bukkit().isSneaking()) {
 				continue;
 			}
 
@@ -43,10 +42,13 @@ public class SneakPrevention extends BukkitRunnable {
 			if (WARNINGS.containsKey(uuid)) {
 				WARNINGS.put(uuid, WARNINGS.get(uuid) + 1);
 				final int remaining = (MAX_WARNINGS - WARNINGS.get(uuid));
-				player.sendMessage(Utils.getChatPrefix(ChatColor.RED, 'W') +
-						"Sneaking is disabled here. " + remaining + " warnings remaining");
+//				player.sendMessage(Utils.getChatPrefix(ChatColor.RED, 'W') +
+//						"Sneaking is disabled here. " + remaining + " warnings remaining");
+
+				player.sendTitle(ChatColor.RED + "No Sneaking!", ChatColor.GRAY + "" + remaining + " warnings remaining.");
+
 				if (remaining <= 0) {
-					player.kickPlayer("Kicked for sneaking");
+					player.bukkit().kickPlayer("Kicked for sneaking");
 					WARNINGS.remove(uuid);
 				}
 			}
