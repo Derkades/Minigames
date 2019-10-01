@@ -70,11 +70,14 @@ public class TntRun extends Game<TNTMap> {
 
 	@Override
 	public int gameTimer(final int secondsLeft) {
-		if (Utils.getWinnersFromAliveList(this.alive, true).size() < 2 && secondsLeft > 5){
-			return 5;
-		}
+		if (Utils.getWinnersFromAliveList(this.alive, true).size() < 2 && secondsLeft > 5)
+	return 5;
 
-		Minigames.getOnlinePlayers().forEach(TntRun.this::removeBlocks);
+		Minigames.getOnlinePlayers().forEach((p) -> {
+			if (this.alive.contains(p.getUniqueId())) {
+				TntRun.this.removeBlocks(p);
+			}
+		});
 
 		return secondsLeft;
 	}
@@ -88,15 +91,13 @@ public class TntRun extends Game<TNTMap> {
 
 	@EventHandler
 	public void onMove(final PlayerMoveEvent event) {
-		if (!this.started) {
-			return;
-		}
+		if (!this.started)
+	return;
 
 		final MPlayer player = new MPlayer(event);
 
-		if (!this.alive.contains(player.getUniqueId())) {
-			return;
-		}
+		if (!this.alive.contains(player.getUniqueId()))
+	return;
 
 		final Block belowPlayer = event.getFrom().getBlock().getRelative(BlockFace.DOWN);
 
