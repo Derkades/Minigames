@@ -379,15 +379,21 @@ public class MPlayer {
 
 	public void dropItems() {
 		for (final ItemStack item : this.player.getInventory().getContents()) {
-			this.dropItem(item);
+			if (item != null) {
+				this.dropItem(item);
+			}
 		}
 
 		for (final ItemStack item : this.player.getInventory().getArmorContents()) {
-			this.dropItem(item);
+			if (item != null) {
+				this.dropItem(item);
+			}
 		}
 
 		for (final ItemStack item : this.player.getInventory().getExtraContents()) {
-			this.dropItem(item);
+			if (item != null) {
+				this.dropItem(item);
+			}
 		}
 	}
 
