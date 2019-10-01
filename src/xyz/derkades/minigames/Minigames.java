@@ -1,6 +1,5 @@
 package xyz.derkades.minigames;
 
-import java.io.File;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -46,6 +45,8 @@ public class Minigames extends JavaPlugin implements Listener {
 	public void onEnable(){
 		instance = this;
 
+		super.saveDefaultConfig();
+
 		Var.WORLD = Bukkit.getWorld("minigames");
 		Var.LOBBY_WORLD = Bukkit.getWorld("minigames");
 		Var.LOBBY_LOCATION = new Location(Var.WORLD, 219.5, 64, 279.5, 180, 0);
@@ -56,11 +57,6 @@ public class Minigames extends JavaPlugin implements Listener {
 		new Points.UpdateLeaderboard().runTaskTimer(this, 2*20, 10*20);
 
 		this.getServer().getPluginManager().registerEvents(new GlobalListeners(), this);
-
-		final File file = new File(this.getDataFolder(), "config.yml");
-		if (!file.exists()){
-			super.saveDefaultConfig();
-		}
 
 		this.getCommand("spectate").setExecutor(new SpectatorCommand());
 		this.getCommand("games").setExecutor(new Command());
