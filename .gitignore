@@ -64,3 +64,5 @@ $RECYCLE.BIN/
 
 
 target/
+.project
+.gitignore
