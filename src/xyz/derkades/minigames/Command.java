@@ -64,6 +64,10 @@ public class Command implements CommandExecutor {
 				final MPlayer player = new MPlayer((Player) sender);
 				player.setDisableDamage(false);
 				sender.sendMessage("Set damageDisabled to false");
+			} else if (args[0].equals("debug") && sender.hasPermission("minigames.debug")) {
+				Logger.debugMode = !Logger.debugMode;
+				Minigames.getInstance().getConfig().set("debug_mode", Logger.debugMode);
+				sender.sendMessage("Set debug mode to " + Logger.debugMode);
 			} else if (args[0].equals("test") && sender.hasPermission("minigames.test")) {
 //		        final Location fbLocation = loc.add(
 //		        		loc
