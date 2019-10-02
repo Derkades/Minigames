@@ -19,20 +19,22 @@ public class CommandTabCompleter implements TabCompleter {
 			if (args[1] == null)
 				return Arrays.asList("error");
 
+			final String arg = args[1];
+
 			final List<String> list = new ArrayList<>();
 
 			for (final Game<? extends GameMap> game : Game.GAMES) {
-				list.add(game.getName().replace(" ", "_").toLowerCase());
-				list.add(game.getAlias());
+				final String formattedName = game.getName().replace(" ", "_").toLowerCase();
+				if (formattedName.contains(arg)) {
+					list.add(formattedName);
+				}
+
+				if (game.getAlias().contains(arg)) {
+					list.add(game.getAlias());
+				}
 			}
 
 			return list;
-
-//			return Arrays.asList(Game.GAMES)
-//					.stream()
-//					.map((s) -> s.getName().replace(" ", "_").toLowerCase())
-//					.filter((s) -> s.startsWith(args[1]))
-//					.collect(Collectors.toList());
 		} else if (args.length == 2 && args[0].equalsIgnoreCase("map")) {
 			final List<String> mapIdentifiers = new ArrayList<>();
 			if (args[1].equals("")) {
