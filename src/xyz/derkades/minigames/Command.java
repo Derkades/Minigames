@@ -1,6 +1,5 @@
 package xyz.derkades.minigames;
 
-import org.bukkit.Bukkit;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -42,22 +41,22 @@ public class Command implements CommandExecutor {
 				Minigames.BYPASS_PLAYER_MINIMUM_CHECKS = true;
 				sender.sendMessage("Bypassing minimum player check");
 			} else if (args[0].equals("reloadworlds") && sender.hasPermission("minigames.world.reload")) {
-				Bukkit.broadcastMessage("[System] Reloading worlds, this may take a long time and cause lag..");
+				Logger.info("Reloading worlds, this may take a long time and cause lag..");
 
 				for (final GameWorld gWorld : GameWorld.values()) {
 					gWorld.getWorld();
 					gWorld.unload();
 				}
 
-				Bukkit.broadcastMessage("[System] Done");
+				Logger.info("Reloading worlds done.");
 			} else if (args[0].equals("unloadworlds") && sender.hasPermission("minigames.world.unload")) {
-				Bukkit.broadcastMessage("[System] Unloading worlds, this may take a long time and cause lag..");
+				Logger.info("Unloading worlds, this may take a long time and cause lag..");
 
 				for (final GameWorld gWorld : GameWorld.values()) {
 					gWorld.unload();
 				}
 
-				Bukkit.broadcastMessage("[System] Done");
+				Logger.info("Reloading worlds done.");
 			} else if (args[0].equalsIgnoreCase("list")) {
 				new GamesListMenu((Player) sender).open();
 			} else if (args[0].equals("damage") && sender.hasPermission("minigames.damage")) {

@@ -13,6 +13,7 @@ import org.bukkit.WorldCreator;
 import org.bukkit.WorldType;
 
 import xyz.derkades.derkutils.bukkit.VoidGenerator;
+import xyz.derkades.minigames.Logger;
 import xyz.derkades.minigames.Var;
 
 public enum GameWorld {
@@ -102,7 +103,7 @@ public enum GameWorld {
 	 * Creates world or just loads it if it already exists
 	 */
 	public World load() {
-		System.out.println("[System] Loading " + this.toString());
+		Logger.debug("Loading %s", this.toString());
 
 		final WorldCreator creator = new WorldCreator(this.getName());
 		creator.generateStructures(false);
@@ -139,12 +140,11 @@ public enum GameWorld {
 	public void unload() {
 		final World world = Bukkit.getWorld(this.getName());
 		if (world == null) {
-			//Bukkit.broadcastMessage("[System] " + this.toString() + " is already unloaded");
+			Logger.debug("%s is already unloaded", this.toString());
 		} else {
-			System.out.println("[System] Unloading " + this.toString());
+			Logger.debug("Unloading %s", this.toString());
 			Bukkit.unloadWorld(this.getWorld(), true);
 		}
-
 	}
 
 	public static void init() {
