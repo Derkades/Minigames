@@ -63,7 +63,8 @@ public class BugCommand implements CommandExecutor {
 								"https://github.com/Derkades/Minigames/issues"))
 						.create());
 			} catch (final IOException e) {
-				player.sendMessage("error. oh no.");
+				Logger.warning("%s encountered an issue while trying to create an issue", sender.getName());
+				player.sendMessage("An error occured while trying to create an issue.");
 				e.printStackTrace();
 			}
 		});
