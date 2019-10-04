@@ -13,7 +13,7 @@ public class AutoRotate {
 
 	public static void startNewRandomGame(){
 		if (!Minigames.getInstance().getConfig().getBoolean("autorotate")){
-			Bukkit.broadcastMessage("[System] AutoRotate disabled, not starting a new command");
+			Bukkit.broadcastMessage("[System] AutoRotate disabled, not starting a new game");
 			return;
 		}
 
