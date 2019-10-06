@@ -14,6 +14,7 @@ import xyz.derkades.derkutils.bukkit.menu.IconMenu;
 import xyz.derkades.derkutils.bukkit.menu.MenuCloseEvent;
 import xyz.derkades.derkutils.bukkit.menu.OptionClickEvent;
 import xyz.derkades.minigames.Minigames;
+import xyz.derkades.minigames.Minigames.ShutdownReason;
 
 public class DiceAnimationMenu extends IconMenu {
 
@@ -58,12 +59,12 @@ public class DiceAnimationMenu extends IconMenu {
 
 	private void displayNumber(final int number) {
 		this.items.clear();
-		
-		ItemStack item = new ItemBuilder(Material.GRAY_DYE).amount(number).create();
+
+		//ItemStack item = new ItemBuilder(Material.GRAY_DYE).amount(number).create();
 
 		Material material;
-		List<Integer> slots = new ArrayList<>();
-		
+		final List<Integer> slots = new ArrayList<>();
+
 		if (number == 1) {
 			material = Material.RED_CONCRETE;
 			slots.add(4);
@@ -220,9 +221,17 @@ public class DiceAnimationMenu extends IconMenu {
 			slots.add(41);
 			slots.add(43);
 			slots.add(51);
+		} else {
+			Minigames.shutdown(ShutdownReason.EMERGENCY_AUTOMATIC, "Invalid random number");
+			throw new RuntimeException("oh nee!!");
 		}
-		
-		
+
+		final ItemStack item = new ItemBuilder(material).name(" ").create();
+
+		for (final int i : slots) {
+			this.items.put(i, item);
+		}
+
 		this.refreshItems();
 	}
 
