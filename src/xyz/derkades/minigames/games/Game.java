@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
@@ -30,6 +31,7 @@ import xyz.derkades.minigames.ChatPoll.PollAnswer;
 import xyz.derkades.minigames.Minigames;
 import xyz.derkades.minigames.Minigames.ShutdownReason;
 import xyz.derkades.minigames.Var;
+import xyz.derkades.minigames.board.Board;
 import xyz.derkades.minigames.games.maps.GameMap;
 import xyz.derkades.minigames.random.RandomPicking;
 import xyz.derkades.minigames.random.RandomlyPickable;
@@ -391,6 +393,25 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 				Bukkit.broadcastMessage("[warning] game is not in dedicated world");
 			}
 		});
+	}
+
+	protected void endGame(final List<UUID> winners, final int removeThisParameter) {
+		Minigames.IS_IN_GAME = false;
+		HandlerList.unregisterAll(this); //Unregister events
+
+		final List<Player> players = Bukkit.getOnlinePlayers().stream().filter((p) -> winners.contains(p.getUniqueId())).collect(Collectors.toList());
+		final String winnersText = String.join(", ", players.stream().map(Player::getName).collect(Collectors.toList()));
+
+		if (winners.isEmpty()){
+			this.sendMessage("The " + this.getName() + " game has ended.");
+		} else if (winners.size() == 1){
+			this.sendMessage("The " + this.getName() + " game has ended! Winner: " + YELLOW + winnersText);
+		} else {
+			this.sendMessage("The " + this.getName() + " game has ended! Winners: " + YELLOW + winnersText);
+		}
+
+		this.sendMessage(String.format("Winners move %s-%s steps forward, other players move %s-%s steps forward.",
+				Board.WINNER_MOVE_MIN, Board.WINNER_MOVE_MIN, Board.LOSER_MOVE_MIN, Board.LOSER_MOVE_MAX));
 	}
 
 	@Override
