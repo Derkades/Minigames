@@ -1,7 +1,11 @@
 package xyz.derkades.minigames.board;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import xyz.derkades.derkutils.Random;
@@ -54,9 +58,171 @@ public class DiceAnimationMenu extends IconMenu {
 
 	private void displayNumber(final int number) {
 		this.items.clear();
+		
+		ItemStack item = new ItemBuilder(Material.GRAY_DYE).amount(number).create();
 
-		// TODO Proper animation
-		this.items.put(22, new ItemBuilder(Material.STONE).amount(number).create());
+		Material material;
+		List<Integer> slots = new ArrayList<>();
+		
+		if (number == 1) {
+			material = Material.RED_CONCRETE;
+			slots.add(4);
+			slots.add(12);
+			slots.add(13);
+			slots.add(22);
+			slots.add(31);
+			slots.add(40);
+			slots.add(49);
+			slots.add(48);
+			slots.add(50);
+		} else if (number == 2) {
+			material = Material.ORANGE_CONCRETE;
+			slots.add(11);
+			slots.add(3);
+			slots.add(4);
+			slots.add(5);
+			slots.add(15);
+			slots.add(23);
+			slots.add(31);
+			slots.add(39);
+			slots.add(47);
+			slots.add(48);
+			slots.add(49);
+			slots.add(50);
+			slots.add(51);
+		} else if (number == 3) {
+			material = Material.YELLOW_CONCRETE;
+			slots.add(3);
+			slots.add(4);
+			slots.add(5);
+			slots.add(15);
+			slots.add(21);
+			slots.add(22);
+			slots.add(23);
+			slots.add(33);
+			slots.add(42);
+			slots.add(48);
+			slots.add(49);
+			slots.add(50);
+		} else if (number == 4) {
+			material = Material.LIME_CONCRETE;
+			slots.add(5);
+			slots.add(13);
+			slots.add(14);
+			slots.add(21);
+			slots.add(23);
+			slots.add(29);
+			slots.add(30);
+			slots.add(31);
+			slots.add(32);
+			slots.add(33);
+			slots.add(41);
+			slots.add(50);
+		} else if (number == 5) {
+			material = Material.GREEN_CONCRETE;
+			slots.add(2);
+			slots.add(3);
+			slots.add(4);
+			slots.add(5);
+			slots.add(6);
+			slots.add(11);
+			slots.add(20);
+			slots.add(21);
+			slots.add(22);
+			slots.add(23);
+			slots.add(33);
+			slots.add(42);
+			slots.add(47);
+			slots.add(48);
+			slots.add(49);
+			slots.add(50);
+		} else if (number == 6) {
+			material = Material.LIGHT_BLUE_CONCRETE;
+			slots.add(3);
+			slots.add(4);
+			slots.add(5);
+			slots.add(11);
+			slots.add(20);
+			slots.add(21);
+			slots.add(22);
+			slots.add(23);
+			slots.add(29);
+			slots.add(33);
+			slots.add(38);
+			slots.add(42);
+			slots.add(48);
+			slots.add(49);
+			slots.add(50);
+		} else if (number == 7) {
+			material = Material.BLUE_CONCRETE;
+			slots.add(2);
+			slots.add(3);
+			slots.add(4);
+			slots.add(5);
+			slots.add(6);
+			slots.add(15);
+			slots.add(23);
+			slots.add(32);
+			slots.add(40);
+			slots.add(49);
+		} else if (number == 8) {
+			material = Material.PINK_CONCRETE;
+			slots.add(3);
+			slots.add(4);
+			slots.add(5);
+			slots.add(11);
+			slots.add(15);
+			slots.add(21);
+			slots.add(22);
+			slots.add(23);
+			slots.add(29);
+			slots.add(33);
+			slots.add(38);
+			slots.add(42);
+			slots.add(48);
+			slots.add(49);
+			slots.add(50);
+		} else if (number == 9) {
+			material = Material.MAGENTA_CONCRETE;
+			slots.add(3);
+			slots.add(4);
+			slots.add(5);
+			slots.add(11);
+			slots.add(15);
+			slots.add(20);
+			slots.add(24);
+			slots.add(30);
+			slots.add(31);
+			slots.add(32);
+			slots.add(33);
+			slots.add(42);
+			slots.add(48);
+			slots.add(49);
+			slots.add(50);
+		} else if (number == 10) {
+			material = Material.PURPLE_CONCRETE;
+			slots.add(2);
+			slots.add(10);
+			slots.add(11);
+			slots.add(20);
+			slots.add(29);
+			slots.add(38);
+			slots.add(46);
+			slots.add(47);
+			slots.add(48);
+			slots.add(6);
+			slots.add(14);
+			slots.add(16);
+			slots.add(23);
+			slots.add(25);
+			slots.add(32);
+			slots.add(34);
+			slots.add(41);
+			slots.add(43);
+			slots.add(51);
+		}
+		
+		
 		this.refreshItems();
 	}
 
