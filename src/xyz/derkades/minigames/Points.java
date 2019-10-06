@@ -87,7 +87,7 @@ public class Points {
 //				}
 //				final ChatColor color = icoreData.getNameColor();
 				final ChatColor color = ChatColor.BLACK;
-				final String nickname = "?";
+				final String nickname = array[i].getName();
 				final Sign sign = (Sign) signLocations[i].getBlock().getState();
 				sign.setLine(0, ChatColor.DARK_GRAY + "[" + ChatColor.GREEN + (i + 1) + ChatColor.DARK_GRAY + "]");
 				sign.setLine(1, color + nickname);
