@@ -1,8 +1,5 @@
 package xyz.derkades.minigames.board;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -60,167 +57,39 @@ public class DiceAnimationMenu extends IconMenu {
 	private void displayNumber(final int number) {
 		this.items.clear();
 
-		//ItemStack item = new ItemBuilder(Material.GRAY_DYE).amount(number).create();
-
 		Material material;
-		final List<Integer> slots = new ArrayList<>();
+		int[] slots;
 
 		if (number == 1) {
 			material = Material.RED_CONCRETE;
-			slots.add(4);
-			slots.add(12);
-			slots.add(13);
-			slots.add(22);
-			slots.add(31);
-			slots.add(40);
-			slots.add(49);
-			slots.add(48);
-			slots.add(50);
+			slots = new int[] {4, 12, 13, 22, 31, 40, 49, 48, 50};
 		} else if (number == 2) {
 			material = Material.ORANGE_CONCRETE;
-			slots.add(11);
-			slots.add(3);
-			slots.add(4);
-			slots.add(5);
-			slots.add(15);
-			slots.add(23);
-			slots.add(31);
-			slots.add(39);
-			slots.add(47);
-			slots.add(48);
-			slots.add(49);
-			slots.add(50);
-			slots.add(51);
+			slots = new int[] {11, 3, 4, 5, 15, 23, 31, 39, 47, 48, 49, 50, 51};
 		} else if (number == 3) {
 			material = Material.YELLOW_CONCRETE;
-			slots.add(3);
-			slots.add(4);
-			slots.add(5);
-			slots.add(15);
-			slots.add(21);
-			slots.add(22);
-			slots.add(23);
-			slots.add(33);
-			slots.add(42);
-			slots.add(48);
-			slots.add(49);
-			slots.add(50);
+			slots = new int[] {3, 4, 5, 15, 21, 22, 23, 33, 42, 48, 49, 50};
 		} else if (number == 4) {
 			material = Material.LIME_CONCRETE;
-			slots.add(5);
-			slots.add(13);
-			slots.add(14);
-			slots.add(21);
-			slots.add(23);
-			slots.add(29);
-			slots.add(30);
-			slots.add(31);
-			slots.add(32);
-			slots.add(33);
-			slots.add(41);
-			slots.add(50);
+			slots = new int[] {5, 13, 14, 21, 23, 29, 30, 31, 32, 33, 41, 50};
 		} else if (number == 5) {
 			material = Material.GREEN_CONCRETE;
-			slots.add(2);
-			slots.add(3);
-			slots.add(4);
-			slots.add(5);
-			slots.add(6);
-			slots.add(11);
-			slots.add(20);
-			slots.add(21);
-			slots.add(22);
-			slots.add(23);
-			slots.add(33);
-			slots.add(42);
-			slots.add(47);
-			slots.add(48);
-			slots.add(49);
-			slots.add(50);
+			slots = new int[] {2, 3, 4, 5, 6, 11, 20, 21, 22, 23, 33, 42, 47, 48, 49, 50};
 		} else if (number == 6) {
 			material = Material.LIGHT_BLUE_CONCRETE;
-			slots.add(3);
-			slots.add(4);
-			slots.add(5);
-			slots.add(11);
-			slots.add(20);
-			slots.add(21);
-			slots.add(22);
-			slots.add(23);
-			slots.add(29);
-			slots.add(33);
-			slots.add(38);
-			slots.add(42);
-			slots.add(48);
-			slots.add(49);
-			slots.add(50);
+			slots = new int[] {3, 4, 5, 11, 20, 21, 22, 23, 29, 33, 38, 42, 48, 49, 50};
 		} else if (number == 7) {
 			material = Material.BLUE_CONCRETE;
-			slots.add(2);
-			slots.add(3);
-			slots.add(4);
-			slots.add(5);
-			slots.add(6);
-			slots.add(15);
-			slots.add(23);
-			slots.add(32);
-			slots.add(40);
-			slots.add(49);
+			slots = new int[] {2, 3, 4, 5, 6, 15, 23, 32, 40, 49};
 		} else if (number == 8) {
 			material = Material.PINK_CONCRETE;
-			slots.add(3);
-			slots.add(4);
-			slots.add(5);
-			slots.add(11);
-			slots.add(15);
-			slots.add(21);
-			slots.add(22);
-			slots.add(23);
-			slots.add(29);
-			slots.add(33);
-			slots.add(38);
-			slots.add(42);
-			slots.add(48);
-			slots.add(49);
-			slots.add(50);
+			slots = new int[] {3, 4, 5, 11, 15, 21, 22, 23, 29, 33, 38, 42, 48, 49, 50};
 		} else if (number == 9) {
 			material = Material.MAGENTA_CONCRETE;
-			slots.add(3);
-			slots.add(4);
-			slots.add(5);
-			slots.add(11);
-			slots.add(15);
-			slots.add(20);
-			slots.add(24);
-			slots.add(30);
-			slots.add(31);
-			slots.add(32);
-			slots.add(33);
-			slots.add(42);
-			slots.add(48);
-			slots.add(49);
-			slots.add(50);
+			slots = new int[] {3, 4, 5, 11, 15, 20, 24, 30, 31, 32, 33, 42, 48, 49, 50};
 		} else if (number == 10) {
 			material = Material.PURPLE_CONCRETE;
-			slots.add(2);
-			slots.add(10);
-			slots.add(11);
-			slots.add(20);
-			slots.add(29);
-			slots.add(38);
-			slots.add(46);
-			slots.add(47);
-			slots.add(48);
-			slots.add(6);
-			slots.add(14);
-			slots.add(16);
-			slots.add(23);
-			slots.add(25);
-			slots.add(32);
-			slots.add(34);
-			slots.add(41);
-			slots.add(43);
-			slots.add(51);
+			slots = new int[] {2, 10, 11, 20, 29, 38, 46, 47, 48, 6, 14, 16, 23, 25, 32, 34, 41, 43, 51};
 		} else {
 			Minigames.shutdown(ShutdownReason.EMERGENCY_AUTOMATIC, "Invalid random number");
 			throw new RuntimeException("oh nee!!");

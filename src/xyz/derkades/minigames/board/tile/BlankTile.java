@@ -1,4 +1,4 @@
-package xyz.derkades.minigames.board.tiles;
+package xyz.derkades.minigames.board.tile;
 
 import xyz.derkades.minigames.board.Tile;
 
