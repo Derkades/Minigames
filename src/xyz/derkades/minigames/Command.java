@@ -5,6 +5,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import net.md_5.bungee.api.ChatColor;
+import xyz.derkades.derkutils.Random;
 import xyz.derkades.minigames.Minigames.ShutdownReason;
 import xyz.derkades.minigames.board.DiceAnimationMenu;
 import xyz.derkades.minigames.menu.GamesListMenu;
@@ -70,7 +71,7 @@ public class Command implements CommandExecutor {
 				Minigames.getInstance().saveConfig();
 				sender.sendMessage("Set debug mode to " + Logger.debugMode);
 			} else if (args[0].equals("test") && sender.hasPermission("minigames.test")) {
-				new DiceAnimationMenu((Player) sender, 1, 10, 5).open();
+				new DiceAnimationMenu((Player) sender, 1, 10, Random.getRandomInteger(1, 10)).open();
 //		        final Location fbLocation = loc.add(
 //		        		loc
 //		                .getDirection()
