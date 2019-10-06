@@ -34,7 +34,7 @@ public class DiceAnimationMenu extends IconMenu {
 	private final int endResult;
 
 	public DiceAnimationMenu(final Player player, final int min, final int max, final int endResult) {
-		super(plugin, "Dice", 6*9, player);
+		super(plugin, "Die", 6*9, player);
 		this.min = min;
 		this.max = max;
 		this.endResult = endResult;
