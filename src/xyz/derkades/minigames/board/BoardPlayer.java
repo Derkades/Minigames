@@ -30,6 +30,10 @@ public class BoardPlayer extends MPlayer {
 		super(player);
 	}
 
+	public BoardPlayer(final MPlayer player) {
+		super(player.bukkit());
+	}
+
 	public void jumpTiles(final int tiles) {
 		// if the player gets teleported, while they are still teleporting
 		if (this.teleportTimer != null) {
