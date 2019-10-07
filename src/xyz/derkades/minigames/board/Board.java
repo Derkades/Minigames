@@ -51,14 +51,13 @@ public class Board {
 			winners.forEach((p) -> {
 				final int random = Random.getRandomInteger(WINNER_MOVE_MIN, WINNER_MOVE_MAX);
 				steps.put(p, random);
-				// TODO make menu use MPlayer instead of Player
-				new DiceAnimationMenu(p.bukkit(), WINNER_MOVE_MIN, WINNER_MOVE_MAX, random).open();
+				new DiceAnimationMenu(p, WINNER_MOVE_MIN, WINNER_MOVE_MAX, random).open();
 			});
 
 			losers.forEach((p) -> {
 				final int random = Random.getRandomInteger(LOSER_MOVE_MIN, LOSER_MOVE_MAX);
 				steps.put(p, random);
-				new DiceAnimationMenu(p.bukkit(), LOSER_MOVE_MIN, LOSER_MOVE_MAX, random).open();
+				new DiceAnimationMenu(p, LOSER_MOVE_MIN, LOSER_MOVE_MAX, random).open();
 			});
 
 			Scheduler.delay(DiceAnimationMenu.TOTAL_OPEN_TICKS, () -> {

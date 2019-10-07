@@ -1,7 +1,6 @@
 package xyz.derkades.minigames.board;
 
 import org.bukkit.Material;
-import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -31,8 +30,8 @@ public class DiceAnimationMenu extends IconMenu {
 	private final int max;
 	private final int endResult;
 
-	public DiceAnimationMenu(final Player player, final int min, final int max, final int endResult) {
-		super(plugin, "Die", 6*9, player);
+	public DiceAnimationMenu(final BoardPlayer player, final int min, final int max, final int endResult) {
+		super(plugin, "Die", 6*9, player.bukkit());
 		this.min = min;
 		this.max = max;
 		this.endResult = endResult;
