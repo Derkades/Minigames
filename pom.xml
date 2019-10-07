@@ -77,12 +77,15 @@
 			<scope>provided</scope>
 		</dependency>
 
-		<!--<dependency>
-			<groupId>com.mineglade</groupId>
-			<artifactId>icore</artifactId>
-			<version>dev</version>
+		<!--<dependency> <groupId>com.mineglade</groupId> <artifactId>icore</artifactId> 
+			<version>dev</version> <scope>provided</scope> </dependency> -->
+
+		<dependency>
+			<groupId>net.citizensnpcs</groupId>
+			<artifactId>citizens</artifactId>
+			<version>2.0.25-SNAPSHOT</version>
 			<scope>provided</scope>
-		</dependency>-->
+		</dependency>
 
 	</dependencies>
 
@@ -106,6 +109,11 @@
 		<repository>
 			<id>vault-repo</id>
 			<url>http://nexus.hc.to/content/repositories/pub_releases</url>
+		</repository>
+
+		<repository>
+			<id>everything</id>
+			<url>http://repo.citizensnpcs.co</url>
 		</repository>
 
 	</repositories>
