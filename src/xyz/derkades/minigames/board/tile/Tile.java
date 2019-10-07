@@ -11,8 +11,8 @@ import org.bukkit.Location;
 
 import xyz.derkades.derkutils.AssertionException;
 import xyz.derkades.minigames.Var;
+import xyz.derkades.minigames.board.BoardPlayer;
 import xyz.derkades.minigames.board.tile.tiles.AA;
-import xyz.derkades.minigames.utils.MPlayer;
 import xyz.derkades.minigames.utils.XYZ;
 
 public abstract class Tile {
@@ -45,9 +45,9 @@ public abstract class Tile {
 
 	public abstract XYZ getXYZ();
 
-	public abstract void moveToNextTile(MPlayer player, Consumer<Tile> onMove);
+	public abstract void moveToNextTile(BoardPlayer player, Consumer<Tile> onMove);
 
-	public abstract void landOnTile(MPlayer player);
+	public abstract void landOnTile(BoardPlayer player);
 
 	public Location getLocation() {
 		return this.getXYZ().getLocation(Var.LOBBY_WORLD);

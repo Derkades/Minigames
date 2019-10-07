@@ -3,6 +3,7 @@ package xyz.derkades.minigames.board;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import java.util.function.Consumer;
 
 import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -35,7 +36,15 @@ public class BoardPlayer extends MPlayer {
 			this.teleportTimer.cancel();
 		}
 
-		// TODO move the specified amount of tiles
+		final Tile currentTile = this.getTile();
+
+		final Consumer<Tile> onMove = (tile) -> {
+			this.teleportNpcTo(tile);
+			this.setTile(tile);
+			this.jumpTiles(tiles - 1);
+		};
+
+		currentTile.moveToNextTile(this, onMove);
 	}
 
 	private void teleportNpcTo(final Tile tile) {
@@ -45,6 +54,10 @@ public class BoardPlayer extends MPlayer {
 		npc.teleport(location, TeleportCause.PLUGIN);
 	}
 
+	/**
+	 * Create an NPC. Called when the player joins and on reload for all online players.
+	 * TODO Call on reload for all online players
+	 */
 	public void createNpc() {
 		final NPCRegistry registry = CitizensAPI.getNPCRegistry();
 		final NPC npc = registry.createNPC(EntityType.PLAYER, this.getName());
@@ -54,6 +67,10 @@ public class BoardPlayer extends MPlayer {
 		this.teleportNpcTo(this.getTile());
 	}
 
+	/**
+	 * Remove an NPC. Called when the player quits and onDisable.
+	 * TODO call on quit and on disable
+	 */
 	public void removeNpc() {
 		final int id = NPC_ID.remove(this.getUniqueId());
 		final NPCRegistry registry = CitizensAPI.getNPCRegistry();
