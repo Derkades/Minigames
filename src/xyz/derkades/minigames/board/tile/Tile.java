@@ -10,8 +10,11 @@ import java.util.function.Consumer;
 import org.bukkit.Location;
 
 import xyz.derkades.derkutils.AssertionException;
+import xyz.derkades.minigames.Minigames;
+import xyz.derkades.minigames.Minigames.ShutdownReason;
 import xyz.derkades.minigames.Var;
 import xyz.derkades.minigames.board.BoardPlayer;
+import xyz.derkades.minigames.board.spectate.SpectateLocation;
 import xyz.derkades.minigames.board.tile.tiles.AA;
 import xyz.derkades.minigames.utils.XYZ;
 
@@ -51,6 +54,16 @@ public abstract class Tile {
 
 	public Location getLocation() {
 		return this.getXYZ().getLocation(Var.LOBBY_WORLD);
+	}
+
+	public SpectateLocation getSpectateLocation() {
+		final String viewChar = this.toString().substring(0, 1);
+		try {
+			return SpectateLocation.valueOf(viewChar);
+		} catch (final IllegalArgumentException e) {
+			Minigames.shutdown(ShutdownReason.EMERGENCY_AUTOMATIC, "Spectate view does not exist: " + viewChar);
+			throw new RuntimeException();
+		}
 	}
 
 	@Override

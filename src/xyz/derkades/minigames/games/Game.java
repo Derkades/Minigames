@@ -5,7 +5,6 @@ import static net.md_5.bungee.api.ChatColor.GOLD;
 import static net.md_5.bungee.api.ChatColor.GRAY;
 import static net.md_5.bungee.api.ChatColor.YELLOW;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
@@ -16,29 +15,20 @@ import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
-import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.util.Vector;
 
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;
 import xyz.derkades.derkutils.NumberUtils;
-import xyz.derkades.derkutils.Random;
-import xyz.derkades.minigames.AutoRotate;
-import xyz.derkades.minigames.ChatPoll.Poll;
-import xyz.derkades.minigames.ChatPoll.PollAnswer;
 import xyz.derkades.minigames.Minigames;
 import xyz.derkades.minigames.Minigames.ShutdownReason;
-import xyz.derkades.minigames.Var;
 import xyz.derkades.minigames.board.Board;
 import xyz.derkades.minigames.games.maps.GameMap;
 import xyz.derkades.minigames.random.RandomPicking;
 import xyz.derkades.minigames.random.RandomlyPickable;
 import xyz.derkades.minigames.random.Size;
 import xyz.derkades.minigames.utils.MPlayer;
-import xyz.derkades.minigames.utils.Queue;
-import xyz.derkades.minigames.utils.Scheduler;
 import xyz.derkades.minigames.utils.Utils;
 
 public abstract class Game<M extends GameMap> implements Listener, RandomlyPickable {
@@ -252,7 +242,7 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 		Bukkit.broadcastMessage(Utils.getChatPrefix(ChatColor.AQUA, 'G') + message);
 	}
 
-	void endGame() {
+	/*void endGame() {
 		this.endGame(Arrays.asList());
 	}
 
@@ -393,11 +383,13 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 				Bukkit.broadcastMessage("[warning] game is not in dedicated world");
 			}
 		});
-	}
+	}*/
 
-	protected void endGame(final List<UUID> winners, final int removeThisParameter) {
+	protected void endGame(final List<UUID> winners) {
 		Minigames.IS_IN_GAME = false;
 		HandlerList.unregisterAll(this); //Unregister events
+
+		Utils.showEveryoneToEveryone();
 
 		final List<Player> players = Bukkit.getOnlinePlayers().stream().filter((p) -> winners.contains(p.getUniqueId())).collect(Collectors.toList());
 		final String winnersText = String.join(", ", players.stream().map(Player::getName).collect(Collectors.toList()));

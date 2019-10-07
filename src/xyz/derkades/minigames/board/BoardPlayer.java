@@ -46,6 +46,7 @@ public class BoardPlayer extends MPlayer {
 			this.teleportNpcTo(tile);
 			this.setTile(tile);
 			this.jumpTiles(tiles - 1);
+			tile.getSpectateLocation().teleportIfOutside(this, false);
 		};
 
 		currentTile.moveToNextTile(this, onMove);
@@ -94,6 +95,11 @@ public class BoardPlayer extends MPlayer {
 			return Tile.fromString(config.getString("tile." + this.getUniqueId()));
 		else
 			return Tile.START_TILE;
+	}
+
+	public void teleportToBoard(final boolean queue) { // TODO call on join
+		final Tile tile = this.getTile();
+		tile.getSpectateLocation().teleportIfOutside(this, queue);
 	}
 
 }
