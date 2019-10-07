@@ -21,6 +21,9 @@ import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;
 import xyz.derkades.derkutils.NumberUtils;
+import xyz.derkades.derkutils.Random;
+import xyz.derkades.minigames.ChatPoll.Poll;
+import xyz.derkades.minigames.ChatPoll.PollAnswer;
 import xyz.derkades.minigames.Minigames;
 import xyz.derkades.minigames.Minigames.ShutdownReason;
 import xyz.derkades.minigames.board.Board;
@@ -30,6 +33,7 @@ import xyz.derkades.minigames.random.RandomPicking;
 import xyz.derkades.minigames.random.RandomlyPickable;
 import xyz.derkades.minigames.random.Size;
 import xyz.derkades.minigames.utils.MPlayer;
+import xyz.derkades.minigames.utils.Scheduler;
 import xyz.derkades.minigames.utils.Utils;
 
 public abstract class Game<M extends GameMap> implements Listener, RandomlyPickable {
@@ -313,56 +317,6 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 
 		int nextGameDelay = 2;
 
-		if (Minigames.VOTE_MENU_CHANCE > Random.getRandomFloat()) {
-			nextGameDelay = 6;
-
-			Scheduler.delay(20, () -> {
-				if (this.getRequiredPlayers() > 1) {
-					final Poll poll = new Poll("Did you enjoy this game?", (player, option) -> {
-						double weight = this.getWeight();
-
-						if (option == 1) {
-							weight *= 1.1; //Increase chance factor a bit (e.g. from to 1.5 to 1.65)
-						} else if (option == 2){
-							weight *= 0.9; //Decrease chance factor a bit (e.g. from 1.5 to 1.35)
-						}
-
-						player.sendMessage(ChatColor.GRAY + "Your vote has been registered.");
-
-						if (weight > 5) {
-							weight = 5;
-						}
-
-						this.setWeight(weight);
-					}, new PollAnswer(1, "Yes", ChatColor.GREEN, "The game will be picked more often"),
-							new PollAnswer(2, "No", ChatColor.RED, "The game will be picked less often"));
-
-					Bukkit.getOnlinePlayers().forEach(poll::send);
-				}
-
-				final Poll poll = new Poll("Did you enjoy this map?", (player, option) -> {
-					double weight = this.map.getWeight();
-
-					if (option == 1) {
-						weight *= 1.1; //Increase chance factor a bit (e.g. from to 1.5 to 1.65)
-					} else if (option == 2){
-						weight *= 0.9; //Decrease chance factor a bit (e.g. from 1.5 to 1.35)
-					}
-
-					player.sendMessage(ChatColor.GRAY + "Your vote has been registered.");
-
-					if (weight > 5) {
-						weight = 5;
-					}
-
-					this.map.setWeight(weight);
-				}, new PollAnswer(1, "Yes", ChatColor.GREEN, "The map will be picked more often"),
-						new PollAnswer(2, "No", ChatColor.RED, "The map will be picked less often"));
-
-				Bukkit.getOnlinePlayers().forEach(poll::send);
-			});
-		}
-
 		if (Bukkit.getOnlinePlayers().size() > 4) {
 			nextGameDelay += 5;
 		}
@@ -385,6 +339,14 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 			}
 		});
 	}*/
+
+	protected void endGame() {
+		this.endGame(Arrays.asList());
+	}
+
+	protected void endGame(final UUID winner) {
+		this.endGame(Arrays.asList(winner));
+	}
 
 	protected void endGame(final List<UUID> winners) {
 		Minigames.IS_IN_GAME = false;
@@ -411,11 +373,65 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 				.filter(o -> winners.contains(o))
 				.collect(Collectors.toList());
 
+		this.showPolls();
+
 		Minigames.getOnlinePlayers().stream()
 			.map(BoardPlayer::new)
 			.forEach(p -> p.teleportToBoard(true));
 
 		Board.performTurns(winners, lost);
+	}
+
+	private void showPolls() {
+		if (Minigames.VOTE_MENU_CHANCE > Random.getRandomFloat()) {
+			Scheduler.delay(40, () -> {
+				final boolean bool = Random.getRandomBoolean();
+
+				if (bool && this.getRequiredPlayers() > 1) {
+					final Poll poll = new Poll("Did you enjoy this game?", (player, option) -> {
+						double weight = this.getWeight();
+
+						if (option == 1) {
+							weight *= 1.1; //Increase chance factor a bit (e.g. from to 1.5 to 1.65)
+						} else if (option == 2){
+							weight *= 0.9; //Decrease chance factor a bit (e.g. from 1.5 to 1.35)
+						}
+
+						player.sendMessage(ChatColor.GRAY + "Your vote has been registered.");
+
+						if (weight > 5) {
+							weight = 5;
+						}
+
+						this.setWeight(weight);
+					}, new PollAnswer(1, "Yes", ChatColor.GREEN, "The game will be picked more often"),
+							new PollAnswer(2, "No", ChatColor.RED, "The game will be picked less often"));
+
+					Bukkit.getOnlinePlayers().forEach(poll::send);
+				} else {
+					final Poll poll = new Poll("Did you enjoy this map?", (player, option) -> {
+						double weight = this.map.getWeight();
+
+						if (option == 1) {
+							weight *= 1.1; //Increase chance factor a bit (e.g. from to 1.5 to 1.65)
+						} else if (option == 2){
+							weight *= 0.9; //Decrease chance factor a bit (e.g. from 1.5 to 1.35)
+						}
+
+						player.sendMessage(ChatColor.GRAY + "Your vote has been registered.");
+
+						if (weight > 5) {
+							weight = 5;
+						}
+
+						this.map.setWeight(weight);
+					}, new PollAnswer(1, "Yes", ChatColor.GREEN, "The map will be picked more often"),
+							new PollAnswer(2, "No", ChatColor.RED, "The map will be picked less often"));
+
+					Bukkit.getOnlinePlayers().forEach(poll::send);
+				}
+			});
+		}
 	}
 
 	@Override
