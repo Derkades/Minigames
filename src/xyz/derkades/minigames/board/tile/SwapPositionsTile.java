@@ -4,21 +4,10 @@ import java.util.function.Consumer;
 
 import xyz.derkades.minigames.utils.MPlayer;
 
-public abstract class MoveTile {
+public abstract class SwapPositionsTile extends Tile {
 
-	public abstract MoveType getMoveType();
-
-	public int getTilesAmount() {
-		return 3;
-	}
-
+	@Override
 	public void moveToNextTile(final MPlayer player, final Consumer<Tile> onMove) {
-
-	}
-
-	public static enum MoveType {
-
-		FORWARDS, BACKWARDS;
 
 	}
 

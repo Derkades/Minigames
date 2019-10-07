@@ -1,7 +1,7 @@
 package xyz.derkades.minigames.board.tile.tiles;
 
-import xyz.derkades.minigames.board.Tile;
 import xyz.derkades.minigames.board.tile.BlankTile;
+import xyz.derkades.minigames.board.tile.Tile;
 import xyz.derkades.minigames.utils.XYZ;
 
 public class AA extends BlankTile {
@@ -12,13 +12,9 @@ public class AA extends BlankTile {
 	}
 
 	@Override
-	public Tile getNext() {
+	public Tile getNextTile() {
 		return new AB();
 	}
 
-	@Override
-	public Tile getPrevious() {
-		return null;
-	}
 
 }
