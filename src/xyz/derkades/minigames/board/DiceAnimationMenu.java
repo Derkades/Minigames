@@ -18,6 +18,7 @@ public class DiceAnimationMenu extends IconMenu {
 	private static final int ANIMATION_INTERVAL_TICKS = 5;
 	private static final int ANIMATION_DURATION_SECONDS = 3;
 	private static final int FINAL_STATIC_SECONDS = 2;
+	static final int TOTAL_OPEN_TICKS = ANIMATION_DURATION_SECONDS + FINAL_STATIC_SECONDS * 20;
 
 	private static final int MAX_ITERATIONS = ANIMATION_DURATION_SECONDS * 20 / ANIMATION_INTERVAL_TICKS;
 	private static final int FINAL_ITERATIONS = FINAL_STATIC_SECONDS * 20 / ANIMATION_INTERVAL_TICKS;
@@ -123,9 +124,8 @@ public class DiceAnimationMenu extends IconMenu {
 				return;
 			}
 
-			if (this.i > MAX_ITERATIONS) {
+			if (this.i > MAX_ITERATIONS)
 				return; // static final result
-			}
 
 			int random;
 			do {

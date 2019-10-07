@@ -55,8 +55,7 @@ public class Board {
 			});
 		});
 
-		// TODO use constant from dice menu
-		Scheduler.delay(TITLE_DURATION_TICKS + 5*20, () -> {
+		Scheduler.delay(TITLE_DURATION_TICKS + DiceAnimationMenu.TOTAL_OPEN_TICKS, () -> {
 
 		});
 	}
