@@ -34,7 +34,6 @@ import xyz.derkades.derkutils.bukkit.MaterialLists;
 import xyz.derkades.minigames.board.BoardPlayer;
 import xyz.derkades.minigames.menu.MainMenu;
 import xyz.derkades.minigames.utils.MPlayer;
-import xyz.derkades.minigames.utils.MinigamesJoinEvent;
 import xyz.derkades.minigames.utils.MinigamesPlayerDamageEvent;
 import xyz.derkades.minigames.utils.Scheduler;
 import xyz.derkades.minigames.utils.Utils;
@@ -52,18 +51,14 @@ public class GlobalListeners implements Listener {
 
 		player.clearInventory();
 
-		final MinigamesJoinEvent event2 = new MinigamesJoinEvent(player.bukkit());
-		Bukkit.getPluginManager().callEvent(event2);
+//		Game<? extends GameMap> game = Minigames.CURRENT_GAME;
 
-		if (event2.getTeleportPlayerToLobby()) {
-//			if (Minigames.IS_IN_GAME) {
-//				player.teleport(Var.IN_GAME_LOBBY_LOCATION);
-//			} else {
-//				player.teleport(Var.LOBBY_LOCATION);
-//			}
+		if (Minigames.CURRENT_GAME == null) {
+			//No game is running, teleport to board
+			final BoardPlayer board = new BoardPlayer(player);
+			board.teleportToBoard(false);
 
-			Scheduler.delay(1, () -> {
-				player.spigot().sendMessage(
+			Scheduler.delay(1, () -> player.spigot().sendMessage(
 						Utils.getComponentBuilderWithPrefix(ChatColor.GREEN, 'P')
 						.append("For feature requests and bug reports, ")
 						.color(ChatColor.GRAY)
@@ -72,18 +67,41 @@ public class GlobalListeners implements Listener {
 						.event(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://github.com/Derkades/Minigames/issues"))
 						.append(".")
 						.underlined(false)
-						.create());
-			});
+						.create()));
+		} else {
+			//Game is running, game will handle teleporting
+			Minigames.CURRENT_GAME.onPlayerJoin(player);
 
-			final BoardPlayer board = new BoardPlayer(player);
-			board.teleportToBoard(false);
+			Scheduler.delay(1, () -> player.spigot().sendMessage(
+					Utils.getComponentBuilderWithPrefix(ChatColor.GREEN, 'P')
+					.append("Current game: ")
+					.append(Minigames.CURRENT_GAME.getName()).color(ChatColor.WHITE)
+					.create()));
 		}
+
+//		final MinigamesJoinEvent event2 = new MinigamesJoinEvent(player.bukkit());
+//		Bukkit.getPluginManager().callEvent(event2);
+
+//		if (event2.getTeleportPlayerToLobby()) {
+//			if (Minigames.IS_IN_GAME) {
+//				player.teleport(Var.IN_GAME_LOBBY_LOCATION);
+//			} else {
+//				player.teleport(Var.LOBBY_LOCATION);
+//			}
+
+//			final BoardPlayer board = new BoardPlayer(player);
+//			board.teleportToBoard(false);
+//		}
 	}
 
 	@EventHandler
 	public void onQuit(final PlayerQuitEvent event){
-		final Player player = event.getPlayer();
+		final MPlayer player = new MPlayer(event);
 		event.setQuitMessage(String.format("[%s-%s] %s| %s%s", ChatColor.RED, ChatColor.RESET, ChatColor.DARK_GRAY, ChatColor.RED, player.getName()));
+
+		if (Minigames.CURRENT_GAME != null) {
+			Minigames.CURRENT_GAME.onPlayerQuit(player);
+		}
 	}
 
 	@EventHandler
@@ -110,7 +128,7 @@ public class GlobalListeners implements Listener {
 
 	@EventHandler
 	public void gamesMenuOpen(final PlayerInteractEntityEvent event){
-		if (Minigames.IS_IN_GAME)
+		if (Minigames.CURRENT_GAME != null)
 			return;
 
 		if (!event.getHand().equals(EquipmentSlot.HAND))
@@ -140,7 +158,7 @@ public class GlobalListeners implements Listener {
 
 		final ItemStack itemInHand = event.getPlayer().getInventory().getItemInMainHand();
 
-		if (!Minigames.IS_IN_GAME && itemInHand.getType().equals(Material.COMPARATOR)) {
+		if (Minigames.CURRENT_GAME == null && itemInHand.getType().equals(Material.COMPARATOR)) {
 			new MainMenu(event.getPlayer()).open();
 		}
 	}
@@ -201,7 +219,7 @@ public class GlobalListeners implements Listener {
 
 	@EventHandler
 	public void lobbyEffects(final PlayerMoveEvent event){
-		if (!Minigames.IS_IN_GAME){
+		if (Minigames.CURRENT_GAME == null){
 			final Player player = event.getPlayer();
 
 			final Material type = event.getTo().getBlock().getType();

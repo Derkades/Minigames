@@ -19,7 +19,6 @@ import xyz.derkades.minigames.games.molepvp.MolePvPMap;
 import xyz.derkades.minigames.utils.MPlayer;
 import xyz.derkades.minigames.utils.MinigamesPlayerDamageEvent;
 import xyz.derkades.minigames.utils.MinigamesPlayerDamageEvent.DamageType;
-import xyz.derkades.minigames.utils.Utils;
 
 public class MolePvP extends Game<MolePvPMap> {
 
@@ -92,9 +91,8 @@ public class MolePvP extends Game<MolePvPMap> {
 
 	@Override
 	public int gameTimer(final int secondsLeft) {
-		if ((MolePvP.this.getNumPlayersLeftInBlueTeam() == 0 || MolePvP.this.getNumPlayersLeftInRedTeam() == 0) && secondsLeft > 10) {
+		if ((MolePvP.this.getNumPlayersLeftInBlueTeam() == 0 || MolePvP.this.getNumPlayersLeftInRedTeam() == 0) && secondsLeft > 10)
 			return 10;
-		}
 
 		return secondsLeft;
 	}
@@ -103,10 +101,10 @@ public class MolePvP extends Game<MolePvPMap> {
 	public void onEnd() {
 		if (MolePvP.this.getNumPlayersLeftInBlueTeam() == 0) {
 			// blue is dead so team red wins
-			MolePvP.super.endGame(Utils.getPlayerListFromUUIDList(MolePvP.this.teamRed));
+			MolePvP.super.endGame(MolePvP.this.teamRed);
 		} else if (MolePvP.this.getNumPlayersLeftInRedTeam() == 0) {
 			// red is dead so team blue wins
-			MolePvP.super.endGame(Utils.getPlayerListFromUUIDList(MolePvP.this.teamBlue));
+			MolePvP.super.endGame(MolePvP.this.teamBlue);
 		} else {
 			// both teams are still alive
 			MolePvP.super.endGame(new ArrayList<>());
@@ -154,7 +152,7 @@ public class MolePvP extends Game<MolePvPMap> {
 			if (this.teamRed.contains(player.getUniqueId()) && !this.dead.contains(player.getUniqueId())) {
 				players++;
 			}
-		};
+		}
 		return players;
 	}
 
@@ -164,18 +162,17 @@ public class MolePvP extends Game<MolePvPMap> {
 			if (this.teamBlue.contains(player.getUniqueId()) && !this.dead.contains(player.getUniqueId())) {
 				players++;
 			}
-		};
+		}
 		return players;
 	}
 
 	private ChatColor getTeamColor(final MPlayer player) {
-		if (this.teamRed.contains(player.getUniqueId())) {
+		if (this.teamRed.contains(player.getUniqueId()))
 			return ChatColor.RED;
-		} else if (this.teamBlue.contains(player.getUniqueId())) {
+		else if (this.teamBlue.contains(player.getUniqueId()))
 			return ChatColor.BLUE;
-		} else {
+		else
 			return ChatColor.GREEN;
-		}
 	}
 
 	private void giveItems(final MPlayer player) {
@@ -213,6 +210,18 @@ public class MolePvP extends Game<MolePvPMap> {
 				.create();
 
 		player.giveItem(sword, shovel);
+	}
+
+	@Override
+	public void onPlayerJoin(final MPlayer player) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onPlayerQuit(final MPlayer player) {
+		// TODO Auto-generated method stub
+
 	}
 
 }

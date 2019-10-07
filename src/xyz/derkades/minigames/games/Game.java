@@ -88,6 +88,10 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 
 	public abstract void onEnd();
 
+	public abstract void onPlayerJoin(MPlayer player); // TODO call on join and cancel teleport
+
+	public abstract void onPlayerQuit(MPlayer player); // TODO call on quit
+
 	protected M map = null;
 
 	// Can be used by listeners in game classes to check if the game has started.
@@ -178,7 +182,8 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 						player.getInventory().setHeldItemSlot(0);
 					}
 
-					Minigames.IS_IN_GAME = true;
+//					Minigames.IS_IN_GAME = true;
+					Minigames.CURRENT_GAME = Game.this;
 					Bukkit.getPluginManager().registerEvents(Game.this, Minigames.getInstance());
 					Game.this.begin();
 				}
@@ -349,7 +354,8 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 	}
 
 	protected void endGame(final List<UUID> winners) {
-		Minigames.IS_IN_GAME = false;
+//		Minigames.IS_IN_GAME = false;
+		Minigames.CURRENT_GAME = null;
 		HandlerList.unregisterAll(this); //Unregister events
 
 		Utils.showEveryoneToEveryone();

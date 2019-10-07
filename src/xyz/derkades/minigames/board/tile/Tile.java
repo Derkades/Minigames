@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 
 import xyz.derkades.derkutils.AssertionException;
@@ -45,6 +46,18 @@ public abstract class Tile {
 				throw new AssertionException();
 		}
 	}
+
+	public abstract String getName();
+
+	public abstract String getDescription();
+
+	public String getTitle() {
+		return this.getColor() + "" + ChatColor.BOLD + this.getName();
+	}
+
+	public abstract String getSubtitle();
+
+	public abstract ChatColor getColor();
 
 	public abstract XYZ getXYZ();
 

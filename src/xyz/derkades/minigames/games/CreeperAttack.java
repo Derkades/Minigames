@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Creeper;
 import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.inventory.ItemStack;
@@ -21,7 +21,7 @@ import xyz.derkades.minigames.Minigames;
 import xyz.derkades.minigames.games.creeperattack.CreeperAttackMap;
 import xyz.derkades.minigames.utils.MPlayer;
 import xyz.derkades.minigames.utils.MinigamesPlayerDamageEvent;
-import xyz.derkades.minigames.utils.Utils;
+import xyz.derkades.minigames.utils.Winners;
 
 public class CreeperAttack extends Game<CreeperAttackMap> {
 
@@ -81,10 +81,9 @@ public class CreeperAttack extends Game<CreeperAttackMap> {
 
 	@Override
 	public int gameTimer(final int secondsLeft) {
-		final List<Player> alivePlayers = Utils.getPlayerListFromUUIDList(CreeperAttack.this.alive);
-		if (alivePlayers.size() <= 1 && secondsLeft > 5) {
+//		final List<Player> alivePlayers = Utils.getPlayerListFromUUIDList(CreeperAttack.this.alive);
+		if (this.alive.size() <= 1 && secondsLeft > 5)
 			return 5;
-		}
 
 		if (secondsLeft % 5 == 0){
 			this.numberOfCreepers++;
@@ -94,7 +93,7 @@ public class CreeperAttack extends Game<CreeperAttackMap> {
 			if (this.alive.size() > 1) {
 				final Creeper creeper = CreeperAttack.this.map.getWorld().spawn(CreeperAttack.this.map.getCreeperLocation(), Creeper.class);
 				creeper.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).setBaseValue(creeper.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).getBaseValue() * 1.5);
-				creeper.setTarget(ListUtils.getRandomValueFromList(Utils.getPlayerListFromUUIDList(CreeperAttack.this.alive)));
+				creeper.setTarget(Bukkit.getPlayer(ListUtils.getRandomValueFromList(CreeperAttack.this.alive)));
 			}
 		}
 
@@ -107,9 +106,10 @@ public class CreeperAttack extends Game<CreeperAttackMap> {
 			creeper.remove();
 		}
 
-		this.endGame(Utils.getWinnersFromAliveList(this.alive, false));
+//		this.endGame(Utils.getWinnersFromAliveList(this.alive, false));
+		this.endGame(Winners.fromAlive(this.alive, false));
 
-		this.alive.clear();
+		this.alive = null;
 	}
 
 	@EventHandler
@@ -128,6 +128,17 @@ public class CreeperAttack extends Game<CreeperAttackMap> {
 			player.die();
 			this.sendMessage(player.getName() + " has been blown up by a creeper");
 		}
+	}
+
+	@Override
+	public void onPlayerJoin(final MPlayer player) {
+		player.die();
+		player.teleport(this.map.getSpawnLocation());
+	}
+
+	@Override
+	public void onPlayerQuit(final MPlayer player) {
+		this.alive.remove(player.getUniqueId());
 	}
 
 }

@@ -12,7 +12,6 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import xyz.derkades.minigames.Minigames;
 import xyz.derkades.minigames.games.elytra.ElytraMap;
 import xyz.derkades.minigames.utils.MPlayer;
-import xyz.derkades.minigames.utils.MinigamesJoinEvent;
 import xyz.derkades.minigames.utils.Utils;
 
 public class Elytra extends Game<ElytraMap> {
@@ -67,25 +66,24 @@ public class Elytra extends Game<ElytraMap> {
 
 	@Override
 	public int gameTimer(final int secondsLeft) {
-		if (Utils.allPlayersFinished(this.finished) && secondsLeft > 5) {
+		if (Utils.allPlayersFinished(this.finished) && secondsLeft > 5)
 			return 5;
-		}
 
 		return secondsLeft;
 	}
 
 	@Override
 	public void onEnd() {
-		Elytra.super.endGame(Utils.getPlayerListFromUUIDList(Elytra.this.finished));
+		Elytra.super.endGame(Elytra.this.finished);
+		this.finished = null;
 	}
 
 	@EventHandler
 	public void onMove(final PlayerMoveEvent event){
 		final MPlayer player = new MPlayer(event);
 
-		if (!this.started) {
+		if (!this.started)
 			return;
-		}
 
 		if (this.finished.contains(player.getUniqueId()))
 			return;
@@ -105,12 +103,24 @@ public class Elytra extends Game<ElytraMap> {
 		}
 	}
 
-	@EventHandler
-	public void join(final MinigamesJoinEvent event) {
-		event.setTeleportPlayerToLobby(false);
+//	@EventHandler
+//	public void join(final MinigamesJoinEvent event) {
+//		event.setTeleportPlayerToLobby(false);
+//
+//		final MPlayer player = event.getPlayer();
+//
+//		player.teleport(this.map.getStartLocation());
+//
+//		if (this.finished.contains(player.getUniqueId())) {
+//			player.setGameMode(GameMode.SPECTATOR);
+//		} else {
+//			player.setGameMode(GameMode.ADVENTURE);
+//			player.setArmor(null, Material.ELYTRA, null, null);
+//		}
+//	}
 
-		final MPlayer player = event.getPlayer();
-
+	@Override
+	public void onPlayerJoin(final MPlayer player) {
 		player.teleport(this.map.getStartLocation());
 
 		if (this.finished.contains(player.getUniqueId())) {
@@ -119,6 +129,11 @@ public class Elytra extends Game<ElytraMap> {
 			player.setGameMode(GameMode.ADVENTURE);
 			player.setArmor(null, Material.ELYTRA, null, null);
 		}
+	}
+
+	@Override
+	public void onPlayerQuit(final MPlayer player) {
+
 	}
 
 }

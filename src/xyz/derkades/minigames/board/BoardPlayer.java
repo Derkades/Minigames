@@ -83,7 +83,7 @@ public class BoardPlayer extends MPlayer {
 		final NPCRegistry registry = CitizensAPI.getNPCRegistry();
 		final NPC npc = registry.getById(id);
 		npc.despawn(DespawnReason.REMOVAL);
-		registry.deregister(npc); // may not be needed
+		registry.deregister(npc); // TODO may not be needed
 	}
 
 	private void setTile(final Tile tile) {
@@ -99,7 +99,7 @@ public class BoardPlayer extends MPlayer {
 			return Tile.START_TILE;
 	}
 
-	public void teleportToBoard(final boolean queue) { // TODO call on join
+	public void teleportToBoard(final boolean queue) {
 		final Tile tile = this.getTile();
 		tile.getSpectateLocation().teleportIfOutside(this, queue);
 
@@ -110,7 +110,6 @@ public class BoardPlayer extends MPlayer {
 
 		this.setGameMode(GameMode.ADVENTURE);
 		this.setAllowFlight(false);
-
 
 		this.clearPotionEffects();
 		this.giveInfiniteEffect(PotionEffectType.INVISIBILITY);

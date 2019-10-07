@@ -12,7 +12,6 @@ import org.bukkit.block.Chest;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Item;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.player.PlayerQuitEvent;
 
 import net.md_5.bungee.api.ChatColor;
 import xyz.derkades.derkutils.Random;
@@ -22,12 +21,12 @@ import xyz.derkades.minigames.Minigames;
 import xyz.derkades.minigames.games.gladeroyale.GladeRoyaleItems;
 import xyz.derkades.minigames.games.gladeroyale.GladeRoyaleMap;
 import xyz.derkades.minigames.utils.MPlayer;
-import xyz.derkades.minigames.utils.MinigamesJoinEvent;
 import xyz.derkades.minigames.utils.MinigamesPlayerDamageEvent;
 import xyz.derkades.minigames.utils.MinigamesPlayerDamageEvent.DamageType;
 import xyz.derkades.minigames.utils.Queue;
 import xyz.derkades.minigames.utils.Scheduler;
 import xyz.derkades.minigames.utils.Utils;
+import xyz.derkades.minigames.utils.Winners;
 
 public class GladeRoyale extends Game<GladeRoyaleMap> {
 
@@ -257,15 +256,14 @@ public class GladeRoyale extends Game<GladeRoyaleMap> {
 
 	@Override
 	public void onEnd() {
-		this.endGame(Utils.getWinnersFromAliveList(this.alive, false));
+		this.endGame(Winners.fromAlive(this.alive, false));
 		this.alive.clear();
 	}
 
 	@EventHandler
 	public void damage(final MinigamesPlayerDamageEvent event) {
-		if (!this.started) {
+		if (!this.started)
 			return;
-		}
 
 		if (event.willBeDead()) {
 			event.setCancelled(true);
@@ -281,21 +279,20 @@ public class GladeRoyale extends Game<GladeRoyaleMap> {
 		}
 	}
 
-	@EventHandler
-	public void join(final MinigamesJoinEvent event) {
-		event.getPlayer().dieTo(this.map.getMapCenter());
-	}
-
-	@EventHandler
-	public void quit(final PlayerQuitEvent event) {
-		this.alive.remove(event.getPlayer().getUniqueId());
-	}
+//	@EventHandler
+//	public void join(final MinigamesJoinEvent event) {
+//		event.getPlayer().dieTo(this.map.getMapCenter());
+//	}
+//
+//	@EventHandler
+//	public void quit(final PlayerQuitEvent event) {
+//		this.alive.remove(event.getPlayer().getUniqueId());
+//	}
 
 	private void spawnSupplyDrop() {
 		final Location loc = this.getRandomLocationWithinBorder();
-		if (loc == null) {
+		if (loc == null)
 			return;
-		}
 
 		this.sendMessage(String.format("Supply drop at (%s, %s)", loc.getBlockX(), loc.getBlockZ()));
 
@@ -346,6 +343,16 @@ public class GladeRoyale extends Game<GladeRoyaleMap> {
 		}
 
 		return location;
+	}
+
+	@Override
+	public void onPlayerJoin(final MPlayer player) {
+		player.dieTo(this.map.getMapCenter());
+	}
+
+	@Override
+	public void onPlayerQuit(final MPlayer player) {
+		this.alive.remove(player.getUniqueId());
 	}
 
 }

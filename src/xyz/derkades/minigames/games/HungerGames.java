@@ -10,8 +10,8 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.player.PlayerQuitEvent;
 
+import xyz.derkades.derkutils.ListUtils;
 import xyz.derkades.derkutils.bukkit.lootchests.LootChest;
 import xyz.derkades.minigames.Minigames;
 import xyz.derkades.minigames.games.hungergames.HungerGamesLoot;
@@ -20,6 +20,7 @@ import xyz.derkades.minigames.utils.MPlayer;
 import xyz.derkades.minigames.utils.MinigamesPlayerDamageEvent;
 import xyz.derkades.minigames.utils.MinigamesPlayerDamageEvent.DamageType;
 import xyz.derkades.minigames.utils.Utils;
+import xyz.derkades.minigames.utils.Winners;
 
 public class HungerGames extends Game<HungerGamesMap> {
 
@@ -95,18 +96,18 @@ public class HungerGames extends Game<HungerGamesMap> {
 
 	@Override
 	public int gameTimer(final int secondsLeft) {
-		if (Utils.getAliveAcountFromDeadAndAllList(HungerGames.this.dead, HungerGames.this.all) < 2 && secondsLeft > 10) {
+		if (ListUtils.inFirstNotSecond(this.all, this.dead).size() < 2 && secondsLeft > 10)
 			return 10;
-		}
 
 		return secondsLeft;
 	}
 
 	@Override
 	public void onEnd() {
-		HungerGames.this.endGame(Utils.getWinnersFromDeadAndAllList(HungerGames.this.dead, HungerGames.this.all, false));
-		HungerGames.this.dead.clear();
-		HungerGames.this.all.clear();
+		HungerGames.this.endGame(Winners.fromDead(HungerGames.this.dead, HungerGames.this.all, false));
+
+		this.dead = null;
+		this.all = null;
 	}
 
 	@EventHandler
@@ -127,24 +128,23 @@ public class HungerGames extends Game<HungerGamesMap> {
 					Bukkit.broadcastMessage("error, killer unknown");
 				}
 
-				final int playersLeft = Utils.getAliveAcountFromDeadAndAllList(this.dead, this.all);
+				final int playersLeft = ListUtils.inFirstNotSecond(this.all, this.dead).size();
 				this.sendMessage(String.format("%s has been killed by %s. There are %s players left.",
 						player.getName(), killer.getName(), playersLeft));
 			} else if (event.getType().equals(DamageType.SELF)) {
-				final int playersLeft = Utils.getAliveAcountFromDeadAndAllList(this.dead, this.all);
+				final int playersLeft = ListUtils.inFirstNotSecond(this.all, this.dead).size();
 				this.sendMessage(String.format("%s has died. There are %s players left.",
 						player.getName(), playersLeft));
-			} else {
+			} else
 				throw new AssertionError();
-			}
 
 		}
 	}
-
-	@EventHandler
-	public void onQuit(final PlayerQuitEvent event) {
-		this.all.remove(event.getPlayer().getUniqueId());
-	}
+//
+//	@EventHandler
+//	public void onQuit(final PlayerQuitEvent event) {
+//		this.all.remove(event.getPlayer().getUniqueId());
+//	}
 
 	private void placeBlocks(final Location[] locations, final Material type) {
 		for (final Location location : locations) {
@@ -158,6 +158,16 @@ public class HungerGames extends Game<HungerGamesMap> {
 			block.getRelative(BlockFace.UP).getRelative(BlockFace.SOUTH).setType(type);
 			block.getRelative(BlockFace.UP).getRelative(BlockFace.WEST).setType(type);
 		}
+	}
+
+	@Override
+	public void onPlayerJoin(final MPlayer player) {
+
+	}
+
+	@Override
+	public void onPlayerQuit(final MPlayer player) {
+		this.all.remove(player.getUniqueId());
 	}
 
 }

@@ -13,6 +13,9 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import net.md_5.bungee.api.ChatColor;
 import net.milkbowl.vault.economy.Economy;
+import xyz.derkades.minigames.board.BoardPlayer;
+import xyz.derkades.minigames.games.Game;
+import xyz.derkades.minigames.games.maps.GameMap;
 import xyz.derkades.minigames.task.RegenerateHunger;
 import xyz.derkades.minigames.utils.MPlayer;
 import xyz.derkades.minigames.utils.Queue;
@@ -27,14 +30,17 @@ public class Minigames extends JavaPlugin implements Listener {
 
 	private static Minigames instance;
 
-	public static boolean IS_IN_GAME = false;
+//	@Deprecated
+//	public static boolean IS_IN_GAME = false;
+
+	public static Game<? extends GameMap> CURRENT_GAME = null;
 
 	public static boolean STOP_GAMES = false;
 
-	/**
-	 * Used by connector addon @see {@link #getCurrentGameName()}
-	 */
-	public static String CURRENT_GAME_NAME = "Error";
+//	/**
+//	 * Used by connector addon @see {@link #getCurrentGameName()}
+//	 */
+//	public static String CURRENT_GAME_NAME = "Error";
 
 	public static boolean BYPASS_PLAYER_MINIMUM_CHECKS = false;
 
@@ -50,7 +56,7 @@ public class Minigames extends JavaPlugin implements Listener {
 		Var.WORLD = Bukkit.getWorld("minigames");
 		Var.LOBBY_WORLD = Bukkit.getWorld("minigames");
 		Var.LOBBY_LOCATION = new Location(Var.WORLD, 219.5, 64, 279.5, 180, 0);
-		Var.IN_GAME_LOBBY_LOCATION = new Location(Var.WORLD, 203.5, 80, 245.5, 0, 0);
+//		Var.IN_GAME_LOBBY_LOCATION = new Location(Var.WORLD, 203.5, 80, 245.5, 0, 0);
 		Var.NO_SPECTATOR_LOCATION = new Location(Var.WORLD, 199.5, 81, 247.5, 0, 0);
 
 		Logger.debugMode = this.getConfig().getBoolean("debug_mode");
@@ -75,7 +81,7 @@ public class Minigames extends JavaPlugin implements Listener {
 			this.getLogger().severe("Vault error");
 		}
 
-		SpawnZombieShooter.init();
+//		SpawnZombieShooter.init();
 
 		ChatPoll.startup(this);
 
@@ -87,34 +93,44 @@ public class Minigames extends JavaPlugin implements Listener {
 			GameWorld.init();
 
 			if (Bukkit.getOnlinePlayers().size() == 0) {
-				Bukkit.broadcastMessage("[System] No players online, starting games automatically");
-				AutoRotate.startNewRandomGame();
+				//Bukkit.broadcastMessage("[System] No players online, starting games automatically");
+				if (!Logger.debugMode) {
+					AutoRotate.startNewRandomGame();
+				} else {
+					Logger.info("Debug mode on, not starting");
+				}
 			} else {
-				Bukkit.broadcastMessage("[System] Players online, not starting games automatically");
+				//Bukkit.broadcastMessage("[System] Players online, not starting games automatically");
 			}
 
-			for (final MPlayer player : getOnlinePlayers()) {
-				player.applyLobbySettings();
-			}
+			Minigames.getOnlinePlayers().stream()
+				.map(BoardPlayer::new)
+				.forEach(p -> p.teleportToBoard(true));
 		});
 
 		// To keep database connection alive
-		Scheduler.repeat(60*20, () -> {
-			Queue.add(() -> economy.getBalance("Derkades"));
-		});
+//		Scheduler.repeat(60*20, () -> {
+//			Queue.add(() -> economy.getBalance("Derkades"));
+//		});
 
-		Bukkit.broadcastMessage("enabled");
+//		Bukkit.broadcastMessage("enabled");
+		Logger.info("Plugin enabled");
 	}
 
 	@Override
 	public void onDisable(){
 		instance = null;
+		CURRENT_GAME = null;
 
 		for (final GameWorld gWorld : GameWorld.values()) {
 			gWorld.unload();
 		}
 
 		Bukkit.broadcastMessage("disabled");
+
+		Minigames.getOnlinePlayers().stream().map(BoardPlayer::new).forEach((p) -> {
+			p.removeNpc();
+		});
 	}
 
 	public static Minigames getInstance(){
@@ -125,10 +141,10 @@ public class Minigames extends JavaPlugin implements Listener {
 	 * Used by connector addon
 	 */
 	public static String getCurrentGameName() {
-		if (!IS_IN_GAME)
+		if (CURRENT_GAME == null)
 			return "None";
 
-		return CURRENT_GAME_NAME;
+		return CURRENT_GAME.getName();
 	}
 
     private boolean setupEconomy() {

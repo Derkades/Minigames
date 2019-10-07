@@ -19,9 +19,8 @@ import xyz.derkades.derkutils.bukkit.ItemBuilder;
 import xyz.derkades.minigames.Minigames;
 import xyz.derkades.minigames.games.icyblowback.IcyBlowbackMap;
 import xyz.derkades.minigames.utils.MPlayer;
-import xyz.derkades.minigames.utils.MinigamesJoinEvent;
 import xyz.derkades.minigames.utils.Queue;
-import xyz.derkades.minigames.utils.Utils;
+import xyz.derkades.minigames.utils.Winners;
 
 public class IcyBlowback extends Game<IcyBlowbackMap> {
 
@@ -30,8 +29,7 @@ public class IcyBlowback extends Game<IcyBlowbackMap> {
 			.enchant(Enchantment.KNOCKBACK, 2)
 			.create();
 
-	private List<UUID> dead;
-	private List<UUID> all;
+	private List<UUID> alive;
 
 	@Override
 	public String getName() {
@@ -62,8 +60,7 @@ public class IcyBlowback extends Game<IcyBlowbackMap> {
 
 	@Override
 	public void onPreStart() {
-		this.dead = new ArrayList<>();
-		this.all = new ArrayList<>();
+		this.alive = new ArrayList<>();
 
 		final Location[] spawnLocations = this.map.getSpawnLocations();
 		int index = 0;
@@ -91,37 +88,34 @@ public class IcyBlowback extends Game<IcyBlowbackMap> {
 			player.giveInfiniteEffect(PotionEffectType.SPEED);
 			player.giveInfiniteEffect(PotionEffectType.DAMAGE_RESISTANCE, 255);
 			player.placeCage(false);
-			IcyBlowback.this.all.add(player.getUniqueId());
+			IcyBlowback.this.alive.add(player.getUniqueId());
 		}
 	}
 
 	@Override
 	public int gameTimer(final int secondsLeft) {
-		if (Utils.getAliveAcountFromDeadAndAllList(IcyBlowback.this.dead, IcyBlowback.this.all) < 2 && secondsLeft > 5) {
+		if (this.alive.size() < 2 && secondsLeft > 5)
 			return 5;
-		}
 
 		return secondsLeft;
 	}
 
 	@Override
 	public void onEnd() {
-		IcyBlowback.this.endGame(Utils.getWinnersFromDeadAndAllList(IcyBlowback.this.dead, IcyBlowback.this.all, false));
-		IcyBlowback.this.dead.clear();
-		IcyBlowback.this.all.clear();
+		IcyBlowback.this.endGame(Winners.fromAlive(this.alive, false));
+		this.alive = null;
 	}
 
 	@EventHandler
 	public void onMove(final PlayerMoveEvent event) {
 		final MPlayer player = new MPlayer(event);
 
-		if (this.dead.contains(player.getUniqueId())) {
+		if (!this.alive.contains(player.getUniqueId()))
 			return;
-		}
 
 		if (player.getY() < this.map.getBottomFloorLevel()) {
 			//die
-			this.dead.add(player.getUniqueId());
+			this.alive.remove(player.getUniqueId());
 			this.map.getWorld().spigot().strikeLightningEffect(player.getLocation(), false);
 			player.dieUp(10);
 			this.sendMessage(player.getName() + " has died");
@@ -130,19 +124,29 @@ public class IcyBlowback extends Game<IcyBlowbackMap> {
 
 	@EventHandler
 	public void onDamage(final EntityDamageByEntityEvent event) {
-		if (this.dead.contains(event.getDamager().getUniqueId())) {
+		if (!this.alive.contains(event.getDamager().getUniqueId())) {
 			event.setCancelled(true);
 		}
 	}
 
-	@EventHandler
-	public void onJoin(final MinigamesJoinEvent event) {
-		final MPlayer player = event.getPlayer();
-		event.setTeleportPlayerToLobby(false);
+//	@EventHandler
+//	public void onJoin(final MinigamesJoinEvent event) {
+//		final MPlayer player = event.getPlayer();
+//
+//	}
+
+	@Override
+	public void onPlayerJoin(final MPlayer player) {
+//		event.setTeleportPlayerToLobby(false);
 		player.setGameMode(GameMode.SPECTATOR);
 		final Location loc = this.map.getSpawnLocations()[0];
 		loc.setY(loc.getY() + 10);
 		player.teleport(loc);
+	}
+
+	@Override
+	public void onPlayerQuit(final MPlayer player) {
+		this.alive.remove(player.getUniqueId());
 	}
 
 }

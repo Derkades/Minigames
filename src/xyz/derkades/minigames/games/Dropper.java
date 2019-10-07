@@ -12,7 +12,6 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import xyz.derkades.minigames.Minigames;
 import xyz.derkades.minigames.games.dropper.DropperMap;
 import xyz.derkades.minigames.utils.MPlayer;
-import xyz.derkades.minigames.utils.MinigamesJoinEvent;
 import xyz.derkades.minigames.utils.MinigamesPlayerDamageEvent;
 import xyz.derkades.minigames.utils.MinigamesPlayerDamageEvent.DamageType;
 import xyz.derkades.minigames.utils.Utils;
@@ -71,24 +70,22 @@ public class Dropper extends Game<DropperMap> {
 
 	@Override
 	public int gameTimer(final int secondsLeft) {
-		if (Utils.allPlayersFinished(this.finished) && secondsLeft > 5) {
+		if (Utils.allPlayersFinished(this.finished) && secondsLeft > 5)
 			return 5;
-		}
 
 		return secondsLeft;
 	}
 
 	@Override
 	public void onEnd() {
-		Dropper.this.endGame(Utils.getWinnersFromFinished(Dropper.this.finished));
-		this.finished.clear();
+		Dropper.this.endGame(Dropper.this.finished);
+		this.finished = null;
 	}
 
 	@EventHandler
 	public void onMove(final PlayerMoveEvent event) {
-		if (this.finished.contains(event.getPlayer().getUniqueId())) {
+		if (this.finished.contains(event.getPlayer().getUniqueId()))
 			return; //Don't teleport players who have finished
-		}
 
 		if (event.getTo().getBlock().getType() == Material.WATER) {
 			final MPlayer player = new MPlayer(event);
@@ -121,12 +118,17 @@ public class Dropper extends Game<DropperMap> {
 			event.getPlayer().heal();
 		}
 	}
+//
+//	@EventHandler
+//	public void onJoin(final MinigamesJoinEvent event) {
+//		final MPlayer player = event.getPlayer();
+//		event.setTeleportPlayerToLobby(false);
+//
+//
+//	}
 
-	@EventHandler
-	public void onJoin(final MinigamesJoinEvent event) {
-		final MPlayer player = event.getPlayer();
-		event.setTeleportPlayerToLobby(false);
-
+	@Override
+	public void onPlayerJoin(final MPlayer player) {
 		player.teleport(this.map.getLobbyLocation());
 
 		if (this.finished.contains(player.getUniqueId())) {
@@ -136,6 +138,11 @@ public class Dropper extends Game<DropperMap> {
 			player.hideForEveryoneElse();
 			player.setDisableDamage(false);
 		}
+	}
+
+	@Override
+	public void onPlayerQuit(final MPlayer player) {
+
 	}
 
 }

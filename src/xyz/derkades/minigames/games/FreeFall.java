@@ -6,7 +6,6 @@ import java.util.UUID;
 import org.bukkit.Location;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
-import org.bukkit.event.player.PlayerQuitEvent;
 
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.ComponentBuilder;
@@ -15,10 +14,8 @@ import xyz.derkades.minigames.games.freefall.FreeFallMap;
 import xyz.derkades.minigames.games.freefall.Hole;
 import xyz.derkades.minigames.games.freefall.Layer;
 import xyz.derkades.minigames.utils.MPlayer;
-import xyz.derkades.minigames.utils.MinigamesJoinEvent;
 import xyz.derkades.minigames.utils.MinigamesPlayerDamageEvent;
 import xyz.derkades.minigames.utils.MinigamesPlayerDamageEvent.DamageType;
-import xyz.derkades.minigames.utils.Utils;
 
 public class FreeFall extends Game<FreeFallMap> {
 
@@ -101,7 +98,8 @@ public class FreeFall extends Game<FreeFallMap> {
 
 	@Override
 	public void onEnd() {
-		this.endGame(Utils.getPlayerListFromUUIDList(this.winners));
+		this.endGame(this.winners);
+		this.winners = null;
 	}
 
 	@EventHandler
@@ -126,18 +124,29 @@ public class FreeFall extends Game<FreeFallMap> {
 		}
 	}
 
-	@EventHandler
-	public void onQuit(final PlayerQuitEvent event) {
-		this.winners.remove(event.getPlayer().getUniqueId());
-	}
+//	@EventHandler
+//	public void onQuit(final PlayerQuitEvent event) {
+//		this.winners.remove(event.getPlayer().getUniqueId());
+//	}
 
-	@EventHandler
-	public void onJoin(final MinigamesJoinEvent event) {
-		event.setTeleportPlayerToLobby(false);
+//	@EventHandler
+//	public void onJoin(final MinigamesJoinEvent event) {
+//		event.setTeleportPlayerToLobby(false);
+//
+//		final MPlayer player = event.getPlayer();
+//		player.teleport(this.map.getSpawnLocation());
+//		player.spectator();
+//	}
 
-		final MPlayer player = event.getPlayer();
+	@Override
+	public void onPlayerJoin(final MPlayer player) {
 		player.teleport(this.map.getSpawnLocation());
 		player.spectator();
+	}
+
+	@Override
+	public void onPlayerQuit(final MPlayer player) {
+		this.winners.remove(player.getUniqueId());
 	}
 
 }

@@ -32,6 +32,7 @@ import xyz.derkades.minigames.Minigames;
 import xyz.derkades.minigames.games.digdug.DigDugMap;
 import xyz.derkades.minigames.utils.MPlayer;
 import xyz.derkades.minigames.utils.Utils;
+import xyz.derkades.minigames.utils.Winners;
 
 public class DigDug extends Game<DigDugMap> {
 
@@ -123,8 +124,9 @@ public class DigDug extends Game<DigDugMap> {
 	public void onEnd() {
 		Bukkit.getOnlinePlayers().forEach(DigDug.this.sidebar::hideFrom);
 
-		DigDug.this.endGame(Utils.getWinnersFromPointsHashmap(DigDug.this.points));
-		DigDug.this.points.clear();
+		DigDug.this.endGame(Winners.fromPointsMap(DigDug.this.points));
+		DigDug.this.points = null;
+		this.sidebar = null;
 	}
 
 	@EventHandler
@@ -221,6 +223,17 @@ public class DigDug extends Game<DigDugMap> {
 			final int z = Random.getRandomInteger(minZ, maxZ);
 			new Location(this.map.getWorld(), x, y, z).getBlock().setType(oreType);
 		}
+	}
+
+	@Override
+	public void onPlayerJoin(final MPlayer player) {
+		this.points.put(player.getUniqueId(), 0);
+		player.teleport(this.map.getSpawnLocation());
+	}
+
+	@Override
+	public void onPlayerQuit(final MPlayer player) {
+
 	}
 
 }

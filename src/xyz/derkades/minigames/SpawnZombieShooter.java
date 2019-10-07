@@ -13,6 +13,7 @@ import net.md_5.bungee.api.ChatColor;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
 import xyz.derkades.minigames.utils.MPlayer;
 
+@Deprecated
 public class SpawnZombieShooter {
 
 	private static final ItemStack BOW = new ItemBuilder(Material.BOW)
@@ -35,9 +36,8 @@ public class SpawnZombieShooter {
 
 		@Override
 		public void run() {
-			if (Minigames.IS_IN_GAME) {
+			if (Minigames.CURRENT_GAME != null)
 				return;
-			}
 
 			for (final Zombie zombie : Var.LOBBY_WORLD.getEntitiesByClass(Zombie.class)) {
 				final Villager bait = getBaitVillager();
@@ -74,9 +74,9 @@ public class SpawnZombieShooter {
 
 		@Override
 		public void run() {
-			if (Minigames.IS_IN_GAME) {
+			// No need to spawn zombies when a game is running
+			if (Minigames.CURRENT_GAME != null)
 				return;
-			}
 
 			final Zombie zombie = Var.LOBBY_WORLD.spawn(new Location(Var.LOBBY_WORLD, 224.5, 64, 289.5), Zombie.class);
 			zombie.setBaby(false);
@@ -86,9 +86,8 @@ public class SpawnZombieShooter {
 
 	private static Villager getBaitVillager() {
 		for (final Villager villager : Var.LOBBY_WORLD.getEntitiesByClass(Villager.class)) {
-			if (villager.getCustomName() != null && villager.getCustomName().equals("Bait")) {
+			if (villager.getCustomName() != null && villager.getCustomName().equals("Bait"))
 				return villager;
-			}
 		}
 		return null;
 	}
