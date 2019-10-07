@@ -5,11 +5,13 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.function.Consumer;
 
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitTask;
 
 import net.citizensnpcs.api.CitizensAPI;
@@ -100,6 +102,24 @@ public class BoardPlayer extends MPlayer {
 	public void teleportToBoard(final boolean queue) { // TODO call on join
 		final Tile tile = this.getTile();
 		tile.getSpectateLocation().teleportIfOutside(this, queue);
+
+		this.setDisableDamage(true);
+		this.setDisableHunger(true);
+		this.setDisableItemMoving(true);
+		this.setDisableSneaking(false);
+
+		this.setGameMode(GameMode.ADVENTURE);
+		this.setAllowFlight(false);
+
+
+		this.clearPotionEffects();
+		this.giveInfiniteEffect(PotionEffectType.INVISIBILITY);
+
+		this.bukkit().setExp(0.0f);
+		this.bukkit().setLevel(0);
+
+		this.heal();
+		this.clearInventory();
 	}
 
 }

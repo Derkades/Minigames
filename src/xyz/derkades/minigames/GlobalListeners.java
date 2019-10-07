@@ -31,6 +31,7 @@ import org.bukkit.potion.PotionEffectType;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.ClickEvent;
 import xyz.derkades.derkutils.bukkit.MaterialLists;
+import xyz.derkades.minigames.board.BoardPlayer;
 import xyz.derkades.minigames.menu.MainMenu;
 import xyz.derkades.minigames.utils.MPlayer;
 import xyz.derkades.minigames.utils.MinigamesJoinEvent;
@@ -51,17 +52,15 @@ public class GlobalListeners implements Listener {
 
 		player.clearInventory();
 
-		player.applyLobbySettings();
-
 		final MinigamesJoinEvent event2 = new MinigamesJoinEvent(player.bukkit());
 		Bukkit.getPluginManager().callEvent(event2);
 
 		if (event2.getTeleportPlayerToLobby()) {
-			if (Minigames.IS_IN_GAME) {
-				player.teleport(Var.IN_GAME_LOBBY_LOCATION);
-			} else {
-				player.teleport(Var.LOBBY_LOCATION);
-			}
+//			if (Minigames.IS_IN_GAME) {
+//				player.teleport(Var.IN_GAME_LOBBY_LOCATION);
+//			} else {
+//				player.teleport(Var.LOBBY_LOCATION);
+//			}
 
 			Scheduler.delay(1, () -> {
 				player.spigot().sendMessage(
@@ -75,7 +74,9 @@ public class GlobalListeners implements Listener {
 						.underlined(false)
 						.create());
 			});
-			player.giveLobbyInventoryItems();
+
+			final BoardPlayer board = new BoardPlayer(player);
+			board.teleportToBoard(false);
 		}
 	}
 
