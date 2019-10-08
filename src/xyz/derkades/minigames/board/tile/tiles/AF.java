@@ -8,7 +8,7 @@ public class AF extends CoinsTile {
 
 	@Override
 	public Tile getNextTile() {
-		return null; // TODO next tile
+		return new AG();
 	}
 
 	@Override
