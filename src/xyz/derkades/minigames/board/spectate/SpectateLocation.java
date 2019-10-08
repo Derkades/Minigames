@@ -11,6 +11,10 @@ public enum SpectateLocation {
 	A(149, 140, -3),
 	B(160, 141, 29),
 	C(178, 143, 50),
+	D(132, 140, 32),
+	E(149, 139, 42),
+	F(142, 146, 66),
+	G(106, 153, 59),
 
 	;
 
@@ -38,9 +42,9 @@ public enum SpectateLocation {
 		}
 
 		if (queue) {
-			player.queueTeleport(this.getLocation());
+			player.queueTeleport(getLocation());
 		} else {
-			player.teleport(this.getLocation());
+			player.teleport(getLocation());
 		}
 	}
 
