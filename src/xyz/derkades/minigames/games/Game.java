@@ -29,6 +29,7 @@ import xyz.derkades.minigames.Minigames.ShutdownReason;
 import xyz.derkades.minigames.board.Board;
 import xyz.derkades.minigames.board.BoardPlayer;
 import xyz.derkades.minigames.constants.BoardConfig;
+import xyz.derkades.minigames.constants.VoteConfig;
 import xyz.derkades.minigames.games.maps.GameMap;
 import xyz.derkades.minigames.random.RandomPicking;
 import xyz.derkades.minigames.random.RandomlyPickable;
@@ -378,7 +379,7 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 	}
 
 	private void showPolls() {
-		if (Minigames.VOTE_MENU_CHANCE > Random.getRandomFloat()) {
+		if (VoteConfig.VOTE_MENU_CHANCE > Random.getRandomFloat()) {
 			Scheduler.delay(40, () -> {
 				final boolean bool = Random.getRandomBoolean();
 

@@ -28,8 +28,6 @@ import xyz.derkades.minigames.worlds.WorldTeleportCommandCompleter;
 
 public class Minigames extends JavaPlugin implements Listener {
 
-	public static final float VOTE_MENU_CHANCE = 0.3f;
-
 	private static Minigames instance;
 
 	public static Game<? extends GameMap> CURRENT_GAME = null;
