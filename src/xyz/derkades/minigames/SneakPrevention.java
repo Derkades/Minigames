@@ -25,14 +25,11 @@ public class SneakPrevention extends BukkitRunnable {
 	private static final Map<UUID, Integer> WARNINGS = new HashMap<>();
 
 	SneakPrevention(final Plugin plugin) {
-		this.runTaskTimer(plugin, 50, 5);
+		runTaskTimer(plugin, 50, 5);
 	}
 
 	@Override
 	public void run() {
-//		Bukkit.getOnlinePlayers().stream().map(Player::getUniqueId).filter(WARNINGS::containsKey)
-//			.forEach(u -> WARNINGS.put(u, WARNINGS.get(u) + 1));
-
 		for (final MPlayer player : Minigames.getOnlinePlayers()) {
 			if (!player.bukkit().isSneaking()) {
 				continue;
@@ -41,9 +38,7 @@ public class SneakPrevention extends BukkitRunnable {
 			final UUID uuid = player.getUniqueId();
 			if (WARNINGS.containsKey(uuid)) {
 				WARNINGS.put(uuid, WARNINGS.get(uuid) + 1);
-				final int remaining = (MAX_WARNINGS - WARNINGS.get(uuid));
-//				player.sendMessage(Utils.getChatPrefix(ChatColor.RED, 'W') +
-//						"Sneaking is disabled here. " + remaining + " warnings remaining");
+				final int remaining = MAX_WARNINGS - WARNINGS.get(uuid);
 
 				player.sendTitle(ChatColor.RED + "No Sneaking!", ChatColor.GRAY + "" + remaining + " warnings remaining.");
 

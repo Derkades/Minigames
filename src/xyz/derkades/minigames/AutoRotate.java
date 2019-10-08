@@ -41,8 +41,6 @@ public class AutoRotate {
 
 		//Enough players, let's start the game
 
-//		Minigames.CURRENT_GAME_NAME = game.getName(); // For SSX-Connector
-
 		Minigames.BYPASS_PLAYER_MINIMUM_CHECKS = false;
 
 		game.start();
