@@ -25,6 +25,7 @@ import xyz.derkades.derkutils.NumberUtils;
 import xyz.derkades.derkutils.Random;
 import xyz.derkades.minigames.ChatPoll.Poll;
 import xyz.derkades.minigames.ChatPoll.PollAnswer;
+import xyz.derkades.minigames.Logger;
 import xyz.derkades.minigames.Minigames;
 import xyz.derkades.minigames.Minigames.ShutdownReason;
 import xyz.derkades.minigames.board.Board;
@@ -336,7 +337,7 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 			if (this.map.getGameWorld() != null) {
 				this.map.getGameWorld().unload();
 			} else {
-				Bukkit.broadcastMessage("[warning] game is not in dedicated world");
+				Logger.warning("Game %s is still in lobby world", this.getName());
 			}
 		});
 	}
