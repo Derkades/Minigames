@@ -92,7 +92,7 @@ public class DigDug extends Game<DigDugMap> {
 		this.points.clear();
 		this.sidebar = new Sidebar(ChatColor.DARK_AQUA + "" + ChatColor.DARK_AQUA + "Score",
 				Minigames.getInstance(), Integer.MAX_VALUE, new SidebarString("Loading..."));
-		this.fillArena();
+		fillArena();
 
 		for (final MPlayer player : Minigames.getOnlinePlayers()) {
 			this.points.put(player.getUniqueId(), 0);
@@ -140,16 +140,16 @@ public class DigDug extends Game<DigDugMap> {
 		final Player player = event.getPlayer();
 		final Block block = event.getClickedBlock();
 		if (block.getType() == Material.COAL_ORE) {
-			this.addPoints(player, COAL_POINTS);
+			addPoints(player, COAL_POINTS);
 			block.setType(Material.AIR);
 		} else if (block.getType() == Material.IRON_ORE) {
-			this.addPoints(player, IRON_POINTS);
+			addPoints(player, IRON_POINTS);
 			block.setType(Material.AIR);
 		} else if (block.getType() == Material.GOLD_ORE) {
-			this.addPoints(player, GOLD_POINTS);
+			addPoints(player, GOLD_POINTS);
 			block.setType(Material.AIR);
 		} else if (block.getType() == Material.EMERALD_ORE) {
-			this.addPoints(player, EMERALD_POINTS);
+			addPoints(player, EMERALD_POINTS);
 			block.setType(Material.AIR);
 		} else if (block.getType() == Material.NETHERRACK) {
 			player.sendMessage(ChatColor.RED + "Everyone is now blinded for " + NETHERRACK_EFFECT_TIME / 20 + " seconds.");
@@ -208,12 +208,12 @@ public class DigDug extends Game<DigDugMap> {
 		BlockUtils.fillArea(this.map.getWorld(), minX, minY, minZ, maxX, maxY - 1, maxZ, Material.DIRT);
 		BlockUtils.fillArea(this.map.getWorld(), minX, maxY, minZ, maxX, maxY, maxZ, Material.GRASS_BLOCK); // Top grass layer
 
-		this.placeOre(Material.COAL_ORE, COAL_AMOUNT, minX, maxX, minY, maxY, minZ, maxZ);
-		this.placeOre(Material.IRON_ORE, IRON_AMOUNT, minX, maxX, minY, maxY, minZ, maxZ);
-		this.placeOre(Material.GOLD_ORE, GOLD_AMOUNT, minX, maxX, minY, maxY, minZ, maxZ);
-		this.placeOre(Material.EMERALD_ORE, EMERALD_AMOUNT, minX, maxX, minY, maxY, minZ, maxZ);
-		this.placeOre(Material.NETHERRACK, NETHERRACK_AMOUNT, minX, maxX, minY, maxY, minZ, maxZ);
-		this.placeOre(Material.QUARTZ_BLOCK, QUARTZ_AMOUNT, minX, maxX, minY, maxY, minZ, maxZ);
+		placeOre(Material.COAL_ORE, COAL_AMOUNT, minX, maxX, minY, maxY, minZ, maxZ);
+		placeOre(Material.IRON_ORE, IRON_AMOUNT, minX, maxX, minY, maxY, minZ, maxZ);
+		placeOre(Material.GOLD_ORE, GOLD_AMOUNT, minX, maxX, minY, maxY, minZ, maxZ);
+		placeOre(Material.EMERALD_ORE, EMERALD_AMOUNT, minX, maxX, minY, maxY, minZ, maxZ);
+		placeOre(Material.NETHERRACK, NETHERRACK_AMOUNT, minX, maxX, minY, maxY, minZ, maxZ);
+		placeOre(Material.QUARTZ_BLOCK, QUARTZ_AMOUNT, minX, maxX, minY, maxY, minZ, maxZ);
 	}
 
 	private void placeOre(final Material oreType, final int amount, final int minX, final int maxX, final int minY, final int maxY, final int minZ, final int maxZ) {

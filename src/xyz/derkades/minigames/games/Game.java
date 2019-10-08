@@ -172,7 +172,7 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 				this.timeLeft--;
 
 				if (this.timeLeft < 5) {
-					this.cancel();
+					cancel();
 
 					for (final MPlayer player : Minigames.getOnlinePlayers()) {
 						player.clearPotionEffects();
@@ -233,7 +233,7 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 				Game.this.map.onTimer(this.secondsLeft);
 
 				if (this.secondsLeft <= 0) {
-					this.cancel();
+					cancel();
 					Game.this.onEnd();
 					Game.this.map.onEnd();
 					return;
@@ -252,19 +252,7 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 		Bukkit.broadcastMessage(Utils.getChatPrefix(ChatColor.AQUA, 'G') + message);
 	}
 
-	/*void endGame() {
-		this.endGame(Arrays.asList());
-	}
-
-	void endGame(final UUID winner) {
-		this.endGame(Utils.getPlayerListFromUUIDList(Arrays.asList(winner)));
-	}
-
-	void endGame(final Player winner) {
-		this.endGame(Arrays.asList(winner));
-	}
-
-	void endGame(final List<Player> winners){ // This method is called by the game, usually in onEnd()
+	/*void endGame(final List<Player> winners){ // This method is called by the game, usually in onEnd()
 		Minigames.IS_IN_GAME = false;
 		HandlerList.unregisterAll(this); //Unregister events
 

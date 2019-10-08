@@ -93,9 +93,9 @@ public class Dropper extends Game<DropperMap> {
 			if (this.finished.isEmpty()) {
 				//Player is first winner
 				player.addPoints(1); //Add bonus point
-				this.sendMessage(String.format(FINISHED_FIRST, player.getName()));
+				sendMessage(String.format(FINISHED_FIRST, player.getName()));
 			} else {
-				this.sendMessage(String.format(FINISHED, player.getName()));
+				sendMessage(String.format(FINISHED, player.getName()));
 			}
 
 			this.finished.add(player.getUniqueId());

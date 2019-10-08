@@ -30,17 +30,9 @@ public class Minigames extends JavaPlugin implements Listener {
 
 	private static Minigames instance;
 
-//	@Deprecated
-//	public static boolean IS_IN_GAME = false;
-
 	public static Game<? extends GameMap> CURRENT_GAME = null;
 
 	public static boolean STOP_GAMES = false;
-
-//	/**
-//	 * Used by connector addon @see {@link #getCurrentGameName()}
-//	 */
-//	public static String CURRENT_GAME_NAME = "Error";
 
 	public static boolean BYPASS_PLAYER_MINIMUM_CHECKS = false;
 
@@ -93,14 +85,15 @@ public class Minigames extends JavaPlugin implements Listener {
 			GameWorld.init();
 
 			if (Bukkit.getOnlinePlayers().size() == 0) {
-				//Bukkit.broadcastMessage("[System] No players online, starting games automatically");
 				if (!Logger.debugMode) {
+					Logger.info("No players online, starting games automatically");
 					AutoRotate.startNewRandomGame();
 				} else {
-					Logger.info("Debug mode on, not starting");
+					Logger.info("Debug mode on, not starting games automatically");
 				}
 			} else {
 				//Bukkit.broadcastMessage("[System] Players online, not starting games automatically");
+				Logger.info("Players online, not starting games automatically");
 			}
 
 			Minigames.getOnlinePlayers().stream().map(BoardPlayer::new)
@@ -110,12 +103,6 @@ public class Minigames extends JavaPlugin implements Listener {
 			});
 		});
 
-		// To keep database connection alive
-//		Scheduler.repeat(60*20, () -> {
-//			Queue.add(() -> economy.getBalance("Derkades"));
-//		});
-
-//		Bukkit.broadcastMessage("enabled");
 		Logger.info("Plugin enabled");
 	}
 

@@ -99,7 +99,7 @@ public class Elytra extends Game<ElytraMap> {
 
 			this.finished.add(player.getUniqueId());
 
-			this.sendMessage(player.getName() + " has finished");
+			sendMessage(player.getName() + " has finished");
 		}
 	}
 
