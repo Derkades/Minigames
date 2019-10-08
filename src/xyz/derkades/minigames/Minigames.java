@@ -59,26 +59,26 @@ public class Minigames extends JavaPlugin implements Listener {
 //		Var.IN_GAME_LOBBY_LOCATION = new Location(Var.WORLD, 203.5, 80, 245.5, 0, 0);
 		Var.NO_SPECTATOR_LOCATION = new Location(Var.WORLD, 199.5, 81, 247.5, 0, 0);
 
-		Logger.debugMode = this.getConfig().getBoolean("debug_mode");
+		Logger.debugMode = getConfig().getBoolean("debug_mode");
 
 		new RegenerateHunger().runTaskTimer(this, 1*20, 1*20);
 		new Points.UpdateLeaderboard().runTaskTimer(this, 2*20, 10*20);
 
-		this.getServer().getPluginManager().registerEvents(new GlobalListeners(), this);
+		getServer().getPluginManager().registerEvents(new GlobalListeners(), this);
 
-		this.getCommand("spectate").setExecutor(new SpectatorCommand());
-		this.getCommand("games").setExecutor(new Command());
-		this.getCommand("games").setTabCompleter(new CommandTabCompleter());
-		this.getCommand("bug").setExecutor(new BugCommand());
-		this.getCommand("wtp").setExecutor(new WorldTeleportCommand());
-		this.getCommand("wtp").setTabCompleter(new WorldTeleportCommandCompleter());
+		getCommand("spectate").setExecutor(new SpectatorCommand());
+		getCommand("games").setExecutor(new Command());
+		getCommand("games").setTabCompleter(new CommandTabCompleter());
+		getCommand("bug").setExecutor(new BugCommand());
+		getCommand("wtp").setExecutor(new WorldTeleportCommand());
+		getCommand("wtp").setTabCompleter(new WorldTeleportCommandCompleter());
 
 		Scheduler.repeat(20, () -> {
 			Var.WORLD.setStorm(false);
 		});
 
-		if (!this.setupEconomy()) {
-			this.getLogger().severe("Vault error");
+		if (!setupEconomy()) {
+			getLogger().severe("Vault error");
 		}
 
 //		SpawnZombieShooter.init();
@@ -103,9 +103,11 @@ public class Minigames extends JavaPlugin implements Listener {
 				//Bukkit.broadcastMessage("[System] Players online, not starting games automatically");
 			}
 
-			Minigames.getOnlinePlayers().stream()
-				.map(BoardPlayer::new)
-				.forEach(p -> p.teleportToBoard(true));
+			Minigames.getOnlinePlayers().stream().map(BoardPlayer::new)
+			.forEach(p -> {
+				p.createNpc();
+				p.teleportToBoard(true);
+			});
 		});
 
 		// To keep database connection alive
@@ -148,9 +150,9 @@ public class Minigames extends JavaPlugin implements Listener {
 	}
 
     private boolean setupEconomy() {
-        if (this.getServer().getPluginManager().getPlugin("Vault") == null)
+        if (getServer().getPluginManager().getPlugin("Vault") == null)
 			return false;
-        final RegisteredServiceProvider<Economy> rsp = this.getServer().getServicesManager().getRegistration(Economy.class);
+        final RegisteredServiceProvider<Economy> rsp = getServer().getServicesManager().getRegistration(Economy.class);
         if (rsp == null)
 			return false;
         economy = rsp.getProvider();
@@ -188,7 +190,7 @@ public class Minigames extends JavaPlugin implements Listener {
 		Bukkit.reload();
     }
 
-    public static enum ShutdownReason {
+    public enum ShutdownReason {
     	EMERGENCY_MANUAL, EMERGENCY_AUTOMATIC;
     }
 

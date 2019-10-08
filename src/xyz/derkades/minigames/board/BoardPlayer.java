@@ -42,12 +42,12 @@ public class BoardPlayer extends MPlayer {
 			this.teleportTimer.cancel();
 		}
 
-		final Tile currentTile = this.getTile();
+		final Tile currentTile = getTile();
 
 		final Consumer<Tile> onMove = (tile) -> {
-			this.teleportNpcTo(tile);
-			this.setTile(tile);
-			this.jumpTiles(tiles - 1);
+			teleportNpcTo(tile);
+			setTile(tile);
+			jumpTiles(tiles - 1);
 			tile.getSpectateLocation().teleportIfOutside(this, false);
 		};
 
@@ -56,22 +56,21 @@ public class BoardPlayer extends MPlayer {
 
 	private void teleportNpcTo(final Tile tile) {
 		final NPCRegistry registry = CitizensAPI.getNPCRegistry();
-		final NPC npc = registry.getById(NPC_ID.get(this.getUniqueId()));
-		final Location location = this.getTile().getLocation();
+		final NPC npc = registry.getById(NPC_ID.get(getUniqueId()));
+		final Location location = getTile().getLocation();
 		npc.teleport(location, TeleportCause.PLUGIN);
 	}
 
 	/**
 	 * Create an NPC. Called when the player joins and on reload for all online players.
-	 * TODO Call on reload for all online players
 	 */
 	public void createNpc() {
 		final NPCRegistry registry = CitizensAPI.getNPCRegistry();
-		final NPC npc = registry.createNPC(EntityType.PLAYER, this.getName());
-		NPC_ID.put(this.getUniqueId(), npc.getId());
+		final NPC npc = registry.createNPC(EntityType.PLAYER, getName());
+		NPC_ID.put(getUniqueId(), npc.getId());
 
 		// Teleport to correct location
-		this.teleportNpcTo(this.getTile());
+		teleportNpcTo(getTile());
 	}
 
 	/**
@@ -79,7 +78,7 @@ public class BoardPlayer extends MPlayer {
 	 * TODO call on quit and on disable
 	 */
 	public void removeNpc() {
-		final int id = NPC_ID.remove(this.getUniqueId());
+		final int id = NPC_ID.remove(getUniqueId());
 		final NPCRegistry registry = CitizensAPI.getNPCRegistry();
 		final NPC npc = registry.getById(id);
 		npc.despawn(DespawnReason.REMOVAL);
@@ -87,38 +86,38 @@ public class BoardPlayer extends MPlayer {
 	}
 
 	private void setTile(final Tile tile) {
-		Minigames.getInstance().getConfig().set("tile." + this.getUniqueId(), tile.toString());
+		Minigames.getInstance().getConfig().set("tile." + getUniqueId(), tile.toString());
 		Minigames.getInstance().saveConfig();
 	}
 
 	public Tile getTile() {
 		final FileConfiguration config = Minigames.getInstance().getConfig();
-		if (config.contains("tile." + this.getUniqueId()))
-			return Tile.fromString(config.getString("tile." + this.getUniqueId()));
+		if (config.contains("tile." + getUniqueId()))
+			return Tile.fromString(config.getString("tile." + getUniqueId()));
 		else
 			return Tile.START_TILE;
 	}
 
 	public void teleportToBoard(final boolean queue) {
-		final Tile tile = this.getTile();
+		final Tile tile = getTile();
 		tile.getSpectateLocation().teleportIfOutside(this, queue);
 
-		this.setDisableDamage(true);
-		this.setDisableHunger(true);
-		this.setDisableItemMoving(true);
-		this.setDisableSneaking(false);
+		setDisableDamage(true);
+		setDisableHunger(true);
+		setDisableItemMoving(true);
+		setDisableSneaking(false);
 
-		this.setGameMode(GameMode.ADVENTURE);
-		this.setAllowFlight(false);
+		setGameMode(GameMode.ADVENTURE);
+		setAllowFlight(false);
 
-		this.clearPotionEffects();
+		clearPotionEffects();
 		this.giveInfiniteEffect(PotionEffectType.INVISIBILITY);
 
-		this.bukkit().setExp(0.0f);
-		this.bukkit().setLevel(0);
+		bukkit().setExp(0.0f);
+		bukkit().setLevel(0);
 
-		this.heal();
-		this.clearInventory();
+		heal();
+		clearInventory();
 	}
 
 }
