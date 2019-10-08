@@ -309,30 +309,6 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 				player.applyLobbySettings();
 			});
 		}
-
-		int nextGameDelay = 2;
-
-		if (Bukkit.getOnlinePlayers().size() > 4) {
-			nextGameDelay += 5;
-		}
-
-		if (Bukkit.getOnlinePlayers().size() > 7) {
-			nextGameDelay += 5;
-		}
-
-		Scheduler.delay(nextGameDelay * 20, () -> {
-			AutoRotate.startNewRandomGame();
-		});
-
-		Scheduler.delay(20*20, () -> {
-			// Unload world from previous game. It can be done now, because all players should
-			// be teleported to the lobby by now.
-			if (this.map.getGameWorld() != null) {
-				this.map.getGameWorld().unload();
-			} else {
-				Bukkit.broadcastMessage("[warning] game is not in dedicated world");
-			}
-		});
 	}*/
 
 	protected void endGame() {
@@ -353,6 +329,16 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 		} else {
 			endGame(new ArrayList<>());
 		}
+
+		Scheduler.delay(20*20, () -> {
+			// Unload world from previous game. It can be done now, because all players should
+			// be teleported to the lobby by now.
+			if (this.map.getGameWorld() != null) {
+				this.map.getGameWorld().unload();
+			} else {
+				Bukkit.broadcastMessage("[warning] game is not in dedicated world");
+			}
+		});
 	}
 
 	protected void endGame(final List<UUID> winners) {
