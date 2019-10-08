@@ -11,6 +11,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Location;
 
 import xyz.derkades.derkutils.AssertionException;
+import xyz.derkades.minigames.Logger;
 import xyz.derkades.minigames.Minigames;
 import xyz.derkades.minigames.Minigames.ShutdownReason;
 import xyz.derkades.minigames.Var;
@@ -32,7 +33,12 @@ public abstract class Tile {
 		final List<Tile> tiles = new ArrayList<>();
 		tiles.add(START_TILE);
 		while (!tiles.isEmpty()) {
-			final Tile tile = tiles.get(0);
+			final Tile tile = tiles.remove(0);
+
+			if (tile == null) {
+				Logger.debug("Null tile!");
+				continue;
+			}
 
 			STRING_TO_TILE.put(tile.toString(), tile);
 
