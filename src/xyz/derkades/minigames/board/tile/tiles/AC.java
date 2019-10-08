@@ -8,12 +8,15 @@ public class AC extends ChooseDirectionTile {
 
 	@Override
 	public XYZ getXYZ() {
-		return null;
+		return new XYZ(146, 133, 4);
 	}
 
 	@Override
 	public Tile[] getNextTiles() {
-		return new Tile[] {new AD()};
+		return new Tile[] {
+				new AD(),
+				new AG(),
+				};
 	}
 
 }

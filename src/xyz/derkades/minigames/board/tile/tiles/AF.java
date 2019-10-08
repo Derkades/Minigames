@@ -1,24 +1,24 @@
 package xyz.derkades.minigames.board.tile.tiles;
 
-import xyz.derkades.minigames.board.tile.MoveTile;
+import xyz.derkades.minigames.board.tile.CoinsTile;
 import xyz.derkades.minigames.board.tile.Tile;
 import xyz.derkades.minigames.utils.XYZ;
 
-public class AD extends MoveTile {
+public class AF extends CoinsTile {
 
 	@Override
 	public Tile getNextTile() {
-		return new AE();
+		return null; // TODO next tile
 	}
 
 	@Override
 	public XYZ getXYZ() {
-		return new XYZ(146, 133, 8);
+		return new XYZ(143, 133, 17);
 	}
 
 	@Override
-	public MoveType getMoveType() {
-		return MoveType.BACKWARDS;
+	public CoinsType getType() {
+		return CoinsType.TAKE;
 	}
 
 }

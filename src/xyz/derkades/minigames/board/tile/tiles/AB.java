@@ -8,7 +8,7 @@ public class AB extends BlankTile {
 
 	@Override
 	public XYZ getXYZ() {
-		return null;
+		return new XYZ(144, 133, 1);
 	}
 
 	@Override

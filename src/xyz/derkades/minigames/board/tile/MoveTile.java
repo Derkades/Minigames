@@ -1,5 +1,7 @@
 package xyz.derkades.minigames.board.tile;
 
+import org.bukkit.ChatColor;
+
 import xyz.derkades.minigames.board.BoardPlayer;
 
 public abstract class MoveTile extends StaticDirectionTile {
@@ -12,10 +14,31 @@ public abstract class MoveTile extends StaticDirectionTile {
 
 	@Override
 	public void landOnTile(final BoardPlayer player) {
-		player.jumpTiles(this.getTilesAmount());
+		player.jumpTiles(getTilesAmount());
 	}
 
-	public static enum MoveType {
+	@Override
+	public String getName() {
+		return null;
+	}
+
+	@Override
+	public String getDescription() {
+		return null;
+	}
+
+	@Override
+	public String getSubtitle() {
+		return null;
+	}
+
+	@Override
+	public ChatColor getColor() {
+		return null;
+	}
+
+
+	public enum MoveType {
 
 		FORWARDS, BACKWARDS;
 
