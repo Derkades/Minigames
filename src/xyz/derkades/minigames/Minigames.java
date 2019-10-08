@@ -11,6 +11,9 @@ import org.bukkit.event.Listener;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import net.citizensnpcs.api.CitizensAPI;
+import net.citizensnpcs.api.npc.NPC;
+import net.citizensnpcs.api.npc.NPCRegistry;
 import net.md_5.bungee.api.ChatColor;
 import net.milkbowl.vault.economy.Economy;
 import xyz.derkades.minigames.board.BoardPlayer;
@@ -80,6 +83,10 @@ public class Minigames extends JavaPlugin implements Listener {
 		new SneakPrevention(this);
 
 		Queue.start();
+
+		// Delete all NPCs
+		final NPCRegistry registry = CitizensAPI.getNPCRegistry();
+		registry.forEach(NPC::destroy);
 
 		Scheduler.delay(20, () -> {
 			GameWorld.init();
