@@ -112,27 +112,27 @@ public class MPlayer {
 	}
 
 	public double getX() {
-		return this.getLocation().getX();
+		return getLocation().getX();
 	}
 
 	public double getY() {
-		return this.getLocation().getY();
+		return getLocation().getY();
 	}
 
 	public double getZ() {
-		return this.getLocation().getZ();
+		return getLocation().getZ();
 	}
 
 	public int getBlockX() {
-		return this.getLocation().getBlockX();
+		return getLocation().getBlockX();
 	}
 
 	public int getBlockY() {
-		return this.getLocation().getBlockY();
+		return getLocation().getBlockY();
 	}
 
 	public int getBlockZ() {
-		return this.getLocation().getBlockZ();
+		return getLocation().getBlockZ();
 	}
 
 //    public void giveLobbyInventoryItems() {
@@ -222,32 +222,32 @@ public class MPlayer {
 
 	public void dieTo(final Location location) {
 		this.player.teleport(location);
-		this.die();
+		die();
 	}
 
 	public void dieUp(final int yUp) {
-		this.teleportUp(yUp);
-		this.die();
+		teleportUp(yUp);
+		die();
 	}
 
 	public void finishTo(final Location location) {
 		this.player.teleport(location);
-		this.finish();
+		finish();
 	}
 
 	public void finishUp(final int yUp) {
-		this.teleportUp(yUp);
-		this.finish();
+		teleportUp(yUp);
+		finish();
 	}
 
 	public void die() {
-		this.sendTitle( "", ChatColor.RED + "You've died");
-		this.spectator();
+		sendTitle( "", ChatColor.RED + "You've died");
+		spectator();
 	}
 
 	public void finish() {
-		this.sendTitle("", ChatColor.GREEN + "You've finished");
-		this.spectator();
+		sendTitle("", ChatColor.GREEN + "You've finished");
+		spectator();
 	}
 
 	public void spectator() {
@@ -258,7 +258,7 @@ public class MPlayer {
 	}
 
 	public boolean isSpectator() {
-		return this.getGameMode().equals(GameMode.SPECTATOR);
+		return getGameMode().equals(GameMode.SPECTATOR);
 	}
 
 	public void giveEffect(final PotionEffectType type, final int duration, final int amplifier) {
@@ -352,7 +352,7 @@ public class MPlayer {
 	}
 
 	public Block getBlockOn() {
-		return this.getBlockIn().getRelative(BlockFace.DOWN);
+		return getBlockIn().getRelative(BlockFace.DOWN);
 	}
 
 	public void playSound(final Sound sound, final float pitch) {
@@ -379,19 +379,19 @@ public class MPlayer {
 	public void dropItems() {
 		for (final ItemStack item : this.player.getInventory().getContents()) {
 			if (item != null) {
-				this.dropItem(item);
+				dropItem(item);
 			}
 		}
 
 		for (final ItemStack item : this.player.getInventory().getArmorContents()) {
 			if (item != null) {
-				this.dropItem(item);
+				dropItem(item);
 			}
 		}
 
 		for (final ItemStack item : this.player.getInventory().getExtraContents()) {
 			if (item != null) {
-				this.dropItem(item);
+				dropItem(item);
 			}
 		}
 	}
@@ -425,8 +425,16 @@ public class MPlayer {
 		this.sendActionBar(TextComponent.fromLegacyText(message));
 	}
 
-	public void sendActionBar(final BaseComponent[] components) {
+	public void sendActionBar(final BaseComponent... components) {
 		this.player.spigot().sendMessage(ChatMessageType.ACTION_BAR, components);
+	}
+
+	public void sendChat(final String message) {
+		this.player.sendMessage(message);
+	}
+
+	public void sendChat(final BaseComponent... components) {
+		this.player.spigot().sendMessage(components);
 	}
 
 }

@@ -8,22 +8,23 @@ public abstract class SwapPositionsTile extends StaticDirectionTile {
 
 	@Override
 	public String getName() {
-		return null;
+		return "Swap";
 	}
 
 	@Override
 	public String getDescription() {
-		return null;
+		return "Swap positions with another player";
 	}
 
 	@Override
 	public ChatColor getColor() {
-		return null;
+		return ChatColor.DARK_GRAY;
 	}
 
 	@Override
 	public void landOnTile(final BoardPlayer player) {
-		// TODO action
+		player.sendChat("swap tile not implemented yet");
+		// TODO open swap gui
 	}
 
 }

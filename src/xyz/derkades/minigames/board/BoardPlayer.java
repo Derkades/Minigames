@@ -12,7 +12,6 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 import org.bukkit.potion.PotionEffectType;
-import org.bukkit.scheduler.BukkitTask;
 
 import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.event.DespawnReason;
@@ -27,7 +26,7 @@ public class BoardPlayer extends MPlayer {
 
 	private static final Map<UUID, Integer> NPC_ID = new HashMap<>();
 
-	private BukkitTask teleportTimer;
+//	private BukkitTask teleportTimer;
 
 	public BoardPlayer(final Player player) {
 		super(player);
@@ -37,6 +36,8 @@ public class BoardPlayer extends MPlayer {
 		super(player.bukkit());
 	}
 
+//	private boolean isMoving;
+
 	public void jumpTiles(final int tiles) {
 		if (tiles == 0) {
 			final Tile currentTile = getTile();
@@ -45,10 +46,10 @@ public class BoardPlayer extends MPlayer {
 			return;
 		}
 
-		// if the player gets teleported, while they are still teleporting
-		if (this.teleportTimer != null) {
-			this.teleportTimer.cancel();
-		}
+//		// if the player gets teleported, while they are still teleporting
+//		if (this.teleportTimer != null) {
+//			this.teleportTimer.cancel();
+//		}
 
 		final Tile currentTile = getTile();
 

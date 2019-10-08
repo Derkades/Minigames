@@ -34,8 +34,8 @@ public abstract class ChooseDirectionTile extends DynamicDirectionTile {
 	@Override
 	public void landOnTile(final BoardPlayer player) {
 		// Do nothing, like a blank tile.
-		// TODO Or, move player one more tile?
+		player.sendChat("landed on choose direction tile, move one more");
+		player.jumpTiles(1); // it is safe to call this method, landOnTile is only executed after the player has stopped moving.
 	}
-
 
 }

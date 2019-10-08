@@ -9,6 +9,7 @@ public abstract class BlankTile extends StaticDirectionTile {
 	@Override
 	public void landOnTile(final BoardPlayer player) {
 		// Do nothing, it's a blank tile
+		player.sendChat("test: blank tile"); // XXX remove debug message
 	}
 
 	@Override

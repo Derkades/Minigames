@@ -4,9 +4,11 @@ import org.bukkit.ChatColor;
 
 public abstract class MoveForwardsTile extends MoveTile {
 
+	private static final int AMOUNT = 3;
+
 	@Override
 	public int getTilesAmount() {
-		return -3;
+		return AMOUNT;
 	}
 
 	@Override
@@ -16,12 +18,12 @@ public abstract class MoveForwardsTile extends MoveTile {
 
 	@Override
 	public String getDescription() {
-		return null;
+		return "Move forwards " + AMOUNT + " tiles.";
 	}
 
 	@Override
 	public ChatColor getColor() {
-		return null;
+		return ChatColor.GREEN;
 	}
 
 }

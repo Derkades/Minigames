@@ -11,17 +11,17 @@ public abstract class CoinsGetTile extends CoinsTile {
 
 	@Override
 	public String getName() {
-		return null;
+		return "Coins get";
 	}
 
 	@Override
 	public String getDescription() {
-		return null;
+		return "Get " + AMOUNT + " GladeCoins";
 	}
 
 	@Override
 	public ChatColor getColor() {
-		return null;
+		return ChatColor.LIGHT_PURPLE;
 	}
 
 	@Override
