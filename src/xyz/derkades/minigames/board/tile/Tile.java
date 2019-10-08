@@ -30,6 +30,7 @@ public abstract class Tile {
 	private static final Map<String, Tile> STRING_TO_TILE = new HashMap<>();
 
 	static {
+		final long millis = System.currentTimeMillis();
 		final List<Tile> tiles = new ArrayList<>();
 		tiles.add(START_TILE);
 		while (!tiles.isEmpty()) {
@@ -51,6 +52,8 @@ public abstract class Tile {
 			} else
 				throw new AssertionException();
 		}
+
+		Logger.info("Initialized string to title in %s ms", System.currentTimeMillis() - millis);
 	}
 
 	public abstract String getName();
