@@ -100,7 +100,6 @@ public class Minigames extends JavaPlugin implements Listener {
 					Logger.info("Debug mode on, not starting games automatically");
 				}
 			} else {
-				//Bukkit.broadcastMessage("[System] Players online, not starting games automatically");
 				Logger.info("Players online, not starting games automatically");
 			}
 

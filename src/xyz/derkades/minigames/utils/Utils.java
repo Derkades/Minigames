@@ -10,7 +10,6 @@ import java.util.stream.Collectors;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.metadata.MetadataValue;
@@ -36,13 +35,6 @@ public class Utils {
 
 	public static List<UUID> getOnlinePlayersUuidList(){
 		return Bukkit.getOnlinePlayers().stream().map(Player::getUniqueId).collect(Collectors.toList());
-	}
-
-	@Deprecated
-	public static void playSoundForAllPlayers(final Sound sound, final float pitch) {
-		for (final Player player : Bukkit.getOnlinePlayers()) {
-			player.playSound(player.getLocation(), sound, 1, pitch);
-		}
 	}
 
 	public static <Key> List<Key> getHighestValuesFromHashMap(final Map<Key, Integer> map){

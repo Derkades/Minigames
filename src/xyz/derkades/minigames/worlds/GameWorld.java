@@ -37,16 +37,13 @@ public enum GameWorld {
 
 	FREEFALL_PROTOTYPE,
 
-	//HG_BEACH,
 	HG_TREEHOUSE,
-	//HG_BOAT,
 	HG_WINDMILL,
 	HG_MANSION,
 	HG_NETHER,
 
 	ICYBLOWBACK_ICYBLOWBACK,
 
-	//MGR_RAILSOFWAR,
 	MGR_ISLAND,
 	MGR_SANTIAGO,
 
@@ -87,13 +84,13 @@ public enum GameWorld {
 	private GameWorld(){}
 
 	public String getName() {
-		return "worlds" + File.separator + this.toString().toLowerCase();
+		return "worlds" + File.separator + toString().toLowerCase();
 	}
 
 	public World getWorld() {
-		World world = Bukkit.getWorld(this.getName());
+		World world = Bukkit.getWorld(getName());
 		if (world == null) {
-			world = this.load();
+			world = load();
 		}
 
 		return world;
@@ -103,9 +100,9 @@ public enum GameWorld {
 	 * Creates world or just loads it if it already exists
 	 */
 	public World load() {
-		Logger.debug("Loading %s", this.toString());
+		Logger.debug("Loading %s", toString());
 
-		final WorldCreator creator = new WorldCreator(this.getName());
+		final WorldCreator creator = new WorldCreator(getName());
 		creator.generateStructures(false);
 		creator.type(WorldType.FLAT);
 		creator.generator(new VoidGenerator());
@@ -138,12 +135,12 @@ public enum GameWorld {
 	}
 
 	public void unload() {
-		final World world = Bukkit.getWorld(this.getName());
+		final World world = Bukkit.getWorld(getName());
 		if (world == null) {
-			Logger.debug("%s is already unloaded", this.toString());
+			Logger.debug("%s is already unloaded", toString());
 		} else {
-			Logger.debug("Unloading %s", this.toString());
-			Bukkit.unloadWorld(this.getWorld(), true);
+			Logger.debug("Unloading %s", toString());
+			Bukkit.unloadWorld(getWorld(), true);
 		}
 	}
 

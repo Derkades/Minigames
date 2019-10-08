@@ -27,8 +27,6 @@ public class BoardPlayer extends MPlayer {
 
 	private static final Map<UUID, Integer> NPC_ID = new HashMap<>();
 
-//	private BukkitTask teleportTimer;
-
 	public BoardPlayer(final Player player) {
 		super(player);
 	}
@@ -37,8 +35,6 @@ public class BoardPlayer extends MPlayer {
 		super(player.bukkit());
 	}
 
-//	private boolean isMoving;
-
 	public void jumpTiles(final int tiles) {
 		if (tiles == 0) {
 			final Tile currentTile = getTile();
@@ -46,11 +42,6 @@ public class BoardPlayer extends MPlayer {
 			currentTile.landOnTile(this);
 			return;
 		}
-
-//		// if the player gets teleported, while they are still teleporting
-//		if (this.teleportTimer != null) {
-//			this.teleportTimer.cancel();
-//		}
 
 		final Tile currentTile = getTile();
 

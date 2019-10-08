@@ -51,8 +51,6 @@ public class GlobalListeners implements Listener {
 
 		player.clearInventory();
 
-//		Game<? extends GameMap> game = Minigames.CURRENT_GAME;
-
 		if (Minigames.CURRENT_GAME == null) {
 			//No game is running, teleport to board
 			final BoardPlayer board = new BoardPlayer(player);
@@ -79,20 +77,6 @@ public class GlobalListeners implements Listener {
 					.append(Minigames.CURRENT_GAME.getName()).color(ChatColor.WHITE)
 					.create()));
 		}
-
-//		final MinigamesJoinEvent event2 = new MinigamesJoinEvent(player.bukkit());
-//		Bukkit.getPluginManager().callEvent(event2);
-
-//		if (event2.getTeleportPlayerToLobby()) {
-//			if (Minigames.IS_IN_GAME) {
-//				player.teleport(Var.IN_GAME_LOBBY_LOCATION);
-//			} else {
-//				player.teleport(Var.LOBBY_LOCATION);
-//			}
-
-//			final BoardPlayer board = new BoardPlayer(player);
-//			board.teleportToBoard(false);
-//		}
 	}
 
 	@EventHandler

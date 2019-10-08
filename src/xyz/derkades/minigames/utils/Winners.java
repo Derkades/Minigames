@@ -45,16 +45,6 @@ public class Winners {
 			return new ArrayList<>();
 	}
 
-//	@Deprecated
-//	public static List<Player> getWinnersFromFinished(final List<UUID> finished, final List<UUID> all) {
-//		return all.stream().filter(finished::contains).map(Bukkit::getPlayer).filter(p -> p != null).collect(Collectors.toList());
-//	}
-
-//	@Deprecated
-//	public static List<Player> getWinnersFromFinished(final List<UUID> finished) {
-//		return Bukkit.getOnlinePlayers().stream().filter((p) -> finished.contains(p.getUniqueId())).collect(Collectors.toList());
-//	}
-
 	public static List<UUID> fromAlive(final List<UUID> alive, final boolean multipleWinnersAllowed){
 		if (multipleWinnersAllowed)
 			return alive;
@@ -63,24 +53,6 @@ public class Winners {
 			return alive;
 		else
 			return new ArrayList<>();
-	}
-
-	@Deprecated
-	public static int countAliveFromDead(final List<UUID> dead) {
-		return Bukkit.getOnlinePlayers().stream().map(Player::getUniqueId).filter(uuid -> !dead.contains(uuid)).toArray().length;
-	}
-
-	@Deprecated
-	public static int countAliveFromDead(final List<UUID> dead, final List<UUID> all) {
-		int alive = 0;
-
-		for (final Player player : getPlayerListFromUUIDList(all)) {
-			if (!dead.contains(player.getUniqueId())) {
-				alive++;
-			}
-		}
-
-		return alive;
 	}
 
 }

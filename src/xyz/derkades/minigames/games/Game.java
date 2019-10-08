@@ -56,7 +56,6 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 			new OneInTheQuiver(),
 			new Platform(),
 			new RegeneratingSpleef(),
-			//new Rooms(),
 			new Parkour(),
 			//new SnowFight(),
 			//new Speedrun(),
@@ -363,11 +362,6 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 
 		this.sendMessage(String.format("Winners move %s-%s steps forward, other players move %s-%s steps forward.",
 				BoardConfig.DIE_WINNER_STEPS_MIN, BoardConfig.DIE_WINNER_STEPS_MAX, BoardConfig.DIE_LOSER_STEPS_MIN, BoardConfig.DIE_LOSER_STEPS_MAX));
-
-//		final List<UUID> lost = Bukkit.getOnlinePlayers().stream()
-//				.map(Player::getUniqueId)
-//				.filter(o -> winners.contains(o))
-//				.collect(Collectors.toList());
 
 		this.showPolls();
 

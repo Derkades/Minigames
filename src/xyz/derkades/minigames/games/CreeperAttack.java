@@ -81,7 +81,6 @@ public class CreeperAttack extends Game<CreeperAttackMap> {
 
 	@Override
 	public int gameTimer(final int secondsLeft) {
-//		final List<Player> alivePlayers = Utils.getPlayerListFromUUIDList(CreeperAttack.this.alive);
 		if (this.alive.size() <= 1 && secondsLeft > 5)
 			return 5;
 
@@ -106,7 +105,6 @@ public class CreeperAttack extends Game<CreeperAttackMap> {
 			creeper.remove();
 		}
 
-//		this.endGame(Utils.getWinnersFromAliveList(this.alive, false));
 		this.endGame(Winners.fromAlive(this.alive, false));
 
 		this.alive = null;
