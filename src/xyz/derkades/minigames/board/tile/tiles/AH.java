@@ -1,15 +1,10 @@
 package xyz.derkades.minigames.board.tile.tiles;
 
-import xyz.derkades.minigames.board.tile.MoveTile;
+import xyz.derkades.minigames.board.tile.MoveForwardsTile;
 import xyz.derkades.minigames.board.tile.Tile;
 import xyz.derkades.minigames.utils.XYZ;
 
-public class AH extends MoveTile {
-
-	@Override
-	public MoveType getMoveType() {
-		return MoveType.FORWARDS;
-	}
+public class AH extends MoveForwardsTile {
 
 	@Override
 	public Tile getNextTile() {

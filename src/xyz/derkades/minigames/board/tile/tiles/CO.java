@@ -1,10 +1,10 @@
 package xyz.derkades.minigames.board.tile.tiles;
 
-import xyz.derkades.minigames.board.tile.CoinsTile;
+import xyz.derkades.minigames.board.tile.CoinsLoseTile;
 import xyz.derkades.minigames.board.tile.Tile;
 import xyz.derkades.minigames.utils.XYZ;
 
-public class CO extends CoinsTile {
+public class CO extends CoinsLoseTile {
 
 	@Override
 	public Tile getNextTile() {
@@ -14,11 +14,6 @@ public class CO extends CoinsTile {
 	@Override
 	public XYZ getXYZ() {
 		return new XYZ(159, 138, 54);
-	}
-
-	@Override
-	public CoinsType getType() {
-		return CoinsType.TAKE;
 	}
 
 }
