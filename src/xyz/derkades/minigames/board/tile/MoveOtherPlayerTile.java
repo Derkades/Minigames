@@ -2,26 +2,28 @@ package xyz.derkades.minigames.board.tile;
 
 import org.bukkit.ChatColor;
 
-public abstract class MoveOtherPlayerTile extends Tile {
+import xyz.derkades.minigames.board.BoardPlayer;
+
+public abstract class MoveOtherPlayerTile extends StaticDirectionTile {
+
+	@Override
+	public void landOnTile(final BoardPlayer player) {
+		// TODO open gui to move other player
+	}
 
 	@Override
 	public String getName() {
-		return null;
+		return "Move player";
 	}
 
 	@Override
 	public String getDescription() {
-		return null;
-	}
-
-	@Override
-	public String getSubtitle() {
-		return null;
+		return "Move another player forwards or backwards a number of steps.";
 	}
 
 	@Override
 	public ChatColor getColor() {
-		return null;
+		return ChatColor.AQUA;
 	}
 
 

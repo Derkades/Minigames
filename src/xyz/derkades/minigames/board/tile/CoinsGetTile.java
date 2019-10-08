@@ -2,20 +2,12 @@ package xyz.derkades.minigames.board.tile;
 
 import org.bukkit.ChatColor;
 
+import xyz.derkades.minigames.Minigames;
 import xyz.derkades.minigames.board.BoardPlayer;
 
-public abstract class MoveTile extends StaticDirectionTile {
+public abstract class CoinsGetTile extends CoinsTile {
 
-	public abstract MoveType getMoveType();
-
-	public int getTilesAmount() {
-		return 3;
-	}
-
-	@Override
-	public void landOnTile(final BoardPlayer player) {
-		player.jumpTiles(getTilesAmount());
-	}
+	private static final int AMOUNT = 10;
 
 	@Override
 	public String getName() {
@@ -32,9 +24,9 @@ public abstract class MoveTile extends StaticDirectionTile {
 		return null;
 	}
 
-	public enum MoveType {
-
-		FORWARDS, BACKWARDS;
+	@Override
+	public void landOnTile(final BoardPlayer player) {
+		Minigames.economy.depositPlayer(player.bukkit(), AMOUNT);
 
 	}
 

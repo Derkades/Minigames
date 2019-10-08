@@ -18,6 +18,7 @@ import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.event.DespawnReason;
 import net.citizensnpcs.api.npc.NPC;
 import net.citizensnpcs.api.npc.NPCRegistry;
+import net.md_5.bungee.api.ChatColor;
 import xyz.derkades.minigames.Minigames;
 import xyz.derkades.minigames.board.tile.Tile;
 import xyz.derkades.minigames.utils.MPlayer;
@@ -37,6 +38,13 @@ public class BoardPlayer extends MPlayer {
 	}
 
 	public void jumpTiles(final int tiles) {
+		if (tiles == 0) {
+			final Tile currentTile = getTile();
+			sendTitle("", currentTile.getColor() + "" + ChatColor.BOLD + currentTile.getName());
+			currentTile.landOnTile(this);
+			return;
+		}
+
 		// if the player gets teleported, while they are still teleporting
 		if (this.teleportTimer != null) {
 			this.teleportTimer.cancel();

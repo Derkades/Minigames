@@ -10,6 +10,21 @@ import xyz.derkades.minigames.board.BoardPlayer;
 public abstract class ChooseDirectionTile extends DynamicDirectionTile {
 
 	@Override
+	public String getName() {
+		return "Choose Direction";
+	}
+
+	@Override
+	public String getDescription() {
+		return "Choose a direction by clicking on an item in your hotbar.";
+	}
+
+	@Override
+	public ChatColor getColor() {
+		return ChatColor.DARK_PURPLE;
+	}
+
+	@Override
 	public void moveToNextTile(final BoardPlayer player, final Consumer<Tile> onMove) {
 		// Choose a random tile for now
 		// TODO Implement tile choosing
@@ -20,26 +35,6 @@ public abstract class ChooseDirectionTile extends DynamicDirectionTile {
 	public void landOnTile(final BoardPlayer player) {
 		// Do nothing, like a blank tile.
 		// TODO Or, move player one more tile?
-	}
-
-	@Override
-	public String getName() {
-		return null;
-	}
-
-	@Override
-	public String getDescription() {
-		return null;
-	}
-
-	@Override
-	public String getSubtitle() {
-		return null;
-	}
-
-	@Override
-	public ChatColor getColor() {
-		return null;
 	}
 
 

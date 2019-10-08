@@ -51,12 +51,6 @@ public abstract class Tile {
 
 	public abstract String getDescription();
 
-	public String getTitle() {
-		return this.getColor() + "" + ChatColor.BOLD + this.getName();
-	}
-
-	public abstract String getSubtitle();
-
 	public abstract ChatColor getColor();
 
 	public abstract XYZ getXYZ();
@@ -66,11 +60,11 @@ public abstract class Tile {
 	public abstract void landOnTile(BoardPlayer player);
 
 	public Location getLocation() {
-		return this.getXYZ().getLocation(Var.LOBBY_WORLD);
+		return getXYZ().getLocation(Var.LOBBY_WORLD);
 	}
 
 	public SpectateLocation getSpectateLocation() {
-		final String viewChar = this.toString().substring(0, 1);
+		final String viewChar = toString().substring(0, 1);
 		try {
 			return SpectateLocation.valueOf(viewChar);
 		} catch (final IllegalArgumentException e) {
@@ -88,7 +82,7 @@ public abstract class Tile {
 	public boolean equals(final Object other) {
 		if (other instanceof Tile) {
 			final Tile tile = (Tile) other;
-			return this.toString().equals(tile.toString());
+			return toString().equals(tile.toString());
 		} else
 			return false;
 	}

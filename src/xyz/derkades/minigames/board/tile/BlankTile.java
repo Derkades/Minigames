@@ -13,22 +13,17 @@ public abstract class BlankTile extends StaticDirectionTile {
 
 	@Override
 	public String getName() {
-		return null;
+		return "Blank";
 	}
 
 	@Override
 	public String getDescription() {
-		return null;
-	}
-
-	@Override
-	public String getSubtitle() {
-		return null;
+		return "";
 	}
 
 	@Override
 	public ChatColor getColor() {
-		return null;
+		return ChatColor.GRAY;
 	}
 
 }
