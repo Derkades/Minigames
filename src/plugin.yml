@@ -3,7 +3,7 @@ main: xyz.derkades.minigames.Minigames
 version: 6.9
 author: RobinMC
 description: ohiasohidfasdasimasm
-softdepend: [Vault]
+softdepend: [Vault, Citizens]
 
 api-version: 1.13
 
