@@ -360,12 +360,12 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 		}
 
 		this.sendMessage(String.format("Winners move %s-%s steps forward, other players move %s-%s steps forward.",
-				Board.WINNER_MOVE_MIN, Board.WINNER_MOVE_MIN, Board.LOSER_MOVE_MIN, Board.LOSER_MOVE_MAX));
+				Board.WINNER_MOVE_MIN, Board.WINNER_MOVE_MAX, Board.LOSER_MOVE_MIN, Board.LOSER_MOVE_MAX));
 
-		final List<UUID> lost = Bukkit.getOnlinePlayers().stream()
-				.map(Player::getUniqueId)
-				.filter(o -> winners.contains(o))
-				.collect(Collectors.toList());
+//		final List<UUID> lost = Bukkit.getOnlinePlayers().stream()
+//				.map(Player::getUniqueId)
+//				.filter(o -> winners.contains(o))
+//				.collect(Collectors.toList());
 
 		this.showPolls();
 
@@ -373,7 +373,7 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 			.map(BoardPlayer::new)
 			.forEach(p -> p.teleportToBoard(true));
 
-		Board.performTurns(winners, lost);
+		Board.performTurns(winners);
 	}
 
 	private void showPolls() {

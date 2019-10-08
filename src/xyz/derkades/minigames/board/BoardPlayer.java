@@ -18,6 +18,7 @@ import net.citizensnpcs.api.event.DespawnReason;
 import net.citizensnpcs.api.npc.NPC;
 import net.citizensnpcs.api.npc.NPCRegistry;
 import net.md_5.bungee.api.ChatColor;
+import xyz.derkades.minigames.Logger;
 import xyz.derkades.minigames.Minigames;
 import xyz.derkades.minigames.board.tile.Tile;
 import xyz.derkades.minigames.utils.MPlayer;
@@ -66,7 +67,13 @@ public class BoardPlayer extends MPlayer {
 	private void teleportNpcTo(final Tile tile) {
 		final NPCRegistry registry = CitizensAPI.getNPCRegistry();
 		final NPC npc = registry.getById(NPC_ID.get(getUniqueId()));
+
 		final Location location = getTile().getLocation();
+
+		Logger.debug("Teleporting NPC id %s name %s to (%s, %s, %s)",
+				npc.getId(), npc.getName(),
+				location.getX(), location.getY(), location.getZ());
+
 		npc.teleport(location, TeleportCause.PLUGIN);
 	}
 
@@ -76,10 +83,9 @@ public class BoardPlayer extends MPlayer {
 	public void createNpc() {
 		final NPCRegistry registry = CitizensAPI.getNPCRegistry();
 		final NPC npc = registry.createNPC(EntityType.PLAYER, getName());
+		final Location location = getTile().getLocation();
+		npc.spawn(location);
 		NPC_ID.put(getUniqueId(), npc.getId());
-
-		// Teleport to correct location
-		teleportNpcTo(getTile());
 	}
 
 	/**
@@ -94,7 +100,8 @@ public class BoardPlayer extends MPlayer {
 		registry.deregister(npc); // TODO may not be needed
 	}
 
-	private void setTile(final Tile tile) {
+	public void setTile(final Tile tile) {
+		Logger.debug("Set %s's tile to %s", getName(), tile.toString());
 		Minigames.getInstance().getConfig().set("tile." + getUniqueId(), tile.toString());
 		Minigames.getInstance().saveConfig();
 	}

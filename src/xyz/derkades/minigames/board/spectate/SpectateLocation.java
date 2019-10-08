@@ -34,12 +34,14 @@ public enum SpectateLocation {
 
 	public void teleportIfOutside(final BoardPlayer player, final boolean queue) {
 		final Location loc = player.getLocation();
-		if (loc.getX() + LOCATION_TOLERANCE < this.x && loc.getX() - LOCATION_TOLERANCE > this.x
-				&& loc.getY() + LOCATION_TOLERANCE < this.y && loc.getY() - LOCATION_TOLERANCE > this.y
-				&& loc.getZ() + LOCATION_TOLERANCE < this.z && loc.getZ() - LOCATION_TOLERANCE > this.z) {
+		if (loc.getX() + LOCATION_TOLERANCE > this.x && loc.getX() - LOCATION_TOLERANCE < this.x
+				&& loc.getY() + LOCATION_TOLERANCE > this.y && loc.getY() - LOCATION_TOLERANCE < this.y
+				&& loc.getZ() + LOCATION_TOLERANCE > this.z && loc.getZ() - LOCATION_TOLERANCE < this.z) {
 			Logger.debug("Not teleported '%s', in range of spectate location.", player.getName());
 			return;
 		}
+
+		Logger.debug("Teleporting '%s', to spectator location %s queue %s.", player.getName(), name(), queue);
 
 		if (queue) {
 			player.queueTeleport(getLocation());

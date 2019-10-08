@@ -12,7 +12,6 @@ import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import net.citizensnpcs.api.CitizensAPI;
-import net.citizensnpcs.api.npc.NPC;
 import net.citizensnpcs.api.npc.NPCRegistry;
 import net.md_5.bungee.api.ChatColor;
 import net.milkbowl.vault.economy.Economy;
@@ -86,7 +85,11 @@ public class Minigames extends JavaPlugin implements Listener {
 
 		// Delete all NPCs
 		final NPCRegistry registry = CitizensAPI.getNPCRegistry();
-		registry.forEach(NPC::destroy);
+		registry.forEach((n) -> {
+			Logger.debug("Unregistering NPC with id %s", n.getId());
+			n.destroy();
+			registry.deregister(n);
+		});
 
 		Scheduler.delay(20, () -> {
 			GameWorld.init();
@@ -105,7 +108,6 @@ public class Minigames extends JavaPlugin implements Listener {
 
 			Minigames.getOnlinePlayers().stream().map(BoardPlayer::new)
 			.forEach(p -> {
-				p.createNpc();
 				p.teleportToBoard(true);
 			});
 		});
@@ -115,18 +117,15 @@ public class Minigames extends JavaPlugin implements Listener {
 
 	@Override
 	public void onDisable(){
-		instance = null;
 		CURRENT_GAME = null;
 
 		for (final GameWorld gWorld : GameWorld.values()) {
 			gWorld.unload();
 		}
 
-		Bukkit.broadcastMessage("disabled");
+		Logger.info("Plugin disabled");
 
-		Minigames.getOnlinePlayers().stream().map(BoardPlayer::new).forEach((p) -> {
-			p.removeNpc();
-		});
+		instance = null;
 	}
 
 	public static Minigames getInstance(){

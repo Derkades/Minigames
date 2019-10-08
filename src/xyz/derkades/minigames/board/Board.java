@@ -29,7 +29,7 @@ public class Board {
 			LOSER_MOVE_MIN + "-" + LOSER_MOVE_MAX + " tiles forward"
 	};
 
-	public static void performTurns(final List<UUID> won, final List<UUID> lost) {
+	public static void performTurns(final List<UUID> won) {
 		final List<BoardPlayer> players = Minigames.getOnlinePlayers().stream()
 				.map(BoardPlayer::new)
 				.collect(Collectors.toList());
@@ -39,7 +39,7 @@ public class Board {
 				.collect(Collectors.toList());
 
 		final List<BoardPlayer> losers = players.stream()
-				.filter((p) -> lost.contains(p.getUniqueId()))
+				.filter((p) -> !won.contains(p.getUniqueId()))
 				.collect(Collectors.toList());
 
 		winners.forEach((p) -> p.sendTitle(TITLE_WON[0], TITLE_WON[1]));
