@@ -8,26 +8,10 @@ import java.util.stream.Collectors;
 
 import xyz.derkades.derkutils.Random;
 import xyz.derkades.minigames.Minigames;
+import xyz.derkades.minigames.constants.BoardConfig;
 import xyz.derkades.minigames.utils.Scheduler;
 
 public class Board {
-
-	public static int WINNER_MOVE_MIN = 2;
-	public static int WINNER_MOVE_MAX = 10;
-	public static int LOSER_MOVE_MIN = 1;
-	public static int LOSER_MOVE_MAX = 4;
-
-	public static int TITLE_DURATION_TICKS = 3*20;
-
-	public static String[] TITLE_WON = {
-			"You won!",
-			WINNER_MOVE_MIN + "-" + WINNER_MOVE_MAX + " tiles forward"
-	};
-
-	public static String[] TITLE_LOST = {
-			"You lost",
-			LOSER_MOVE_MIN + "-" + LOSER_MOVE_MAX + " tiles forward"
-	};
 
 	public static void performTurns(final List<UUID> won) {
 		final List<BoardPlayer> players = Minigames.getOnlinePlayers().stream()
@@ -42,25 +26,25 @@ public class Board {
 				.filter((p) -> !won.contains(p.getUniqueId()))
 				.collect(Collectors.toList());
 
-		winners.forEach((p) -> p.sendTitle(TITLE_WON[0], TITLE_WON[1]));
-		losers.forEach((p) -> p.sendTitle(TITLE_LOST[0], TITLE_LOST[1]));
+		winners.forEach((p) -> p.sendTitle(BoardConfig.TITLE_WON[0], BoardConfig.TITLE_WON[1]));
+		losers.forEach((p) -> p.sendTitle(BoardConfig.TITLE_LOST[0], BoardConfig.TITLE_LOST[1]));
 
-		Scheduler.delay(TITLE_DURATION_TICKS, () -> {
+		Scheduler.delay(BoardConfig.TILE_TITLE_DURATION_TICKS, () -> {
 			final Map<BoardPlayer, Integer> steps = new HashMap<>();
 
 			winners.forEach((p) -> {
-				final int random = Random.getRandomInteger(WINNER_MOVE_MIN, WINNER_MOVE_MAX);
+				final int random = Random.getRandomInteger(BoardConfig.DIE_WINNER_STEPS_MIN, BoardConfig.DIE_WINNER_STEPS_MAX);
 				steps.put(p, random);
-				new DiceAnimationMenu(p, WINNER_MOVE_MIN, WINNER_MOVE_MAX, random).open();
+				new DieAnimationMenu(p, BoardConfig.DIE_WINNER_STEPS_MIN, BoardConfig.DIE_WINNER_STEPS_MAX, random).open();
 			});
 
 			losers.forEach((p) -> {
-				final int random = Random.getRandomInteger(LOSER_MOVE_MIN, LOSER_MOVE_MAX);
+				final int random = Random.getRandomInteger(BoardConfig.DIE_LOSER_STEPS_MIN, BoardConfig.DIE_LOSER_STEPS_MAX);
 				steps.put(p, random);
-				new DiceAnimationMenu(p, LOSER_MOVE_MIN, LOSER_MOVE_MAX, random).open();
+				new DieAnimationMenu(p, BoardConfig.DIE_LOSER_STEPS_MIN, BoardConfig.DIE_LOSER_STEPS_MAX, random).open();
 			});
 
-			Scheduler.delay(DiceAnimationMenu.TOTAL_OPEN_TICKS, () -> {
+			Scheduler.delay(DieAnimationMenu.TOTAL_OPEN_TICKS, () -> {
 				steps.forEach((player, tiles) -> player.jumpTiles(tiles));
 			});
 		});

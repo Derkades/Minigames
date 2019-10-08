@@ -4,10 +4,9 @@ import org.bukkit.ChatColor;
 
 import xyz.derkades.minigames.Minigames;
 import xyz.derkades.minigames.board.BoardPlayer;
+import xyz.derkades.minigames.constants.BoardConfig;
 
 public abstract class CoinsGetTile extends CoinsTile {
-
-	private static final int AMOUNT = 10;
 
 	@Override
 	public String getName() {
@@ -16,7 +15,7 @@ public abstract class CoinsGetTile extends CoinsTile {
 
 	@Override
 	public String getDescription() {
-		return "Get " + AMOUNT + " GladeCoins";
+		return "Get " + BoardConfig.TILE_COINS_GET_AMOUNT + " GladeCoins";
 	}
 
 	@Override
@@ -26,8 +25,7 @@ public abstract class CoinsGetTile extends CoinsTile {
 
 	@Override
 	public void landOnTile(final BoardPlayer player) {
-		Minigames.economy.depositPlayer(player.bukkit(), AMOUNT);
-
+		Minigames.economy.depositPlayer(player.bukkit(), BoardConfig.TILE_COINS_GET_AMOUNT);
 	}
 
 }

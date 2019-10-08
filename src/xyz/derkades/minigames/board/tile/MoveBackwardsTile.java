@@ -2,13 +2,13 @@ package xyz.derkades.minigames.board.tile;
 
 import org.bukkit.ChatColor;
 
-public abstract class MoveBackwardsTile extends MoveTile {
+import xyz.derkades.minigames.constants.BoardConfig;
 
-	private static final int AMOUNT = 3;
+public abstract class MoveBackwardsTile extends MoveTile {
 
 	@Override
 	public int getTilesAmount() {
-		return -AMOUNT;
+		return -BoardConfig.TILE_MOVE_BACKWARDS_AMOUNT;
 	}
 
 	@Override
@@ -18,7 +18,7 @@ public abstract class MoveBackwardsTile extends MoveTile {
 
 	@Override
 	public String getDescription() {
-		return "Move backwards " + AMOUNT + " tiles.";
+		return "Move backwards " + BoardConfig.TILE_MOVE_BACKWARDS_AMOUNT + " tiles.";
 	}
 
 	@Override

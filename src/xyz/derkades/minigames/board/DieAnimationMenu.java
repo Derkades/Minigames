@@ -11,16 +11,14 @@ import xyz.derkades.derkutils.bukkit.menu.MenuCloseEvent;
 import xyz.derkades.derkutils.bukkit.menu.OptionClickEvent;
 import xyz.derkades.minigames.Minigames;
 import xyz.derkades.minigames.Minigames.ShutdownReason;
+import xyz.derkades.minigames.constants.BoardConfig;
 
-public class DiceAnimationMenu extends IconMenu {
+public class DieAnimationMenu extends IconMenu {
 
-	private static final int ANIMATION_INTERVAL_TICKS = 5;
-	private static final int ANIMATION_DURATION_SECONDS = 3;
-	private static final int FINAL_STATIC_SECONDS = 2;
-	static final int TOTAL_OPEN_TICKS = ANIMATION_DURATION_SECONDS + FINAL_STATIC_SECONDS * 20;
+	static final int TOTAL_OPEN_TICKS = BoardConfig.DIE_MENU_DURATION_SECONDS + BoardConfig.DIE_MENU_FINAL_STATIC_SECONDS * 20;
 
-	private static final int MAX_ITERATIONS = ANIMATION_DURATION_SECONDS * 20 / ANIMATION_INTERVAL_TICKS;
-	private static final int FINAL_ITERATIONS = FINAL_STATIC_SECONDS * 20 / ANIMATION_INTERVAL_TICKS;
+	private static final int MAX_ITERATIONS = BoardConfig.DIE_MENU_DURATION_SECONDS * 20 / BoardConfig.DIE_MENU_INTERVAL_TICKS;
+	private static final int FINAL_ITERATIONS = BoardConfig.DIE_MENU_FINAL_STATIC_SECONDS * 20 / BoardConfig.DIE_MENU_INTERVAL_TICKS;
 
 	private static final Minigames plugin = Minigames.getInstance();
 
@@ -30,7 +28,7 @@ public class DiceAnimationMenu extends IconMenu {
 	private final int max;
 	private final int endResult;
 
-	public DiceAnimationMenu(final BoardPlayer player, final int min, final int max, final int endResult) {
+	public DieAnimationMenu(final BoardPlayer player, final int min, final int max, final int endResult) {
 		super(plugin, "Die", 6*9, player.bukkit());
 		this.min = min;
 		this.max = max;
@@ -40,7 +38,7 @@ public class DiceAnimationMenu extends IconMenu {
 	@Override
 	public void open() {
 		this.timer = new AnimationTimer();
-		this.timer.runTaskTimer(plugin, 0, ANIMATION_INTERVAL_TICKS);
+		this.timer.runTaskTimer(plugin, 0, BoardConfig.DIE_MENU_INTERVAL_TICKS);
 		super.open();
 	}
 
@@ -101,7 +99,7 @@ public class DiceAnimationMenu extends IconMenu {
 			this.items.put(i, item);
 		}
 
-		this.refreshItems();
+		refreshItems();
 	}
 
 	private class AnimationTimer extends BukkitRunnable {
@@ -114,12 +112,12 @@ public class DiceAnimationMenu extends IconMenu {
 			this.i++;
 
 			if (this.i >= MAX_ITERATIONS + FINAL_ITERATIONS) {
-				DiceAnimationMenu.this.close();
+				close();
 				return;
 			}
 
 			if (this.i == MAX_ITERATIONS) {
-				DiceAnimationMenu.this.displayNumber(DiceAnimationMenu.this.endResult);
+				displayNumber(DieAnimationMenu.this.endResult);
 				return;
 			}
 
@@ -128,11 +126,11 @@ public class DiceAnimationMenu extends IconMenu {
 
 			int random;
 			do {
-				random = Random.getRandomInteger(DiceAnimationMenu.this.min, DiceAnimationMenu.this.max);
+				random = Random.getRandomInteger(DieAnimationMenu.this.min, DieAnimationMenu.this.max);
 			} while(random == this.previous);
 
 			this.previous = random;
-			DiceAnimationMenu.this.displayNumber(random);
+			displayNumber(random);
 		}
 	}
 

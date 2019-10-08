@@ -28,6 +28,7 @@ import xyz.derkades.minigames.Minigames;
 import xyz.derkades.minigames.Minigames.ShutdownReason;
 import xyz.derkades.minigames.board.Board;
 import xyz.derkades.minigames.board.BoardPlayer;
+import xyz.derkades.minigames.constants.BoardConfig;
 import xyz.derkades.minigames.games.maps.GameMap;
 import xyz.derkades.minigames.random.RandomPicking;
 import xyz.derkades.minigames.random.RandomlyPickable;
@@ -360,7 +361,7 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 		}
 
 		this.sendMessage(String.format("Winners move %s-%s steps forward, other players move %s-%s steps forward.",
-				Board.WINNER_MOVE_MIN, Board.WINNER_MOVE_MAX, Board.LOSER_MOVE_MIN, Board.LOSER_MOVE_MAX));
+				BoardConfig.DIE_WINNER_STEPS_MIN, BoardConfig.DIE_WINNER_STEPS_MAX, BoardConfig.DIE_LOSER_STEPS_MIN, BoardConfig.DIE_LOSER_STEPS_MAX));
 
 //		final List<UUID> lost = Bukkit.getOnlinePlayers().stream()
 //				.map(Player::getUniqueId)

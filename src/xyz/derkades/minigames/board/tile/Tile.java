@@ -25,8 +25,6 @@ public abstract class Tile {
 	public static final Tile START_TILE = new AA();
 	public static final Tile END_TILE = null;
 
-	public static final int TILE_TELEPORT_DELAY = 10;
-
 	private static final Map<String, Tile> STRING_TO_TILE = new HashMap<>();
 
 	static {

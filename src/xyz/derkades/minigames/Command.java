@@ -8,7 +8,7 @@ import net.md_5.bungee.api.ChatColor;
 import xyz.derkades.derkutils.Random;
 import xyz.derkades.minigames.Minigames.ShutdownReason;
 import xyz.derkades.minigames.board.BoardPlayer;
-import xyz.derkades.minigames.board.DiceAnimationMenu;
+import xyz.derkades.minigames.board.DieAnimationMenu;
 import xyz.derkades.minigames.board.tile.Tile;
 import xyz.derkades.minigames.menu.GamesListMenu;
 import xyz.derkades.minigames.menu.MainMenu;
@@ -77,7 +77,7 @@ public class Command implements CommandExecutor {
 			} else if (args[0].equals("resetprogress")) {
 				Minigames.getOnlinePlayers().stream().map(BoardPlayer::new).forEach((p) -> p.setTile(Tile.START_TILE));
 			} else if (args[0].equals("test") && sender.hasPermission("minigames.test")) {
-				new DiceAnimationMenu(new BoardPlayer((Player) sender), 1, 10, Random.getRandomInteger(1, 10)).open();
+				new DieAnimationMenu(new BoardPlayer((Player) sender), 1, 10, Random.getRandomInteger(1, 10)).open();
 //		        final Location fbLocation = loc.add(
 //		        		loc
 //		                .getDirection()
