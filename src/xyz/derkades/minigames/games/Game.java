@@ -5,6 +5,7 @@ import static net.md_5.bungee.api.ChatColor.GOLD;
 import static net.md_5.bungee.api.ChatColor.GRAY;
 import static net.md_5.bungee.api.ChatColor.YELLOW;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
@@ -342,8 +343,19 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 		this.endGame(Arrays.asList(winner));
 	}
 
+	protected void endGame(final List<UUID> winners, final boolean multipleWinnersIsNoWinner) {
+		if (!multipleWinnersIsNoWinner) {
+			endGame(winners);
+		}
+
+		if (winners.size() == 1) {
+			endGame(winners);
+		} else {
+			endGame(new ArrayList<>());
+		}
+	}
+
 	protected void endGame(final List<UUID> winners) {
-//		Minigames.IS_IN_GAME = false;
 		Minigames.CURRENT_GAME = null;
 		HandlerList.unregisterAll(this); //Unregister events
 

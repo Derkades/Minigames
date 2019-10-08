@@ -45,6 +45,7 @@ public class Winners {
 			return new ArrayList<>();
 	}
 
+	@Deprecated
 	public static List<UUID> fromAlive(final List<UUID> alive, final boolean multipleWinnersAllowed){
 		if (multipleWinnersAllowed)
 			return alive;
