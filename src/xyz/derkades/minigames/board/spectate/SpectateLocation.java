@@ -29,7 +29,7 @@ public enum SpectateLocation {
 	}
 
 	private Location getLocation() {
-		return new Location(Var.LOBBY_WORLD, this.x, this.y, this.z);
+		return new Location(Var.LOBBY_WORLD, this.x + 0.5, this.y, this.z + 0.5);
 	}
 
 	public void teleportIfOutside(final BoardPlayer player, final boolean queue) {
