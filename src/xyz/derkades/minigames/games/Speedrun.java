@@ -16,7 +16,6 @@ import net.md_5.bungee.api.ChatColor;
 import xyz.derkades.minigames.Minigames;
 import xyz.derkades.minigames.games.speedrun.SpeedrunMap;
 import xyz.derkades.minigames.utils.MPlayer;
-import xyz.derkades.minigames.utils.Utils;
 
 public class Speedrun extends Game<SpeedrunMap> {
 
@@ -67,16 +66,15 @@ public class Speedrun extends Game<SpeedrunMap> {
 
 	@Override
 	public void onEnd() {
-		Speedrun.this.endGame(Utils.getPlayerListFromUUIDList(Speedrun.this.finished));
+		Speedrun.this.endGame(this.finished);
 	}
 
 	@EventHandler(priority = EventPriority.MONITOR)
 	public void onMove(final PlayerMoveEvent event){
 		final MPlayer player = new MPlayer(event.getPlayer());
 
-		if (this.finished.contains(player.getUniqueId())){
+		if (this.finished.contains(player.getUniqueId()))
 			return;
-		}
 
 		if (player.bukkit().isSneaking()){
 			player.sendActionBar(ChatColor.RED + "Sprinting is not allowed");
@@ -110,6 +108,19 @@ public class Speedrun extends Game<SpeedrunMap> {
 			player.teleport(this.map.getSpectatorLocation());
 			player.spectator();
 		}
+	}
+
+	@Override
+	public void onPlayerJoin(final MPlayer player) {
+		if (this.finished.contains(player.getUniqueId())) {
+			player.teleport(this.map.getSpectatorLocation());
+		} else {
+			player.teleport(this.map.getStartLocation());
+		}
+	}
+
+	@Override
+	public void onPlayerQuit(final MPlayer player) {
 	}
 
 }

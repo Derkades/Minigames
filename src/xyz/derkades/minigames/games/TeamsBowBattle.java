@@ -17,10 +17,8 @@ import xyz.derkades.derkutils.bukkit.ItemBuilder;
 import xyz.derkades.minigames.Minigames;
 import xyz.derkades.minigames.games.teamsbowbattle.TeamsBowBattleMap;
 import xyz.derkades.minigames.utils.MPlayer;
-import xyz.derkades.minigames.utils.MinigamesJoinEvent;
 import xyz.derkades.minigames.utils.MinigamesPlayerDamageEvent;
 import xyz.derkades.minigames.utils.MinigamesPlayerDamageEvent.DamageType;
-import xyz.derkades.minigames.utils.Utils;
 
 public class TeamsBowBattle extends Game<TeamsBowBattleMap> {
 
@@ -88,9 +86,8 @@ public class TeamsBowBattle extends Game<TeamsBowBattleMap> {
 
 	@Override
 	public int gameTimer(final int secondsLeft) {
-		if ((TeamsBowBattle.this.getNumPlayersLeftInBlueTeam() == 0 || TeamsBowBattle.this.getNumPlayersLeftInRedTeam() == 0) && secondsLeft > 1) {
+		if ((TeamsBowBattle.this.getNumPlayersLeftInBlueTeam() == 0 || TeamsBowBattle.this.getNumPlayersLeftInRedTeam() == 0) && secondsLeft > 1)
 			return 1;
-		}
 
 		return secondsLeft;
 	}
@@ -99,14 +96,18 @@ public class TeamsBowBattle extends Game<TeamsBowBattleMap> {
 	public void onEnd() {
 		if (TeamsBowBattle.this.getNumPlayersLeftInBlueTeam() == 0) {
 			// blue is dead so team red wins
-			TeamsBowBattle.super.endGame(Utils.getPlayerListFromUUIDList(TeamsBowBattle.this.teamRed));
+			TeamsBowBattle.super.endGame(TeamsBowBattle.this.teamRed);
 		} else if (TeamsBowBattle.this.getNumPlayersLeftInRedTeam() == 0) {
 			// red is dead so team blue wins
-			TeamsBowBattle.super.endGame(Utils.getPlayerListFromUUIDList(TeamsBowBattle.this.teamBlue));
+			TeamsBowBattle.super.endGame(TeamsBowBattle.this.teamBlue);
 		} else {
 			// both teams are still alive
 			TeamsBowBattle.super.endGame(new ArrayList<>());
 		}
+
+		this.dead = null;
+		this.teamRed = null;
+		this.teamBlue = null;
 
 	}
 
@@ -118,12 +119,12 @@ public class TeamsBowBattle extends Game<TeamsBowBattleMap> {
 			event.setCancelled(true);
 			if (event.getType().equals(DamageType.ENTITY)) {
 				final MPlayer killer = event.getDamagerPlayer();
-				this.sendMessage(String.format("%s%s%s %shas been killed by %s%s%s",
-						this.getTeamColor(player), ChatColor.BOLD, player.getName(), ChatColor.GRAY,
-						this.getTeamColor(killer), ChatColor.BOLD, killer.getName()));
+				sendMessage(String.format("%s%s%s %shas been killed by %s%s%s",
+						getTeamColor(player), ChatColor.BOLD, player.getName(), ChatColor.GRAY,
+						getTeamColor(killer), ChatColor.BOLD, killer.getName()));
 			} else {
-				this.sendMessage(String.format("%s%s%s %has died.",
-						this.getTeamColor(player), ChatColor.BOLD, player.getName(), ChatColor.GRAY));
+				sendMessage(String.format("%s%s%s %has died.",
+						getTeamColor(player), ChatColor.BOLD, player.getName(), ChatColor.GRAY));
 
 			}
 
@@ -133,9 +134,8 @@ public class TeamsBowBattle extends Game<TeamsBowBattleMap> {
 			return;
 		}
 
-		if (event.getType().equals(DamageType.SELF)) {
+		if (event.getType().equals(DamageType.SELF))
 			return;
-		}
 
 		// Cancel damage if a player directly hits another player
 		if (event.getDamagerEntity() instanceof Player) {
@@ -161,22 +161,22 @@ public class TeamsBowBattle extends Game<TeamsBowBattleMap> {
 		}
 	}
 
-	@EventHandler
-	public void join(final MinigamesJoinEvent event) {
-		event.setTeleportPlayerToLobby(false);
-		final MPlayer player = event.getPlayer();
-		if (!this.dead.contains(player.getUniqueId())) {
-			this.dead.add(player.getUniqueId());
-			player.die();
-		}
-		if (this.teamBlue.contains(player.getUniqueId())) {
-			player.teleport(this.map.getTeamBlueSpawnLocation());
-		} else if (this.teamRed.contains(player.getUniqueId())) {
-			player.teleport(this.map.getTeamRedSpawnLocation());
-		} else {
-			player.teleport(this.map.getTeamRedSpawnLocation());
-		}
-	}
+//	@EventHandler
+//	public void join(final MinigamesJoinEvent event) {
+//		event.setTeleportPlayerToLobby(false);
+//		final MPlayer player = event.getPlayer();
+//		if (!this.dead.contains(player.getUniqueId())) {
+//			this.dead.add(player.getUniqueId());
+//			player.die();
+//		}
+//		if (this.teamBlue.contains(player.getUniqueId())) {
+//			player.teleport(this.map.getTeamBlueSpawnLocation());
+//		} else if (this.teamRed.contains(player.getUniqueId())) {
+//			player.teleport(this.map.getTeamRedSpawnLocation());
+//		} else {
+//			player.teleport(this.map.getTeamRedSpawnLocation());
+//		}
+//	}
 
 	private int getNumPlayersLeftInRedTeam() {
 		int players = 0;
@@ -184,7 +184,7 @@ public class TeamsBowBattle extends Game<TeamsBowBattleMap> {
 			if (this.teamRed.contains(player.getUniqueId()) && !this.dead.contains(player.getUniqueId())) {
 				players++;
 			}
-		};
+		}
 		return players;
 	}
 
@@ -194,18 +194,17 @@ public class TeamsBowBattle extends Game<TeamsBowBattleMap> {
 			if (this.teamBlue.contains(player.getUniqueId()) && !this.dead.contains(player.getUniqueId())) {
 				players++;
 			}
-		};
+		}
 		return players;
 	}
 
 	private ChatColor getTeamColor(final MPlayer player) {
-		if (this.teamRed.contains(player.getUniqueId())) {
+		if (this.teamRed.contains(player.getUniqueId()))
 			return ChatColor.RED;
-		} else if (this.teamBlue.contains(player.getUniqueId())) {
+		else if (this.teamBlue.contains(player.getUniqueId()))
 			return ChatColor.BLUE;
-		} else {
+		else
 			return ChatColor.GREEN;
-		}
 	}
 
 	private void giveItems(final MPlayer player) {
@@ -240,6 +239,25 @@ public class TeamsBowBattle extends Game<TeamsBowBattleMap> {
 				.create();
 
 		player.getInventory().addItem(bow, arrow);
+	}
+
+	@Override
+	public void onPlayerJoin(final MPlayer player) {
+		if (!this.dead.contains(player.getUniqueId())) {
+			this.dead.add(player.getUniqueId());
+			player.die();
+		}
+		if (this.teamBlue.contains(player.getUniqueId())) {
+			player.teleport(this.map.getTeamBlueSpawnLocation());
+		} else if (this.teamRed.contains(player.getUniqueId())) {
+			player.teleport(this.map.getTeamRedSpawnLocation());
+		} else {
+			player.teleport(this.map.getTeamRedSpawnLocation());
+		}
+	}
+
+	@Override
+	public void onPlayerQuit(final MPlayer player) {
 	}
 
 

@@ -26,6 +26,7 @@ import net.md_5.bungee.api.ChatColor;
 import xyz.derkades.derkutils.ListUtils;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
 import xyz.derkades.minigames.Minigames;
+import xyz.derkades.minigames.Var;
 import xyz.derkades.minigames.games.murderymister.MurderyMisterMap;
 import xyz.derkades.minigames.utils.MPlayer;
 import xyz.derkades.minigames.utils.MinigamesPlayerDamageEvent;
@@ -137,7 +138,7 @@ public class MurderyMister extends Game<MurderyMisterMap> {
 
 	@Override
 	public int gameTimer(int secondsLeft) {
-		if (Utils.getWinnersFromAliveList(this.alive, true).size() < 1 && secondsLeft > 5) {
+		if (this.alive.size() < 1 && secondsLeft > 5) {
 			secondsLeft = 5;
 		}
 
@@ -163,7 +164,7 @@ public class MurderyMister extends Game<MurderyMisterMap> {
 	@Override
 	public void onEnd() {
 		this.arrowRemoveTask.cancel();
-		super.endGame(Utils.getWinnersFromAliveList(this.alive, true));
+		super.endGame(this.alive);
 	}
 
 	@EventHandler
@@ -199,7 +200,7 @@ public class MurderyMister extends Game<MurderyMisterMap> {
 
 			final MPlayer player = event.getPlayer();
 
-			this.sendMessage(player.getName() + " has been killed");
+			sendMessage(player.getName() + " has been killed");
 			Minigames.getOnlinePlayers().forEach((p) -> p.playSound(Sound.ENTITY_PLAYER_HURT_SWEET_BERRY_BUSH, 1.0f));
 			this.alive.remove(player.getUniqueId());
 
@@ -208,7 +209,7 @@ public class MurderyMister extends Game<MurderyMisterMap> {
 				this.arrowRemoveTask.cancel();
 				this.murdererDead = true;
 				player.die();
-				this.sendMessage("The murderer has been killed by " + event.getDamagerPlayer().getName() + "!");
+				sendMessage("The murderer has been killed by " + event.getDamagerPlayer().getName() + "!");
 			} else if (player.getInventory().contains(Material.BOW)) {
 				// Sheriff is dead, give bow to random player
 				if (this.alive.size() > 0) {
@@ -243,6 +244,7 @@ public class MurderyMister extends Game<MurderyMisterMap> {
 		}
 	}
 
+
 	private class ArrowRemoveTask extends BukkitRunnable {
 
 		@Override
@@ -254,6 +256,16 @@ public class MurderyMister extends Game<MurderyMisterMap> {
 			}
 		}
 
+	}
+
+	@Override
+	public void onPlayerJoin(final MPlayer player) {
+		player.teleport(Var.LOBBY_LOCATION); // TODO proper join handling
+	}
+
+	@Override
+	public void onPlayerQuit(final MPlayer player) {
+		this.alive.remove(player.getUniqueId());
 	}
 
 }

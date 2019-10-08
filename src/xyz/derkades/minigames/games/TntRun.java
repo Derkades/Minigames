@@ -11,13 +11,12 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerMoveEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
 
 import xyz.derkades.minigames.Minigames;
 import xyz.derkades.minigames.games.tntrun.TNTMap;
 import xyz.derkades.minigames.utils.MPlayer;
-import xyz.derkades.minigames.utils.MinigamesJoinEvent;
 import xyz.derkades.minigames.utils.Utils;
+import xyz.derkades.minigames.utils.Winners;
 
 public class TntRun extends Game<TNTMap> {
 
@@ -70,8 +69,8 @@ public class TntRun extends Game<TNTMap> {
 
 	@Override
 	public int gameTimer(final int secondsLeft) {
-		if (Utils.getWinnersFromAliveList(this.alive, true).size() < 2 && secondsLeft > 5)
-	return 5;
+		if (this.alive.size() < 2 && secondsLeft > 5)
+			return 5;
 
 		Minigames.getOnlinePlayers().forEach((p) -> {
 			if (this.alive.contains(p.getUniqueId())) {
@@ -84,9 +83,9 @@ public class TntRun extends Game<TNTMap> {
 
 	@Override
 	public void onEnd() {
-		TntRun.this.endGame(Utils.getWinnersFromAliveList(this.alive, false));
-		TntRun.this.removedBlocks.clear();
-		TntRun.this.alive.clear();
+		TntRun.this.endGame(Winners.fromAlive(this.alive, false));
+		TntRun.this.removedBlocks = null;
+		TntRun.this.alive = null; // ‘eclipse’
 	}
 
 	@EventHandler
@@ -103,12 +102,12 @@ public class TntRun extends Game<TNTMap> {
 
 		if (belowPlayer.getType().equals(Material.RED_TERRACOTTA)) {
 			this.alive.remove(player.getUniqueId());
-			this.sendMessage(player.getName() + " has died. " + Utils.getWinnersFromAliveList(this.alive, true).size() + " players left.");
+			sendMessage(player.getName() + " has died. " + this.alive.size() + " players left.");
 			player.dieUp(10);
 			return;
 		}
 
-		this.removeBlocks(player);
+		removeBlocks(player);
 	}
 
 	private void removeBlocks(final MPlayer player) {
@@ -146,17 +145,28 @@ public class TntRun extends Game<TNTMap> {
 		}
 	}
 
-	@EventHandler
-	public void onJoin(final MinigamesJoinEvent event) {
-		event.setTeleportPlayerToLobby(false);
-		final MPlayer player = event.getPlayer();
+//	@EventHandler
+//	public void onJoin(final MinigamesJoinEvent event) {
+//		event.setTeleportPlayerToLobby(false);
+//		final MPlayer player = event.getPlayer();
+//		this.alive.remove(player.getUniqueId());
+//		player.dieTo(this.map.spawnLocation());
+//	}
+
+//	@EventHandler
+//	public void onQuit(final PlayerQuitEvent event) {
+//		this.alive.remove(event.getPlayer().getUniqueId());
+//	}
+
+	@Override
+	public void onPlayerJoin(final MPlayer player) {
 		this.alive.remove(player.getUniqueId());
 		player.dieTo(this.map.spawnLocation());
 	}
 
-	@EventHandler
-	public void onQuit(final PlayerQuitEvent event) {
-		this.alive.remove(event.getPlayer().getUniqueId());
+	@Override
+	public void onPlayerQuit(final MPlayer player) {
+		this.alive.remove(player.getUniqueId());
 	}
 
 }

@@ -1,6 +1,5 @@
 package xyz.derkades.minigames.games;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -25,6 +24,7 @@ import xyz.derkades.minigames.utils.MPlayer;
 import xyz.derkades.minigames.utils.MinigamesPlayerDamageEvent;
 import xyz.derkades.minigames.utils.MinigamesPlayerDamageEvent.DamageType;
 import xyz.derkades.minigames.utils.Utils;
+import xyz.derkades.minigames.utils.Winners;
 
 public class OneInTheQuiver extends Game<OITQMap> {
 
@@ -75,15 +75,13 @@ public class OneInTheQuiver extends Game<OITQMap> {
 		return 120;
 	}
 
-	private List<UUID> dead;
-	private List<UUID> all;
+	private List<UUID> alive;
 
 	private BukkitTask arrowRemoveTask;
 
 	@Override
 	public void onPreStart() {
-		this.dead = new ArrayList<>();
-		this.all = Utils.getOnlinePlayersUuidList();
+		this.alive = Utils.getOnlinePlayersUuidList();
 		this.arrowRemoveTask = new ArrowRemoveTask().runTaskTimer(Minigames.getInstance(), 1, 1);
 
 		for (final MPlayer player : Minigames.getOnlinePlayers()) {
@@ -103,7 +101,7 @@ public class OneInTheQuiver extends Game<OITQMap> {
 
 	@Override
 	public int gameTimer(final int secondsLeft) {
-		if (Utils.getAliveAcountFromDeadAndAllList(OneInTheQuiver.this.dead, OneInTheQuiver.this.all) < 2 && secondsLeft > 2)
+		if (this.alive.size() < 2 && secondsLeft > 2)
 			return 2;
 
 		return secondsLeft;
@@ -113,12 +111,11 @@ public class OneInTheQuiver extends Game<OITQMap> {
 	public void onEnd() {
 		this.arrowRemoveTask.cancel();
 
-		final List<Player> winners = Utils.getWinnersFromDeadAndAllList(OneInTheQuiver.this.dead, OneInTheQuiver.this.all, false);
+//		final List<Player> winners = Utils.getWinnersFromDeadAndAllList(OneInTheQuiver.this.dead, OneInTheQuiver.this.all, false);
 
-		OneInTheQuiver.super.endGame(winners);
+		OneInTheQuiver.super.endGame(Winners.fromAlive(this.alive, false));
 
-		OneInTheQuiver.this.dead.clear();
-		OneInTheQuiver.this.all.clear();
+		this.alive = null;
 	}
 
 	@EventHandler
@@ -156,7 +153,7 @@ public class OneInTheQuiver extends Game<OITQMap> {
 		if (event.willBeDead()) {
 			event.setCancelled(true);
 
-			this.dead.add(player.getUniqueId());
+			this.alive.remove(player.getUniqueId());
 			player.clearInventory();
 
 			if (event.getType().equals(DamageType.ENTITY)) {
@@ -164,21 +161,21 @@ public class OneInTheQuiver extends Game<OITQMap> {
 
 				killer.getInventory().addItem(ARROW);
 
-				final int playersLeft = Utils.getAliveAcountFromDeadAndAllList(this.dead, this.all);
+				final int playersLeft = this.alive.size();
 				if (playersLeft > 1) {
-					this.sendMessage(String.format("%s has been killed by %s. There are %s players left.",
+					sendMessage(String.format("%s has been killed by %s. There are %s players left.",
 							player.getName(), killer.getName(), playersLeft));
 				} else {
-					this.sendMessage(String.format("%s has been killed by %s.",
+					sendMessage(String.format("%s has been killed by %s.",
 							player.getName(), killer.getName()));
 				}
 			} else {
-				final int playersLeft = Utils.getAliveAcountFromDeadAndAllList(this.dead, this.all);
+				final int playersLeft = this.alive.size();
 				if (playersLeft > 1) {
-					this.sendMessage(String.format("%s has died. There are %s players left.",
+					sendMessage(String.format("%s has died. There are %s players left.",
 							player.getName(), playersLeft));
 				} else {
-					this.sendMessage(player.getName() + " has died.");
+					sendMessage(player.getName() + " has died.");
 				}
 			}
 
@@ -197,6 +194,16 @@ public class OneInTheQuiver extends Game<OITQMap> {
 			}
 		}
 
+	}
+
+	@Override
+	public void onPlayerJoin(final MPlayer player) {
+		// TODO proper join handling
+	}
+
+	@Override
+	public void onPlayerQuit(final MPlayer player) {
+		this.alive.remove(player.getUniqueId());
 	}
 
 }

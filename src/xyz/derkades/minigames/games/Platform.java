@@ -1,6 +1,5 @@
 package xyz.derkades.minigames.games;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -21,6 +20,7 @@ import xyz.derkades.minigames.Minigames;
 import xyz.derkades.minigames.games.platform.PlatformMap;
 import xyz.derkades.minigames.utils.MPlayer;
 import xyz.derkades.minigames.utils.Utils;
+import xyz.derkades.minigames.utils.Winners;
 
 public class Platform extends Game<PlatformMap> {
 
@@ -56,15 +56,13 @@ public class Platform extends Game<PlatformMap> {
 
 	private static final int KNOCKBACK_SWORDS_TIME = 20;
 
-	private List<UUID> dead;
-	private List<UUID> all;
+	private List<UUID> alive;
 
 	private boolean started;
 
 	@Override
 	public void onPreStart() {
-		this.dead = new ArrayList<>();
-		this.all = new ArrayList<>();
+		this.alive = Utils.getOnlinePlayersUuidList();
 
 		this.started = false;
 
@@ -78,7 +76,6 @@ public class Platform extends Game<PlatformMap> {
 		for (final MPlayer player : Minigames.getOnlinePlayers()) {
 			player.setDisableDamage(false);
 			player.giveInfiniteEffect(PotionEffectType.DAMAGE_RESISTANCE, 255);
-			Platform.this.all.add(player.getUniqueId());
 		}
 
 		Platform.this.started = true;
@@ -90,18 +87,16 @@ public class Platform extends Game<PlatformMap> {
 			Platform.this.giveSwords();
 		}
 
-		if (Utils.getAliveAcountFromDeadAndAllList(Platform.this.dead, Platform.this.all) <= 1 && secondsLeft > 5) {
+		if (this.alive.size() <= 1 && secondsLeft > 5)
 			return 5;
-		}
 
 		return secondsLeft;
 	}
 
 	@Override
 	public void onEnd() {
-		Platform.this.endGame(Utils.getWinnersFromDeadAndAllList(Platform.this.dead, Platform.this.all, false));
-		Platform.this.dead.clear();
-		Platform.this.all.clear();
+		Platform.this.endGame(Winners.fromAlive(this.alive, true));
+		this.alive = null;
 	}
 
 	private void giveSwords(){
@@ -113,7 +108,7 @@ public class Platform extends Game<PlatformMap> {
 				.create();
 
 		for (final Player player: Bukkit.getOnlinePlayers()){
-			if (!this.dead.contains(player.getUniqueId())){ //Don't give sword to spectators
+			if (this.alive.contains(player.getUniqueId())){ //Don't give sword to spectators
 				player.getInventory().setItem(0, sword);
 			}
 		}
@@ -123,9 +118,8 @@ public class Platform extends Game<PlatformMap> {
 	public void onMove(final PlayerMoveEvent event){
 		final MPlayer player = new MPlayer(event);
 
-		if (this.dead.contains(player.getUniqueId())) {
+		if (!this.alive.contains(player.getUniqueId()))
 			return;
-		}
 
 		if (event.getTo().getBlock().getRelative(BlockFace.DOWN).getType().equals(Material.RED_TERRACOTTA)){
 			// Die
@@ -136,11 +130,21 @@ public class Platform extends Game<PlatformMap> {
 				return;
 			}
 
-			this.dead.add(player.getUniqueId());
-			this.sendMessage(player.getName() + " died");
+			this.alive.remove(player.getUniqueId());
+			sendMessage(player.getName() + " died");
 			player.dieUp(10);
 			this.map.getWorld().spigot().strikeLightningEffect(player.getLocation(), false);
 		}
+	}
+
+	@Override
+	public void onPlayerJoin(final MPlayer player) {
+		player.dieTo(this.map.getSpawnLocation());
+	}
+
+	@Override
+	public void onPlayerQuit(final MPlayer player) {
+		this.alive.remove(player.getUniqueId());
 	}
 
 }

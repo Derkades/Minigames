@@ -1,6 +1,5 @@
 package xyz.derkades.minigames.games;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -24,6 +23,7 @@ import xyz.derkades.minigames.games.spleef.SpleefMap;
 import xyz.derkades.minigames.utils.MPlayer;
 import xyz.derkades.minigames.utils.Scheduler;
 import xyz.derkades.minigames.utils.Utils;
+import xyz.derkades.minigames.utils.Winners;
 
 public class RegeneratingSpleef extends Game<SpleefMap> {
 
@@ -67,23 +67,21 @@ public class RegeneratingSpleef extends Game<SpleefMap> {
 		return 60;
 	}
 
-	private List<UUID> dead;
-	private List<UUID> all;
+	private List<UUID> alive;
 
 	@Override
 	public void onPreStart() {
-		this.dead = new ArrayList<>();
-
 		this.map.fill();
 
 		for (final Player player: Bukkit.getOnlinePlayers()){
 			player.teleport(this.map.getStartLocation());
 		}
-
 	}
 
 	@Override
 	public void onStart() {
+		this.alive = Utils.getOnlinePlayersUuidList();
+
 		final ItemStack shovel = new ItemBuilder(Material.DIAMOND_SHOVEL)
 				.name("Spleefanator 8000")
 				.enchant(Enchantment.DIG_SPEED, 5)
@@ -92,13 +90,11 @@ public class RegeneratingSpleef extends Game<SpleefMap> {
 				.create();
 
 		Bukkit.getOnlinePlayers().forEach((player) -> player.getInventory().setItem(0, shovel));
-
-		RegeneratingSpleef.this.all = Utils.getOnlinePlayersUuidList();
 	}
 
 	@Override
 	public int gameTimer(final int secondsLeft) {
-		if (Utils.getAliveAcountFromDeadAndAllList(RegeneratingSpleef.this.dead, RegeneratingSpleef.this.all) < 2 && secondsLeft > 5)
+		if (this.alive.size() < 2 && secondsLeft > 5)
 			return 5;
 
 		return secondsLeft;
@@ -106,9 +102,8 @@ public class RegeneratingSpleef extends Game<SpleefMap> {
 
 	@Override
 	public void onEnd() {
-		RegeneratingSpleef.this.endGame(Utils.getWinnersFromDeadAndAllList(RegeneratingSpleef.this.dead, RegeneratingSpleef.this.all, false));
-		RegeneratingSpleef.this.dead.clear();
-		RegeneratingSpleef.this.all.clear();
+		RegeneratingSpleef.this.endGame(Winners.fromAlive(this.alive, false));
+		this.alive = null;
 	}
 
 	@EventHandler
@@ -139,14 +134,24 @@ public class RegeneratingSpleef extends Game<SpleefMap> {
 	public void onMove(final PlayerMoveEvent event){
 		final MPlayer player = new MPlayer(event);
 
-		if (this.dead.contains(player.getUniqueId()))
+		if (!this.alive.contains(player.getUniqueId()))
 			return;
 
 		if (player.getBlockOn().getType() == Material.BEDROCK){
-			this.dead.add(player.getUniqueId());
-			this.sendMessage(player.getName() + " died");
+			this.alive.remove(player.getUniqueId());
+			sendMessage(player.getName() + " died");
 			player.dieUp(3);
 		}
+	}
+
+	@Override
+	public void onPlayerJoin(final MPlayer player) {
+		player.dieTo(this.map.getWorld().getSpawnLocation().add(0, 3, 0));
+	}
+
+	@Override
+	public void onPlayerQuit(final MPlayer player) {
+		this.alive.remove(player.getUniqueId());
 	}
 
 }

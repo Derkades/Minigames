@@ -15,7 +15,6 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import xyz.derkades.minigames.Minigames;
 import xyz.derkades.minigames.games.parkour.ParkourMap;
 import xyz.derkades.minigames.utils.MPlayer;
-import xyz.derkades.minigames.utils.MinigamesJoinEvent;
 import xyz.derkades.minigames.utils.Utils;
 
 public class Parkour extends Game<ParkourMap> {
@@ -72,25 +71,23 @@ public class Parkour extends Game<ParkourMap> {
 
 	@Override
 	public int gameTimer(final int secondsLeft) {
-		if (Utils.allPlayersFinished(this.finished) && secondsLeft > 5) {
+		if (Utils.allPlayersFinished(this.finished) && secondsLeft > 5)
 			return 5;
-		}
 
 		return secondsLeft;
 	}
 
 	@Override
 	public void onEnd() {
-		Parkour.this.endGame(Utils.getWinnersFromFinished(Parkour.this.finished));
+		Parkour.this.endGame(Parkour.this.finished);
 	}
 
 	@EventHandler(priority = EventPriority.MONITOR)
 	public void onMove(final PlayerMoveEvent event){
 		final MPlayer player = new MPlayer(event);
 
-		if (this.finished.contains(player.getUniqueId())) {
+		if (this.finished.contains(player.getUniqueId()))
 			return;
-		}
 
 		final Material blockType = event.getTo().getBlock().getRelative(BlockFace.DOWN).getType();
 
@@ -103,7 +100,7 @@ public class Parkour extends Game<ParkourMap> {
 				super.sendMessage(player.getName() + " finished first and got an extra point!");
 				player.addPoints(1);
 			} else {
-				this.sendMessage(player.getName() + " has made it to the finish!");
+				sendMessage(player.getName() + " has made it to the finish!");
 			}
 
 			this.finished.add(player.getUniqueId());
@@ -119,11 +116,14 @@ public class Parkour extends Game<ParkourMap> {
 
 	}
 
-	@EventHandler
-	public void onJoin(final MinigamesJoinEvent event) {
-		final MPlayer player = event.getPlayer();
-		event.setTeleportPlayerToLobby(false);
+//	@EventHandler
+//	public void onJoin(final MinigamesJoinEvent event) {
+//		final MPlayer player = event.getPlayer();
+//		event.setTeleportPlayerToLobby(false);
+//	}
 
+	@Override
+	public void onPlayerJoin(final MPlayer player) {
 		if (this.finished.contains(player.getUniqueId())) {
 			player.finishTo(this.map.getStartLocation());
 			player.setGameMode(GameMode.SPECTATOR);
@@ -131,6 +131,10 @@ public class Parkour extends Game<ParkourMap> {
 			player.hideForEveryoneElse();
 			player.teleport(this.map.getStartLocation());
 		}
+	}
+
+	@Override
+	public void onPlayerQuit(final MPlayer player) {
 	}
 
 }

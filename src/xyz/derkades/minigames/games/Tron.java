@@ -88,7 +88,7 @@ public class Tron extends Game<TronMap> {
 			player.giveInfiniteEffect(PotionEffectType.JUMP, 200);
 		}
 
-		this.sendMessage("Make sure that you are not facing a wall");
+		sendMessage("Make sure that you are not facing a wall");
 	}
 
 	@Override
@@ -122,7 +122,16 @@ public class Tron extends Game<TronMap> {
 		Tron.this.teams.clear();
 	}
 
-	public static enum TronTeam {
+	@Override
+	public void onPlayerJoin(final MPlayer player) {
+		// TODO proper join mid game support
+	}
+
+	@Override
+	public void onPlayerQuit(final MPlayer player) {
+	}
+
+	public enum TronTeam {
 
 		ORANGE(ChatColor.GOLD, Material.ORANGE_CONCRETE, Material.ORANGE_STAINED_GLASS),
 		PURPLE(ChatColor.DARK_PURPLE, Material.PURPLE_CONCRETE, Material.PURPLE_STAINED_GLASS),
@@ -163,7 +172,7 @@ public class Tron extends Game<TronMap> {
 		public void run() {
 			if (!this.offlinePlayer.isOnline()) {
 				System.out.println("Player " + this.offlinePlayer.getName() + " is no longer online");
-				this.cancel();
+				cancel();
 				return;
 			}
 
@@ -171,19 +180,19 @@ public class Tron extends Game<TronMap> {
 
 			if (!Tron.this.teams.containsKey(player.getUniqueId())) {
 				System.out.println("Player " + this.offlinePlayer.getName() + " is not in the teams hashmap");
-				this.cancel();
+				cancel();
 				return;
 			}
 
 			if (!player.isIn2dBounds(Tron.this.map.getOuterCornerOne(), Tron.this.map.getOuterCornerTwo())) {
 				System.out.println("Player " + this.offlinePlayer.getName() + " is out of bounds!! Canceling task.");
-				this.cancel();
+				cancel();
 				return;
 			}
 
 			if (!player.getGameMode().equals(GameMode.ADVENTURE)) {
 				player.bukkit().sendMessage("Player is no(t) (longer) in gamemode ADVENTURE");
-				this.cancel();
+				cancel();
 				return;
 			}
 
@@ -196,7 +205,7 @@ public class Tron extends Game<TronMap> {
 			block.getRelative(BlockFace.UP).setType(team.glassBlock);
 			block.getRelative(BlockFace.DOWN).setType(team.bottomBlock);
 
-			final String direction = this.getDirection(player);
+			final String direction = getDirection(player);
 
 			final Location walkingTo = player.getLocation();
 
@@ -229,7 +238,7 @@ public class Tron extends Game<TronMap> {
 				//dead
 				Tron.this.spectators.add(player.getUniqueId());
 				Tron.this.teams.remove(player.getUniqueId());
-				this.cancel();
+				cancel();
 
 
 				// Try to get killer
@@ -251,14 +260,14 @@ public class Tron extends Game<TronMap> {
 					}
 
 					if (killer != null) {
-						Tron.this.sendMessage(player.getName() + " was killed by " + killer.getName());
+						sendMessage(player.getName() + " was killed by " + killer.getName());
 					} else {
 						// can occur for example if the killer has logged out
 						final String killerTeamName = killerTeam.name().toLowerCase().replace("_", " ");
-						Tron.this.sendMessage(player.getName() + " was killed by the " + killerTeamName + " team");
+						sendMessage(player.getName() + " was killed by the " + killerTeamName + " team");
 					}
 				} else {
-					Tron.this.sendMessage(player.getName() + " has died.");
+					sendMessage(player.getName() + " has died.");
 				}
 
 				player.dieUp(20);
