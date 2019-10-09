@@ -51,6 +51,11 @@ public class GlobalListeners implements Listener {
 
 		player.clearInventory();
 
+		player.setDisableDamage(true);
+		player.setDisableHunger(true);
+		player.setDisableItemMoving(true);
+		player.setDisableSneaking(false);
+
 		if (Minigames.CURRENT_GAME == null) {
 			//No game is running, teleport to board
 			final BoardPlayer board = new BoardPlayer(player);
