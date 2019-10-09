@@ -38,7 +38,7 @@ public class Board {
 					BoardConfig.DIE_WINNER_STEPS_MAX)));
 
 
-			Scheduler.delay(BoardConfig.DIE_MENU_DURATION_SECONDS + BoardConfig.DIE_MENU_FINAL_STATIC_SECONDS,
+			Scheduler.delay(20 * (BoardConfig.DIE_MENU_DURATION_SECONDS + BoardConfig.DIE_MENU_FINAL_STATIC_SECONDS),
 					() -> steps.forEach((p, s) -> p.jumpTiles(s)));
 		});
 	}
