@@ -2,7 +2,7 @@ package xyz.derkades.minigames.board;
 
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Stream;
+import java.util.stream.Collectors;
 
 import xyz.derkades.derkutils.Random;
 import xyz.derkades.minigames.Minigames;
@@ -12,13 +12,15 @@ import xyz.derkades.minigames.utils.Scheduler;
 public class Board {
 
 	public static void performTurns(final List<UUID> won) {
-		final Stream<BoardPlayer> players = Minigames.getOnlinePlayers()
-				.stream().map(BoardPlayer::new);
+		final List<BoardPlayer> players = Minigames.getOnlinePlayers()
+				.stream().map(BoardPlayer::new).collect(Collectors.toList());
 
-		final Stream<BoardPlayer> winners =
-				players.filter((p) -> won.contains(p.getUniqueId()));
-		final Stream<BoardPlayer> losers =
-				players.filter((p) -> !won.contains(p.getUniqueId()));
+		final List<BoardPlayer> winners = players.stream()
+				.filter((p) -> won.contains(p.getUniqueId()))
+				.collect(Collectors.toList());
+		final List<BoardPlayer> losers = players.stream()
+				.filter((p) -> !won.contains(p.getUniqueId()))
+				.collect(Collectors.toList());
 
 		winners.forEach((p) -> p.sendTitle(BoardConfig.TITLE_WON[0], BoardConfig.TITLE_WON[1]));
 		losers.forEach((p) -> p.sendTitle(BoardConfig.TITLE_LOST[0], BoardConfig.TITLE_LOST[1]));
