@@ -28,7 +28,7 @@ public class Logger {
 	public static void debug(final String message, final Object... arg1) {
 		if (debugMode) {
 			final String formatted = String.format(message, arg1);
-			Minigames.getInstance().getLogger().warning(formatted);
+			Minigames.getInstance().getLogger().info(formatted);
 			broadcast(ChatColor.WHITE + "Debug: " + ChatColor.GRAY + formatted);
 		}
 	}
