@@ -134,6 +134,7 @@ public class Minigames extends JavaPlugin implements Listener {
 			npcsToUnregister.add(npc);
 			Logger.debug("Removed NPC %s id %s", npc.getName(), npc.getId());
 		});
+		npcsToUnregister.forEach(registry::deregister);
 
 		instance = null;
 	}

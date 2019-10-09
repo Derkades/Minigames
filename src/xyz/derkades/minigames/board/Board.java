@@ -1,6 +1,8 @@
 package xyz.derkades.minigames.board;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -26,13 +28,18 @@ public class Board {
 		losers.forEach((p) -> p.sendTitle(BoardConfig.TITLE_LOST[0], BoardConfig.TITLE_LOST[1]));
 
 		Scheduler.delay(BoardConfig.TILE_TITLE_DURATION_TICKS, () -> {
-			winners.forEach((p) -> p.jumpTiles(openDieAnimationMenu(p,
+			final Map<BoardPlayer, Integer> steps = new HashMap<>();
+			winners.forEach((p) -> steps.put(p, openDieAnimationMenu(p,
 					BoardConfig.DIE_WINNER_STEPS_MIN,
 					BoardConfig.DIE_WINNER_STEPS_MAX)));
 
-			losers.forEach((p) -> p.jumpTiles(openDieAnimationMenu(p,
+			losers.forEach((p) -> steps.put(p, openDieAnimationMenu(p,
 					BoardConfig.DIE_WINNER_STEPS_MIN,
 					BoardConfig.DIE_WINNER_STEPS_MAX)));
+
+
+			Scheduler.delay(BoardConfig.DIE_MENU_DURATION_SECONDS + BoardConfig.DIE_MENU_FINAL_STATIC_SECONDS,
+					() -> steps.forEach((p, s) -> p.jumpTiles(s)));
 		});
 	}
 
