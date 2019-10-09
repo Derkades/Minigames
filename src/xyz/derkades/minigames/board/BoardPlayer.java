@@ -9,7 +9,6 @@ import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 import org.bukkit.potion.PotionEffectType;
 
@@ -27,9 +26,9 @@ public class BoardPlayer extends MPlayer {
 
 	private static final Map<UUID, Integer> NPC_ID = new HashMap<>();
 
-	public BoardPlayer(final Player player) {
-		super(player);
-	}
+//	public BoardPlayer(final Player player) {
+//		super(player);
+//	}
 
 	public BoardPlayer(final MPlayer player) {
 		super(player.bukkit());
