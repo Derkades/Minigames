@@ -69,7 +69,7 @@ public class BoardPlayer extends MPlayer {
 	}
 
 	/**
-	 * Create an NPC. Called when the player joins and on reload for all online players.
+	 * Create an NPC. Called when the player joins
 	 */
 	public void createNpc() {
 		final NPCRegistry registry = CitizensAPI.getNPCRegistry();
@@ -80,8 +80,7 @@ public class BoardPlayer extends MPlayer {
 	}
 
 	/**
-	 * Remove an NPC. Called when the player quits and onDisable.
-	 * TODO call on quit and on disable
+	 * Remove an NPC. Called when the player quits
 	 */
 	public void removeNpc() {
 		final int id = NPC_ID.remove(getUniqueId());

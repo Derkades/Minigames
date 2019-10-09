@@ -87,6 +87,9 @@ public class GlobalListeners implements Listener {
 		if (Minigames.CURRENT_GAME != null) {
 			Minigames.CURRENT_GAME.onPlayerQuit(player);
 		}
+
+		final BoardPlayer board = new BoardPlayer(player);
+		board.removeNpc();
 	}
 
 	@EventHandler
