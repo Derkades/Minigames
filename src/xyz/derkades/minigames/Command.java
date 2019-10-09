@@ -24,11 +24,19 @@ public class Command implements CommandExecutor {
 			RandomPicking.FORCE_GAME = args[1].replace("_", " ");
 			Minigames.BYPASS_PLAYER_MINIMUM_CHECKS = true;
 			sender.sendMessage("If exists, " + args[1] + " will be chosen as the next game");
+			return true;
 		}
 
 		if (args.length == 2 && (args[0].equalsIgnoreCase("map") || args[0].equalsIgnoreCase("m")) && sender.hasPermission("minigames.nextmap")) {
 			RandomPicking.FORCE_MAP = args[1].replace("_", " ");
 			sender.sendMessage("If exists, " + args[1] + " will be chosen as the next map");
+			return true;
+		}
+
+		if (args.length == 2 && args[0].equalsIgnoreCase("tiletp")) {
+			final Tile tile = Tile.fromString(args[1]);
+			sender.sendMessage("Teleporting to " + tile);
+			((Player) sender).teleport(tile.getLocation());
 			return true;
 		}
 
@@ -75,9 +83,11 @@ public class Command implements CommandExecutor {
 			} else if (args[0].equals("currentgame")) {
 				sender.sendMessage("Current game: " + Minigames.CURRENT_GAME);
 			} else if (args[0].equals("resetprogress")) {
+				Minigames.getOnlinePlayers().stream().map(BoardPlayer::new).forEach(BoardPlayer::removeNpc);
 				Minigames.getOnlinePlayers().stream().map(BoardPlayer::new).forEach((p) -> p.setTile(Tile.START_TILE));
+				Minigames.getOnlinePlayers().stream().map(BoardPlayer::new).forEach(BoardPlayer::createNpc);
 			} else if (args[0].equals("test") && sender.hasPermission("minigames.test")) {
-				new DieAnimationMenu(new BoardPlayer((Player) sender), 1, 10, Random.getRandomInteger(1, 10)).open();
+				new DieAnimationMenu(new BoardPlayer(new MPlayer((Player) sender)), 1, 10, Random.getRandomInteger(1, 10)).open();
 //		        final Location fbLocation = loc.add(
 //		        		loc
 //		                .getDirection()

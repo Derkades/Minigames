@@ -2,6 +2,7 @@ package xyz.derkades.minigames.board.tile;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -96,6 +97,10 @@ public abstract class Tile {
 
 	public static Tile fromString(final String string) {
 		return STRING_TO_TILE.get(string);
+	}
+
+	public static Collection<Tile> getTiles(){
+		return STRING_TO_TILE.values();
 	}
 
 }
