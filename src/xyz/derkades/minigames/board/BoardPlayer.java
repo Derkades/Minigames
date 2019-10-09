@@ -86,6 +86,7 @@ public class BoardPlayer extends MPlayer {
 		final NPCRegistry registry = CitizensAPI.getNPCRegistry();
 		final NPC npc = registry.getById(id);
 		npc.despawn(DespawnReason.REMOVAL);
+		npc.destroy();
 		registry.deregister(npc); // TODO may not be needed
 	}
 
