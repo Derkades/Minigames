@@ -12,13 +12,13 @@ import xyz.derkades.minigames.utils.Scheduler;
 public class Board {
 
 	public static void performTurns(final List<UUID> won) {
-		final Stream<BoardPlayer> players = Minigames.getOnlinePlayers().stream()
-				.map(BoardPlayer::new);
+		final Stream<BoardPlayer> players = Minigames.getOnlinePlayers()
+				.stream().map(BoardPlayer::new);
 
-		final Stream<BoardPlayer> winners = players
-				.filter((p) -> won.contains(p.getUniqueId()));
-		final Stream<BoardPlayer> losers = players
-				.filter((p) -> !won.contains(p.getUniqueId()));
+		final Stream<BoardPlayer> winners =
+				players.filter((p) -> won.contains(p.getUniqueId()));
+		final Stream<BoardPlayer> losers =
+				players.filter((p) -> !won.contains(p.getUniqueId()));
 
 		winners.forEach((p) -> p.sendTitle(BoardConfig.TITLE_WON[0], BoardConfig.TITLE_WON[1]));
 		losers.forEach((p) -> p.sendTitle(BoardConfig.TITLE_LOST[0], BoardConfig.TITLE_LOST[1]));
