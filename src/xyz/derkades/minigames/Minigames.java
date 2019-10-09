@@ -105,6 +105,7 @@ public class Minigames extends JavaPlugin implements Listener {
 
 			Minigames.getOnlinePlayers().stream().map(BoardPlayer::new)
 			.forEach(p -> {
+				p.createNpc();
 				p.teleportToBoard(true);
 			});
 		});
