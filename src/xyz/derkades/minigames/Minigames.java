@@ -12,6 +12,7 @@ import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import net.citizensnpcs.api.CitizensAPI;
+import net.citizensnpcs.api.event.DespawnReason;
 import net.citizensnpcs.api.npc.NPCRegistry;
 import net.md_5.bungee.api.ChatColor;
 import net.milkbowl.vault.economy.Economy;
@@ -122,6 +123,13 @@ public class Minigames extends JavaPlugin implements Listener {
 		}
 
 		Logger.info("Plugin disabled");
+
+		final NPCRegistry registry = CitizensAPI.getNPCRegistry();
+		registry.forEach((npc) -> {
+			npc.despawn(DespawnReason.REMOVAL);
+			npc.destroy();
+			registry.deregister(npc); // TODO may not be needed
+		});
 
 		instance = null;
 	}
