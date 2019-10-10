@@ -27,7 +27,6 @@ public class BoardConfig {
 	public static final int TILE_COINS_GET_AMOUNT = 10;
 	public static final int TILE_COINS_LOSE_AMOUNT = 10;
 
-	public static final int TILE_MOVE_BACKWARDS_AMOUNT = 3;
 	public static final int TILE_MOVE_FORWARDS_AMOUNT = 3;
 
 }

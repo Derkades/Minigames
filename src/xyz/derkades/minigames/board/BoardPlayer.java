@@ -34,6 +34,12 @@ public class BoardPlayer extends MPlayer {
 		super(player.bukkit());
 	}
 
+	public void jumpTile(final Tile tile) {
+		setTile(tile);
+		teleportNpcTo(tile);
+		tile.getSpectateLocation().teleportIfOutside(this, false);
+	}
+
 	public void jumpTiles(final int tiles) {
 		if (tiles == -1) {
 			final Tile currentTile = getTile();
@@ -45,10 +51,8 @@ public class BoardPlayer extends MPlayer {
 		final Tile currentTile = getTile();
 
 		final Consumer<Tile> onMove = (tile) -> {
-			teleportNpcTo(tile);
-			setTile(tile);
+			jumpTile(tile);
 			jumpTiles(tiles - 1);
-			tile.getSpectateLocation().teleportIfOutside(this, false);
 		};
 
 		currentTile.moveToNextTile(this, onMove);
