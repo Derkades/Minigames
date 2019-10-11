@@ -13,7 +13,7 @@ public class FB extends BlankTile {
 
 	@Override
 	public XYZ getXYZ() {
-		return new XYZ(155, 136, 49);
+		return new XYZ(156, 139, 63);
 	}
 
 }
