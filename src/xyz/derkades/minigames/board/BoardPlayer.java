@@ -50,6 +50,11 @@ public class BoardPlayer extends MPlayer {
 
 		final Tile currentTile = getTile();
 
+		if (currentTile == Tile.END_TILE) {
+			sendTitle("YAAAAAAAAAY!", "");
+			jumpTile(Tile.START_TILE);
+		}
+
 		final Consumer<Tile> onMove = (tile) -> {
 			jumpTile(tile);
 			jumpTiles(tiles - 1);
