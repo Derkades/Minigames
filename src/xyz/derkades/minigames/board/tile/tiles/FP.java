@@ -1,19 +1,19 @@
 package xyz.derkades.minigames.board.tile.tiles;
 
-import xyz.derkades.minigames.board.tile.BlankTile;
+import xyz.derkades.minigames.board.tile.CoinsGetTile;
 import xyz.derkades.minigames.board.tile.Tile;
 import xyz.derkades.minigames.utils.XYZ;
 
-public class FB extends BlankTile {
+public class FP extends CoinsGetTile {
 
 	@Override
 	public Tile getNextTile() {
-		return new FC();
+		return new FO();
 	}
 
 	@Override
 	public XYZ getXYZ() {
-		return new XYZ(155, 136, 49);
+		return new XYZ(154, 140, 75);
 	}
 
 }

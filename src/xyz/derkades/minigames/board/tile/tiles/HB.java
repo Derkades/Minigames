@@ -4,21 +4,22 @@ import xyz.derkades.minigames.board.tile.MoveBackwardsTile;
 import xyz.derkades.minigames.board.tile.Tile;
 import xyz.derkades.minigames.utils.XYZ;
 
-public class CG extends MoveBackwardsTile {
+public class HB extends MoveBackwardsTile {
 
 	@Override
 	public Tile getNextTile() {
-		return new CH();
+		return new HC();
 	}
 
 	@Override
 	public XYZ getXYZ() {
-		return new XYZ(177, 134, 56);
+		return new XYZ(117, 153, 33);
 	}
 
 	@Override
 	public Tile[] getTilesBackwards() {
-	    return null;
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

@@ -4,16 +4,16 @@ import xyz.derkades.minigames.board.tile.BlankTile;
 import xyz.derkades.minigames.board.tile.Tile;
 import xyz.derkades.minigames.utils.XYZ;
 
-public class FB extends BlankTile {
+public class IA extends BlankTile {
 
 	@Override
 	public Tile getNextTile() {
-		return new FC();
+		return new IB();
 	}
 
 	@Override
 	public XYZ getXYZ() {
-		return new XYZ(155, 136, 49);
+		return new XYZ(135, 156, 27);
 	}
 
 }
