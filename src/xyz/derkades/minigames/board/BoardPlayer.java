@@ -41,7 +41,7 @@ public class BoardPlayer extends MPlayer {
 	}
 
 	public void jumpTiles(final int tiles) {
-		if (tiles == -1) {
+		if (tiles == 0) {
 			final Tile currentTile = getTile();
 			sendTitle("", currentTile.getColor() + "" + ChatColor.BOLD + currentTile.getName());
 			currentTile.landOnTile(this);
