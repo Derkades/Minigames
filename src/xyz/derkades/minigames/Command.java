@@ -83,9 +83,7 @@ public class Command implements CommandExecutor {
 			} else if (args[0].equals("currentgame")) {
 				sender.sendMessage("Current game: " + Minigames.CURRENT_GAME);
 			} else if (args[0].equals("resetprogress")) {
-				Minigames.getOnlinePlayers().stream().map(BoardPlayer::new).forEach(BoardPlayer::removeNpc);
-				Minigames.getOnlinePlayers().stream().map(BoardPlayer::new).forEach((p) -> p.setTile(Tile.START_TILE));
-				Minigames.getOnlinePlayers().stream().map(BoardPlayer::new).forEach(BoardPlayer::createNpc);
+				Minigames.getOnlinePlayers().stream().map(BoardPlayer::new).forEach((p) -> p.jumpTile(Tile.START_TILE));
 			} else if (args[0].equals("test") && sender.hasPermission("minigames.test")) {
 				new DieAnimationMenu(new BoardPlayer(new MPlayer((Player) sender)), 1, 10, Random.getRandomInteger(1, 10)).open();
 //		        final Location fbLocation = loc.add(
