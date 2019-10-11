@@ -1,6 +1,5 @@
 package xyz.derkades.minigames.board.tile.tiles;
 
-import xyz.derkades.minigames.board.BoardPlayer;
 import xyz.derkades.minigames.board.tile.SwapPositionsTile;
 import xyz.derkades.minigames.board.tile.Tile;
 import xyz.derkades.minigames.utils.XYZ;
@@ -15,12 +14,6 @@ public class CD extends SwapPositionsTile {
 	@Override
 	public XYZ getXYZ() {
 		return new XYZ(185, 134, 50);
-	}
-
-	@Override
-	public void landOnTile(BoardPlayer player) {
-		// TODO Auto-generated method stub
-		
 	}
 
 }

@@ -18,8 +18,11 @@ public class FS extends MoveBackwardsTile {
 
 	@Override
 	public Tile[] getTilesBackwards() {
-		// TODO Auto-generated method stub
-		return null;
+		return new Tile[] {
+				new FT(),
+				new FA(),
+				new CP(),
+		};
 	}
 
 }

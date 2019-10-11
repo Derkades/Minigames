@@ -18,8 +18,11 @@ public class HB extends MoveBackwardsTile {
 
 	@Override
 	public Tile[] getTilesBackwards() {
-		// TODO Auto-generated method stub
-		return null;
+		return new Tile[] {
+				new HA(),
+				new GI(),
+				new GH(),
+		};
 	}
 
 }

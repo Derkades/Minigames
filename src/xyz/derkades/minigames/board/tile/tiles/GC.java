@@ -17,4 +17,3 @@ public class GC extends MoveForwardsTile {
 	}
 
 }
-

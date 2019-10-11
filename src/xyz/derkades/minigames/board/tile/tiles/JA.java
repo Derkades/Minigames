@@ -8,7 +8,7 @@ public class JA extends BlankTile {
 
 	@Override
 	public Tile getNextTile() {
-		return new JB();
+		return Tile.END_TILE;
 	}
 
 	@Override

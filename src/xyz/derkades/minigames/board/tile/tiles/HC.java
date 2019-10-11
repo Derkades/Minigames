@@ -17,4 +17,3 @@ public class HC extends CoinsLoseTile {
 	}
 
 }
-

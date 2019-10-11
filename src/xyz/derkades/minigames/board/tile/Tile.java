@@ -19,12 +19,13 @@ import xyz.derkades.minigames.Var;
 import xyz.derkades.minigames.board.BoardPlayer;
 import xyz.derkades.minigames.board.spectate.SpectateLocation;
 import xyz.derkades.minigames.board.tile.tiles.AA;
+import xyz.derkades.minigames.board.tile.tiles.JB;
 import xyz.derkades.minigames.utils.XYZ;
 
 public abstract class Tile {
 
 	public static final Tile START_TILE = new AA();
-	public static final Tile END_TILE = null;
+	public static final Tile END_TILE = new JB();
 
 	private static final Map<String, Tile> STRING_TO_TILE = new HashMap<>();
 

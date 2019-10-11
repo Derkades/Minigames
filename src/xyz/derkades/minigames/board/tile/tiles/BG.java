@@ -17,5 +17,3 @@ public class BG extends BlankTile {
 	}
 
 }
-
-

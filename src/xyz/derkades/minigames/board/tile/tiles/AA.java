@@ -16,5 +16,4 @@ public class AA extends BlankTile {
 		return new AB();
 	}
 
-
 }

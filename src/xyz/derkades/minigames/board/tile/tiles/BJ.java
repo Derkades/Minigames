@@ -1,10 +1,10 @@
 package xyz.derkades.minigames.board.tile.tiles;
 
-import xyz.derkades.minigames.board.tile.MoveBackwardsTile;
+import xyz.derkades.minigames.board.tile.MoveForwardsTile;
 import xyz.derkades.minigames.board.tile.Tile;
 import xyz.derkades.minigames.utils.XYZ;
 
-public class BJ extends MoveBackwardsTile {
+public class BJ extends MoveForwardsTile {
 
 	@Override
 	public Tile getNextTile() {

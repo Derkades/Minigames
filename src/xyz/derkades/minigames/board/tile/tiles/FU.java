@@ -17,4 +17,3 @@ public class FU extends CoinsGetTile {
 	}
 
 }
-

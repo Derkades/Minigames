@@ -18,7 +18,11 @@ public class CG extends MoveBackwardsTile {
 
 	@Override
 	public Tile[] getTilesBackwards() {
-	    return null;
+		return new Tile[] {
+				new CF(),
+				new CE(),
+				new CD(),
+		};
 	}
 
 }

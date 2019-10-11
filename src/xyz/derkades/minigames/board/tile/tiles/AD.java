@@ -16,4 +16,13 @@ public class AD extends MoveBackwardsTile {
 		return new XYZ(146, 133, 8);
 	}
 
+	@Override
+	public Tile[] getTilesBackwards() {
+		return new Tile[] {
+				new AC(),
+				new AB(),
+				new AA(),
+		};
+	}
+
 }
