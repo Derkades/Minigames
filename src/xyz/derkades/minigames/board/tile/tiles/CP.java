@@ -8,7 +8,7 @@ public class CP extends BlankTile {
 
 	@Override
 	public Tile getNextTile() {
-		return null; // TODO next
+		return new FA();
 	}
 
 	@Override
