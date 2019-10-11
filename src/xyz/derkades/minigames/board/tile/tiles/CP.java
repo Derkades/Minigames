@@ -13,7 +13,7 @@ public class CP extends BlankTile {
 
 	@Override
 	public XYZ getXYZ() {
-		return new XYZ(164, 136, 56);
+		return new XYZ(159, 139, 58);
 	}
 
 }
