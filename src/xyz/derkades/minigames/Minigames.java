@@ -1,6 +1,5 @@
 package xyz.derkades.minigames;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -13,8 +12,6 @@ import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import net.citizensnpcs.api.CitizensAPI;
-import net.citizensnpcs.api.event.DespawnReason;
-import net.citizensnpcs.api.npc.NPC;
 import net.citizensnpcs.api.npc.NPCRegistry;
 import net.md_5.bungee.api.ChatColor;
 import net.milkbowl.vault.economy.Economy;
@@ -108,7 +105,6 @@ public class Minigames extends JavaPlugin implements Listener {
 
 			Minigames.getOnlinePlayers().stream().map(BoardPlayer::new)
 			.forEach(p -> {
-				p.createNpc();
 				p.teleportToBoard(true);
 			});
 		});
@@ -125,16 +121,6 @@ public class Minigames extends JavaPlugin implements Listener {
 		}
 
 		Logger.info("Plugin disabled");
-
-		final NPCRegistry registry = CitizensAPI.getNPCRegistry();
-		final List<NPC> npcsToUnregister = new ArrayList<>();
-		registry.forEach((npc) -> {
-			npc.despawn(DespawnReason.REMOVAL);
-			npc.destroy();
-			npcsToUnregister.add(npc);
-			Logger.debug("Removed NPC %s id %s", npc.getName(), npc.getId());
-		});
-		npcsToUnregister.forEach(registry::deregister);
 
 		instance = null;
 	}
