@@ -1,11 +1,10 @@
 name: Minigames
 main: xyz.derkades.minigames.Minigames
-version: 6.9
-author: RobinMC
-description: ohiasohidfasdasimasm
+version: 1.0
+author: Derkades
+authors: [Corrupt_World]
 softdepend: [Vault, Citizens]
-
-api-version: 1.13
+api-version: 1.14
 
 commands:
   games:
