@@ -23,7 +23,6 @@ import xyz.derkades.minigames.games.spleef.SpleefMap;
 import xyz.derkades.minigames.utils.MPlayer;
 import xyz.derkades.minigames.utils.Scheduler;
 import xyz.derkades.minigames.utils.Utils;
-import xyz.derkades.minigames.utils.Winners;
 
 public class RegeneratingSpleef extends Game<SpleefMap> {
 
@@ -102,7 +101,7 @@ public class RegeneratingSpleef extends Game<SpleefMap> {
 
 	@Override
 	public void onEnd() {
-		RegeneratingSpleef.this.endGame(Winners.fromAlive(this.alive, false));
+		RegeneratingSpleef.this.endGame(this.alive, true);
 		this.alive = null;
 	}
 
@@ -132,6 +131,9 @@ public class RegeneratingSpleef extends Game<SpleefMap> {
 
 	@EventHandler(priority = EventPriority.MONITOR)
 	public void onMove(final PlayerMoveEvent event){
+		if (!this.started)
+			return;
+
 		final MPlayer player = new MPlayer(event);
 
 		if (!this.alive.contains(player.getUniqueId()))
