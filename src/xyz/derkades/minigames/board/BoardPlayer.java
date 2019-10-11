@@ -56,6 +56,9 @@ public class BoardPlayer extends MPlayer {
 		}
 
 		final Consumer<Tile> onMove = (tile) -> {
+			if (tile == null)
+				return;
+
 			jumpTile(tile);
 			jumpTiles(tiles - 1);
 		};
