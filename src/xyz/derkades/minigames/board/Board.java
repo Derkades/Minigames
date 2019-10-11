@@ -35,7 +35,7 @@ public class Board {
 
 			losers.forEach((p) -> steps.put(p, openDieAnimationMenu(p,
 					BoardConfig.DIE_LOSER_STEPS_MIN,
-					BoardConfig.DIE_LOSER_STEPS_MIN)));
+					BoardConfig.DIE_LOSER_STEPS_MAX)));
 
 
 			Scheduler.delay(20 * (BoardConfig.DIE_MENU_DURATION_SECONDS + BoardConfig.DIE_MENU_FINAL_STATIC_SECONDS),
