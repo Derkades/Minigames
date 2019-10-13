@@ -8,31 +8,33 @@ import xyz.derkades.minigames.board.BoardPlayer;
 
 public enum SpectateLocation {
 
-	A(149, 140, -3),
-	B(160, 141, 29),
-	C(178, 139, 50),
-	D(132, 140, 32),
-	E(149, 139, 42),
-	F(142, 146, 66),
-	G(106, 153, 59),
-	H(115, 156, 24),
-	I(144, 161, 32),
-	J(129, 167, 53),
+	A(149, 140, -3, 30, 35),
+	B(160, 141, 29, -130, 30),
+	C(178, 139, 50, -64, 40),
+	D(132, 140, 32, -97, 34),
+	E(149, 139, 42, 40, 40),
+	F(142, 146, 66, -35, 19),
+	G(106, 153, 59, -120, 20),
+	H(115, 156, 24, -40, 11),
+	I(144, 161, 32, 66, 19),
+	J(129, 167, 53, -162, 32),
 
 	;
 
 	private static final int LOCATION_TOLERANCE = 2;
 
-	private final int x, y, z;
+	private final int x, y, z, pitch, yaw;
 
-	SpectateLocation(final int x, final int y, final int z) {
+	SpectateLocation(final int x, final int y, final int z, final int pitch, final int yaw) {
 		this.x = x;
 		this.y = y;
 		this.z = z;
+		this.pitch = pitch;
+		this.yaw = yaw;
 	}
 
 	private Location getLocation() {
-		return new Location(Var.LOBBY_WORLD, this.x + 0.5, this.y, this.z + 0.5);
+		return new Location(Var.LOBBY_WORLD, this.x + 0.5, this.y, this.z + 0.5, this.pitch, this.yaw);
 	}
 
 	public void teleportIfOutside(final BoardPlayer player, final boolean queue) {
