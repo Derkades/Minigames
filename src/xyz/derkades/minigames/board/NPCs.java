@@ -1,6 +1,7 @@
 package xyz.derkades.minigames.board;
 
-import java.util.Iterator;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.bukkit.Location;
 import org.bukkit.entity.EntityType;
@@ -14,13 +15,11 @@ import xyz.derkades.minigames.Logger;
 public class NPCs {
 
 	public static NPC getNPC(final String name) {
-		final NPCRegistry registry = CitizensAPI.getNPCRegistry();
-		final Iterator<NPC> iterator = registry.iterator();
-		while (iterator.hasNext()) {
-			final NPC npc = iterator.next();
+		for (final NPC npc : CitizensAPI.getNPCRegistry()) {
 			if (npc.getName().equals(name))
 				return npc;
 		}
+
 		return null;
 	}
 
@@ -36,23 +35,23 @@ public class NPCs {
 	}
 
 	public static void removeNPCs() {
-		final NPCRegistry registry = CitizensAPI.getNPCRegistry();
-		for (final NPC npc : registry) {
+		for (final NPC npc : CitizensAPI.getNPCRegistry()) {
 			npc.despawn(DespawnReason.REMOVAL);
 		}
 
-		registry.deregisterAll();
+		CitizensAPI.getNPCRegistry().deregisterAll();
 	}
 
 	public static void removeNPC(final String name) {
-		final NPCRegistry registry = CitizensAPI.getNPCRegistry();
-		final Iterator<NPC> iterator = registry.iterator();
-		while (iterator.hasNext()) {
-			final NPC npc = iterator.next();
+		final List<NPC> toDeregister = new ArrayList<>();
+		for (final NPC npc : CitizensAPI.getNPCRegistry()) {
 			if (npc.getName().equals(name)) {
 				npc.despawn(DespawnReason.REMOVAL);
-				npc.destroy();
 			}
+		}
+
+		for (final NPC npc : toDeregister) {
+			CitizensAPI.getNPCRegistry().deregister(npc);
 		}
 	}
 
