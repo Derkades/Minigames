@@ -20,6 +20,8 @@ public enum GameWorld {
 
 	// DO NOT CHANGE THESE VALUES!!
 
+	BOWSPLEEF_BOWSPLEEF,
+
 	BTB_PROTOTYPE,
 	BTB_JUNGLE,
 
