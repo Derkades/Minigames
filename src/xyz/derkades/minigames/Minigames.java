@@ -11,11 +11,10 @@ import org.bukkit.event.Listener;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import net.citizensnpcs.api.CitizensAPI;
-import net.citizensnpcs.api.npc.NPCRegistry;
 import net.md_5.bungee.api.ChatColor;
 import net.milkbowl.vault.economy.Economy;
 import xyz.derkades.minigames.board.BoardPlayer;
+import xyz.derkades.minigames.board.NPCs;
 import xyz.derkades.minigames.games.Game;
 import xyz.derkades.minigames.games.maps.GameMap;
 import xyz.derkades.minigames.task.RegenerateHunger;
@@ -81,14 +80,6 @@ public class Minigames extends JavaPlugin implements Listener {
 
 		Queue.start();
 
-		// Delete all NPCs
-		final NPCRegistry registry = CitizensAPI.getNPCRegistry();
-		registry.forEach((n) -> {
-			Logger.debug("Unregistering NPC with id %s", n.getId());
-			n.destroy();
-			registry.deregister(n);
-		});
-
 		Scheduler.delay(20, () -> {
 			GameWorld.init();
 
@@ -103,8 +94,11 @@ public class Minigames extends JavaPlugin implements Listener {
 				Logger.info("Players online, not starting games automatically");
 			}
 
+			// Re-create NPCs and teleport players to board
+			NPCs.removeNPCs();
 			Minigames.getOnlinePlayers().stream().map(BoardPlayer::new)
 			.forEach(p -> {
+				p.createNpc();
 				p.teleportToBoard(true);
 			});
 		});

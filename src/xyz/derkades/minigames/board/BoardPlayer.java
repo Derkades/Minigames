@@ -1,21 +1,14 @@
 package xyz.derkades.minigames.board;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
 import java.util.function.Consumer;
 
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.entity.EntityType;
 import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 import org.bukkit.potion.PotionEffectType;
 
-import net.citizensnpcs.api.CitizensAPI;
-import net.citizensnpcs.api.event.DespawnReason;
 import net.citizensnpcs.api.npc.NPC;
-import net.citizensnpcs.api.npc.NPCRegistry;
 import net.md_5.bungee.api.ChatColor;
 import xyz.derkades.minigames.Logger;
 import xyz.derkades.minigames.Minigames;
@@ -23,12 +16,6 @@ import xyz.derkades.minigames.board.tile.Tile;
 import xyz.derkades.minigames.utils.MPlayer;
 
 public class BoardPlayer extends MPlayer {
-
-	private static final Map<UUID, Integer> NPC_ID = new HashMap<>();
-
-//	public BoardPlayer(final Player player) {
-//		super(player);
-//	}
 
 	public BoardPlayer(final MPlayer player) {
 		super(player.bukkit());
@@ -67,8 +54,7 @@ public class BoardPlayer extends MPlayer {
 	}
 
 	private void teleportNpcTo(final Tile tile) {
-		final NPCRegistry registry = CitizensAPI.getNPCRegistry();
-		final NPC npc = registry.getById(NPC_ID.get(getUniqueId()));
+		final NPC npc = NPCs.getNPC(getName());
 
 		final Location location = getTile().getLocation();
 
@@ -83,23 +69,15 @@ public class BoardPlayer extends MPlayer {
 	 * Create an NPC. Called when the player joins
 	 */
 	public void createNpc() {
-		final NPCRegistry registry = CitizensAPI.getNPCRegistry();
-		final NPC npc = registry.createNPC(EntityType.PLAYER, getName());
 		final Location location = getTile().getLocation();
-		npc.spawn(location);
-		NPC_ID.put(getUniqueId(), npc.getId());
+		NPCs.createNPC(getName(), location);
 	}
 
 	/**
 	 * Remove an NPC. Called when the player quits
 	 */
 	public void removeNpc() {
-		final int id = NPC_ID.remove(getUniqueId());
-		final NPCRegistry registry = CitizensAPI.getNPCRegistry();
-		final NPC npc = registry.getById(id);
-		npc.despawn(DespawnReason.REMOVAL);
-		npc.destroy();
-		registry.deregister(npc); // TODO may not be needed
+		NPCs.removeNPC(getName());
 	}
 
 	public void setTile(final Tile tile) {

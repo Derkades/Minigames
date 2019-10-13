@@ -56,10 +56,11 @@ public class GlobalListeners implements Listener {
 		player.setDisableItemMoving(true);
 		player.setDisableSneaking(false);
 
+		final BoardPlayer board = new BoardPlayer(player);
+		board.createNpc();
+
 		if (Minigames.CURRENT_GAME == null) {
 			//No game is running, teleport to board
-			final BoardPlayer board = new BoardPlayer(player);
-			board.createNpc();
 			board.teleportToBoard(false);
 
 			Scheduler.delay(1, () -> player.spigot().sendMessage(
