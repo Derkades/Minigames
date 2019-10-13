@@ -28,6 +28,8 @@ public class BoardPlayer extends MPlayer {
 	}
 
 	public void jumpTiles(final int tiles) {
+		Board.lastTurnTime = System.currentTimeMillis();
+
 		if (tiles == 0) {
 			final Tile currentTile = getTile();
 			sendTitle("", currentTile.getColor() + "" + ChatColor.BOLD + currentTile.getName());

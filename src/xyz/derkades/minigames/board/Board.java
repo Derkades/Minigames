@@ -6,12 +6,18 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import org.bukkit.scheduler.BukkitRunnable;
+
 import xyz.derkades.derkutils.Random;
+import xyz.derkades.minigames.AutoRotate;
+import xyz.derkades.minigames.Logger;
 import xyz.derkades.minigames.Minigames;
 import xyz.derkades.minigames.constants.BoardConfig;
 import xyz.derkades.minigames.utils.Scheduler;
 
 public class Board {
+
+	public static long lastTurnTime = 0;
 
 	public static void performTurns(final List<UUID> won) {
 		final List<BoardPlayer> players = Minigames.getOnlinePlayers()
@@ -40,6 +46,21 @@ public class Board {
 
 			Scheduler.delay(20 * (BoardConfig.DIE_MENU_DURATION_SECONDS + BoardConfig.DIE_MENU_FINAL_STATIC_SECONDS),
 					() -> steps.forEach((p, s) -> p.jumpTiles(s)));
+
+			lastTurnTime = System.currentTimeMillis() + 5000;
+
+			new BukkitRunnable() {
+				@Override
+				public void run() {
+					final long diff = System.currentTimeMillis() - lastTurnTime;
+					Logger.debug("Last turn: %sms ago", diff);
+					if (diff > 5000) {
+						Logger.info("Starting new game");
+						AutoRotate.startNewRandomGame();
+						cancel();
+					}
+				}
+			}.runTaskTimer(Minigames.getInstance(), 0, 20);
 		});
 	}
 
