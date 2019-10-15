@@ -235,11 +235,7 @@ public class Tron extends Game<TronMap> {
 
 			final Material toType = walkingTo.getBlock().getType();
 			if (toType != Material.AIR) {
-				//dead
-				Tron.this.spectators.add(player.getUniqueId());
-				Tron.this.teams.remove(player.getUniqueId());
 				cancel();
-
 
 				// Try to get killer
 				TronTeam killerTeam = null;
@@ -254,7 +250,8 @@ public class Tron extends Game<TronMap> {
 					// Try to get player
 					MPlayer killer = null;
 					for (final MPlayer player2 : Minigames.getOnlinePlayers()) {
-						if (Tron.this.teams.get(player2.getUniqueId()).equals(killerTeam)) {
+						if (Tron.this.teams.containsKey(player2.getUniqueId()) &&
+								Tron.this.teams.get(player2.getUniqueId()).equals(killerTeam)) {
 							killer = player2;
 						}
 					}
@@ -269,6 +266,10 @@ public class Tron extends Game<TronMap> {
 				} else {
 					sendMessage(player.getName() + " has died.");
 				}
+
+				//dead
+				Tron.this.spectators.add(player.getUniqueId());
+				Tron.this.teams.remove(player.getUniqueId());
 
 				player.dieUp(20);
 			}
