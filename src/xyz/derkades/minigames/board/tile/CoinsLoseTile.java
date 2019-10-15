@@ -2,6 +2,7 @@ package xyz.derkades.minigames.board.tile;
 
 import org.bukkit.ChatColor;
 
+import net.milkbowl.vault.economy.Economy;
 import xyz.derkades.minigames.Minigames;
 import xyz.derkades.minigames.board.BoardPlayer;
 import xyz.derkades.minigames.constants.BoardConfig;
@@ -25,8 +26,13 @@ public abstract class CoinsLoseTile extends CoinsTile {
 
 	@Override
 	public void landOnTile(final BoardPlayer player) {
-		Minigames.economy.withdrawPlayer(player.bukkit(), BoardConfig.TILE_COINS_LOSE_AMOUNT);
-
+		final Economy econ = Minigames.economy;
+		final int amount = BoardConfig.TILE_COINS_LOSE_AMOUNT;
+		if (econ.has(player.bukkit(), amount)) {
+			econ.withdrawPlayer(player.bukkit(), amount);
+		} else {
+			econ.withdrawPlayer(player.bukkit(), econ.getBalance(player.bukkit()));
+		}
 	}
 
 }
