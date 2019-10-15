@@ -84,14 +84,15 @@ public class DigDug extends Game<DigDugMap> {
 		return 40;
 	}
 
-	private Map<UUID, Integer> points = new HashMap<>();
+	private Map<UUID, Integer> points;
 	private Sidebar sidebar;
 
 	@Override
 	public void onPreStart() {
-		this.points.clear();
+		this.points = new HashMap<>();
 		this.sidebar = new Sidebar(ChatColor.DARK_AQUA + "" + ChatColor.DARK_AQUA + "Score",
 				Minigames.getInstance(), Integer.MAX_VALUE, new SidebarString("Loading..."));
+
 		fillArena();
 
 		for (final MPlayer player : Minigames.getOnlinePlayers()) {
