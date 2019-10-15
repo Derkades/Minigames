@@ -12,7 +12,7 @@ public abstract class ParkourMap extends GameMap {
 	public static final ParkourMap[] MAPS = {
 			new JungleRun(),
 			//new Plains(),
-			new RedstoneCave(),
+			//new RedstoneCave(),
 			new Snow(),
 			new TNT(),
 	};
