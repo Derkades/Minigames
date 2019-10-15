@@ -34,7 +34,22 @@ public class BowSpleef extends BowSpleefMap {
 
 	@Override
 	public Location getSpawnLocation() {
+		return new Location(getWorld(), 0, 65, 0);
+	}
 
+	@Override
+	public int getSmallSize() {
+		return 5;
+	}
+
+	@Override
+	public int getLargeSize() {
+		return 16;
+	}
+
+	@Override
+	public Location getLayerCenter() {
+		return new Location(getWorld(), 0, 64, 0);
 	}
 
 }
