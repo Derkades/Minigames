@@ -43,6 +43,7 @@ import xyz.derkades.minigames.utils.Utils;
 public abstract class Game<M extends GameMap> implements Listener, RandomlyPickable {
 
 	public static final Game<? extends GameMap>[] GAMES = new Game<?>[] {
+			new BowSpleef(),
 			new BreakTheBlock(),
 			new CreeperAttack(),
 			new DigDug(),
