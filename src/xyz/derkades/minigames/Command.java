@@ -80,9 +80,9 @@ public class Command implements CommandExecutor {
 				Minigames.getInstance().getConfig().set("debug_mode", Logger.debugMode);
 				Minigames.getInstance().saveConfig();
 				sender.sendMessage("Set debug mode to " + Logger.debugMode);
-			} else if (args[0].equals("currentgame")) {
+			} else if (args[0].equals("currentgame") && sender.hasPermission("minigames.currentgame")) {
 				sender.sendMessage("Current game: " + Minigames.CURRENT_GAME);
-			} else if (args[0].equals("resetprogress")) {
+			} else if (args[0].equals("resetprogress") && sender.hasPermission("minigames.resetprogress")) {
 				Minigames.getOnlinePlayers().stream().map(BoardPlayer::new).forEach((p) -> p.jumpTile(Tile.START_TILE));
 			} else if (args[0].equals("test") && sender.hasPermission("minigames.test")) {
 				new DieAnimationMenu(new BoardPlayer(new MPlayer((Player) sender)), 1, 10, Random.getRandomInteger(1, 10)).open();
