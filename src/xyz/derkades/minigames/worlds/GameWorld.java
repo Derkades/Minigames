@@ -1,6 +1,5 @@
 package xyz.derkades.minigames.worlds;
 
-import java.io.File;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
@@ -86,7 +85,7 @@ public enum GameWorld {
 	private GameWorld(){}
 
 	public String getName() {
-		return "worlds" + File.separator + toString().toLowerCase();
+		return "worlds/" + toString().toLowerCase();
 	}
 
 	public World getWorld() {
