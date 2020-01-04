@@ -31,7 +31,7 @@ public class DieAnimationMenu extends IconMenu {
 	private final int endResult;
 
 	public DieAnimationMenu(final BoardPlayer player, final int min, final int max, final int endResult) {
-		super(plugin, "Die", 6*9, player.bukkit());
+		super(plugin, "Die", 6, player.bukkit());
 		this.min = min;
 		this.max = max;
 		this.endResult = endResult;

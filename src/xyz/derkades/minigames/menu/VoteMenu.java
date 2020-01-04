@@ -15,7 +15,7 @@ public class VoteMenu extends IconMenu {
 	private final String gameName;
 
 	public VoteMenu(final Player player, final String gameName) {
-		super(Minigames.getInstance(), "Did you enjoy this game?", 5*9, player);
+		super(Minigames.getInstance(), "Did you enjoy this game?", 5, player);
 
 		this.gameName = gameName;
 

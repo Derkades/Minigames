@@ -17,7 +17,7 @@ import xyz.derkades.minigames.utils.MPlayer;
 public class PointsListMenu extends IconMenu {
 
 	public PointsListMenu(final Player player) {
-		super(Minigames.getInstance(), "Points", 3*9, player);
+		super(Minigames.getInstance(), "Points", 3, player);
 
 		int slot = 0;
 		for (final MPlayer target : Minigames.getOnlinePlayers()) {

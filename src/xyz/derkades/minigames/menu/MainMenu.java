@@ -20,7 +20,7 @@ import xyz.derkades.minigames.Points;
 public class MainMenu extends IconMenu {
 
 	public MainMenu(final Player player) {
-		super(Minigames.getInstance(), "Menu", 9, player);
+		super(Minigames.getInstance(), "Menu", 1, player);
 	}
 
 	public void addItems() {
