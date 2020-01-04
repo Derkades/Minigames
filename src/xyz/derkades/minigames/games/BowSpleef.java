@@ -5,6 +5,7 @@ import java.util.UUID;
 
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Arrow;
 import org.bukkit.inventory.ItemStack;
 
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
@@ -55,6 +56,7 @@ public class BowSpleef extends Game<BowSpleefMap> {
 		this.alive = Utils.getOnlinePlayersUuidList();
 
 		this.map.restoreLayers();
+		this.map.getWorld().getEntitiesByClass(Arrow.class).forEach((e) -> e.remove());
 
 		Minigames.getOnlinePlayers().forEach((p) -> {
 			p.queueTeleport(this.map.getSpawnLocation());
