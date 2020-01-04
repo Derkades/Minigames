@@ -39,7 +39,7 @@ public class BowSpleef extends BowSpleefMap {
 
 	@Override
 	public int getSmallSize() {
-		return 5;
+		return 7;
 	}
 
 	@Override
