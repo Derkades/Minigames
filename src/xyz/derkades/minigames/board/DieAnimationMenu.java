@@ -1,5 +1,7 @@
 package xyz.derkades.minigames.board;
 
+import java.util.Arrays;
+
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -22,7 +24,7 @@ public class DieAnimationMenu extends IconMenu {
 
 	private static final Minigames plugin = Minigames.getInstance();
 
-	private AnimationTimer timer;
+	private final AnimationTimer timer;
 
 	private final int min;
 	private final int max;
@@ -33,13 +35,9 @@ public class DieAnimationMenu extends IconMenu {
 		this.min = min;
 		this.max = max;
 		this.endResult = endResult;
-	}
 
-	@Override
-	public void open() {
 		this.timer = new AnimationTimer();
 		this.timer.runTaskTimer(plugin, 0, BoardConfig.DIE_MENU_INTERVAL_TICKS);
-		super.open();
 	}
 
 	@Override
@@ -53,11 +51,10 @@ public class DieAnimationMenu extends IconMenu {
 	}
 
 	private void displayNumber(final int number) {
-		this.items.clear();
-
 		Material material;
 		int[] slots;
 
+		// Please note: These arrays must be ordered for the binary search below to work
 		if (number == 1) {
 			material = Material.RED_CONCRETE;
 			slots = new int[] {4, 12, 13, 22, 31, 40, 49, 48, 50};
@@ -95,11 +92,23 @@ public class DieAnimationMenu extends IconMenu {
 
 		final ItemStack item = new ItemBuilder(material).name(" ").create();
 
-		for (final int i : slots) {
-			this.items.put(i, item);
+		for (int slot = 0; slot < this.getSize(); slot++) {
+			if (Arrays.binarySearch(slots, slot) >= 0) {
+				if (!this.hasItem(slot)) {
+					this.addItem(slot, item);
+				}
+			} else {
+				if (this.hasItem(slot)) {
+					this.addItem(slot, null);
+				}
+			}
 		}
 
-		refreshItems();
+//		for (final int i : slots) {
+//			this.items.put(i, item);
+//		}
+
+//		refreshItems();
 	}
 
 	private class AnimationTimer extends BukkitRunnable {
@@ -121,8 +130,9 @@ public class DieAnimationMenu extends IconMenu {
 				return;
 			}
 
-			if (this.i > MAX_ITERATIONS)
+			if (this.i > MAX_ITERATIONS) {
 				return; // static final result
+			}
 
 			int random;
 			do {

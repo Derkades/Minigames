@@ -70,7 +70,7 @@ public class Command implements CommandExecutor {
 
 				Logger.info("Reloading worlds done.");
 			} else if (args[0].equalsIgnoreCase("list")) {
-				new GamesListMenu((Player) sender).open();
+				new GamesListMenu((Player) sender);
 			} else if (args[0].equals("damage") && sender.hasPermission("minigames.damage")) {
 				final MPlayer player = new MPlayer((Player) sender);
 				player.setDisableDamage(false);
@@ -85,7 +85,7 @@ public class Command implements CommandExecutor {
 			} else if (args[0].equals("resetprogress") && sender.hasPermission("minigames.resetprogress")) {
 				Minigames.getOnlinePlayers().stream().map(BoardPlayer::new).forEach((p) -> p.jumpTile(Tile.START_TILE));
 			} else if (args[0].equals("test") && sender.hasPermission("minigames.test")) {
-				new DieAnimationMenu(new BoardPlayer(new MPlayer((Player) sender)), 1, 10, Random.getRandomInteger(1, 10)).open();
+				new DieAnimationMenu(new BoardPlayer(new MPlayer((Player) sender)), 1, 10, Random.getRandomInteger(1, 10));
 //		        final Location fbLocation = loc.add(
 //		        		loc
 //		                .getDirection()
@@ -146,7 +146,7 @@ public class Command implements CommandExecutor {
 			}
 		} else if (args.length == 0){
 			final Player player = (Player) sender;
-			new MainMenu(player).open();
+			new MainMenu(player);
 		}
 
 		return true;

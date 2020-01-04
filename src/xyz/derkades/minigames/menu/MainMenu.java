@@ -21,33 +21,31 @@ public class MainMenu extends IconMenu {
 
 	public MainMenu(final Player player) {
 		super(Minigames.getInstance(), "Menu", 9, player);
-
-		this.addItems(player);
 	}
 
-	private void addItems(final Player player) {
-		this.items.put(0, new ItemBuilder(Material.GRAY_DYE).name(GOLD + "Points").lore(GRAY + "You have " + YELLOW + Points.getPoints(player) + GRAY + " points.", GRAY + "Click for more information.").create());
-		this.items.put(1, new ItemBuilder(Material.GRAY_DYE).name(GOLD + "Games").lore(GRAY + "Click to open games list menu.").create());
+	public void addItems() {
+		addItem(0, new ItemBuilder(Material.GRAY_DYE).name(GOLD + "Points").lore(GRAY + "You have " + YELLOW + Points.getPoints(this.player) + GRAY + " points.", GRAY + "Click for more information.").create());
+		addItem(1, new ItemBuilder(Material.GRAY_DYE).name(GOLD + "Games").lore(GRAY + "Click to open games list menu.").create());
 
 		Material settingMaterial;
-		if (Minigames.getInstance().getConfig().getStringList("disabled-description").contains(player.getUniqueId().toString())) {
+		if (Minigames.getInstance().getConfig().getStringList("disabled-description").contains(this.player.getUniqueId().toString())) {
 			settingMaterial = Material.RED_DYE;
 		} else {
 			settingMaterial = Material.LIME_DYE;
 		}
 
-		this.items.put(2, new ItemBuilder(settingMaterial).name(GOLD + "Game descriptions").lore(GRAY + "Click to enable or disable game", GRAY + "description messages at the start of each game").create());
+		addItem(2, new ItemBuilder(settingMaterial).name(GOLD + "Game descriptions").lore(GRAY + "Click to enable or disable game", GRAY + "description messages at the start of each game").create());
 
-		this.items.put(8, Menu.CLOSE_BUTTON);
+		addItem(8, Menu.CLOSE_BUTTON);
 	}
 
 	@Override
 	public boolean onOptionClick(final OptionClickEvent event) {
 		if (event.getName().contains("Games")){
-			new GamesListMenu(event.getPlayer()).open();
+			new GamesListMenu(event.getPlayer());
 			return false;
 		} else if (event.getName().contains("Points")) {
-			new PointsListMenu(event.getPlayer()).open();
+			new PointsListMenu(event.getPlayer());
 			return false;
 		} else if (event.getName().contains("Close")){
 			return true;
@@ -68,8 +66,7 @@ public class MainMenu extends IconMenu {
 			Minigames.getInstance().getConfig().set("disabled-description", list);
 			Minigames.getInstance().saveConfig();
 
-			this.addItems(player);
-			this.refreshItems();
+			this.addItems();
 
 			return false;
 		} else {

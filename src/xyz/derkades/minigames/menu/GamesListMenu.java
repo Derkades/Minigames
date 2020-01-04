@@ -65,7 +65,7 @@ public class GamesListMenu extends IconMenu {
 				}
 			}
 
-			this.items.put(slot, new ItemBuilder(Material.GRAY_DYE)
+			this.addItem(slot, new ItemBuilder(Material.GRAY_DYE)
 				.name(GOLD + game.getName())
 				.lore(lore)
 				.create());
@@ -73,14 +73,14 @@ public class GamesListMenu extends IconMenu {
 			slot++;
 		}
 
-		this.items.put(53, Menu.BACK_BUTTON);
+		addItem(53, Menu.BACK_BUTTON);
 	}
 
 	@Override
 	public boolean onOptionClick(final OptionClickEvent event) {
 		// Back button
 		if (event.getPosition() == 53) {
-			new MainMenu(event.getPlayer()).open();
+			new MainMenu(event.getPlayer());
 		}
 
 		return false;

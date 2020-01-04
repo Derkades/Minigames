@@ -66,7 +66,7 @@ public class Board {
 
 	private static int openDieAnimationMenu(final BoardPlayer p, final int min, final int max) {
 		final int random = Random.getRandomInteger(min, max);
-		new DieAnimationMenu(p, min, max, random).open();
+		new DieAnimationMenu(p, min, max, random);
 		return random;
 	}
 

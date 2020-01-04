@@ -111,8 +111,9 @@ public class GlobalListeners implements Listener {
 			event.setCancelled(true);
 		}
 
-		if (!(event.getEntity() instanceof Player))
+		if (!(event.getEntity() instanceof Player)) {
 			return;
+		}
 
 		final MPlayer player = new MPlayer(event);
 		if (player.getDisableDamage()){
@@ -122,27 +123,31 @@ public class GlobalListeners implements Listener {
 
 	@EventHandler
 	public void gamesMenuOpen(final PlayerInteractEntityEvent event){
-		if (Minigames.CURRENT_GAME != null)
+		if (Minigames.CURRENT_GAME != null) {
 			return;
+		}
 
-		if (!event.getHand().equals(EquipmentSlot.HAND))
+		if (!event.getHand().equals(EquipmentSlot.HAND)) {
 			return;
+		}
 
 		final Player player = event.getPlayer();
 		final Entity entity = event.getRightClicked();
 		if (entity instanceof Villager){
 			event.setCancelled(true);
-			new MainMenu(player).open();
+			new MainMenu(player);
 		}
 	}
 
 	@EventHandler
 	public void onInteract(final PlayerInteractEvent event) {
-		if (event.getPlayer().getGameMode() != GameMode.ADVENTURE)
+		if (event.getPlayer().getGameMode() != GameMode.ADVENTURE) {
 			return;
+		}
 
-		if (event.getHand() != null && !event.getHand().equals(EquipmentSlot.HAND))
+		if (event.getHand() != null && !event.getHand().equals(EquipmentSlot.HAND)) {
 			return;
+		}
 
 		final Action action = event.getAction();
 		final Block block = event.getClickedBlock();
@@ -153,7 +158,7 @@ public class GlobalListeners implements Listener {
 		final ItemStack itemInHand = event.getPlayer().getInventory().getItemInMainHand();
 
 		if (Minigames.CURRENT_GAME == null && itemInHand.getType().equals(Material.COMPARATOR)) {
-			new MainMenu(event.getPlayer()).open();
+			new MainMenu(event.getPlayer());
 		}
 	}
 
@@ -167,14 +172,16 @@ public class GlobalListeners implements Listener {
 
 	@EventHandler
 	public void onDamageTriggerCustomEvent(final EntityDamageEvent event) {
-		if (!event.getEntity().getType().equals(EntityType.PLAYER))
+		if (!event.getEntity().getType().equals(EntityType.PLAYER)) {
 			return;
+		}
 
 		if (event instanceof EntityDamageByEntityEvent) {
 			final EntityDamageByEntityEvent event2 = (EntityDamageByEntityEvent) event;
 
-			if (event2.getEntity().getType() != EntityType.PLAYER)
+			if (event2.getEntity().getType() != EntityType.PLAYER) {
 				return;
+			}
 
 			final MinigamesPlayerDamageEvent event3 = new MinigamesPlayerDamageEvent((Player) event2.getEntity(),
 					event2.getDamager(), event.getCause(), event.getDamage());

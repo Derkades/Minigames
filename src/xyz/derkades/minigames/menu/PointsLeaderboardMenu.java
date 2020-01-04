@@ -20,7 +20,7 @@ public class PointsLeaderboardMenu extends IconMenu {
 	public PointsLeaderboardMenu(final Player player) {
 		super(Minigames.getInstance(), "Points leaderboard", 6*9, player);
 
-		this.items.put(53, Menu.BACK_BUTTON);
+		this.addItem(53, Menu.BACK_BUTTON);
 
 		final Map<OfflinePlayer, Integer> map = new HashMap<>();
 
@@ -40,7 +40,7 @@ public class PointsLeaderboardMenu extends IconMenu {
 				return;
 			}
 
-			this.items.put(slot, new ItemBuilder(e.getKey()).amount(slot + 1).name(ChatColor.GOLD + e.getKey().getName()).lore(ChatColor.GRAY + "Points: " + ChatColor.YELLOW + e.getValue()).create());
+			this.addItem(slot, new ItemBuilder(e.getKey()).amount(slot + 1).name(ChatColor.GOLD + e.getKey().getName()).lore(ChatColor.GRAY + "Points: " + ChatColor.YELLOW + e.getValue()).create());
 			slot++;
 		}
 	}
@@ -49,7 +49,7 @@ public class PointsLeaderboardMenu extends IconMenu {
 	public boolean onOptionClick(final OptionClickEvent event) {
 		final Player player = event.getPlayer();
 		if (event.getPosition() == 53) {
-			new PointsListMenu(player).open();
+			new PointsListMenu(player);
 		}
 		return false;
 	}

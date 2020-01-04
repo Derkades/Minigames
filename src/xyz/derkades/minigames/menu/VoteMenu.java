@@ -19,19 +19,19 @@ public class VoteMenu extends IconMenu {
 
 		this.gameName = gameName;
 
-		this.items.put(13, new ItemBuilder(Material.CYAN_TERRACOTTA)
+		this.addItem(13, new ItemBuilder(Material.CYAN_TERRACOTTA)
 				.name(ChatColor.DARK_AQUA + "Did you like this game?")
 				.lore(ChatColor.GRAY + "Please click either \"Yes\" or \"No\".")
 				.create());
-		this.items.put(20, new ItemBuilder(Material.RED_TERRACOTTA)
+		this.addItem(20, new ItemBuilder(Material.RED_TERRACOTTA)
 				.name(ChatColor.RED + "No")
 				.lore(ChatColor.GRAY + "The game will be picked less often.")
 				.create());
-		this.items.put(22, new ItemBuilder(Material.YELLOW_TERRACOTTA)
+		this.addItem(22, new ItemBuilder(Material.YELLOW_TERRACOTTA)
 				.name(ChatColor.RED + "Neutral")
 				.lore(ChatColor.GRAY + "The game will be picked just as often.")
 				.create());
-		this.items.put(24, new ItemBuilder(Material.GREEN_TERRACOTTA)
+		this.addItem(24, new ItemBuilder(Material.GREEN_TERRACOTTA)
 				.name(ChatColor.GREEN + "Yes")
 				.lore(ChatColor.GRAY + "The game will be picked more often.")
 				.create());
