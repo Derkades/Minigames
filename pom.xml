@@ -3,16 +3,16 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>xyz.derkades</groupId>
-	<artifactId>Minigames</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<artifactId>minigames</artifactId>
+	<version>dev</version>
+	<name>Minigames</name>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<jdk.version>1.8</jdk.version>
-		<spigot.version></spigot.version>
 	</properties>
 
 	<build>
+		<finalName>${project.name}</finalName>
 		<sourceDirectory>src</sourceDirectory>
 
 		<resources>
@@ -28,8 +28,8 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.8.1</version>
 				<configuration>
-					<source>${jdk.version}</source>
-					<target>${jdk.version}</target>
+					<source>1.8</source>
+					<target>1.8</target>
 				</configuration>
 			</plugin>
 
@@ -48,20 +48,20 @@
 
 	<dependencies>
 
-		<dependency> <!-- Spigot API -->
+		<dependency>
 			<groupId>org.spigotmc</groupId>
 			<artifactId>spigot-api</artifactId>
 			<version>1.15.1-R0.1-SNAPSHOT</version>
 			<scope>provided</scope>
 		</dependency>
 
-		<dependency> <!-- Derkutils -->
+		<dependency>
 			<groupId>xyz.derkades</groupId>
 			<artifactId>Derkutils</artifactId>
 			<version>master</version>
 		</dependency>
 
-		<dependency> <!-- GitHub API -->
+		<dependency>
 			<groupId>org.kohsuke</groupId>
 			<artifactId>github-api</artifactId>
 			<version>1.101</version>
@@ -73,9 +73,6 @@
 			<version>1.7</version>
 			<scope>provided</scope>
 		</dependency>
-
-		<!--<dependency> <groupId>com.mineglade</groupId> <artifactId>icore</artifactId> 
-			<version>dev</version> <scope>provided</scope> </dependency> -->
 
 		<dependency>
 			<groupId>net.citizensnpcs</groupId>
@@ -89,7 +86,7 @@
 	<repositories>
 
 		<repository>
-			<id>spigot-repo</id>
+			<id>spigot</id>
 			<url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
 		</repository>
 
@@ -99,19 +96,20 @@
 		</repository>
 
 		<repository>
-			<id>sk89q-repo</id>
+			<id>sk89q</id>
 			<url>http://maven.sk89q.com/repo</url>
 		</repository>
 
 		<repository>
-			<id>vault-repo</id>
+			<id>vault</id>
 			<url>http://nexus.hc.to/content/repositories/pub_releases</url>
 		</repository>
 
 		<repository>
-			<id>everything</id>
+			<id>citizens</id>
 			<url>http://repo.citizensnpcs.co</url>
 		</repository>
 
 	</repositories>
+
 </project>
