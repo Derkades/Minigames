@@ -1,11 +1,17 @@
 package xyz.derkades.minigames.games;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
 import org.bukkit.Material;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Arrow;
+import org.bukkit.entity.EntityType;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.inventory.ItemStack;
 
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
@@ -113,6 +119,23 @@ public class BowSpleef extends Game<BowSpleefMap> {
 	@Override
 	public void onPlayerQuit(final MPlayer player) {
 		this.alive.remove(player.getUniqueId());
+	}
+
+	@EventHandler
+	public void onHit(final ProjectileHitEvent event) {
+		if (event.getEntityType() == EntityType.ARROW &&
+				event.getHitEntity() == null &&
+				event.getHitBlock().getType() == Material.TNT) {
+			final Block block = event.getHitBlock();
+
+			Arrays.asList(BlockFace.EAST, BlockFace.WEST, BlockFace.NORTH, BlockFace.SOUTH).forEach((f) -> {
+				final Block relative = block.getRelative(f);
+				if (relative.getType() == Material.TNT) {
+					relative.setType(Material.AIR);
+					relative.getWorld().spawnEntity(relative.getLocation().add(0.5, 0, 0.5), EntityType.PRIMED_TNT);
+				}
+			});
+		}
 	}
 
 }
