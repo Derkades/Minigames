@@ -54,7 +54,7 @@
 		<dependency> <!-- Spigot API -->
 			<groupId>org.spigotmc</groupId>
 			<artifactId>spigot-api</artifactId>
-			<version>1.14.4-R0.1-SNAPSHOT</version>
+			<version>1.15.1-R0.1-SNAPSHOT</version>
 			<scope>provided</scope>
 		</dependency>
 
@@ -67,7 +67,7 @@
 		<dependency> <!-- GitHub API -->
 			<groupId>org.kohsuke</groupId>
 			<artifactId>github-api</artifactId>
-			<version>1.95</version>
+			<version>1.101</version>
 		</dependency>
 
 		<dependency>
