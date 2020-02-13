@@ -1,5 +1,6 @@
 package xyz.derkades.minigames;
 
+import java.net.http.WebSocket.Listener;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -7,7 +8,6 @@ import java.util.stream.Collectors;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
-import org.bukkit.event.Listener;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -19,8 +19,8 @@ import xyz.derkades.minigames.games.Game;
 import xyz.derkades.minigames.games.maps.GameMap;
 import xyz.derkades.minigames.task.RegenerateHunger;
 import xyz.derkades.minigames.utils.MPlayer;
-import xyz.derkades.minigames.utils.Queue;
 import xyz.derkades.minigames.utils.Scheduler;
+import xyz.derkades.minigames.utils.queue.TaskQueue;
 import xyz.derkades.minigames.worlds.GameWorld;
 import xyz.derkades.minigames.worlds.WorldTeleportCommand;
 import xyz.derkades.minigames.worlds.WorldTeleportCommandCompleter;
@@ -78,7 +78,7 @@ public class Minigames extends JavaPlugin implements Listener {
 
 		new SneakPrevention(this);
 
-		Queue.start();
+		TaskQueue.start();
 
 		Scheduler.delay(20, () -> {
 			GameWorld.init();
@@ -127,18 +127,21 @@ public class Minigames extends JavaPlugin implements Listener {
 	 * Used by connector addon
 	 */
 	public static String getCurrentGameName() {
-		if (CURRENT_GAME == null)
+		if (CURRENT_GAME == null) {
 			return "None";
+		}
 
 		return CURRENT_GAME.getName();
 	}
 
     private boolean setupEconomy() {
-        if (getServer().getPluginManager().getPlugin("Vault") == null)
+        if (getServer().getPluginManager().getPlugin("Vault") == null) {
 			return false;
+		}
         final RegisteredServiceProvider<Economy> rsp = getServer().getServicesManager().getRegistration(Economy.class);
-        if (rsp == null)
+        if (rsp == null) {
 			return false;
+		}
         economy = rsp.getProvider();
         return economy != null;
     }
