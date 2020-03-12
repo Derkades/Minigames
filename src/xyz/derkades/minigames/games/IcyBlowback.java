@@ -19,7 +19,6 @@ import xyz.derkades.derkutils.bukkit.ItemBuilder;
 import xyz.derkades.minigames.Minigames;
 import xyz.derkades.minigames.games.icyblowback.IcyBlowbackMap;
 import xyz.derkades.minigames.utils.MPlayer;
-import xyz.derkades.minigames.utils.Queue;
 import xyz.derkades.minigames.utils.Winners;
 
 public class IcyBlowback extends Game<IcyBlowbackMap> {
@@ -70,12 +69,10 @@ public class IcyBlowback extends Game<IcyBlowbackMap> {
 			}
 
 			final Location loc = spawnLocations[index];
-
-			Queue.add(() -> {
-				player.teleport(loc);
-				player.placeCage(true);
-			});
-
+			
+			player.placeCage(true);
+			player.queueTeleport(loc);
+			
 			index--;
 		}
 	}

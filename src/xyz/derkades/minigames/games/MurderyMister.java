@@ -31,7 +31,6 @@ import xyz.derkades.minigames.games.murderymister.MurderyMisterMap;
 import xyz.derkades.minigames.utils.MPlayer;
 import xyz.derkades.minigames.utils.MinigamesPlayerDamageEvent;
 import xyz.derkades.minigames.utils.MinigamesPlayerDamageEvent.DamageType;
-import xyz.derkades.minigames.utils.Queue;
 import xyz.derkades.minigames.utils.Scheduler;
 import xyz.derkades.minigames.utils.Utils;
 
@@ -94,11 +93,9 @@ public class MurderyMister extends Game<MurderyMisterMap> {
 			}
 
 			final Location location = spawnLocations[index];
-
-			Queue.add(() -> {
-				player.teleport(location);
-				player.placeCage(true);
-			});
+			player.placeCage(true);
+			player.queueTeleport(location);
+			
 			index--;
 		}
 	}

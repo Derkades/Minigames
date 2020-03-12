@@ -23,7 +23,6 @@ import xyz.derkades.minigames.games.gladeroyale.GladeRoyaleMap;
 import xyz.derkades.minigames.utils.MPlayer;
 import xyz.derkades.minigames.utils.MinigamesPlayerDamageEvent;
 import xyz.derkades.minigames.utils.MinigamesPlayerDamageEvent.DamageType;
-import xyz.derkades.minigames.utils.Queue;
 import xyz.derkades.minigames.utils.Scheduler;
 import xyz.derkades.minigames.utils.Utils;
 import xyz.derkades.minigames.utils.Winners;
@@ -88,37 +87,33 @@ public class GladeRoyale extends Game<GladeRoyaleMap> {
 			player.setDisableItemMoving(false);
 		}
 
-		Queue.add(() -> {
-			this.sendMessage("Starting world reset, you will experience lag.");
+		this.sendMessage("Starting world reset, you will experience lag.");
 
-			final int minX = this.map.getMapCenter().getBlockX() - this.currentBorderSize / 2;
-			final int maxX = this.map.getMapCenter().getBlockX() + this.currentBorderSize / 2;
-			final int minZ = this.map.getMapCenter().getBlockZ() - this.currentBorderSize / 2;
-			final int maxZ = this.map.getMapCenter().getBlockZ() + this.currentBorderSize / 2;
+		final int minX = this.map.getMapCenter().getBlockX() - this.currentBorderSize / 2;
+		final int maxX = this.map.getMapCenter().getBlockX() + this.currentBorderSize / 2;
+		final int minZ = this.map.getMapCenter().getBlockZ() - this.currentBorderSize / 2;
+		final int maxZ = this.map.getMapCenter().getBlockZ() + this.currentBorderSize / 2;
 
-			int i = 0;
+		int i = 0;
 
-			for (int x = minX; x <= maxX; x++) {
-				for (int y = MIN_Y; y <= MAX_Y; y++) {
-					for (int z = minZ; z <= maxZ; z++) {
-						final Block block = new Location(this.map.getWorld(), x, y, z).getBlock();
-						if (block.getType().equals(Material.TERRACOTTA) || block.getType().equals(Material.CHEST)) {
-							i++;
-							//Bukkit.broadcastMessage(String.format("[debug] removed %s block at (%s, %s, %s). removed: %s. total: %s", block.getType(), x, y, z, j, i));
-							block.setType(Material.AIR);
-						}
+		for (int x = minX; x <= maxX; x++) {
+			for (int y = MIN_Y; y <= MAX_Y; y++) {
+				for (int z = minZ; z <= maxZ; z++) {
+					final Block block = new Location(this.map.getWorld(), x, y, z).getBlock();
+					if (block.getType().equals(Material.TERRACOTTA) || block.getType().equals(Material.CHEST)) {
+						i++;
+						//Bukkit.broadcastMessage(String.format("[debug] removed %s block at (%s, %s, %s). removed: %s. total: %s", block.getType(), x, y, z, j, i));
+						block.setType(Material.AIR);
 					}
 				}
 			}
+		}
 
-			this.sendMessage("Removed " + i + " blocks");
+		this.sendMessage("Removed " + i + " blocks");
 
-			this.map.getWorld().getEntitiesByClass(Item.class).forEach(Item::remove);
-		});
-
-		Queue.add(() ->{
-			this.sendMessage("When the game starts, you will be teleported into the sky. Don't forget to activate your elytra!");
-		});
+		this.map.getWorld().getEntitiesByClass(Item.class).forEach(Item::remove);
+		
+		this.sendMessage("When the game starts, you will be teleported into the sky. Don't forget to activate your elytra!");
 	}
 
 	@Override
@@ -138,12 +133,8 @@ public class GladeRoyale extends Game<GladeRoyaleMap> {
 			}
 			random.setY(random.getY() + 100);
 
-			final Location finalRandom = random;
-
-			Queue.add(() -> {
-				player.sendTitle(ChatColor.RED + "You're falling", ChatColor.GRAY + "Activate your elytra!");
-				player.teleport(finalRandom);
-			});
+			player.sendTitle(ChatColor.RED + "You're falling", ChatColor.GRAY + "Activate your elytra!");
+			player.queueTeleport(random);
 		}
 	}
 
