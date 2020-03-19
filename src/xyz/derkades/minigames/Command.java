@@ -5,11 +5,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import net.md_5.bungee.api.ChatColor;
-import xyz.derkades.derkutils.Random;
 import xyz.derkades.minigames.Minigames.ShutdownReason;
-import xyz.derkades.minigames.board.BoardPlayer;
-import xyz.derkades.minigames.board.DieAnimationMenu;
-import xyz.derkades.minigames.board.tile.Tile;
 import xyz.derkades.minigames.menu.GamesListMenu;
 import xyz.derkades.minigames.menu.MainMenu;
 import xyz.derkades.minigames.random.RandomPicking;
@@ -33,12 +29,12 @@ public class Command implements CommandExecutor {
 			return true;
 		}
 
-		if (args.length == 2 && args[0].equalsIgnoreCase("tiletp")) {
-			final Tile tile = Tile.fromString(args[1]);
-			sender.sendMessage("Teleporting to " + tile);
-			((Player) sender).teleport(tile.getLocation());
-			return true;
-		}
+//		if (args.length == 2 && args[0].equalsIgnoreCase("tiletp")) {
+//			final Tile tile = Tile.fromString(args[1]);
+//			sender.sendMessage("Teleporting to " + tile);
+//			((Player) sender).teleport(tile.getLocation());
+//			return true;
+//		}
 
 		if (args.length == 1){
 			if ((args[0].equalsIgnoreCase("start") || args[0].equals("b")) && sender.hasPermission("minigames.start")){
@@ -82,10 +78,10 @@ public class Command implements CommandExecutor {
 				sender.sendMessage("Set debug mode to " + Logger.debugMode);
 			} else if (args[0].equals("currentgame") && sender.hasPermission("minigames.currentgame")) {
 				sender.sendMessage("Current game: " + Minigames.CURRENT_GAME);
-			} else if (args[0].equals("resetprogress") && sender.hasPermission("minigames.resetprogress")) {
-				Minigames.getOnlinePlayers().stream().map(BoardPlayer::new).forEach((p) -> p.jumpTile(Tile.START_TILE));
+//			} else if (args[0].equals("resetprogress") && sender.hasPermission("minigames.resetprogress")) {
+//				Minigames.getOnlinePlayers().stream().map(BoardPlayer::new).forEach((p) -> p.jumpTile(Tile.START_TILE));
 			} else if (args[0].equals("test") && sender.hasPermission("minigames.test")) {
-				new DieAnimationMenu(new BoardPlayer(new MPlayer((Player) sender)), 1, 10, Random.getRandomInteger(1, 10));
+//				new DieAnimationMenu(new BoardPlayer(new MPlayer((Player) sender)), 1, 10, Random.getRandomInteger(1, 10));
 //		        final Location fbLocation = loc.add(
 //		        		loc
 //		                .getDirection()

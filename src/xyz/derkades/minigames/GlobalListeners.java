@@ -31,7 +31,6 @@ import org.bukkit.potion.PotionEffectType;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.ClickEvent;
 import xyz.derkades.derkutils.bukkit.MaterialLists;
-import xyz.derkades.minigames.board.BoardPlayer;
 import xyz.derkades.minigames.menu.MainMenu;
 import xyz.derkades.minigames.utils.MPlayer;
 import xyz.derkades.minigames.utils.MinigamesPlayerDamageEvent;
@@ -56,12 +55,13 @@ public class GlobalListeners implements Listener {
 		player.setDisableItemMoving(true);
 		player.setDisableSneaking(false);
 
-		final BoardPlayer board = new BoardPlayer(player);
-		board.createNpc();
+//		final BoardPlayer board = new BoardPlayer(player);
+//		board.createNpc();
 
 		if (Minigames.CURRENT_GAME == null) {
 			//No game is running, teleport to board
-			board.teleportToBoard(false);
+//			board.teleportToBoard(false);
+			player.teleport(Var.LOBBY_LOCATION);
 
 			Scheduler.delay(1, () -> player.spigot().sendMessage(
 						Utils.getComponentBuilderWithPrefix(ChatColor.GREEN, 'P')
@@ -94,8 +94,8 @@ public class GlobalListeners implements Listener {
 			Minigames.CURRENT_GAME.onPlayerQuit(player);
 		}
 
-		final BoardPlayer board = new BoardPlayer(player);
-		board.removeNpc();
+//		final BoardPlayer board = new BoardPlayer(player);
+//		board.removeNpc();
 	}
 
 	@EventHandler

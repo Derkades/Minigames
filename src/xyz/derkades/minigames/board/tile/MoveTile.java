@@ -1,6 +1,0 @@
-package xyz.derkades.minigames.board.tile;
-
-public abstract class MoveTile extends StaticDirectionTile {
-
-
-}

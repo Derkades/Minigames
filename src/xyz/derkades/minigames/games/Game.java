@@ -28,8 +28,7 @@ import xyz.derkades.minigames.ChatPoll.PollAnswer;
 import xyz.derkades.minigames.Logger;
 import xyz.derkades.minigames.Minigames;
 import xyz.derkades.minigames.Minigames.ShutdownReason;
-import xyz.derkades.minigames.board.Board;
-import xyz.derkades.minigames.board.BoardPlayer;
+import xyz.derkades.minigames.Var;
 import xyz.derkades.minigames.constants.BoardConfig;
 import xyz.derkades.minigames.constants.VoteConfig;
 import xyz.derkades.minigames.games.maps.GameMap;
@@ -92,9 +91,9 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 
 	public abstract void onEnd();
 
-	public abstract void onPlayerJoin(MPlayer player); // TODO call on join and cancel teleport
+	public abstract void onPlayerJoin(MPlayer player);
 
-	public abstract void onPlayerQuit(MPlayer player); // TODO call on quit
+	public abstract void onPlayerQuit(MPlayer player);
 
 	protected M map = null;
 
@@ -365,11 +364,14 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 
 		this.showPolls();
 
-		Minigames.getOnlinePlayers().stream()
-			.map(BoardPlayer::new)
-			.forEach(p -> p.teleportToBoard(true));
+//		Minigames.getOnlinePlayers().stream()
+//			.map(BoardPlayer::new)
+//			.forEach(p -> p.teleportToBoard(true));
 
-		Board.performTurns(winners);
+//		Board.performTurns(winners);
+		Minigames.getOnlinePlayers().forEach(p -> {
+			p.queueTeleport(Var.LOBBY_LOCATION);
+		});
 	}
 
 	private void showPolls() {
@@ -449,21 +451,24 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 
 	@Override
 	public Size getSize() {
-		if (this.getRequiredPlayers() > 4)
+		if (this.getRequiredPlayers() > 4) {
 			return Size.LARGE;
-		else if (this.getRequiredPlayers() > 2)
+		} else if (this.getRequiredPlayers() > 2) {
 			return Size.NORMAL;
-		else
+		} else {
 			return Size.SMALL;
+		}
 	}
 
 	public static Game<? extends GameMap> fromString(final String string) {
 		for (final Game<? extends GameMap> game : GAMES){
-			if (game.getName().equalsIgnoreCase(string))
+			if (game.getName().equalsIgnoreCase(string)) {
 				return game;
+			}
 
-			if (string.equalsIgnoreCase(game.getAlias()))
+			if (string.equalsIgnoreCase(game.getAlias())) {
 				return game;
+			}
 		}
 		return null;
 	}

@@ -2,6 +2,8 @@ package xyz.derkades.minigames.constants;
 
 public class BoardConfig {
 
+	public static final boolean USE_BOARD = false;
+
 	public static final int DIE_WINNER_STEPS_MIN = 4;
 	public static final int DIE_WINNER_STEPS_MAX = 10;
 	public static final int DIE_LOSER_STEPS_MIN = 1;
