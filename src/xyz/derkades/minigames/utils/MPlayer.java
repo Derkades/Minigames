@@ -26,6 +26,7 @@ import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.TextComponent;
 import xyz.derkades.derkutils.bukkit.BlockUtils;
+import xyz.derkades.derkutils.bukkit.ItemBuilder;
 import xyz.derkades.derkutils.bukkit.LocationUtils;
 import xyz.derkades.minigames.Minigames;
 import xyz.derkades.minigames.Points;
@@ -137,20 +138,6 @@ public class MPlayer {
 		return getLocation().getBlockZ();
 	}
 
-//    public void giveLobbyInventoryItems() {
-////    	if (this.player.hasPermission("games.torch")) {
-////			this.player.getInventory().setItem(7, new ItemBuilder(Material.REDSTONE_TORCH)
-////					.name(ChatColor.AQUA + "" + ChatColor.BOLD + "Staff lounge key")
-////					.lore(ChatColor.YELLOW + "Place in upper-south-east-corner on gray terracotta")
-////					.canPlaceOn("cyan_terracotta")
-////					.create());
-////		}
-//
-//		this.player.getInventory().setItem(8, new ItemBuilder(Material.COMPARATOR)
-//				.name(ChatColor.AQUA + "" + ChatColor.BOLD + "Menu")
-//				.lore(ChatColor.YELLOW + "Click to open menu")
-//				.create());
-//    }
 
     public void setExp(final float exp) {
     	this.player.setExp(exp);
@@ -279,23 +266,38 @@ public class MPlayer {
 		this.giveInfiniteEffect(PotionEffectType.INVISIBILITY);
 	}
 
-//	public void applyLobbySettings() {
-//		this.setDisableDamage(true);
-//		this.setDisableHunger(true);
-//		this.setDisableItemMoving(true);
-//		this.setDisableSneaking(false);
-//
-//		this.setGameMode(GameMode.ADVENTURE);
-//		this.setAllowFlight(false);
-//
-//		this.player.setExp(0.0f);
-//		this.player.setLevel(0);
-//
-//		this.heal();
-//		this.clearInventory();
-//		this.clearPotionEffects();
-//		this.giveLobbyInventoryItems();
-//	}
+	public void applyLobbySettings() {
+		this.setDisableDamage(true);
+		this.setDisableHunger(true);
+		this.setDisableItemMoving(true);
+		this.setDisableSneaking(false);
+
+		this.setGameMode(GameMode.ADVENTURE);
+		this.setAllowFlight(false);
+
+		this.player.setExp(0.0f);
+		this.player.setLevel(0);
+
+		this.heal();
+		this.clearInventory();
+		this.clearPotionEffects();
+		this.giveLobbyInventoryItems();
+	}
+
+	public void giveLobbyInventoryItems() {
+//    	if (this.player.hasPermission("games.torch")) {
+//			this.player.getInventory().setItem(7, new ItemBuilder(Material.REDSTONE_TORCH)
+//					.name(ChatColor.AQUA + "" + ChatColor.BOLD + "Staff lounge key")
+//					.lore(ChatColor.YELLOW + "Place in upper-south-east-corner on gray terracotta")
+//					.canPlaceOn("cyan_terracotta")
+//					.create());
+//		}
+
+		this.player.getInventory().setItem(8, new ItemBuilder(Material.COMPARATOR)
+				.name(ChatColor.AQUA + "" + ChatColor.BOLD + "Menu")
+				.lore(ChatColor.YELLOW + "Click to open menu")
+				.create());
+	}
 
 	public void addPoints(final int points) {
 		Points.addPoints(this.player, points);

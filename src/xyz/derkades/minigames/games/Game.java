@@ -371,6 +371,7 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 //		Board.performTurns(winners);
 		Minigames.getOnlinePlayers().forEach(p -> {
 			p.queueTeleport(Var.LOBBY_LOCATION);
+			p.applyLobbySettings();
 		});
 	}
 
