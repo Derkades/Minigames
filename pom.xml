@@ -91,11 +91,6 @@
 		</repository>
 
 		<repository>
-			<id>derkades</id>
-			<url>https://derkades.xyz/maven</url>
-		</repository>
-
-		<repository>
 			<id>vault</id>
 			<url>http://nexus.hc.to/content/repositories/pub_releases</url>
 		</repository>
