@@ -25,8 +25,9 @@ public class Points {
 	}
 
 	public static int getPoints(final OfflinePlayer player){
-		if (!Minigames.getInstance().getConfig().isSet("points." + player.getUniqueId()))
+		if (!Minigames.getInstance().getConfig().isSet("points." + player.getUniqueId())) {
 			return 0;
+		}
 
 		return Minigames.getInstance().getConfig().getInt("points." + player.getUniqueId());
 	}
@@ -86,7 +87,7 @@ public class Points {
 //					continue;
 //				}
 //				final ChatColor color = icoreData.getNameColor();
-				final ChatColor color = ChatColor.BLACK;
+				final ChatColor color = ChatColor.WHITE;
 				final String nickname = array[i].getName();
 				final Sign sign = (Sign) signLocations[i].getBlock().getState();
 				sign.setLine(0, ChatColor.DARK_GRAY + "[" + ChatColor.GREEN + (i + 1) + ChatColor.DARK_GRAY + "]");
