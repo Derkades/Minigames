@@ -33,6 +33,7 @@ import xyz.derkades.minigames.utils.MinigamesPlayerDamageEvent;
 import xyz.derkades.minigames.utils.MinigamesPlayerDamageEvent.DamageType;
 import xyz.derkades.minigames.utils.Scheduler;
 import xyz.derkades.minigames.utils.Utils;
+import xyz.derkades.minigames.utils.queue.TaskQueue;
 
 public class MurderyMister extends Game<MurderyMisterMap> {
 
@@ -93,17 +94,20 @@ public class MurderyMister extends Game<MurderyMisterMap> {
 			}
 
 			final Location location = spawnLocations[index];
-			player.placeCage(true);
-			player.queueTeleport(location);
-			
+			TaskQueue.add(() -> {
+				player.teleport(location);
+				player.placeCage(true);
+			});
+
 			index--;
 		}
 	}
 
 	@Override
 	public void onStart() {
-		if (Bukkit.getOnlinePlayers().size() < 1)
-			return; // Just in case everyone leaves, so the code below doesn't crash
+		if (Bukkit.getOnlinePlayers().size() < 1) {
+	return; // Just in case everyone leaves, so the code below doesn't crash
+}
 
 		final MPlayer murderer = Minigames.getOnlinePlayersInRandomOrder().get(0);
 		murderer.sendTitle("", ChatColor.RED + "You are the murderer!");
