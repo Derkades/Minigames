@@ -4,6 +4,7 @@ import static org.bukkit.ChatColor.RED;
 
 import org.bukkit.Bukkit;
 
+import net.md_5.bungee.api.ChatColor;
 import xyz.derkades.minigames.games.Game;
 import xyz.derkades.minigames.games.maps.GameMap;
 import xyz.derkades.minigames.random.RandomPicking;
@@ -25,8 +26,8 @@ public class AutoRotate {
 			return;
 		}
 
-		if (Bukkit.getOnlinePlayers().size() < 1) {
-			Bukkit.broadcastMessage("[System] No players online, waiting 5 seconds");
+		if (Bukkit.getOnlinePlayers().size() < 2) {
+			Bukkit.broadcastMessage(ChatColor.RED + "Not enough players online to start a game. Please invite more players.");
 			Scheduler.delay(5*20, AutoRotate::startNewRandomGame);
 			return;
 		}
