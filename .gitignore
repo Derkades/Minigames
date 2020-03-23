@@ -57,3 +57,4 @@ $RECYCLE.BIN/
 *.msp
 # Windows shortcuts
 *.lnk
+build.sh
