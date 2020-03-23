@@ -29,7 +29,6 @@ import xyz.derkades.minigames.Logger;
 import xyz.derkades.minigames.Minigames;
 import xyz.derkades.minigames.Minigames.ShutdownReason;
 import xyz.derkades.minigames.Var;
-import xyz.derkades.minigames.constants.BoardConfig;
 import xyz.derkades.minigames.constants.VoteConfig;
 import xyz.derkades.minigames.games.maps.GameMap;
 import xyz.derkades.minigames.random.RandomPicking;
@@ -359,8 +358,8 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 			this.sendMessage("The " + this.getName() + " game has ended! Winners: " + YELLOW + winnersText);
 		}
 
-		this.sendMessage(String.format("Winners move %s-%s steps forward, other players move %s-%s steps forward.",
-				BoardConfig.DIE_WINNER_STEPS_MIN, BoardConfig.DIE_WINNER_STEPS_MAX, BoardConfig.DIE_LOSER_STEPS_MIN, BoardConfig.DIE_LOSER_STEPS_MAX));
+//		this.sendMessage(String.format("Winners move %s-%s steps forward, other players move %s-%s steps forward.",
+//				BoardConfig.DIE_WINNER_STEPS_MIN, BoardConfig.DIE_WINNER_STEPS_MAX, BoardConfig.DIE_LOSER_STEPS_MIN, BoardConfig.DIE_LOSER_STEPS_MAX));
 
 		this.showPolls();
 
