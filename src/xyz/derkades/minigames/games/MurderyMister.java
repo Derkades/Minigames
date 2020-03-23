@@ -133,7 +133,7 @@ public class MurderyMister extends Game<MurderyMisterMap> {
 
 		for (final MPlayer player : Minigames.getOnlinePlayers()) {
 			player.placeCage(false);
-			player.setDisableSneaking(true);
+			player.enableSneakPrevention(p -> p.bukkit().damage(1000));
 		}
 	}
 

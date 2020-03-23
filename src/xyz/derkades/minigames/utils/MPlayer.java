@@ -1,6 +1,7 @@
 package xyz.derkades.minigames.utils;
 
 import java.util.UUID;
+import java.util.function.Consumer;
 
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
@@ -30,7 +31,6 @@ import xyz.derkades.derkutils.bukkit.ItemBuilder;
 import xyz.derkades.derkutils.bukkit.LocationUtils;
 import xyz.derkades.minigames.Minigames;
 import xyz.derkades.minigames.Points;
-import xyz.derkades.minigames.SneakPrevention;
 import xyz.derkades.minigames.utils.queue.TaskPriority;
 import xyz.derkades.minigames.utils.queue.TaskQueue;
 
@@ -78,12 +78,24 @@ public class MPlayer {
 		return Utils.getMetadata(this.player, "disable_item_moving").asBoolean();
 	}
 
-	public void setDisableSneaking(final boolean disableSneaking) {
-		SneakPrevention.setCanSneak(this.player, !disableSneaking);
+//	public void setDisableSneaking(final boolean disableSneaking) {
+//		SneakPrevention.setCanSneak(this.player, !disableSneaking);
+//	}
+//
+//	public boolean getDisableSneaking() {
+//		return !SneakPrevention.getCanSneak(this.player);
+//	}
+	
+	public void enableSneakPrevention(final Consumer<MPlayer> onPunish) {
+		SneakPrevention.enable(this, onPunish);
 	}
-
-	public boolean getDisableSneaking() {
-		return !SneakPrevention.getCanSneak(this.player);
+	
+	public void disableSneakPrevention() {
+		SneakPrevention.disable(this);
+	}
+	
+	public boolean sneakPreventionEnabled() {
+		return SneakPrevention.isEnabled(this);
 	}
 
 	public Player bukkit() {
@@ -241,7 +253,7 @@ public class MPlayer {
 
 	public void spectator() {
 		this.player.setGameMode(GameMode.SPECTATOR);
-		SneakPrevention.setCanSneak(this.player, true);
+		this.disableSneakPrevention();
 		this.sendActionBar(new ComponentBuilder("You are now a specator. Use /spec <player> to spectate a player.")
 				.color(ChatColor.GRAY).create());
 	}
@@ -270,7 +282,7 @@ public class MPlayer {
 		this.setDisableDamage(true);
 		this.setDisableHunger(true);
 		this.setDisableItemMoving(true);
-		this.setDisableSneaking(false);
+		this.disableSneakPrevention();
 
 		this.setGameMode(GameMode.ADVENTURE);
 		this.setAllowFlight(false);

@@ -53,7 +53,7 @@ public class GlobalListeners implements Listener {
 		player.setDisableDamage(true);
 		player.setDisableHunger(true);
 		player.setDisableItemMoving(true);
-		player.setDisableSneaking(false);
+		player.disableSneakPrevention();
 
 //		final BoardPlayer board = new BoardPlayer(player);
 //		board.createNpc();

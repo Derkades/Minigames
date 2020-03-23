@@ -18,6 +18,7 @@ import xyz.derkades.minigames.games.maps.GameMap;
 import xyz.derkades.minigames.task.RegenerateHunger;
 import xyz.derkades.minigames.utils.MPlayer;
 import xyz.derkades.minigames.utils.Scheduler;
+import xyz.derkades.minigames.utils.SneakPrevention;
 import xyz.derkades.minigames.utils.queue.TaskQueue;
 import xyz.derkades.minigames.worlds.GameWorld;
 import xyz.derkades.minigames.worlds.WorldTeleportCommand;

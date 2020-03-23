@@ -93,7 +93,7 @@ public class OneInTheQuiver extends Game<OITQMap> {
 	@Override
 	public void onStart() {
 		for (final MPlayer player : Minigames.getOnlinePlayers()) {
-			player.setDisableSneaking(true);
+			player.enableSneakPrevention(p -> p.bukkit().damage(1000));
 			player.setDisableDamage(false);
 			player.giveItem(SWORD, BOW, ARROW);
 		}
@@ -101,8 +101,9 @@ public class OneInTheQuiver extends Game<OITQMap> {
 
 	@Override
 	public int gameTimer(final int secondsLeft) {
-		if (this.alive.size() < 2 && secondsLeft > 2)
+		if (this.alive.size() < 2 && secondsLeft > 2) {
 			return 2;
+		}
 
 		return secondsLeft;
 	}

@@ -2,7 +2,6 @@ package xyz.derkades.minigames.games;
 
 import java.util.UUID;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
@@ -20,7 +19,6 @@ import org.bukkit.potion.PotionEffectType;
 import net.md_5.bungee.api.ChatColor;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
 import xyz.derkades.minigames.Minigames;
-import xyz.derkades.minigames.SneakPrevention;
 import xyz.derkades.minigames.games.breaktheblock.BreakTheBlockMap;
 import xyz.derkades.minigames.utils.MPlayer;
 
@@ -83,7 +81,10 @@ public class BreakTheBlock extends Game<BreakTheBlockMap> {
 	public void onStart() {
 		Minigames.getOnlinePlayers().forEach((player) -> {
 			player.setDisableDamage(false);
-			player.setDisableSneaking(true);
+			player.enableSneakPrevention(p -> {
+				p.clearInventory();
+				p.teleport(this.map.getStartLocation());
+			});
 			player.giveInfiniteEffect(PotionEffectType.SLOW_DIGGING, 1);
 		});
 
@@ -92,9 +93,7 @@ public class BreakTheBlock extends Game<BreakTheBlockMap> {
 	@Override
 	public int gameTimer(final int secondsLeft) {
 		if (BreakTheBlock.this.blockBreaker != null && secondsLeft > 5) {
-			Bukkit.getOnlinePlayers().forEach((player) -> {
-				SneakPrevention.setCanSneak(player, true);
-			});
+			Minigames.getOnlinePlayers().forEach(MPlayer::disableSneakPrevention);
 
 			return 5;
 		}
@@ -113,7 +112,10 @@ public class BreakTheBlock extends Game<BreakTheBlockMap> {
 		player.teleport(this.map.getStartLocation());
 		player.giveItem(PICKAXE);
 		player.setDisableDamage(false);
-		player.setDisableSneaking(true);
+		player.enableSneakPrevention(p -> {
+			p.clearInventory();
+			p.teleport(this.map.getStartLocation());
+		});
 		player.giveInfiniteEffect(PotionEffectType.SLOW_DIGGING, 1);
 	}
 
@@ -126,11 +128,13 @@ public class BreakTheBlock extends Game<BreakTheBlockMap> {
 	public void onMove(final PlayerMoveEvent event) {
 		final MPlayer player = new MPlayer(event);
 
-		if (player.getBlockIn().getType() == Material.WATER){
-			player.teleport(this.map.getStartLocation());
-		}
-
 		final PlayerInventory inv = player.getInventory();
+
+		if (player.getBlockIn().getType() == Material.WATER){
+			inv.clear();
+			player.teleport(this.map.getStartLocation());
+			return;
+		}
 
 		if (player.getLocation().getBlock().getRelative(BlockFace.DOWN).getType().equals(Material.ORANGE_CONCRETE) &&
 				!inv.contains(Material.FIREWORK_ROCKET)) {
@@ -148,8 +152,9 @@ public class BreakTheBlock extends Game<BreakTheBlockMap> {
 
 	@EventHandler
 	public void blockBreakEvent(final BlockBreakEvent event) {
-		if (event.getBlock().getType() != Material.GOLD_BLOCK)
+		if (event.getBlock().getType() != Material.GOLD_BLOCK) {
 			return;
+		}
 
 		sendMessage(event.getPlayer().getName() + " has broken the block!");
 
@@ -165,8 +170,9 @@ public class BreakTheBlock extends Game<BreakTheBlockMap> {
 	@EventHandler
 	public void onDamage(final EntityDamageByEntityEvent event) {
 		if (event.getEntity().getType() != EntityType.PLAYER ||
-				event.getDamager().getType() != EntityType.PLAYER)
+				event.getDamager().getType() != EntityType.PLAYER) {
 			return;
+		}
 
 		final Block blockBelow = event.getEntity().getLocation().getBlock().getRelative(BlockFace.DOWN);
 		event.setCancelled(!(blockBelow.getType() == Material.RED_CONCRETE || blockBelow.getRelative(BlockFace.DOWN).getType() == Material.RED_CONCRETE));
