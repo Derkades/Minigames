@@ -25,7 +25,6 @@ import xyz.derkades.minigames.utils.MinigamesPlayerDamageEvent;
 import xyz.derkades.minigames.utils.MinigamesPlayerDamageEvent.DamageType;
 import xyz.derkades.minigames.utils.Scheduler;
 import xyz.derkades.minigames.utils.Utils;
-import xyz.derkades.minigames.utils.Winners;
 
 public class GladeRoyale extends Game<GladeRoyaleMap> {
 
@@ -247,14 +246,15 @@ public class GladeRoyale extends Game<GladeRoyaleMap> {
 
 	@Override
 	public void onEnd() {
-		this.endGame(Winners.fromAlive(this.alive, false));
+		this.endGame(this.alive, true);
 		this.alive.clear();
 	}
 
 	@EventHandler
 	public void damage(final MinigamesPlayerDamageEvent event) {
-		if (!this.started)
+		if (!this.started) {
 			return;
+		}
 
 		if (event.willBeDead()) {
 			event.setCancelled(true);
@@ -282,8 +282,9 @@ public class GladeRoyale extends Game<GladeRoyaleMap> {
 
 	private void spawnSupplyDrop() {
 		final Location loc = this.getRandomLocationWithinBorder();
-		if (loc == null)
+		if (loc == null) {
 			return;
+		}
 
 		this.sendMessage(String.format("Supply drop at (%s, %s)", loc.getBlockX(), loc.getBlockZ()));
 

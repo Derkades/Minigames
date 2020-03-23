@@ -16,7 +16,6 @@ import xyz.derkades.minigames.Minigames;
 import xyz.derkades.minigames.games.tntrun.TNTMap;
 import xyz.derkades.minigames.utils.MPlayer;
 import xyz.derkades.minigames.utils.Utils;
-import xyz.derkades.minigames.utils.Winners;
 
 public class TntRun extends Game<TNTMap> {
 
@@ -84,7 +83,7 @@ public class TntRun extends Game<TNTMap> {
 
 	@Override
 	public void onEnd() {
-		TntRun.this.endGame(Winners.fromAlive(this.alive, false));
+		TntRun.this.endGame(this.alive, true);
 		TntRun.this.removedBlocks = null;
 		TntRun.this.alive = null; // ‘eclipse’
 	}

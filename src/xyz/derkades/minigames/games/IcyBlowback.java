@@ -19,7 +19,6 @@ import xyz.derkades.derkutils.bukkit.ItemBuilder;
 import xyz.derkades.minigames.Minigames;
 import xyz.derkades.minigames.games.icyblowback.IcyBlowbackMap;
 import xyz.derkades.minigames.utils.MPlayer;
-import xyz.derkades.minigames.utils.Winners;
 import xyz.derkades.minigames.utils.queue.TaskQueue;
 
 public class IcyBlowback extends Game<IcyBlowbackMap> {
@@ -103,7 +102,7 @@ public class IcyBlowback extends Game<IcyBlowbackMap> {
 
 	@Override
 	public void onEnd() {
-		IcyBlowback.this.endGame(Winners.fromAlive(this.alive, false));
+		IcyBlowback.this.endGame(this.alive, false);
 		this.alive = null;
 	}
 

@@ -20,7 +20,6 @@ import xyz.derkades.minigames.Minigames;
 import xyz.derkades.minigames.games.platform.PlatformMap;
 import xyz.derkades.minigames.utils.MPlayer;
 import xyz.derkades.minigames.utils.Utils;
-import xyz.derkades.minigames.utils.Winners;
 
 public class Platform extends Game<PlatformMap> {
 
@@ -87,15 +86,16 @@ public class Platform extends Game<PlatformMap> {
 			Platform.this.giveSwords();
 		}
 
-		if (this.alive.size() <= 1 && secondsLeft > 5)
+		if (this.alive.size() <= 1 && secondsLeft > 5) {
 			return 5;
+		}
 
 		return secondsLeft;
 	}
 
 	@Override
 	public void onEnd() {
-		Platform.this.endGame(Winners.fromAlive(this.alive, true));
+		Platform.this.endGame(this.alive, true);
 		this.alive = null;
 	}
 
@@ -118,8 +118,9 @@ public class Platform extends Game<PlatformMap> {
 	public void onMove(final PlayerMoveEvent event){
 		final MPlayer player = new MPlayer(event);
 
-		if (!this.alive.contains(player.getUniqueId()))
+		if (!this.alive.contains(player.getUniqueId())) {
 			return;
+		}
 
 		if (event.getTo().getBlock().getRelative(BlockFace.DOWN).getType().equals(Material.RED_TERRACOTTA)){
 			// Die

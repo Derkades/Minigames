@@ -21,7 +21,6 @@ import xyz.derkades.minigames.Minigames;
 import xyz.derkades.minigames.games.creeperattack.CreeperAttackMap;
 import xyz.derkades.minigames.utils.MPlayer;
 import xyz.derkades.minigames.utils.MinigamesPlayerDamageEvent;
-import xyz.derkades.minigames.utils.Winners;
 
 public class CreeperAttack extends Game<CreeperAttackMap> {
 
@@ -106,7 +105,7 @@ public class CreeperAttack extends Game<CreeperAttackMap> {
 			creeper.remove();
 		}
 
-		this.endGame(Winners.fromAlive(this.alive, false));
+		this.endGame(this.alive, true);
 
 		this.alive = null;
 	}

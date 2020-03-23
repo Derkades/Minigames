@@ -24,7 +24,6 @@ import xyz.derkades.minigames.utils.MPlayer;
 import xyz.derkades.minigames.utils.MinigamesPlayerDamageEvent;
 import xyz.derkades.minigames.utils.MinigamesPlayerDamageEvent.DamageType;
 import xyz.derkades.minigames.utils.Utils;
-import xyz.derkades.minigames.utils.Winners;
 
 public class OneInTheQuiver extends Game<OITQMap> {
 
@@ -112,9 +111,7 @@ public class OneInTheQuiver extends Game<OITQMap> {
 	public void onEnd() {
 		this.arrowRemoveTask.cancel();
 
-//		final List<Player> winners = Utils.getWinnersFromDeadAndAllList(OneInTheQuiver.this.dead, OneInTheQuiver.this.all, false);
-
-		OneInTheQuiver.super.endGame(Winners.fromAlive(this.alive, false));
+		OneInTheQuiver.super.endGame(this.alive, true);
 
 		this.alive = null;
 	}

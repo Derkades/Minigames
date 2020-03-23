@@ -14,19 +14,22 @@ import org.bukkit.entity.Player;
 public class Winners {
 
 	public static List<UUID> fromPointsMap(final Map<UUID, Integer> points){
-		if (points == null || points.isEmpty())
+		if (points == null || points.isEmpty()) {
 			return new ArrayList<>();
+		}
 
 		final int maxPoints = Collections.max(points.values());
 
-		if (maxPoints == 0)
+		if (maxPoints == 0) {
 			return new ArrayList<>();
+		}
 
 		return points.entrySet().stream().filter(e -> e.getValue() == maxPoints)
 				.map(Entry::getKey)
 				.collect(Collectors.toList());
 	}
 
+	@Deprecated
 	public static List<Player> getPlayerListFromUUIDList(final List<UUID> list){
 		return list.stream().map(Bukkit::getPlayer).filter(p -> p != null).collect(Collectors.toList());
 	}
@@ -36,24 +39,28 @@ public class Winners {
 				.filter(p -> !dead.contains(p))
 				.collect(Collectors.toList());
 
-		if (multipleWinnersAllowed)
+		if (multipleWinnersAllowed) {
 			return winners;
+		}
 
-		if (winners.size() == 1)
+		if (winners.size() == 1) {
 			return winners;
-		else
+		} else {
 			return new ArrayList<>();
+		}
 	}
 
 	@Deprecated
 	public static List<UUID> fromAlive(final List<UUID> alive, final boolean multipleWinnersAllowed){
-		if (multipleWinnersAllowed)
+		if (multipleWinnersAllowed) {
 			return alive;
+		}
 
-		if (alive.size() == 1)
+		if (alive.size() == 1) {
 			return alive;
-		else
+		} else {
 			return new ArrayList<>();
+		}
 	}
 
 }
