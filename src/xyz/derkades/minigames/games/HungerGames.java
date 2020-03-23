@@ -113,7 +113,7 @@ public class HungerGames extends Game<HungerGamesMap> {
 		
 		if (secondsLeft == 100) {
 			final WorldBorder border = this.map.getWorld().getWorldBorder();
-			border.setSize(this.map.getMinBorderSize(), this.getDuration() - 10);
+			border.setSize(this.map.getMinBorderSize(), 90);
 		}
 		
 		return secondsLeft;
