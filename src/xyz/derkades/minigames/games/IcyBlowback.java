@@ -20,6 +20,7 @@ import xyz.derkades.minigames.Minigames;
 import xyz.derkades.minigames.games.icyblowback.IcyBlowbackMap;
 import xyz.derkades.minigames.utils.MPlayer;
 import xyz.derkades.minigames.utils.Winners;
+import xyz.derkades.minigames.utils.queue.TaskQueue;
 
 public class IcyBlowback extends Game<IcyBlowbackMap> {
 
@@ -70,8 +71,10 @@ public class IcyBlowback extends Game<IcyBlowbackMap> {
 
 			final Location loc = spawnLocations[index];
 			
-			player.placeCage(true);
-			player.queueTeleport(loc);
+			TaskQueue.add(() -> {
+				player.placeCage(true);
+				player.teleport(loc);
+			});
 			
 			index--;
 		}
@@ -91,8 +94,9 @@ public class IcyBlowback extends Game<IcyBlowbackMap> {
 
 	@Override
 	public int gameTimer(final int secondsLeft) {
-		if (this.alive.size() < 2 && secondsLeft > 5)
+		if (this.alive.size() < 2 && secondsLeft > 5) {
 			return 5;
+		}
 
 		return secondsLeft;
 	}
@@ -107,8 +111,9 @@ public class IcyBlowback extends Game<IcyBlowbackMap> {
 	public void onMove(final PlayerMoveEvent event) {
 		final MPlayer player = new MPlayer(event);
 
-		if (!this.alive.contains(player.getUniqueId()))
+		if (!this.alive.contains(player.getUniqueId())) {
 			return;
+		}
 
 		if (player.getY() < this.map.getBottomFloorLevel()) {
 			//die
