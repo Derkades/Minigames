@@ -69,8 +69,9 @@ public class TntRun extends Game<TNTMap> {
 
 	@Override
 	public int gameTimer(final int secondsLeft) {
-		if (this.alive.size() < 2 && secondsLeft > 5)
-			return 5;
+		if (this.alive.size() < 2 && secondsLeft > 3) {
+			return 3;
+		}
 
 		Minigames.getOnlinePlayers().forEach((p) -> {
 			if (this.alive.contains(p.getUniqueId())) {
@@ -90,13 +91,15 @@ public class TntRun extends Game<TNTMap> {
 
 	@EventHandler
 	public void onMove(final PlayerMoveEvent event) {
-		if (!this.started)
-	return;
+		if (!this.started) {
+			return;
+		}
 
 		final MPlayer player = new MPlayer(event);
 
-		if (!this.alive.contains(player.getUniqueId()))
-	return;
+		if (!this.alive.contains(player.getUniqueId())) {
+			return;
+		}
 
 		final Block belowPlayer = event.getFrom().getBlock().getRelative(BlockFace.DOWN);
 
