@@ -23,6 +23,7 @@ import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;
 import xyz.derkades.derkutils.NumberUtils;
 import xyz.derkades.derkutils.Random;
+import xyz.derkades.minigames.AutoRotate;
 import xyz.derkades.minigames.ChatPoll.Poll;
 import xyz.derkades.minigames.ChatPoll.PollAnswer;
 import xyz.derkades.minigames.Logger;
@@ -372,6 +373,11 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 			p.queueTeleport(Var.LOBBY_LOCATION);
 			p.applyLobbySettings();
 		});
+		
+		Scheduler.delay(10*20, () -> {
+			AutoRotate.startNewRandomGame();
+		});
+//		AutoRotate.startNewRandomGame();
 	}
 
 	private void showPolls() {
