@@ -72,8 +72,8 @@ public class IcyBlowback extends Game<IcyBlowbackMap> {
 			final Location loc = spawnLocations[index];
 			
 			TaskQueue.add(() -> {
-				player.placeCage(true);
 				player.teleport(loc);
+				player.placeCage(true);
 			});
 			
 			index--;
