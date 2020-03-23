@@ -81,10 +81,11 @@ public class CreeperAttack extends Game<CreeperAttackMap> {
 
 	@Override
 	public int gameTimer(final int secondsLeft) {
-		if (this.alive.size() <= 1 && secondsLeft > 5)
+		if (this.alive.size() <= 1 && secondsLeft > 5) {
 			return 5;
+		}
 
-		if (secondsLeft % 5 == 0){
+		if (secondsLeft % 10 == 0){
 			this.numberOfCreepers++;
 		}
 
