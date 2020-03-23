@@ -134,4 +134,19 @@ public class Windmill extends HungerGamesMap {
 		return "hungergames_windmill";
 	}
 
+	@Override
+	public Location getCenterLocation() {
+		return new Location(this.getWorld(), 232.5, 73, 201.5);
+	}
+
+	@Override
+	public double getMaxBorderSize() {
+		return 400;
+	}
+
+	@Override
+	public double getMinBorderSize() {
+		return 40;
+	}
+
 }

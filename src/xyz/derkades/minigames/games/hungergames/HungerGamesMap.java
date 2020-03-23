@@ -11,11 +11,17 @@ public abstract class HungerGamesMap extends GameMap {
 			new Treehouse(),
 			new Windmill(),
 	};
+	
+	public abstract Location getCenterLocation();
 
 	public abstract Location[] getStartLocations();
 
 	public abstract Location[] getLootLevelOneLocations();
 
 	public abstract Location[] getLootLevelTwoLocations();
+	
+	public abstract double getMaxBorderSize();
+	
+	public abstract double getMinBorderSize();
 
 }

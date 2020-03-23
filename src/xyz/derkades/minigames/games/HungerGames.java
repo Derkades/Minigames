@@ -7,6 +7,7 @@ import java.util.UUID;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.WorldBorder;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.EventHandler;
@@ -80,6 +81,10 @@ public class HungerGames extends Game<HungerGamesMap> {
 		for (final Location location : this.map.getLootLevelTwoLocations()) {
 			new LootChest(location, HungerGamesLoot.LOOT_2).fill();
 		}
+		
+		final WorldBorder border = this.map.getWorld().getWorldBorder();
+		border.setCenter(this.map.getCenterLocation());
+		border.setSize(this.map.getMinBorderSize());
 	}
 
 	@Override
@@ -92,13 +97,22 @@ public class HungerGames extends Game<HungerGamesMap> {
 		}
 
 		HungerGames.this.placeBlocks(this.map.getStartLocations(), Material.AIR);
+		
+		final WorldBorder border = this.map.getWorld().getWorldBorder();
+		border.setSize(this.map.getMaxBorderSize(), 20);
 	}
 
 	@Override
 	public int gameTimer(final int secondsLeft) {
-		if (ListUtils.inFirstNotSecond(this.all, this.dead).size() < 2 && secondsLeft > 10)
+		if (ListUtils.inFirstNotSecond(this.all, this.dead).size() < 2 && secondsLeft > 10) {
 			return 10;
-
+		}
+		
+		if (secondsLeft == 100) {
+			final WorldBorder border = this.map.getWorld().getWorldBorder();
+			border.setSize(this.map.getMinBorderSize(), this.getDuration() - 10);
+		}
+		
 		return secondsLeft;
 	}
 
@@ -135,8 +149,9 @@ public class HungerGames extends Game<HungerGamesMap> {
 				final int playersLeft = ListUtils.inFirstNotSecond(this.all, this.dead).size();
 				this.sendMessage(String.format("%s has died. There are %s players left.",
 						player.getName(), playersLeft));
-			} else
+			} else {
 				throw new AssertionError();
+			}
 
 		}
 	}
@@ -162,7 +177,8 @@ public class HungerGames extends Game<HungerGamesMap> {
 
 	@Override
 	public void onPlayerJoin(final MPlayer player) {
-
+		player.dieTo(this.map.getCenterLocation());
+		this.dead.add(player.getUniqueId());
 	}
 
 	@Override

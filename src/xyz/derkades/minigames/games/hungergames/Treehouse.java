@@ -102,4 +102,19 @@ public class Treehouse extends HungerGamesMap {
 		return "hungergames_treehouse";
 	}
 
+	@Override
+	public Location getCenterLocation() {
+		return new Location(this.getWorld(), -27.5, 50, -62.5);
+	}
+
+	@Override
+	public double getMaxBorderSize() {
+		return 100;
+	}
+
+	@Override
+	public double getMinBorderSize() {
+		return 35;
+	}
+
 }
