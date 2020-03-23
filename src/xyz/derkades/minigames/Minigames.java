@@ -78,7 +78,10 @@ public class Minigames extends JavaPlugin implements Listener {
 
 		TaskQueue.start();
 
-		Minigames.getOnlinePlayers().forEach((p) -> p.queueTeleport(Var.LOBBY_LOCATION));
+		Minigames.getOnlinePlayers().forEach((p) -> {
+			p.applyLobbySettings();
+			p.queueTeleport(Var.LOBBY_LOCATION);
+		});
 
 		Scheduler.delay(20, () -> {
 			GameWorld.init();
