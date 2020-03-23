@@ -21,6 +21,7 @@ import xyz.derkades.minigames.games.hungergames.HungerGamesMap;
 import xyz.derkades.minigames.utils.MPlayer;
 import xyz.derkades.minigames.utils.MinigamesPlayerDamageEvent;
 import xyz.derkades.minigames.utils.MinigamesPlayerDamageEvent.DamageType;
+import xyz.derkades.minigames.utils.Scheduler;
 import xyz.derkades.minigames.utils.Utils;
 import xyz.derkades.minigames.utils.Winners;
 
@@ -93,7 +94,6 @@ public class HungerGames extends Game<HungerGamesMap> {
 		for (final MPlayer player : Minigames.getOnlinePlayers()) {
 			player.clearPotionEffects();
 			player.setDisableSneaking(true);
-			player.setDisableDamage(false);
 			player.setDisableItemMoving(false);
 		}
 
@@ -103,6 +103,13 @@ public class HungerGames extends Game<HungerGamesMap> {
 		border.setSize(this.map.getMaxBorderSize(), 20);
 		
 		this.map.getWorld().getEntitiesByClasses(Item.class).forEach(e -> e.remove());
+		
+		Scheduler.delay(10*20, () -> {
+			for (final MPlayer player : Minigames.getOnlinePlayers()) {
+				player.setDisableDamage(false);
+			}
+			sendMessage("PvP enabled");
+		});
 	}
 
 	@Override
