@@ -109,7 +109,11 @@ public class GlobalListeners implements Listener {
 	@EventHandler
 	public void damage(final EntityDamageEvent event){
 		if (event.getEntity() instanceof Villager){
-			event.setCancelled(true);
+			final Villager villager = (Villager) event.getEntity();
+			if (villager.getCustomName().equals("Bait") ||
+					villager.getCustomName().contentEquals("Click Me!")) {
+				event.setCancelled(true);
+			}
 		}
 
 		if (!(event.getEntity() instanceof Player)) {
