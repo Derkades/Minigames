@@ -21,6 +21,7 @@ public class MainMenu extends IconMenu {
 
 	public MainMenu(final Player player) {
 		super(Minigames.getInstance(), "Menu", 1, player);
+		addItems();
 	}
 
 	public void addItems() {
