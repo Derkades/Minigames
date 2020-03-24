@@ -2,7 +2,6 @@ package xyz.derkades.minigames.games.speedrun;
 
 import org.bukkit.Location;
 
-import xyz.derkades.minigames.Var;
 import xyz.derkades.minigames.random.Size;
 import xyz.derkades.minigames.worlds.GameWorld;
 
@@ -10,12 +9,12 @@ public class Classic extends SpeedrunMap {
 
 	@Override
 	public Location getStartLocation() {
-		return new Location(Var.WORLD, 140.0, 97, 306, -180, 0);
+		return new Location(this.getWorld(), 1.0, 65, 1.0, -180, 0);
 	}
 
 	@Override
 	public Location getSpectatorLocation() {
-		return new Location(Var.WORLD, 128.0, 98, 274.5, -180, 0);
+		return new Location(this.getWorld(), -10, 74, -57);
 	}
 
 	@Override
@@ -25,7 +24,7 @@ public class Classic extends SpeedrunMap {
 
 	@Override
 	public GameWorld getGameWorld() {
-		return null;
+		return GameWorld.SPEEDRUN_CLASSIC;
 	}
 
 	@Override
