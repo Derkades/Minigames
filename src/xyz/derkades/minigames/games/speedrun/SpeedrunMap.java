@@ -8,9 +8,9 @@ import xyz.derkades.minigames.games.maps.GameMap;
 public abstract class SpeedrunMap extends GameMap {
 
 	public static final SpeedrunMap[] MAPS = {
-		new Backwards(),
+//		new Backwards(),
 		new Classic(),
-		new Construction(),
+//		new Construction(),
 	};
 
 	public Material getFloorBlock() {
