@@ -50,6 +50,8 @@ public enum GameWorld {
 
 	MGR_ISLAND,
 	MGR_SANTIAGO,
+	
+	MOLEPVP_PROTOTYPE,
 
 	MM_HAUNTEDHOUSE,
 
