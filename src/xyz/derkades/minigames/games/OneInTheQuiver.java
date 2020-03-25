@@ -137,6 +137,10 @@ public class OneInTheQuiver extends Game<OITQMap> {
 	@EventHandler
 	public void onDamage(final MinigamesPlayerDamageEvent event) {
 		final MPlayer player = event.getPlayer();
+		
+		if (event.getDamagerEntity() == null) {
+			return;
+		}
 
 		if (event.getDamagerEntity().getType().equals(EntityType.ARROW)){
 			event.setDamage(20);
