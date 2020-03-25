@@ -45,8 +45,10 @@ public class SneakPrevention extends BukkitRunnable {
 			player.sendTitle(ChatColor.RED + "No Sneaking!", ChatColor.GRAY + "" + remaining + " warnings remaining.");
 
 			if (remaining <= 0) {
-				ON_PUNISH.get(player.getUniqueId()).accept(player);
+				final Consumer<MPlayer> onPunish = ON_PUNISH.get(player.getUniqueId());
+				onPunish.accept(player);
 				disable(player);
+				enable(player, onPunish);
 			}
 		}
 
