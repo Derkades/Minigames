@@ -73,18 +73,19 @@ public class Speedrun extends Game<SpeedrunMap> {
 	public void onMove(final PlayerMoveEvent event){
 		final MPlayer player = new MPlayer(event.getPlayer());
 
-		if (this.finished.contains(player.getUniqueId()))
+		if (this.finished.contains(player.getUniqueId())) {
 			return;
+		}
 
 		if (player.bukkit().isSneaking()){
 			player.sendActionBar(ChatColor.RED + "Sprinting is not allowed");
-			player.teleport(this.map.getWorld().getSpawnLocation());
+			player.teleport(this.map.getStartLocation());
 			return;
 		}
 
 		if (player.bukkit().isSprinting()){
 			player.sendActionBar(ChatColor.RED + "Sprinting is not allowed");
-			player.teleport(this.map.getWorld().getSpawnLocation());
+			player.teleport(this.map.getStartLocation());
 			return;
 		}
 
@@ -92,7 +93,7 @@ public class Speedrun extends Game<SpeedrunMap> {
 		final Material type = block.getType();
 
 		if (type == this.map.getFloorBlock()){
-			player.teleport(this.map.getWorld().getSpawnLocation());
+			player.teleport(this.map.getStartLocation());
 			return;
 		}
 
@@ -105,8 +106,7 @@ public class Speedrun extends Game<SpeedrunMap> {
 				super.sendMessage(player.getName() + " has finished!");
 			}
 			this.finished.add(player.getUniqueId());
-			player.teleport(this.map.getSpectatorLocation());
-			player.spectator();
+			player.finishTo(this.map.getSpectatorLocation());
 		}
 	}
 

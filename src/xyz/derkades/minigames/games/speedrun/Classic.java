@@ -34,12 +34,12 @@ public class Classic extends SpeedrunMap {
 
 	@Override
 	public Size getSize() {
-		return null;
+		return Size.NORMAL;
 	}
 
 	@Override
 	public String getIdentifier() {
-		return null;
+		return "speedrun_classic";
 	}
 
 }
