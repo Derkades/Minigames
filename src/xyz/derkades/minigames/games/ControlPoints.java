@@ -20,8 +20,8 @@ import org.bukkit.potion.PotionEffectType;
 import net.md_5.bungee.api.ChatColor;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
 import xyz.derkades.minigames.Minigames;
-import xyz.derkades.minigames.games.pointcontrol.ControlStatus;
 import xyz.derkades.minigames.games.pointcontrol.ControlPointsMap;
+import xyz.derkades.minigames.games.pointcontrol.ControlStatus;
 import xyz.derkades.minigames.utils.MPlayer;
 import xyz.derkades.minigames.utils.MinigamesPlayerDamageEvent;
 import xyz.derkades.minigames.utils.MinigamesPlayerDamageEvent.DamageType;
@@ -231,6 +231,17 @@ public class ControlPoints extends Game<ControlPointsMap> {
 	@EventHandler
 	public void onDamage(final MinigamesPlayerDamageEvent event) {
 		final MPlayer player = event.getPlayer();
+		
+		if (event.getType() == DamageType.ENTITY) {
+			final MPlayer damager = event.getDamagerPlayer();
+			// Disable damage to team mates
+			if (this.teamRed.contains(player.getUniqueId()) && this.teamRed.contains(damager.getUniqueId()) ||
+					this.teamBlue.contains(player.getUniqueId()) && this.teamBlue.contains(damager.getUniqueId())) {
+				event.setCancelled(true);
+				return;
+			}
+		}
+		
 		if (event.willBeDead()) {
 			event.setCancelled(true);
 			
