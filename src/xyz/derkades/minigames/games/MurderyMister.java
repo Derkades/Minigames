@@ -66,7 +66,7 @@ public class MurderyMister extends Game<MurderyMisterMap> {
 
 	@Override
 	public int getDuration() {
-		return 200;
+		return 150;
 	}
 
 	private UUID murderer;
@@ -88,7 +88,7 @@ public class MurderyMister extends Game<MurderyMisterMap> {
 		final Location[] spawnLocations = this.map.getSpawnLocations();
 		int index = 0;
 
-		for (final MPlayer player : Minigames.getOnlinePlayers()) {
+		for (final MPlayer player : Minigames.getOnlinePlayersInRandomOrder()) {
 			if (index < 1) {
 				index = spawnLocations.length - 1;
 			}
@@ -106,8 +106,8 @@ public class MurderyMister extends Game<MurderyMisterMap> {
 	@Override
 	public void onStart() {
 		if (Bukkit.getOnlinePlayers().size() < 1) {
-	return; // Just in case everyone leaves, so the code below doesn't crash
-}
+			return; // Just in case everyone leaves, so the code below doesn't crash
+		}
 
 		final MPlayer murderer = Minigames.getOnlinePlayersInRandomOrder().get(0);
 		murderer.sendTitle("", ChatColor.RED + "You are the murderer!");
@@ -182,17 +182,15 @@ public class MurderyMister extends Game<MurderyMisterMap> {
 		if (event.getType().equals(DamageType.SELF)) {
 			event.setDamage(0);
 			event.setCancelled(true);
+			return;
 		} else {
-			if (event.getDamagerEntity().getType().equals(EntityType.PLAYER)) {
-				final Player attacker = (Player) event.getDamagerEntity();
-				if (attacker.getInventory().getItemInMainHand().getType().equals(Material.TRIDENT)) {
-					event.setDamage(40);
-				} else {
-					event.setDamage(0);
-					event.setCancelled(true);
-				}
-			} else {
+			if (event.getDamagerEntity().getType() == EntityType.ARROW ||
+					event.getDamagerEntity().getType() == EntityType.TRIDENT) {
 				event.setDamage(40);
+			} else {
+				event.setDamage(0);
+				event.setCancelled(true);
+				return;
 			}
 		}
 
@@ -244,7 +242,6 @@ public class MurderyMister extends Game<MurderyMisterMap> {
 			event.setCancelled(true);
 		}
 	}
-
 
 	private class ArrowRemoveTask extends BukkitRunnable {
 
