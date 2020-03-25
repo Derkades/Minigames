@@ -140,6 +140,9 @@ public class Command implements CommandExecutor {
 //					}
 //				}
 //				sender.sendMessage(String.join(", ", mapIdentifiers));
+//				final NBTItem nbt = new NBTItem(new ItemStack(Material.DIAMOND_SHOVEL));
+//				nbt.getStringList("CanDestroy").add("minecraft:dirt");
+//				((Player) sender).getInventory().addItem(nbt.getItem());
 			} else {
 				sender.sendMessage("no.");
 			}
