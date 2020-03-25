@@ -61,7 +61,7 @@ public class GlobalListeners implements Listener {
 		if (Minigames.CURRENT_GAME == null) {
 			//No game is running, teleport to board
 //			board.teleportToBoard(false);
-			player.queueTeleport(Var.LOBBY_LOCATION);
+			player.teleport(Var.LOBBY_LOCATION);
 			player.applyLobbySettings();
 
 			Scheduler.delay(1, () -> player.spigot().sendMessage(
