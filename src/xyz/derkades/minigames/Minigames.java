@@ -3,11 +3,13 @@ package xyz.derkades.minigames;
 import java.net.http.WebSocket.Listener;
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -149,6 +151,11 @@ public class Minigames extends JavaPlugin implements Listener {
 		}
         economy = rsp.getProvider();
         return economy != null;
+    }
+    
+    public static MPlayer getPlayer(final UUID uuid) {
+    	final Player player = Bukkit.getPlayer(uuid);
+    	return player == null ? null : new MPlayer(player);
     }
 
     public static List<MPlayer> getOnlinePlayers() {

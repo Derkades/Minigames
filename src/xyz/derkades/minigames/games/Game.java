@@ -43,21 +43,22 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 
 	public static final Game<? extends GameMap>[] GAMES = new Game<?>[] {
 			new BowSpleef(),
-			new BreakTheBlock(),
+//			new BreakTheBlock(),
 			new CreeperAttack(),
-			new DigDug(),
+//			new DigDug(),
 			new Dropper(),
 			new Elytra(),
 			//new Harvest(),
 			new HungerGames(),
 			new IcyBlowback(),
-			new GladeRoyale(),
+//			new GladeRoyale(),
 			//new MazePvp(),
 			new MolePvP(),
 			new MurderyMister(),
 			new OneInTheQuiver(),
 			new Platform(),
-			new RegeneratingSpleef(),
+			new PointControl(),
+//			new RegeneratingSpleef(),
 			new Parkour(),
 			//new SnowFight(),
 			new Speedrun(),
@@ -323,6 +324,7 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 	protected void endGame(final List<UUID> winners, final boolean multipleWinnersIsNoWinner) {
 		if (!multipleWinnersIsNoWinner) {
 			endGame(winners);
+			return;
 		}
 
 		if (winners.size() == 1) {
@@ -330,16 +332,6 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 		} else {
 			endGame(new ArrayList<>());
 		}
-
-		Scheduler.delay(20*20, () -> {
-			// Unload world from previous game. It can be done now, because all players should
-			// be teleported to the lobby by now.
-			if (this.map.getGameWorld() != null) {
-				this.map.getGameWorld().unload();
-			} else {
-				Logger.warning("Game %s is still in lobby world", this.getName());
-			}
-		});
 	}
 
 	protected void endGame(final List<UUID> winners) {
@@ -377,7 +369,16 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 		Scheduler.delay(10*20, () -> {
 			AutoRotate.startNewRandomGame();
 		});
-//		AutoRotate.startNewRandomGame();
+		
+		Scheduler.delay(20*20, () -> {
+			// Unload world from previous game. It can be done now, because all players should
+			// be teleported to the lobby by now.
+			if (this.map.getGameWorld() != null) {
+				this.map.getGameWorld().unload();
+			} else {
+				Logger.warning("Game %s is still in lobby world", this.getName());
+			}
+		});
 	}
 
 	private void showPolls() {
