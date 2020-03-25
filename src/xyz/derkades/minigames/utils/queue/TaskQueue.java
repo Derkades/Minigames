@@ -2,6 +2,7 @@ package xyz.derkades.minigames.utils.queue;
 
 import java.util.PriorityQueue;
 
+import xyz.derkades.minigames.Logger;
 import xyz.derkades.minigames.utils.Scheduler;
 
 public class TaskQueue {
@@ -27,7 +28,7 @@ public class TaskQueue {
 	public static void start() {
 		Scheduler.repeat(20, 2, () -> {
 			if (!QUEUE.isEmpty()) {
-				System.out.println("[debug] Processing task queue, " + QUEUE.size() + " entries left.");
+				Logger.debug("Processing task queue, " + QUEUE.size() + " entries left.");
 				QUEUE.remove().run();
 			}
 		});
