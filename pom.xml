@@ -40,6 +40,53 @@
 				<configuration>
 					<createDependencyReducedPom>false</createDependencyReducedPom>
 					<minimizeJar>false</minimizeJar> <!-- Reduce compile time, jar size doesn't matter -->
+					<relocations>
+						<relocation>
+							<pattern>de.tr7zw.changeme.nbtapi</pattern>
+							<shadedPattern>xyz.derkades.minigames.lib.nbtapi</shadedPattern>
+						</relocation>
+						<relocation>
+							<pattern>com.fasterxml.jackson</pattern>
+							<shadedPattern>xyz.derkades.minigames.lib.jackson</shadedPattern>
+						</relocation>
+						<relocation>
+							<pattern>org.apache.commons</pattern>
+							<shadedPattern>xyz.derkades.minigames.lib.commons</shadedPattern>
+						</relocation>
+						<relocation>
+							<pattern>org.kohsuke.github</pattern>
+							<shadedPattern>xyz.derkades.minigames.lib.github</shadedPattern>
+						</relocation>
+						<relocation>
+							<pattern>org.hamcrest</pattern>
+							<shadedPattern>xyz.derkades.minigames.lib.hamcrest</shadedPattern>
+						</relocation>
+						<relocation>
+							<pattern>org.json.simple</pattern>
+							<shadedPattern>xyz.derkades.minigames.lib.json-simple</shadedPattern>
+						</relocation>
+						<relocation>
+							<pattern>com.coloredcarrot.api.sidebar</pattern>
+							<shadedPattern>xyz.derkades.minigames.lib.sidebar</shadedPattern>
+						</relocation>
+						<relocation>
+							<pattern>xyz.derkades.derkutils</pattern>
+							<shadedPattern>xyz.derkades.minigames.lib.derkutils</shadedPattern>
+						</relocation>
+					</relocations>
+					
+					<filters>
+						<filter>
+							<artifact>*:*</artifact>
+							<excludes>
+								<exclude>org/junit/</exclude>
+								<exclude>junit/</exclude>
+								<exclude>LICENSE</exclude>
+								<exclude>LICENSE.txt</exclude>
+								<exclude>eclipse/</exclude>
+							</excludes>
+						</filter>
+					</filters>
 				</configuration>
 			</plugin>
 
