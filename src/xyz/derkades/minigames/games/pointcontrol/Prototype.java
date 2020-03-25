@@ -31,6 +31,7 @@ public class Prototype extends PointControlMap {
 		return new Location[] {
 				new Location(Var.WORLD, 403, 68, 372),
 				new Location(Var.WORLD, 405, 72, 403),
+				new Location(Var.WORLD, 451, 82, 399),
 				new Location(Var.WORLD, 499, 72, 395),
 				new Location(Var.WORLD, 501, 68, 426),
 		};
