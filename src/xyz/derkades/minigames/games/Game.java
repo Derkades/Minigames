@@ -57,7 +57,7 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 			new MurderyMister(),
 			new OneInTheQuiver(),
 			new Platform(),
-			new PointControl(),
+			new ControlPoints(),
 //			new RegeneratingSpleef(),
 			new Parkour(),
 			//new SnowFight(),

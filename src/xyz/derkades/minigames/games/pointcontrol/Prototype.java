@@ -9,7 +9,7 @@ import xyz.derkades.minigames.random.Size;
 import xyz.derkades.minigames.utils.MPlayer;
 import xyz.derkades.minigames.worlds.GameWorld;
 
-public class Prototype extends PointControlMap {
+public class Prototype extends ControlPointsMap {
 
 	@Override
 	public Size getSize() {
@@ -87,7 +87,7 @@ public class Prototype extends PointControlMap {
 
 	@Override
 	public String getIdentifier() {
-		return "pointcontrol_prototype";
+		return "controlpoints_prototype";
 	}
 
 }

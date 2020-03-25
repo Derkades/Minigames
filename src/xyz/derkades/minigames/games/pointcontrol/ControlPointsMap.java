@@ -5,9 +5,9 @@ import org.bukkit.Location;
 import xyz.derkades.minigames.games.maps.GameMap;
 import xyz.derkades.minigames.utils.MPlayer;
 
-public abstract class PointControlMap extends GameMap {
+public abstract class ControlPointsMap extends GameMap {
 	
-	public static final PointControlMap[] MAPS = {
+	public static final ControlPointsMap[] MAPS = {
 			new Prototype(),
 	};
 	

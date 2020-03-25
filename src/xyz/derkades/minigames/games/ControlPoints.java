@@ -21,20 +21,20 @@ import net.md_5.bungee.api.ChatColor;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
 import xyz.derkades.minigames.Minigames;
 import xyz.derkades.minigames.games.pointcontrol.ControlStatus;
-import xyz.derkades.minigames.games.pointcontrol.PointControlMap;
+import xyz.derkades.minigames.games.pointcontrol.ControlPointsMap;
 import xyz.derkades.minigames.utils.MPlayer;
 import xyz.derkades.minigames.utils.MinigamesPlayerDamageEvent;
 import xyz.derkades.minigames.utils.MinigamesPlayerDamageEvent.DamageType;
 import xyz.derkades.minigames.utils.Scheduler;
 
-public class PointControl extends Game<PointControlMap> {
+public class ControlPoints extends Game<ControlPointsMap> {
 
 	private static final int CONTROL_THRESHOLD = 5;
 	private static final int RESPAWN_DELAY = 5*20;
 	
 	@Override
 	public String getName() {
-		return "Point Control";
+		return "Control Points";
 	}
 
 	@Override
@@ -50,8 +50,8 @@ public class PointControl extends Game<PointControlMap> {
 	}
 
 	@Override
-	public PointControlMap[] getGameMaps() {
-		return PointControlMap.MAPS;
+	public ControlPointsMap[] getGameMaps() {
+		return ControlPointsMap.MAPS;
 	}
 
 	@Override
