@@ -41,9 +41,15 @@ public class BugCommand implements CommandExecutor {
 					issueLabel = null;
 				}
 
-				final String user = Minigames.getInstance().getConfig().getString("github-user");
-				final String pass = Minigames.getInstance().getConfig().getString("github-password");
-				final GitHub github = GitHub.connectUsingPassword(user, pass);
+//				final String user = Minigames.getInstance().getConfig().getString("github-user");
+//				final String pass = Minigames.getInstance().getConfig().getString("github-password");
+//				final GitHub github = GitHub.connectUsingPassword(user, pass);
+				if (!Minigames.getInstance().getConfig().isString("github-token")) {
+					sender.sendMessage(Utils.getChatPrefix(ChatColor.AQUA, 'P') + "Sorry, this command is temporarily unavailable.");
+					return;
+				}
+				
+				final GitHub github = GitHub.connectUsingOAuth(Minigames.getInstance().getConfig().getString("github-token"));
 				final GHRepository repo = github.getRepository("Derkades/Minigames");
 				final String description = String.join(" ", args);
 				final GHIssue issue = repo.createIssue("[" + player.getName() + "] " + description).body(description + "").create();
