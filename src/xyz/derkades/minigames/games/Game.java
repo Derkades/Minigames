@@ -45,6 +45,7 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 			new BowSpleef(),
 			new BreakTheBlock(),
 			new CreeperAttack(),
+			new Decay(),
 			new DigDug(),
 			new Dropper(),
 			new Elytra(),
