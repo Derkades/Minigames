@@ -36,7 +36,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-shade-plugin</artifactId>
-				<version>3.2.1</version>
+				<version>3.2.2</version>
 				<configuration>
 					<createDependencyReducedPom>false</createDependencyReducedPom>
 					<minimizeJar>false</minimizeJar> <!-- Reduce compile time, jar size doesn't matter -->
@@ -122,13 +122,6 @@
 		</dependency>
 
 		<dependency>
-			<groupId>net.citizensnpcs</groupId>
-			<artifactId>citizens</artifactId>
-			<version>2.0.26-SNAPSHOT</version>
-			<scope>provided</scope>
-		</dependency>
-
-		<dependency>
 			<groupId>de.tr7zw</groupId>
 			<artifactId>item-nbt-api</artifactId>
 			<version>2.2.0</version>
@@ -146,11 +139,6 @@
 		<repository>
 			<id>vault</id>
 			<url>http://nexus.hc.to/content/repositories/pub_releases</url>
-		</repository>
-
-		<repository>
-			<id>citizens</id>
-			<url>http://repo.citizensnpcs.co</url>
 		</repository>
 
 		<repository>
