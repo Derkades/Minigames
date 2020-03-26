@@ -148,6 +148,11 @@ public class Decay extends Game<DecayMap> {
 	@EventHandler
 	public void onMove(final PlayerMoveEvent event) {
 		final MPlayer player = new MPlayer(event);
+		
+		if (player.isSpectator()) {
+			return;
+		}
+		
 		if (this.map.isDead(player)) {
 			if (this.started) {
 				player.dieTo(this.map.getSpawnLocation());
