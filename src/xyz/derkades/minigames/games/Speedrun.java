@@ -38,6 +38,11 @@ public class Speedrun extends Game<SpeedrunMap> {
 	public SpeedrunMap[] getGameMaps() {
 		return SpeedrunMap.MAPS;
 	}
+	
+	@Override
+	public int getPreDuration() {
+		return 0;
+	}
 
 	@Override
 	public int getDuration() {
