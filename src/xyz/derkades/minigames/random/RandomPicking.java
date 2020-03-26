@@ -21,9 +21,9 @@ public class RandomPicking {
 		if (FORCE_GAME != null) {
 			final Game<? extends GameMap> map = Game.fromString(FORCE_GAME);
 			FORCE_GAME = null;
-			if (map != null)
+			if (map != null) {
 				return map;
-			else {
+			} else {
 				Bukkit.broadcastMessage("A game was forced, but the provided identifier is invalid.");
 			}
 		}
@@ -36,9 +36,9 @@ public class RandomPicking {
 		if (FORCE_MAP != null) {
 			final GameMap map = GameMap.fromIdentifier(FORCE_MAP);
 			FORCE_MAP = null;
-			if (map != null)
+			if (map != null) {
 				return map;
-			else {
+			} else {
 				Bukkit.broadcastMessage("A map was forced, but the provided identifier is invalid.");
 			}
 		}
@@ -57,7 +57,7 @@ public class RandomPicking {
 			double multiplier = randomlyPickableThing.getWeight();
 
 			if (size == Size.SMALL) {
-				if (online < 5) {
+				if (online < 4) {
 					multiplier *= 2; // Small with few players, high chance
 				} else if (online > 6) {
 					multiplier *= 0.5; // Small with many players, low chance
@@ -71,7 +71,7 @@ public class RandomPicking {
 					multiplier *= 2; // Normal size with normal players, high chance
 				}
 			} else if (size == Size.LARGE) {
-				if (online > 5) {
+				if (online > 4) {
 					multiplier *= 3; // Large size with many players, high chance
 				} else if (online < 3) {
 					multiplier *= 0.5; // Large size with very few players, low chance
