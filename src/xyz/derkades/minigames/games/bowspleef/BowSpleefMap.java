@@ -39,7 +39,7 @@ public abstract class BowSpleefMap extends GameMap {
 		fillLayer(getLayerCenter(), getLargeSize(), Material.AIR);
 
 		fillLayer(getLayerCenter(),
-				Bukkit.getOnlinePlayers().size() > 3
+				Bukkit.getOnlinePlayers().size() > 4
 						? getLargeSize()
 						: getSmallSize(),
 				Material.TNT);
