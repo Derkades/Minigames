@@ -190,6 +190,8 @@ public class TeamsBowBattle extends Game<TeamsBowBattleMap> {
 	}
 
 	private void giveItems(final MPlayer player) {
+		player.clearInventory();
+		
 		final ItemBuilder helmet = new ItemBuilder(Material.LEATHER_HELMET);
 		final ItemBuilder chestplate = new ItemBuilder(Material.LEATHER_CHESTPLATE);
 		final ItemBuilder leggings = new ItemBuilder(Material.LEATHER_LEGGINGS);
@@ -225,17 +227,14 @@ public class TeamsBowBattle extends Game<TeamsBowBattleMap> {
 
 	@Override
 	public void onPlayerJoin(final MPlayer player) {
-		if (!this.dead.contains(player.getUniqueId())) {
-			this.dead.add(player.getUniqueId());
-			player.die();
-		}
-		
 		if (this.teamBlue.contains(player.getUniqueId())) {
 			player.teleport(this.map.getTeamBlueSpawnLocation());
+			giveItems(player);
 		} else if (this.teamRed.contains(player.getUniqueId())) {
 			player.teleport(this.map.getTeamRedSpawnLocation());
+			giveItems(player);
 		} else {
-			player.teleport(this.map.getTeamRedSpawnLocation());
+			player.dieTo(this.map.getTeamBlueSpawnLocation());
 		}
 	}
 
