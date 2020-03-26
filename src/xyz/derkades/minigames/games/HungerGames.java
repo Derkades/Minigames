@@ -42,7 +42,7 @@ public class HungerGames extends Game<HungerGamesMap> {
 
 	@Override
 	public int getRequiredPlayers() {
-		return 5;
+		return 4;
 	}
 
 	@Override
