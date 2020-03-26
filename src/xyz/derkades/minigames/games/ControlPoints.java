@@ -127,6 +127,10 @@ public class ControlPoints extends Game<ControlPointsMap> {
 			int red = 0;
 			int blue = 0;
 			for (final MPlayer player : Minigames.getOnlinePlayers()) {
+				if (player.isSpectator()) {
+					continue;
+				}
+				
 				if (this.map.isOnControlPoint(controlPoint, player)) {
 					if (this.teamRed.contains(player.getUniqueId())) {
 						player.sendActionBar("Claiming control point! " + this.status.get(i));
