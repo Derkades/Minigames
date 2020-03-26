@@ -55,12 +55,8 @@ public class GlobalListeners implements Listener {
 		player.setDisableItemMoving(true);
 		player.disableSneakPrevention();
 
-//		final BoardPlayer board = new BoardPlayer(player);
-//		board.createNpc();
-
 		if (Minigames.CURRENT_GAME == null) {
-			//No game is running, teleport to board
-//			board.teleportToBoard(false);
+			// No game is running, teleport to lobby
 			player.teleport(Var.LOBBY_LOCATION);
 			player.applyLobbySettings();
 
@@ -94,9 +90,6 @@ public class GlobalListeners implements Listener {
 		if (Minigames.CURRENT_GAME != null) {
 			Minigames.CURRENT_GAME.onPlayerQuit(player);
 		}
-
-//		final BoardPlayer board = new BoardPlayer(player);
-//		board.removeNpc();
 	}
 
 	@EventHandler

@@ -70,8 +70,9 @@ public class Dropper extends Game<DropperMap> {
 
 	@Override
 	public int gameTimer(final int secondsLeft) {
-		if (Utils.allPlayersFinished(this.finished) && secondsLeft > 5)
+		if (Utils.allPlayersFinished(this.finished) && secondsLeft > 5) {
 			return 5;
+		}
 
 		return secondsLeft;
 	}
@@ -85,7 +86,9 @@ public class Dropper extends Game<DropperMap> {
 	@EventHandler
 	public void onMove(final PlayerMoveEvent event) {
 		if (this.finished.contains(event.getPlayer().getUniqueId()))
+		 {
 			return; //Don't teleport players who have finished
+		}
 
 		if (event.getTo().getBlock().getType() == Material.WATER) {
 			final MPlayer player = new MPlayer(event);
@@ -118,14 +121,6 @@ public class Dropper extends Game<DropperMap> {
 			event.getPlayer().heal();
 		}
 	}
-//
-//	@EventHandler
-//	public void onJoin(final MinigamesJoinEvent event) {
-//		final MPlayer player = event.getPlayer();
-//		event.setTeleportPlayerToLobby(false);
-//
-//
-//	}
 
 	@Override
 	public void onPlayerJoin(final MPlayer player) {

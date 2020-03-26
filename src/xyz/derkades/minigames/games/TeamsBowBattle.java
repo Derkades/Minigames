@@ -86,8 +86,9 @@ public class TeamsBowBattle extends Game<TeamsBowBattleMap> {
 
 	@Override
 	public int gameTimer(final int secondsLeft) {
-		if ((TeamsBowBattle.this.getNumPlayersLeftInBlueTeam() == 0 || TeamsBowBattle.this.getNumPlayersLeftInRedTeam() == 0) && secondsLeft > 1)
+		if ((TeamsBowBattle.this.getNumPlayersLeftInBlueTeam() == 0 || TeamsBowBattle.this.getNumPlayersLeftInRedTeam() == 0) && secondsLeft > 1) {
 			return 1;
+		}
 
 		return secondsLeft;
 	}
@@ -134,8 +135,9 @@ public class TeamsBowBattle extends Game<TeamsBowBattleMap> {
 			return;
 		}
 
-		if (event.getType().equals(DamageType.SELF))
+		if (event.getType().equals(DamageType.SELF)) {
 			return;
+		}
 
 		// Cancel damage if a player directly hits another player
 		if (event.getDamagerEntity() instanceof Player) {
@@ -161,23 +163,6 @@ public class TeamsBowBattle extends Game<TeamsBowBattleMap> {
 		}
 	}
 
-//	@EventHandler
-//	public void join(final MinigamesJoinEvent event) {
-//		event.setTeleportPlayerToLobby(false);
-//		final MPlayer player = event.getPlayer();
-//		if (!this.dead.contains(player.getUniqueId())) {
-//			this.dead.add(player.getUniqueId());
-//			player.die();
-//		}
-//		if (this.teamBlue.contains(player.getUniqueId())) {
-//			player.teleport(this.map.getTeamBlueSpawnLocation());
-//		} else if (this.teamRed.contains(player.getUniqueId())) {
-//			player.teleport(this.map.getTeamRedSpawnLocation());
-//		} else {
-//			player.teleport(this.map.getTeamRedSpawnLocation());
-//		}
-//	}
-
 	private int getNumPlayersLeftInRedTeam() {
 		int players = 0;
 		for (final Player player : Bukkit.getOnlinePlayers()) {
@@ -199,12 +184,13 @@ public class TeamsBowBattle extends Game<TeamsBowBattleMap> {
 	}
 
 	private ChatColor getTeamColor(final MPlayer player) {
-		if (this.teamRed.contains(player.getUniqueId()))
+		if (this.teamRed.contains(player.getUniqueId())) {
 			return ChatColor.RED;
-		else if (this.teamBlue.contains(player.getUniqueId()))
+		} else if (this.teamBlue.contains(player.getUniqueId())) {
 			return ChatColor.BLUE;
-		else
+		} else {
 			return ChatColor.GREEN;
+		}
 	}
 
 	private void giveItems(final MPlayer player) {

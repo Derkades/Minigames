@@ -287,7 +287,7 @@ public class ControlPoints extends Game<ControlPointsMap> {
 			player.teleport(this.map.getBlueSpawnLocation());
 			giveGear(player);
 		} else {
-//			player.teleport(this.map.getWorld().getSpawnLocation());
+//			player.teleport(this.map.getWorld().getSpawnLocation()); TODO Use this when control points map has been moved to a dedicated world
 			player.teleport(this.map.getBlueSpawnLocation());
 			player.spectator();
 		}

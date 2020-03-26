@@ -71,8 +71,6 @@ public class Minigames extends JavaPlugin implements Listener {
 			getLogger().severe("Vault error");
 		}
 
-//		SpawnZombieShooter.init();
-
 		ChatPoll.startup(this);
 		SpawnZombieShooter.init();
 		new SneakPrevention(this);
@@ -97,15 +95,6 @@ public class Minigames extends JavaPlugin implements Listener {
 			} else {
 				Logger.info("Players online, not starting games automatically");
 			}
-
-//			// Re-create NPCs and teleport players to board
-//			NPCs.removeNPCs();
-//			Minigames.getOnlinePlayers().stream().map(BoardPlayer::new)
-//			.forEach(p -> {
-//				p.createNpc();
-//				p.teleportToBoard(true);
-//			});
-
 		});
 
 		Logger.info("Plugin enabled");

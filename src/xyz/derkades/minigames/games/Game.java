@@ -352,16 +352,8 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 			this.sendMessage("The " + this.getName() + " game has ended! Winners: " + YELLOW + winnersText);
 		}
 
-//		this.sendMessage(String.format("Winners move %s-%s steps forward, other players move %s-%s steps forward.",
-//				BoardConfig.DIE_WINNER_STEPS_MIN, BoardConfig.DIE_WINNER_STEPS_MAX, BoardConfig.DIE_LOSER_STEPS_MIN, BoardConfig.DIE_LOSER_STEPS_MAX));
-
 		this.showPolls();
 
-//		Minigames.getOnlinePlayers().stream()
-//			.map(BoardPlayer::new)
-//			.forEach(p -> p.teleportToBoard(true));
-
-//		Board.performTurns(winners);
 		Minigames.getOnlinePlayers().forEach(p -> {
 			p.queueTeleport(Var.LOBBY_LOCATION);
 			p.applyLobbySettings();

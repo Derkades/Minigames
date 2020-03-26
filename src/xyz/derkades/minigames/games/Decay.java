@@ -68,8 +68,6 @@ public class Decay extends Game<DecayMap> {
 			this.blocks.add(loc);
 		}
 		
-//		Collections.shuffle(this.blocks);
-		
 		Minigames.getOnlinePlayers().forEach(p-> {
 			p.queueTeleport(this.map.getSpawnLocation());
 		});

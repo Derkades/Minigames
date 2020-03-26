@@ -66,8 +66,9 @@ public class Elytra extends Game<ElytraMap> {
 
 	@Override
 	public int gameTimer(final int secondsLeft) {
-		if (Utils.allPlayersFinished(this.finished) && secondsLeft > 5)
+		if (Utils.allPlayersFinished(this.finished) && secondsLeft > 5) {
 			return 5;
+		}
 
 		return secondsLeft;
 	}
@@ -82,11 +83,13 @@ public class Elytra extends Game<ElytraMap> {
 	public void onMove(final PlayerMoveEvent event){
 		final MPlayer player = new MPlayer(event);
 
-		if (!this.started)
+		if (!this.started) {
 			return;
+		}
 
-		if (this.finished.contains(player.getUniqueId()))
+		if (this.finished.contains(player.getUniqueId())) {
 			return;
+		}
 
 		if (this.map.isDead(player)) {
 			player.removeFire();
@@ -103,22 +106,6 @@ public class Elytra extends Game<ElytraMap> {
 		}
 	}
 
-//	@EventHandler
-//	public void join(final MinigamesJoinEvent event) {
-//		event.setTeleportPlayerToLobby(false);
-//
-//		final MPlayer player = event.getPlayer();
-//
-//		player.teleport(this.map.getStartLocation());
-//
-//		if (this.finished.contains(player.getUniqueId())) {
-//			player.setGameMode(GameMode.SPECTATOR);
-//		} else {
-//			player.setGameMode(GameMode.ADVENTURE);
-//			player.setArmor(null, Material.ELYTRA, null, null);
-//		}
-//	}
-
 	@Override
 	public void onPlayerJoin(final MPlayer player) {
 		player.teleport(this.map.getStartLocation());
@@ -132,8 +119,6 @@ public class Elytra extends Game<ElytraMap> {
 	}
 
 	@Override
-	public void onPlayerQuit(final MPlayer player) {
-
-	}
+	public void onPlayerQuit(final MPlayer player) {}
 
 }

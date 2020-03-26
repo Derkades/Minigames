@@ -71,10 +71,11 @@ public class FreeFall extends Game<FreeFallMap> {
 	@Override
 	public int gameTimer(final int secondsLeft) {
 		if (this.layerHeight == 0) {
-			if (secondsLeft > 2)
+			if (secondsLeft > 2) {
 				return 2;
-			else
+			} else {
 				return secondsLeft;
+			}
 		}
 
 		if (secondsLeft % 10 == 0) {
@@ -123,20 +124,6 @@ public class FreeFall extends Game<FreeFallMap> {
 			player.die();
 		}
 	}
-
-//	@EventHandler
-//	public void onQuit(final PlayerQuitEvent event) {
-//		this.winners.remove(event.getPlayer().getUniqueId());
-//	}
-
-//	@EventHandler
-//	public void onJoin(final MinigamesJoinEvent event) {
-//		event.setTeleportPlayerToLobby(false);
-//
-//		final MPlayer player = event.getPlayer();
-//		player.teleport(this.map.getSpawnLocation());
-//		player.spectator();
-//	}
 
 	@Override
 	public void onPlayerJoin(final MPlayer player) {

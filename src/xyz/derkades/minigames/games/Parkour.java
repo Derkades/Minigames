@@ -71,8 +71,9 @@ public class Parkour extends Game<ParkourMap> {
 
 	@Override
 	public int gameTimer(final int secondsLeft) {
-		if (Utils.allPlayersFinished(this.finished) && secondsLeft > 5)
+		if (Utils.allPlayersFinished(this.finished) && secondsLeft > 5) {
 			return 5;
+		}
 
 		return secondsLeft;
 	}
@@ -86,8 +87,9 @@ public class Parkour extends Game<ParkourMap> {
 	public void onMove(final PlayerMoveEvent event){
 		final MPlayer player = new MPlayer(event);
 
-		if (this.finished.contains(player.getUniqueId()))
+		if (this.finished.contains(player.getUniqueId())) {
 			return;
+		}
 
 		final Material blockType = event.getTo().getBlock().getRelative(BlockFace.DOWN).getType();
 
@@ -116,12 +118,6 @@ public class Parkour extends Game<ParkourMap> {
 
 	}
 
-//	@EventHandler
-//	public void onJoin(final MinigamesJoinEvent event) {
-//		final MPlayer player = event.getPlayer();
-//		event.setTeleportPlayerToLobby(false);
-//	}
-
 	@Override
 	public void onPlayerJoin(final MPlayer player) {
 		if (this.finished.contains(player.getUniqueId())) {
@@ -134,7 +130,6 @@ public class Parkour extends Game<ParkourMap> {
 	}
 
 	@Override
-	public void onPlayerQuit(final MPlayer player) {
-	}
+	public void onPlayerQuit(final MPlayer player) {}
 
 }

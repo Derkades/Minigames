@@ -165,11 +165,6 @@ public class HungerGames extends Game<HungerGamesMap> {
 
 		}
 	}
-//
-//	@EventHandler
-//	public void onQuit(final PlayerQuitEvent event) {
-//		this.all.remove(event.getPlayer().getUniqueId());
-//	}
 
 	private void placeBlocks(final Location[] locations, final Material type) {
 		for (final Location location : locations) {

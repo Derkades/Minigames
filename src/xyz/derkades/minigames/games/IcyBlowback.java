@@ -130,15 +130,8 @@ public class IcyBlowback extends Game<IcyBlowbackMap> {
 		}
 	}
 
-//	@EventHandler
-//	public void onJoin(final MinigamesJoinEvent event) {
-//		final MPlayer player = event.getPlayer();
-//
-//	}
-
 	@Override
 	public void onPlayerJoin(final MPlayer player) {
-//		event.setTeleportPlayerToLobby(false);
 		player.setGameMode(GameMode.SPECTATOR);
 		final Location loc = this.map.getSpawnLocations()[0];
 		loc.setY(loc.getY() + 10);

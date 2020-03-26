@@ -80,15 +80,6 @@ public class Points {
 			};
 
 			for (int i = 0; i < 9; i++) {
-//				final OfflinePlayer player = array[i];
-//				final PlayerData icoreData = new PlayerData(player);
-//				String nickname;
-//				try {
-//					nickname = icoreData.getNickName().equals("") ? player.getName() : icoreData.getNickName();
-//				} catch (final PlayerNotLoggedException e) {
-//					continue;
-//				}
-//				final ChatColor color = icoreData.getNameColor();
 				final ChatColor color = ChatColor.WHITE;
 				final String nickname = array[i].getName();
 				final Sign sign = (Sign) signLocations[i].getBlock().getState();

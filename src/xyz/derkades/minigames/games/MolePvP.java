@@ -91,8 +91,9 @@ public class MolePvP extends Game<MolePvPMap> {
 
 	@Override
 	public int gameTimer(final int secondsLeft) {
-		if ((MolePvP.this.getNumPlayersLeftInBlueTeam() == 0 || MolePvP.this.getNumPlayersLeftInRedTeam() == 0) && secondsLeft > 10)
+		if ((MolePvP.this.getNumPlayersLeftInBlueTeam() == 0 || MolePvP.this.getNumPlayersLeftInRedTeam() == 0) && secondsLeft > 10) {
 			return 10;
+		}
 
 		return secondsLeft;
 	}
@@ -167,12 +168,13 @@ public class MolePvP extends Game<MolePvPMap> {
 	}
 
 	private ChatColor getTeamColor(final MPlayer player) {
-		if (this.teamRed.contains(player.getUniqueId()))
+		if (this.teamRed.contains(player.getUniqueId())) {
 			return ChatColor.RED;
-		else if (this.teamBlue.contains(player.getUniqueId()))
+		} else if (this.teamBlue.contains(player.getUniqueId())) {
 			return ChatColor.BLUE;
-		else
+		} else {
 			return ChatColor.GREEN;
+		}
 	}
 
 	private void giveItems(final MPlayer player) {
@@ -214,14 +216,12 @@ public class MolePvP extends Game<MolePvPMap> {
 
 	@Override
 	public void onPlayerJoin(final MPlayer player) {
-		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override
 	public void onPlayerQuit(final MPlayer player) {
-		// TODO Auto-generated method stub
-
+		
 	}
 
 }
