@@ -3,8 +3,8 @@ package xyz.derkades.minigames.games;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.function.Predicate;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -164,23 +164,19 @@ public class TeamsBowBattle extends Game<TeamsBowBattleMap> {
 	}
 
 	private int getNumPlayersLeftInRedTeam() {
-		int players = 0;
-		for (final Player player : Bukkit.getOnlinePlayers()) {
-			if (this.teamRed.contains(player.getUniqueId()) && !this.dead.contains(player.getUniqueId())) {
-				players++;
-			}
-		}
-		return players;
+		return (int) Minigames.getOnlinePlayers().stream()
+				.map(MPlayer::getUniqueId)
+				.filter(Predicate.not(this.dead::contains))
+				.filter(this.teamRed::contains)
+				.count();
 	}
 
 	private int getNumPlayersLeftInBlueTeam() {
-		int players = 0;
-		for (final Player player : Bukkit.getOnlinePlayers()) {
-			if (this.teamBlue.contains(player.getUniqueId()) && !this.dead.contains(player.getUniqueId())) {
-				players++;
-			}
-		}
-		return players;
+		return (int) Minigames.getOnlinePlayers().stream()
+				.map(MPlayer::getUniqueId)
+				.filter(Predicate.not(this.dead::contains))
+				.filter(this.teamBlue::contains)
+				.count();
 	}
 
 	private ChatColor getTeamColor(final MPlayer player) {
@@ -233,6 +229,7 @@ public class TeamsBowBattle extends Game<TeamsBowBattleMap> {
 			this.dead.add(player.getUniqueId());
 			player.die();
 		}
+		
 		if (this.teamBlue.contains(player.getUniqueId())) {
 			player.teleport(this.map.getTeamBlueSpawnLocation());
 		} else if (this.teamRed.contains(player.getUniqueId())) {
@@ -243,8 +240,6 @@ public class TeamsBowBattle extends Game<TeamsBowBattleMap> {
 	}
 
 	@Override
-	public void onPlayerQuit(final MPlayer player) {
-	}
-
+	public void onPlayerQuit(final MPlayer player) {}
 
 }
