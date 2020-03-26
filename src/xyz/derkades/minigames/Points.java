@@ -92,14 +92,14 @@ public class Points {
 			final int players = Bukkit.getOfflinePlayers().length;
 			final int totalPoints = map.values().stream().mapToInt(Integer::intValue).sum();
 
-			final Sign globalStats = (Sign) new Location(Var.LOBBY_WORLD, 222, 68, 259).getBlock().getState();
+			final Sign globalStats = (Sign) new Location(Var.LOBBY_WORLD, 221, 65, 280).getBlock().getState();
 			globalStats.setLine(0, ChatColor.YELLOW + "Players");
 			globalStats.setLine(1, ChatColor.WHITE + "" + players);
 			globalStats.setLine(2, ChatColor.YELLOW + "Points");
 			globalStats.setLine(3, ChatColor.WHITE + "" + totalPoints);
 			globalStats.update();
 			
-			final Sign globalStats2 = (Sign) new Location(Var.LOBBY_WORLD, 223, 68, 259).getBlock().getState();
+			final Sign globalStats2 = (Sign) new Location(Var.LOBBY_WORLD, 217, 65, 280).getBlock().getState();
 			globalStats2.setLine(0, ChatColor.YELLOW + "Games");
 			globalStats2.setLine(1, ChatColor.WHITE + "" + Game.GAMES.length);
 			globalStats2.setLine(2, ChatColor.YELLOW + "Maps");
