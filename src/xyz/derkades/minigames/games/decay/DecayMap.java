@@ -9,6 +9,7 @@ public abstract class DecayMap extends GameMap {
 	
 	public static final DecayMap[] MAPS = {
 			new SpruceBrick(),
+			new SquareDonut(),
 	};
 	
 	public abstract Location getSpawnLocation();
