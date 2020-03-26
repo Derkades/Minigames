@@ -45,7 +45,7 @@ public class GladeRoyale extends Game<GladeRoyaleMap> {
 
 	@Override
 	public int getRequiredPlayers() {
-		return 6;
+		return 8;
 	}
 
 	@Override
