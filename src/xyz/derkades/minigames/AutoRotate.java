@@ -27,8 +27,8 @@ public class AutoRotate {
 		}
 
 		if (Bukkit.getOnlinePlayers().size() < 2) {
-			Bukkit.broadcastMessage(ChatColor.RED + "Not enough players online to start a game. Please invite more players.");
-			Scheduler.delay(5*20, AutoRotate::startNewRandomGame);
+			Bukkit.broadcastMessage(ChatColor.RED + "Not enough players to start a game.");
+			Scheduler.delay(8*20, AutoRotate::startNewRandomGame);
 			return;
 		}
 
