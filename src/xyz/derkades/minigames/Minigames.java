@@ -96,6 +96,8 @@ public class Minigames extends JavaPlugin implements Listener {
 				Logger.info("Players online, not starting games automatically");
 			}
 		});
+		
+		new AutoReloader(this);
 
 		Logger.info("Plugin enabled");
 	}
