@@ -46,7 +46,7 @@ public class ControlPoints extends Game<ControlPointsMap> {
 
 	@Override
 	public int getRequiredPlayers() {
-		return 4;
+		return 6;
 	}
 
 	@Override
