@@ -49,7 +49,7 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 			new DigDug(),
 			new Dropper(),
 			new Elytra(),
-			//new Harvest(),
+			new Harvest(),
 			new HungerGames(),
 			new IcyBlowback(),
 			new GladeRoyale(),
@@ -350,6 +350,31 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 			this.sendMessage("The " + this.getName() + " game has ended! Winner: " + YELLOW + winnersText);
 		} else {
 			this.sendMessage("The " + this.getName() + " game has ended! Winners: " + YELLOW + winnersText);
+		}
+		
+		// Give rewards
+		for (final MPlayer player : Minigames.getOnlinePlayers()){
+			if (winners.contains(player.getUniqueId())){
+				//If player has won
+				final int onlinePlayers = Bukkit.getOnlinePlayers().size();
+
+				final int points;
+
+				if (onlinePlayers < 3) {
+					points = 3;
+				} else if (onlinePlayers < 5){
+					points = 4;
+				} else {
+					points = 5;
+				}
+
+				player.addPoints(points);
+//				Queue.add(() -> Minigames.economy.depositPlayer(player.bukkit(), points));
+				player.sendTitle(GOLD + "You've won",  YELLOW + "+" + points + " points");
+			} else {
+				player.addPoints(1);
+				player.sendTitle(GOLD + "You've lost", YELLOW + "+1 point");
+			}
 		}
 
 		this.showPolls();
