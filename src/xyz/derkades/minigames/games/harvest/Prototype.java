@@ -1,10 +1,10 @@
 package xyz.derkades.minigames.games.harvest;
 
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.block.data.Ageable;
+import java.util.ArrayList;
+import java.util.List;
 
-import xyz.derkades.derkutils.bukkit.BlockUtils;
+import org.bukkit.Location;
+
 import xyz.derkades.minigames.Var;
 import xyz.derkades.minigames.random.Size;
 import xyz.derkades.minigames.worlds.GameWorld;
@@ -15,15 +15,26 @@ public class Prototype extends HarvestMap {
 	public String getName() {
 		return "Prototype";
 	}
-
+	
 	@Override
-	public void restoreMap() {
-		BlockUtils.fillArea(Var.WORLD, 308, 69, 256, 326, 69, 238, Material.WHEAT, (b) -> ((Ageable) b).setAge(((Ageable) b).getMaximumAge()));
+	public List<Location> getCropLocations() {
+		final int minX = 308;
+		final int maxX = 326;
+		final int y = 69;
+		final int minZ = 238;
+		final int maxZ = 256;
+		final List<Location> blocks = new ArrayList<>();
+		for (int x = minX; x <= maxX; x++) {
+			for (int z = minZ; z <= maxZ; z++) {
+				blocks.add(new Location(Var.WORLD, x, y, z));
+			}
+		}
+		return blocks;
 	}
 
 	@Override
 	public Location getSpawnLocation() {
-		return new Location(Var.WORLD, 327, 71, 248);
+		return new Location(Var.WORLD, 317, 75, 247);
 	}
 
 	@Override
