@@ -131,7 +131,6 @@ public class BreakTheBlock extends Game<BreakTheBlockMap> {
 		final PlayerInventory inv = player.getInventory();
 
 		if (player.getBlockIn().getType() == Material.WATER){
-			inv.clear();
 			player.teleport(this.map.getStartLocation());
 			return;
 		}
