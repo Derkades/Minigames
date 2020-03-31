@@ -4,7 +4,6 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 
 import xyz.derkades.derkutils.bukkit.LocationUtils;
-import xyz.derkades.minigames.Var;
 import xyz.derkades.minigames.random.Size;
 import xyz.derkades.minigames.utils.MPlayer;
 import xyz.derkades.minigames.worlds.GameWorld;
@@ -18,22 +17,22 @@ public class Prototype extends ControlPointsMap {
 
 	@Override
 	public Location getBlueSpawnLocation() {
-		return new Location(Var.WORLD, 437.5, 69, 374.5);
+		return new Location(this.getWorld(), -15.6, 63, -25.5);
 	}
 
 	@Override
 	public Location getRedSpawnLocation() {
-		return new Location(Var.WORLD, 470.5, 69, 427.5);
+		return new Location(this.getWorld(), 19.5, 63, 27.5);
 	}
 
 	@Override
 	public Location[] getControlPointLocations() {
 		return new Location[] {
-				new Location(Var.WORLD, 403, 68, 372),
-				new Location(Var.WORLD, 405, 72, 403),
-				new Location(Var.WORLD, 451, 82, 399),
-				new Location(Var.WORLD, 499, 72, 395),
-				new Location(Var.WORLD, 501, 68, 426),
+				new Location(this.getWorld(), -49, 62, -28), // blue   1
+				new Location(this.getWorld(), -48, 66,   3), // blue   2
+				new Location(this.getWorld(),  -1, 76,  -1), // middle
+				new Location(this.getWorld(),  47, 66,  -5), // red    2
+				new Location(this.getWorld(),  49, 62,  26), // red    1
 		};
 	}
 
@@ -46,8 +45,6 @@ public class Prototype extends ControlPointsMap {
 
 	@Override
 	public void setControlPointStatus(final Location location, final ControlStatus status) {
-//		Logger.debug("Setting control point status (%s, %s, %s) to %s", location.getX(), location.getY(), location.getZ(), status);
-		
 		Material newMaterial;
 		if (status == ControlStatus.BLUE) {
 			newMaterial = Material.BLUE_CONCRETE;
@@ -77,12 +74,12 @@ public class Prototype extends ControlPointsMap {
 
 	@Override
 	public GameWorld getGameWorld() {
-		return null;
+		return GameWorld.CONTROL_PROTOTYPE;
 	}
 
 	@Override
 	public String getCredits() {
-		return null;
+		return "PeeperSleeper";
 	}
 
 	@Override
