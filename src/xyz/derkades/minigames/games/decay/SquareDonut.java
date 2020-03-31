@@ -18,7 +18,7 @@ public class SquareDonut extends DecayMap {
 
 	@Override
 	public Location getSpawnLocation() {
-		return new Location(this.getWorld(), 0, 65, 0);
+		return new Location(this.getWorld(), -10.5, 65, 0);
 	}
 
 	@Override
