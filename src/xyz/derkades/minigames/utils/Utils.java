@@ -79,6 +79,7 @@ public class Utils {
 		}
 	}
 
+	@Deprecated
 	public static void delayedTeleport(final Location location, final Player... players) {
 		int delay = 0;
 
@@ -88,6 +89,7 @@ public class Utils {
 		}
 	}
 
+	@Deprecated
 	public static void delayedTeleport(final Location location, final Consumer<Player> runnable, final Player... players) {
 		int delay = 0;
 
@@ -119,8 +121,9 @@ public class Utils {
 
 	public static boolean allPlayersFinished(final List<UUID> finished) {
 		for (final Player player : Bukkit.getOnlinePlayers()) {
-			if (!finished.contains(player.getUniqueId()))
+			if (!finished.contains(player.getUniqueId())) {
 				return false;
+			}
 		}
 		return true;
 	}
