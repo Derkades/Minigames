@@ -247,7 +247,7 @@ public class GladeRoyale extends Game<GladeRoyaleMap> {
 	@Override
 	public void onEnd() {
 		this.endGame(this.alive, true);
-		this.alive.clear();
+		this.alive = null;
 	}
 
 	@EventHandler

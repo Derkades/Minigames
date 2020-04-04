@@ -81,6 +81,7 @@ public class Parkour extends Game<ParkourMap> {
 	@Override
 	public void onEnd() {
 		Parkour.this.endGame(Parkour.this.finished);
+		this.finished = null;
 	}
 
 	@EventHandler(priority = EventPriority.MONITOR)

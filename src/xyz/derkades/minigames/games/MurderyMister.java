@@ -164,8 +164,11 @@ public class MurderyMister extends Game<MurderyMisterMap> {
 
 	@Override
 	public void onEnd() {
-		this.arrowRemoveTask.cancel();
 		super.endGame(this.alive);
+		this.murderer = null;
+		this.alive = null;
+		this.arrowRemoveTask.cancel();
+		this.arrowRemoveTask = null;
 	}
 
 	@EventHandler

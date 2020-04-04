@@ -16,7 +16,9 @@ import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.util.Vector;
 
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.ComponentBuilder;
@@ -38,6 +40,7 @@ import xyz.derkades.minigames.random.Size;
 import xyz.derkades.minigames.utils.MPlayer;
 import xyz.derkades.minigames.utils.Scheduler;
 import xyz.derkades.minigames.utils.Utils;
+import xyz.derkades.minigames.utils.queue.TaskQueue;
 
 public abstract class Game<M extends GameMap> implements Listener, RandomlyPickable {
 
@@ -187,7 +190,6 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 						player.getInventory().setHeldItemSlot(0);
 					}
 
-//					Minigames.IS_IN_GAME = true;
 					Minigames.CURRENT_GAME = Game.this;
 					Bukkit.getPluginManager().registerEvents(Game.this, Minigames.getInstance());
 					Game.this.begin();
@@ -257,63 +259,6 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 		Bukkit.broadcastMessage(Utils.getChatPrefix(ChatColor.AQUA, 'G') + message);
 	}
 
-	/*void endGame(final List<Player> winners){ // This method is called by the game, usually in onEnd()
-		Minigames.IS_IN_GAME = false;
-		HandlerList.unregisterAll(this); //Unregister events
-
-		// Announce winners
-		final List<String> winnerNames = new ArrayList<>();
-		for (final Player winner : winners) {
-			winnerNames.add(winner.getName());
-		}
-		final String winnersText = String.join(", ", winnerNames);
-
-		if (winners.isEmpty()){
-			this.sendMessage("The " + this.getName() + " game has ended.");
-		} else if (winners.size() == 1){
-			this.sendMessage("The " + this.getName() + " game has ended! Winner: " + YELLOW + winnersText);
-		} else {
-			this.sendMessage("The " + this.getName() + " game has ended! Winners: " + YELLOW + winnersText);
-		}
-
-		// Give rewards
-		for (final MPlayer player : Minigames.getOnlinePlayers()){
-			if (winnerNames.contains(player.getName())){
-				//If player has won
-				final int onlinePlayers = Bukkit.getOnlinePlayers().size();
-
-				final int points;
-
-				if (onlinePlayers < 3) {
-					points = 3;
-				} else if (onlinePlayers < 5){
-					points = 4;
-				} else {
-					points = 5;
-				}
-
-				player.addPoints(points);
-				Queue.add(() -> Minigames.economy.depositPlayer(player.bukkit(), points));
-				player.sendTitle(GOLD + "You've won",  YELLOW + "+" + points + " points");
-			} else {
-				player.addPoints(1);
-				player.sendTitle(GOLD + "You've lost", YELLOW + "+1 point");
-			}
-		}
-
-		Utils.showEveryoneToEveryone();
-
-		for (final MPlayer player : Minigames.getOnlinePlayers()){
-			// Teleport the player and give them a bit of forwards and sidewards velocity
-			Queue.add(() -> {
-				player.teleport(Var.LOBBY_LOCATION);
-				player.bukkit().setVelocity(new Vector(Random.getRandomDouble() - 0.5, 0.3, -0.8));
-				player.giveEffect(PotionEffectType.INVISIBILITY, 40, 0);
-				player.applyLobbySettings();
-			});
-		}
-	}*/
-
 	protected void endGame() {
 		this.endGame(Arrays.asList());
 	}
@@ -379,10 +324,15 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 
 		this.showPolls();
 
-		Minigames.getOnlinePlayers().forEach(p -> {
-			p.queueTeleport(Var.LOBBY_LOCATION);
-			p.applyLobbySettings();
-		});
+		for (final MPlayer player : Minigames.getOnlinePlayers()){
+			// Teleport the player and give them a bit of forwards and sidewards velocity
+			TaskQueue.add(() -> {
+				player.teleport(Var.LOBBY_LOCATION);
+				player.bukkit().setVelocity(new Vector(Random.getRandomDouble() - 0.5, 0.3, -0.8));
+				player.giveEffect(PotionEffectType.INVISIBILITY, 30, 0);
+				player.applyLobbySettings();
+			});
+		}
 		
 		Scheduler.delay(10*20, () -> {
 			AutoRotate.startNewRandomGame();

@@ -110,7 +110,9 @@ public class MolePvP extends Game<MolePvPMap> {
 			// both teams are still alive
 			MolePvP.super.endGame(new ArrayList<>());
 		}
-
+		this.dead = null;
+		this.teamRed = null;
+		this.teamBlue = null;
 	}
 
 	@EventHandler

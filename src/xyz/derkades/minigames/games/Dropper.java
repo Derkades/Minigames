@@ -85,8 +85,7 @@ public class Dropper extends Game<DropperMap> {
 
 	@EventHandler
 	public void onMove(final PlayerMoveEvent event) {
-		if (this.finished.contains(event.getPlayer().getUniqueId()))
-		 {
+		if (this.finished.contains(event.getPlayer().getUniqueId())) {
 			return; //Don't teleport players who have finished
 		}
 

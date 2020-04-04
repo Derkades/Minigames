@@ -109,11 +109,10 @@ public class OneInTheQuiver extends Game<OITQMap> {
 
 	@Override
 	public void onEnd() {
-		this.arrowRemoveTask.cancel();
-
 		OneInTheQuiver.super.endGame(this.alive, true);
-
 		this.alive = null;
+		this.arrowRemoveTask.cancel();
+		this.arrowRemoveTask = null;
 	}
 
 	@EventHandler

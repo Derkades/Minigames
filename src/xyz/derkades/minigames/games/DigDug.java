@@ -123,20 +123,21 @@ public class DigDug extends Game<DigDugMap> {
 
 	@Override
 	public void onEnd() {
-		Bukkit.getOnlinePlayers().forEach(DigDug.this.sidebar::hideFrom);
-
 		DigDug.this.endGame(Winners.fromPointsMap(DigDug.this.points));
 		DigDug.this.points = null;
+		Bukkit.getOnlinePlayers().forEach(DigDug.this.sidebar::hideFrom);
 		this.sidebar = null;
 	}
 
 	@EventHandler
 	public void onInteract(final PlayerInteractEvent event) {
-		if (event.getAction() != Action.RIGHT_CLICK_BLOCK)
+		if (event.getAction() != Action.RIGHT_CLICK_BLOCK) {
 			return;
+		}
 
-		if (!event.getHand().equals(EquipmentSlot.HAND))
+		if (!event.getHand().equals(EquipmentSlot.HAND)) {
 			return;
+		}
 
 		final Player player = event.getPlayer();
 		final Block block = event.getClickedBlock();

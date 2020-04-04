@@ -23,6 +23,8 @@ import xyz.derkades.minigames.utils.Utils;
 
 public class Platform extends Game<PlatformMap> {
 
+	private static final int KNOCKBACK_SWORDS_TIME = 20;
+	
 	@Override
 	public String getName() {
 		return "Platform";
@@ -52,8 +54,6 @@ public class Platform extends Game<PlatformMap> {
 	public int getDuration() {
 		return 40;
 	}
-
-	private static final int KNOCKBACK_SWORDS_TIME = 20;
 
 	private List<UUID> alive;
 

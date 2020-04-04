@@ -103,6 +103,7 @@ public class BowSpleef extends Game<BowSpleefMap> {
 	@Override
 	public void onEnd() {
 		endGame(this.alive, true);
+		this.alive = null;
 	}
 
 	@Override

@@ -83,9 +83,9 @@ public class TntRun extends Game<TNTMap> {
 
 	@Override
 	public void onEnd() {
-		TntRun.this.endGame(this.alive, true);
-		TntRun.this.removedBlocks = null;
-		TntRun.this.alive = null; // ‘eclipse’
+		this.endGame(this.alive, true);
+		this.removedBlocks = null;
+		this.alive = null;
 	}
 
 	@EventHandler
@@ -146,20 +146,7 @@ public class TntRun extends Game<TNTMap> {
 			}, 7);
 		}
 	}
-
-//	@EventHandler
-//	public void onJoin(final MinigamesJoinEvent event) {
-//		event.setTeleportPlayerToLobby(false);
-//		final MPlayer player = event.getPlayer();
-//		this.alive.remove(player.getUniqueId());
-//		player.dieTo(this.map.spawnLocation());
-//	}
-
-//	@EventHandler
-//	public void onQuit(final PlayerQuitEvent event) {
-//		this.alive.remove(event.getPlayer().getUniqueId());
-//	}
-
+	
 	@Override
 	public void onPlayerJoin(final MPlayer player) {
 		this.alive.remove(player.getUniqueId());

@@ -60,7 +60,7 @@ public class Tron extends Game<TronMap> {
 	private List<BukkitTask> tasks;
 	private List<UUID> spectators;
 
-	Map<UUID, TronTeam> teams;
+	private Map<UUID, TronTeam> teams;
 
 	@Override
 	public void onPreStart() {
@@ -101,35 +101,36 @@ public class Tron extends Game<TronMap> {
 
 	@Override
 	public int gameTimer(final int secondsLeft) {
-		if (Tron.this.teams.size() < 2 && secondsLeft > 2)
+		if (Tron.this.teams.size() < 2 && secondsLeft > 2) {
 			return 2;
+		}
 
 		return secondsLeft;
 	}
 
 	@Override
 	public void onEnd() {
-		Tron.this.tasks.forEach((task) -> task.cancel());
-		Tron.this.tasks.clear();
-		Tron.this.spectators.clear();
-
 		if (Tron.this.teams.size() == 1) {
 			Tron.this.endGame(Tron.this.teams.keySet().toArray(new UUID[] {})[0]);
 		} else {
 			Tron.this.endGame();
 		}
 
-		Tron.this.teams.clear();
+		this.tasks.forEach((task) -> task.cancel());
+		this.tasks = null;
+		this.spectators = null;
+		this.teams = null;
 	}
 
 	@Override
 	public void onPlayerJoin(final MPlayer player) {
-		// TODO proper join mid game support
+		this.spectators.add(player.getUniqueId());
+		this.teams.remove(player.getUniqueId());
+		player.dieTo(this.map.getSpawnLocations().get(TronTeam.WHITE));
 	}
 
 	@Override
-	public void onPlayerQuit(final MPlayer player) {
-	}
+	public void onPlayerQuit(final MPlayer player) {}
 
 	public enum TronTeam {
 
@@ -280,14 +281,15 @@ public class Tron extends Game<TronMap> {
 		    if (yaw < 0) {
 		        yaw += 360;
 		    }
-		    if (yaw >= 315 || yaw < 45)
+		    if (yaw >= 315 || yaw < 45) {
 				return "south";
-			else if (yaw < 135)
+			} else if (yaw < 135) {
 				return "west";
-			else if (yaw < 225)
+			} else if (yaw < 225) {
 				return "north";
-			else if (yaw < 315)
+			} else if (yaw < 315) {
 				return "east";
+			}
 		    return "north";
 		}
 
