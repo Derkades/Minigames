@@ -16,8 +16,9 @@ public class CommandTabCompleter implements TabCompleter {
 	@Override
 	public List<String> onTabComplete(final CommandSender arg0, final Command arg1, final String label, final String[] args) {
 		if (args.length == 2 && args[0].equalsIgnoreCase("next")) {
-			if (args[1] == null)
+			if (args[1] == null) {
 				return Arrays.asList("error");
+			}
 
 			final String arg = args[1];
 
@@ -49,8 +50,9 @@ public class CommandTabCompleter implements TabCompleter {
 				}
 			}
 			return mapIdentifiers;
-		} else
+		} else {
 			return new ArrayList<>();
+		}
 	}
 
 }
