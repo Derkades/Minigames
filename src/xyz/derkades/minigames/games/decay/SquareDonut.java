@@ -26,7 +26,7 @@ public class SquareDonut extends DecayMap {
 		final int r = 14;
 		final int r2 = 5;
 		final int y = 64;
-		final List<Location> blocks = new ArrayList<>(r2*r2-r*r);
+		final List<Location> blocks = new ArrayList<>(r*r-r2*r2);
 		for (int x = -r; x <= r; x++) {
 			for (int z = -r; z <= r; z++) {
 				if ((x > r2 || x < -r2) && (z > r2) || (z < -r2)) {
