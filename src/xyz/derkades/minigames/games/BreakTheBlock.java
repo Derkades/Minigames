@@ -128,13 +128,14 @@ public class BreakTheBlock extends Game<BreakTheBlockMap> {
 	public void onMove(final PlayerMoveEvent event) {
 		final MPlayer player = new MPlayer(event);
 
-		final PlayerInventory inv = player.getInventory();
-
 		if (player.getBlockIn().getType() == Material.WATER){
 			player.teleport(this.map.getStartLocation());
+			player.clearInventory();
 			return;
 		}
 
+		final PlayerInventory inv = player.getInventory();
+		
 		if (player.getLocation().getBlock().getRelative(BlockFace.DOWN).getType().equals(Material.ORANGE_CONCRETE) &&
 				!inv.contains(Material.FIREWORK_ROCKET)) {
 			inv.addItem(new ItemBuilder(Material.FIREWORK_ROCKET).name(ChatColor.LIGHT_PURPLE + "Elytra fireworks").create());
