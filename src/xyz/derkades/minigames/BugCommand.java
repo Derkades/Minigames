@@ -1,7 +1,5 @@
 package xyz.derkades.minigames;
 
-import java.io.IOException;
-
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -11,13 +9,33 @@ import org.kohsuke.github.GHRepository;
 import org.kohsuke.github.GitHub;
 
 import net.md_5.bungee.api.ChatColor;
+import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;
+import net.md_5.bungee.api.chat.hover.content.Content;
+import net.md_5.bungee.api.chat.hover.content.Text;
 import xyz.derkades.minigames.utils.Scheduler;
 import xyz.derkades.minigames.utils.Utils;
 
 public class BugCommand implements CommandExecutor {
+	
+	private static final String SUBMITTING = Utils.getChatPrefix(ChatColor.AQUA, 'P') + "Submitting feedback..";
+	
+	private static final String UNAVAILABLE = Utils.getChatPrefix(ChatColor.AQUA, 'P') + "Sorry, this command is temporarily unavailable.";
+	
+	private static final Content CLICK_TO_VISIT = new Text(
+			new ComponentBuilder("Click to visit https://github.com/Derkades/Minigames/issues")
+			.color(ChatColor.GRAY).create());
+	
+	private static final BaseComponent[] THANKS = new ComponentBuilder("")
+			.appendLegacy(Utils.getChatPrefix(ChatColor.AQUA, 'P') + "Thanks for letting us know. You can view all open issues ")
+			.append("here.")
+			.color(ChatColor.YELLOW)
+			.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, CLICK_TO_VISIT))
+			.event(new ClickEvent(ClickEvent.Action.OPEN_URL,
+					"https://github.com/Derkades/Minigames/issues"))
+			.create();
 
 	@Override
 	public boolean onCommand(final CommandSender sender, final Command arg1, final String label, final String[] args) {
@@ -28,7 +46,7 @@ public class BugCommand implements CommandExecutor {
 			return true;
 		}
 
-		sender.sendMessage(Utils.getChatPrefix(ChatColor.AQUA, 'P') + "Submitting feedback..");
+		sender.sendMessage(SUBMITTING);
 
 		Scheduler.async(() -> {
 			try {
@@ -45,7 +63,7 @@ public class BugCommand implements CommandExecutor {
 //				final String pass = Minigames.getInstance().getConfig().getString("github-password");
 //				final GitHub github = GitHub.connectUsingPassword(user, pass);
 				if (!Minigames.getInstance().getConfig().isString("github-token")) {
-					sender.sendMessage(Utils.getChatPrefix(ChatColor.AQUA, 'P') + "Sorry, this command is temporarily unavailable.");
+					sender.sendMessage(UNAVAILABLE);
 					return;
 				}
 				
@@ -58,17 +76,9 @@ public class BugCommand implements CommandExecutor {
 				} else {
 					issue.addLabels(repo.getLabel("bot"), repo.getLabel(issueLabel));
 				}
-				player.spigot().sendMessage(new ComponentBuilder("")
-						.appendLegacy(Utils.getChatPrefix(ChatColor.AQUA, 'P') + "Thanks for letting us know. You can view all open issues ")
-						.append("here.")
-						.color(ChatColor.YELLOW)
-						.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
-								new ComponentBuilder("Click to visit https://github.com/Derkades/Minigames/issues")
-								.color(ChatColor.GRAY).create()))
-						.event(new ClickEvent(ClickEvent.Action.OPEN_URL,
-								"https://github.com/Derkades/Minigames/issues"))
-						.create());
-			} catch (final IOException e) {
+				
+				player.spigot().sendMessage(THANKS);
+			} catch (final Exception e) {
 				Logger.warning("%s encountered an issue while trying to create an issue", sender.getName());
 				player.sendMessage("An error occured while trying to create an issue.");
 				e.printStackTrace();
