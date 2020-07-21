@@ -14,6 +14,7 @@ import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;
+import net.md_5.bungee.api.chat.hover.content.Text;
 import xyz.derkades.minigames.utils.Utils;
 
 public class ChatPoll {
@@ -58,7 +59,7 @@ public class ChatPoll {
 			for (final PollAnswer answer : this.answers) {
 				answerMessage.append(String.format(" [%s] ", answer.displayName))
 					.color(answer.answerColor)
-					.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(answer.hoverMessage).color(ChatColor.GRAY).create()))
+					.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(new ComponentBuilder(answer.hoverMessage).color(ChatColor.GRAY).create())))
 					.event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, String.format("/dm90ZSEh %s %s", token, answer.id)));
 			}
 

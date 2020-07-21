@@ -23,6 +23,7 @@ import org.bukkit.util.Vector;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;
+import net.md_5.bungee.api.chat.hover.content.Text;
 import xyz.derkades.derkutils.NumberUtils;
 import xyz.derkades.derkutils.Random;
 import xyz.derkades.minigames.AutoRotate;
@@ -125,11 +126,11 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 					.append(this.getName()).bold(true).color(GOLD).append(" (" + NumberUtils.roundApprox(this.getWeight(), 1) + ")")
 					.color(GRAY).bold(false).append(" [hover for help]").color(YELLOW)
 					.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
-							new ComponentBuilder("The number shown after the game name in parentheses\n"
+							new Text(new ComponentBuilder("The number shown after the game name in parentheses\n"
 									+ "is the game weight. A higher weight means that the\n"
 									+ "minigame has a higher chance of being picked. The\n"
 									+ "game weight can be increased or decreased by voting\n"
-									+ "on the poll at the end of the game.").color(GRAY).create()))
+									+ "on the poll at the end of the game.").color(GRAY).create())))
 					.create());
 
 			if (!Minigames.getInstance().getConfig().getStringList("disabled-description")

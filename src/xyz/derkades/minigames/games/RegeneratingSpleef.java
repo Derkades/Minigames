@@ -85,7 +85,8 @@ public class RegeneratingSpleef extends Game<SpleefMap> {
 				.name("Spleefanator 8000")
 				.enchant(Enchantment.DIG_SPEED, 5)
 				.unbreakable()
-				.canDestroy("snow_block")
+//				.canDestroy("snow_block")
+				.canDestory(Material.SNOW_BLOCK)
 				.create();
 
 		Bukkit.getOnlinePlayers().forEach((player) -> player.getInventory().setItem(0, shovel));

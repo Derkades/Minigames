@@ -39,6 +39,17 @@ public class Harvest extends Game<HarvestMap> {
 	private static final int CROPS_PER_SECOND = 30;
 	private static final int RESPAWN_DELAY = 3*20;
 	
+	private static final ItemStack[] ITEMS = {
+			new ItemBuilder(Material.IRON_HOE)
+					.unbreakable()
+//					.canDestroy("minecraft:wheat")
+					.canDestory(Material.WHEAT)
+					.create(),
+			new ItemBuilder(Material.WOODEN_SWORD)
+					.unbreakable()
+					.create()
+	};
+	
 	@Override
 	public String getName() {
 		return "Harvest";
@@ -67,8 +78,8 @@ public class Harvest extends Game<HarvestMap> {
 		return 80;
 	}
 	
-	List<Location> blocks;
-	Sidebar sidebar;
+	private List<Location> blocks;
+	private Sidebar sidebar;
 
 	@Override
 	public void onPreStart() {
@@ -85,10 +96,7 @@ public class Harvest extends Game<HarvestMap> {
 	
 	private void giveItems(final MPlayer player) {
 		player.clearInventory();
-		player.giveItem(
-				new ItemBuilder(Material.IRON_HOE).unbreakable().canDestroy("minecraft:wheat").create(),
-				new ItemBuilder(Material.WOODEN_SWORD).unbreakable().create()
-				);
+		player.giveItem(ITEMS);
 	}
 	
 	private Map<MPlayer, Integer> getSortedPointsMap() {

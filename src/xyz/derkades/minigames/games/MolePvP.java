@@ -209,7 +209,8 @@ public class MolePvP extends Game<MolePvPMap> {
 
 		final ItemStack shovel = new ItemBuilder(Material.DIAMOND_SHOVEL)
 				.enchant(Enchantment.DIG_SPEED, 5)
-				.canDestroy("dirt")
+//				.canDestroy("dirt")
+				.canDestory(Material.DIRT)
 				.unbreakable()
 				.create();
 

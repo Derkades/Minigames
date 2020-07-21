@@ -28,7 +28,8 @@ public class BreakTheBlock extends Game<BreakTheBlockMap> {
 			.unbreakable()
 			.name(ChatColor.GOLD + "Block breaker")
 			.lore(ChatColor.YELLOW + "Use this gold pickaxe to break the ", ChatColor.YELLOW + "gold block at the end of the game.")
-			.canDestroy("gold_block")
+//			.canDestroy("gold_block")
+			.canDestory(Material.GOLD_BLOCK)
 			.create();
 
 	@Override
