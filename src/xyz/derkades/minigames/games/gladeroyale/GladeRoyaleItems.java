@@ -11,13 +11,19 @@ import xyz.derkades.derkutils.bukkit.lootchests.LootItem;
 public class GladeRoyaleItems {
 
 	public static final ItemStack BLOCK = new ItemBuilder(Material.TERRACOTTA)
-			.canPlaceOn("grass_block", "red_concrete_powder", "black_concrete_powder", "sand", "sandstone",
-					"light_gray_terracotta", "terracotta")
+			.canPlaceOn(
+					Material.GRASS_BLOCK,
+					Material.RED_CONCRETE_POWDER,
+					Material.BLACK_CONCRETE_POWDER,
+					Material.SAND,
+					Material.SANDSTONE,
+					Material.LIGHT_GRAY_TERRACOTTA,
+					Material.TERRACOTTA)
 			.name(ChatColor.YELLOW + "Block")
 			.create();
 
 	public static final ItemStack TOOL = new ItemBuilder(Material.IRON_PICKAXE)
-			.canDestroy("terracotta")
+			.canDestroy(Material.TERRACOTTA)
 			.name(ChatColor.YELLOW + "Block breaker")
 			.enchant(Enchantment.DIG_SPEED, 3)
 			.unbreakable()
