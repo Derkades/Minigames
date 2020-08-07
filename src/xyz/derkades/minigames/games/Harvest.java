@@ -43,7 +43,7 @@ public class Harvest extends Game<HarvestMap> {
 			new ItemBuilder(Material.IRON_HOE)
 					.unbreakable()
 //					.canDestroy("minecraft:wheat")
-					.canDestory(Material.WHEAT)
+					.canDestroy(Material.WHEAT)
 					.create(),
 			new ItemBuilder(Material.WOODEN_SWORD)
 					.unbreakable()

@@ -86,7 +86,7 @@ public class RegeneratingSpleef extends Game<SpleefMap> {
 				.enchant(Enchantment.DIG_SPEED, 5)
 				.unbreakable()
 //				.canDestroy("snow_block")
-				.canDestory(Material.SNOW_BLOCK)
+				.canDestroy(Material.SNOW_BLOCK)
 				.create();
 
 		Bukkit.getOnlinePlayers().forEach((player) -> player.getInventory().setItem(0, shovel));
@@ -94,8 +94,9 @@ public class RegeneratingSpleef extends Game<SpleefMap> {
 
 	@Override
 	public int gameTimer(final int secondsLeft) {
-		if (this.alive.size() < 2 && secondsLeft > 5)
+		if (this.alive.size() < 2 && secondsLeft > 5) {
 			return 5;
+		}
 
 		return secondsLeft;
 	}
@@ -108,13 +109,15 @@ public class RegeneratingSpleef extends Game<SpleefMap> {
 
 	@EventHandler
 	public void onBlockBreak(final BlockBreakEvent event) {
-		if (event.getPlayer().getGameMode().equals(GameMode.CREATIVE))
+		if (event.getPlayer().getGameMode().equals(GameMode.CREATIVE)) {
 			return;
+		}
 
 		if (this.map.enableFlyingBlocks()) {
 			final Block block = event.getBlock();
-				if (!block.getType().equals(Material.SNOW_BLOCK))
+				if (!block.getType().equals(Material.SNOW_BLOCK)) {
 					return;
+				}
 
 				final FallingBlock fall = block.getWorld().spawnFallingBlock(
 						new Location(this.map.getWorld(), block.getX() + 0.5, block.getY(), block.getZ() + 0.5),
@@ -132,13 +135,15 @@ public class RegeneratingSpleef extends Game<SpleefMap> {
 
 	@EventHandler(priority = EventPriority.MONITOR)
 	public void onMove(final PlayerMoveEvent event){
-		if (!this.started)
+		if (!this.started) {
 			return;
+		}
 
 		final MPlayer player = new MPlayer(event);
 
-		if (!this.alive.contains(player.getUniqueId()))
+		if (!this.alive.contains(player.getUniqueId())) {
 			return;
+		}
 
 		if (player.getBlockOn().getType() == Material.BEDROCK){
 			this.alive.remove(player.getUniqueId());
