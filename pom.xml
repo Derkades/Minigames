@@ -43,7 +43,11 @@
 					<relocations>
 						<relocation>
 							<pattern>de.tr7zw.changeme.nbtapi</pattern>
-							<shadedPattern>xyz.derkades.minigames.lib.nbtapi</shadedPattern>
+							<shadedPattern>xyz.derkades.minigames.lib.tr7zw_nbtapi</shadedPattern>
+						</relocation>
+						<relocation>
+							<pattern>de.tr7zw.annotations</pattern>
+							<shadedPattern>xyz.derkades.minigames.lib.tr7zw_annotations</shadedPattern>
 						</relocation>
 						<relocation>
 							<pattern>com.fasterxml.jackson</pattern>
@@ -58,14 +62,6 @@
 							<shadedPattern>xyz.derkades.minigames.lib.github</shadedPattern>
 						</relocation>
 						<relocation>
-							<pattern>org.hamcrest</pattern>
-							<shadedPattern>xyz.derkades.minigames.lib.hamcrest</shadedPattern>
-						</relocation>
-						<relocation>
-							<pattern>org.json.simple</pattern>
-							<shadedPattern>xyz.derkades.minigames.lib.json-simple</shadedPattern>
-						</relocation>
-						<relocation>
 							<pattern>com.coloredcarrot.api.sidebar</pattern>
 							<shadedPattern>xyz.derkades.minigames.lib.sidebar</shadedPattern>
 						</relocation>
@@ -74,16 +70,14 @@
 							<shadedPattern>xyz.derkades.minigames.lib.derkutils</shadedPattern>
 						</relocation>
 					</relocations>
-					
+
 					<filters>
 						<filter>
 							<artifact>*:*</artifact>
 							<excludes>
-								<exclude>org/junit/</exclude>
-								<exclude>junit/</exclude>
-								<exclude>LICENSE</exclude>
-								<exclude>LICENSE.txt</exclude>
 								<exclude>eclipse/</exclude>
+								<exclude>META-INF/</exclude>
+								<exclude>LICENSE</exclude>
 							</excludes>
 						</filter>
 					</filters>
@@ -98,7 +92,7 @@
 		<dependency>
 			<groupId>org.spigotmc</groupId>
 			<artifactId>spigot-api</artifactId>
-			<version>1.16.1-R0.1-SNAPSHOT</version>
+			<version>1.16.3-R0.1-SNAPSHOT</version>
 			<scope>provided</scope>
 		</dependency>
 
