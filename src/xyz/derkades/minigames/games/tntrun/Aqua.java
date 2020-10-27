@@ -15,7 +15,7 @@ public class Aqua extends TNTMap {
 		BlockUtils.fillArea(this.getWorld(), 12, 59, -6, -12, 59, 6, this.floorMaterial());
 		BlockUtils.fillArea(this.getWorld(), 12, 54, -6, -12, 54, 6, this.floorMaterial());
 		BlockUtils.fillArea(this.getWorld(), 12, 49, -6, -12, 49, 6, this.floorMaterial());
-		BlockUtils.fillArea(this.getWorld(), 12, 45, -6, -12, 45, 6, this.floorMaterial());
+		BlockUtils.fillArea(this.getWorld(), 12, 44, -6, -12, 44, 6, this.floorMaterial());
 	}
 
 	@Override
