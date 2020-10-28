@@ -23,7 +23,7 @@ public class WorldTeleportCommand implements CommandExecutor {
 			sender.sendMessage("");
 			sender.sendMessage("lobby");
 			sender.sendMessage("");
-			Arrays.asList(GameWorld.values()).stream().map(GameWorld::toString).forEach(sender::sendMessage);
+			Arrays.asList(GameWorld.values()).stream().map(GameWorld::toString).map(String::toLowerCase).forEach(sender::sendMessage);
 			return true;
 		}
 
