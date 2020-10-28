@@ -80,7 +80,7 @@ public class SpawnZombieShooter {
 			}
 
 			final Zombie zombie = Var.LOBBY_WORLD.spawn(new Location(Var.LOBBY_WORLD, 224.5, 64, 289.5), Zombie.class);
-			zombie.setBaby(false);
+			zombie.setAdult();
 		}
 
 	}
