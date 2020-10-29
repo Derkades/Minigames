@@ -1,5 +1,8 @@
 package xyz.derkades.minigames.games.maps;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.bukkit.World;
 
 import xyz.derkades.minigames.Minigames;
@@ -57,16 +60,23 @@ public abstract class GameMap implements RandomlyPickable {
 		final String configPath = "game-voting.map." + this.getIdentifier();
 		return Minigames.getInstance().getConfig().getDouble(configPath, 1);
 	}
-
-	public static GameMap fromIdentifier(final String identifier) {
+	
+	private static final Map<String, GameMap> BY_IDENTIFIER = new HashMap<>();
+	
+	static {
 		for (final Game<? extends GameMap> game : Game.GAMES) {
 			for (final GameMap map : game.getGameMaps()) {
-				if (map.getIdentifier().equalsIgnoreCase(identifier)) {
-					return map;
+				if (BY_IDENTIFIER.containsKey(map.getIdentifier())) {
+					Minigames.shutdown(ShutdownReason.EMERGENCY_AUTOMATIC, "Duplicate identifier " + map.getIdentifier());
+					continue;
 				}
+				BY_IDENTIFIER.put(map.getIdentifier(), map);
 			}
 		}
-		return null;
+	}
+
+	public static GameMap fromIdentifier(final String identifier) {
+		return BY_IDENTIFIER.get(identifier);
 	}
 
 }
