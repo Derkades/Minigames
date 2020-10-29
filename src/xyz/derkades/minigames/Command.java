@@ -1,11 +1,13 @@
 package xyz.derkades.minigames;
 
+import org.bukkit.block.BlockFace;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import net.md_5.bungee.api.ChatColor;
 import xyz.derkades.minigames.Minigames.ShutdownReason;
+import xyz.derkades.minigames.games.Missiles.Missile;
 import xyz.derkades.minigames.menu.GamesListMenu;
 import xyz.derkades.minigames.menu.MainMenu;
 import xyz.derkades.minigames.menu.StatsMenu;
@@ -17,6 +19,12 @@ public class Command implements CommandExecutor {
 
 	@Override
 	public boolean onCommand(final CommandSender sender, final org.bukkit.command.Command arg1, final String arg2, final String[] args) {
+		if (args.length == 0) {
+			final Player player = (Player) sender;
+			new MainMenu(player);
+			return true;
+		}
+		
 		if (args.length == 2 && (args[0].equalsIgnoreCase("next") || args[0].equalsIgnoreCase("n")) && sender.hasPermission("minigames.next")) {
 			RandomPicking.FORCE_GAME = args[1].replace("_", " ");
 			Minigames.BYPASS_PLAYER_MINIMUM_CHECKS = true;
@@ -74,7 +82,10 @@ public class Command implements CommandExecutor {
 				sender.sendMessage("Current game: " + Minigames.CURRENT_GAME);
 			} else if (args[0].equals("stats")) {
 				new StatsMenu((Player) sender);
-			} else if (args[0].equals("test") && sender.hasPermission("minigames.test")) {
+			}
+		}
+		
+		if (args.length >= 1 && args[0].equals("test") && sender.hasPermission("minigames.test")) {
 //				new DieAnimationMenu(new BoardPlayer(new MPlayer((Player) sender)), 1, 10, Random.getRandomInteger(1, 10));
 //		        final Location fbLocation = loc.add(
 //		        		loc
@@ -134,12 +145,28 @@ public class Command implements CommandExecutor {
 //				final NBTItem nbt = new NBTItem(new ItemStack(Material.DIAMOND_SHOVEL));
 //				nbt.getStringList("CanDestroy").add("minecraft:dirt");
 //				((Player) sender).getInventory().addItem(nbt.getItem());
-			} else {
-				sender.sendMessage("no.");
-			}
-		} else if (args.length == 0){
 			final Player player = (Player) sender;
-			new MainMenu(player);
+			
+			if (args.length == 2) {
+				final Missile missile;
+				if (args[1].equals("jug")) {
+					missile = Missile.JUGGERNAUT;
+				} else if (args[1].equals("test")) {
+					missile = Missile.TEST;
+				} else if (args[1].equals("comp")) {
+					missile = Missile.COMPRESSOR;
+				} else {
+					player.sendMessage("deze missile bestaat niet");
+					return true;
+				}
+				
+				missile.build(player.getLocation().add(0, -3, -2), BlockFace.NORTH);
+				player.sendMessage("Building missile");
+				return true;
+			} else {
+				player.sendMessage("geef naam (jug, test, comp)");
+				return true;
+			}
 		}
 
 		return true;
