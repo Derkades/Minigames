@@ -370,6 +370,24 @@ public class MPlayer {
 	public Block getBlockOn() {
 		return getBlockIn().getRelative(BlockFace.DOWN);
 	}
+	
+	public BlockFace getFacingAsBlockFace() {
+		float yaw = this.getLocation().getYaw();
+		if (yaw < 0) {
+			yaw += 360;
+		}
+		if (yaw < 45 || yaw >= 315) { // 0, 360
+			return BlockFace.SOUTH; // +Z
+		} else if (yaw >= 45 && yaw < 135) { // 90
+			return BlockFace.WEST; // -X
+		} else if (yaw >= 135 && yaw < 225) { // 180
+			return BlockFace.NORTH; // -Z
+		} else if (yaw >= 225 && yaw < 315) { // 270
+			return BlockFace.EAST; // +X
+		} else {
+			throw new IllegalStateException("Impossible yaw: " + yaw);
+		}
+	}
 
 	public void playSound(final Sound sound, final float pitch) {
 		this.player.playSound(this.player.getLocation(), sound, 1, pitch);
