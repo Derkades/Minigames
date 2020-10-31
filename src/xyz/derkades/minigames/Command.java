@@ -7,7 +7,7 @@ import org.bukkit.entity.Player;
 
 import net.md_5.bungee.api.ChatColor;
 import xyz.derkades.minigames.Minigames.ShutdownReason;
-import xyz.derkades.minigames.games.Missiles.Missile;
+import xyz.derkades.minigames.games.missiles.Missile;
 import xyz.derkades.minigames.menu.GamesListMenu;
 import xyz.derkades.minigames.menu.MainMenu;
 import xyz.derkades.minigames.menu.StatsMenu;
@@ -155,16 +155,19 @@ public class Command implements CommandExecutor {
 					missile = Missile.TEST;
 				} else if (args[1].equals("comp")) {
 					missile = Missile.COMPRESSOR;
+				} else if (args[1].equals("bee")) {
+					missile = Missile.BEE;
 				} else {
 					player.sendMessage("deze missile bestaat niet");
 					return true;
 				}
 				
-				missile.build(player.getLocation().add(0, -3, -2), BlockFace.NORTH);
-				player.sendMessage("Building missile");
+				final BlockFace face = new MPlayer(player).getFacingAsBlockFace();
+				player.sendMessage("Building missile in direction " + face);
+				missile.build(player.getLocation().add(0, -3, 0), face);
 				return true;
 			} else {
-				player.sendMessage("geef naam (jug, test, comp)");
+				player.sendMessage("geef naam (jug, test, comp, bee)");
 				return true;
 			}
 		}
