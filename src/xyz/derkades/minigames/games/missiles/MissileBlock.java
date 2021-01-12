@@ -64,7 +64,7 @@ public class MissileBlock {
 		}.runTaskTimer(Minigames.getInstance(), 0, 1);
 	}
 	
-	private static Block rel(Block block, final int comp, final BlockFace a, final BlockFace b) {
+	static Block rel(Block block, final int comp, final BlockFace a, final BlockFace b) {
 		for (int i = 0; i < comp; i++) {
 			block = block.getRelative(a);
 		}

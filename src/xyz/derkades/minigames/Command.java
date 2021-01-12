@@ -157,6 +157,8 @@ public class Command implements CommandExecutor {
 					missile = Missile.COMPRESSOR;
 				} else if (args[1].equals("bee")) {
 					missile = Missile.BEE;
+				} else if (args[1].equals("tom")) {
+					missile = Missile.TOMAHAWK;
 				} else {
 					player.sendMessage("deze missile bestaat niet");
 					return true;
@@ -167,7 +169,7 @@ public class Command implements CommandExecutor {
 				missile.build(player.getLocation().add(0, -3, 0), face);
 				return true;
 			} else {
-				player.sendMessage("geef naam (jug, test, comp, bee)");
+				player.sendMessage("geef naam (jug, test, comp, bee, tom)");
 				return true;
 			}
 		}

@@ -173,18 +173,63 @@ public enum Missile {
 			new MissileBlock(0, 0, 6, Material.AIR),
 	}),
 	
+	TOMAHAWK("Tomahawk", Material.RED_TERRACOTTA, ChatColor.RED, new MissileBlock[] {
+			new MissileBlock(0, 0, 0, Material.PISTON, 4),
+			new MissileBlock(0, 0, 1, Material.SLIME_BLOCK),
+			new MissileBlock(-1, 0, 1, Material.SLIME_BLOCK),
+			new MissileBlock(0, 1, 1, Material.REDSTONE_BLOCK),
+			new MissileBlock(-1, 1, 1, Material.RED_TERRACOTTA),
+			new MissileBlock(-1, 1, 2, Material.RED_TERRACOTTA),
+			new MissileBlock(0, 0, 2, Material.STICKY_PISTON, 5),
+			new MissileBlock(-1, 1, 3, Material.TNT),
+			new MissileBlock(-1, 1, 4, Material.RED_TERRACOTTA),
+			new MissileBlock(0, 0, 5, Material.SLIME_BLOCK),
+			new MissileBlock(0, 1, 5, Material.REDSTONE_BLOCK),
+			new MissileBlock(-1, 1, 5, Material.RED_TERRACOTTA),
+			new MissileBlock(0, 0, 6, Material.TNT),
+			new MissileBlock(-1, 1, 6, Material.TNT),
+			new MissileBlock(0, 0, 7, Material.PISTON, 4),
+			new MissileBlock(-1, 1, 7, Material.TNT),
+			
+			new MissileBlock(0, 0, 9, Material.SLIME_BLOCK),
+			new MissileBlock(0, 1, 9, Material.REDSTONE_BLOCK),
+			new MissileBlock(-1, 0, 9, Material.TNT),
+			new MissileBlock(0, 0, 10, Material.SLIME_BLOCK),
+			new MissileBlock(0, 1, 10, Material.SLIME_BLOCK),
+			new MissileBlock(-1, 0, 10, Material.TNT),
+			new MissileBlock(-1, 1, 10, Material.TNT),
+			new MissileBlock(0, 0, 11, Material.TNT),
+			new MissileBlock(0, 1, 11, Material.TNT),
+			new MissileBlock(-1, 0, 11, Material.TNT),
+			new MissileBlock(-1, 1, 11, Material.TNT),
+			
+			new MissileBlock(0, 0, 3, Material.PISTON, 4),
+	}),
+	
 	;
+	
+	private final MissileEntity[] ENTITIES_EMPTY = new MissileEntity[0];
 	
 	private String name;
 	private Material material;
 	private ChatColor color;
 	private MissileBlock[] blocks;
+	private MissileEntity[] entities;
 	
 	private Missile(final String name, final Material material, final ChatColor color, final MissileBlock[] blocks) {
 		this.name = name;
 		this.material = material;
 		this.color = color;
 		this.blocks = blocks;
+		this.entities = this.ENTITIES_EMPTY;
+	}
+	
+	private Missile(final String name, final Material material, final ChatColor color, final MissileBlock[] blocks, final MissileEntity[] entities) {
+		this.name = name;
+		this.material = material;
+		this.color = color;
+		this.blocks = blocks;
+		this.entities = entities;
 	}
 	
 	@Override
@@ -221,6 +266,7 @@ public enum Missile {
 		}
 		final BlockFace left = right.getOppositeFace();
 		MissileBlock.build(this.blocks, loc.getBlock(), right, left, front, back);
+		MissileEntity.spawn(this.entities, loc.getBlock(), right, left, front, back);
 	}
 	
 	private static final Map<Material, Missile> BY_MATERIAL = new HashMap<>();
