@@ -20,7 +20,7 @@ import xyz.derkades.minigames.utils.Utils;
 
 public class Decay extends Game<DecayMap> {
 
-	private static final int BLOCKS_PER_CYCLE = 40;
+	private static final int BLOCKS_PER_CYCLE = 70;
 	private static final Material[] BLOCK_TYPES = {
 			Material.WHITE_CONCRETE,
 			Material.YELLOW_CONCRETE,
