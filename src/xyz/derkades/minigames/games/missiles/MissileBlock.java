@@ -2,6 +2,8 @@ package xyz.derkades.minigames.games.missiles;
 
 import org.apache.commons.lang3.mutable.MutableInt;
 import org.bukkit.Material;
+import org.bukkit.Particle;
+import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.data.Directional;
@@ -27,7 +29,7 @@ public class MissileBlock {
 		this.facing = facing;
 	}
 	
-	public static void build(final MissileBlock[] mBlocks, final Block center, final BlockFace right, final BlockFace left, final BlockFace front, final BlockFace back) {
+	public static void build(final MissileBlock[] mBlocks, final Block center, final BlockFace right, final BlockFace left, final BlockFace front, final BlockFace back, final Runnable onComplete) {
 		final BlockFace[] directions = {
 				BlockFace.DOWN,
 				BlockFace.UP,
@@ -44,6 +46,9 @@ public class MissileBlock {
 			public void run() {
 				if (i.getValue() == mBlocks.length) {
 					this.cancel();
+					if (onComplete != null) {
+						onComplete.run();
+					}
 					return;
 				}
 				
@@ -60,6 +65,10 @@ public class MissileBlock {
 					dir.setFacing(directions[mb.facing]);
 					block.setBlockData(dir);
 				}
+				
+				block.getWorld().playSound(block.getLocation(), Sound.BLOCK_STONE_PLACE, 0.75f, 1.0f);
+				block.getWorld().spawnParticle(Particle.WHITE_ASH, block.getLocation(), 5);
+				block.getWorld().spawnParticle(Particle.ASH, block.getLocation(), 5);
 			}
 		}.runTaskTimer(Minigames.getInstance(), 0, 1);
 	}
