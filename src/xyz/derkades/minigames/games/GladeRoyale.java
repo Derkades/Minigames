@@ -10,7 +10,6 @@ import org.bukkit.WorldBorder;
 import org.bukkit.block.Block;
 import org.bukkit.block.Chest;
 import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Item;
 import org.bukkit.event.EventHandler;
 
 import net.md_5.bungee.api.ChatColor;
@@ -109,8 +108,6 @@ public class GladeRoyale extends Game<GladeRoyaleMap> {
 		}
 
 		this.sendMessage("Removed " + i + " blocks");
-
-		this.map.getWorld().getEntitiesByClass(Item.class).forEach(Item::remove);
 		
 		this.sendMessage("When the game starts, you will be teleported into the sky. Don't forget to activate your elytra!");
 	}

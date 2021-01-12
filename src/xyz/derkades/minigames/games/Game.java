@@ -13,7 +13,11 @@ import java.util.stream.Collectors;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
+import org.bukkit.entity.Arrow;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Trident;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.potion.PotionEffectType;
@@ -202,6 +206,10 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 	private void begin() {
 		this.onPreStart();
 		this.map.onPreStart();
+		
+		this.map.getWorld().getEntitiesByClass(Arrow.class).forEach(Entity::remove);
+		this.map.getWorld().getEntitiesByClass(Trident.class).forEach(Entity::remove);
+		this.map.getWorld().getEntitiesByClass(Item.class).forEach(Entity::remove);
 
 		new BukkitRunnable() {
 

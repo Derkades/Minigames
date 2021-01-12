@@ -11,10 +11,8 @@ import org.bukkit.Sound;
 import org.bukkit.block.data.Lightable;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Arrow;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
-import org.bukkit.entity.Trident;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
@@ -82,9 +80,7 @@ public class MurderyMister extends Game<MurderyMisterMap> {
 		this.murdererDead = false;
 
 		this.arrowRemoveTask = new ArrowRemoveTask().runTaskTimer(Minigames.getInstance(), 1, 1);
-
-		this.map.getWorld().getEntitiesByClass(Trident.class).forEach(Entity::remove);
-
+		
 		final Location[] spawnLocations = this.map.getSpawnLocations();
 		int index = 0;
 

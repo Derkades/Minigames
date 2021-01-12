@@ -10,7 +10,6 @@ import org.bukkit.Material;
 import org.bukkit.WorldBorder;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.entity.Item;
 import org.bukkit.event.EventHandler;
 
 import xyz.derkades.derkutils.ListUtils;
@@ -104,8 +103,6 @@ public class HungerGames extends Game<HungerGamesMap> {
 		
 		final WorldBorder border = this.map.getWorld().getWorldBorder();
 		border.setSize(this.map.getMaxBorderSize(), 20);
-		
-		this.map.getWorld().getEntitiesByClasses(Item.class).forEach(e -> e.remove());
 		
 		Scheduler.delay(10*20, () -> {
 			for (final MPlayer player : Minigames.getOnlinePlayers()) {

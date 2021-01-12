@@ -8,7 +8,6 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.Arrow;
 import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.ProjectileHitEvent;
@@ -62,7 +61,6 @@ public class BowSpleef extends Game<BowSpleefMap> {
 		this.alive = Utils.getOnlinePlayersUuidList();
 
 		this.map.restoreLayers();
-		this.map.getWorld().getEntitiesByClass(Arrow.class).forEach((e) -> e.remove());
 
 		Minigames.getOnlinePlayers().forEach((p) -> {
 			p.queueTeleport(this.map.getSpawnLocation());
