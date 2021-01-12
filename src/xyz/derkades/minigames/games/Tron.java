@@ -22,6 +22,7 @@ import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.util.Vector;
 
 import xyz.derkades.derkutils.bukkit.BlockUtils;
+import xyz.derkades.minigames.Logger;
 import xyz.derkades.minigames.Minigames;
 import xyz.derkades.minigames.games.tron.TronMap;
 import xyz.derkades.minigames.utils.MPlayer;
@@ -95,7 +96,7 @@ public class Tron extends Game<TronMap> {
 	public void onStart() {
 		for (final MPlayer player : Minigames.getOnlinePlayers()) {
 			player.clearPotionEffects();
-			new BlockPlacerTask(player).runTaskTimer(Minigames.getInstance(), 1, 1);
+			this.tasks.add(new BlockPlacerTask(player).runTaskTimer(Minigames.getInstance(), 1, 1));
 		}
 	}
 
@@ -171,8 +172,14 @@ public class Tron extends Game<TronMap> {
 
 		@Override
 		public void run() {
+			if (Tron.this.teams == null) {
+				Logger.warning("Stopping tron block placer tasks because teams is null. This should never happen");
+				this.cancel();
+				return;
+			}
+			
 			if (!this.offlinePlayer.isOnline()) {
-				System.out.println("Player " + this.offlinePlayer.getName() + " is no longer online");
+				Logger.debug("Player " + this.offlinePlayer.getName() + " is no longer online");
 				cancel();
 				return;
 			}
@@ -180,19 +187,19 @@ public class Tron extends Game<TronMap> {
 			final MPlayer player = new MPlayer((Player) this.offlinePlayer);
 
 			if (!Tron.this.teams.containsKey(player.getUniqueId())) {
-				System.out.println("Player " + this.offlinePlayer.getName() + " is not in the teams hashmap");
+				Logger.debug("Player " + this.offlinePlayer.getName() + " is not in the teams hashmap");
 				cancel();
 				return;
 			}
 
 			if (!player.isIn2dBounds(Tron.this.map.getOuterCornerOne(), Tron.this.map.getOuterCornerTwo())) {
-				System.out.println("Player " + this.offlinePlayer.getName() + " is out of bounds!! Canceling task.");
+				Logger.debug("Player " + this.offlinePlayer.getName() + " is out of bounds!! Canceling task.");
 				cancel();
 				return;
 			}
 
 			if (!player.getGameMode().equals(GameMode.ADVENTURE)) {
-				player.bukkit().sendMessage("Player is no(t) (longer) in gamemode ADVENTURE");
+				Logger.warning("Player %s is no(t) (longer) in gamemode ADVENTURE", player.getName());
 				cancel();
 				return;
 			}
@@ -235,7 +242,7 @@ public class Tron extends Game<TronMap> {
 			}
 
 			final Material toType = walkingTo.getBlock().getType();
-			if (toType != Material.AIR) {
+			if (toType != Material.AIR && toType != team.glassBlock) {
 				cancel();
 
 				// Try to get killer
@@ -268,7 +275,7 @@ public class Tron extends Game<TronMap> {
 					sendMessage(player.getName() + " has died.");
 				}
 
-				//dead
+				// dead
 				Tron.this.spectators.add(player.getUniqueId());
 				Tron.this.teams.remove(player.getUniqueId());
 
