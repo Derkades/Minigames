@@ -29,7 +29,7 @@ public class SquareDonut extends DecayMap {
 		final List<Location> blocks = new ArrayList<>(r*r-r2*r2);
 		for (int x = -r; x <= r; x++) {
 			for (int z = -r; z <= r; z++) {
-				if ((x > r2 || x < -r2) && (z > r2) || (z < -r2)) {
+				if (x > r2 || x < -r2 || z > r2 || z < -r2) {
 					blocks.add(new Location(this.getWorld(), x, y, z));
 				}
 			}
