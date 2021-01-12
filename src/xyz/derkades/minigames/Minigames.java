@@ -97,8 +97,10 @@ public class Minigames extends JavaPlugin implements Listener {
 			}
 		});
 		
+		GameMap.checkMaps();
+		
 		new AutoReloader(this);
-
+		
 		Logger.info("Plugin enabled");
 	}
 
