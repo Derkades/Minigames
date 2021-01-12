@@ -93,6 +93,9 @@ public class HungerGames extends Game<HungerGamesMap> {
 	public void onStart() {
 		for (final MPlayer player : Minigames.getOnlinePlayers()) {
 			player.clearPotionEffects();
+			player.setDisableHunger(false);
+			player.bukkit().setSaturation(0);
+			player.bukkit().setFoodLevel(10);
 			player.enableSneakPrevention(p -> p.bukkit().damage(1000));
 			player.setDisableItemMoving(false);
 		}
