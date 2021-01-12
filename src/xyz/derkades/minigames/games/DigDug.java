@@ -10,6 +10,7 @@ import java.util.UUID;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
@@ -59,7 +60,7 @@ public class DigDug extends Game<DigDugMap> {
 	public String[] getDescription() {
 		return new String[] {
 				"Dig dirt with your shovel, and find",
-				"ores. Right click on ores to collect.",
+				"ores. Left click on ores to collect.",
 				ChatColor.GRAY + "Coal: " + COAL_POINTS + " points",
 				ChatColor.GRAY + "Iron: " + IRON_POINTS + " points",
 				ChatColor.GRAY + "Gold: " + GOLD_POINTS + " points",
@@ -107,8 +108,10 @@ public class DigDug extends Game<DigDugMap> {
 		final ItemStack shovel = new ItemBuilder(Material.DIAMOND_SHOVEL)
 				.name(ChatColor.GREEN + "The Dig Dug Digger")
 				.unbreakable()
-//				.canDestroy("dirt", "grass_block")
-				.canDestroy(Material.DIRT, Material.GRASS_BLOCK)
+				.canDestroy(Material.DIRT, Material.GRASS_BLOCK,
+						Material.COAL_ORE, Material.IRON_ORE,
+						Material.IRON_ORE, Material.GOLD_ORE,
+						Material.EMERALD_ORE, Material.NETHERRACK, Material.QUARTZ_BLOCK)
 				.create();
 
 		shovel.addUnsafeEnchantment(Enchantment.DIG_SPEED, 10);
@@ -132,7 +135,7 @@ public class DigDug extends Game<DigDugMap> {
 
 	@EventHandler
 	public void onInteract(final PlayerInteractEvent event) {
-		if (event.getAction() != Action.RIGHT_CLICK_BLOCK) {
+		if (event.getAction() != Action.LEFT_CLICK_BLOCK) {
 			return;
 		}
 
@@ -140,22 +143,26 @@ public class DigDug extends Game<DigDugMap> {
 			return;
 		}
 
-		final Player player = event.getPlayer();
+		final MPlayer player = new MPlayer(event);
 		final Block block = event.getClickedBlock();
 		if (block.getType() == Material.COAL_ORE) {
 			addPoints(player, COAL_POINTS);
 			block.setType(Material.AIR);
+			player.playSound(Sound.ENTITY_ARROW_HIT_PLAYER, 1.0f);
 		} else if (block.getType() == Material.IRON_ORE) {
 			addPoints(player, IRON_POINTS);
 			block.setType(Material.AIR);
+			player.playSound(Sound.ENTITY_ARROW_HIT_PLAYER, 1.2f);
 		} else if (block.getType() == Material.GOLD_ORE) {
 			addPoints(player, GOLD_POINTS);
 			block.setType(Material.AIR);
+			player.playSound(Sound.ENTITY_ARROW_HIT_PLAYER, 1.35f);
 		} else if (block.getType() == Material.EMERALD_ORE) {
 			addPoints(player, EMERALD_POINTS);
 			block.setType(Material.AIR);
+			player.playSound(Sound.ENTITY_ARROW_HIT_PLAYER, 1.5f);
 		} else if (block.getType() == Material.NETHERRACK) {
-			player.sendMessage(ChatColor.RED + "Everyone is now blinded for " + NETHERRACK_EFFECT_TIME / 20 + " seconds.");
+			player.sendActionBar(ChatColor.RED + "Everyone is now blinded for " + NETHERRACK_EFFECT_TIME / 20 + " seconds.");
 			final PotionEffect blind = new PotionEffect(PotionEffectType.BLINDNESS, NETHERRACK_EFFECT_TIME, 0, true, false);
 			final PotionEffect slow = new PotionEffect(PotionEffectType.SLOW, NETHERRACK_EFFECT_TIME, 1, true, false);
 			for (final Player online : Bukkit.getOnlinePlayers()) {
@@ -164,18 +171,20 @@ public class DigDug extends Game<DigDugMap> {
 				}
 			}
 			block.setType(Material.AIR);
+			player.playSound(Sound.ENTITY_ARROW_HIT_PLAYER, 0.5f);
 		} else if (block.getType() == Material.QUARTZ_BLOCK) {
-			player.sendMessage(ChatColor.AQUA + "Your walking speed and vision has been boosted for " + QUARTZ_EFFECT_TIME / 20 + " seconds.");
+			player.sendActionBar(ChatColor.AQUA + "Your walking speed and vision has been boosted for " + QUARTZ_EFFECT_TIME / 20 + " seconds.");
 			final PotionEffect speed = new PotionEffect(PotionEffectType.SPEED, QUARTZ_EFFECT_TIME, 2, true, false);
 			final PotionEffect vision = new PotionEffect(PotionEffectType.NIGHT_VISION, QUARTZ_EFFECT_TIME, 0, true, false);
-			player.addPotionEffect(speed);
-			player.addPotionEffect(vision);
+			player.bukkit().addPotionEffect(speed);
+			player.bukkit().addPotionEffect(vision);
 			block.setType(Material.AIR);
+			player.playSound(Sound.ENTITY_ARROW_HIT_PLAYER, 1.0f);
 		}
 	}
 
-	private void addPoints(final Player player, final int pointsToAdd) {
-		player.sendMessage(ChatColor.GREEN + "+ " + pointsToAdd + " points");
+	private void addPoints(final MPlayer player, final int pointsToAdd) {
+		player.sendActionBar(ChatColor.GREEN + "+ " + pointsToAdd + " points");
 		this.points.put(player.getUniqueId(), this.points.get(player.getUniqueId()) + pointsToAdd);
 	}
 
@@ -184,14 +193,12 @@ public class DigDug extends Game<DigDugMap> {
 
 		final List<SidebarString> sidebarStrings = new ArrayList<>();
 
-
-			for (final Player player : Bukkit.getOnlinePlayers()) {
-				try {
-					final int points = this.points.get(player.getUniqueId());
-					sidebarStrings.add(new SidebarString(ChatColor.DARK_GREEN + player.getName() + ChatColor.GRAY + ": " + ChatColor.GREEN + points));
-				} catch (final NullPointerException e) { continue; }
-			}
-
+		for (final Player player : Bukkit.getOnlinePlayers()) {
+			try {
+				final int points = this.points.get(player.getUniqueId());
+				sidebarStrings.add(new SidebarString(ChatColor.DARK_GREEN + player.getName() + ChatColor.GRAY + ": " + ChatColor.GREEN + points));
+			} catch (final NullPointerException e) { continue; }
+		}
 
 		this.sidebar.setEntries(sidebarStrings);
 		this.sidebar.addEmpty().addEntry(new SidebarString(ChatColor.GRAY + "Time left: " + secondsLeft + " seconds."));
