@@ -12,7 +12,7 @@ public class IcyBlowback extends IcyBlowbackMap {
 		return new Location[] {
 			new Location(this.getWorld(), 17.5, 38, 17.5, 135f, 0f),
 			new Location(this.getWorld(), 17.5, 38, -16.5, 45f, 0f),
-			new Location(this.getWorld(), -16.5, 38, -16.5, -45, 0f),
+			new Location(this.getWorld(), -16.5, 38, -16.5, -45f, 0f),
 			new Location(this.getWorld(), -16.5, 38, 17.5, -135f, 0f),
 		};
 	}

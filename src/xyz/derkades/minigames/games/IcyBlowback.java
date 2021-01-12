@@ -64,8 +64,8 @@ public class IcyBlowback extends Game<IcyBlowbackMap> {
 		final Location[] spawnLocations = this.map.getSpawnLocations();
 		int index = 0;
 		for (final MPlayer player : Minigames.getOnlinePlayers()) {
-			if (index < 1) {
-				index = spawnLocations.length - 1;
+			if (index >= spawnLocations.length) {
+				index = 0;
 			}
 
 			final Location loc = spawnLocations[index];
@@ -75,7 +75,7 @@ public class IcyBlowback extends Game<IcyBlowbackMap> {
 				player.placeCage(true);
 			});
 			
-			index--;
+			index++;
 		}
 	}
 
