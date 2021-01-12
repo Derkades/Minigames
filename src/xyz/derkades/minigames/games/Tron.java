@@ -187,13 +187,13 @@ public class Tron extends Game<TronMap> {
 			final MPlayer player = new MPlayer((Player) this.offlinePlayer);
 
 			if (!Tron.this.teams.containsKey(player.getUniqueId())) {
-				Logger.debug("Player " + this.offlinePlayer.getName() + " is not in the teams hashmap");
+				Logger.warning("Player " + this.offlinePlayer.getName() + " is not in the teams hashmap");
 				cancel();
 				return;
 			}
 
 			if (!player.isIn2dBounds(Tron.this.map.getOuterCornerOne(), Tron.this.map.getOuterCornerTwo())) {
-				Logger.debug("Player " + this.offlinePlayer.getName() + " is out of bounds!! Canceling task.");
+				Logger.warning("Player " + this.offlinePlayer.getName() + " is out of bounds!! Canceling task.");
 				cancel();
 				return;
 			}
