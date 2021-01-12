@@ -132,6 +132,7 @@ public class BreakTheBlock extends Game<BreakTheBlockMap> {
 		if (player.getBlockIn().getType() == Material.WATER){
 			player.teleport(this.map.getStartLocation());
 			player.clearInventory();
+			player.giveItem(PICKAXE);
 			return;
 		}
 
@@ -176,7 +177,12 @@ public class BreakTheBlock extends Game<BreakTheBlockMap> {
 		}
 
 		final Block blockBelow = event.getEntity().getLocation().getBlock().getRelative(BlockFace.DOWN);
-		event.setCancelled(!(blockBelow.getType() == Material.RED_CONCRETE || blockBelow.getRelative(BlockFace.DOWN).getType() == Material.RED_CONCRETE));
+		event.setCancelled(!(
+				blockBelow.getType() == Material.RED_CONCRETE ||
+				blockBelow.getRelative(BlockFace.DOWN).getType() == Material.RED_CONCRETE ||
+				blockBelow.getType() == Material.GOLD_BLOCK ||
+				blockBelow.getRelative(BlockFace.DOWN).getType() == Material.GOLD_BLOCK
+				));
 	}
 
 }
