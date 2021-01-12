@@ -63,7 +63,7 @@ public abstract class GameMap implements RandomlyPickable {
 	
 	private static final Map<String, GameMap> BY_IDENTIFIER = new HashMap<>();
 	
-	public static final void checkMaps() {
+	public static final void init() {
 		for (final Game<? extends GameMap> game : Game.GAMES) {
 			for (final GameMap map : game.getGameMaps()) {
 				if (BY_IDENTIFIER.containsKey(map.getIdentifier())) {
