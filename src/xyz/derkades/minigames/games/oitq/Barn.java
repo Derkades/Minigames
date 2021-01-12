@@ -24,7 +24,7 @@ public class Barn extends OITQMap {
 
 	@Override
 	public String getCredits() {
-		return "funlolxxl";
+		return "Corrupt_World";
 	}
 
 	@Override

@@ -24,7 +24,7 @@ public class Desert extends OITQMap {
 
 	@Override
 	public String getCredits() {
-		return "funlolxxl";
+		return "Corrupt_World";
 	}
 
 	@Override

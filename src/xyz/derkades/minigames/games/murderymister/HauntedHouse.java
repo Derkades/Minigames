@@ -57,7 +57,7 @@ public class HauntedHouse extends MurderyMisterMap {
 
 	@Override
 	public String getCredits() {
-		return "funlolxxl";
+		return "Corrupt_World";
 	}
 
 	@Override
