@@ -27,7 +27,6 @@ import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.TextComponent;
 import xyz.derkades.derkutils.bukkit.BlockUtils;
-import xyz.derkades.derkutils.bukkit.ItemBuilder;
 import xyz.derkades.derkutils.bukkit.LocationUtils;
 import xyz.derkades.minigames.Minigames;
 import xyz.derkades.minigames.Points;
@@ -305,10 +304,10 @@ public class MPlayer {
 //					.create());
 //		}
 
-		this.player.getInventory().setItem(8, new ItemBuilder(Material.COMPARATOR)
-				.name(ChatColor.AQUA + "" + ChatColor.BOLD + "Menu")
-				.lore(ChatColor.YELLOW + "Click to open menu")
-				.create());
+//		this.player.getInventory().setItem(8, new ItemBuilder(Material.COMPARATOR)
+//				.name(ChatColor.AQUA + "" + ChatColor.BOLD + "Menu")
+//				.lore(ChatColor.YELLOW + "Click to open menu")
+//				.create());
 	}
 
 	public void addPoints(final int points) {
