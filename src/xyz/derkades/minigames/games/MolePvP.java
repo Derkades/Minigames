@@ -30,9 +30,7 @@ public class MolePvP extends Game<MolePvPMap> {
 	@Override
 	public String[] getDescription() {
 		return new String[] {
-				"Underground PvP",
-				"Hiding won't work, go kill others because",
-				"if both teams are alive at the end no one wins."
+				"Underground PvP in teams.",
 		};
 	}
 
