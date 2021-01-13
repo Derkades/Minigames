@@ -155,7 +155,7 @@ public enum GameWorld {
 	public void unload() {
 		final World world = Bukkit.getWorld(getName());
 		if (world == null) {
-			Logger.debug("%s is already unloaded", toString());
+//			Logger.debug("%s is already unloaded", toString());
 		} else {
 			Logger.debug("Unloading %s", toString());
 			Bukkit.unloadWorld(getWorld(), true);
