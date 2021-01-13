@@ -1,5 +1,6 @@
 package xyz.derkades.minigames.games;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -160,7 +161,11 @@ public class MurderyMister extends Game<MurderyMisterMap> {
 
 	@Override
 	public void onEnd() {
-		super.endGame(this.alive);
+		if (this.murdererDead) {
+			super.endGame(this.alive);
+		} else {
+			super.endGame(Collections.singletonList(this.murderer));
+		}
 		this.murderer = null;
 		this.alive = null;
 		this.arrowRemoveTask.cancel();
