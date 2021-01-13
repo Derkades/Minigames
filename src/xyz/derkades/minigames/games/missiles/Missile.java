@@ -505,24 +505,7 @@ public enum Missile {
 	}
 	
 	public void build(final Location loc, final BlockFace direction) {
-		final BlockFace front = direction;
-		final BlockFace back = direction.getOppositeFace();
-		BlockFace right;
-		if (front == BlockFace.NORTH) {
-			right = BlockFace.EAST;
-		} else if (front == BlockFace.EAST) {
-			right = BlockFace.SOUTH;
-		} else if (front == BlockFace.SOUTH) {
-			right = BlockFace.WEST;
-		} else if (front == BlockFace.WEST) {
-			right = BlockFace.NORTH;
-		} else {
-			throw new IllegalArgumentException(front.toString());
-		}
-		final BlockFace left = right.getOppositeFace();
-		MissileBlock.build(this.blocks, loc.getBlock(), right, left, front, back, () -> {
-			MissileEntity.spawn(this.entities, loc.getBlock(), right, left, front, back);
-		});
+		MissileBlock.build(this.blocks, this.entities, loc, direction, null);
 	}
 	
 	private static final Map<Material, Missile> BY_MATERIAL = new HashMap<>();

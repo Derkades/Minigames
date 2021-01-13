@@ -1,13 +1,21 @@
 package xyz.derkades.minigames;
 
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.Particle;
+import org.bukkit.Sound;
+import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.util.Vector;
 
 import net.md_5.bungee.api.ChatColor;
 import xyz.derkades.minigames.Minigames.ShutdownReason;
 import xyz.derkades.minigames.games.missiles.Missile;
+import xyz.derkades.minigames.games.missiles.MissileBlock;
 import xyz.derkades.minigames.menu.GamesListMenu;
 import xyz.derkades.minigames.menu.MainMenu;
 import xyz.derkades.minigames.menu.StatsMenu;
@@ -155,6 +163,8 @@ public class Command implements CommandExecutor {
 					missile = Missile.TEST;
 				} else if (args[1].equals("comp")) {
 					missile = Missile.COMPRESSOR;
+				} else if (args[1].equals("hypcomp")) {
+					missile = Missile.HYPER_COMPRESSOR;
 				} else if (args[1].equals("bee")) {
 					missile = Missile.BEE;
 				} else if (args[1].equals("tom")) {
@@ -171,13 +181,92 @@ public class Command implements CommandExecutor {
 				}
 				
 				final BlockFace face = new MPlayer(player).getFacingAsBlockFace();
-				player.sendMessage("Building missile in direction " + face);
+				Logger.debug("Building missile in direction %s", face);
 				missile.build(player.getLocation().add(0, -3, 0), face);
 				return true;
 			} else {
-				player.sendMessage("geef naam (jug, test, comp, bee, tom, cart, guard, bust)");
+				player.sendMessage("geef naam (jug, test, comp, bee, tom, cart, guard, bust, hypcomp)");
 				return true;
 			}
+		}
+		
+		if (args.length >= 1 && args[0].equals("test2") && sender.hasPermission("minigames.test")) {
+			final Player player = (Player) sender;
+			final BlockFace facing = player.getFacing();
+			new BukkitRunnable() {
+
+				double t = 0;
+				Location loc = player.getLocation();
+
+				@Override
+				public void run() {
+					this.t = this.t + 0.9;
+					final Vector direction = this.loc.getDirection().normalize();
+					final double x = direction.getX() * this.t;
+					final double y = direction.getY() * this.t + 1.5;
+					final double z = direction.getZ() * this.t;
+					this.loc.add(x, y, z);
+					this.loc.getWorld().spawnParticle(Particle.EXPLOSION_NORMAL, this.loc, 1, 0, 0, 0, 0.0f);
+
+					final Block block = this.loc.getBlock();
+
+					if (this.t > 40 || block.getType() != Material.AIR) {
+						this.cancel();
+						this.loc.getWorld().spawnParticle(Particle.EXPLOSION_HUGE, this.loc, 1);
+						this.loc.getWorld().playSound(this.loc, Sound.ENTITY_GENERIC_EXPLODE, 2.0f, 1.0f);
+						
+						final MissileBlock[] blocks = new MissileBlock[] {
+								new MissileBlock(0, 0, 0, Material.ORANGE_STAINED_GLASS),
+								new MissileBlock(-1, 0, 0, Material.RED_STAINED_GLASS),
+								new MissileBlock(-2, 0, 0, Material.LIGHT_GRAY_STAINED_GLASS),
+								new MissileBlock(-3, 0, 0, Material.LIGHT_GRAY_STAINED_GLASS),
+								new MissileBlock(0, 1, 0, Material.RED_STAINED_GLASS),
+								new MissileBlock(0, 2, 0, Material.LIGHT_GRAY_STAINED_GLASS),
+								new MissileBlock(0, 3, 0, Material.LIGHT_GRAY_STAINED_GLASS),
+								new MissileBlock(1, 0, 0, Material.RED_STAINED_GLASS),
+								new MissileBlock(2, 0, 0, Material.LIGHT_GRAY_STAINED_GLASS),
+								new MissileBlock(3, 0, 0, Material.LIGHT_GRAY_STAINED_GLASS),
+								new MissileBlock(0, -1, 0, Material.RED_STAINED_GLASS),
+								new MissileBlock(0, -2, 0, Material.LIGHT_GRAY_STAINED_GLASS),
+								new MissileBlock(0, -3, 0, Material.LIGHT_GRAY_STAINED_GLASS),
+								new MissileBlock(-1, -1, 0, Material.WHITE_STAINED_GLASS),
+								new MissileBlock(1, -1, 0, Material.WHITE_STAINED_GLASS),
+								new MissileBlock(-1, 1, 0, Material.WHITE_STAINED_GLASS),
+								new MissileBlock(1, 1, 0, Material.WHITE_STAINED_GLASS),
+								
+								new MissileBlock(-2, 1, 0, Material.BLACK_STAINED_GLASS),
+								new MissileBlock(-3, 1, 0, Material.BLACK_STAINED_GLASS),
+								new MissileBlock(-2, -1, 0, Material.BLACK_STAINED_GLASS),
+								new MissileBlock(-3, -1, 0, Material.BLACK_STAINED_GLASS),
+								
+								new MissileBlock(-1, 2, 0, Material.BLACK_STAINED_GLASS),
+								new MissileBlock(-1, 3, 0, Material.BLACK_STAINED_GLASS),
+								new MissileBlock(1, 2, 0, Material.BLACK_STAINED_GLASS),
+								new MissileBlock(1, 3, 0, Material.BLACK_STAINED_GLASS),
+								
+								new MissileBlock(2, -1, 0, Material.BLACK_STAINED_GLASS),
+								new MissileBlock(3, -1, 0, Material.BLACK_STAINED_GLASS),
+								new MissileBlock(2, 1, 0, Material.BLACK_STAINED_GLASS),
+								new MissileBlock(3, 1, 0, Material.BLACK_STAINED_GLASS),
+								
+								new MissileBlock(1, -2, 0, Material.BLACK_STAINED_GLASS),
+								new MissileBlock(1, -3, 0, Material.BLACK_STAINED_GLASS),
+								new MissileBlock(-1, -2, 0, Material.BLACK_STAINED_GLASS),
+								new MissileBlock(-1, -3, 0, Material.BLACK_STAINED_GLASS),
+								
+								new MissileBlock(-2, 2, 0, Material.BLACK_STAINED_GLASS),
+								new MissileBlock(2, 2, 0, Material.BLACK_STAINED_GLASS),
+								new MissileBlock(-2, -2, 0, Material.BLACK_STAINED_GLASS),
+								new MissileBlock(2, -2, 0, Material.BLACK_STAINED_GLASS),
+						};
+						
+						MissileBlock.build(blocks, null, this.loc, facing, null);
+					}
+
+					this.loc.subtract(x, y, z);
+				}
+			}.runTaskTimer(Minigames.getInstance(), 0, 1);
+			return true;
 		}
 
 		return true;
