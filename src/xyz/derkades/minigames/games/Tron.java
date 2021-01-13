@@ -16,6 +16,7 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
@@ -24,12 +25,17 @@ import org.bukkit.util.Vector;
 import xyz.derkades.derkutils.bukkit.BlockUtils;
 import xyz.derkades.minigames.Logger;
 import xyz.derkades.minigames.Minigames;
+import xyz.derkades.minigames.Minigames.ShutdownReason;
 import xyz.derkades.minigames.games.tron.TronMap;
 import xyz.derkades.minigames.utils.MPlayer;
+import xyz.derkades.minigames.utils.queue.TaskQueue;
 
 public class Tron extends Game<TronMap> {
 
 	private static final double MOVEMENT_SPEED = 0.3;
+	private static final int PLAYER_Y_DISTANCE = 30;
+	private static final float PLAYER_PITCH = 87f;
+	private static final Material CAGE_MATERIAL = Material.BLACK_CONCRETE;
 
 	@Override
 	public String getName() {
@@ -83,8 +89,14 @@ public class Tron extends Game<TronMap> {
 
 		for (final MPlayer player : Minigames.getOnlinePlayers()) {
 			final TronTeam playerTeam = availableTeams.remove(0);
+			playerTeam.direction = this.map.getSpawnDirection(playerTeam);
 			this.teams.put(player.getUniqueId(), playerTeam);
-			player.queueTeleport(this.map.getSpawnLocations().get(playerTeam));
+			final Location loc = this.map.getSpawnLocations().get(playerTeam).clone().add(0, PLAYER_Y_DISTANCE, 0);
+			loc.setYaw(90f);
+			TaskQueue.add(() -> {
+				player.teleport(loc);
+				player.placeCage(true, CAGE_MATERIAL);
+			});
 			player.giveInfiniteEffect(PotionEffectType.SLOW, 100);
 			player.giveInfiniteEffect(PotionEffectType.JUMP, 200);
 		}
@@ -96,6 +108,8 @@ public class Tron extends Game<TronMap> {
 	public void onStart() {
 		for (final MPlayer player : Minigames.getOnlinePlayers()) {
 			player.clearPotionEffects();
+			player.placeCage(false, CAGE_MATERIAL);
+			player.getInventory().setHeldItemSlot(4);
 			this.tasks.add(new BlockPlacerTask(player).runTaskTimer(Minigames.getInstance(), 1, 1));
 		}
 	}
@@ -132,6 +146,23 @@ public class Tron extends Game<TronMap> {
 
 	@Override
 	public void onPlayerQuit(final MPlayer player) {}
+	
+	public enum Direction {
+		
+		NORTH(180),
+		EAST(270),
+		SOUTH(0),
+		WEST(90),
+		
+		;
+		
+		float yaw;
+		
+		Direction(final float yaw){
+			this.yaw = yaw;
+		}
+		
+	}
 
 	public enum TronTeam {
 
@@ -153,10 +184,54 @@ public class Tron extends Game<TronMap> {
 		private final Material bottomBlock;
 		private final Material glassBlock;
 
+		private Direction direction;
+		
 		TronTeam(final ChatColor chatColor, final Material bottomBlock, final Material glassBlock){
 			this.chatColor = chatColor;
 			this.bottomBlock = bottomBlock;
 			this.glassBlock = glassBlock;
+		}
+		
+		public Direction getDirection() {
+			return this.direction;
+		}
+		
+		public void rotateLeft() {
+			switch(this.direction) {
+			case NORTH:
+				this.direction = Direction.WEST;
+				break;
+			case WEST:
+				this.direction = Direction.SOUTH;
+				break;
+			case SOUTH:
+				this.direction = Direction.EAST;
+				break;
+			case EAST:
+				this.direction = Direction.NORTH;
+				break;
+			default:
+				Minigames.shutdown(ShutdownReason.EMERGENCY_AUTOMATIC, "Illegal direction '" + this.direction + "'");
+			}
+		}
+		
+		public void rotateRight() {
+			switch(this.direction) {
+			case NORTH:
+				this.direction = Direction.EAST;
+				break;
+			case EAST:
+				this.direction = Direction.SOUTH;
+				break;
+			case SOUTH:
+				this.direction = Direction.WEST;
+				break;
+			case WEST:
+				this.direction = Direction.NORTH;
+				break;
+			default:
+				Minigames.shutdown(ShutdownReason.EMERGENCY_AUTOMATIC, "Illegal direction '" + this.direction + "'");
+			}
 		}
 
 	}
@@ -207,42 +282,80 @@ public class Tron extends Game<TronMap> {
 			this.i++;
 
 			final TronTeam team = Tron.this.teams.get(player.getUniqueId());
+			
+			boolean changedDirection = false;
+			
+			final PlayerInventory inv = player.getInventory();
+			if (inv.getHeldItemSlot() == 3) {
+//				Logger.debug("rotate left %s", player.getName());
+				team.rotateLeft();
+				changedDirection = true;
+			} else if (inv.getHeldItemSlot() == 5) {
+//				Logger.debug("rotate right %s", player.getName());
+				team.rotateRight();
+				changedDirection = true;
+			} else {
+//				Logger.debug("%s %s", player.getName(), inv.getHeldItemSlot());
+			}
+			
+			if (inv.getHeldItemSlot() != 4) {
+				inv.setHeldItemSlot(4);
+			}
+			
+			final Direction direction = team.getDirection();
+//			Logger.debug("before %s - after %s", before, direction);
 
-			final Block block = player.getLocation().getBlock();
+			final Location walkingTo = player.getLocation();
+			walkingTo.add(0, -PLAYER_Y_DISTANCE, 0);
+			final Location location = player.getLocation();
+			location.add(0, -PLAYER_Y_DISTANCE, 0);
+			
+			final Block block = location.getBlock();
 			block.setType(team.glassBlock);
 			block.getRelative(BlockFace.UP).setType(team.glassBlock);
 			block.getRelative(BlockFace.DOWN).setType(team.bottomBlock);
 
-			final String direction = getDirection(player);
-
-			final Location walkingTo = player.getLocation();
-
-			final Location location = player.getLocation();
-
-			if (direction.equals("north")) {
+			Vector newVelo;
+			switch(direction) {
+			case NORTH:
 				walkingTo.setZ(walkingTo.getZ() - 1);
-				player.bukkit().setVelocity(new Vector(0, 0, -MOVEMENT_SPEED));
+				newVelo = new Vector(0, 0, -MOVEMENT_SPEED);
 				location.setX(location.getBlockX() + 0.5);
-			} else if (direction.equals("east")) {
+				break;
+			case EAST:
 				walkingTo.setX(walkingTo.getX() + 1);
-				player.bukkit().setVelocity(new Vector(MOVEMENT_SPEED, 0, 0));
+				newVelo = new Vector(MOVEMENT_SPEED, 0, 0);
 				location.setZ(location.getBlockZ() + 0.5);
-			} else if (direction.equals("south")) {
+				break;
+			case SOUTH:
 				walkingTo.setZ(walkingTo.getZ() + 1);
-				player.bukkit().setVelocity(new Vector(0, 0, MOVEMENT_SPEED));
+				newVelo = new Vector(0, 0, MOVEMENT_SPEED);
 				location.setX(location.getBlockX() + 0.5);
-			} else if (direction.equals("west")) {
+				break;
+			case WEST:
 				walkingTo.setX(walkingTo.getX() - 1);
-				player.bukkit().setVelocity(new Vector(-MOVEMENT_SPEED, 0, 0));
+				newVelo = new Vector(-MOVEMENT_SPEED, 0, 0);
 				location.setZ(location.getBlockZ() + 0.5);
+				break;
+			default:
+				Minigames.shutdown(ShutdownReason.EMERGENCY_AUTOMATIC, "Illegal direction '" + direction + "'");
+				newVelo = null;
 			}
+			
+			player.bukkit().setVelocity(newVelo);
 
-			if (this.i % 30 == 0) {
-				player.teleport(location);
+			if (changedDirection ||
+					this.i % 30 == 0 ||
+					this.i < 40 // Ensure correct rotation at the start and give some grace time
+					) {
+				final Location loc2 = location.clone().add(0, PLAYER_Y_DISTANCE, 0);
+				loc2.setYaw(direction.yaw);
+				loc2.setPitch(PLAYER_PITCH);
+				player.teleport(loc2);
 			}
 
 			final Material toType = walkingTo.getBlock().getType();
-			if (toType != Material.AIR && toType != team.glassBlock) {
+			if (toType != Material.AIR) {
 				cancel();
 
 				// Try to get killer
@@ -283,22 +396,22 @@ public class Tron extends Game<TronMap> {
 			}
 		}
 
-	    public String getDirection(final MPlayer player) {
-		    float yaw = player.getLocation().getYaw();
-		    if (yaw < 0) {
-		        yaw += 360;
-		    }
-		    if (yaw >= 315 || yaw < 45) {
-				return "south";
-			} else if (yaw < 135) {
-				return "west";
-			} else if (yaw < 225) {
-				return "north";
-			} else if (yaw < 315) {
-				return "east";
-			}
-		    return "north";
-		}
+//	    public String getDirection(final MPlayer player) {
+//		    float yaw = player.getLocation().getYaw();
+//		    if (yaw < 0) {
+//		        yaw += 360;
+//		    }
+//		    if (yaw >= 315 || yaw < 45) {
+//				return "south";
+//			} else if (yaw < 135) {
+//				return "west";
+//			} else if (yaw < 225) {
+//				return "north";
+//			} else if (yaw < 315) {
+//				return "east";
+//			}
+//		    return "north";
+//		}
 
 	}
 

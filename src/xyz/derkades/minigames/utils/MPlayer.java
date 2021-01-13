@@ -485,8 +485,8 @@ public class MPlayer {
 	private void dropItem(final ItemStack item) {
 		this.player.getLocation().getWorld().dropItemNaturally(this.player.getLocation(), item);
 	}
-
-	public void placeCage(final boolean cage) {
+	
+	public void placeCage(final boolean cage, final Material material) {
 		final Block block = this.player.getLocation().getBlock();
 		final Block[] blocks = new Block[] {
 				block.getRelative(BlockFace.NORTH),
@@ -501,10 +501,14 @@ public class MPlayer {
 		};
 
 		if (cage) {
-			BlockUtils.replaceBlocks(Material.AIR, Material.GLASS, blocks);
+			BlockUtils.replaceBlocks(Material.AIR, material, blocks);
 		} else {
-			BlockUtils.replaceBlocks(Material.GLASS, Material.AIR, blocks);
+			BlockUtils.replaceBlocks(material, Material.AIR, blocks);
 		}
+	}
+
+	public void placeCage(final boolean cage) {
+		placeCage(cage, Material.GLASS);
 	}
 
 	public void sendActionBar(final String message) {
