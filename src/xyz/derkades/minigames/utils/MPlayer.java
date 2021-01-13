@@ -32,7 +32,6 @@ import xyz.derkades.derkutils.bukkit.BlockUtils;
 import xyz.derkades.derkutils.bukkit.LocationUtils;
 import xyz.derkades.minigames.Minigames;
 import xyz.derkades.minigames.Points;
-import xyz.derkades.minigames.utils.queue.TaskPriority;
 import xyz.derkades.minigames.utils.queue.TaskQueue;
 
 public class MPlayer {
@@ -227,7 +226,7 @@ public class MPlayer {
     }
 
     public void queueTeleport(final Location location) {
-    	TaskQueue.add(() -> this.player.teleport(location), TaskPriority.HIGH);
+    	TaskQueue.add(() -> this.player.teleport(location));
     }
 
     public void setAllowFlight(final boolean allowFlight) {

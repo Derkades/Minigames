@@ -1,28 +1,21 @@
 package xyz.derkades.minigames.utils.queue;
 
-import java.util.PriorityQueue;
+import java.util.LinkedList;
+import java.util.Queue;
 
 import xyz.derkades.minigames.Logger;
 import xyz.derkades.minigames.utils.Scheduler;
 
 public class TaskQueue {
 
-	private static final PriorityQueue<Task> QUEUE = new PriorityQueue<>();
-
-	public static void add(final Runnable runnable, final TaskPriority priority, final boolean async) {
-		QUEUE.add(new Task(runnable, priority, async));
-	}
-
-	public static void add(final Runnable runnable, final TaskPriority priority) {
-		add(runnable, priority, false);
-	}
+	private static final Queue<Task> QUEUE = new LinkedList<>();
 
 	public static void add(final Runnable runnable) {
-		add(runnable, TaskPriority.NORMAL);
+		add(runnable, false);
 	}
 
 	public static void add(final Runnable runnable, final boolean async) {
-		add(runnable, TaskPriority.NORMAL, async);
+		QUEUE.add(new Task(runnable, async));
 	}
 
 	public static void start() {
