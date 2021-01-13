@@ -28,7 +28,6 @@ import xyz.derkades.derkutils.ListUtils;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
 import xyz.derkades.minigames.Logger;
 import xyz.derkades.minigames.Minigames;
-import xyz.derkades.minigames.Var;
 import xyz.derkades.minigames.games.harvest.HarvestMap;
 import xyz.derkades.minigames.utils.MPlayer;
 import xyz.derkades.minigames.utils.MinigamesPlayerDamageEvent;
@@ -91,8 +90,8 @@ public class Harvest extends Game<HarvestMap> {
 		this.sidebar = new Sidebar(ChatColor.DARK_AQUA + "" + ChatColor.DARK_AQUA + "Score",
 				Minigames.getInstance(), Integer.MAX_VALUE, new SidebarString(".."));
 		
-		Var.WORLD.setGameRule(GameRule.DO_TILE_DROPS, true);
-		Var.WORLD.getEntitiesByClass(Item.class).forEach(Item::remove);
+		this.map.getWorld().setGameRule(GameRule.DO_TILE_DROPS, true);
+		this.map.getWorld().getEntitiesByClass(Item.class).forEach(Item::remove);
 		
 		Minigames.getOnlinePlayers().forEach(p -> p.queueTeleport(this.map.getSpawnLocation()));
 	}

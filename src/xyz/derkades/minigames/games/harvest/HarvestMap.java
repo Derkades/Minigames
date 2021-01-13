@@ -14,6 +14,8 @@ public abstract class HarvestMap extends GameMap {
 	
 	public abstract List<Location> getCropLocations();
 
-	public abstract Location getSpawnLocation();
+	public Location getSpawnLocation() {
+		return this.getWorld().getSpawnLocation();
+	}
 
 }
