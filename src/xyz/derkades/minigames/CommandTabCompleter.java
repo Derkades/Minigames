@@ -15,7 +15,7 @@ public class CommandTabCompleter implements TabCompleter {
 
 	@Override
 	public List<String> onTabComplete(final CommandSender arg0, final Command arg1, final String label, final String[] args) {
-		if (args.length == 2 && args[0].equalsIgnoreCase("next")) {
+		if (args.length == 2 && (args[0].equalsIgnoreCase("next") || args[0].equalsIgnoreCase("n"))) {
 			if (args[1] == null) {
 				return Arrays.asList("error");
 			}
