@@ -17,6 +17,7 @@ import org.bukkit.block.Block;
 import org.bukkit.block.data.Ageable;
 import org.bukkit.entity.Item;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 
 import com.coloredcarrot.api.sidebar.Sidebar;
@@ -59,7 +60,9 @@ public class Harvest extends Game<HarvestMap> {
 	public String[] getDescription() {
 		return new String[] {
 				"Harvest crops and kill other players to get",
-				"as much wheat as possible.",
+				"as much wheat as possible. When you harvest",
+				"a crop that is not fully grown you lose one",
+				"wheat item."
 		};
 	}
 
@@ -208,6 +211,23 @@ public class Harvest extends Game<HarvestMap> {
 				player2.teleport(this.map.getSpawnLocation());
 			});
 		}
+	}
+	
+	@EventHandler
+	public void onBreak(final BlockBreakEvent event) {
+		final Block block = event.getBlock();
+		if (block.getType() != Material.WHEAT) {
+			return;
+		}
+		
+		final Ageable ageable = (Ageable) block.getBlockData();
+		if (ageable.getAge() == ageable.getMaximumAge()) {
+			return;
+		}
+		
+		final MPlayer player = new MPlayer(event.getPlayer());
+		player.sendChat("This crop was not fully grown yet! You lose one wheat.");
+		player.getInventory().removeItem(new ItemStack(Material.WHEAT, 1));
 	}
 
 }
