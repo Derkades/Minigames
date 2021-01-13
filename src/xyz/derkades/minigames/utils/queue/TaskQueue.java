@@ -26,7 +26,7 @@ public class TaskQueue {
 	}
 
 	public static void start() {
-		Scheduler.repeat(20, 2, () -> {
+		Scheduler.repeat(20, 1, () -> {
 			if (!QUEUE.isEmpty()) {
 				Logger.debug("Processing task queue, " + QUEUE.size() + " entries left.");
 				QUEUE.remove().run();
