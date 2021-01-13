@@ -28,6 +28,7 @@ import xyz.derkades.minigames.Minigames;
 import xyz.derkades.minigames.Minigames.ShutdownReason;
 import xyz.derkades.minigames.games.tron.TronMap;
 import xyz.derkades.minigames.utils.MPlayer;
+import xyz.derkades.minigames.utils.Scheduler;
 import xyz.derkades.minigames.utils.queue.TaskQueue;
 
 public class Tron extends Game<TronMap> {
@@ -45,7 +46,8 @@ public class Tron extends Game<TronMap> {
 	@Override
 	public String[] getDescription() {
 		return new String[] {
-				"Snake in Minecraft",
+				"Snake in Minecraft.",
+				"Steer using your 4 (left) and 6 (right) keys",
 		};
 	}
 
@@ -100,8 +102,14 @@ public class Tron extends Game<TronMap> {
 			player.giveInfiniteEffect(PotionEffectType.SLOW, 100);
 			player.giveInfiniteEffect(PotionEffectType.JUMP, 200);
 		}
+		
+		Scheduler.delay(5*20, () -> {
+			for (final MPlayer player : Minigames.getOnlinePlayers()) {
+				player.sendTitle(ChatColor.GRAY + "Use keyboard", ChatColor.GRAY + "[4] LEFT [6] RIGHT");
+			}
+		});
 
-		sendMessage("Make sure that you are not facing a wall");
+		sendMessage("Steer using your 4 (left) and 6 (right) keys or by scrolling up and down using your mouse weel");
 	}
 
 	@Override
