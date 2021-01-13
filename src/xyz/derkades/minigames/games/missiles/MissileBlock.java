@@ -13,6 +13,13 @@ import xyz.derkades.minigames.Minigames;
 
 public class MissileBlock {
 	
+	static final int DOWN = 0;
+	static final int UP = 1;
+	static final int LEFT = 2;
+	static final int RIGHT = 3;
+	static final int FRONT = 4;
+	static final int BACK = 5;
+	
 	private final int lr, fb, ud;
 	private final Material type;
 	private final int facing;

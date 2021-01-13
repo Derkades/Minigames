@@ -1,5 +1,10 @@
 package xyz.derkades.minigames.games.missiles;
 
+import static xyz.derkades.minigames.games.missiles.MissileBlock.BACK;
+import static xyz.derkades.minigames.games.missiles.MissileBlock.DOWN;
+import static xyz.derkades.minigames.games.missiles.MissileBlock.FRONT;
+import static xyz.derkades.minigames.games.missiles.MissileBlock.UP;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,7 +20,6 @@ import xyz.derkades.derkutils.bukkit.ItemBuilder;
 public enum Missile {
 	
 	// <-left/+right> <+up/-down> <+front/-back> <material> <facing>
-	// facing = 0-down 1-up 2-left 3-right 4-front 5-back
 
 	TEST("Test", Material.STICK, ChatColor.GREEN, new MissileBlock[] {
 			// https://www.youtube.com/watch?v=Z4VuRYqlv5Q
@@ -129,6 +133,65 @@ public enum Missile {
 			new MissileBlock(0, 2, 3, Material.OBSERVER, 2),
 			new MissileBlock(-1, 2, 3, Material.GLASS),
 			new MissileBlock(-1, 2, 3, Material.AIR),
+	}),
+	
+	HYPER_COMPRESSOR("Hypercompressor", Material.PISTON, ChatColor.GRAY, new MissileBlock[] {
+			new MissileBlock(-1, 0, 1, Material.SLIME_BLOCK),
+			new MissileBlock(-1, -1, 1, Material.OBSERVER, DOWN),
+			new MissileBlock(0, 0, 1, Material.PISTON, FRONT),
+			new MissileBlock(-1, 0, 2, Material.SLIME_BLOCK),
+			new MissileBlock(0, 0, 2, Material.WHITE_GLAZED_TERRACOTTA),
+			new MissileBlock(0, -1, 2, Material.SLIME_BLOCK),
+			new MissileBlock(1, -1, 2, Material.TNT),
+			new MissileBlock(0, 0, 3, Material.SLIME_BLOCK),
+			new MissileBlock(0, -1, 3, Material.STICKY_PISTON, BACK),
+			new MissileBlock(1, -1, 3, Material.TNT),
+			new MissileBlock(1, 0, 3, Material.PISTON, FRONT),
+			new MissileBlock(-1, 0, 3, Material.STICKY_PISTON, BACK),
+			new MissileBlock(0, 1, 3, Material.OBSERVER, UP),
+			new MissileBlock(0, 0, 4, Material.PISTON, FRONT),
+			new MissileBlock(1, -1, 4, Material.TNT),
+			new MissileBlock(-1, 0, 4, Material.TNT),
+			new MissileBlock(1, 0, 5, Material.TNT),
+			new MissileBlock(1, -1, 5, Material.TNT),
+			new MissileBlock(-1, 0, 5 , Material.OBSERVER, BACK),
+			new MissileBlock(0, 0, 6, Material.TNT),
+			new MissileBlock(1, 0, 6, Material.TNT),
+			new MissileBlock(-1, 0, 6 , Material.PISTON, FRONT),
+			new MissileBlock(1, -1, 6, Material.TNT),
+			new MissileBlock(0, 0, 7, Material.TNT),
+			new MissileBlock(1, 0, 7, Material.TNT),
+			new MissileBlock(1, -1, 7, Material.TNT),
+			new MissileBlock(-1, 0, 8, Material.TNT),
+			new MissileBlock(0, 0, 8, Material.TNT),
+			new MissileBlock(1, 0, 8, Material.TNT),
+			new MissileBlock(1, -1, 8, Material.TNT),
+			new MissileBlock(-1, 0, 9, Material.TNT),
+			new MissileBlock(0, 0, 9, Material.TNT),
+			new MissileBlock(1, 0, 9, Material.TNT),
+			new MissileBlock(1, -1, 9, Material.TNT),
+			new MissileBlock(-1, 0, 10, Material.TNT),
+			new MissileBlock(0, 0, 10, Material.TNT),
+			new MissileBlock(1, 0, 10, Material.TNT),
+			new MissileBlock(1, -1, 10, Material.TNT),
+			new MissileBlock(-1, 0, 11, Material.TNT),
+			new MissileBlock(1, 0, 11, Material.TNT),
+			new MissileBlock(1, -1, 11, Material.SLIME_BLOCK),
+			new MissileBlock(0, -1, 11, Material.PISTON, FRONT),
+			new MissileBlock(-1, -1, 13, Material.TNT),
+			new MissileBlock(1, -1, 13, Material.TNT),
+			new MissileBlock(0, 0, 13, Material.REDSTONE_BLOCK),
+			new MissileBlock(0, -1, 13, Material.SLIME_BLOCK),
+			new MissileBlock(-1, -1, 14, Material.TNT),
+			new MissileBlock(1, -1, 14, Material.TNT),
+			new MissileBlock(0, 0, 14, Material.SLIME_BLOCK),
+			new MissileBlock(0, -1, 14, Material.SLIME_BLOCK),
+			new MissileBlock(-1, 0, 14, Material.TNT),
+			new MissileBlock(1, 0, 14, Material.TNT),
+			new MissileBlock(0, 0, 15, Material.TNT),
+			new MissileBlock(0, -1, 15, Material.TNT),
+			new MissileBlock(-1, -2, 1, Material.GLASS),
+			new MissileBlock(-1, -2, 1, Material.AIR),
 	}),
 	
 	BEE("Bee", Material.HONEYCOMB, ChatColor.GOLD, new MissileBlock[] {
@@ -397,6 +460,8 @@ public enum Missile {
 	}),
 	
 	;
+	
+
 	
 	private final MissileEntity[] ENTITIES_EMPTY = new MissileEntity[0];
 	
