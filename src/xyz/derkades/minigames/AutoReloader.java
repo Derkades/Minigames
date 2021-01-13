@@ -31,12 +31,12 @@ public class AutoReloader {
 		
 		this.lastModified = this.file.lastModified();
 		
-		Scheduler.repeat(5*20, 5*20, () -> {
+		Scheduler.repeat(2*20, 2*20, () -> {
 			Scheduler.async(() -> {
 				if (this.file.exists()) {
 					if (this.file.lastModified() > this.lastModified) {
-						Bukkit.broadcastMessage("Plugin change detected, reloading!");
-						Scheduler.run(() -> {
+						Bukkit.broadcastMessage("Plugin change detected, reloading in 2 seconds!");
+						Scheduler.delay(40, () -> {
 							Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "rl confirm");
 						});
 					}
