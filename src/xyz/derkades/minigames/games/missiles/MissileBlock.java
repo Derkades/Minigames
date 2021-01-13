@@ -67,7 +67,7 @@ public class MissileBlock {
 	}
 	
 	private static Set<Material> BLACKLIST = Set.of(
-			Material.BEDROCK, Material.OBSIDIAN, Material.BARRIER
+			Material.BEDROCK, Material.OBSIDIAN, Material.BARRIER, Material.NETHER_PORTAL
 	);
 	
 	public static void build(final MissileBlock[] mBlocks, final Block center, final BlockFace right, final BlockFace left, final BlockFace front, final BlockFace back, final Runnable onComplete) {
