@@ -17,6 +17,8 @@ import org.bukkit.event.entity.EntityEvent;
 import org.bukkit.event.player.PlayerEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
+import org.bukkit.metadata.FixedMetadataValue;
+import org.bukkit.metadata.MetadataValue;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
@@ -34,6 +36,8 @@ import xyz.derkades.minigames.utils.queue.TaskPriority;
 import xyz.derkades.minigames.utils.queue.TaskQueue;
 
 public class MPlayer {
+	
+	private static final String METADATA_PREFIX = "mg_";
 
 	private final Player player;
 
@@ -48,42 +52,59 @@ public class MPlayer {
 	public MPlayer(final EntityEvent event) {
 		this.player = (Player) event.getEntity();
 	}
-
+	
+	public void setMetadata(final String key, final Object value) {
+		this.removeMetadata(key);
+		this.player.setMetadata(METADATA_PREFIX + key, new FixedMetadataValue(Minigames.getInstance(), value));
+	}
+	
+	public void removeMetadata(final String key) {
+		this.player.removeMetadata(METADATA_PREFIX + key, Minigames.getInstance());
+	}
+	
+	public MetadataValue getMetadata(final String key) {
+		return this.player.getMetadata(METADATA_PREFIX + key).get(0);
+	}
+	
+	public boolean hasMetadata(final String key) {
+		return this.player.hasMetadata(METADATA_PREFIX + key);
+	}
+	
+	public boolean getMetadataBool(final String key) {
+		return this.getMetadata(key).asBoolean();
+	}
+	
+	public boolean getMetadataBool(final String key, final boolean def) {
+		if (this.hasMetadata(key)) {
+			return this.getMetadataBool(key);
+		} else {
+			return def;
+		}
+	}
+	
 	public void setDisableDamage(final boolean disableDamage) {
-		Utils.setMetadata(this.player, "disable_damage", disableDamage);
+		this.setMetadata("disable_damage", disableDamage);
 	}
 
 	public boolean getDisableDamage() {
-		return Utils.getMetadata(this.player, "disable_damage").asBoolean();
+		return this.getMetadataBool("disable_damage");
 	}
 
 	public void setDisableHunger(final boolean disableHunger) {
-		Utils.setMetadata(this.player, "disable_hunger", disableHunger);
+		this.setMetadata("disable_hunger", disableHunger);
 	}
 
 	public boolean getDisableHunger() {
-		try {
-			return Utils.getMetadata(this.player, "disable_hunger").asBoolean();
-		} catch (final IndexOutOfBoundsException e) {
-			return true;
-		}
+		return this.getMetadataBool("disable_hunger", true);
 	}
 
 	public void setDisableItemMoving(final boolean disableItemMoving) {
-		Utils.setMetadata(this.player, "disable_item_moving", disableItemMoving);
+		this.setMetadata("disable_item_moving", disableItemMoving);
 	}
 
 	public boolean getDisableItemMoving() {
-		return Utils.getMetadata(this.player, "disable_item_moving").asBoolean();
+		return this.getMetadataBool("disable_item_moving");
 	}
-
-//	public void setDisableSneaking(final boolean disableSneaking) {
-//		SneakPrevention.setCanSneak(this.player, !disableSneaking);
-//	}
-//
-//	public boolean getDisableSneaking() {
-//		return !SneakPrevention.getCanSneak(this.player);
-//	}
 	
 	public void enableSneakPrevention(final Consumer<MPlayer> onPunish) {
 		SneakPrevention.enable(this, onPunish);
@@ -288,6 +309,10 @@ public class MPlayer {
 
 	public boolean isSpectator() {
 		return getGameMode().equals(GameMode.SPECTATOR);
+	}
+	
+	public void giveEffect(final PotionEffect effect) {
+		this.player.addPotionEffect(effect);
 	}
 
 	public void giveEffect(final PotionEffectType type, final int duration, final int amplifier) {

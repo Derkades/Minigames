@@ -215,21 +215,29 @@ public class GlobalListeners implements Listener {
 		event.setDeathMessage("");
 		Minigames.getInstance().getLogger().warning("A player died: " + event.getEntity().getName());
 	}
+	
+	private static final PotionEffect SLIME_JUMP_EFFECT = new PotionEffect(PotionEffectType.JUMP, 30, 7, true, false);
 
 	@EventHandler
 	public void lobbyEffects(final PlayerMoveEvent event){
 		if (Minigames.CURRENT_GAME == null){
-			final Player player = event.getPlayer();
+			final MPlayer player = new MPlayer(event);
 
 			final Material type = event.getTo().getBlock().getType();
 			final Material below = event.getTo().getBlock().getRelative(BlockFace.DOWN).getType();
 
 			if (type == Material.WATER && player.getGameMode() == GameMode.ADVENTURE){
 				//player.teleport(new Location(Var.LOBBY_LOCATION.getWorld(), 217.0, 67, 258.0, 90, 0));
-				player.teleport(new Location(Var.LOBBY_LOCATION.getWorld(), 213.5, 68, 255.9, 70, 0));
+				
+				if (!player.getMetadataBool("lobby parkour teleporting", false)) {
+					player.setMetadata("lobby parkour teleporting", true);
+					Scheduler.delay(5, () -> {
+						player.teleport(new Location(Var.LOBBY_LOCATION.getWorld(), 213.5, 68, 255.9, 70, 0));
+						player.removeMetadata("lobby parkour teleporting");
+					});
+				}
 			} else if (below == Material.SLIME_BLOCK) {
-				final PotionEffect jump = new PotionEffect(PotionEffectType.JUMP, 30, 7, true, false);
-				player.addPotionEffect(jump);
+				player.giveEffect(SLIME_JUMP_EFFECT);
 			}
 		}
 	}

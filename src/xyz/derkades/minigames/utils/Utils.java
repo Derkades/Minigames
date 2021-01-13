@@ -11,8 +11,6 @@ import java.util.stream.Collectors;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
-import org.bukkit.metadata.FixedMetadataValue;
-import org.bukkit.metadata.MetadataValue;
 
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.ComponentBuilder;
@@ -108,15 +106,6 @@ public class Utils {
 
 	public static ComponentBuilder getComponentBuilderWithPrefix(final ChatColor prefixColor, final char prefixChar) {
 		return new ComponentBuilder("").appendLegacy(Utils.getChatPrefix(prefixColor, prefixChar));
-	}
-
-	public static void setMetadata(final Player player, final String key, final Object value) {
-		player.removeMetadata("minigames_" + key, Minigames.getInstance());
-		player.setMetadata("minigames_" + key, new FixedMetadataValue(Minigames.getInstance(), value));
-	}
-
-	public static MetadataValue getMetadata(final Player player, final String key) {
-		return player.getMetadata("minigames_" + key).get(0);
 	}
 
 	public static boolean allPlayersFinished(final List<UUID> finished) {
