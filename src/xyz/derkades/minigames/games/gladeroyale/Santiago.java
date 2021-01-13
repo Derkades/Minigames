@@ -42,4 +42,14 @@ public class Santiago extends GladeRoyaleMap {
 		return "gladeroyale_santiago";
 	}
 
+	@Override
+	public int getMinY() {
+		return 30;
+	}
+
+	@Override
+	public int getMaxY() {
+		return 125;
+	}
+
 }

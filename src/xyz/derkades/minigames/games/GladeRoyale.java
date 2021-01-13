@@ -2,6 +2,7 @@ package xyz.derkades.minigames.games;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -11,11 +12,13 @@ import org.bukkit.block.Block;
 import org.bukkit.block.Chest;
 import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.block.BlockPlaceEvent;
 
 import net.md_5.bungee.api.ChatColor;
 import xyz.derkades.derkutils.Random;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
 import xyz.derkades.derkutils.bukkit.lootchests.LootChest;
+import xyz.derkades.minigames.Logger;
 import xyz.derkades.minigames.Minigames;
 import xyz.derkades.minigames.games.gladeroyale.GladeRoyaleItems;
 import xyz.derkades.minigames.games.gladeroyale.GladeRoyaleMap;
@@ -24,11 +27,9 @@ import xyz.derkades.minigames.utils.MinigamesPlayerDamageEvent;
 import xyz.derkades.minigames.utils.MinigamesPlayerDamageEvent.DamageType;
 import xyz.derkades.minigames.utils.Scheduler;
 import xyz.derkades.minigames.utils.Utils;
+import xyz.derkades.minigames.utils.queue.TaskQueue;
 
 public class GladeRoyale extends Game<GladeRoyaleMap> {
-
-	private static final int MIN_Y = 20;
-	private static final int MAX_Y = 150;
 
 	@Override
 	public String getName() {
@@ -92,22 +93,24 @@ public class GladeRoyale extends Game<GladeRoyaleMap> {
 		final int minZ = this.map.getMapCenter().getBlockZ() - this.currentBorderSize / 2;
 		final int maxZ = this.map.getMapCenter().getBlockZ() + this.currentBorderSize / 2;
 
-		int i = 0;
+		final AtomicInteger counter = new AtomicInteger();
 
-		for (int x = minX; x <= maxX; x++) {
-			for (int y = MIN_Y; y <= MAX_Y; y++) {
-				for (int z = minZ; z <= maxZ; z++) {
-					final Block block = new Location(this.map.getWorld(), x, y, z).getBlock();
-					if (block.getType().equals(Material.TERRACOTTA) || block.getType().equals(Material.CHEST)) {
-						i++;
-						//Bukkit.broadcastMessage(String.format("[debug] removed %s block at (%s, %s, %s). removed: %s. total: %s", block.getType(), x, y, z, j, i));
-						block.setType(Material.AIR);
+		for (int y = this.map.getMinY(); y <= this.map.getMaxY(); y++) {
+			final int fY = y;
+			TaskQueue.add(() -> {
+				for (int x = minX; x <= maxX; x++) {
+					for (int z = minZ; z <= maxZ; z++) {
+						final Block block = new Location(this.map.getWorld(), x, fY, z).getBlock();
+						if (block.getType().equals(Material.TERRACOTTA) || block.getType().equals(Material.CHEST)) {
+							Logger.debug("removed %s (%s, %s, %s). %s", block.getType(), x, fY, z, counter.incrementAndGet());
+							block.setType(Material.AIR);
+						}
 					}
 				}
-			}
+			});
 		}
 
-		this.sendMessage("Removed " + i + " blocks");
+		Logger.info("Removed %s blocks", counter.get());
 		
 		this.sendMessage("When the game starts, you will be teleported into the sky. Don't forget to activate your elytra!");
 	}
@@ -127,7 +130,7 @@ public class GladeRoyale extends Game<GladeRoyaleMap> {
 			if (random == null) { // This shouldn't happen, but just in case
 				random = this.map.getMapCenter();
 			}
-			random.setY(random.getY() + 100);
+			random.setY(this.map.getSpawnY());
 
 			player.sendTitle(ChatColor.RED + "You're falling", ChatColor.GRAY + "Activate your elytra!");
 			player.queueTeleport(random);
@@ -266,6 +269,14 @@ public class GladeRoyale extends Game<GladeRoyaleMap> {
 			}
 		}
 	}
+	
+	@EventHandler(ignoreCancelled = true)
+	public void blockPlace(final BlockPlaceEvent event) {
+		if (event.getBlock().getY() >= this.map.getMaxY()) {
+			new MPlayer(event.getPlayer()).sendChat("You cannot build any higher");
+			event.setCancelled(true);
+		}
+	}
 
 //	@EventHandler
 //	public void join(final MinigamesJoinEvent event) {
@@ -314,7 +325,7 @@ public class GladeRoyale extends Game<GladeRoyaleMap> {
 
 		Location location = null;
 
-		for (int y = MAX_Y; y > MIN_Y; y--) {
+		for (int y = this.map.getMaxY(); y > this.map.getMinY(); y--) {
 			final Location locTemp = new Location(this.map.getWorld(), x, y, z);
 
 			if (locTemp.getBlock().getType() != Material.AIR) {

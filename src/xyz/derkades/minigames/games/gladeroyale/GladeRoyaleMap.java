@@ -14,4 +14,12 @@ public abstract class GladeRoyaleMap extends GameMap {
 
 	public abstract Location getMapCenter();
 
+	public abstract int getMinY();
+	
+	public abstract int getMaxY();
+	
+	public int getSpawnY() {
+		return 200;
+	}
+	
 }
