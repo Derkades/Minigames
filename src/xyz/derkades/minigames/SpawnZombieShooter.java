@@ -1,11 +1,19 @@
 package xyz.derkades.minigames;
 
+import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Player;
 import org.bukkit.entity.Villager;
 import org.bukkit.entity.Zombie;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
+import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -29,9 +37,38 @@ public class SpawnZombieShooter {
 	public static void init() {
 		new BowAndTargetTask().runTaskTimer(Minigames.getInstance(), 40, 1);
 		new SpawnTask().runTaskTimer(Minigames.getInstance(), 40, 50);
+		Bukkit.getPluginManager().registerEvents(new ZombieDieListener(), Minigames.getInstance());
+	}
+	
+	private static class ZombieDieListener implements Listener {
+		
+		@EventHandler
+		public void onDeath(final EntityDeathEvent event) {
+			if (Minigames.CURRENT_GAME != null || event.getEntityType() != EntityType.ZOMBIE) {
+				return;
+			}
+			
+			final Zombie zombie = (Zombie) event.getEntity();
+			
+			if (zombie.getLastDamageCause().getCause() != DamageCause.PROJECTILE) {
+				return;
+			}
+			
+			final Player killer = zombie.getKiller();
+			
+			if (killer == null) {
+				return;
+			}
+			
+			killer.playSound(killer.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 1.0f, 1.0f);
+			int killCount = Minigames.getInstance().getConfig().getInt("zombie-kill-count", 0);
+			Minigames.getInstance().getConfig().set("zombie-kill-count", ++killCount);
+			Minigames.getInstance().saveConfig();
+		}
+		
 	}
 
-	public static class BowAndTargetTask extends BukkitRunnable {
+	private static class BowAndTargetTask extends BukkitRunnable {
 
 		@Override
 		public void run() {
@@ -58,10 +95,14 @@ public class SpawnZombieShooter {
 					continue;
 				}
 
-				if (player.isIn2dBounds(Var.LOBBY_WORLD, 221, 279, 217, 283)) {
+				if (player.isIn3dBounds(Var.LOBBY_WORLD, 221, 63, 278, 217, 69, 283) &&
+						(player.yawInBounds(-70, 70))
+						) {
 					if (!player.getInventory().contains(BOW)) {
-						player.giveItem(BOW, ARROW);
+						player.giveItem(BOW);
+						player.getInventory().setItem(9, ARROW);
 					}
+					player.getInventory().setHeldItemSlot(0);
 				} else {
 					player.getInventory().removeItem(BOW, ARROW);
 				}
@@ -70,7 +111,7 @@ public class SpawnZombieShooter {
 
 	}
 
-	public static class SpawnTask extends BukkitRunnable {
+	private static class SpawnTask extends BukkitRunnable {
 
 		@Override
 		public void run() {

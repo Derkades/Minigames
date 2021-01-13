@@ -112,6 +112,19 @@ public class MPlayer {
 	public void teleport(final World world, final double x, final double y, final double z) {
 		this.player.teleport(new Location(world, x, y, z));
 	}
+	
+	public boolean yawInBounds(final float min, final float max) {
+		if (min < 0) {
+			if (max == 0) {
+				return getYaw() > min && getYaw() < 0 ||
+						getYaw() > 360 + min && getYaw() < 360;
+			} else {
+				return yawInBounds(min, 0) || yawInBounds(0, max);
+			}
+		} else {
+			return getYaw() > min && getYaw() < max;
+		}
+	}
 
 	public boolean isIn2dBounds(final Location cornerOne, final Location cornerTwo) {
 		return LocationUtils.isIn2dBounds(this.player.getLocation(), cornerOne, cornerTwo);
@@ -119,6 +132,14 @@ public class MPlayer {
 
 	public boolean isIn2dBounds(final World world, final double x1, final double z1, final double x2, final double z2) {
 		return this.isIn2dBounds(new Location(world, x1, 0, z1), new Location(world, x2, 0, z2));
+	}
+	
+	public boolean isIn3dBounds(final Location cornerOne, final Location cornerTwo) {
+		return LocationUtils.isIn3dBounds(this.player.getLocation(), cornerOne, cornerTwo);
+	}
+	
+	public boolean isIn3dBounds(final World world, final double x1, final double y1, final double z1, final double x2, final double y2, final double z2) {
+		return this.isIn3dBounds(new Location(world, x1, y1, z1), new Location(world, x2, y2, z2));
 	}
 
 	public Location getLocation() {
@@ -135,6 +156,14 @@ public class MPlayer {
 
 	public double getZ() {
 		return getLocation().getZ();
+	}
+	
+	public float getYaw() {
+		return getLocation().getYaw();
+	}
+	
+	public float getPitch() {
+		return getLocation().getPitch();
 	}
 
 	public int getBlockX() {

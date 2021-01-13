@@ -101,9 +101,12 @@ public class Points {
 			
 			final Sign globalStats2 = (Sign) new Location(Var.LOBBY_WORLD, 217, 65, 280).getBlock().getState();
 			globalStats2.setLine(0, ChatColor.YELLOW + "Games");
-			globalStats2.setLine(1, ChatColor.WHITE + "" + Game.GAMES.length);
-			globalStats2.setLine(2, ChatColor.YELLOW + "Maps");
-			globalStats2.setLine(3, ChatColor.WHITE + "" + Arrays.stream(Game.GAMES).mapToInt(g -> g.getGameMaps().length).sum());
+			final int gameCount = Game.GAMES.length;
+			final int mapCount = Arrays.stream(Game.GAMES).mapToInt(g -> g.getGameMaps().length).sum();
+			globalStats2.setLine(1, String.format(ChatColor.WHITE + "%s (%s maps)", gameCount, mapCount));
+			globalStats2.setLine(2, ChatColor.YELLOW + "Zombies killed");
+			final int killCount = Minigames.getInstance().getConfig().getInt("zombie-kill-count", 0);
+			globalStats2.setLine(3, ChatColor.WHITE + "" + killCount);
 			globalStats2.update();
 		}
 
