@@ -95,7 +95,7 @@ public class SpawnZombieShooter {
 					continue;
 				}
 
-				if (player.isIn3dBounds(Var.LOBBY_WORLD, 221, 63, 278, 217, 69, 283) &&
+				if (player.isIn3dBounds(Var.LOBBY_WORLD, 222, 63, 278, 217, 69, 283) &&
 						(player.yawInBounds(-70, 70))
 						) {
 					if (!player.getInventory().contains(BOW)) {
