@@ -139,11 +139,9 @@ public class GlobalListeners implements Listener {
 
 	@EventHandler
 	public void onInteract(final PlayerInteractEvent event) {
-		if (event.getPlayer().getGameMode() != GameMode.ADVENTURE) {
-			return;
-		}
-
-		if (event.getHand() != null && !event.getHand().equals(EquipmentSlot.HAND)) {
+		if (event.getPlayer().getGameMode() != GameMode.ADVENTURE ||
+				event.getHand() == null ||
+				!event.getHand().equals(EquipmentSlot.HAND)) {
 			return;
 		}
 
@@ -206,11 +204,6 @@ public class GlobalListeners implements Listener {
 	}
 
 	@EventHandler
-	public void onDamageTriggerCustomEvent(final EntityDamageByEntityEvent event) {
-
-	}
-
-	@EventHandler
 	public void onDeath(final PlayerDeathEvent event) {
 		event.setDeathMessage("");
 		Minigames.getInstance().getLogger().warning("A player died: " + event.getEntity().getName());
@@ -226,16 +219,14 @@ public class GlobalListeners implements Listener {
 			final Material type = event.getTo().getBlock().getType();
 			final Material below = event.getTo().getBlock().getRelative(BlockFace.DOWN).getType();
 
-			if (type == Material.WATER && player.getGameMode() == GameMode.ADVENTURE){
-				//player.teleport(new Location(Var.LOBBY_LOCATION.getWorld(), 217.0, 67, 258.0, 90, 0));
-				
-				if (!player.getMetadataBool("lobby parkour teleporting", false)) {
-					player.setMetadata("lobby parkour teleporting", true);
-					Scheduler.delay(5, () -> {
-						player.teleport(new Location(Var.LOBBY_LOCATION.getWorld(), 213.5, 68, 255.9, 70, 0));
-						player.removeMetadata("lobby parkour teleporting");
-					});
-				}
+			if (type == Material.WATER &&
+					player.getGameMode() == GameMode.ADVENTURE &&
+					!player.getMetadataBool("lobby parkour teleporting", false)) {
+				player.setMetadata("lobby parkour teleporting", true);
+				Scheduler.delay(5, () -> {
+					player.teleport(new Location(Var.LOBBY_LOCATION.getWorld(), 213.5, 68, 255.9, 70, 0));
+					player.removeMetadata("lobby parkour teleporting");
+				});
 			} else if (below == Material.SLIME_BLOCK) {
 				player.giveEffect(SLIME_JUMP_EFFECT);
 			}
