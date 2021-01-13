@@ -64,6 +64,11 @@ public class BreakTheBlock extends Game<BreakTheBlockMap> {
 	public int getPreDuration() {
 		return 2;
 	}
+	
+	@Override
+	public String getAlias() {
+		return "btb";
+	}
 
 	private UUID blockBreaker;
 
