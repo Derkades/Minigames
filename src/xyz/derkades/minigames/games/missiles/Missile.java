@@ -459,9 +459,42 @@ public enum Missile {
 			new MissileBlock(0, 1, 5, Material.TNT),
 	}),
 	
-	;
+	MATIGE_MISSILE_2("MatigeMissile 2", Material.SPONGE, ChatColor.LIGHT_PURPLE, new MissileBlock[] {
+			new MissileBlock(0, 0, 0, Material.HONEY_BLOCK),
+			new MissileBlock(-1, 0, 1, Material.HONEY_BLOCK),
+			new MissileBlock(0, 0, 1, Material.HONEY_BLOCK),
+			new MissileBlock(1, 0, 1, Material.HONEY_BLOCK),
+			new MissileBlock(-1, 0, 2, Material.OBSERVER, BACK),
+			new MissileBlock(0, 0, 2, Material.HONEY_BLOCK),
+			new MissileBlock(1, 0, 2, Material.HONEY_BLOCK),
+			new MissileBlock(1, 1, 2, Material.TNT),
+			new MissileBlock(-1, 0, 3, Material.PISTON, FRONT),
+			new MissileBlock(0, 0, 3, Material.HONEY_BLOCK),
+			new MissileBlock(1, 0, 3, Material.OBSERVER, DOWN),
+			new MissileBlock(1, 1, 3, Material.PISTON, FRONT),
+			
+			new MissileBlock(-1, 0, 5, Material.HONEY_BLOCK),
+			new MissileBlock(0, 0, 5, Material.STICKY_PISTON, BACK),
+			new MissileBlock(0, 1, 5, Material.TNT),
+			new MissileBlock(1, 1, 5, Material.HONEY_BLOCK),
+			
+			new MissileBlock(-1, 0, 6, Material.HONEY_BLOCK),
+			new MissileBlock(0, 0, 6, Material.OBSERVER, FRONT),
+			new MissileBlock(1, 1, 6, Material.HONEY_BLOCK),
+			
+			new MissileBlock(-1, 0, 7, Material.PISTON, FRONT),
+			new MissileBlock(1, 1, 7, Material.TNT),
+			
+			new MissileBlock(-1, 1, 9, Material.REDSTONE_BLOCK),
+			new MissileBlock(-1, 0, 9, Material.HONEY_BLOCK),
+			new MissileBlock(0, 0, 9, Material.HONEY_BLOCK),
+			new MissileBlock(1, 0, 9, Material.REDSTONE_BLOCK),
+			
+			new MissileBlock(0, 0, 7, Material.GLASS),
+			new MissileBlock(0, 0, 7, Material.AIR),
+	}),
 	
-
+	;
 	
 	private final MissileEntity[] ENTITIES_EMPTY = new MissileEntity[0];
 	

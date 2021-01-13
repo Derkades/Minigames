@@ -175,6 +175,8 @@ public class Command implements CommandExecutor {
 					missile = Missile.GUARDIAN;
 				} else if (args[1].equals("bust")) {
 					missile = Missile.SHIELDBUSTER_MINI;
+				} else if (args[1].equals("mat2")) {
+					missile = Missile.MATIGE_MISSILE_2;
 				} else {
 					player.sendMessage("deze missile bestaat niet");
 					return true;
@@ -185,7 +187,7 @@ public class Command implements CommandExecutor {
 				missile.build(player.getLocation().add(0, -3, 0), face);
 				return true;
 			} else {
-				player.sendMessage("geef naam (jug, test, comp, bee, tom, cart, guard, bust, hypcomp)");
+				player.sendMessage("geef naam (jug, test, comp, bee, tom, cart, guard, bust, hypcomp, mat2)");
 				return true;
 			}
 		}
