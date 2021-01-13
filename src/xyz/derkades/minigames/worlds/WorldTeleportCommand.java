@@ -32,9 +32,14 @@ public class WorldTeleportCommand implements CommandExecutor {
 		if (args[0].equals("lobby")) {
 			player.teleport(Var.LOBBY_LOCATION);
 		} else {
-			player.setGameMode(GameMode.CREATIVE);
-			player.teleport(new Location(GameWorld.valueOf(args[0].toUpperCase()).getWorld(), 0.5, 65, 0.5));
-			player.setFlying(true);
+			final String enumName = args[0].toUpperCase();
+			try {
+				player.teleport(new Location(GameWorld.valueOf(args[0].toUpperCase()).getWorld(), 0.5, 65, 0.5));
+				player.setGameMode(GameMode.CREATIVE);
+				player.setFlying(true);
+			} catch (final IllegalArgumentException e) {
+				player.sendMessage("No world '" + enumName + "'");
+			}
 		}
 
 		return true;
