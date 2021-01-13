@@ -251,6 +251,30 @@ public enum Missile {
 			new MissileEntity(0, 1, 8, EntityType.MINECART_TNT),
 	}),
 	
+	SHIELDBUSTER_MINI("Shieldbuster Mini", Material.PISTON, ChatColor.GRAY, new MissileBlock[] {
+			new MissileBlock(-1, 0, 0, Material.LIME_CONCRETE),
+			new MissileBlock(0, 0, 0, Material.HONEY_BLOCK),
+			new MissileBlock(1, 0, 0, Material.LIME_CONCRETE),
+			new MissileBlock(-1, 0, 1, Material.OBSERVER, 5),
+			new MissileBlock(0, 0, 1, Material.HONEY_BLOCK),
+			new MissileBlock(1, 0, 1, Material.OBSERVER, 5),
+			new MissileBlock(-1, 0, 2, Material.PISTON, 4),
+			new MissileBlock(0, 0, 2, Material.HONEY_BLOCK),
+			new MissileBlock(1, 0, 2, Material.PISTON, 4),
+			new MissileBlock(-1, 0, 4, Material.SLIME_BLOCK),
+			new MissileBlock(0, 0, 4, Material.STICKY_PISTON, 5),
+			new MissileBlock(1, 0, 4, Material.HONEY_BLOCK),
+			new MissileBlock(-1, 1, 4, Material.SLIME_BLOCK),
+			new MissileBlock(0, 1, 4, Material.SLIME_BLOCK),
+			new MissileBlock(1, 1, 4, Material.HONEY_BLOCK),
+			new MissileBlock(-1, 2, 4, Material.SLIME_BLOCK),
+			new MissileBlock(0, 2, 4, Material.HONEY_BLOCK),
+			new MissileBlock(1, 2, 4, Material.HONEY_BLOCK),
+			new MissileBlock(0, 0, 6, Material.GLASS),
+			new MissileBlock(0, 0, 5, Material.OBSERVER, 4),
+			new MissileBlock(0, 0, 6, Material.AIR),
+	}),
+	
 	GUARDIAN("Guardian", Material.SHIELD, ChatColor.DARK_GRAY, new MissileBlock[] {
 			new MissileBlock(0, 0, 0, Material.OBSERVER, 5),
 			

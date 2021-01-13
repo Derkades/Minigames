@@ -163,6 +163,8 @@ public class Command implements CommandExecutor {
 					missile = Missile.MINECART;
 				} else if (args[1].equals("guard")) {
 					missile = Missile.GUARDIAN;
+				} else if (args[1].equals("bust")) {
+					missile = Missile.SHIELDBUSTER_MINI;
 				} else {
 					player.sendMessage("deze missile bestaat niet");
 					return true;
@@ -173,7 +175,7 @@ public class Command implements CommandExecutor {
 				missile.build(player.getLocation().add(0, -3, 0), face);
 				return true;
 			} else {
-				player.sendMessage("geef naam (jug, test, comp, bee, tom, cart, guard)");
+				player.sendMessage("geef naam (jug, test, comp, bee, tom, cart, guard, bust)");
 				return true;
 			}
 		}
