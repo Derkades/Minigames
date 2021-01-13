@@ -79,7 +79,7 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 
 	public abstract String getName();
 
-	public String getAlias(){ return ""; }
+	public String getAlias(){ return null; }
 
 	public abstract String[] getDescription();
 
