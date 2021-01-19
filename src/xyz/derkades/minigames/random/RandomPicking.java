@@ -7,43 +7,43 @@ import java.util.Map;
 
 import org.bukkit.Bukkit;
 
+import xyz.derkades.minigames.Logger;
 import xyz.derkades.minigames.games.Game;
 import xyz.derkades.minigames.games.maps.GameMap;
 import xyz.derkades.minigames.utils.Utils;
 
 public class RandomPicking {
 
-	public static String FORCE_GAME = null;
-	public static String FORCE_MAP = null;
+	public static Game<? extends GameMap> FORCE_GAME = null;
+	public static GameMap FORCE_MAP = null;
 
 	@SuppressWarnings("unchecked")
 	public static Game<? extends GameMap> getRandomGame() {
+		final Game<? extends GameMap> game;
 		if (FORCE_GAME != null) {
-			final Game<? extends GameMap> map = Game.fromString(FORCE_GAME);
+			game = FORCE_GAME;
 			FORCE_GAME = null;
-			if (map != null) {
-				return map;
-			} else {
-				Bukkit.broadcastMessage("A game was forced, but the provided identifier is invalid.");
-			}
+			Logger.debug("Not picking a random game, forced game ", game);
+		} else {
+			game = (Game<? extends GameMap>) getRandom(Arrays.asList(Game.GAMES));
+			Logger.debug("Picked random game ", game);
 		}
 
-
-		return (Game<? extends GameMap>) getRandom(Arrays.asList(Game.GAMES));
+		return game;
 	}
 
 	public static GameMap getRandomMap(final List<GameMap> maps) {
-		if (FORCE_MAP != null) {
-			final GameMap map = GameMap.fromIdentifier(FORCE_MAP);
+		final GameMap map;
+		if (FORCE_GAME != null) {
+			map = FORCE_MAP;
 			FORCE_MAP = null;
-			if (map != null) {
-				return map;
-			} else {
-				Bukkit.broadcastMessage("A map was forced, but the provided identifier is invalid.");
-			}
+			Logger.debug("Not picking a random map, forced map ", map);
+		} else {
+			map = (GameMap) getRandom(maps);
+			Logger.debug("Picked random map ", map);
 		}
 
-		return (GameMap) getRandom(maps);
+		return map;
 	}
 
 	private static RandomlyPickable getRandom(final List<? extends RandomlyPickable> list) {

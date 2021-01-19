@@ -78,6 +78,11 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 	};
 
 	public abstract String getName();
+	
+	@Override
+	public String toString() {
+		return getName();
+	}
 
 	public String getAlias(){ return null; }
 
@@ -368,9 +373,9 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 						double weight = this.getWeight();
 
 						if (option == 1) {
-							weight *= 1.1; //Increase chance factor a bit (e.g. from to 1.5 to 1.65)
+							weight *= 1.1; // Increase chance factor a bit (e.g. from to 1.5 to 1.65)
 						} else if (option == 2){
-							weight *= 0.9; //Decrease chance factor a bit (e.g. from 1.5 to 1.35)
+							weight *= 0.9; // Decrease chance factor a bit (e.g. from 1.5 to 1.35)
 						}
 
 						player.sendMessage(ChatColor.GRAY + "Your vote has been registered.");
@@ -385,13 +390,13 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 
 					Bukkit.getOnlinePlayers().forEach(poll::send);
 				} else {
-					final Poll poll = new Poll("Did you enjoy this map?", (player, option) -> {
+					final Poll poll = new Poll("Did you like this map?", (player, option) -> {
 						double weight = this.map.getWeight();
 
 						if (option == 1) {
-							weight *= 1.1; //Increase chance factor a bit (e.g. from to 1.5 to 1.65)
+							weight *= 1.1; // Increase chance factor a bit (e.g. from to 1.5 to 1.65)
 						} else if (option == 2){
-							weight *= 0.9; //Decrease chance factor a bit (e.g. from 1.5 to 1.35)
+							weight *= 0.9; // Decrease chance factor a bit (e.g. from 1.5 to 1.35)
 						}
 
 						player.sendMessage(ChatColor.GRAY + "Your vote has been registered.");
@@ -446,11 +451,8 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 
 	public static Game<? extends GameMap> fromString(final String string) {
 		for (final Game<? extends GameMap> game : GAMES){
-			if (game.getName().equalsIgnoreCase(string)) {
-				return game;
-			}
-
-			if (string.equalsIgnoreCase(game.getAlias())) {
+			if (game.getName().equalsIgnoreCase(string) ||
+					string.equalsIgnoreCase(game.getAlias())) {
 				return game;
 			}
 		}

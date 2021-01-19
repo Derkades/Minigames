@@ -15,6 +15,8 @@ import org.bukkit.util.Vector;
 import net.md_5.bungee.api.ChatColor;
 import xyz.derkades.derkutils.Random;
 import xyz.derkades.minigames.Minigames.ShutdownReason;
+import xyz.derkades.minigames.games.Game;
+import xyz.derkades.minigames.games.maps.GameMap;
 import xyz.derkades.minigames.games.missiles.Missile;
 import xyz.derkades.minigames.games.missiles.Shield;
 import xyz.derkades.minigames.menu.GamesListMenu;
@@ -35,25 +37,39 @@ public class Command implements CommandExecutor {
 		}
 		
 		if (args.length == 2 && (args[0].equalsIgnoreCase("next") || args[0].equalsIgnoreCase("n")) && sender.hasPermission("minigames.next")) {
-			RandomPicking.FORCE_GAME = args[1].replace("_", " ");
-			Minigames.BYPASS_PLAYER_MINIMUM_CHECKS = true;
-			sender.sendMessage("If exists, " + args[1] + " will be chosen as the next game");
+			final String name = args[1].replace("_", " ");
+			final Game<? extends GameMap> game = Game.fromString(name);
+			if (game == null) {
+				sender.sendMessage("The specified game '" + name + "' does not exist.");
+			} else {
+				sender.sendMessage(game.getName() + " will be chosen as the next game");
+				RandomPicking.FORCE_GAME = game;
+				Minigames.BYPASS_PLAYER_MINIMUM_CHECKS = true;
+			}
 			return true;
 		}
 
 		if (args.length == 2 && (args[0].equalsIgnoreCase("map") || args[0].equalsIgnoreCase("m")) && sender.hasPermission("minigames.nextmap")) {
-			RandomPicking.FORCE_MAP = args[1].replace("_", " ");
-			sender.sendMessage("If exists, " + args[1] + " will be chosen as the next map");
+			final String name = args[1].replace("_", " ");
+			final GameMap map = GameMap.fromIdentifier(name);
+			if (map == null) {
+				sender.sendMessage("The specified map '" + name + "' does not exist.");
+			} else {
+				sender.sendMessage(map.getIdentifier() + " will be chosen as the next map");
+				RandomPicking.FORCE_MAP = map;
+				Minigames.BYPASS_PLAYER_MINIMUM_CHECKS = true;
+			}
 			return true;
 		}
 
 		if (args.length == 1){
-			if ((args[0].equalsIgnoreCase("start") || args[0].equals("b")) && sender.hasPermission("minigames.start")){
+			if ((args[0].equalsIgnoreCase("start") || args[0].equals("b")) && sender.hasPermission("minigames.start")) {
 				AutoRotate.startNewRandomGame();
 				Minigames.STOP_GAMES = false;
-			} else if ((args[0].equalsIgnoreCase("stop") || args[0].equals("e")) && sender.hasPermission("minigames.stop")){
+			} else if ((args[0].equalsIgnoreCase("stop") || args[0].equals("e")) && sender.hasPermission("minigames.stop")) {
 				sender.sendMessage(ChatColor.RED + "! STOPPED GAMES !");
 				Minigames.STOP_GAMES = true;
+				Logger.info("Games stopped. After this game, no new game will be started.");
 			} else if (args[0].equalsIgnoreCase("!") && sender.hasPermission("minigames.emerg")) {
 				Minigames.shutdown(ShutdownReason.EMERGENCY_MANUAL, "The /games ! command was executed");
 			} else if (args[0].equalsIgnoreCase("min") && sender.hasPermission("minigames.min")) {
