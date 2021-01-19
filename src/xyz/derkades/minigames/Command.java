@@ -174,23 +174,29 @@ public class Command implements CommandExecutor {
 					missile = Missile.MINECART;
 				} else if (args[1].equals("guard")) {
 					missile = Missile.GUARDIAN;
-				} else if (args[1].equals("bust")) {
+				} else if (args[1].equals("bustmini")) {
 					missile = Missile.SHIELDBUSTER_MINI;
 				} else if (args[1].equals("mat2")) {
 					missile = Missile.MATIGE_MISSILE_2;
 				} else if (args[1].equals("cart2")) {
 					missile = Missile.MINECART_2;
+				} else if (args[1].equals("tb")) {
+					missile = Missile.TIJDBOM;
+				} else if (args[1].equals("plat")) {
+					missile = Missile.PLATVIS;
+				} else if (args[1].equals("bust")) {
+					missile = Missile.SHIELDBUSTER;
 				} else {
 					player.sendMessage("deze missile bestaat niet");
 					return true;
 				}
 				
 				final BlockFace face = new MPlayer(player).getFacingAsBlockFace();
-				Logger.debug("Building missile in direction %s", face);
+				Logger.debug("Building missile \"%s\" in direction %s", missile, face);
 				missile.build(player.getLocation().add(0, -3, 0), face);
 				return true;
 			} else {
-				player.sendMessage("geef naam (jug, test, comp, bee, tom, cart, guard, bust, hypcomp, mat2, cart2)");
+				player.sendMessage("geef naam (jug, test, comp, bee, tom, cart, guard, bustmini, hypcomp, mat2, cart2, tb, plat, bust)");
 				return true;
 			}
 		}
