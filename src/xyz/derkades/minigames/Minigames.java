@@ -44,6 +44,8 @@ public class Minigames extends JavaPlugin implements Listener {
 		instance = this;
 
 		super.saveDefaultConfig();
+		
+		Logger.info("Plugin enabled");
 
 		Var.WORLD = Bukkit.getWorld("minigames");
 		Var.LOBBY_WORLD = Bukkit.getWorld("minigames");
@@ -79,10 +81,18 @@ public class Minigames extends JavaPlugin implements Listener {
 
 		TaskQueue.start();
 
-		Minigames.getOnlinePlayers().forEach((p) -> {
-			p.applyLobbySettings();
-			p.queueTeleport(Var.LOBBY_LOCATION);
-		});
+		if (Logger.debugMode) {
+			Logger.info("Debug mode is enabled, only going to reset players who are in adventure mode.");
+			Minigames.getOnlinePlayers().stream().filter(p -> p.getGameMode() == GameMode.ADVENTURE).forEach((p) -> {
+				p.applyLobbySettings();
+				p.queueTeleport(Var.LOBBY_LOCATION);
+			});
+		} else {
+			Minigames.getOnlinePlayers().forEach((p) -> {
+				p.applyLobbySettings();
+				p.queueTeleport(Var.LOBBY_LOCATION);
+			});
+		}
 
 		Scheduler.delay(20, () -> {
 			GameWorld.init();
@@ -100,13 +110,13 @@ public class Minigames extends JavaPlugin implements Listener {
 		});
 		
 		new AutoReloader(this);
-		
-		Logger.info("Plugin enabled");
 	}
 
 	@Override
 	public void onDisable(){
 		CURRENT_GAME = null;
+		
+		Logger.debug("Unloading worlds");
 
 		for (final GameWorld gWorld : GameWorld.values()) {
 			gWorld.unload();
