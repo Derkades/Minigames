@@ -31,7 +31,7 @@ public class AutoReloader {
 		
 		this.lastModified = this.file.lastModified();
 		
-		Scheduler.repeat(2*20, 2*20, () -> {
+		Scheduler.repeat(2*20, 50, () -> {
 			Scheduler.async(() -> {
 				if (this.file.exists()) {
 					if (this.file.lastModified() > this.lastModified) {
