@@ -1,5 +1,6 @@
 package xyz.derkades.minigames;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
@@ -24,6 +25,7 @@ import xyz.derkades.minigames.menu.MainMenu;
 import xyz.derkades.minigames.menu.StatsMenu;
 import xyz.derkades.minigames.random.RandomPicking;
 import xyz.derkades.minigames.utils.MPlayer;
+import xyz.derkades.minigames.utils.Scheduler;
 import xyz.derkades.minigames.worlds.GameWorld;
 
 public class Command implements CommandExecutor {
@@ -107,6 +109,19 @@ public class Command implements CommandExecutor {
 				sender.sendMessage("Current game: " + Minigames.CURRENT_GAME);
 			} else if (args[0].equals("stats")) {
 				new StatsMenu((Player) sender);
+			} else if (args[0].equals("jazz") && sender.hasPermission("minigames.music")) {
+				Bukkit.broadcastMessage("Initiating jazz mode...");
+				Scheduler.delay(15, () -> {
+					for (final Player player : Bukkit.getOnlinePlayers()) {
+						player.stopSound(Sound.MUSIC_DISC_13);
+						player.playSound(player.getLocation(), Sound.MUSIC_DISC_13, 0.7f, 1.0f);
+					}
+				});
+			} else if (args[0].equals("stopmusic") && sender.hasPermission("minigames.music")) {
+				Logger.info("Music stopped");
+				for (final Player player : Bukkit.getOnlinePlayers()) {
+					player.stopSound(Sound.MUSIC_DISC_13);
+				}
 			}
 		}
 		
