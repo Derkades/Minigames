@@ -78,6 +78,7 @@ public class Minigames extends JavaPlugin implements Listener {
 		ChatPoll.startup(this);
 		SpawnZombieShooter.init();
 		new SneakPrevention(this);
+		new JazzRoom();
 
 		TaskQueue.start();
 
