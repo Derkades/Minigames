@@ -28,7 +28,6 @@ import xyz.derkades.minigames.Minigames;
 import xyz.derkades.minigames.Minigames.ShutdownReason;
 import xyz.derkades.minigames.games.tron.TronMap;
 import xyz.derkades.minigames.utils.MPlayer;
-import xyz.derkades.minigames.utils.Scheduler;
 import xyz.derkades.minigames.utils.queue.TaskQueue;
 
 public class Tron extends Game<TronMap> {
@@ -107,12 +106,6 @@ public class Tron extends Game<TronMap> {
 			player.giveInfiniteEffect(PotionEffectType.SLOW, 100);
 			player.giveInfiniteEffect(PotionEffectType.JUMP, 200);
 		}
-		
-		Scheduler.delay(5*20, () -> {
-			for (final MPlayer player : Minigames.getOnlinePlayers()) {
-				player.sendTitle(ChatColor.GRAY + "Use keyboard", ChatColor.GRAY + "[4] LEFT [6] RIGHT");
-			}
-		});
 
 		sendMessage("Steer using your 4 (left) and 6 (right) keys or by scrolling up and down using your mouse weel");
 	}
@@ -125,6 +118,8 @@ public class Tron extends Game<TronMap> {
 			player.placeCage(false, CAGE_MATERIAL);
 			player.getInventory().setHeldItemSlot(4);
 			this.tasks.add(new BlockPlacerTask(player).runTaskTimer(Minigames.getInstance(), 1, 1));
+			player.sendTitle(ChatColor.GRAY + "Use keyboard", ChatColor.GRAY + "[4] LEFT [6] RIGHT");
+			player.hideForEveryoneElse();
 		}
 	}
 
@@ -301,15 +296,11 @@ public class Tron extends Game<TronMap> {
 			
 			final PlayerInventory inv = player.getInventory();
 			if (inv.getHeldItemSlot() == 3) {
-//				Logger.debug("rotate left %s", player.getName());
 				team.rotateLeft();
 				changedDirection = true;
 			} else if (inv.getHeldItemSlot() == 5) {
-//				Logger.debug("rotate right %s", player.getName());
 				team.rotateRight();
 				changedDirection = true;
-			} else {
-//				Logger.debug("%s %s", player.getName(), inv.getHeldItemSlot());
 			}
 			
 			if (inv.getHeldItemSlot() != 4) {
@@ -317,7 +308,6 @@ public class Tron extends Game<TronMap> {
 			}
 			
 			final Direction direction = team.getDirection();
-//			Logger.debug("before %s - after %s", before, direction);
 
 			final Location walkingTo = player.getLocation();
 			walkingTo.add(0, -PLAYER_Y_DISTANCE, 0);
@@ -363,8 +353,8 @@ public class Tron extends Game<TronMap> {
 					this.i < 30 // Ensure correct rotation at the start and give some grace time
 					) {
 				final Location loc2 = location.clone().add(0, PLAYER_Y_DISTANCE, 0);
-//				loc2.setYaw(direction.yaw);
-				loc2.setYaw(0);
+				loc2.setYaw(direction.yaw);
+//				loc2.setYaw(0);
 				loc2.setPitch(PLAYER_PITCH);
 				player.teleport(loc2);
 			}
@@ -400,14 +390,14 @@ public class Tron extends Game<TronMap> {
 						sendMessage(player.getName() + " was killed by the " + killerTeamName + " team");
 					}
 				} else {
-					sendMessage(player.getName() + " has died.");
+					sendMessage(player.getName() + " ran into a wall.");
 				}
 
 				// dead
 				Tron.this.spectators.add(player.getUniqueId());
 				Tron.this.teams.remove(player.getUniqueId());
 
-				player.dieUp(20);
+				player.die();
 			}
 		}
 
