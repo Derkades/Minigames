@@ -168,7 +168,12 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 
 			player.sendMessage(prefix + DARK_GRAY + "-----------------------------------------");
 		}
-
+		
+		// Load world now to avoid lag spike when teleporting
+		if (this.map.getGameWorld() != null) {
+			this.map.getGameWorld().load();
+		}
+		
 		// Countdown using sounds and the XP bar
 		new BukkitRunnable() {
 			int timeLeft = 200;
@@ -185,9 +190,9 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 						player.playSound(Sound.ENTITY_ARROW_HIT_PLAYER, 1.5f);
 					}
 
-					//if (this.timeLeft < 35) { Hotbar scrolling joke
-					//	player.getInventory().setHeldItemSlot(Math.abs((16 - this.timeLeft % 16)) / 2);
-					//}
+					if (this.timeLeft < 35) { // Hotbar scrolling joke
+						player.getInventory().setHeldItemSlot(Math.abs((16 - this.timeLeft % 16)) / 2);
+					}
 				}
 
 				if (this.timeLeft == 100) {
@@ -535,13 +540,14 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 
 	@Override
 	public Size getSize() {
-		if (this.getRequiredPlayers() > 4) {
-			return Size.LARGE;
-		} else if (this.getRequiredPlayers() > 2) {
-			return Size.NORMAL;
-		} else {
-			return Size.SMALL;
-		}
+		return null;
+//		if (this.getRequiredPlayers() > 4) {
+//			return Size.LARGE;
+//		} else if (this.getRequiredPlayers() > 2) {
+//			return Size.NORMAL;
+//		} else {
+//			return Size.SMALL;
+//		}
 	}
 
 	public static Game<? extends GameMap> fromString(final String string) {

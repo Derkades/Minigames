@@ -62,7 +62,7 @@ public class RandomPicking {
 				} else if (online > 6) {
 					multiplier *= 0.5; // Small with many players, low chance
 				} else {
-					multiplier *= 1; // Small with medium players, normal chance
+					// Small with medium players, normal chance
 				}
 			} else if (size == Size.NORMAL) {
 				if (online < 4 || online > 6) {
@@ -72,7 +72,7 @@ public class RandomPicking {
 				}
 			} else if (size == Size.LARGE) {
 				if (online > 4) {
-					multiplier *= 3; // Large size with many players, high chance
+					multiplier *= 2; // Large size with many players, high chance
 				} else if (online < 3) {
 					multiplier *= 0.5; // Large size with very few players, low chance
 				} else {
