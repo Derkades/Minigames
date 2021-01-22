@@ -1,7 +1,10 @@
 package xyz.derkades.minigames.games;
 
-import java.util.ArrayList;
+import java.util.ArrayDeque;
+import java.util.Deque;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
@@ -53,11 +56,11 @@ public class TntRun extends Game<TNTMap> {
 	}
 
 	private List<UUID> alive;
-	private List<Block> removedBlocks;
+	private Set<Block> removedBlocks;
 
 	@Override
 	public void onPreStart() {
-		this.removedBlocks = new ArrayList<>();
+		this.removedBlocks = new HashSet<>();
 
 		this.map.restore();
 
@@ -118,37 +121,51 @@ public class TntRun extends Game<TNTMap> {
 	}
 
 	private void removeBlocks(final MPlayer player) {
-		final List<Block> blocks = new ArrayList<>();
+		final Deque<Block> toRemove = new ArrayDeque<>();
 
+		final double offset = 0.31;
+		
 		final Location loc = player.getLocation();
 		loc.setY(loc.getY() - 1);
+		
+		final Block mainBlock = loc.getBlock();
+		toRemove.add(mainBlock);
 
-		final double destroyRange = .4;
-
-		blocks.add(new Location(loc.getWorld(), loc.getX() + destroyRange, loc.getY(), loc.getZ() + destroyRange).getBlock());
-		blocks.add(new Location(loc.getWorld(), loc.getX() - destroyRange, loc.getY(), loc.getZ() - destroyRange).getBlock());
-		blocks.add(new Location(loc.getWorld(), loc.getX() + destroyRange, loc.getY(), loc.getZ() - destroyRange).getBlock());
-		blocks.add(new Location(loc.getWorld(), loc.getX() - destroyRange, loc.getY(), loc.getZ() + destroyRange).getBlock());
-
-		blocks.add(new Location(loc.getWorld(), loc.getX() - destroyRange, loc.getY(), loc.getZ() + 0).getBlock());
-		blocks.add(new Location(loc.getWorld(), loc.getX() + destroyRange, loc.getY(), loc.getZ() + 0).getBlock());
-		blocks.add(new Location(loc.getWorld(), loc.getX() + 0, loc.getY(), loc.getZ() - .2).getBlock());
-		blocks.add(new Location(loc.getWorld(), loc.getX() - 0, loc.getY(), loc.getZ() + .2).getBlock());
-
-		for (final Block block : blocks) {
-			if (block.getType() != this.map.floorMaterial()) {
-				continue;
+		final double origX = loc.getX();
+		final double origZ = loc.getZ();
+		
+		final double[] xValues = new double[] {origX-offset, origX, origX+offset};
+		final double[] zValues = new double[] {origZ-offset, origZ, origZ+offset};
+		
+		for (final double x : xValues) {
+			for (final double z : zValues) {
+				loc.setX(x);
+				loc.setZ(z);
+				addIfNotMain(toRemove, loc, mainBlock);
 			}
+		}
 
-			if (this.removedBlocks.contains(block)) {
-				continue;
-			}
-
-			this.removedBlocks.add(block);
-
-			Bukkit.getScheduler().runTaskLater(Minigames.getInstance(), () -> {
+		Bukkit.getScheduler().runTaskLater(Minigames.getInstance(), () -> {
+			while(!toRemove.isEmpty()) {
+				final Block block = toRemove.pop();
+				if (block.getType() != this.map.floorMaterial()) {
+					continue;
+				}
+	
+				if (this.removedBlocks.contains(block)) {
+					continue;
+				}
+	
+				this.removedBlocks.add(block);
 				block.setType(Material.AIR);
-			}, 7);
+			}
+		}, 7);
+	}
+	
+	private void addIfNotMain(final Deque<Block> stack, final Location loc, final Block mainBlock) {
+		final Block block = loc.getBlock();
+		if (!mainBlock.equals(block)) {
+			stack.add(block);
 		}
 	}
 	
