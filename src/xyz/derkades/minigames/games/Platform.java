@@ -26,6 +26,11 @@ public class Platform extends Game<PlatformMap> {
 	private static final int KNOCKBACK_SWORDS_TIME = 20;
 	
 	@Override
+	public String getIdentifier() {
+		return "platform";
+	}
+	
+	@Override
 	public String getName() {
 		return "Platform";
 	}
@@ -128,6 +133,10 @@ public class Platform extends Game<PlatformMap> {
 			// Put player back if game hasn't started yet
 			if (!this.started) {
 				player.teleport(this.map.getSpawnLocation());
+				return;
+			}
+			
+			if (this.alive.size() <= 1) {
 				return;
 			}
 
