@@ -50,15 +50,14 @@ public class Minigames extends JavaPlugin implements Listener {
 		super.saveDefaultConfig();
 		
 		integrityCheck();
+
+		Logger.debugMode = getConfig().getBoolean("debug_mode");
 		
 		Logger.info("Plugin enabled");
 
 		Var.WORLD = Bukkit.getWorld("minigames");
 		Var.LOBBY_WORLD = Bukkit.getWorld("minigames");
 		Var.LOBBY_LOCATION = new Location(Var.WORLD, 219.5, 64, 279.5, 180, 0);
-
-		Logger.debugMode = getConfig().getBoolean("debug_mode");
-		
 		GameMap.init();
 
 		new RegenerateHunger().runTaskTimer(this, 1*20, 1*20);
@@ -91,12 +90,13 @@ public class Minigames extends JavaPlugin implements Listener {
 		if (Logger.debugMode) {
 			Logger.info("Debug mode is enabled, only going to reset players who are not in creative mode.");
 			Minigames.getOnlinePlayers().stream().filter(p -> p.getGameMode() != GameMode.CREATIVE).forEach((p) -> {
-				Logger.debug("Resetting player %s", p.getName());
+				Logger.debug("Resetting player %s (debug mode, adventure)", p.getName());
 				p.applyLobbySettings();
 				p.queueTeleport(Var.LOBBY_LOCATION);
 			});
 		} else {
 			Minigames.getOnlinePlayers().forEach((p) -> {
+				Logger.debug("Resetting player %s (no debug mode)", p.getName());
 				p.applyLobbySettings();
 				p.queueTeleport(Var.LOBBY_LOCATION);
 			});
