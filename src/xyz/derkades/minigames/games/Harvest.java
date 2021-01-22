@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 import org.bukkit.Bukkit;
@@ -51,6 +52,11 @@ public class Harvest extends Game<HarvestMap> {
 	};
 	
 	@Override
+	public String getIdentifier() {
+		return "harvest";
+	}
+	
+	@Override
 	public String getName() {
 		return "Harvest";
 	}
@@ -58,10 +64,8 @@ public class Harvest extends Game<HarvestMap> {
 	@Override
 	public String[] getDescription() {
 		return new String[] {
-				"Harvest crops and kill other players to get",
-				"as much wheat as possible. When you harvest",
-				"a crop that is not fully grown you lose one",
-				"wheat item."
+				"Harvest crops to get as much wheat as possible. Make",
+				"sure to not break any crops that are not fully grown!"
 		};
 	}
 
@@ -77,7 +81,7 @@ public class Harvest extends Game<HarvestMap> {
 
 	@Override
 	public int getDuration() {
-		return 80;
+		return 50;
 	}
 	
 	private List<Location> blocks;
@@ -167,6 +171,16 @@ public class Harvest extends Game<HarvestMap> {
 
 	@Override
 	public void onEnd() {
+		final Map<MPlayer, Integer> sorted = getSortedPointsMap();
+		final AtomicInteger i = new AtomicInteger();
+		sorted.forEach((player, points) -> {
+			if (i.getAndIncrement() > 2) {
+				return;
+			}
+			
+			sendMessage(ChatColor.DARK_GREEN + player.getName() + ChatColor.GRAY + ": " + ChatColor.GREEN + points);
+		});
+		
 		final List<UUID> winners = Utils.getHighestValuesFromHashMap(getSortedPointsMap()).stream()
 				.map(MPlayer::getUniqueId).collect(Collectors.toList());
 		endGame(winners);
@@ -225,7 +239,8 @@ public class Harvest extends Game<HarvestMap> {
 		}
 		
 		final MPlayer player = new MPlayer(event.getPlayer());
-		player.sendChat("This crop was not fully grown yet! You lose one wheat.");
+		player.sendChat(ChatColor.RED + "This crop was not fully grown yet! You lose one wheat.");
+		player.sendTitle("", ChatColor.RED + "-1");
 		player.getInventory().removeItem(new ItemStack(Material.WHEAT, 1));
 	}
 

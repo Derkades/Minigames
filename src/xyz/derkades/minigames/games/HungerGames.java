@@ -27,6 +27,11 @@ import xyz.derkades.minigames.utils.Winners;
 public class HungerGames extends Game<HungerGamesMap> {
 
 	@Override
+	public String getIdentifier() {
+		return "hunger_games";
+	}
+	
+	@Override
 	public String getName() {
 		return "Hunger Games";
 	}

@@ -27,6 +27,11 @@ import xyz.derkades.minigames.utils.Utils;
 public class RegeneratingSpleef extends Game<SpleefMap> {
 
 	@Override
+	public String getIdentifier() {
+		return "regenerating_spleef";
+	}
+	
+	@Override
 	public String getName() {
 		return "Regenerating Spleef";
 	}

@@ -107,11 +107,11 @@ public enum Shield {
 	;
 	
 	private GameTeam team;
-	private MissileBlock[] blocks;
+	private MissileObject[] objects;
 	
-	Shield(final GameTeam team, final MissileBlock[] blocks) {
+	Shield(final GameTeam team, final MissileObject[] objects) {
 		this.team = team;
-		this.blocks = blocks;
+		this.objects = objects;
 	}
 	
 	public GameTeam getTeam() {
@@ -119,8 +119,7 @@ public enum Shield {
 	}
 
 	public void build(final Location center, final BlockFace direction) {
-		MissileBlock.build(this.blocks, null, center, direction, null);
+		MissileObject.build(this.objects, center, direction, null);
 	}
 	
-
 }

@@ -53,8 +53,6 @@ public enum GameWorld {
 	HG_NETHER,
 
 	ICYBLOWBACK_ICYBLOWBACK,
-	
-	MISSILES_PROTOTYPE,
 
 	MGR_ISLAND,
 	MGR_SANTIAGO,
@@ -96,6 +94,16 @@ public enum GameWorld {
 	TNTRUN_WATERLAVA,
 
 	TRON_PROTOTYPE,
+	
+	// Testing worlds, move up when assigned to game
+	PICKLES_PROTOTYPE,
+	BUILDCOPY_PROTOTYPE,
+	MISSILES_PROTOTYPE,
+	MISSILERACER_PROTOTYPE,
+	
+	// Reserved worlds
+	RESERVED_BACKUP,
+	RESERVED_TESTING,
 
 	;
 

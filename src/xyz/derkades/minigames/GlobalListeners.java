@@ -31,6 +31,7 @@ import org.bukkit.potion.PotionEffectType;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.ClickEvent;
 import xyz.derkades.derkutils.bukkit.MaterialLists;
+import xyz.derkades.minigames.Minigames.ShutdownReason;
 import xyz.derkades.minigames.menu.MainMenu;
 import xyz.derkades.minigames.utils.MPlayer;
 import xyz.derkades.minigames.utils.MinigamesPlayerDamageEvent;
@@ -139,9 +140,7 @@ public class GlobalListeners implements Listener {
 
 	@EventHandler
 	public void onInteract(final PlayerInteractEvent event) {
-		if (event.getPlayer().getGameMode() != GameMode.ADVENTURE ||
-				event.getHand() == null ||
-				!event.getHand().equals(EquipmentSlot.HAND)) {
+		if (event.getPlayer().getGameMode() != GameMode.ADVENTURE) {
 			return;
 		}
 
@@ -151,10 +150,12 @@ public class GlobalListeners implements Listener {
 			event.setCancelled(true);
 		}
 
-		final ItemStack itemInHand = event.getPlayer().getInventory().getItemInMainHand();
-
-		if (Minigames.CURRENT_GAME == null && itemInHand.getType().equals(Material.COMPARATOR)) {
-			new MainMenu(event.getPlayer());
+		if (event.getHand() == EquipmentSlot.HAND) {
+			final ItemStack itemInHand = event.getPlayer().getInventory().getItemInMainHand();
+	
+			if (Minigames.CURRENT_GAME == null && itemInHand.getType().equals(Material.COMPARATOR)) {
+				new MainMenu(event.getPlayer());
+			}
 		}
 	}
 
@@ -206,7 +207,8 @@ public class GlobalListeners implements Listener {
 	@EventHandler
 	public void onDeath(final PlayerDeathEvent event) {
 		event.setDeathMessage("");
-		Minigames.getInstance().getLogger().warning("A player died: " + event.getEntity().getName());
+//		Minigames.getInstance().getLogger().warning();
+		Minigames.shutdown(ShutdownReason.EMERGENCY_AUTOMATIC, "A player died: " + event.getEntity().getName());
 	}
 	
 	private static final PotionEffect SLIME_JUMP_EFFECT = new PotionEffect(PotionEffectType.JUMP, 30, 7, true, false);

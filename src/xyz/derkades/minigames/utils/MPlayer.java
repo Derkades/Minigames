@@ -86,7 +86,7 @@ public class MPlayer {
 	}
 
 	public boolean getDisableDamage() {
-		return this.getMetadataBool("disable_damage");
+		return this.getMetadataBool("disable_damage", true);
 	}
 
 	public void setDisableHunger(final boolean disableHunger) {
@@ -102,7 +102,7 @@ public class MPlayer {
 	}
 
 	public boolean getDisableItemMoving() {
-		return this.getMetadataBool("disable_item_moving");
+		return this.getMetadataBool("disable_item_moving", true);
 	}
 	
 	public void enableSneakPrevention(final Consumer<MPlayer> onPunish) {

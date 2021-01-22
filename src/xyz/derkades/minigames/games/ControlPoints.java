@@ -33,6 +33,11 @@ public class ControlPoints extends Game<ControlPointsMap> {
 	private static final int RESPAWN_DELAY = 5*20;
 	
 	@Override
+	public String getIdentifier() {
+		return "control_points";
+	}
+	
+	@Override
 	public String getName() {
 		return "Control Points";
 	}

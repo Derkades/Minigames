@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -51,6 +52,11 @@ public class DigDug extends Game<DigDugMap> {
 	private static final int NETHERRACK_EFFECT_TIME = 5*20;
 	private static final int QUARTZ_EFFECT_TIME = 10*20;
 
+	@Override
+	public String getIdentifier() {
+		return "dig_dug";
+	}
+	
 	@Override
 	public String getName() {
 		return "Dig Dug";
@@ -127,6 +133,21 @@ public class DigDug extends Game<DigDugMap> {
 
 	@Override
 	public void onEnd() {
+		final Map<UUID, Integer> sorted = Utils.sortByValue(this.points);
+		final AtomicInteger i = new AtomicInteger();
+		sorted.forEach((uuid, points) -> {
+			if (i.getAndIncrement() > 2) {
+				return;
+			}
+			
+			final Player player = Bukkit.getPlayer(uuid);
+			if (player == null) {
+				return;
+			}
+			
+			sendMessage(ChatColor.DARK_GREEN + player.getName() + ChatColor.GRAY + ": " + ChatColor.GREEN + points);
+		});
+		
 		DigDug.this.endGame(Winners.fromPointsMap(DigDug.this.points));
 		DigDug.this.points = null;
 		Bukkit.getOnlinePlayers().forEach(DigDug.this.sidebar::hideFrom);
@@ -193,12 +214,15 @@ public class DigDug extends Game<DigDugMap> {
 
 		final List<SidebarString> sidebarStrings = new ArrayList<>();
 
-		for (final Player player : Bukkit.getOnlinePlayers()) {
-			try {
-				final int points = this.points.get(player.getUniqueId());
-				sidebarStrings.add(new SidebarString(ChatColor.DARK_GREEN + player.getName() + ChatColor.GRAY + ": " + ChatColor.GREEN + points));
-			} catch (final NullPointerException e) { continue; }
-		}
+		final Map<UUID, Integer> sorted = Utils.sortByValue(this.points);
+		
+		sorted.forEach((uuid, points) -> {
+			final Player player = Bukkit.getPlayer(uuid);
+			if (player == null) {
+				return;
+			}
+			sidebarStrings.add(new SidebarString(ChatColor.DARK_GREEN + player.getName() + ChatColor.GRAY + ": " + ChatColor.GREEN + points));
+		});
 
 		this.sidebar.setEntries(sidebarStrings);
 		this.sidebar.addEmpty().addEntry(new SidebarString(ChatColor.GRAY + "Time left: " + secondsLeft + " seconds."));

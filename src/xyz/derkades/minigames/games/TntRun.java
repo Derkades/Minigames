@@ -20,6 +20,11 @@ import xyz.derkades.minigames.utils.Utils;
 public class TntRun extends Game<TNTMap> {
 
 	@Override
+	public String getIdentifier() {
+		return "tnt_run";
+	}
+	
+	@Override
 	public String getName() {
 		return "TNT Run";
 	}

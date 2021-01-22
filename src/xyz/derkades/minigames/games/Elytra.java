@@ -17,6 +17,11 @@ import xyz.derkades.minigames.utils.Utils;
 public class Elytra extends Game<ElytraMap> {
 
 	@Override
+	public String getIdentifier() {
+		return "elytra";
+	}
+	
+	@Override
 	public String getName() {
 		return "Elytra";
 	}

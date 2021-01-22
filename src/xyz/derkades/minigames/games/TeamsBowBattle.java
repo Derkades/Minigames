@@ -23,6 +23,11 @@ import xyz.derkades.minigames.utils.MinigamesPlayerDamageEvent.DamageType;
 public class TeamsBowBattle extends Game<TeamsBowBattleMap> {
 
 	@Override
+	public String getIdentifier() {
+		return "teams_bow_battle";
+	}
+	
+	@Override
 	public String getName() {
 		return "Teams Bow Battle";
 	}

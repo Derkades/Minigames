@@ -19,6 +19,11 @@ import xyz.derkades.minigames.utils.Utils;
 public class Dropper extends Game<DropperMap> {
 
 	@Override
+	public String getIdentifier() {
+		return "dropper";
+	}
+	
+	@Override
 	public String getName() {
 		return "Dropper";
 	}

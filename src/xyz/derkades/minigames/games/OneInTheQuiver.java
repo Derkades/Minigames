@@ -39,6 +39,11 @@ public class OneInTheQuiver extends Game<OITQMap> {
 
 	private static final ItemStack ARROW = new ItemBuilder(Material.ARROW)
 			.create();
+	
+	@Override
+	public String getIdentifier() {
+		return "oitq";
+	}
 
 	@Override
 	public String getName() {

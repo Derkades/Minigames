@@ -15,10 +15,10 @@ public class JazzRoom implements Runnable {
 	private static final Sound[] JAZZ_MUSIC = new Sound[] {
 			Sound.MUSIC_DISC_13,
 			Sound.MUSIC_DISC_CHIRP,
-			Sound.MUSIC_DISC_FAR,
+//			Sound.MUSIC_DISC_FAR,
 	};
 	
-	private static final Location BOUNDS_A = new Location(Var.LOBBY_WORLD, 213, 76, 272);
+	private static final Location BOUNDS_A = new Location(Var.LOBBY_WORLD, 213, 76, 273);
 	private static final Location BOUNDS_B = new Location(Var.LOBBY_WORLD, 225, 82, 258);
 	
 	private static final HashMap<String, Sound> PLAYING = new HashMap<>();

@@ -54,6 +54,7 @@ public class GamesListMenu extends IconMenu {
 
 			if (player.hasPermission("minigames.list_admin")) {
 				lore.add("");
+				lore.add(DARK_GRAY + "Identifier " + game.getIdentifier());
 				lore.add(DARK_GRAY + "Name for commands: " + game.getName().toLowerCase().replace(" ", "_"));
 				lore.add(DARK_GRAY + "" + game.getClass());
 				if (game.getGameMaps() == null) {

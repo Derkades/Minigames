@@ -20,6 +20,11 @@ import xyz.derkades.minigames.utils.Utils;
 public class Parkour extends Game<ParkourMap> {
 
 	@Override
+	public String getIdentifier() {
+		return "parkour";
+	}
+	
+	@Override
 	public String getName() {
 		return "Parkour";
 	}

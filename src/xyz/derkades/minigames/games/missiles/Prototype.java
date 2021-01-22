@@ -22,7 +22,7 @@ public class Prototype extends MissilesMap {
 
 	@Override
 	public String getCredits() {
-		return null;
+		return "ben_the_bunny, Corrupt_World";
 	}
 
 	@Override

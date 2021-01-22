@@ -20,6 +20,11 @@ import xyz.derkades.minigames.utils.MinigamesPlayerDamageEvent.DamageType;
 public class FreeFall extends Game<FreeFallMap> {
 
 	@Override
+	public String getIdentifier() {
+		return "free_fall";
+	}
+	
+	@Override
 	public String getName() {
 		return "Free Fall";
 	}

@@ -32,6 +32,11 @@ import xyz.derkades.minigames.utils.queue.TaskQueue;
 public class GladeRoyale extends Game<GladeRoyaleMap> {
 
 	@Override
+	public String getIdentifier() {
+		return "glade_royale";
+	}
+	
+	@Override
 	public String getName() {
 		return "Glade Royale";
 	}

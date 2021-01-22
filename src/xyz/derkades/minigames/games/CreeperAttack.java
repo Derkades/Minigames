@@ -25,6 +25,11 @@ import xyz.derkades.minigames.utils.MinigamesPlayerDamageEvent;
 public class CreeperAttack extends Game<CreeperAttackMap> {
 
 	@Override
+	public String getIdentifier() {
+		return "creeper_attack";
+	}
+	
+	@Override
 	public String getName() {
 		return "Creeper Attack";
 	}

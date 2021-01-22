@@ -21,6 +21,11 @@ import xyz.derkades.minigames.utils.MinigamesPlayerDamageEvent;
 import xyz.derkades.minigames.utils.MinigamesPlayerDamageEvent.DamageType;
 
 public class MolePvP extends Game<MolePvPMap> {
+	
+	@Override
+	public String getIdentifier() {
+		return "mole_pvp";
+	}
 
 	@Override
 	public String getName() {

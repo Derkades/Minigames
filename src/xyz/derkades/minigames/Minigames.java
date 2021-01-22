@@ -6,15 +6,15 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import org.apache.commons.lang3.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import de.tr7zw.changeme.nbtapi.utils.MinecraftVersion;
 import net.md_5.bungee.api.ChatColor;
-import net.milkbowl.vault.economy.Economy;
 import xyz.derkades.minigames.games.Game;
 import xyz.derkades.minigames.games.maps.GameMap;
 import xyz.derkades.minigames.task.RegenerateHunger;
@@ -35,8 +35,12 @@ public class Minigames extends JavaPlugin implements Listener {
 	public static boolean STOP_GAMES = false;
 
 	public static boolean BYPASS_PLAYER_MINIMUM_CHECKS = false;
-
-	public static Economy economy = null;
+	
+	static {
+		MinecraftVersion.disableUpdateCheck();
+	}
+	
+//	public static Economy economy = null;
 
 	@SuppressWarnings("deprecation")
 	@Override
@@ -44,6 +48,8 @@ public class Minigames extends JavaPlugin implements Listener {
 		instance = this;
 
 		super.saveDefaultConfig();
+		
+		integrityCheck();
 		
 		Logger.info("Plugin enabled");
 
@@ -71,9 +77,9 @@ public class Minigames extends JavaPlugin implements Listener {
 			Var.WORLD.setStorm(false);
 		});
 
-		if (!setupEconomy()) {
-			getLogger().severe("Vault error");
-		}
+//		if (!setupEconomy()) {
+//			getLogger().severe("Vault error");
+//		}
 
 		ChatPoll.startup(this);
 		SpawnZombieShooter.init();
@@ -83,8 +89,9 @@ public class Minigames extends JavaPlugin implements Listener {
 		TaskQueue.start();
 
 		if (Logger.debugMode) {
-			Logger.info("Debug mode is enabled, only going to reset players who are in adventure mode.");
-			Minigames.getOnlinePlayers().stream().filter(p -> p.getGameMode() == GameMode.ADVENTURE).forEach((p) -> {
+			Logger.info("Debug mode is enabled, only going to reset players who are not in creative mode.");
+			Minigames.getOnlinePlayers().stream().filter(p -> p.getGameMode() != GameMode.CREATIVE).forEach((p) -> {
+				Logger.debug("Resetting player %s", p.getName());
 				p.applyLobbySettings();
 				p.queueTeleport(Var.LOBBY_LOCATION);
 			});
@@ -111,6 +118,19 @@ public class Minigames extends JavaPlugin implements Listener {
 		});
 		
 		new AutoReloader(this);
+	}
+	
+	private void integrityCheck() {
+		for (final Game<?> game : Game.GAMES) {
+			Validate.notNull(game.getIdentifier(), game.getClass().getName());
+			Validate.notNull(game.getName(), game.getClass().getName());
+			if (game.getGameMaps() != null) {
+				for (final GameMap map : game.getGameMaps()) {
+					Validate.notNull(game.getIdentifier(), map.getClass().getName());
+					Validate.notNull(map.getName(), map.getClass().getName());
+				}
+			}
+		}
 	}
 
 	@Override
@@ -143,17 +163,17 @@ public class Minigames extends JavaPlugin implements Listener {
 		return CURRENT_GAME.getName();
 	}
 
-    private boolean setupEconomy() {
-        if (getServer().getPluginManager().getPlugin("Vault") == null) {
-			return false;
-		}
-        final RegisteredServiceProvider<Economy> rsp = getServer().getServicesManager().getRegistration(Economy.class);
-        if (rsp == null) {
-			return false;
-		}
-        economy = rsp.getProvider();
-        return economy != null;
-    }
+//    private boolean setupEconomy() {
+//        if (getServer().getPluginManager().getPlugin("Vault") == null) {
+//			return false;
+//		}
+//        final RegisteredServiceProvider<Economy> rsp = getServer().getServicesManager().getRegistration(Economy.class);
+//        if (rsp == null) {
+//			return false;
+//		}
+//        economy = rsp.getProvider();
+//        return economy != null;
+//    }
     
     public static MPlayer getPlayer(final UUID uuid) {
     	final Player player = Bukkit.getPlayer(uuid);

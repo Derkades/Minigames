@@ -5,8 +5,12 @@ import static net.md_5.bungee.api.ChatColor.GOLD;
 import static net.md_5.bungee.api.ChatColor.GRAY;
 import static net.md_5.bungee.api.ChatColor.YELLOW;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -23,6 +27,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
+
+import com.google.gson.stream.JsonWriter;
 
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.ComponentBuilder;
@@ -62,6 +68,7 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 			new IcyBlowback(),
 			new GladeRoyale(),
 			//new MazePvp(),
+			new MissileRacer(),
 			new MolePvP(),
 			new MurderyMister(),
 			new OneInTheQuiver(),
@@ -77,6 +84,8 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 			new Tron(),
 	};
 
+	public abstract String getIdentifier();
+	
 	public abstract String getName();
 	
 	@Override
@@ -114,6 +123,9 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 
 	// Can be used by listeners in game classes to check if the game has started.
 	protected boolean started = false;
+	
+	private long preStartTime;
+	private long startTime;
 
 	@SuppressWarnings("unchecked")
 	public void start() {
@@ -209,6 +221,7 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 	}
 
 	private void begin() {
+		this.preStartTime = System.currentTimeMillis();
 		this.onPreStart();
 		this.map.onPreStart();
 		
@@ -243,6 +256,7 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 				if (this.secondsLeft == Game.this.getDuration()) {
 					Minigames.getOnlinePlayers().forEach((p) -> p.sendTitle("", ""));
 					Game.this.sendMessage("The game has started.");
+					Game.this.startTime = System.currentTimeMillis();
 					Game.this.onStart();
 					Game.this.map.onStart();
 					Game.this.started = true;
@@ -260,7 +274,7 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 					return;
 				}
 
-				if (this.secondsLeft == 60 || this.secondsLeft == 30 || this.secondsLeft == 10 || this.secondsLeft <= 5) {
+				if (this.secondsLeft == 60 || this.secondsLeft == 30 || this.secondsLeft == 10 || this.secondsLeft == 5 || this.secondsLeft <= 3) {
 					Game.this.sendMessage(String.format("%s seconds left", this.secondsLeft));
 				}
 			}
@@ -309,6 +323,13 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 			this.sendMessage("The " + this.getName() + " game has ended! Winner: " + YELLOW + winnersText);
 		} else {
 			this.sendMessage("The " + this.getName() + " game has ended! Winners: " + YELLOW + winnersText);
+		}
+		
+		try {
+			saveGameResult(players);
+		} catch (final IOException e) {
+			Logger.warning("Failed to save game result: %s", e.getMessage());
+			e.printStackTrace();
 		}
 		
 		// Give rewards
@@ -361,6 +382,80 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 				Logger.warning("Game %s is still in lobby world", this.getName());
 			}
 		});
+	}
+	
+	private void saveGameResult(final List<Player> winners) throws IOException {
+		final File gameResultsDir = new File("game_results");
+		if (!gameResultsDir.exists()) {
+			Logger.warning("Skipped saving game data, directory '%s' does not exist.", gameResultsDir.getAbsolutePath());
+			return;
+		}
+		
+		final int gameNumber = Minigames.getInstance().getConfig().getInt("last-game-number", -1) + 1;
+		
+		final File file = new File(gameResultsDir, gameNumber + ".json");
+		try (FileWriter writer = new FileWriter(file);
+				JsonWriter json = new JsonWriter(writer)) {
+			json.beginObject();
+			json.name("format_version");
+			json.value(1);
+			
+			json.name("time_pre_start");
+			json.value(this.preStartTime / 1000);
+			json.name("time_start");
+			json.value(this.startTime / 1000);
+			json.name("time_end");
+			json.value(System.currentTimeMillis() / 1000);
+			
+			json.name("debug");
+			json.value(Logger.debugModeEnabled());
+			
+			json.name("game");
+			json.beginObject();
+			json.name("identifier");
+			json.value(this.getIdentifier());
+			json.name("name");
+			json.value(this.getName());
+			json.name("size");
+			json.value(this.getSize() == null ? null : this.getSize().name());
+			json.name("weight");
+			json.value(this.getWeight());
+			json.endObject();
+			
+			json.name("map");
+			json.beginObject();
+			json.name("identifier");
+			json.value(this.map.getIdentifier());
+			json.name("name");
+			json.value(this.map.getName());
+			json.name("size");
+			json.value(this.map.getSize() == null ? null : this.map.getSize().name());
+			json.name("weight");
+			json.value(this.map.getWeight());
+			json.endObject();
+			
+			json.name("winners");
+			writePlayersJson(json, winners);
+			json.name("online_players");
+			writePlayersJson(json, Bukkit.getOnlinePlayers());
+			json.endObject();
+		}
+		
+		Minigames.getInstance().getConfig().set("last-game-number", gameNumber);
+		Minigames.getInstance().saveConfig();
+	}
+	
+	private void writePlayersJson(final JsonWriter json, final Collection<? extends Player> players) throws IOException {
+		json.beginArray();
+		for (final Player player : players) {
+			json.beginObject();
+			json.name("name");
+			json.value(player.getName());
+			json.name("uuid");
+			json.value(player.getUniqueId().toString());
+			json.endObject();
+		}
+		json.endArray();
 	}
 
 	private void showPolls() {
@@ -417,24 +512,24 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 
 	@Override
 	public void setWeight(final double weight) {
-		if (this.getName() == null) {
+		if (this.getIdentifier() == null) {
 			Minigames.shutdown(ShutdownReason.EMERGENCY_AUTOMATIC, "Game name is null");
 			return;
 		}
 
-		final String configPath = "game-voting." + this.getName();
+		final String configPath = "game-voting." + this.getIdentifier();
 		Minigames.getInstance().getConfig().set(configPath, weight);
 		Minigames.getInstance().saveConfig();
 	}
 
 	@Override
 	public double getWeight() {
-		if (this.getName() == null) {
+		if (this.getIdentifier() == null) {
 			Minigames.shutdown(ShutdownReason.EMERGENCY_AUTOMATIC, "Game name is null");
 			return 0;
 		}
 
-		final String configPath = "game-voting." + this.getName();
+		final String configPath = "game-voting." + this.getIdentifier();
 		return Minigames.getInstance().getConfig().getDouble(configPath, 1);
 	}
 

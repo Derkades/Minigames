@@ -1,5 +1,8 @@
 package xyz.derkades.minigames;
 
+import java.util.Arrays;
+import java.util.stream.Collectors;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -188,37 +191,13 @@ public class Command implements CommandExecutor {
 			final Player player = (Player) sender;
 			
 			if (args.length == 2) {
-				final Missile missile;
-				if (args[1].equals("jug")) {
-					missile = Missile.JUGGERNAUT;
-				} else if (args[1].equals("test")) {
-					missile = Missile.TEST;
-				} else if (args[1].equals("comp")) {
-					missile = Missile.COMPRESSOR;
-				} else if (args[1].equals("hypcomp")) {
-					missile = Missile.HYPER_COMPRESSOR;
-				} else if (args[1].equals("bee")) {
-					missile = Missile.BEE;
-				} else if (args[1].equals("tom")) {
-					missile = Missile.TOMAHAWK;
-				} else if (args[1].equals("cart")) {
-					missile = Missile.MINECART;
-				} else if (args[1].equals("guard")) {
-					missile = Missile.GUARDIAN;
-				} else if (args[1].equals("bustmini")) {
-					missile = Missile.SHIELDBUSTER_MINI;
-				} else if (args[1].equals("mat2")) {
-					missile = Missile.MATIGE_MISSILE_2;
-				} else if (args[1].equals("cart2")) {
-					missile = Missile.MINECART_2;
-				} else if (args[1].equals("tb")) {
-					missile = Missile.TIJDBOM;
-				} else if (args[1].equals("plat")) {
-					missile = Missile.PLATVIS;
-				} else if (args[1].equals("bust")) {
-					missile = Missile.SHIELDBUSTER;
-				} else {
-					player.sendMessage("deze missile bestaat niet");
+				Missile missile;
+				try {
+					missile = Missile.valueOf(args[1].toUpperCase());
+				} catch (final IllegalArgumentException e) {
+					player.sendMessage("Deze missile bestaat niet, kies uit: ");
+					player.sendMessage("geef naam, kies uit:");
+					player.sendMessage(Arrays.stream(Missile.values()).map(Missile::name).map(String::toLowerCase).sorted().collect(Collectors.joining(", ")));
 					return true;
 				}
 				
@@ -227,7 +206,8 @@ public class Command implements CommandExecutor {
 				missile.build(player.getLocation().add(0, -3, 0), face);
 				return true;
 			} else {
-				player.sendMessage("geef naam (jug, test, comp, bee, tom, cart, guard, bustmini, hypcomp, mat2, cart2, tb, plat, bust)");
+				player.sendMessage("geef naam, kies uit:");
+				player.sendMessage(Arrays.stream(Missile.values()).map(Missile::name).map(String::toLowerCase).sorted().collect(Collectors.joining(", ")));
 				return true;
 			}
 		}

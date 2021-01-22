@@ -28,6 +28,11 @@ public class BowSpleef extends Game<BowSpleefMap> {
 			.create();
 
 	@Override
+	public String getIdentifier() {
+		return "bow_spleef";
+	}
+	
+	@Override
 	public String getName() {
 		return "Bow Spleef";
 	}

@@ -35,9 +35,14 @@ public class Tron extends Game<TronMap> {
 
 	private static final double MOVEMENT_SPEED = 0.3;
 	private static final int PLAYER_Y_DISTANCE = 30;
-	private static final float PLAYER_PITCH = 87f;
+	private static final float PLAYER_PITCH = 90f;
 	private static final Material CAGE_MATERIAL = Material.BLACK_CONCRETE;
 
+	@Override
+	public String getIdentifier() {
+		return "tron";
+	}
+	
 	@Override
 	public String getName() {
 		return "Tron";
@@ -116,6 +121,7 @@ public class Tron extends Game<TronMap> {
 	public void onStart() {
 		for (final MPlayer player : Minigames.getOnlinePlayers()) {
 			player.clearPotionEffects();
+			player.giveInfiniteEffect(PotionEffectType.SPEED, 3);
 			player.placeCage(false, CAGE_MATERIAL);
 			player.getInventory().setHeldItemSlot(4);
 			this.tasks.add(new BlockPlacerTask(player).runTaskTimer(Minigames.getInstance(), 1, 1));
@@ -354,10 +360,11 @@ public class Tron extends Game<TronMap> {
 
 			if (changedDirection ||
 					this.i % 30 == 0 ||
-					this.i < 40 // Ensure correct rotation at the start and give some grace time
+					this.i < 30 // Ensure correct rotation at the start and give some grace time
 					) {
 				final Location loc2 = location.clone().add(0, PLAYER_Y_DISTANCE, 0);
-				loc2.setYaw(direction.yaw);
+//				loc2.setYaw(direction.yaw);
+				loc2.setYaw(0);
 				loc2.setPitch(PLAYER_PITCH);
 				player.teleport(loc2);
 			}

@@ -31,6 +31,11 @@ public class IcyBlowback extends Game<IcyBlowbackMap> {
 	private List<UUID> alive;
 
 	@Override
+	public String getIdentifier() {
+		return "icy_blowback";
+	}
+	
+	@Override
 	public String getName() {
 		return "Icy Blowback";
 	}

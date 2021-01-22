@@ -37,6 +37,11 @@ import xyz.derkades.minigames.utils.queue.TaskQueue;
 public class MurderyMister extends Game<MurderyMisterMap> {
 
 	@Override
+	public String getIdentifier() {
+		return "murdery_mister";
+	}
+	
+	@Override
 	public String getName() {
 		return "Murdery Mister";
 	}

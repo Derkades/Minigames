@@ -33,6 +33,11 @@ public class BreakTheBlock extends Game<BreakTheBlockMap> {
 			.create();
 
 	@Override
+	public String getIdentifier() {
+		return "break_the_block";
+	}
+	
+	@Override
 	public String getName() {
 		return "Break the Block";
 	}

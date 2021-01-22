@@ -20,6 +20,11 @@ import xyz.derkades.minigames.utils.MPlayer;
 public class Speedrun extends Game<SpeedrunMap> {
 
 	@Override
+	public String getIdentifier() {
+		return "speedrun";
+	}
+	
+	@Override
 	public String getName() {
 		return "Speedrun";
 	}

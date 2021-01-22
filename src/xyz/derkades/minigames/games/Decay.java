@@ -29,6 +29,11 @@ public class Decay extends Game<DecayMap> {
 	};
 	
 	@Override
+	public String getIdentifier() {
+		return "decay";
+	}
+	
+	@Override
 	public String getName() {
 		return "Decay";
 	}
