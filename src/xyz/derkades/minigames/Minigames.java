@@ -71,6 +71,7 @@ public class Minigames extends JavaPlugin implements Listener {
 		getCommand("bug").setExecutor(new BugCommand());
 		getCommand("wtp").setExecutor(new WorldTeleportCommand());
 		getCommand("wtp").setTabCompleter(new WorldTeleportCommandCompleter());
+		getCommand("voteskip").setExecutor(new VoteSkipCommand());
 
 		Scheduler.repeat(20, () -> {
 			Var.WORLD.setStorm(false);

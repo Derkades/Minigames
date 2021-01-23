@@ -11,7 +11,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -43,6 +45,7 @@ import xyz.derkades.minigames.Logger;
 import xyz.derkades.minigames.Minigames;
 import xyz.derkades.minigames.Minigames.ShutdownReason;
 import xyz.derkades.minigames.Var;
+import xyz.derkades.minigames.constants.SkipConfig;
 import xyz.derkades.minigames.constants.VoteConfig;
 import xyz.derkades.minigames.games.maps.GameMap;
 import xyz.derkades.minigames.random.RandomPicking;
@@ -58,6 +61,7 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 	public static final Game<? extends GameMap>[] GAMES = new Game<?>[] {
 			new BowSpleef(),
 			new BreakTheBlock(),
+			new BuildCopy(),
 			new CreeperAttack(),
 			new Decay(),
 			new DigDug(),
@@ -126,10 +130,24 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 	
 	private long preStartTime;
 	private long startTime;
+	
+	// This is set in the timer for loop, modifying the variable has no effect
+	private int secondsLeft;
+	
+	public int getSecondsLeft() {
+		return this.secondsLeft;
+	}
+	
+	private Set<UUID> gameSkipVotes;
+	
+	public boolean voteGameSkip(final UUID uuid) {
+		return this.gameSkipVotes.add(uuid);
+	}
 
 	@SuppressWarnings("unchecked")
 	public void start() {
 		this.started = false;
+		this.gameSkipVotes = new HashSet<>();
 
 		// Pick random map
 		if (this.getGameMaps() == null) {
@@ -267,7 +285,13 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 					Game.this.started = true;
 					return;
 				}
-
+				
+				final boolean skip = Game.this.gameSkipVotes.size() / Bukkit.getOnlinePlayers().size() > SkipConfig.SKIP_VOTE_PERCENTAGE;
+				if (skip && this.secondsLeft > SkipConfig.SKIP_TO_SECONDS_LEFT) {
+					sendMessage(SkipConfig.SKIP_MESSAGE);
+					this.secondsLeft = SkipConfig.SKIP_TO_SECONDS_LEFT;
+				}
+				
 				final int newSecondsLeft = Game.this.gameTimer(this.secondsLeft);
 				this.secondsLeft = newSecondsLeft > 0 ? newSecondsLeft : this.secondsLeft;
 				Game.this.map.onTimer(this.secondsLeft);
@@ -288,7 +312,7 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 	}
 
 
-	void sendMessage(final String message){
+	public void sendMessage(final String message){
 		Bukkit.broadcastMessage(Utils.getChatPrefix(ChatColor.AQUA, 'G') + message);
 	}
 
@@ -316,6 +340,7 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 	protected void endGame(final List<UUID> winners) {
 		Minigames.CURRENT_GAME = null;
 		HandlerList.unregisterAll(this); //Unregister events
+		this.gameSkipVotes = null;
 
 		Utils.showEveryoneToEveryone();
 
