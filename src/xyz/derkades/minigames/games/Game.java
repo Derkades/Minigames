@@ -286,9 +286,10 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 					return;
 				}
 				
-				final boolean skip = Game.this.gameSkipVotes.size() / Bukkit.getOnlinePlayers().size() > SkipConfig.SKIP_VOTE_PERCENTAGE;
+//				Logger.debug("skip: %s", ((float) Game.this.gameSkipVotes.size()) / Bukkit.getOnlinePlayers().size());
+				final boolean skip = (float) Game.this.gameSkipVotes.size() / Bukkit.getOnlinePlayers().size() > SkipConfig.SKIP_VOTE_PERCENTAGE;
 				if (skip && this.secondsLeft > SkipConfig.SKIP_TO_SECONDS_LEFT) {
-					sendMessage(SkipConfig.SKIP_MESSAGE);
+					sendMessage(String.format(SkipConfig.SKIP_MESSAGE, Game.this.gameSkipVotes.size()));
 					this.secondsLeft = SkipConfig.SKIP_TO_SECONDS_LEFT;
 				}
 				
@@ -505,8 +506,8 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 
 						player.sendMessage(ChatColor.GRAY + "Your vote has been registered.");
 
-						if (weight > 5) {
-							weight = 5;
+						if (weight > VoteConfig.SCORE_MAX) {
+							weight = VoteConfig.SCORE_MAX;
 						}
 
 						this.setWeight(weight);
