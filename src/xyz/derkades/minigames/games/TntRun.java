@@ -146,6 +146,11 @@ public class TntRun extends Game<TNTMap> {
 		}
 
 		Bukkit.getScheduler().runTaskLater(Minigames.getInstance(), () -> {
+			if (this.removedBlocks == null) {
+				// game ended
+				return;
+			}
+			
 			while(!toRemove.isEmpty()) {
 				final Block block = toRemove.pop();
 				if (block.getType() != this.map.floorMaterial()) {
