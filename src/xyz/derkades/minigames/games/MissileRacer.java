@@ -148,7 +148,11 @@ public class MissileRacer extends Game<MissileRacerMap> {
 
 	@Override
 	public void onEnd() {
-		this.endGame(this.winner);
+		if (this.winner == null) {
+			endGame();
+		} else {
+			this.endGame(this.winner);
+		}
 		this.winner = null;
 	}
 	
