@@ -18,7 +18,7 @@ public class Prototype extends MolePvPMap {
 	public void setupMap() {
 		BlockUtils.fillArea(this.getWorld(), -9, 72, -10, 11, 65, 9, Material.DIRT);
 		BlockUtils.fillArea(this.getWorld(), -9, 72, -10, -7, 70, -8, Material.AIR);
-		BlockUtils.fillArea(this.getWorld(), 11, 65, 9, 9, 67, 72, Material.AIR);
+		BlockUtils.fillArea(this.getWorld(), 11, 65, 9, 9, 67, 7, Material.AIR);
 	}
 
 	@Override
