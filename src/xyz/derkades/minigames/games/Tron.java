@@ -57,7 +57,7 @@ public class Tron extends Game<TronMap> {
 
 	@Override
 	public int getRequiredPlayers() {
-		return 4;
+		return 3;
 	}
 
 	@Override

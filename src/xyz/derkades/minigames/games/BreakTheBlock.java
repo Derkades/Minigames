@@ -52,7 +52,7 @@ public class BreakTheBlock extends Game<BreakTheBlockMap> {
 
 	@Override
 	public int getRequiredPlayers() {
-		return 4;
+		return 3;
 	}
 
 	@Override
