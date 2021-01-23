@@ -4,7 +4,6 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 
 import xyz.derkades.derkutils.bukkit.BlockUtils;
-import xyz.derkades.minigames.Var;
 import xyz.derkades.minigames.random.Size;
 import xyz.derkades.minigames.worlds.GameWorld;
 
@@ -17,24 +16,24 @@ public class Prototype extends MolePvPMap {
 
 	@Override
 	public void setupMap() {
-		BlockUtils.fillArea(Var.WORLD, 244, 67, 161, 224, 74, 142, Material.DIRT);
-		BlockUtils.fillArea(Var.WORLD, 244, 69, 161, 242, 67, 159, Material.AIR);
-		BlockUtils.fillArea(Var.WORLD, 226, 74, 144, 224, 72, 142, Material.AIR);
+		BlockUtils.fillArea(this.getWorld(), -9, 72, -10, 11, 65, 9, Material.DIRT);
+		BlockUtils.fillArea(this.getWorld(), -9, 72, -10, -7, 70, -8, Material.AIR);
+		BlockUtils.fillArea(this.getWorld(), 11, 65, 9, 9, 67, 72, Material.AIR);
 	}
 
 	@Override
 	public Location getTeamRedSpawnLocation() {
-		return new Location(Var.WORLD, 243.5, 67.5, 160.5);
+		return new Location(this.getWorld(), 10.5, 65, 8.5);
 	}
 
 	@Override
 	public Location getTeamBlueSpawnLocation() {
-		return new Location(Var.WORLD, 225.5, 72, 143.5);
+		return new Location(this.getWorld(), -7.5, 70, -8.5);
 	}
 
 	@Override
 	public GameWorld getGameWorld() {
-		return null;
+		return GameWorld.MOLEPVP_PROTOTYPE;
 	}
 
 	@Override
@@ -44,7 +43,7 @@ public class Prototype extends MolePvPMap {
 
 	@Override
 	public Size getSize() {
-		return null;
+		return Size.NORMAL;
 	}
 
 	@Override
