@@ -202,7 +202,7 @@ public class Command implements CommandExecutor {
 				}
 				
 				final BlockFace face = new MPlayer(player).getFacingAsBlockFace();
-				Logger.debug("Building missile \"%s\" in direction %s", missile, face);
+				Logger.debug("%s: building missile \"%s\" in direction %s", player.getName(), missile, face);
 				missile.build(player.getLocation().add(0, -3, 0), face);
 				return true;
 			} else {
