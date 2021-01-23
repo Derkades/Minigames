@@ -210,8 +210,6 @@ public class DigDug extends Game<DigDugMap> {
 	}
 
 	private void updateSidebar(final int secondsLeft) {
-		this.points = Utils.sortByValue(this.points);
-
 		final List<SidebarString> sidebarStrings = new ArrayList<>();
 
 		final Map<UUID, Integer> sorted = Utils.sortByValue(this.points);
