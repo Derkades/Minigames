@@ -844,6 +844,8 @@ public enum Missile {
 			new MissileBlock(1, 0, 4, Material.TNT),
 			new MissileBlock(2, 1, 2, Material.REDSTONE_BLOCK),
 			new MissileBlock(0, 0, 3, Material.STICKY_PISTON, 5),
+			new MissileBlock(-1, 0, 3, Material.GLASS),
+			new MissileBlock(0, 0, 3, Material.GLASS),
 	}),
 	
 	MATIGE_MISSILE_3("Matige Missile 3", Material.PISTON, ChatColor.BLUE, new MissileObject[] {
