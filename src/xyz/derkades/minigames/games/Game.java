@@ -73,6 +73,7 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 			new GladeRoyale(),
 			//new MazePvp(),
 			new MissileRacer(),
+//			new MissileWars(),
 			new MolePvP(),
 			new MurderyMister(),
 			new OneInTheQuiver(),

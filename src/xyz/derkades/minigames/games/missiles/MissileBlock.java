@@ -47,9 +47,17 @@ public class MissileBlock extends MissileObject {
 		}
 		
 		block.setType(this.type);
-		final Directional dir = (Directional) block.getBlockData();
-		dir.setFacing(directions[this.facing]);
-		block.setBlockData(dir);
+		try {
+			if (this.facing != 6) {
+				final Directional dir = (Directional) block.getBlockData();
+				dir.setFacing(directions[this.facing]);
+				block.setBlockData(dir);
+			}
+		} catch (final ClassCastException e) {
+			Logger.warning("Failed to set facing=%s data for block at (%s, %s, %s), (type actual=%s, expected=%s)", this.facing, block.getX(), block.getY(), block.getZ(), block.getType(), this.type);
+		} catch (final IndexOutOfBoundsException e) {
+			Logger.warning("Index out of bounds facing=%s when building block (%s, %s, %s) type %s", this.facing, block.getX(), block.getY(), block.getZ(), this.type);
+		}
 	}
 	
 }

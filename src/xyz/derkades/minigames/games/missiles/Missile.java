@@ -1085,7 +1085,7 @@ public enum Missile {
 			new MissileBlock(0, 0, 1, Material.SLIME_BLOCK),
 			new MissileBlock(1, 0, 1, Material.TNT),
 			new MissileBlock(0, 0, 2, Material.STICKY_PISTON, 5),
-			new MissileBlock(0, 0, 2, Material.OBSERVER, 0),
+			new MissileBlock(1, 0, 2, Material.OBSERVER, 0),
 			new MissileBlock(0, 0, 3, Material.SLIME_BLOCK),
 			new MissileBlock(0, 1, 6, Material.OBSERVER, 4),
 			new MissileBlock(1, 0, 3, Material.OBSERVER, 3),
@@ -1106,6 +1106,7 @@ public enum Missile {
 			new MissileBlock(1, 1, 2, Material.WARPED_FENCE),
 			new MissileBlock(0, 1, 3, Material.STICKY_PISTON, 4),
 			new MissileBlock(1, 1, 3, Material.TNT),
+			new MissileBlock(1, 1, 4, Material.GLASS),
 			new MissileBlock(0, 1, 5, Material.SLIME_BLOCK),
 			new MissileBlock(1, 1, 5, Material.BLUE_GLAZED_TERRACOTTA),
 			new MissileBlock(1, 1, 6, Material.OBSERVER, 3),
@@ -1118,7 +1119,7 @@ public enum Missile {
 	JUGGERNAUT_2("Juggernaut 2", Material.PISTON, ChatColor.BLUE, new MissileObject[] {
 			new MissileBlock(0, -1, 2, Material.TNT),
 			new MissileBlock(0, -1, 3, Material.PISTON, 4),
-		
+
 			new MissileBlock(0, -1, 5, Material.SLIME_BLOCK),
 			new MissileBlock(0, -1, 6, Material.TNT),
 			new MissileBlock(0, -1, 7, Material.TNT),
@@ -1133,7 +1134,7 @@ public enum Missile {
 			new MissileBlock(-1, -1, 9, Material.TNT),
 			new MissileBlock(-1, -1, 10, Material.TNT),
 			new MissileBlock(-1, -1, 11, Material.TNT),
-		
+
 			new MissileBlock(1, -1, 13, Material.SLIME_BLOCK),
 			new MissileBlock(0, -1, 13, Material.TNT),
 			new MissileBlock(1, -1, 14, Material.TNT),
@@ -1143,11 +1144,10 @@ public enum Missile {
 			new MissileBlock(-1, -1, 14, Material.TNT),
 			new MissileBlock(0, -1, 15, Material.TNT),
 			new MissileBlock(-1, -1, 15, Material.TNT),
-		
+
 			new MissileBlock(0, 0, 0, Material.PISTON, 4),
 			new MissileBlock(0, 0, 2, Material.SLIME_BLOCK),
-			new MissileBlock(0, 0, 3, Material.STICKY_PISTON, 5),
-		
+
 			new MissileBlock(0, 0, 5, Material.REDSTONE_BLOCK),
 			new MissileBlock(0, 0, 6, Material.CYAN_GLAZED_TERRACOTTA),
 			new MissileBlock(-1, 0, 6, Material.SLIME_BLOCK),
@@ -1164,7 +1164,7 @@ public enum Missile {
 			new MissileBlock(1, 0, 10, Material.OBSERVER, 5),
 			new MissileBlock(-1, 0, 11, Material.PISTON, 4),
 			new MissileBlock(1, 0, 11, Material.PISTON, 4),
-		
+
 			new MissileBlock(1, 0, 13, Material.SLIME_BLOCK),
 			new MissileBlock(0, 0, 13, Material.TNT),
 			new MissileBlock(1, 0, 14, Material.TNT),
@@ -1174,14 +1174,14 @@ public enum Missile {
 			new MissileBlock(-1, 0, 14, Material.TNT),
 			new MissileBlock(0, 0, 15, Material.TNT),
 			new MissileBlock(-1, 0, 15, Material.TNT),
-		
+
 			new MissileBlock(0, 1, 2, Material.REDSTONE_BLOCK),
 			new MissileBlock(0, 1, 3, Material.SLIME_BLOCK),
 			new MissileBlock(1, 1, 3, Material.OBSERVER, 5),
 			new MissileBlock(0, 1, 4, Material.PISTON, 4),
 			new MissileBlock(1, 1, 4, Material.PISTON, 4),
 			new MissileBlock(0, 1, 2, Material.REDSTONE_BLOCK),
-		
+
 			new MissileBlock(0, 1, 6, Material.HONEY_BLOCK),
 			new MissileBlock(-1, 1, 6, Material.HONEY_BLOCK),
 			new MissileBlock(1, 1, 6, Material.SLIME_BLOCK),
@@ -1200,20 +1200,21 @@ public enum Missile {
 			new MissileBlock(0, 1, 11, Material.PISTON, 4),
 			new MissileBlock(-1, 1, 11, Material.TNT),
 			new MissileBlock(1, 1, 11, Material.TNT),
-		
-			new MissileBlock(1, 0, 13, Material.TNT),
-			new MissileBlock(0, 0, 13, Material.SLIME_BLOCK),
-			new MissileBlock(1, 0, 14, Material.TNT),
-			new MissileBlock(0, 0, 14, Material.TNT),
-			new MissileBlock(-1, 0, 13, Material.TNT),
-			new MissileBlock(1, 0, 15, Material.TNT),
-			new MissileBlock(-1, 0, 14, Material.TNT),
-			new MissileBlock(0, 0, 15, Material.TNT),
-			new MissileBlock(-1, 0, 15, Material.TNT),
-		
-			new MissileBlock(0, 0, 4, Material.PISTON, 4),
-			new MissileBlock(0, 0, 2, Material.TNT),
-			new MissileBlock(0, 0, 3, Material.TNT),
+
+			new MissileBlock(1, 1, 13, Material.TNT),
+			new MissileBlock(0, 1, 13, Material.SLIME_BLOCK),
+			new MissileBlock(1, 1, 14, Material.TNT),
+			new MissileBlock(0, 1, 14, Material.TNT),
+			new MissileBlock(-1, 1, 13, Material.TNT),
+			new MissileBlock(1, 1, 15, Material.TNT),
+			new MissileBlock(-1, 1, 14, Material.TNT),
+			new MissileBlock(0, 1, 15, Material.TNT),
+			new MissileBlock(-1, 1, 15, Material.TNT),
+
+			new MissileBlock(-1, 0, 4, Material.PISTON, 4),
+			new MissileBlock(-1, 0, 2, Material.TNT),
+			new MissileBlock(0, 0, 3, Material.STICKY_PISTON, 5),
+			new MissileBlock(-1, 0, 3, Material.TNT),
 	}),
 	
 	;
