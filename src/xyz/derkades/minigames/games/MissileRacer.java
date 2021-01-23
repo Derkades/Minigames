@@ -93,7 +93,7 @@ public class MissileRacer extends Game<MissileRacerMap> {
 
 	@Override
 	public int getDuration() {
-		return 200;
+		return 300;
 	}
 	
 	private UUID winner;
