@@ -35,6 +35,11 @@ public class HungerGames extends Game<HungerGamesMap> {
 	public String getName() {
 		return "Hunger Games";
 	}
+	
+	@Override
+	public String getAlias() {
+		return "hg";
+	}
 
 	@Override
 	public String[] getDescription() {
