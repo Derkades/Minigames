@@ -23,7 +23,7 @@ import xyz.derkades.minigames.games.maps.GameMap;
 public class GamesListMenu extends IconMenu {
 
 	public GamesListMenu(final Player player) {
-		super(Minigames.getInstance(), "Games list", 6, player);
+		super(Minigames.getInstance(), "Games list", 4, player);
 
 		int slot = 0;
 		for (final Game<? extends GameMap> game : Game.GAMES){
