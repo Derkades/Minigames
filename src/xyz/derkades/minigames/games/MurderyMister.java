@@ -24,6 +24,7 @@ import org.bukkit.scheduler.BukkitTask;
 import net.md_5.bungee.api.ChatColor;
 import xyz.derkades.derkutils.ListUtils;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
+import xyz.derkades.minigames.Logger;
 import xyz.derkades.minigames.Minigames;
 import xyz.derkades.minigames.Var;
 import xyz.derkades.minigames.games.murderymister.MurderyMisterMap;
@@ -60,7 +61,7 @@ public class MurderyMister extends Game<MurderyMisterMap> {
 
 	@Override
 	public int getRequiredPlayers() {
-		return 4;
+		return 3;
 	}
 
 	@Override
@@ -119,7 +120,7 @@ public class MurderyMister extends Game<MurderyMisterMap> {
 						ChatColor.YELLOW + "right click to throw")
 				.enchant(Enchantment.LOYALTY, 1)
 				.create());
-		murderer.getInventory().setHeldItemSlot(6);
+		murderer.getInventory().setHeldItemSlot(1);
 		this.murderer = murderer.getUniqueId();
 
 		this.alive.remove(this.murderer);
@@ -130,6 +131,7 @@ public class MurderyMister extends Game<MurderyMisterMap> {
 		final MPlayer sheriff = all.remove(0);
 		sheriff.giveItem(new ItemBuilder(Material.BOW).unbreakable().create());
 		sheriff.giveItem(new ItemStack(Material.ARROW));
+		sheriff.getInventory().setHeldItemSlot(2);
 
 		this.map.getWorld().setTime(21000);
 
@@ -228,11 +230,11 @@ public class MurderyMister extends Game<MurderyMisterMap> {
 					}
 				}
 				player.die();
-				System.out.println("Sheriff died");
+				Logger.debug("Sheriff died");
 			} else {
 				// Innocent is dead
 				player.die();
-				System.out.println("Innocent died");
+				Logger.debug("Innocent died");
 				if (event.getType().equals(DamageType.ENTITY) && !event.getDamagerPlayer().getUniqueId().equals(this.murderer)) {
 					final MPlayer killer = event.getDamagerPlayer();
 					killer.bukkit().damage(40);
