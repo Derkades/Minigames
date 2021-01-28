@@ -222,7 +222,8 @@ public class MolePvP extends Game<MolePvPMap> {
 
 	@Override
 	public void onPlayerJoin(final MPlayer player) {
-		
+		player.spectator();
+		player.teleport(this.map.getWorld().getSpawnLocation());
 	}
 
 	@Override
