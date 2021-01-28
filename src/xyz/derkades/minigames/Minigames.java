@@ -18,6 +18,7 @@ import net.md_5.bungee.api.ChatColor;
 import xyz.derkades.minigames.games.Game;
 import xyz.derkades.minigames.games.maps.GameMap;
 import xyz.derkades.minigames.task.RegenerateHunger;
+import xyz.derkades.minigames.task.UpdateLeaderboard;
 import xyz.derkades.minigames.utils.MPlayer;
 import xyz.derkades.minigames.utils.Scheduler;
 import xyz.derkades.minigames.utils.SneakPrevention;
@@ -61,7 +62,7 @@ public class Minigames extends JavaPlugin implements Listener {
 		GameMap.init();
 
 		new RegenerateHunger().runTaskTimer(this, 1*20, 1*20);
-		new Points.UpdateLeaderboard().runTaskTimer(this, 2*20, 10*20);
+		Scheduler.repeat(40, 20*30, new UpdateLeaderboard());
 
 		getServer().getPluginManager().registerEvents(new GlobalListeners(), this);
 
