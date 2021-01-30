@@ -133,17 +133,32 @@ public class MPlayer {
 		this.player.teleport(new Location(world, x, y, z));
 	}
 	
-	public boolean yawInBounds(final float min, final float max) {
-		if (min < 0) {
-			if (max == 0) {
-				return getYaw() > min && getYaw() < 0 ||
-						getYaw() > 360 + min && getYaw() < 360;
-			} else {
-				return yawInBounds(min, 0) || yawInBounds(0, max);
-			}
-		} else {
-			return getYaw() > min && getYaw() < max;
+	public BlockFace getFacingAsBlockFace() {
+		float yaw = this.getLocation().getYaw();
+		if (yaw < 0) {
+			yaw += 360;
 		}
+		if (yaw < 45 || yaw >= 315) { // 0, 360
+			return BlockFace.SOUTH; // +Z
+		} else if (yaw >= 45 && yaw < 135) { // 90
+			return BlockFace.WEST; // -X
+		} else if (yaw >= 135 && yaw < 225) { // 180
+			return BlockFace.NORTH; // -Z
+		} else if (yaw >= 225 && yaw < 315) { // 270
+			return BlockFace.EAST; // +X
+		} else {
+			throw new IllegalStateException("Impossible yaw: " + yaw);
+		}
+	}
+	
+	public boolean yawInBounds(final float min, final float max) {
+		float yaw = this.getYaw();
+		if (yaw < -180) {
+			yaw += 360;
+		} else if (yaw > 180) {
+			yaw -= 360;
+		}
+		return yaw > min && yaw < max;
 	}
 
 	public boolean isIn2dBounds(final Location cornerOne, final Location cornerTwo) {
@@ -197,7 +212,6 @@ public class MPlayer {
 	public int getBlockZ() {
 		return getLocation().getBlockZ();
 	}
-
 
     public void setExp(final float exp) {
     	this.player.setExp(exp);
@@ -421,24 +435,6 @@ public class MPlayer {
 
 	public Block getBlockOn() {
 		return getBlockIn().getRelative(BlockFace.DOWN);
-	}
-	
-	public BlockFace getFacingAsBlockFace() {
-		float yaw = this.getLocation().getYaw();
-		if (yaw < 0) {
-			yaw += 360;
-		}
-		if (yaw < 45 || yaw >= 315) { // 0, 360
-			return BlockFace.SOUTH; // +Z
-		} else if (yaw >= 45 && yaw < 135) { // 90
-			return BlockFace.WEST; // -X
-		} else if (yaw >= 135 && yaw < 225) { // 180
-			return BlockFace.NORTH; // -Z
-		} else if (yaw >= 225 && yaw < 315) { // 270
-			return BlockFace.EAST; // +X
-		} else {
-			throw new IllegalStateException("Impossible yaw: " + yaw);
-		}
 	}
 
 	public void playSound(final Sound sound, final float pitch) {
