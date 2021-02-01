@@ -1,5 +1,7 @@
 package xyz.derkades.minigames;
 
+import java.util.Set;
+
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
@@ -17,6 +19,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -137,7 +140,19 @@ public class GlobalListeners implements Listener {
 			new MainMenu(player);
 		}
 	}
-
+	
+	@SuppressWarnings("unchecked")
+	private static final Set<Material>[] CANCEL_INTERACT = new Set[] {
+			MaterialLists.TRAPDOORS,
+			MaterialLists.DOORS,
+			MaterialLists.FENCE_GATES,
+			MaterialLists.POTTED_PLANT,
+	};
+	
+	private static final Set<Material> CANCEL_INTERACT_2 = Set.of(
+			Material.FLOWER_POT
+	);
+	
 	@EventHandler
 	public void onInteract(final PlayerInteractEvent event) {
 		if (event.getPlayer().getGameMode() != GameMode.ADVENTURE) {
@@ -146,7 +161,9 @@ public class GlobalListeners implements Listener {
 
 		final Action action = event.getAction();
 		final Block block = event.getClickedBlock();
-		if (action == Action.RIGHT_CLICK_BLOCK && MaterialLists.isInList(block.getType(), MaterialLists.TRAPDOORS, MaterialLists.DOORS, MaterialLists.FENCE_GATES)) {
+		if (action == Action.RIGHT_CLICK_BLOCK &&
+				(MaterialLists.isInList(block.getType(), CANCEL_INTERACT) ||
+						CANCEL_INTERACT_2.contains(block.getType()))) {
 			event.setCancelled(true);
 		}
 
@@ -157,6 +174,11 @@ public class GlobalListeners implements Listener {
 				new MainMenu(event.getPlayer());
 			}
 		}
+	}
+	
+	@EventHandler
+	public void onChat(final AsyncPlayerChatEvent event) {
+		event.setFormat(Utils.getChatPrefix(ChatColor.AQUA, 'C') + ChatColor.WHITE + "%s: " + ChatColor.GRAY + "%s");
 	}
 
 	@EventHandler
