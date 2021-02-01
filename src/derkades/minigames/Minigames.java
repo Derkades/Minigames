@@ -61,7 +61,7 @@ public class Minigames extends JavaPlugin implements Listener {
 		Var.LOBBY_LOCATION = new Location(Var.WORLD, 219.5, 64, 279.5, 180, 0);
 		GameMap.init();
 
-		new RegenerateHunger().runTaskTimer(this, 1*20, 1*20);
+		new RegenerateHunger().runTaskTimer(this, 40, 40);
 		Scheduler.repeat(20*60, 20*120, new UpdateLeaderboard());
 
 		getServer().getPluginManager().registerEvents(new GlobalListeners(), this);
