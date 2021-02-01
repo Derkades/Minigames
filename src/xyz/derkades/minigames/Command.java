@@ -3,6 +3,7 @@ package xyz.derkades.minigames;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.bukkit.Bukkit;
@@ -25,6 +26,7 @@ import xyz.derkades.derkutils.Random;
 import xyz.derkades.minigames.Minigames.ShutdownReason;
 import xyz.derkades.minigames.games.Game;
 import xyz.derkades.minigames.games.maps.GameMap;
+import xyz.derkades.minigames.games.missile_wars.MissileWarsMap;
 import xyz.derkades.minigames.games.missiles.Missile;
 import xyz.derkades.minigames.games.missiles.Shield;
 import xyz.derkades.minigames.menu.GamesListMenu;
@@ -297,6 +299,30 @@ public class Command implements CommandExecutor {
 					e.printStackTrace();
 				}
 			});
+		}
+		
+		if (args.length >= 1 && args[0].equals("test3") && sender.hasPermission("minigames.test")) {
+			final Set<Material> DONT_REPLACE = Set.of(
+					Material.BARRIER,
+					Material.BEDROCK
+			);
+			final MissileWarsMap map = MissileWarsMap.MAPS[0];
+			final Location min = map.getArenaBorderMin();
+			final Location max = map.getArenaBorderMax();
+			for (int y = max.getBlockY() - 1; y >= 0; y--) {
+				final int finalY = y;
+				TaskQueue.add(() -> {
+					for (int x = min.getBlockX() + 1; x < max.getBlockX(); x++) {
+						for (int z = min.getBlockZ() + 1; z < max.getBlockZ(); z++) {
+							final Block block = map.getWorld().getBlockAt(x, finalY, z);
+							if (!DONT_REPLACE.contains(block.getType())) {
+								block.setType(Material.AIR);
+							}
+						}
+					}
+				});
+			}
+			map.buildArena();
 		}
 
 		return true;
