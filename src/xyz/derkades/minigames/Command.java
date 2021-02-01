@@ -310,41 +310,43 @@ public class Command implements CommandExecutor {
 		if (block.getType() != Material.AIR) {
 			airCounter = 0;
 			
-			if (!MaterialLists.SIGNS.contains(block.getType())) {
-				final String line;
-				switch(block.getType()) {
-					case STICKY_PISTON:
-					case PISTON:
-					case OBSERVER:
-						final BlockFace face = ((Directional) block.getBlockData()).getFacing();
-						String facing;
-						switch(face) {
-						case NORTH:
-							facing = "FRONT"; break;
-						case SOUTH:
-							facing = "BACK"; break;
-						case WEST:
-							facing = "LEFT"; break;
-						case EAST:
-							facing = "RIGHT"; break;
-						case DOWN:
-							facing = "DOWN"; break;
-						case UP:
-							facing = "UP"; break;
-						default:
-							facing = null;
-						}
-						line = String.format("new MissileBlock(%s, %s, %s, Material.%s, %s),", lr, ud, fb, block.getType().name(), facing);
-						break;
+			if (MaterialLists.SIGNS.contains(block.getType())) {
+				return;
+			}
+			
+			final String line;
+			switch(block.getType()) {
+				case STICKY_PISTON:
+				case PISTON:
+				case OBSERVER:
+					final BlockFace face = ((Directional) block.getBlockData()).getFacing();
+					String facing;
+					switch(face) {
+					case NORTH:
+						facing = "FRONT"; break;
+					case SOUTH:
+						facing = "BACK"; break;
+					case WEST:
+						facing = "LEFT"; break;
+					case EAST:
+						facing = "RIGHT"; break;
+					case DOWN:
+						facing = "DOWN"; break;
+					case UP:
+						facing = "UP"; break;
 					default:
-						line = String.format("new MissileBlock(%s, %s, %s, Material.%s),", lr, ud, fb, block.getType().name());
-				}
-				if (lines.containsKey(line)) {
-					return;
-				} else {
-					final int weight = -(fb * 20 + ud + lr);
-					lines.put(line, weight);
-				}
+						facing = null;
+					}
+					line = String.format("new MissileBlock(%s, %s, %s, Material.%s, %s),", lr, ud, fb, block.getType().name(), facing);
+					break;
+				default:
+					line = String.format("new MissileBlock(%s, %s, %s, Material.%s),", lr, ud, fb, block.getType().name());
+			}
+			if (lines.containsKey(line)) {
+				return;
+			} else {
+				final int weight = -(fb * 20 + ud + lr);
+				lines.put(line, weight);
 			}
 		} else {
 			airCounter++;
@@ -353,8 +355,12 @@ public class Command implements CommandExecutor {
 		generateMissileCode(start, fb+1, ud, lr, lines, airCounter);
 		generateMissileCode(start, fb, ud+1, lr, lines, airCounter);
 		generateMissileCode(start, fb, ud-1, lr, lines, airCounter);
-		generateMissileCode(start, fb, ud, lr+1, lines, airCounter);
-		generateMissileCode(start, fb, ud, lr-1, lines, airCounter);
+		if (lr == 0) {
+			generateMissileCode(start, fb, ud, 1, lines, airCounter);
+			generateMissileCode(start, fb, ud, -1, lines, airCounter);
+		} else {
+			generateMissileCode(start, fb, ud, lr > 0 ? lr+1 : lr-1, lines, airCounter);
+		}
 	}
-
+	
 }
