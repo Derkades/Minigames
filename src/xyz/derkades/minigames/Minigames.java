@@ -105,7 +105,7 @@ public class Minigames extends JavaPlugin implements Listener {
 		}
 
 		Scheduler.delay(20, () -> {
-			GameWorld.init();
+//			GameWorld.init();
 
 			if (Bukkit.getOnlinePlayers().size() == 0) {
 				if (!Logger.debugMode) {

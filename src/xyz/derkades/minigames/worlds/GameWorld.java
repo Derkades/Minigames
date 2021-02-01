@@ -1,8 +1,5 @@
 package xyz.derkades.minigames.worlds;
 
-import java.util.Arrays;
-import java.util.stream.Collectors;
-
 import org.bukkit.Bukkit;
 import org.bukkit.Difficulty;
 import org.bukkit.GameRule;
@@ -15,7 +12,6 @@ import xyz.derkades.derkutils.bukkit.VoidGenerator;
 import xyz.derkades.minigames.Logger;
 import xyz.derkades.minigames.Minigames;
 import xyz.derkades.minigames.Minigames.ShutdownReason;
-import xyz.derkades.minigames.Var;
 
 public enum GameWorld {
 
@@ -194,8 +190,8 @@ public enum GameWorld {
 		}
 	}
 
-	public static void init() {
-		Bukkit.getOnlinePlayers().stream().filter((p) -> Arrays.asList(GameWorld.values()).stream().map(GameWorld::getName).collect(Collectors.toList()).contains(p.getWorld().getName())).forEach((p) -> p.teleport(Var.LOBBY_LOCATION));
-	}
+//	public static void init() {
+//		Bukkit.getOnlinePlayers().stream().filter((p) -> Arrays.asList(GameWorld.values()).stream().map(GameWorld::getName).collect(Collectors.toList()).contains(p.getWorld().getName())).forEach((p) -> p.teleport(Var.LOBBY_LOCATION));
+//	}
 
 }
