@@ -35,7 +35,7 @@ public class MissileBlock extends MissileObject {
 	}
 	
 	private static Set<Material> DENY_REPLACE = Set.of(
-			Material.BEDROCK, Material.OBSIDIAN, Material.BARRIER, Material.NETHER_PORTAL
+			Material.BEDROCK, Material.OBSIDIAN, Material.BARRIER, Material.NETHER_PORTAL, Material.VOID_AIR
 	);
 
 	@Override
