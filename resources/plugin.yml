@@ -1,5 +1,5 @@
 name: Minigames
-main: xyz.derkades.minigames.Minigames
+main: derkades.minigames.Minigames
 version: 1.0
 author: Derkades
 authors: [Corrupt_World]
@@ -19,4 +19,3 @@ commands:
   wtp:
   voteskip:
     aliases: [skip]
-  
