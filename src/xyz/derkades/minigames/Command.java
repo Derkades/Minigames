@@ -1,6 +1,8 @@
 package xyz.derkades.minigames;
 
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.bukkit.Bukkit;
@@ -10,6 +12,7 @@ import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.block.data.Directional;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -17,11 +20,13 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
 import net.md_5.bungee.api.ChatColor;
+import xyz.derkades.derkutils.Hastebin;
 import xyz.derkades.derkutils.Random;
 import xyz.derkades.minigames.Minigames.ShutdownReason;
 import xyz.derkades.minigames.games.Game;
 import xyz.derkades.minigames.games.maps.GameMap;
 import xyz.derkades.minigames.games.missiles.Missile;
+import xyz.derkades.minigames.games.missiles.MissileBlock;
 import xyz.derkades.minigames.games.missiles.Shield;
 import xyz.derkades.minigames.menu.GamesListMenu;
 import xyz.derkades.minigames.menu.MainMenu;
@@ -250,8 +255,97 @@ public class Command implements CommandExecutor {
 			}.runTaskTimer(Minigames.getInstance(), 0, 1);
 			return true;
 		}
+		
+		if (args.length >= 1 && args[0].equals("generatemissilecode") && sender.hasPermission("minigames.test")) {
+			final Player player = (Player) sender;
+			player.sendMessage("missile code genereren... LET OP: werkt alleen voor missiles richting NORTH");
+			final Block block = player.getTargetBlockExact(5);
+			if (block == null) {
+				player.sendMessage("kijk naar het beginblok");
+				return true;
+			}
+			
+			final Set<String> lines = new HashSet<>();
+			try {
+				generateMissileCode(block, 0, 0, 0, lines, 0);
+			} catch (final StackOverflowError e) {
+				player.sendMessage("te veel blokken, zorg de missile niet tegen een muur aan zit");
+				return true;
+			}
+			
+			Scheduler.async(() -> {
+				final StringBuilder content = new StringBuilder();
+				lines.stream().sorted().forEach((l) -> {
+					content.append(l);
+					content.append("\n");
+				});
+				try {
+					final String key = Hastebin.createPaste(content.toString(), "paste.derkad.es");
+					final String url = "https://paste.derkad.es/raw/" + key;
+					Scheduler.run(() -> {
+						player.sendMessage(url);
+					});
+				} catch (final Exception e) {
+					Logger.warning(e.getClass() + " " + e.getMessage());
+					Scheduler.run(() -> player.sendMessage("het ging niet goed. Als je HTTP error 400 of 413 krijgt zijn er waarschijnlijk te veel blokken, controleer dat de missile niet tegen een muur aan zit."));
+					e.printStackTrace();
+				}
+			});
+		}
 
 		return true;
+	}
+	
+	public void generateMissileCode(final Block start, final int fb, final int ud, final int lr, final Set<String> lines, int airCounter) {
+		if (airCounter > 3) {
+			return;
+		}
+		
+		final Block block = start.getRelative(lr, ud, -fb);
+		
+		if (block.getType() != Material.AIR) {
+			final String line;
+			switch(block.getType()) {
+				case STICKY_PISTON:
+				case PISTON:
+				case OBSERVER:
+					final BlockFace face = ((Directional) block.getBlockData()).getFacing();
+					Integer facing;
+					switch(face) {
+					case NORTH:
+						facing = MissileBlock.FRONT; break;
+					case SOUTH:
+						facing = MissileBlock.BACK; break;
+					case WEST:
+						facing = MissileBlock.LEFT; break;
+					case EAST:
+						facing = MissileBlock.RIGHT; break;
+					case DOWN:
+						facing = MissileBlock.DOWN; break;
+					case UP:
+						facing = MissileBlock.UP; break;
+					default:
+						facing = null;
+					}
+					line = String.format("new MissileBlock(%s, %s, %s, Material.%s, %s),", fb, ud, lr, block.getType().name(), facing);
+					break;
+				default:
+					line = String.format("new MissileBlock(%s, %s, %s, Material.%s),", fb, ud, lr, block.getType().name());
+			}
+			if (lines.contains(line)) {
+				return;
+			} else {
+				lines.add(line);
+			}
+		} else {
+			airCounter++;
+		}
+		
+		generateMissileCode(start, fb+1, ud, lr, lines, airCounter);
+		generateMissileCode(start, fb, ud+1, lr, lines, airCounter);
+		generateMissileCode(start, fb, ud-1, lr, lines, airCounter);
+		generateMissileCode(start, fb, ud, lr+1, lines, airCounter);
+		generateMissileCode(start, fb, ud, lr-1, lines, airCounter);
 	}
 
 }
