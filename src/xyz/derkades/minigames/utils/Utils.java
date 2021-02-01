@@ -5,11 +5,9 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 import net.md_5.bungee.api.ChatColor;
@@ -64,39 +62,11 @@ public class Utils {
 	    return result;
 	}
 
-	@Deprecated
-	public static void hideForEveryoneElse(final Player player) {
-		Bukkit.getOnlinePlayers().forEach((player2) -> player2.hidePlayer(Minigames.getInstance(), player));
-	}
-
 	public static void showEveryoneToEveryone() {
 		for (final Player player1 : Bukkit.getOnlinePlayers()) {
 			for (final Player player2 : Bukkit.getOnlinePlayers()) {
 				player1.showPlayer(Minigames.getInstance(), player2);
 			}
-		}
-	}
-
-	@Deprecated
-	public static void delayedTeleport(final Location location, final Player... players) {
-		int delay = 0;
-
-		for (final Player player : players) {
-			Scheduler.delay(delay, () -> player.teleport(location));
-			delay +=2;
-		}
-	}
-
-	@Deprecated
-	public static void delayedTeleport(final Location location, final Consumer<Player> runnable, final Player... players) {
-		int delay = 0;
-
-		for (final Player player : players) {
-			Scheduler.delay(delay, () -> {
-				player.teleport(location);
-				runnable.accept(player);
-			});
-			delay +=2;
 		}
 	}
 

@@ -117,30 +117,8 @@ public class UpdateLeaderboard implements Runnable {
 				sign.update();
 			}
 		}
-//				final ChatColor color = ChatColor.WHITE;
-//				final String nickname = array[i].getName();
-				
-//				sign.setLine(j, line);
-//				sign.setLine(0, ChatColor.DARK_GRAY + "[" + ChatColor.GREEN + (i + 1) + ChatColor.DARK_GRAY + "]");
-//				sign.setLine(1, color + nickname);
-//				sign.setLine(2, ChatColor.WHITE + "" + Points.getPoints(array[i]));
-				
-//			}
-//		}
-		
-
-//		for (int i = 0; i < 9; i++) {
-//			final ChatColor color = ChatColor.WHITE;
-//			final String nickname = array[i].getName();
-//			final Sign sign = (Sign) signLocations[i].getBlock().getState();
-//			sign.setLine(0, ChatColor.DARK_GRAY + "[" + ChatColor.GREEN + (i + 1) + ChatColor.DARK_GRAY + "]");
-//			sign.setLine(1, color + nickname);
-//			sign.setLine(2, ChatColor.WHITE + "" + Points.getPoints(array[i]));
-//			sign.update();
-//		}
 
 		final int players = Bukkit.getOfflinePlayers().length;
-//		final int totalPoints = map.values().stream().mapToInt(Integer::intValue).sum();
 		final int gamesPlayed = Minigames.getInstance().getConfig().getInt("last-game-number");
 
 		final Sign globalStats = (Sign) new Location(Var.LOBBY_WORLD, 221, 65, 280).getBlock().getState();
