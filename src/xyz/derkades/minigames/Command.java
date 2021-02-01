@@ -307,6 +307,7 @@ public class Command implements CommandExecutor {
 		final Block block = start.getRelative(lr, ud, -fb);
 		
 		if (block.getType() != Material.AIR) {
+			airCounter = 0;
 			final String line;
 			switch(block.getType()) {
 				case STICKY_PISTON:
