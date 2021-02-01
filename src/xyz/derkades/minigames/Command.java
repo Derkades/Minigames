@@ -26,7 +26,6 @@ import xyz.derkades.minigames.Minigames.ShutdownReason;
 import xyz.derkades.minigames.games.Game;
 import xyz.derkades.minigames.games.maps.GameMap;
 import xyz.derkades.minigames.games.missiles.Missile;
-import xyz.derkades.minigames.games.missiles.MissileBlock;
 import xyz.derkades.minigames.games.missiles.Shield;
 import xyz.derkades.minigames.menu.GamesListMenu;
 import xyz.derkades.minigames.menu.MainMenu;
@@ -310,20 +309,20 @@ public class Command implements CommandExecutor {
 				case PISTON:
 				case OBSERVER:
 					final BlockFace face = ((Directional) block.getBlockData()).getFacing();
-					Integer facing;
+					String facing;
 					switch(face) {
 					case NORTH:
-						facing = MissileBlock.FRONT; break;
+						facing = "FRONT"; break;
 					case SOUTH:
-						facing = MissileBlock.BACK; break;
+						facing = "BACK"; break;
 					case WEST:
-						facing = MissileBlock.LEFT; break;
+						facing = "LEFT"; break;
 					case EAST:
-						facing = MissileBlock.RIGHT; break;
+						facing = "RIGHT"; break;
 					case DOWN:
-						facing = MissileBlock.DOWN; break;
+						facing = "DOWN"; break;
 					case UP:
-						facing = MissileBlock.UP; break;
+						facing = "UP"; break;
 					default:
 						facing = null;
 					}
