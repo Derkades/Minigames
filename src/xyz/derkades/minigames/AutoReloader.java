@@ -35,7 +35,7 @@ public class AutoReloader {
 			Scheduler.async(() -> {
 				if (this.file.exists() && this.file.lastModified() > this.lastModified) {
 					Bukkit.broadcastMessage("Plugin changed, reloading!");
-					Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "rl confirm");
+					Scheduler.run(() -> Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "rl confirm"));
 				}
 			});
 		});
