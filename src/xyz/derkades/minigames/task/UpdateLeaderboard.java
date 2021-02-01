@@ -30,10 +30,12 @@ public class UpdateLeaderboard implements Runnable {
 	
 	@Override
 	public void run() {
+		
 		final int lastGameNumber = Minigames.getInstance().getConfig().getInt("last-game-number");
 		
 		// Retrieve game info from files async
 		Scheduler.async(() -> {
+			final long readStart = System.currentTimeMillis();
 			final Map<UUID, Integer> winsByUuid = new HashMap<>();
 			for (int i = lastGameNumber-100; i <= lastGameNumber; i++) {
 				final File file = new File("game_results", i + ".json");
@@ -49,10 +51,13 @@ public class UpdateLeaderboard implements Runnable {
 					e.printStackTrace();
 				}
 			}
+			final long readEndSortStart = System.currentTimeMillis();
 			
 			final Map<UUID, Integer> sorted = Utils.sortByValue(winsByUuid);
+			final long sortEnd = System.currentTimeMillis();
 			
 			Scheduler.run(() -> {
+				final long fillStart = System.currentTimeMillis();
 				final String[][] leaderboard = new String[3][12];
 				leaderboard[0][0] = ChatColor.GREEN + "Username";
 				leaderboard[1][0] = ChatColor.GREEN + "Recent wins";
@@ -73,7 +78,17 @@ public class UpdateLeaderboard implements Runnable {
 					}
 				}
 				
+				final long fillEndRenderStart = System.currentTimeMillis();
+				
 				renderLeaderboard(leaderboard);
+				
+				final long renderEnd = System.currentTimeMillis();
+				
+				Logger.debug("Updated leaderboard - %sms read %sms sort %sms fill %sms render",
+						readEndSortStart - readStart,
+						sortEnd - readEndSortStart,
+						fillEndRenderStart - fillStart,
+						renderEnd - fillEndRenderStart);
 			});
 		});
 	}

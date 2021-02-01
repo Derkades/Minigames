@@ -62,7 +62,7 @@ public class Minigames extends JavaPlugin implements Listener {
 		GameMap.init();
 
 		new RegenerateHunger().runTaskTimer(this, 1*20, 1*20);
-		Scheduler.repeat(40, 20*30, new UpdateLeaderboard());
+		Scheduler.repeat(20*60, 20*120, new UpdateLeaderboard());
 
 		getServer().getPluginManager().registerEvents(new GlobalListeners(), this);
 
