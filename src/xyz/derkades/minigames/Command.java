@@ -22,7 +22,6 @@ import org.bukkit.util.Vector;
 import net.md_5.bungee.api.ChatColor;
 import xyz.derkades.derkutils.Hastebin;
 import xyz.derkades.derkutils.Random;
-import xyz.derkades.derkutils.bukkit.MaterialLists;
 import xyz.derkades.minigames.Minigames.ShutdownReason;
 import xyz.derkades.minigames.games.Game;
 import xyz.derkades.minigames.games.maps.GameMap;
@@ -280,6 +279,9 @@ public class Command implements CommandExecutor {
 			Scheduler.async(() -> {
 				final StringBuilder content = new StringBuilder();
 				Utils.sortByValue(lines).forEach((l, weight) -> {
+					if (l.contains("SIGN") || l.contains("OBSIDIAN")) {
+						return;
+					}
 					content.append(l);
 					content.append("\n");
 				});
@@ -309,10 +311,6 @@ public class Command implements CommandExecutor {
 		
 		if (block.getType() != Material.AIR) {
 			airCounter = 0;
-			
-			if (MaterialLists.SIGNS.contains(block.getType())) {
-				return;
-			}
 			
 			final String line;
 			switch(block.getType()) {
