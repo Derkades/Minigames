@@ -390,6 +390,7 @@ public class MPlayer {
 	}
 
 	public void heal() {
+		this.removeFire();
 		this.player.setHealth(this.player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue());
 	}
 
