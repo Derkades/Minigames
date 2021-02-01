@@ -2,6 +2,7 @@ package xyz.derkades.minigames.games;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 import org.bukkit.GameMode;
@@ -47,6 +48,11 @@ public class MissileWars extends Game<MissileWarsMap> {
 		return 300;
 	}
 	
+	private static final Set<Material> DONT_REPLACE = Set.of(
+			Material.BARRIER,
+			Material.BEDROCK
+	);
+
 	private Map<UUID, GameTeam> teams = null;
 
 	@Override
@@ -68,7 +74,7 @@ public class MissileWars extends Game<MissileWarsMap> {
 				for (int x = min.getBlockX() + 1; x < max.getBlockX(); x++) {
 					for (int z = min.getBlockZ() + 1; z < max.getBlockZ(); z++) {
 						final Block block = this.map.getWorld().getBlockAt(x, finalY, z);
-						if (block.getType() != Material.BARRIER) {
+						if (!DONT_REPLACE.contains(block.getType())) {
 							block.setType(Material.AIR);
 						}
 					}
