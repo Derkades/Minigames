@@ -1,8 +1,8 @@
 package xyz.derkades.minigames;
 
 import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.bukkit.Bukkit;
@@ -33,6 +33,7 @@ import xyz.derkades.minigames.menu.StatsMenu;
 import xyz.derkades.minigames.random.RandomPicking;
 import xyz.derkades.minigames.utils.MPlayer;
 import xyz.derkades.minigames.utils.Scheduler;
+import xyz.derkades.minigames.utils.Utils;
 import xyz.derkades.minigames.utils.queue.TaskQueue;
 import xyz.derkades.minigames.worlds.GameWorld;
 
@@ -267,7 +268,7 @@ public class Command implements CommandExecutor {
 				return true;
 			}
 			
-			final Set<String> lines = new HashSet<>();
+			final Map<String, Integer> lines = new HashMap<>();
 			try {
 				generateMissileCode(block, 0, 0, 0, lines, 0);
 			} catch (final StackOverflowError e) {
@@ -277,7 +278,7 @@ public class Command implements CommandExecutor {
 			
 			Scheduler.async(() -> {
 				final StringBuilder content = new StringBuilder();
-				lines.stream().sorted().forEach((l) -> {
+				Utils.sortByValue(lines).forEach((l, weight) -> {
 					content.append(l);
 					content.append("\n");
 				});
@@ -298,7 +299,7 @@ public class Command implements CommandExecutor {
 		return true;
 	}
 	
-	public void generateMissileCode(final Block start, final int fb, final int ud, final int lr, final Set<String> lines, int airCounter) {
+	public void generateMissileCode(final Block start, final int fb, final int ud, final int lr, final Map<String, Integer> lines, int airCounter) {
 		if (airCounter > 3) {
 			return;
 		}
@@ -329,15 +330,16 @@ public class Command implements CommandExecutor {
 					default:
 						facing = null;
 					}
-					line = String.format("new MissileBlock(%s, %s, %s, Material.%s, %s),", fb, ud, lr, block.getType().name(), facing);
+					line = String.format("new MissileBlock(%s, %s, %s, Material.%s, %s),", lr, ud, fb, block.getType().name(), facing);
 					break;
 				default:
-					line = String.format("new MissileBlock(%s, %s, %s, Material.%s),", fb, ud, lr, block.getType().name());
+					line = String.format("new MissileBlock(%s, %s, %s, Material.%s),", lr, ud, fb, block.getType().name());
 			}
-			if (lines.contains(line)) {
+			if (lines.containsKey(line)) {
 				return;
 			} else {
-				lines.add(line);
+				final int weight = -(fb * 20 + ud + lr);
+				lines.put(line, weight);
 			}
 		} else {
 			airCounter++;
