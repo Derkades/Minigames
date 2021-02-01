@@ -1,7 +1,7 @@
 package xyz.derkades.minigames.games;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
@@ -57,13 +57,13 @@ public class CreeperAttack extends Game<CreeperAttackMap> {
 		return 60;
 	}
 
-	private List<UUID> alive;
+	private Set<UUID> alive;
 
 	private int numberOfCreepers = 1;
 
 	@Override
 	public void onPreStart() {
-		this.alive = new ArrayList<>();
+		this.alive = new HashSet<>();
 		this.numberOfCreepers = 1;
 
 		final ItemStack knockbackStick = new ItemBuilder(Material.STICK)

@@ -3,7 +3,6 @@ package xyz.derkades.minigames.games;
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -55,7 +54,7 @@ public class TntRun extends Game<TNTMap> {
 		return 150;
 	}
 
-	private List<UUID> alive;
+	private Set<UUID> alive;
 	private Set<Block> removedBlocks;
 
 	@Override
@@ -71,7 +70,7 @@ public class TntRun extends Game<TNTMap> {
 
 	@Override
 	public void onStart() {
-		this.alive = Utils.getOnlinePlayersUuidList();
+		this.alive = Utils.getOnlinePlayersUuidSet();
 	}
 
 	@Override

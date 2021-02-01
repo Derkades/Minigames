@@ -12,7 +12,6 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -332,14 +331,14 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 	}
 
 	protected void endGame() {
-		this.endGame(Arrays.asList());
+		this.endGame(Collections.emptySet());
 	}
 
 	protected void endGame(final UUID winner) {
-		this.endGame(Arrays.asList(winner));
+		this.endGame(Collections.singleton(winner));
 	}
 
-	protected void endGame(final List<UUID> winners, final boolean multipleWinnersIsNoWinner) {
+	protected void endGame(final Set<UUID> winners, final boolean multipleWinnersIsNoWinner) {
 		if (!multipleWinnersIsNoWinner) {
 			endGame(winners);
 			return;
@@ -348,11 +347,11 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 		if (winners.size() == 1) {
 			endGame(winners);
 		} else {
-			endGame(new ArrayList<>());
+			endGame();
 		}
 	}
 
-	protected void endGame(final List<UUID> winners) {
+	protected void endGame(final Set<UUID> winners) {
 		Minigames.CURRENT_GAME = null;
 		HandlerList.unregisterAll(this); // Unregister events
 		this.gameSkipVotes = null;

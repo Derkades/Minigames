@@ -1,6 +1,6 @@
 package xyz.derkades.minigames.games;
 
-import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
@@ -60,13 +60,13 @@ public class Platform extends Game<PlatformMap> {
 		return 40;
 	}
 
-	private List<UUID> alive;
+	private Set<UUID> alive;
 
 	private boolean started;
 
 	@Override
 	public void onPreStart() {
-		this.alive = Utils.getOnlinePlayersUuidList();
+		this.alive = Utils.getOnlinePlayersUuidSet();
 
 		this.started = false;
 

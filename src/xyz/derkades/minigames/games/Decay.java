@@ -2,6 +2,7 @@ package xyz.derkades.minigames.games;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 import org.bukkit.Location;
@@ -61,12 +62,12 @@ public class Decay extends Game<DecayMap> {
 	}
 	
 	private List<Location> blocks;
-	private List<UUID> winners;
+	private Set<UUID> winners;
 	
 	@Override
 	public void onPreStart() {
 		this.blocks = new ArrayList<>();
-		this.winners = Utils.getOnlinePlayersUuidList();
+		this.winners = Utils.getOnlinePlayersUuidSet();
 		
 		for (final Location loc : this.map.getBlocks()) {
 			loc.getBlock().setType(BLOCK_TYPES[0]);

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Consumer;
@@ -101,14 +102,14 @@ public class Leaderboard {
 		return getAndIncrementScore(player) + 1;
 	}
 	
-	public List<UUID> getWinners() {
+	public Set<UUID> getWinners() {
 		return Winners.fromPointsMap(this.points);
 	}
 	
-	public List<UUID> getWinnersPrintHide(final Game<?> game) {
+	public Set<UUID> getWinnersPrintHide(final Game<?> game) {
 		this.hide();
 		this.printToChat(game);
-		return Winners.fromPointsMap(this.points);
+		return getWinners();
 	}
 	
 	public void printToChat(final Game<?> game) {

@@ -1,7 +1,7 @@
 package xyz.derkades.minigames.games;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 import org.bukkit.GameMode;
@@ -56,11 +56,11 @@ public class Dropper extends Game<DropperMap> {
 	private static final String FINISHED = "%s finished.";
 	private static final String FINISHED_FIRST = "%s finished first and got 1 extra point!";
 
-	private List<UUID> finished;
+	private Set<UUID> finished;
 
 	@Override
 	public void onPreStart() {
-		this.finished = new ArrayList<>();
+		this.finished = new HashSet<>();
 
 		this.map.closeDoor();
 

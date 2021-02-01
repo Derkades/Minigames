@@ -1,6 +1,6 @@
 package xyz.derkades.minigames.games;
 
-import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
@@ -71,7 +71,7 @@ public class RegeneratingSpleef extends Game<SpleefMap> {
 		return 60;
 	}
 
-	private List<UUID> alive;
+	private Set<UUID> alive;
 
 	@Override
 	public void onPreStart() {
@@ -84,13 +84,12 @@ public class RegeneratingSpleef extends Game<SpleefMap> {
 
 	@Override
 	public void onStart() {
-		this.alive = Utils.getOnlinePlayersUuidList();
+		this.alive = Utils.getOnlinePlayersUuidSet();
 
 		final ItemStack shovel = new ItemBuilder(Material.DIAMOND_SHOVEL)
 				.name("Spleefanator 8000")
 				.enchant(Enchantment.DIG_SPEED, 5)
 				.unbreakable()
-//				.canDestroy("snow_block")
 				.canDestroy(Material.SNOW_BLOCK)
 				.create();
 

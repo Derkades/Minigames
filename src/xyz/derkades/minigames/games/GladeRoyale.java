@@ -1,6 +1,6 @@
 package xyz.derkades.minigames.games;
 
-import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -70,7 +70,7 @@ public class GladeRoyale extends Game<GladeRoyaleMap> {
 
 	private int currentBorderSize = 0;
 
-	private List<UUID> alive;
+	private Set<UUID> alive;
 	private boolean gameEnded = false;
 
 	@Override
@@ -78,7 +78,7 @@ public class GladeRoyale extends Game<GladeRoyaleMap> {
 		this.currentBorderSize = this.map.getWorldborderSize();
 
 		this.gameEnded = false;
-		this.alive = Utils.getOnlinePlayersUuidList();
+		this.alive = Utils.getOnlinePlayersUuidSet();
 
 		final WorldBorder border = this.map.getWorld().getWorldBorder();
 		border.setCenter(this.map.getMapCenter());

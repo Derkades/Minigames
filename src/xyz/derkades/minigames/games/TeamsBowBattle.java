@@ -1,7 +1,7 @@
 package xyz.derkades.minigames.games;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 import java.util.function.Predicate;
 
@@ -54,15 +54,15 @@ public class TeamsBowBattle extends Game<TeamsBowBattleMap> {
 		return 120;
 	}
 
-	private List<UUID> dead;
-	private List<UUID> teamRed;
-	private List<UUID> teamBlue;
+	private Set<UUID> dead;
+	private Set<UUID> teamRed;
+	private Set<UUID> teamBlue;
 
 	@Override
 	public void onPreStart() {
-		this.dead = new ArrayList<>();
-		this.teamRed = new ArrayList<>();
-		this.teamBlue = new ArrayList<>();
+		this.dead = new HashSet<>();
+		this.teamRed = new HashSet<>();
+		this.teamBlue = new HashSet<>();
 
 		boolean team = false;
 
@@ -108,7 +108,7 @@ public class TeamsBowBattle extends Game<TeamsBowBattleMap> {
 			TeamsBowBattle.super.endGame(TeamsBowBattle.this.teamBlue);
 		} else {
 			// both teams are still alive
-			TeamsBowBattle.super.endGame(new ArrayList<>());
+			TeamsBowBattle.super.endGame();
 		}
 
 		this.dead = null;

@@ -1,6 +1,6 @@
 package xyz.derkades.minigames.games;
 
-import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 import org.bukkit.Location;
@@ -52,7 +52,7 @@ public class FreeFall extends Game<FreeFallMap> {
 	}
 
 	private int layerHeight;
-	private List<UUID> winners;
+	private Set<UUID> winners;
 
 	@Override
 	public void onPreStart() {

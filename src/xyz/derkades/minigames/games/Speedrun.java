@@ -1,7 +1,7 @@
 package xyz.derkades.minigames.games;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 import org.bukkit.Material;
@@ -54,11 +54,11 @@ public class Speedrun extends Game<SpeedrunMap> {
 		return 50;
 	}
 
-	private List<UUID> finished;
+	private Set<UUID> finished;
 
 	@Override
 	public void onPreStart() {
-		this.finished = new ArrayList<>();
+		this.finished = new HashSet<>();
 
 		for (final MPlayer player : Minigames.getOnlinePlayers()){
 			player.queueTeleport(this.map.getStartLocation());

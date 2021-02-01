@@ -1,9 +1,9 @@
 package xyz.derkades.minigames.games;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
@@ -64,17 +64,17 @@ public class ControlPoints extends Game<ControlPointsMap> {
 		return 200;
 	}
 	
-	private List<UUID> teamRed;
-	private List<UUID> teamBlue;
-	private List<UUID> winners;
+	private Set<UUID> teamRed;
+	private Set<UUID> teamBlue;
+	private Set<UUID> winners;
 	private Map<Integer, Integer> status; // more negative = blue, more positive = red
 	private BossBar barRed;
 	private BossBar barBlue;
 	
 	@Override
 	public void onPreStart() {
-		this.teamRed = new ArrayList<>();
-		this.teamBlue = new ArrayList<>();
+		this.teamRed = new HashSet<>();
+		this.teamBlue = new HashSet<>();
 		this.status = new HashMap<>();
 		
 		this.barRed = Bukkit.createBossBar("Red", BarColor.RED, BarStyle.SOLID);

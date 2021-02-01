@@ -1,43 +1,35 @@
 package xyz.derkades.minigames.utils;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
-
 public class Winners {
 
-	public static List<UUID> fromPointsMap(final Map<UUID, Integer> points){
+	public static Set<UUID> fromPointsMap(final Map<UUID, Integer> points){
 		if (points == null || points.isEmpty()) {
-			return new ArrayList<>();
+			return Collections.emptySet();
 		}
 
 		final int maxPoints = Collections.max(points.values());
 
 		if (maxPoints == 0) {
-			return new ArrayList<>();
+			return Collections.emptySet();
 		}
 
 		return points.entrySet().stream().filter(e -> e.getValue() == maxPoints)
 				.map(Entry::getKey)
-				.collect(Collectors.toList());
+				.collect(Collectors.toSet());
 	}
 
-	@Deprecated
-	public static List<Player> getPlayerListFromUUIDList(final List<UUID> list){
-		return list.stream().map(Bukkit::getPlayer).filter(p -> p != null).collect(Collectors.toList());
-	}
-
-	public static List<UUID> fromDead(final List<UUID> dead, final List<UUID> all, final boolean multipleWinnersAllowed){
-		final List<UUID> winners = all.stream()
+	public static Set<UUID> fromDead(final List<UUID> dead, final List<UUID> all, final boolean multipleWinnersAllowed){
+		final Set<UUID> winners = all.stream()
 				.filter(p -> !dead.contains(p))
-				.collect(Collectors.toList());
+				.collect(Collectors.toSet());
 
 		if (multipleWinnersAllowed) {
 			return winners;
@@ -46,20 +38,7 @@ public class Winners {
 		if (winners.size() == 1) {
 			return winners;
 		} else {
-			return new ArrayList<>();
-		}
-	}
-
-	@Deprecated
-	public static List<UUID> fromAlive(final List<UUID> alive, final boolean multipleWinnersAllowed){
-		if (multipleWinnersAllowed) {
-			return alive;
-		}
-
-		if (alive.size() == 1) {
-			return alive;
-		} else {
-			return new ArrayList<>();
+			return Collections.emptySet();
 		}
 	}
 

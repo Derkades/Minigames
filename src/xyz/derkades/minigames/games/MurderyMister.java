@@ -1,7 +1,7 @@
 package xyz.derkades.minigames.games;
 
-import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
@@ -75,7 +75,7 @@ public class MurderyMister extends Game<MurderyMisterMap> {
 	}
 
 	private UUID murderer;
-	private List<UUID> alive; // All alive players, except murderer
+	private Set<UUID> alive; // All alive players, except murderer
 	private BukkitTask arrowRemoveTask;
 
 	private boolean murdererDead;
@@ -83,7 +83,7 @@ public class MurderyMister extends Game<MurderyMisterMap> {
 	@Override
 	public void onPreStart() {
 		this.murderer = null;
-		this.alive = Utils.getOnlinePlayersUuidList();
+		this.alive = Utils.getOnlinePlayersUuidSet();
 		this.murdererDead = false;
 
 		this.arrowRemoveTask = new ArrowRemoveTask().runTaskTimer(Minigames.getInstance(), 1, 1);
@@ -171,7 +171,7 @@ public class MurderyMister extends Game<MurderyMisterMap> {
 		if (this.murdererDead) {
 			super.endGame(this.alive);
 		} else {
-			super.endGame(Collections.singletonList(this.murderer));
+			super.endGame(this.murderer);
 		}
 		this.murderer = null;
 		this.alive = null;

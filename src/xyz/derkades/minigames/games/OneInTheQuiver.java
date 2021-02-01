@@ -1,6 +1,6 @@
 package xyz.derkades.minigames.games;
 
-import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 import org.bukkit.GameMode;
@@ -79,13 +79,13 @@ public class OneInTheQuiver extends Game<OITQMap> {
 		return 120;
 	}
 
-	private List<UUID> alive;
+	private Set<UUID> alive;
 
 	private BukkitTask arrowRemoveTask;
 
 	@Override
 	public void onPreStart() {
-		this.alive = Utils.getOnlinePlayersUuidList();
+		this.alive = Utils.getOnlinePlayersUuidSet();
 		this.arrowRemoveTask = new ArrowRemoveTask().runTaskTimer(Minigames.getInstance(), 1, 1);
 
 		for (final MPlayer player : Minigames.getOnlinePlayers()) {

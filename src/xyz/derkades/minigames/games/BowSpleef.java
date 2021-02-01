@@ -1,7 +1,7 @@
 package xyz.derkades.minigames.games;
 
 import java.util.Arrays;
-import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 import org.bukkit.Material;
@@ -59,11 +59,11 @@ public class BowSpleef extends Game<BowSpleefMap> {
 		return 100;
 	}
 
-	private List<UUID> alive;
+	private Set<UUID> alive;
 
 	@Override
 	public void onPreStart() {
-		this.alive = Utils.getOnlinePlayersUuidList();
+		this.alive = Utils.getOnlinePlayersUuidSet();
 
 		this.map.restoreLayers();
 

@@ -1,7 +1,7 @@
 package xyz.derkades.minigames.games;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 import org.bukkit.ChatColor;
@@ -27,8 +27,6 @@ public class IcyBlowback extends Game<IcyBlowbackMap> {
 			.name(ChatColor.AQUA + "Knockback sword")
 			.enchant(Enchantment.KNOCKBACK, 2)
 			.create();
-
-	private List<UUID> alive;
 
 	@Override
 	public String getIdentifier() {
@@ -61,10 +59,12 @@ public class IcyBlowback extends Game<IcyBlowbackMap> {
 	public int getDuration() {
 		return 100;
 	}
+	
+	private Set<UUID> alive;
 
 	@Override
 	public void onPreStart() {
-		this.alive = new ArrayList<>();
+		this.alive = new HashSet<>();
 
 		final Location[] spawnLocations = this.map.getSpawnLocations();
 		int index = 0;
