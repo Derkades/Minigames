@@ -37,19 +37,24 @@ public class MissileWars extends MissileWarsMap {
 
 	@Override
 	public void buildArena() {
-		TaskQueue.add(() -> BlockUtils.fillArea(this.getWorld(), -39, 63, 56, 36, 27, 52, Material.WHITE_STAINED_GLASS));
-		TaskQueue.add(() -> BlockUtils.fillArea(this.getWorld(), -39, 63, 50, 36, 27, 46, Material.LIGHT_BLUE_STAINED_GLASS));
-		TaskQueue.add(() -> BlockUtils.fillArea(this.getWorld(), -39, 63, 44, 36, 27, 40, Material.BLUE_STAINED_GLASS));
-		TaskQueue.add(() -> BlockUtils.fillArea(this.getWorld(), -39, 63, -45, 36, 27, -41, Material.RED_STAINED_GLASS));
-		TaskQueue.add(() -> BlockUtils.fillArea(this.getWorld(), -39, 63, -51, 36, 27, -47, Material.ORANGE_STAINED_GLASS));
-		TaskQueue.add(() -> BlockUtils.fillArea(this.getWorld(), -39, 63, -57, 36, 27, -53, Material.WHITE_STAINED_GLASS));
+		TaskQueue.add(() -> BlockUtils.fillArea(this.getWorld(), -39, 63, 62, 36, 27, 57, Material.WHITE_STAINED_GLASS));
+		TaskQueue.add(() -> BlockUtils.fillArea(this.getWorld(), -39, 63, 55, 36, 27, 50, Material.LIGHT_BLUE_STAINED_GLASS));
+		TaskQueue.add(() -> BlockUtils.fillArea(this.getWorld(), -39, 63, 48, 36, 27, 43, Material.BLUE_STAINED_GLASS));
 		
-		for (final int z : new int[] {58, -59}) {
-			TaskQueue.add(() -> BlockUtils.fillArea(this.getWorld(), -39, 27, z, 36, 27, z, Material.OBSIDIAN)); // portal neg x
-			TaskQueue.add(() -> BlockUtils.fillArea(this.getWorld(), -39, 63, z, 36, 63, z, Material.OBSIDIAN)); // portal pos x
-			TaskQueue.add(() -> BlockUtils.fillArea(this.getWorld(), -39, 27, z, -39, 63, z, Material.OBSIDIAN)); // portal upper
-			TaskQueue.add(() -> BlockUtils.fillArea(this.getWorld(), 36, 27, z, 36, 63, z, Material.OBSIDIAN)); // portal lower
-			TaskQueue.add(() -> BlockUtils.fillArea(this.getWorld(), -38, 28, z, 35, 62, z, Material.NETHER_PORTAL)); // portal inner
+		TaskQueue.add(() -> BlockUtils.fillArea(this.getWorld(), -39, 63, -63, 36, 27, -58, Material.WHITE_STAINED_GLASS));
+		TaskQueue.add(() -> BlockUtils.fillArea(this.getWorld(), -39, 63, -56, 36, 27, -51, Material.ORANGE_STAINED_GLASS));
+		TaskQueue.add(() -> BlockUtils.fillArea(this.getWorld(), -39, 63, -49, 36, 27, -44, Material.RED_STAINED_GLASS));
+		
+		for (final int z : new int[] { 66, -67 }) {
+			for (final int x : new int[] { -39, 36}) {
+				TaskQueue.add(() -> BlockUtils.fillArea(this.getWorld(), x, 28, z, x, 62, z, Material.OBSIDIAN));
+			}
+
+			for (final int y : new int[] { 27, 33, 39, 45, 51, 57, 63}) {
+				TaskQueue.add(() -> BlockUtils.fillArea(this.getWorld(), -39, y, z, 36, y, z, Material.OBSIDIAN));
+			}
+			TaskQueue.add(() -> BlockUtils.fillArea(this.getWorld(), -38, 28, z, 35, 62, z, Material.NETHER_PORTAL,
+					(b) -> !b.getType().equals(Material.OBSIDIAN))); // portal inner
 		}
 	}
 
