@@ -64,6 +64,7 @@ public class SpawnZombieShooter {
 			int killCount = Minigames.getInstance().getConfig().getInt("zombie-kill-count", 0);
 			Minigames.getInstance().getConfig().set("zombie-kill-count", ++killCount);
 			Minigames.getInstance().saveConfig();
+			UpdateSigns.updateGlobalStats();
 		}
 		
 	}

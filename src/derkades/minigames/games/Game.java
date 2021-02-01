@@ -37,12 +37,13 @@ import org.bukkit.util.Vector;
 import com.google.gson.stream.JsonWriter;
 
 import derkades.minigames.AutoRotate;
-import derkades.minigames.Logger;
-import derkades.minigames.Minigames;
-import derkades.minigames.Var;
 import derkades.minigames.ChatPoll.Poll;
 import derkades.minigames.ChatPoll.PollAnswer;
+import derkades.minigames.Logger;
+import derkades.minigames.Minigames;
 import derkades.minigames.Minigames.ShutdownReason;
+import derkades.minigames.UpdateSigns;
+import derkades.minigames.Var;
 import derkades.minigames.constants.SkipConfig;
 import derkades.minigames.constants.VoteConfig;
 import derkades.minigames.games.maps.GameMap;
@@ -415,6 +416,10 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 				player.applyLobbySettings();
 			});
 		}
+		
+		Scheduler.delay(5*20, () -> {
+			UpdateSigns.updateLeaderboard();
+		});
 		
 		Scheduler.delay(10*20, () -> {
 			AutoRotate.startNewRandomGame();

@@ -17,7 +17,6 @@ import de.tr7zw.changeme.nbtapi.utils.MinecraftVersion;
 import derkades.minigames.games.Game;
 import derkades.minigames.games.maps.GameMap;
 import derkades.minigames.task.RegenerateHunger;
-import derkades.minigames.task.UpdateLeaderboard;
 import derkades.minigames.utils.MPlayer;
 import derkades.minigames.utils.Scheduler;
 import derkades.minigames.utils.SneakPrevention;
@@ -62,7 +61,6 @@ public class Minigames extends JavaPlugin implements Listener {
 		GameMap.init();
 
 		new RegenerateHunger().runTaskTimer(this, 40, 40);
-		Scheduler.repeat(20*60, 20*120, new UpdateLeaderboard());
 
 		getServer().getPluginManager().registerEvents(new GlobalListeners(), this);
 

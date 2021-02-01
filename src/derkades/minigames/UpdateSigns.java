@@ -1,4 +1,4 @@
-package derkades.minigames.task;
+package derkades.minigames;
 
 import java.io.File;
 import java.io.FileReader;
@@ -18,19 +18,28 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
-import derkades.minigames.Logger;
-import derkades.minigames.Minigames;
-import derkades.minigames.Var;
 import derkades.minigames.games.Game;
 import derkades.minigames.utils.Scheduler;
 import derkades.minigames.utils.Utils;
 import net.md_5.bungee.api.ChatColor;
 
-public class UpdateLeaderboard implements Runnable {
+public class UpdateSigns {
 	
-	@Override
-	public void run() {
-		
+	private static final Location[][] LEADERBOARD_SIGNS = new Location[3][3];
+	
+	static {
+		LEADERBOARD_SIGNS[0][0] = new Location(Var.LOBBY_WORLD, 225, 66, 273);
+		LEADERBOARD_SIGNS[0][1] = new Location(Var.LOBBY_WORLD, 225, 65, 273);
+		LEADERBOARD_SIGNS[0][2] = new Location(Var.LOBBY_WORLD, 225, 64, 273);
+		LEADERBOARD_SIGNS[1][0] = new Location(Var.LOBBY_WORLD, 225, 66, 274);
+		LEADERBOARD_SIGNS[1][1] = new Location(Var.LOBBY_WORLD, 225, 65, 274);
+		LEADERBOARD_SIGNS[1][2] = new Location(Var.LOBBY_WORLD, 225, 64, 274);
+		LEADERBOARD_SIGNS[2][0] = new Location(Var.LOBBY_WORLD, 225, 66, 275);
+		LEADERBOARD_SIGNS[2][1] = new Location(Var.LOBBY_WORLD, 225, 65, 275);
+		LEADERBOARD_SIGNS[2][2] = new Location(Var.LOBBY_WORLD, 225, 64, 275);
+	}
+	
+	public static void updateLeaderboard() {
 		final int lastGameNumber = Minigames.getInstance().getConfig().getInt("last-game-number");
 		
 		// Retrieve game info from files async
@@ -93,21 +102,7 @@ public class UpdateLeaderboard implements Runnable {
 		});
 	}
 	
-	private static final Location[][] LEADERBOARD_SIGNS = new Location[3][3];
-	
-	static {
-		LEADERBOARD_SIGNS[0][0] = new Location(Var.LOBBY_WORLD, 225, 66, 273);
-		LEADERBOARD_SIGNS[0][1] = new Location(Var.LOBBY_WORLD, 225, 65, 273);
-		LEADERBOARD_SIGNS[0][2] = new Location(Var.LOBBY_WORLD, 225, 64, 273);
-		LEADERBOARD_SIGNS[1][0] = new Location(Var.LOBBY_WORLD, 225, 66, 274);
-		LEADERBOARD_SIGNS[1][1] = new Location(Var.LOBBY_WORLD, 225, 65, 274);
-		LEADERBOARD_SIGNS[1][2] = new Location(Var.LOBBY_WORLD, 225, 64, 274);
-		LEADERBOARD_SIGNS[2][0] = new Location(Var.LOBBY_WORLD, 225, 66, 275);
-		LEADERBOARD_SIGNS[2][1] = new Location(Var.LOBBY_WORLD, 225, 65, 275);
-		LEADERBOARD_SIGNS[2][2] = new Location(Var.LOBBY_WORLD, 225, 64, 275);
-	}
-	
-	private void renderLeaderboard(final String[][] leaderboard) {
+	private static void renderLeaderboard(final String[][] leaderboard) {
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 3; j++) {
 				final Sign sign = (Sign) LEADERBOARD_SIGNS[i][j].getBlock().getState();
@@ -117,7 +112,9 @@ public class UpdateLeaderboard implements Runnable {
 				sign.update();
 			}
 		}
-
+	}
+	
+	public static void updateGlobalStats() {
 		final int players = Bukkit.getOfflinePlayers().length;
 		final int gamesPlayed = Minigames.getInstance().getConfig().getInt("last-game-number");
 
