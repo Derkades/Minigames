@@ -180,13 +180,15 @@ public enum GameWorld {
 		return world;
 	}
 
-	public void unload() {
+	public boolean unload() {
 		final World world = Bukkit.getWorld(getName());
 		if (world == null) {
 //			Logger.debug("%s is already unloaded", toString());
+			return true;
 		} else {
-			Logger.debug("Unloading %s", toString());
-			Bukkit.unloadWorld(getWorld(), true);
+			final boolean success = Bukkit.unloadWorld(getWorld(), true);
+			Logger.debug(success ? "Unloaded world %s" : "Couldn't unload world %s", toString());
+			return success;
 		}
 	}
 
