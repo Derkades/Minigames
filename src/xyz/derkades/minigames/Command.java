@@ -22,6 +22,7 @@ import org.bukkit.util.Vector;
 import net.md_5.bungee.api.ChatColor;
 import xyz.derkades.derkutils.Hastebin;
 import xyz.derkades.derkutils.Random;
+import xyz.derkades.derkutils.bukkit.MaterialLists;
 import xyz.derkades.minigames.Minigames.ShutdownReason;
 import xyz.derkades.minigames.games.Game;
 import xyz.derkades.minigames.games.maps.GameMap;
@@ -308,39 +309,42 @@ public class Command implements CommandExecutor {
 		
 		if (block.getType() != Material.AIR) {
 			airCounter = 0;
-			final String line;
-			switch(block.getType()) {
-				case STICKY_PISTON:
-				case PISTON:
-				case OBSERVER:
-					final BlockFace face = ((Directional) block.getBlockData()).getFacing();
-					String facing;
-					switch(face) {
-					case NORTH:
-						facing = "FRONT"; break;
-					case SOUTH:
-						facing = "BACK"; break;
-					case WEST:
-						facing = "LEFT"; break;
-					case EAST:
-						facing = "RIGHT"; break;
-					case DOWN:
-						facing = "DOWN"; break;
-					case UP:
-						facing = "UP"; break;
+			
+			if (!MaterialLists.SIGNS.contains(block.getType())) {
+				final String line;
+				switch(block.getType()) {
+					case STICKY_PISTON:
+					case PISTON:
+					case OBSERVER:
+						final BlockFace face = ((Directional) block.getBlockData()).getFacing();
+						String facing;
+						switch(face) {
+						case NORTH:
+							facing = "FRONT"; break;
+						case SOUTH:
+							facing = "BACK"; break;
+						case WEST:
+							facing = "LEFT"; break;
+						case EAST:
+							facing = "RIGHT"; break;
+						case DOWN:
+							facing = "DOWN"; break;
+						case UP:
+							facing = "UP"; break;
+						default:
+							facing = null;
+						}
+						line = String.format("new MissileBlock(%s, %s, %s, Material.%s, %s),", lr, ud, fb, block.getType().name(), facing);
+						break;
 					default:
-						facing = null;
-					}
-					line = String.format("new MissileBlock(%s, %s, %s, Material.%s, %s),", lr, ud, fb, block.getType().name(), facing);
-					break;
-				default:
-					line = String.format("new MissileBlock(%s, %s, %s, Material.%s),", lr, ud, fb, block.getType().name());
-			}
-			if (lines.containsKey(line)) {
-				return;
-			} else {
-				final int weight = -(fb * 20 + ud + lr);
-				lines.put(line, weight);
+						line = String.format("new MissileBlock(%s, %s, %s, Material.%s),", lr, ud, fb, block.getType().name());
+				}
+				if (lines.containsKey(line)) {
+					return;
+				} else {
+					final int weight = -(fb * 20 + ud + lr);
+					lines.put(line, weight);
+				}
 			}
 		} else {
 			airCounter++;
