@@ -1,12 +1,6 @@
 package xyz.derkades.minigames.games;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -23,18 +17,14 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-import com.coloredcarrot.api.sidebar.Sidebar;
-import com.coloredcarrot.api.sidebar.SidebarString;
-
 import net.md_5.bungee.api.ChatColor;
 import xyz.derkades.derkutils.Random;
 import xyz.derkades.derkutils.bukkit.BlockUtils;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
 import xyz.derkades.minigames.Minigames;
 import xyz.derkades.minigames.games.digdug.DigDugMap;
+import xyz.derkades.minigames.utils.Leaderboard;
 import xyz.derkades.minigames.utils.MPlayer;
-import xyz.derkades.minigames.utils.Utils;
-import xyz.derkades.minigames.utils.Winners;
 
 public class DigDug extends Game<DigDugMap> {
 
@@ -91,26 +81,23 @@ public class DigDug extends Game<DigDugMap> {
 		return 40;
 	}
 
-	private Map<UUID, Integer> points;
-	private Sidebar sidebar;
+	private Leaderboard leaderboard;
 
 	@Override
 	public void onPreStart() {
-		this.points = new HashMap<>();
-		this.sidebar = new Sidebar(ChatColor.DARK_AQUA + "" + ChatColor.DARK_AQUA + "Score",
-				Minigames.getInstance(), Integer.MAX_VALUE, new SidebarString("Loading..."));
+		this.leaderboard = new Leaderboard();
 
 		fillArena();
 
 		for (final MPlayer player : Minigames.getOnlinePlayers()) {
-			this.points.put(player.getUniqueId(), 0);
-			this.sidebar.showTo(player.bukkit());
 			player.queueTeleport(this.map.getSpawnLocation());
 		}
 	}
 
 	@Override
 	public void onStart() {
+		this.leaderboard.show();
+		
 		final ItemStack shovel = new ItemBuilder(Material.DIAMOND_SHOVEL)
 				.name(ChatColor.GREEN + "The Dig Dug Digger")
 				.unbreakable()
@@ -127,31 +114,14 @@ public class DigDug extends Game<DigDugMap> {
 
 	@Override
 	public int gameTimer(final int secondsLeft) {
-		DigDug.this.updateSidebar(secondsLeft);
+		this.leaderboard.update(secondsLeft);
 		return secondsLeft;
 	}
 
 	@Override
 	public void onEnd() {
-		final Map<UUID, Integer> sorted = Utils.sortByValue(this.points);
-		final AtomicInteger i = new AtomicInteger();
-		sorted.forEach((uuid, points) -> {
-			if (i.getAndIncrement() > 2) {
-				return;
-			}
-			
-			final Player player = Bukkit.getPlayer(uuid);
-			if (player == null) {
-				return;
-			}
-			
-			sendMessage(ChatColor.DARK_GREEN + player.getName() + ChatColor.GRAY + ": " + ChatColor.GREEN + points);
-		});
-		
-		DigDug.this.endGame(Winners.fromPointsMap(DigDug.this.points));
-		DigDug.this.points = null;
-		Bukkit.getOnlinePlayers().forEach(DigDug.this.sidebar::hideFrom);
-		this.sidebar = null;
+		DigDug.this.endGame(this.leaderboard.getWinnersPrintHide(this));
+		this.leaderboard = null;
 	}
 
 	@EventHandler
@@ -206,25 +176,7 @@ public class DigDug extends Game<DigDugMap> {
 
 	private void addPoints(final MPlayer player, final int pointsToAdd) {
 		player.sendActionBar(ChatColor.GREEN + "+ " + pointsToAdd + " points");
-		this.points.put(player.getUniqueId(), this.points.get(player.getUniqueId()) + pointsToAdd);
-	}
-
-	private void updateSidebar(final int secondsLeft) {
-		final List<SidebarString> sidebarStrings = new ArrayList<>();
-
-		final Map<UUID, Integer> sorted = Utils.sortByValue(this.points);
-		
-		sorted.forEach((uuid, points) -> {
-			final Player player = Bukkit.getPlayer(uuid);
-			if (player == null) {
-				return;
-			}
-			sidebarStrings.add(new SidebarString(ChatColor.DARK_GREEN + player.getName() + ChatColor.GRAY + ": " + ChatColor.GREEN + points));
-		});
-
-		this.sidebar.setEntries(sidebarStrings);
-		this.sidebar.addEmpty().addEntry(new SidebarString(ChatColor.GRAY + "Time left: " + secondsLeft + " seconds."));
-		this.sidebar.update();
+		this.leaderboard.setScore(player, this.leaderboard.getScore(player) + pointsToAdd);
 	}
 
 	private void fillArena() {
@@ -259,7 +211,6 @@ public class DigDug extends Game<DigDugMap> {
 
 	@Override
 	public void onPlayerJoin(final MPlayer player) {
-		this.points.put(player.getUniqueId(), 0);
 		player.teleport(this.map.getSpawnLocation());
 	}
 

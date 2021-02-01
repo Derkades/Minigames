@@ -1,15 +1,9 @@
 package xyz.derkades.minigames.games;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.stream.Collectors;
 
-import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.GameRule;
 import org.bukkit.Location;
@@ -21,19 +15,16 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 
-import com.coloredcarrot.api.sidebar.Sidebar;
-import com.coloredcarrot.api.sidebar.SidebarString;
-
 import net.md_5.bungee.api.ChatColor;
 import xyz.derkades.derkutils.ListUtils;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
 import xyz.derkades.minigames.Logger;
 import xyz.derkades.minigames.Minigames;
 import xyz.derkades.minigames.games.harvest.HarvestMap;
+import xyz.derkades.minigames.utils.Leaderboard;
 import xyz.derkades.minigames.utils.MPlayer;
 import xyz.derkades.minigames.utils.MinigamesPlayerDamageEvent;
 import xyz.derkades.minigames.utils.Scheduler;
-import xyz.derkades.minigames.utils.Utils;
 
 public class Harvest extends Game<HarvestMap> {
 
@@ -85,14 +76,13 @@ public class Harvest extends Game<HarvestMap> {
 	}
 	
 	private List<Location> blocks;
-	private Sidebar sidebar;
+	private Leaderboard leaderboard;
 
 	@Override
 	public void onPreStart() {
 		this.blocks = this.map.getCropLocations();
 		
-		this.sidebar = new Sidebar(ChatColor.DARK_AQUA + "" + ChatColor.DARK_AQUA + "Score",
-				Minigames.getInstance(), Integer.MAX_VALUE, new SidebarString(".."));
+		this.leaderboard = new Leaderboard();
 		
 		this.map.getWorld().setGameRule(GameRule.DO_TILE_DROPS, true);
 		this.map.getWorld().getEntitiesByClass(Item.class).forEach(Item::remove);
@@ -105,36 +95,20 @@ public class Harvest extends Game<HarvestMap> {
 		player.giveItem(ITEMS);
 	}
 	
-	private Map<MPlayer, Integer> getSortedPointsMap() {
-		final Map<MPlayer, Integer> pointsMap = new HashMap<>();
-		
+	private void updateLeaderboard(final int secondsLeft) {
 		Minigames.getOnlinePlayers().forEach(p -> {
 			final int amount = Arrays.stream(p.getInventory().getContents()).filter(i -> i != null).filter(i -> i.getType() == Material.WHEAT).mapToInt(ItemStack::getAmount).sum();
-			pointsMap.put(p, amount);
+			this.leaderboard.setScore(p, amount);
 		});
-		
-		return Utils.sortByValue(pointsMap);
-	}
-	
-	private void updateSidebar(final int secondsLeft) {
-		final List<SidebarString> sidebarStrings = new ArrayList<>();
-		
-		getSortedPointsMap().forEach((player, points) -> {
-			sidebarStrings.add(new SidebarString(ChatColor.DARK_GREEN + player.getName() + ChatColor.GRAY + ": " + ChatColor.GREEN + points));
-		});
-
-		this.sidebar.setEntries(sidebarStrings);
-		this.sidebar.addEmpty().addEntry(new SidebarString(ChatColor.GRAY + "Time left: " + secondsLeft + " seconds."));
-		this.sidebar.update();
+		this.leaderboard.update(secondsLeft);
 	}
 
 	@Override
 	public void onStart() {
 		Minigames.getOnlinePlayers().forEach(p -> {
 			giveItems(p);
-//			p.setDisableDamage(false);
-			this.sidebar.showTo(p.bukkit());
 		});
+		this.leaderboard.show();
 	}
 
 	private void tick(final Location loc) {
@@ -164,29 +138,16 @@ public class Harvest extends Game<HarvestMap> {
 			tick(ListUtils.getRandomValueFromList(this.blocks));
 		}
 		
-		updateSidebar(secondsLeft);
+		updateLeaderboard(secondsLeft);
 		
 		return secondsLeft;
 	}
 
 	@Override
 	public void onEnd() {
-		final Map<MPlayer, Integer> sorted = getSortedPointsMap();
-		final AtomicInteger i = new AtomicInteger();
-		sorted.forEach((player, points) -> {
-			if (i.getAndIncrement() > 2) {
-				return;
-			}
-			
-			sendMessage(ChatColor.DARK_GREEN + player.getName() + ChatColor.GRAY + ": " + ChatColor.GREEN + points);
-		});
-		
-		final List<UUID> winners = Utils.getHighestValuesFromHashMap(getSortedPointsMap()).stream()
-				.map(MPlayer::getUniqueId).collect(Collectors.toList());
-		endGame(winners);
-		Bukkit.getOnlinePlayers().forEach(this.sidebar::hideFrom);
+		endGame(this.leaderboard.getWinnersPrintHide(this));
 		this.blocks = null;
-		this.sidebar = null;
+		this.leaderboard = null;
 	}
 
 	@Override

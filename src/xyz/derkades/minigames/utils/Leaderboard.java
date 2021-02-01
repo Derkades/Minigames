@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.Consumer;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -14,11 +16,13 @@ import com.coloredcarrot.api.sidebar.SidebarString;
 
 import net.md_5.bungee.api.ChatColor;
 import xyz.derkades.minigames.Minigames;
+import xyz.derkades.minigames.games.Game;
 
 public class Leaderboard {
 	
 	private final Sidebar sidebar;
 	private final Map<UUID, Integer> points;
+	private Map<UUID, Integer> sortedCache = null;
 	
 	public Leaderboard() {
 		this.points = new HashMap<>();
@@ -30,12 +34,18 @@ public class Leaderboard {
 		}
 	}
 	
-	public void update(final int secondsLeft) {
-		final Map<UUID, Integer> sorted = Utils.sortByValue(this.points);
+	private Map<UUID, Integer> getSorted(){
+		if (this.sortedCache == null) {
+			this.sortedCache = Utils.sortByValue(this.points);
+		}
 
+		return this.sortedCache;
+	}
+	
+	public void update(final int secondsLeft) {
 		final List<SidebarString> sidebarStrings = new ArrayList<>();
 		
-		sorted.forEach((uuid, points) -> {
+		getSorted().forEach((uuid, points) -> {
 			final Player player = Bukkit.getPlayer(uuid);
 			if (player == null) {
 				return;
@@ -61,7 +71,11 @@ public class Leaderboard {
 	}
 	
 	public int getScore(final MPlayer player) {
-		return this.points.get(player.getUniqueId());
+		if (this.points.containsKey(player.getUniqueId())) {
+			return this.points.get(player.getUniqueId());
+		} else {
+			return 0;
+		}
 	}
 	
 	public boolean hasScore(final MPlayer player) {
@@ -70,6 +84,7 @@ public class Leaderboard {
 	
 	public void setScore(final MPlayer player, final int newScore) {
 		this.points.put(player.getUniqueId(), newScore);
+		this.sortedCache = null;
 	}
 	
 	public void incrementScore(final MPlayer player) {
@@ -88,6 +103,32 @@ public class Leaderboard {
 	
 	public List<UUID> getWinners() {
 		return Winners.fromPointsMap(this.points);
+	}
+	
+	public List<UUID> getWinnersPrintHide(final Game<?> game) {
+		this.hide();
+		this.printToChat(game);
+		return Winners.fromPointsMap(this.points);
+	}
+	
+	public void printToChat(final Game<?> game) {
+		printToChat(game::sendMessage);
+	}
+	
+	public void printToChat(final Consumer<String> printFunction) {
+		final AtomicInteger i = new AtomicInteger();
+		getSorted().forEach((uuid, points) -> {
+			if (i.getAndIncrement() > 2) {
+				return;
+			}
+			
+			final Player player = Bukkit.getPlayer(uuid);
+			if (player == null) {
+				return;
+			}
+			
+			printFunction.accept(ChatColor.DARK_GREEN + player.getName() + ChatColor.GRAY + ": " + ChatColor.GREEN + points);
+		});
 	}
 	
 }

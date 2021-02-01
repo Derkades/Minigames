@@ -131,8 +131,7 @@ public class BuildCopy extends Game<BuildCopyMap> {
 
 	@Override
 	public void onEnd() {
-		this.leaderboard.hide();
-		endGame(this.leaderboard.getWinners());
+		endGame(this.leaderboard.getWinnersPrintHide(this));
 		this.positions = null;
 		this.currentPatterns = null;
 		this.leaderboard = null;
@@ -165,7 +164,7 @@ public class BuildCopy extends Game<BuildCopyMap> {
 			firework.setFireworkMeta(meta);
 			firework.detonate();
 		} else {
-			Logger.debug("Incorrect pattern for %s", player.getName());
+//			Logger.debug("Incorrect pattern for %s", player.getName());
 		}
 	}
 
