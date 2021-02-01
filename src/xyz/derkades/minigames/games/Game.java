@@ -365,7 +365,7 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 			winnersPlayers = Collections.emptyList();
 		} else {
 			winnersPlayers = Bukkit.getOnlinePlayers().stream().filter((p) -> winners.contains(p.getUniqueId())).collect(Collectors.toList());
-			winnersText = String.join(", ", winnersPlayers.stream().map(Player::getName).collect(Collectors.toList()));
+			winnersText = winnersPlayers.stream().map(Player::getName).collect(Collectors.joining(", "));
 		}
 		
 		if (this.skipped) {
