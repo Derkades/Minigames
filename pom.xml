@@ -2,7 +2,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>xyz.derkades</groupId>
+	<groupId>derkades</groupId>
 	<artifactId>minigames</artifactId>
 	<version>dev</version>
 	<name>Minigames</name>
@@ -43,35 +43,35 @@
 					<relocations>
 						<relocation>
 							<pattern>com.google.gson</pattern>
-							<shadedPattern>com.namelessmc.spigot.lib.gson</shadedPattern>
+							<shadedPattern>namelessmc.spigot.lib.gson</shadedPattern>
 						</relocation>
 						<relocation>
 							<pattern>de.tr7zw.changeme.nbtapi</pattern>
-							<shadedPattern>xyz.derkades.minigames.lib.tr7zw_nbtapi</shadedPattern>
+							<shadedPattern>derkades.minigames.lib.tr7zw_nbtapi</shadedPattern>
 						</relocation>
 						<relocation>
 							<pattern>de.tr7zw.annotations</pattern>
-							<shadedPattern>xyz.derkades.minigames.lib.tr7zw_annotations</shadedPattern>
+							<shadedPattern>derkades.minigames.lib.tr7zw_annotations</shadedPattern>
 						</relocation>
 						<relocation>
 							<pattern>com.fasterxml.jackson</pattern>
-							<shadedPattern>xyz.derkades.minigames.lib.jackson</shadedPattern>
+							<shadedPattern>derkades.minigames.lib.jackson</shadedPattern>
 						</relocation>
 						<relocation>
 							<pattern>org.apache.commons</pattern>
-							<shadedPattern>xyz.derkades.minigames.lib.commons</shadedPattern>
+							<shadedPattern>derkades.minigames.lib.commons</shadedPattern>
 						</relocation>
 						<relocation>
 							<pattern>org.kohsuke.github</pattern>
-							<shadedPattern>xyz.derkades.minigames.lib.github</shadedPattern>
+							<shadedPattern>derkades.minigames.lib.github</shadedPattern>
 						</relocation>
 						<relocation>
 							<pattern>com.coloredcarrot.api.sidebar</pattern>
-							<shadedPattern>xyz.derkades.minigames.lib.sidebar</shadedPattern>
+							<shadedPattern>derkades.minigames.lib.sidebar</shadedPattern>
 						</relocation>
 						<relocation>
 							<pattern>xyz.derkades.derkutils</pattern>
-							<shadedPattern>xyz.derkades.minigames.lib.derkutils</shadedPattern>
+							<shadedPattern>derkades.minigames.lib.derkutils</shadedPattern>
 						</relocation>
 					</relocations>
 
