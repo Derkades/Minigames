@@ -5,9 +5,13 @@ import static net.md_5.bungee.api.ChatColor.GOLD;
 import static net.md_5.bungee.api.ChatColor.GRAY;
 import static net.md_5.bungee.api.ChatColor.YELLOW;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileWriter;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -36,6 +40,7 @@ import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.hover.content.Text;
+import xyz.derkades.derkutils.Hastebin;
 import xyz.derkades.derkutils.NumberUtils;
 import xyz.derkades.derkutils.Random;
 import xyz.derkades.minigames.AutoRotate;
@@ -123,6 +128,10 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 	public abstract void onPlayerJoin(MPlayer player);
 
 	public abstract void onPlayerQuit(MPlayer player);
+	
+	protected String getGameSpecificResultJson() {
+		return null;
+	}
 
 	protected M map = null;
 
@@ -357,12 +366,7 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 			this.sendMessage("The " + this.getName() + " game has ended! Winners: " + YELLOW + winnersText);
 		}
 		
-		try {
-			saveGameResult(players);
-		} catch (final IOException e) {
-			Logger.warning("Failed to save game result: %s", e.getMessage());
-			e.printStackTrace();
-		}
+		saveGameResult(players);
 		
 		// Give rewards
 		for (final MPlayer player : Minigames.getOnlinePlayers()){
@@ -416,7 +420,7 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 		});
 	}
 	
-	private void saveGameResult(final List<Player> winners) throws IOException {
+	private void saveGameResult(final List<Player> winners) {
 		final File gameResultsDir = new File("game_results");
 		if (!gameResultsDir.exists()) {
 			Logger.warning("Skipped saving game data, directory '%s' does not exist.", gameResultsDir.getAbsolutePath());
@@ -425,8 +429,9 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 		
 		final int gameNumber = Minigames.getInstance().getConfig().getInt("last-game-number", -1) + 1;
 		
-		final File file = new File(gameResultsDir, gameNumber + ".json");
-		try (FileWriter writer = new FileWriter(file);
+		final byte[] content;
+		try (ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
+				Writer writer = new OutputStreamWriter(byteStream);
 				JsonWriter json = new JsonWriter(writer)) {
 			json.beginObject();
 			json.name("format_version");
@@ -470,11 +475,51 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 			writePlayersJson(json, winners);
 			json.name("online_players");
 			writePlayersJson(json, Bukkit.getOnlinePlayers());
+			final String gameSpecific = this.getGameSpecificResultJson();
+			if (gameSpecific != null) {
+				json.name("game_specific");
+				json.jsonValue(gameSpecific);
+			}
 			json.endObject();
+			json.flush();
+			content = byteStream.toByteArray();
+		} catch (final IOException e) {
+			Logger.warning("Failed to generate game result: %s", e.getMessage());
+			e.printStackTrace();
+			return;
 		}
 		
-		Minigames.getInstance().getConfig().set("last-game-number", gameNumber);
-		Minigames.getInstance().saveConfig();
+		// Go async for file/network I/O
+		Scheduler.async(() -> {
+			// Save to json file
+			final File file = new File(gameResultsDir, gameNumber + ".json");
+			try (OutputStream out = new FileOutputStream(file)){
+				out.write(content);
+			} catch (final IOException e) {
+				Logger.warning("Failed to save game result: %s", e.getMessage());
+				e.printStackTrace();
+				return; // File not saving is bad! Don't continue
+			}
+			
+			// Upload to hastebin
+			String url;
+			try {
+				final String key = Hastebin.createPaste(content, "paste.derkad.es");
+				url = "https://paste.derkad.es/" + key + ".json";
+			} catch (final IOException e) {
+				Logger.warning("Error while uploading game result to hastebin");
+				e.printStackTrace();
+				url = null; // Not uploading to hastebin is not a big deal, continue
+			}
+		
+			final String fUrl = url;
+			Scheduler.run(() -> {
+				Logger.info("Game result: %s", fUrl);
+				// Increment number now that we know everything went well
+				Minigames.getInstance().getConfig().set("last-game-number", gameNumber);
+				Minigames.getInstance().saveConfig();
+			});
+		});
 	}
 	
 	private void writePlayersJson(final JsonWriter json, final Collection<? extends Player> players) throws IOException {
