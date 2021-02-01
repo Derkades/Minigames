@@ -75,6 +75,10 @@ public class SpawnZombieShooter {
 			if (Minigames.CURRENT_GAME != null) {
 				return;
 			}
+			
+			if (Var.LOBBY_WORLD.getPlayers().isEmpty()) {
+				return;
+			}
 
 			for (final Zombie zombie : Var.LOBBY_WORLD.getEntitiesByClass(Zombie.class)) {
 				final Villager bait = getBaitVillager();
@@ -117,6 +121,10 @@ public class SpawnZombieShooter {
 		public void run() {
 			// No need to spawn zombies when a game is running
 			if (Minigames.CURRENT_GAME != null) {
+				return;
+			}
+			
+			if (Var.LOBBY_WORLD.getPlayers().isEmpty()) {
 				return;
 			}
 
