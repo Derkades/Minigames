@@ -15,6 +15,7 @@ import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -149,6 +150,7 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 	}
 	
 	private Set<UUID> gameSkipVotes;
+	private boolean skipped = false;
 	
 	public boolean voteGameSkip(final UUID uuid) {
 		return this.gameSkipVotes.add(uuid);
@@ -158,6 +160,7 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 	public void start() {
 		this.started = false;
 		this.gameSkipVotes = new HashSet<>();
+		this.skipped = false;
 
 		// Pick random map
 		if (this.getGameMaps() == null) {
@@ -301,6 +304,7 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 				if (skip && this.secondsLeft > SkipConfig.SKIP_TO_SECONDS_LEFT) {
 					sendMessage(String.format(SkipConfig.SKIP_MESSAGE, Game.this.gameSkipVotes.size()));
 					this.secondsLeft = SkipConfig.SKIP_TO_SECONDS_LEFT;
+					Game.this.skipped = true;
 				}
 				
 				final int newSecondsLeft = Game.this.gameTimer(this.secondsLeft);
@@ -350,15 +354,23 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 
 	protected void endGame(final List<UUID> winners) {
 		Minigames.CURRENT_GAME = null;
-		HandlerList.unregisterAll(this); //Unregister events
+		HandlerList.unregisterAll(this); // Unregister events
 		this.gameSkipVotes = null;
 
 		Utils.showEveryoneToEveryone();
 
-		final List<Player> players = Bukkit.getOnlinePlayers().stream().filter((p) -> winners.contains(p.getUniqueId())).collect(Collectors.toList());
-		final String winnersText = String.join(", ", players.stream().map(Player::getName).collect(Collectors.toList()));
-
-		if (winners.isEmpty()){
+		final List<Player> winnersPlayers;
+		String winnersText = null;
+		if (this.skipped) {
+			winnersPlayers = Collections.emptyList();
+		} else {
+			winnersPlayers = Bukkit.getOnlinePlayers().stream().filter((p) -> winners.contains(p.getUniqueId())).collect(Collectors.toList());
+			winnersText = String.join(", ", winnersPlayers.stream().map(Player::getName).collect(Collectors.toList()));
+		}
+		
+		if (this.skipped) {
+			this.sendMessage("The " + this.getName() + " game has ended. There are no winners, this game was skipped.");
+		} else if (winners.isEmpty()){
 			this.sendMessage("The " + this.getName() + " game has ended.");
 		} else if (winners.size() == 1){
 			this.sendMessage("The " + this.getName() + " game has ended! Winner: " + YELLOW + winnersText);
@@ -366,7 +378,7 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 			this.sendMessage("The " + this.getName() + " game has ended! Winners: " + YELLOW + winnersText);
 		}
 		
-		saveGameResult(players);
+		saveGameResult(winnersPlayers);
 		
 		// Give rewards
 		for (final MPlayer player : Minigames.getOnlinePlayers()){
@@ -475,6 +487,9 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 			writePlayersJson(json, winners);
 			json.name("online_players");
 			writePlayersJson(json, Bukkit.getOnlinePlayers());
+			json.name("skipped");
+			json.value(this.skipped);
+			
 			final String gameSpecific = this.getGameSpecificResultJson();
 			if (gameSpecific != null) {
 				json.name("game_specific");
