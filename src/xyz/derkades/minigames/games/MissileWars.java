@@ -35,7 +35,7 @@ public class MissileWars extends Game<MissileWarsMap> {
 
 	@Override
 	public int getRequiredPlayers() {
-		return 4;
+		return 6;
 	}
 
 	@Override
