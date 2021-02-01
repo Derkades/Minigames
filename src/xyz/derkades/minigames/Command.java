@@ -33,6 +33,7 @@ import xyz.derkades.minigames.menu.StatsMenu;
 import xyz.derkades.minigames.random.RandomPicking;
 import xyz.derkades.minigames.utils.MPlayer;
 import xyz.derkades.minigames.utils.Scheduler;
+import xyz.derkades.minigames.utils.queue.TaskQueue;
 import xyz.derkades.minigames.worlds.GameWorld;
 
 public class Command implements CommandExecutor {
@@ -87,17 +88,19 @@ public class Command implements CommandExecutor {
 			} else if (args[0].equals("reloadworlds") && sender.hasPermission("minigames.world.reload")) {
 				Logger.info("Reloading worlds, this may take a long time and cause lag..");
 
-				for (final GameWorld gWorld : GameWorld.values()) {
-					gWorld.getWorld();
-					gWorld.unload();
+				for (final GameWorld world : GameWorld.values()) {
+					TaskQueue.add(() -> {
+						world.load();
+						world.unload();
+					});
 				}
 
 				Logger.info("Reloading worlds done.");
 			} else if (args[0].equals("unloadworlds") && sender.hasPermission("minigames.world.unload")) {
-				Logger.info("Unloading worlds, this may take a long time and cause lag..");
+				Logger.info("Unloading worlds");
 
-				for (final GameWorld gWorld : GameWorld.values()) {
-					gWorld.unload();
+				for (final GameWorld world : GameWorld.values()) {
+					world.unload();
 				}
 
 				Logger.info("Reloading worlds done.");
