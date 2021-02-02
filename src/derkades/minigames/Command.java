@@ -281,7 +281,7 @@ public class Command implements CommandExecutor {
 			Scheduler.async(() -> {
 				final StringBuilder content = new StringBuilder();
 				Utils.sortByValue(lines).forEach((l, weight) -> {
-					if (l.contains("SIGN") || l.contains("OBSIDIAN")) {
+					if (l.contains("SIGN") || l.contains("OBSIDIAN") || l.contains("PISTON_HEAD")) {
 						return;
 					}
 					content.append(l);
