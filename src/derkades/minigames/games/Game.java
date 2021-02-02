@@ -187,8 +187,12 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 
 			if (!Minigames.getInstance().getConfig().getStringList("disabled-description")
 					.contains(player.getUniqueId().toString())) {
-				for (final String line : this.getDescription()) {
-					player.sendMessage(prefix + line);
+				if (this.getDescription() != null) {
+					for (final String line : this.getDescription()) {
+						player.sendMessage(prefix + line);
+					}
+				} else {
+					Logger.warning("No description for game %s", this.getName());
 				}
 				player.sendMessage(prefix + "Minimum players: " + YELLOW + this.getRequiredPlayers());
 			}
