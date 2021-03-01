@@ -12,12 +12,11 @@ import java.util.function.Consumer;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-import com.coloredcarrot.api.sidebar.Sidebar;
-import com.coloredcarrot.api.sidebar.SidebarString;
-
 import derkades.minigames.Minigames;
 import derkades.minigames.games.Game;
 import net.md_5.bungee.api.ChatColor;
+import xyz.derkades.derkutils.bukkit.sidebar.Sidebar;
+import xyz.derkades.derkutils.bukkit.sidebar.SidebarString;
 
 public class Leaderboard {
 	
