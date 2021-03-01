@@ -42,36 +42,36 @@
 					<minimizeJar>false</minimizeJar> <!-- Reduce compile time, jar size doesn't matter -->
 					<relocations>
 						<relocation>
-							<pattern>com.google.gson</pattern>
-							<shadedPattern>derkades.minigames.lib.gson</shadedPattern>
-						</relocation>
-						<relocation>
-							<pattern>de.tr7zw.changeme.nbtapi</pattern>
-							<shadedPattern>derkades.minigames.lib.tr7zw.nbtapi</shadedPattern>
-						</relocation>
-						<relocation>
-							<pattern>de.tr7zw.annotations</pattern>
-							<shadedPattern>derkades.minigames.lib.tr7zw.annotations</shadedPattern>
-						</relocation>
-						<relocation>
-							<pattern>com.fasterxml.jackson</pattern>
-							<shadedPattern>derkades.minigames.lib.jackson</shadedPattern>
-						</relocation>
-						<relocation>
 							<pattern>org.apache.commons</pattern>
 							<shadedPattern>derkades.minigames.lib.commons</shadedPattern>
+						</relocation>
+						<relocation>
+							<pattern>xyz.derkades.derkutils</pattern>
+							<shadedPattern>derkades.minigames.lib.derkutils</shadedPattern>
 						</relocation>
 						<relocation>
 							<pattern>org.kohsuke.github</pattern>
 							<shadedPattern>derkades.minigames.lib.github</shadedPattern>
 						</relocation>
 						<relocation>
+							<pattern>com.google.gson</pattern>
+							<shadedPattern>derkades.minigames.lib.gson</shadedPattern>
+						</relocation>
+						<relocation>
+							<pattern>com.fasterxml.jackson</pattern>
+							<shadedPattern>derkades.minigames.lib.jackson</shadedPattern>
+						</relocation>
+						<relocation>
 							<pattern>com.coloredcarrot.api.sidebar</pattern>
 							<shadedPattern>derkades.minigames.lib.sidebar</shadedPattern>
 						</relocation>
 						<relocation>
-							<pattern>xyz.derkades.derkutils</pattern>
-							<shadedPattern>derkades.minigames.lib.derkutils</shadedPattern>
+							<pattern>de.tr7zw.annotations</pattern>
+							<shadedPattern>derkades.minigames.lib.tr7zw.annotations</shadedPattern>
+						</relocation>
+						<relocation>
+							<pattern>de.tr7zw.changeme.nbtapi</pattern>
+							<shadedPattern>derkades.minigames.lib.tr7zw.nbtapi</shadedPattern>
 						</relocation>
 					</relocations>
 
