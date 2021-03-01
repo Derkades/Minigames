@@ -72,19 +72,4 @@ public class SneakPrevention extends BukkitRunnable {
 		return WARNINGS.containsKey(player.getUniqueId());
 	}
 
-//	public static void setCanSneak(final Player player, final boolean canSneak) {
-//		if (canSneak) {
-//			if (WARNINGS.containsKey(player.getUniqueId())) {
-//				WARNINGS.remove(player.getUniqueId());
-//			}
-//		} else {
-//			WARNINGS.put(player.getUniqueId(), 0); // Reset warnings
-//		}
-//	}
-
-//	@Deprecated
-//	public static boolean getCanSneak(final Player player) {
-//		return WARNINGS.containsKey(player.getUniqueId());
-//	}
-
 }

@@ -229,7 +229,6 @@ public class GlobalListeners implements Listener {
 	@EventHandler
 	public void onDeath(final PlayerDeathEvent event) {
 		event.setDeathMessage("");
-//		Minigames.getInstance().getLogger().warning();
 		Minigames.shutdown(ShutdownReason.EMERGENCY_AUTOMATIC, "A player died: " + event.getEntity().getName());
 	}
 	
