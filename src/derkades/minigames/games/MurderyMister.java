@@ -27,9 +27,9 @@ import derkades.minigames.Var;
 import derkades.minigames.games.murderymister.MurderyMisterMap;
 import derkades.minigames.utils.MPlayer;
 import derkades.minigames.utils.MinigamesPlayerDamageEvent;
+import derkades.minigames.utils.MinigamesPlayerDamageEvent.DamageType;
 import derkades.minigames.utils.Scheduler;
 import derkades.minigames.utils.Utils;
-import derkades.minigames.utils.MinigamesPlayerDamageEvent.DamageType;
 import derkades.minigames.utils.queue.TaskQueue;
 import net.md_5.bungee.api.ChatColor;
 import xyz.derkades.derkutils.ListUtils;
@@ -41,7 +41,7 @@ public class MurderyMister extends Game<MurderyMisterMap> {
 	public String getIdentifier() {
 		return "murdery_mister";
 	}
-	
+
 	@Override
 	public String getName() {
 		return "Murdery Mister";
@@ -87,7 +87,7 @@ public class MurderyMister extends Game<MurderyMisterMap> {
 		this.murdererDead = false;
 
 		this.arrowRemoveTask = new ArrowRemoveTask().runTaskTimer(Minigames.getInstance(), 1, 1);
-		
+
 		final Location[] spawnLocations = this.map.getSpawnLocations();
 		int index = 0;
 
@@ -159,7 +159,7 @@ public class MurderyMister extends Game<MurderyMisterMap> {
 		}
 
 		if (secondsLeft % 2 == 0) {
-			final Lightable powerable = (Lightable) ListUtils.getRandomValueFromArray(this.map.getFlickeringRedstomeLamps()).getBlock().getBlockData();
+			final Lightable powerable = (Lightable) ListUtils.choice(this.map.getFlickeringRedstomeLamps()).getBlock().getBlockData();
 			powerable.setLit(!powerable.isLit());
 		}
 
@@ -223,7 +223,7 @@ public class MurderyMister extends Game<MurderyMisterMap> {
 			} else if (player.getInventory().contains(Material.BOW)) {
 				// Sheriff is dead, give bow to random player
 				if (this.alive.size() > 0) {
-					final Player target = Bukkit.getPlayer(ListUtils.getRandomValueFromList(this.alive));
+					final Player target = Bukkit.getPlayer(ListUtils.choice(this.alive));
 					if (target != null) {
 						target.getInventory().addItem(new ItemBuilder(Material.BOW).unbreakable().create());
 						target.getInventory().addItem(new ItemBuilder(Material.ARROW).create());

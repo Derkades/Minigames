@@ -28,7 +28,7 @@ public class CreeperAttack extends Game<CreeperAttackMap> {
 	public String getIdentifier() {
 		return "creeper_attack";
 	}
-	
+
 	@Override
 	public String getName() {
 		return "Creeper Attack";
@@ -97,7 +97,7 @@ public class CreeperAttack extends Game<CreeperAttackMap> {
 			if (this.alive.size() > 1) {
 				final Creeper creeper = CreeperAttack.this.map.getWorld().spawn(CreeperAttack.this.map.getCreeperLocation(), Creeper.class);
 				creeper.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).setBaseValue(creeper.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).getBaseValue() * 1.5);
-				creeper.setTarget(Bukkit.getPlayer(ListUtils.getRandomValueFromList(CreeperAttack.this.alive)));
+				creeper.setTarget(Bukkit.getPlayer(ListUtils.choice(CreeperAttack.this.alive)));
 			}
 		}
 
