@@ -2,6 +2,7 @@ package derkades.minigames.games;
 
 import java.util.Set;
 import java.util.UUID;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.bukkit.Location;
@@ -20,12 +21,11 @@ import derkades.minigames.games.gladeroyale.GladeRoyaleItems;
 import derkades.minigames.games.gladeroyale.GladeRoyaleMap;
 import derkades.minigames.utils.MPlayer;
 import derkades.minigames.utils.MinigamesPlayerDamageEvent;
+import derkades.minigames.utils.MinigamesPlayerDamageEvent.DamageType;
 import derkades.minigames.utils.Scheduler;
 import derkades.minigames.utils.Utils;
-import derkades.minigames.utils.MinigamesPlayerDamageEvent.DamageType;
 import derkades.minigames.utils.queue.TaskQueue;
 import net.md_5.bungee.api.ChatColor;
-import xyz.derkades.derkutils.Random;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
 import xyz.derkades.derkutils.bukkit.lootchests.LootChest;
 
@@ -35,7 +35,7 @@ public class GladeRoyale extends Game<GladeRoyaleMap> {
 	public String getIdentifier() {
 		return "glade_royale";
 	}
-	
+
 	@Override
 	public String getName() {
 		return "Glade Royale";
@@ -116,7 +116,7 @@ public class GladeRoyale extends Game<GladeRoyaleMap> {
 		}
 
 		Logger.info("Removed %s blocks", counter.get());
-		
+
 		this.sendMessage("When the game starts, you will be teleported into the sky. Don't forget to activate your elytra!");
 	}
 
@@ -274,7 +274,7 @@ public class GladeRoyale extends Game<GladeRoyaleMap> {
 			}
 		}
 	}
-	
+
 	@EventHandler(ignoreCancelled = true)
 	public void blockPlace(final BlockPlaceEvent event) {
 		if (event.getBlock().getY() >= this.map.getMaxY()) {
@@ -325,8 +325,8 @@ public class GladeRoyale extends Game<GladeRoyaleMap> {
 		final int minZ = this.map.getMapCenter().getBlockZ() - this.currentBorderSize / 2;
 		final int maxZ = this.map.getMapCenter().getBlockZ() + this.currentBorderSize / 2;
 
-		final int x = Random.getRandomInteger(minX, maxX);
-		final int z = Random.getRandomInteger(minZ, maxZ);
+		final int x = ThreadLocalRandom.current().nextInt(minX + 1, maxX);
+		final int z = ThreadLocalRandom.current().nextInt(minZ + 1, maxZ);
 
 		Location location = null;
 

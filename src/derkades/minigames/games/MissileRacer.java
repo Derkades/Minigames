@@ -37,16 +37,16 @@ public class MissileRacer extends Game<MissileRacerMap> {
 					Material.STICKY_PISTON
 					)
 			.create();
-	
+
 	private static final ItemStack IGNITER = new ItemBuilder(Material.FLINT_AND_STEEL)
 			.create();
-	
+
 	private static final ItemStack MISSILE_SPAWNER = new ItemBuilder(Material.PISTON)
 			.name("Missile spawner")
 			.create();
-	
+
 	private static final int MISSILE_PLACE_COOLDOWN = 7_000;
-	
+
 	private static final Missile[] MISSILE_CHOICES = {
 			Missile.MATIGE_MISSILE_1,
 			Missile.MATIGE_MISSILE_2,
@@ -54,21 +54,21 @@ public class MissileRacer extends Game<MissileRacerMap> {
 			Missile.MATIGE_MISSILE_4,
 //			Missile.BEE,
 	};
-	
+
 	private static final ItemStack BOW = new ItemBuilder(Material.BOW)
 			.enchant(Enchantment.ARROW_INFINITE, 1)
 			.enchant(Enchantment.ARROW_FIRE, 1)
 			.unbreakable()
 			.create();
-	
+
 	private static final ItemStack ARROW = new ItemBuilder(Material.ARROW)
 			.create();
-	
+
 	@Override
 	public String getIdentifier() {
 		return "missile_racer";
 	}
-	
+
 	@Override
 	public String getName() {
 		return "Missile Racer";
@@ -95,13 +95,13 @@ public class MissileRacer extends Game<MissileRacerMap> {
 	public int getDuration() {
 		return 300;
 	}
-	
+
 	private UUID winner;
 
 	@Override
 	public void onPreStart() {
 		this.winner = null;
-		
+
 		for (final MPlayer player : Minigames.getOnlinePlayers()) {
 			player.queueTeleport(this.map.getSpawnLocation());
 			player.getInventory().addItem(MISSILE_SPAWNER);
@@ -129,7 +129,7 @@ public class MissileRacer extends Game<MissileRacerMap> {
 				player.getInventory().addItem(IGNITER);
 			}
 		}
-		
+
 		if (this.winner == null) {
 			for (final MPlayer player : Minigames.getOnlinePlayers()) {
 				if (this.map.isInFinishBounds(player)) {
@@ -142,7 +142,7 @@ public class MissileRacer extends Game<MissileRacerMap> {
 				}
 			}
 		}
-		
+
 		return secondsLeft;
 	}
 
@@ -155,45 +155,45 @@ public class MissileRacer extends Game<MissileRacerMap> {
 		}
 		this.winner = null;
 	}
-	
+
 	@EventHandler
 	public void onClick(final PlayerInteractEvent event) {
 		if (!this.started) {
 			return;
 		}
-		
+
 		if (event.getAction() != Action.RIGHT_CLICK_AIR && event.getAction() != Action.RIGHT_CLICK_BLOCK) {
 			return;
 		}
-		
+
 		if (event.getHand() != EquipmentSlot.HAND) {
 			return;
 		}
-		
+
 		final MPlayer player = new MPlayer(event);
-		
+
 		if (player.getGameMode() != GameMode.ADVENTURE) {
 			return;
 		}
-		
+
 		if (player.getInventory().getItemInMainHand().getType() != Material.PISTON) {
 			return;
 		}
-		
+
 		final String cooldownId = "missileracer" + player.getName();
-		
+
 		if (Cooldown.getCooldown(cooldownId) > 0) {
 			player.sendActionBar("You cannot use this right now.");
 			return;
 		}
-		
+
 		Cooldown.addCooldown(cooldownId, MISSILE_PLACE_COOLDOWN);
-		
-		final Missile random = ListUtils.getRandomValueFromArray(MISSILE_CHOICES);
-		
+
+		final Missile random = ListUtils.choice(MISSILE_CHOICES);
+
 		random.build(player.getLocation().add(0, -3, 0), player.getFacingAsBlockFace());
 	}
-	
+
 	@EventHandler
 	public void onDeath(final MinigamesPlayerDamageEvent event) {
 		if (event.willBeDead()) {
@@ -203,7 +203,7 @@ public class MissileRacer extends Game<MissileRacerMap> {
 			player.giveEffect(PotionEffectType.HEAL, 1, 100);
 		}
 	}
-	
+
 	@EventHandler
 	public void onMove(final PlayerMoveEvent event) {
 		if (event.getTo().getY() < this.map.getMinimumY()) {
@@ -223,7 +223,7 @@ public class MissileRacer extends Game<MissileRacerMap> {
 
 	@Override
 	public void onPlayerQuit(final MPlayer player) {
-		
+
 	}
 
 }

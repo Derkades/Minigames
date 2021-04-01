@@ -17,11 +17,10 @@ import derkades.minigames.games.hungergames.HungerGamesLoot;
 import derkades.minigames.games.hungergames.HungerGamesMap;
 import derkades.minigames.utils.MPlayer;
 import derkades.minigames.utils.MinigamesPlayerDamageEvent;
+import derkades.minigames.utils.MinigamesPlayerDamageEvent.DamageType;
 import derkades.minigames.utils.Scheduler;
 import derkades.minigames.utils.Utils;
 import derkades.minigames.utils.Winners;
-import derkades.minigames.utils.MinigamesPlayerDamageEvent.DamageType;
-import xyz.derkades.derkutils.ListUtils;
 import xyz.derkades.derkutils.bukkit.lootchests.LootChest;
 
 public class HungerGames extends Game<HungerGamesMap> {
@@ -30,12 +29,12 @@ public class HungerGames extends Game<HungerGamesMap> {
 	public String getIdentifier() {
 		return "hunger_games";
 	}
-	
+
 	@Override
 	public String getName() {
 		return "Hunger Games";
 	}
-	
+
 	@Override
 	public String getAlias() {
 		return "hg";
@@ -92,7 +91,7 @@ public class HungerGames extends Game<HungerGamesMap> {
 		for (final Location location : this.map.getLootLevelTwoLocations()) {
 			new LootChest(location, HungerGamesLoot.LOOT_2).fill();
 		}
-		
+
 		final WorldBorder border = this.map.getWorld().getWorldBorder();
 		border.setCenter(this.map.getCenterLocation());
 		border.setSize(this.map.getMinBorderSize());
@@ -110,10 +109,10 @@ public class HungerGames extends Game<HungerGamesMap> {
 		}
 
 		HungerGames.this.placeBlocks(this.map.getStartLocations(), Material.AIR);
-		
+
 		final WorldBorder border = this.map.getWorld().getWorldBorder();
 		border.setSize(this.map.getMaxBorderSize(), 20);
-		
+
 		Scheduler.delay(10*20, () -> {
 			for (final MPlayer player : Minigames.getOnlinePlayers()) {
 				player.setDisableDamage(false);
@@ -124,15 +123,15 @@ public class HungerGames extends Game<HungerGamesMap> {
 
 	@Override
 	public int gameTimer(final int secondsLeft) {
-		if (ListUtils.inFirstNotSecond(this.all, this.dead).size() < 2 && secondsLeft > 10) {
+		if (this.all.stream().filter(p -> this.dead.contains(p)).count() < 2 && secondsLeft > 10) {
 			return 10;
 		}
-		
+
 		if (secondsLeft == 100) {
 			final WorldBorder border = this.map.getWorld().getWorldBorder();
 			border.setSize(this.map.getMinBorderSize(), 90);
 		}
-		
+
 		return secondsLeft;
 	}
 
@@ -162,11 +161,11 @@ public class HungerGames extends Game<HungerGamesMap> {
 					Bukkit.broadcastMessage("error, killer unknown");
 				}
 
-				final int playersLeft = ListUtils.inFirstNotSecond(this.all, this.dead).size();
+				final int playersLeft = (int) this.all.stream().filter(p -> this.dead.contains(p)).count();
 				this.sendMessage(String.format("%s has been killed by %s. There are %s players left.",
 						player.getName(), killer.getName(), playersLeft));
 			} else if (event.getType().equals(DamageType.SELF)) {
-				final int playersLeft = ListUtils.inFirstNotSecond(this.all, this.dead).size();
+				final int playersLeft = (int) this.all.stream().filter(p -> this.dead.contains(p)).count();
 				this.sendMessage(String.format("%s has died. There are %s players left.",
 						player.getName(), playersLeft));
 			} else {

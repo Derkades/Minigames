@@ -30,7 +30,7 @@ public class Harvest extends Game<HarvestMap> {
 
 	private static final int CROPS_PER_SECOND = 30;
 	private static final int RESPAWN_DELAY = 3*20;
-	
+
 	private static final ItemStack[] ITEMS = {
 			new ItemBuilder(Material.IRON_HOE)
 					.unbreakable()
@@ -41,12 +41,12 @@ public class Harvest extends Game<HarvestMap> {
 					.unbreakable()
 					.create()
 	};
-	
+
 	@Override
 	public String getIdentifier() {
 		return "harvest";
 	}
-	
+
 	@Override
 	public String getName() {
 		return "Harvest";
@@ -74,27 +74,27 @@ public class Harvest extends Game<HarvestMap> {
 	public int getDuration() {
 		return 50;
 	}
-	
+
 	private List<Location> blocks;
 	private Leaderboard leaderboard;
 
 	@Override
 	public void onPreStart() {
 		this.blocks = this.map.getCropLocations();
-		
+
 		this.leaderboard = new Leaderboard();
-		
+
 		this.map.getWorld().setGameRule(GameRule.DO_TILE_DROPS, true);
 		this.map.getWorld().getEntitiesByClass(Item.class).forEach(Item::remove);
-		
+
 		Minigames.getOnlinePlayers().forEach(p -> p.queueTeleport(this.map.getSpawnLocation()));
 	}
-	
+
 	private void giveItems(final MPlayer player) {
 		player.clearInventory();
 		player.giveItem(ITEMS);
 	}
-	
+
 	private void updateLeaderboard(final int secondsLeft) {
 		Minigames.getOnlinePlayers().forEach(p -> {
 			final int amount = Arrays.stream(p.getInventory().getContents()).filter(i -> i != null).filter(i -> i.getType() == Material.WHEAT).mapToInt(ItemStack::getAmount).sum();
@@ -113,7 +113,7 @@ public class Harvest extends Game<HarvestMap> {
 
 	private void tick(final Location loc) {
 		final Block block = loc.getBlock();
-		
+
 		if (block.getType() == Material.AIR) {
 			block.setType(Material.WHEAT);
 		} else if (block.getType() == Material.WHEAT) {
@@ -127,19 +127,19 @@ public class Harvest extends Game<HarvestMap> {
 			Logger.warning("Invalid block at (%s, %s, %s)", loc.getBlockX(), loc.getBlockY(), loc.getBlockZ());
 		}
 	}
-	
+
 	@Override
 	public int gameTimer(final int secondsLeft) {
 		Minigames.getOnlinePlayers().forEach(p -> {
 			p.getInventory().remove(Material.WHEAT_SEEDS);
 		});
-		
+
 		for (int i = 0; i < CROPS_PER_SECOND; i++) {
-			tick(ListUtils.getRandomValueFromList(this.blocks));
+			tick(ListUtils.choice(this.blocks));
 		}
-		
+
 		updateLeaderboard(secondsLeft);
-		
+
 		return secondsLeft;
 	}
 
@@ -158,19 +158,19 @@ public class Harvest extends Game<HarvestMap> {
 
 	@Override
 	public void onPlayerQuit(final MPlayer player) {}
-	
+
 	@EventHandler
 	public void damage(final MinigamesPlayerDamageEvent event) {
 		if (event.willBeDead()) {
 			event.setCancelled(true);
 			final MPlayer player = event.getPlayer();
-			
+
 			for (final ItemStack item : player.getInventory()) {
 				if (item != null && item.getType() == Material.WHEAT) {
 					this.map.getSpawnLocation().getWorld().dropItemNaturally(player.getLocation(), item);
 				}
 			}
-			
+
 			player.spectator();
 			final UUID uuid = player.getUniqueId();
 			Scheduler.delay(RESPAWN_DELAY, () -> {
@@ -178,7 +178,7 @@ public class Harvest extends Game<HarvestMap> {
 				if (player2 == null) {
 					return;
 				}
-				
+
 				player2.heal();
 				player2.setGameMode(GameMode.ADVENTURE);
 				giveItems(player2);
@@ -186,19 +186,19 @@ public class Harvest extends Game<HarvestMap> {
 			});
 		}
 	}
-	
+
 	@EventHandler
 	public void onBreak(final BlockBreakEvent event) {
 		final Block block = event.getBlock();
 		if (block.getType() != Material.WHEAT) {
 			return;
 		}
-		
+
 		final Ageable ageable = (Ageable) block.getBlockData();
 		if (ageable.getAge() == ageable.getMaximumAge()) {
 			return;
 		}
-		
+
 		final MPlayer player = new MPlayer(event.getPlayer());
 		player.sendChat(ChatColor.RED + "This crop was not fully grown yet! You lose one wheat.");
 		player.sendTitle("", ChatColor.RED + "-1");

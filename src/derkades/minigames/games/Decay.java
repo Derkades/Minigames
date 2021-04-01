@@ -17,7 +17,7 @@ import derkades.minigames.games.decay.DecayMap;
 import derkades.minigames.utils.MPlayer;
 import derkades.minigames.utils.Scheduler;
 import derkades.minigames.utils.Utils;
-import xyz.derkades.derkutils.Random;
+import xyz.derkades.derkutils.ListUtils;
 
 public class Decay extends Game<DecayMap> {
 
@@ -28,12 +28,12 @@ public class Decay extends Game<DecayMap> {
 			Material.ORANGE_CONCRETE,
 			Material.RED_CONCRETE,
 	};
-	
+
 	@Override
 	public String getIdentifier() {
 		return "decay";
 	}
-	
+
 	@Override
 	public String getName() {
 		return "Decay";
@@ -60,20 +60,20 @@ public class Decay extends Game<DecayMap> {
 	public int getDuration() {
 		return 100;
 	}
-	
+
 	private List<Location> blocks;
 	private Set<UUID> winners;
-	
+
 	@Override
 	public void onPreStart() {
 		this.blocks = new ArrayList<>();
 		this.winners = Utils.getOnlinePlayersUuidSet();
-		
+
 		for (final Location loc : this.map.getBlocks()) {
 			loc.getBlock().setType(BLOCK_TYPES[0]);
 			this.blocks.add(loc);
 		}
-		
+
 		Minigames.getOnlinePlayers().forEach(p-> {
 			p.queueTeleport(this.map.getSpawnLocation());
 		});
@@ -88,33 +88,33 @@ public class Decay extends Game<DecayMap> {
 	}
 
 	public void decayBlock() {
-		final Location location = this.blocks.get(Random.getRandomInteger(0, this.blocks.size() - 1));
+		final Location location = ListUtils.choice(this.blocks);
 		final Block block = location.getBlock();
-		
+
 		if (block.getType() == Material.AIR) {
 			return;
 		}
-		
+
 		for (int i = 0; i < BLOCK_TYPES.length; i++) {
 			if (block.getType() == BLOCK_TYPES[i]) {
 				i++;
-				
+
 				if (i == BLOCK_TYPES.length) {
 					block.setType(Material.AIR);
 				} else {
 					block.setType(BLOCK_TYPES[i]);
 				}
-				
+
 				break;
 			}
 		}
 	}
-	
+
 	@Override
 	public int gameTimer(final int secondsLeft) {
 		if (secondsLeft > 5) {
 			final int split = 4;
-			
+
 			for (int i = 0; i < split; i++) {
 				Scheduler.delay((20 / split) * i, () -> {
 					for (int j = 0; j < BLOCKS_PER_CYCLE / split; j++) {
@@ -123,11 +123,11 @@ public class Decay extends Game<DecayMap> {
 				});
 			}
 		}
-		
+
 		if (secondsLeft > 5 && this.winners.size() <= 1) {
 			return 5;
 		}
-		
+
 		return secondsLeft;
 	}
 
@@ -148,15 +148,15 @@ public class Decay extends Game<DecayMap> {
 	public void onPlayerQuit(final MPlayer player) {
 		this.winners.remove(player.getUniqueId());
 	}
-	
+
 	@EventHandler
 	public void onMove(final PlayerMoveEvent event) {
 		final MPlayer player = new MPlayer(event);
-		
+
 		if (player.isSpectator()) {
 			return;
 		}
-		
+
 		if (this.map.isDead(player)) {
 			if (this.started) {
 				player.dieTo(this.map.getSpawnLocation());

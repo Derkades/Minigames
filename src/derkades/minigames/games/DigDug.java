@@ -1,6 +1,7 @@
 package derkades.minigames.games;
 
 import java.util.Arrays;
+import java.util.concurrent.ThreadLocalRandom;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -22,7 +23,6 @@ import derkades.minigames.games.digdug.DigDugMap;
 import derkades.minigames.utils.Leaderboard;
 import derkades.minigames.utils.MPlayer;
 import net.md_5.bungee.api.ChatColor;
-import xyz.derkades.derkutils.Random;
 import xyz.derkades.derkutils.bukkit.BlockUtils;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
 
@@ -46,7 +46,7 @@ public class DigDug extends Game<DigDugMap> {
 	public String getIdentifier() {
 		return "dig_dug";
 	}
-	
+
 	@Override
 	public String getName() {
 		return "Dig Dug";
@@ -97,7 +97,7 @@ public class DigDug extends Game<DigDugMap> {
 	@Override
 	public void onStart() {
 		this.leaderboard.show();
-		
+
 		final ItemStack shovel = new ItemBuilder(Material.DIAMOND_SHOVEL)
 				.name(ChatColor.GREEN + "The Dig Dug Digger")
 				.unbreakable()
@@ -202,9 +202,9 @@ public class DigDug extends Game<DigDugMap> {
 
 	private void placeOre(final Material oreType, final int amount, final int minX, final int maxX, final int minY, final int maxY, final int minZ, final int maxZ) {
 		for (int i = 0; i <= amount; i++) {
-			final int x = Random.getRandomInteger(minX, maxX);
-			final int y = Random.getRandomInteger(minY, maxY - 1);
-			final int z = Random.getRandomInteger(minZ, maxZ);
+			final int x = ThreadLocalRandom.current().nextInt(minX, maxX + 1);
+			final int y = ThreadLocalRandom.current().nextInt(minY, maxY);
+			final int z = ThreadLocalRandom.current().nextInt(minZ, maxZ + 1);
 			new Location(this.map.getWorld(), x, y, z).getBlock().setType(oreType);
 		}
 	}

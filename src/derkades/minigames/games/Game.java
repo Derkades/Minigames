@@ -19,6 +19,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 
 import org.bukkit.Bukkit;
@@ -60,7 +61,6 @@ import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.hover.content.Text;
 import xyz.derkades.derkutils.Hastebin;
 import xyz.derkades.derkutils.NumberUtils;
-import xyz.derkades.derkutils.Random;
 
 public abstract class Game<M extends GameMap> implements Listener, RandomlyPickable {
 
@@ -96,9 +96,9 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 	};
 
 	public abstract String getIdentifier();
-	
+
 	public abstract String getName();
-	
+
 	@Override
 	public String toString() {
 		return getName();
@@ -129,7 +129,7 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 	public abstract void onPlayerJoin(MPlayer player);
 
 	public abstract void onPlayerQuit(MPlayer player);
-	
+
 	protected String getGameSpecificResultJson() {
 		return null;
 	}
@@ -138,20 +138,20 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 
 	// Can be used by listeners in game classes to check if the game has started.
 	protected boolean started = false;
-	
+
 	private long preStartTime;
 	private long startTime;
-	
+
 	// This is set in the timer for loop, modifying the variable has no effect
 	private int secondsLeft;
-	
+
 	public int getSecondsLeft() {
 		return this.secondsLeft;
 	}
-	
+
 	private Set<UUID> gameSkipVotes;
 	private boolean skipped = false;
-	
+
 	public boolean voteGameSkip(final UUID uuid) {
 		return this.gameSkipVotes.add(uuid);
 	}
@@ -203,12 +203,12 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 
 			player.sendMessage(prefix + DARK_GRAY + "-----------------------------------------");
 		}
-		
+
 		// Load world now to avoid lag spike when teleporting
 		if (this.map.getGameWorld() != null) {
 			this.map.getGameWorld().load();
 		}
-		
+
 		// Countdown using sounds and the XP bar
 		new BukkitRunnable() {
 			int timeLeft = 200;
@@ -264,7 +264,7 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 		this.preStartTime = System.currentTimeMillis();
 		this.onPreStart();
 		this.map.onPreStart();
-		
+
 		this.map.getWorld().getEntitiesByClass(Arrow.class).forEach(Entity::remove);
 		this.map.getWorld().getEntitiesByClass(Trident.class).forEach(Entity::remove);
 		this.map.getWorld().getEntitiesByClass(Item.class).forEach(Entity::remove);
@@ -302,7 +302,7 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 					Game.this.started = true;
 					return;
 				}
-				
+
 //				Logger.debug("skip: %s", ((float) Game.this.gameSkipVotes.size()) / Bukkit.getOnlinePlayers().size());
 				final boolean skip = (float) Game.this.gameSkipVotes.size() / Bukkit.getOnlinePlayers().size() > SkipConfig.SKIP_VOTE_PERCENTAGE;
 				if (skip && this.secondsLeft > SkipConfig.SKIP_TO_SECONDS_LEFT) {
@@ -310,7 +310,7 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 					this.secondsLeft = SkipConfig.SKIP_TO_SECONDS_LEFT;
 					Game.this.skipped = true;
 				}
-				
+
 				final int newSecondsLeft = Game.this.gameTimer(this.secondsLeft);
 				this.secondsLeft = newSecondsLeft > 0 ? newSecondsLeft : this.secondsLeft;
 				Game.this.map.onTimer(this.secondsLeft);
@@ -371,7 +371,7 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 			winnersPlayers = Bukkit.getOnlinePlayers().stream().filter((p) -> winners.contains(p.getUniqueId())).collect(Collectors.toList());
 			winnersText = winnersPlayers.stream().map(Player::getName).collect(Collectors.joining(", "));
 		}
-		
+
 		if (this.skipped) {
 			this.sendMessage("The " + this.getName() + " game has ended. There are no winners, this game was skipped.");
 		} else if (winners.isEmpty()){
@@ -381,9 +381,9 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 		} else {
 			this.sendMessage("The " + this.getName() + " game has ended! Winners: " + YELLOW + winnersText);
 		}
-		
+
 		saveGameResult(winnersPlayers);
-		
+
 		// Give rewards
 		for (final MPlayer player : Minigames.getOnlinePlayers()){
 			if (winners.contains(player.getUniqueId())){
@@ -415,20 +415,20 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 			// Teleport the player and give them a bit of forwards and sidewards velocity
 			TaskQueue.add(() -> {
 				player.teleport(Var.LOBBY_LOCATION);
-				player.bukkit().setVelocity(new Vector(Random.getRandomDouble() - 0.5, 0.3, -0.8));
+				player.bukkit().setVelocity(new Vector(ThreadLocalRandom.current().nextDouble() - 0.5, 0.3, -0.8));
 				player.giveEffect(PotionEffectType.INVISIBILITY, 30, 0);
 				player.applyLobbySettings();
 			});
 		}
-		
+
 		Scheduler.delay(5*20, () -> {
 			UpdateSigns.updateLeaderboard();
 		});
-		
+
 		Scheduler.delay(10*20, () -> {
 			AutoRotate.startNewRandomGame();
 		});
-		
+
 		Scheduler.delay(20*20, () -> {
 			// Unload world from previous game. It can be done now, because all players should
 			// be teleported to the lobby by now.
@@ -439,16 +439,16 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 			}
 		});
 	}
-	
+
 	private void saveGameResult(final List<Player> winners) {
 		final File gameResultsDir = new File("game_results");
 		if (!gameResultsDir.exists()) {
 			Logger.warning("Skipped saving game data, directory '%s' does not exist.", gameResultsDir.getAbsolutePath());
 			return;
 		}
-		
+
 		final int gameNumber = Minigames.getInstance().getConfig().getInt("last-game-number", -1) + 1;
-		
+
 		final byte[] content;
 		try (ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
 				Writer writer = new OutputStreamWriter(byteStream);
@@ -456,17 +456,17 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 			json.beginObject();
 			json.name("format_version");
 			json.value(1);
-			
+
 			json.name("time_pre_start");
 			json.value(this.preStartTime / 1000);
 			json.name("time_start");
 			json.value(this.startTime / 1000);
 			json.name("time_end");
 			json.value(System.currentTimeMillis() / 1000);
-			
+
 			json.name("debug");
 			json.value(Logger.debugModeEnabled());
-			
+
 			json.name("game");
 			json.beginObject();
 			json.name("identifier");
@@ -478,7 +478,7 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 			json.name("weight");
 			json.value(this.getWeight());
 			json.endObject();
-			
+
 			json.name("map");
 			json.beginObject();
 			json.name("identifier");
@@ -490,14 +490,14 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 			json.name("weight");
 			json.value(this.map.getWeight());
 			json.endObject();
-			
+
 			json.name("winners");
 			writePlayersJson(json, winners);
 			json.name("online_players");
 			writePlayersJson(json, Bukkit.getOnlinePlayers());
 			json.name("skipped");
 			json.value(this.skipped);
-			
+
 			final String gameSpecific = this.getGameSpecificResultJson();
 			if (gameSpecific != null) {
 				json.name("game_specific");
@@ -511,7 +511,7 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 			e.printStackTrace();
 			return;
 		}
-		
+
 		// Go async for file/network I/O
 		Scheduler.async(() -> {
 			// Save to json file
@@ -523,7 +523,7 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 				e.printStackTrace();
 				return; // File not saving is bad! Don't continue
 			}
-			
+
 			// Upload to hastebin
 			String url;
 			try {
@@ -534,7 +534,7 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 				e.printStackTrace();
 				url = null; // Not uploading to hastebin is not a big deal, continue
 			}
-		
+
 			final String fUrl = url;
 			Scheduler.run(() -> {
 				Logger.info("Game result: %s", fUrl);
@@ -544,7 +544,7 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 			});
 		});
 	}
-	
+
 	private void writePlayersJson(final JsonWriter json, final Collection<? extends Player> players) throws IOException {
 		json.beginArray();
 		for (final Player player : players) {
@@ -559,9 +559,9 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 	}
 
 	private void showPolls() {
-		if (VoteConfig.VOTE_MENU_CHANCE > Random.getRandomFloat()) {
+		if (VoteConfig.VOTE_MENU_CHANCE > ThreadLocalRandom.current().nextFloat()) {
 			Scheduler.delay(40, () -> {
-				final boolean bool = Random.getRandomBoolean();
+				final boolean bool = ThreadLocalRandom.current().nextBoolean();
 
 				if (bool && this.getRequiredPlayers() > 1) {
 					final Poll poll = new Poll("Did you enjoy this game?", (player, option) -> {

@@ -30,12 +30,12 @@ public class BuildCopy extends Game<BuildCopyMap> {
 			Material.SANDSTONE,
 			Material.SAND,
 	};
-	
+
 	private static final ItemStack PICKAXE = new ItemBuilder(Material.IRON_PICKAXE)
 			.canDestroy(MATERIALS)
 			.unbreakable()
 			.create();
-	
+
 	@Override
 	public String getIdentifier() {
 		return "buildcopy";
@@ -71,25 +71,25 @@ public class BuildCopy extends Game<BuildCopyMap> {
 	private Map<UUID, Integer> positions = null;
 	private Map<UUID, Material[]> currentPatterns = null;
 	private Leaderboard leaderboard = null;
-	
+
 	private Material[] generatePattern() {
 		final Material[] pattern = new Material[9];
 		for (int i = 0; i < 9; i++) {
-			pattern[i] = ListUtils.getRandomValueFromArray(MATERIALS);
+			pattern[i] = ListUtils.choice(MATERIALS);
 		}
 		return pattern;
 	}
-	
+
 	@Override
 	public void onPreStart() {
 		this.positions = new HashMap<>();
 		this.currentPatterns = new HashMap<>();
 		this.leaderboard = new Leaderboard();
-		
+
 		for (int i = 0; i < this.map.getSupportedPlayerCount(); i++) {
 			this.map.clearCopy(i);
 		}
-		
+
 		int position = 0;
 		for (final MPlayer player : Minigames.getOnlinePlayers()) {
 			player.queueTeleport(this.map.getSpawnLocation(position));
@@ -100,7 +100,7 @@ public class BuildCopy extends Game<BuildCopyMap> {
 			position++;
 		}
 	}
-	
+
 	private void giveItems(final MPlayer player) {
 		player.clearInventory();
 		final ItemStack[] items = new ItemStack[MATERIALS.length + 1];
@@ -117,7 +117,7 @@ public class BuildCopy extends Game<BuildCopyMap> {
 	@Override
 	public void onStart() {
 		this.leaderboard.show();
-		
+
 		for (final MPlayer player : Minigames.getOnlinePlayers()) {
 			giveItems(player);
 		}
@@ -136,7 +136,7 @@ public class BuildCopy extends Game<BuildCopyMap> {
 		this.currentPatterns = null;
 		this.leaderboard = null;
 	}
-	
+
 	@EventHandler(ignoreCancelled = true)
 	public void onPlace(final BlockPlaceEvent event) {
 		final MPlayer player = new MPlayer(event.getPlayer());
@@ -144,19 +144,19 @@ public class BuildCopy extends Game<BuildCopyMap> {
 			Logger.warning("Position unknown for %s", player.getName());
 			return;
 		}
-		
+
 		final int position = this.positions.get(player.getUniqueId());
 		if (this.map.checkCopy(position, this.currentPatterns.get(player.getUniqueId()))) {
 			this.map.clearCopy(position);
-			
+
 			sendMessage(player.getName() + " finished pattern " + this.leaderboard.incrementAndGetScore(player));
-			
+
 			giveItems(player);
-			
+
 			final Material[] pattern = generatePattern();
 			this.map.buildOriginal(position, pattern);
 			this.currentPatterns.put(player.getUniqueId(), pattern);
-			
+
 			final Firework firework = this.map.getSpawnLocation(position).getWorld().spawn(this.map.getSpawnLocation(position), Firework.class);
 			final FireworkMeta meta = firework.getFireworkMeta();
 			meta.setPower(30);
@@ -180,7 +180,7 @@ public class BuildCopy extends Game<BuildCopyMap> {
 
 	@Override
 	public void onPlayerQuit(final MPlayer player) {
-		
+
 	}
 
 }
