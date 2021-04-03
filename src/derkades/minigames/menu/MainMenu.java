@@ -21,15 +21,15 @@ public class MainMenu extends IconMenu {
 
 	public MainMenu(final Player player) {
 		super(Minigames.getInstance(), "Menu", 1, player);
-		addItems();
+		addItems(player);
 	}
 
-	public void addItems() {
-		addItem(0, new ItemBuilder(Material.GRAY_DYE).name(GOLD + "Points").lore(GRAY + "You have " + YELLOW + Points.getPoints(this.player) + GRAY + " points.", GRAY + "Click for more information.").create());
+	public void addItems(final Player player) {
+		addItem(0, new ItemBuilder(Material.GRAY_DYE).name(GOLD + "Points").lore(GRAY + "You have " + YELLOW + Points.getPoints(player) + GRAY + " points.", GRAY + "Click for more information.").create());
 		addItem(1, new ItemBuilder(Material.GRAY_DYE).name(GOLD + "Games").lore(GRAY + "Click to open games list menu.").create());
 
 		Material settingMaterial;
-		if (Minigames.getInstance().getConfig().getStringList("disabled-description").contains(this.player.getUniqueId().toString())) {
+		if (Minigames.getInstance().getConfig().getStringList("disabled-description").contains(player.getUniqueId().toString())) {
 			settingMaterial = Material.RED_DYE;
 		} else {
 			settingMaterial = Material.LIME_DYE;
@@ -67,7 +67,7 @@ public class MainMenu extends IconMenu {
 			Minigames.getInstance().getConfig().set("disabled-description", list);
 			Minigames.getInstance().saveConfig();
 
-			this.addItems();
+			this.addItems(event.getPlayer());
 
 			return false;
 		} else {
