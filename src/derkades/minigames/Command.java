@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 
 import org.bukkit.Bukkit;
@@ -37,7 +38,6 @@ import derkades.minigames.utils.queue.TaskQueue;
 import derkades.minigames.worlds.GameWorld;
 import net.md_5.bungee.api.ChatColor;
 import xyz.derkades.derkutils.Hastebin;
-import xyz.derkades.derkutils.Random;
 
 public class Command implements CommandExecutor {
 
@@ -48,7 +48,7 @@ public class Command implements CommandExecutor {
 			new MainMenu(player);
 			return true;
 		}
-		
+
 		if (args.length == 2 && (args[0].equalsIgnoreCase("next") || args[0].equalsIgnoreCase("n")) && sender.hasPermission("minigames.next")) {
 			final String name = args[1].replace("_", " ");
 			final Game<? extends GameMap> game = Game.fromString(name);
@@ -137,7 +137,7 @@ public class Command implements CommandExecutor {
 				}
 			}
 		}
-		
+
 		if (args.length >= 1 && args[0].equals("test") && sender.hasPermission("minigames.test")) {
 //				new DieAnimationMenu(new BoardPlayer(new MPlayer((Player) sender)), 1, 10, Random.getRandomInteger(1, 10));
 //		        final Location fbLocation = loc.add(
@@ -199,7 +199,7 @@ public class Command implements CommandExecutor {
 //				nbt.getStringList("CanDestroy").add("minecraft:dirt");
 //				((Player) sender).getInventory().addItem(nbt.getItem());
 			final Player player = (Player) sender;
-			
+
 			if (args.length == 2) {
 				Missile missile;
 				try {
@@ -210,7 +210,7 @@ public class Command implements CommandExecutor {
 					player.sendMessage(Arrays.stream(Missile.values()).map(Missile::name).map(String::toLowerCase).sorted().collect(Collectors.joining(", ")));
 					return true;
 				}
-				
+
 				final BlockFace face = new MPlayer(player).getFacingAsBlockFace();
 				Logger.debug("%s: building missile \"%s\" in direction %s", player.getName(), missile, face);
 				missile.build(player.getLocation().add(0, -3, 0), face);
@@ -221,11 +221,11 @@ public class Command implements CommandExecutor {
 				return true;
 			}
 		}
-		
+
 		if (args.length >= 1 && args[0].equals("test2") && sender.hasPermission("minigames.test")) {
 			final Player player = (Player) sender;
 			final BlockFace facing = player.getFacing();
-			
+
 			new BukkitRunnable() {
 
 				double t = 0;
@@ -234,7 +234,7 @@ public class Command implements CommandExecutor {
 				@Override
 				public void run() {
 					this.t = this.t + 0.9;
-					
+
 					final Vector direction = this.loc.getDirection().normalize();
 					final double x = direction.getX() * this.t;
 					final double y = direction.getY() * this.t + 1.5;
@@ -249,9 +249,9 @@ public class Command implements CommandExecutor {
 						this.cancel();
 						this.loc.getWorld().spawnParticle(Particle.EXPLOSION_HUGE, this.loc, 1);
 						this.loc.getWorld().playSound(this.loc, Sound.ENTITY_GENERIC_EXPLODE, 2.0f, 1.0f);
-						
-						final Shield shield = Random.getRandomBoolean() ? Shield.BLUE : Shield.RED;
-						
+
+						final Shield shield = ThreadLocalRandom.current().nextBoolean() ? Shield.BLUE : Shield.RED;
+
 						shield.build(this.loc, facing);
 					}
 
@@ -260,7 +260,7 @@ public class Command implements CommandExecutor {
 			}.runTaskTimer(Minigames.getInstance(), 0, 1);
 			return true;
 		}
-		
+
 		if (args.length >= 1 && args[0].equals("generatemissilecode") && sender.hasPermission("minigames.test")) {
 			final Player player = (Player) sender;
 			player.sendMessage("missile code genereren... LET OP: werkt alleen voor missiles richting NORTH");
@@ -269,7 +269,7 @@ public class Command implements CommandExecutor {
 				player.sendMessage("kijk naar het beginblok");
 				return true;
 			}
-			
+
 			final Map<String, Integer> lines = new HashMap<>();
 			try {
 				generateMissileCode(block, 0, 0, 0, lines, 0);
@@ -277,7 +277,7 @@ public class Command implements CommandExecutor {
 				player.sendMessage("te veel blokken, zorg de missile niet tegen een muur aan zit");
 				return true;
 			}
-			
+
 			Scheduler.async(() -> {
 				final StringBuilder content = new StringBuilder();
 				Utils.sortByValue(lines).forEach((l, weight) -> {
@@ -300,7 +300,7 @@ public class Command implements CommandExecutor {
 				}
 			});
 		}
-		
+
 		if (args.length >= 1 && args[0].equals("test3") && sender.hasPermission("minigames.test")) {
 			final Set<Material> DONT_REPLACE = Set.of(
 					Material.BARRIER,
@@ -327,17 +327,17 @@ public class Command implements CommandExecutor {
 
 		return true;
 	}
-	
+
 	public void generateMissileCode(final Block start, final int fb, final int ud, final int lr, final Map<String, Integer> lines, int airCounter) {
 		if (airCounter > 3) {
 			return;
 		}
-		
+
 		final Block block = start.getRelative(lr, ud, -fb);
-		
+
 		if (block.getType() != Material.AIR) {
 			airCounter = 0;
-			
+
 			final String line;
 			switch(block.getType()) {
 				case STICKY_PISTON:
@@ -375,7 +375,7 @@ public class Command implements CommandExecutor {
 		} else {
 			airCounter++;
 		}
-		
+
 		generateMissileCode(start, fb+1, ud, lr, lines, airCounter);
 		generateMissileCode(start, fb, ud+1, lr, lines, airCounter);
 		generateMissileCode(start, fb, ud-1, lr, lines, airCounter);
@@ -386,5 +386,5 @@ public class Command implements CommandExecutor {
 			generateMissileCode(start, fb, ud, lr > 0 ? lr+1 : lr-1, lines, airCounter);
 		}
 	}
-	
+
 }
