@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 
 import org.bukkit.Bukkit;
@@ -14,7 +15,6 @@ import org.bukkit.entity.Player;
 import derkades.minigames.Minigames;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.ComponentBuilder;
-import xyz.derkades.derkutils.Random;
 
 public class Utils {
 
@@ -33,7 +33,7 @@ public class Utils {
 	public static List<UUID> getOnlinePlayersUuidList(){
 		return Bukkit.getOnlinePlayers().stream().map(Player::getUniqueId).collect(Collectors.toList());
 	}
-	
+
 	public static Set<UUID> getOnlinePlayersUuidSet(){
 		return Bukkit.getOnlinePlayers().stream().map(Player::getUniqueId).collect(Collectors.toSet());
 	}
@@ -56,7 +56,7 @@ public class Utils {
 	    double bestValue = Double.MAX_VALUE;
 
 	    for (final E element : weights.keySet()) {
-	        final double value = -Math.log(Random.getRandomDouble()) / weights.get(element);
+	        final double value = -Math.log(ThreadLocalRandom.current().nextDouble()) / weights.get(element);
 
 	        if (value < bestValue) {
 	            bestValue = value;
