@@ -1,8 +1,8 @@
 package derkades.minigames.games.freefall;
 
-import org.bukkit.Material;
+import java.util.concurrent.ThreadLocalRandom;
 
-import xyz.derkades.derkutils.ListUtils;
+import org.bukkit.Material;
 
 public class Layer {
 
@@ -18,7 +18,7 @@ public class Layer {
 	}
 
 	public Hole setRandomCorrectHole() {
-		return this.correctHole = ListUtils.getRandomValueFromArray(this.holes);
+		return this.correctHole = this.holes[ThreadLocalRandom.current().nextInt(this.holes.length)];
 	}
 
 	public void placeBlocks() {
