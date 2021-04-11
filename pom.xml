@@ -62,10 +62,6 @@
 							<shadedPattern>derkades.minigames.lib.jackson</shadedPattern>
 						</relocation>
 						<relocation>
-							<pattern>com.coloredcarrot.api.sidebar</pattern>
-							<shadedPattern>derkades.minigames.lib.sidebar</shadedPattern>
-						</relocation>
-						<relocation>
 							<pattern>de.tr7zw.annotations</pattern>
 							<shadedPattern>derkades.minigames.lib.tr7zw.annotations</shadedPattern>
 						</relocation>
