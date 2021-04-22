@@ -32,10 +32,11 @@ import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.TextComponent;
 import xyz.derkades.derkutils.bukkit.BlockUtils;
+import xyz.derkades.derkutils.bukkit.ItemBuilder;
 import xyz.derkades.derkutils.bukkit.LocationUtils;
 
 public class MPlayer {
-	
+
 	private static final String METADATA_PREFIX = "mg_";
 
 	private final Player player;
@@ -51,28 +52,28 @@ public class MPlayer {
 	public MPlayer(final EntityEvent event) {
 		this.player = (Player) event.getEntity();
 	}
-	
+
 	public void setMetadata(final String key, final Object value) {
 		this.removeMetadata(key);
 		this.player.setMetadata(METADATA_PREFIX + key, new FixedMetadataValue(Minigames.getInstance(), value));
 	}
-	
+
 	public void removeMetadata(final String key) {
 		this.player.removeMetadata(METADATA_PREFIX + key, Minigames.getInstance());
 	}
-	
+
 	public MetadataValue getMetadata(final String key) {
 		return this.player.getMetadata(METADATA_PREFIX + key).get(0);
 	}
-	
+
 	public boolean hasMetadata(final String key) {
 		return this.player.hasMetadata(METADATA_PREFIX + key);
 	}
-	
+
 	public boolean getMetadataBool(final String key) {
 		return this.getMetadata(key).asBoolean();
 	}
-	
+
 	public boolean getMetadataBool(final String key, final boolean def) {
 		if (this.hasMetadata(key)) {
 			return this.getMetadataBool(key);
@@ -80,7 +81,7 @@ public class MPlayer {
 			return def;
 		}
 	}
-	
+
 	public void setDisableDamage(final boolean disableDamage) {
 		this.setMetadata("disable_damage", disableDamage);
 	}
@@ -104,15 +105,15 @@ public class MPlayer {
 	public boolean getDisableItemMoving() {
 		return this.getMetadataBool("disable_item_moving", true);
 	}
-	
+
 	public void enableSneakPrevention(final Consumer<MPlayer> onPunish) {
 		SneakPrevention.enable(this, onPunish);
 	}
-	
+
 	public void disableSneakPrevention() {
 		SneakPrevention.disable(this);
 	}
-	
+
 	public boolean sneakPreventionEnabled() {
 		return SneakPrevention.isEnabled(this);
 	}
@@ -132,7 +133,7 @@ public class MPlayer {
 	public void teleport(final World world, final double x, final double y, final double z) {
 		this.player.teleport(new Location(world, x, y, z));
 	}
-	
+
 	public BlockFace getFacingAsBlockFace() {
 		float yaw = this.getLocation().getYaw();
 		if (yaw < 0) {
@@ -150,7 +151,7 @@ public class MPlayer {
 			throw new IllegalStateException("Impossible yaw: " + yaw);
 		}
 	}
-	
+
 	public boolean yawInBounds(final float min, final float max) {
 		float yaw = this.getYaw();
 		if (yaw < -180) {
@@ -168,11 +169,11 @@ public class MPlayer {
 	public boolean isIn2dBounds(final World world, final double x1, final double z1, final double x2, final double z2) {
 		return this.isIn2dBounds(new Location(world, x1, 0, z1), new Location(world, x2, 0, z2));
 	}
-	
+
 	public boolean isIn3dBounds(final Location cornerOne, final Location cornerTwo) {
 		return LocationUtils.isIn3dBounds(this.player.getLocation(), cornerOne, cornerTwo);
 	}
-	
+
 	public boolean isIn3dBounds(final World world, final double x1, final double y1, final double z1, final double x2, final double y2, final double z2) {
 		return this.isIn3dBounds(new Location(world, x1, y1, z1), new Location(world, x2, y2, z2));
 	}
@@ -192,11 +193,11 @@ public class MPlayer {
 	public double getZ() {
 		return getLocation().getZ();
 	}
-	
+
 	public float getYaw() {
 		return getLocation().getYaw();
 	}
-	
+
 	public float getPitch() {
 		return getLocation().getPitch();
 	}
@@ -323,7 +324,7 @@ public class MPlayer {
 	public boolean isSpectator() {
 		return getGameMode().equals(GameMode.SPECTATOR);
 	}
-	
+
 	public void giveEffect(final PotionEffect effect) {
 		this.player.addPotionEffect(effect);
 	}
@@ -371,10 +372,10 @@ public class MPlayer {
 //					.create());
 //		}
 
-//		this.player.getInventory().setItem(8, new ItemBuilder(Material.COMPARATOR)
-//				.name(ChatColor.AQUA + "" + ChatColor.BOLD + "Menu")
-//				.lore(ChatColor.YELLOW + "Click to open menu")
-//				.create());
+		this.player.getInventory().setItem(8, new ItemBuilder(Material.COMPARATOR)
+				.name(ChatColor.AQUA + "" + ChatColor.BOLD + "Menu")
+				.lore(ChatColor.YELLOW + "Click to open menu")
+				.create());
 	}
 
 	public void addPoints(final int points) {
@@ -482,7 +483,7 @@ public class MPlayer {
 	private void dropItem(final ItemStack item) {
 		this.player.getLocation().getWorld().dropItemNaturally(this.player.getLocation(), item);
 	}
-	
+
 	public void placeCage(final boolean cage, final Material material) {
 		final Block block = this.player.getLocation().getBlock();
 		final Block[] blocks = new Block[] {

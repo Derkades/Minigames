@@ -19,6 +19,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
@@ -134,13 +135,22 @@ public class GlobalListeners implements Listener {
 		}
 
 		final Player player = event.getPlayer();
+
+		// 1.16 triggers interact events when clicking items in a menu for some reason
+		// We need to ignore these
+		// If the player does not have an open inventory, getOpenInventory returns their crafting or creative inventory
+		if (player.getOpenInventory().getType() != InventoryType.CRAFTING &&
+				player.getOpenInventory().getType() != InventoryType.CREATIVE) {
+			return;
+		}
+
 		final Entity entity = event.getRightClicked();
 		if (entity instanceof Villager){
 			event.setCancelled(true);
 			new MainMenu(player);
 		}
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	private static final Set<Material>[] CANCEL_INTERACT = new Set[] {
 			MaterialLists.TRAPDOORS,
@@ -148,11 +158,11 @@ public class GlobalListeners implements Listener {
 			MaterialLists.FENCE_GATES,
 			MaterialLists.POTTED_PLANT,
 	};
-	
+
 	private static final Set<Material> CANCEL_INTERACT_2 = Set.of(
 			Material.FLOWER_POT
 	);
-	
+
 	@EventHandler
 	public void onInteract(final PlayerInteractEvent event) {
 		if (event.getPlayer().getGameMode() != GameMode.ADVENTURE) {
@@ -169,13 +179,13 @@ public class GlobalListeners implements Listener {
 
 		if (event.getHand() == EquipmentSlot.HAND) {
 			final ItemStack itemInHand = event.getPlayer().getInventory().getItemInMainHand();
-	
+
 			if (Minigames.CURRENT_GAME == null && itemInHand.getType().equals(Material.COMPARATOR)) {
 				new MainMenu(event.getPlayer());
 			}
 		}
 	}
-	
+
 	@EventHandler
 	public void onChat(final AsyncPlayerChatEvent event) {
 		event.setFormat(Utils.getChatPrefix(ChatColor.AQUA, 'C') + ChatColor.WHITE + "%s: " + ChatColor.GRAY + "%s");
@@ -231,7 +241,7 @@ public class GlobalListeners implements Listener {
 		event.setDeathMessage("");
 		Minigames.shutdown(ShutdownReason.EMERGENCY_AUTOMATIC, "A player died: " + event.getEntity().getName());
 	}
-	
+
 	private static final PotionEffect SLIME_JUMP_EFFECT = new PotionEffect(PotionEffectType.JUMP, 30, 7, true, false);
 
 	@EventHandler
