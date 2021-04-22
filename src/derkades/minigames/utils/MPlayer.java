@@ -135,31 +135,11 @@ public class MPlayer {
 	}
 
 	public BlockFace getFacingAsBlockFace() {
-		float yaw = this.getLocation().getYaw();
-		if (yaw < 0) {
-			yaw += 360;
-		}
-		if (yaw < 45 || yaw >= 315) { // 0, 360
-			return BlockFace.SOUTH; // +Z
-		} else if (yaw >= 45 && yaw < 135) { // 90
-			return BlockFace.WEST; // -X
-		} else if (yaw >= 135 && yaw < 225) { // 180
-			return BlockFace.NORTH; // -Z
-		} else if (yaw >= 225 && yaw < 315) { // 270
-			return BlockFace.EAST; // +X
-		} else {
-			throw new IllegalStateException("Impossible yaw: " + yaw);
-		}
+		return LocationUtils.getYawAsBlockFace(this.getYaw());
 	}
 
 	public boolean yawInBounds(final float min, final float max) {
-		float yaw = this.getYaw();
-		if (yaw < -180) {
-			yaw += 360;
-		} else if (yaw > 180) {
-			yaw -= 360;
-		}
-		return yaw > min && yaw < max;
+		return LocationUtils.yawInBounds(this.getYaw(), min, max);
 	}
 
 	public boolean isIn2dBounds(final Location cornerOne, final Location cornerTwo) {
