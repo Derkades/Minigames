@@ -24,7 +24,7 @@ public class HauntedHouse extends MurderyMisterMap {
 	}
 
 	@Override
-	public Location[] getFlickeringRedstomeLamps() {
+	public Location[] getFlickeringRedstoneLamps() {
 		return new Location[] {
 				new Location(this.getWorld(), -8, 72, 5),
 				new Location(this.getWorld(), 3, 77, -6),

@@ -5,14 +5,12 @@ import org.bukkit.Difficulty;
 import org.bukkit.GameRule;
 import org.bukkit.World;
 import org.bukkit.World.Environment;
+import org.bukkit.WorldCreator;
+import org.bukkit.WorldType;
 
 import derkades.minigames.Logger;
 import derkades.minigames.Minigames;
 import derkades.minigames.Minigames.ShutdownReason;
-
-import org.bukkit.WorldCreator;
-import org.bukkit.WorldType;
-
 import xyz.derkades.derkutils.bukkit.VoidGenerator;
 
 public enum GameWorld {
@@ -23,14 +21,14 @@ public enum GameWorld {
 
 	BTB_PROTOTYPE,
 	BTB_JUNGLE,
-	
+
 	BUILDCOPY_PROTOTYPE,
-	
+
 	CONTROL_PROTOTYPE,
 
 	CREEPERATTACK_HEDGES,
 	CREEPERATTACK_MINESHAFT,
-	
+
 	DECAY_SPRUCEBRICK,
 	DECAY_SQUAREDONUT,
 
@@ -48,24 +46,25 @@ public enum GameWorld {
 	FREEFALL_PROTOTYPE,
 
 	HARVEST_PROTOTYPE,
-	
+
 	HG_TREEHOUSE,
 	HG_WINDMILL,
 	HG_MANSION,
 	HG_NETHER,
 
 	ICYBLOWBACK_ICYBLOWBACK,
-	
+
 	MISSILERACER_PROTOTYPE,
 
 	MGR_ISLAND,
 	MGR_SANTIAGO,
-	
+
 	MAZEPVP_PROTOTYPE,
-	
+
 	MOLEPVP_PROTOTYPE,
 
 	MM_HAUNTEDHOUSE,
+	MM_DECKEDOUT,
 
 	OITQ_BARN,
 	OITQ_CASTLE,
@@ -98,19 +97,17 @@ public enum GameWorld {
 	TNTRUN_WATERLAVA,
 
 	TRON_PROTOTYPE,
-	
+
 	// Testing worlds, move up when assigned to game
 	PICKLES_PROTOTYPE,
 	MISSILES_PROTOTYPE,
 	TAKECOVER_PROTOTYPE,
-	
+
 	// Reserved worlds
 	RESERVED_BACKUP,
 	RESERVED_TESTING,
 
 	;
-
-	private GameWorld(){}
 
 	public String getName() {
 		return "worlds/" + toString().toLowerCase();
@@ -122,7 +119,7 @@ public enum GameWorld {
 			Logger.warning("World '%s' was requested while it was not loaded yet.", this.name());
 			world = load();
 		}
-		
+
 		if (world == null) {
 			Minigames.shutdown(ShutdownReason.EMERGENCY_AUTOMATIC, "World still null after loading it: " + this.name());
 		}

@@ -5,6 +5,7 @@ import java.util.Set;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
@@ -151,16 +152,20 @@ public class MurderyMister extends Game<MurderyMisterMap> {
 			secondsLeft = 5;
 		}
 
-		for (final Location location : this.map.getCandles()) {
-			location.setX(location.getX() + .5);
-			location.setY(location.getY() + 1.15);
-			location.setZ(location.getZ() + .5);
-			location.getWorld().spawnParticle(Particle.FLAME, location, 0, 0, 0, 0.001, 2);
+		if (this.map.getCandles() != null) {
+			for (final Location location : this.map.getCandles()) {
+				location.setX(location.getX() + .5);
+				location.setY(location.getY() + 1.15);
+				location.setZ(location.getZ() + .5);
+				location.getWorld().spawnParticle(Particle.FLAME, location, 0, 0, 0, 0.001, 2);
+			}
 		}
 
-		if (secondsLeft % 2 == 0) {
-			final Lightable powerable = (Lightable) ListUtils.choice(this.map.getFlickeringRedstomeLamps()).getBlock().getBlockData();
-			powerable.setLit(!powerable.isLit());
+		if (this.map.getFlickeringRedstoneLamps() != null) {
+			if (secondsLeft % 2 == 0) {
+				final Lightable powerable = (Lightable) ListUtils.choice(this.map.getFlickeringRedstoneLamps()).getBlock().getBlockData();
+				powerable.setLit(!powerable.isLit());
+			}
 		}
 
 		return secondsLeft;
@@ -248,8 +253,8 @@ public class MurderyMister extends Game<MurderyMisterMap> {
 
 	@EventHandler
 	public void chat(final AsyncPlayerChatEvent event) {
-		if (this.started) {
-			new MPlayer(event).sendTitle("", ChatColor.RED + "Chat is disabled");
+		if (this.started && event.getPlayer().getGameMode() == GameMode.SPECTATOR) {
+			new MPlayer(event).sendTitle("", ChatColor.RED + "Chat is disabled for spectators");
 			event.setCancelled(true);
 		}
 	}
