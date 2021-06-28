@@ -30,7 +30,7 @@ public class RegeneratingSpleef extends Game<SpleefMap> {
 	public String getIdentifier() {
 		return "regenerating_spleef";
 	}
-	
+
 	@Override
 	public String getName() {
 		return "Regenerating Spleef";
@@ -90,7 +90,8 @@ public class RegeneratingSpleef extends Game<SpleefMap> {
 				.name("Spleefanator 8000")
 				.enchant(Enchantment.DIG_SPEED, 5)
 				.unbreakable()
-				.canDestroy(Material.SNOW_BLOCK)
+//				.canDestroy(Material.SNOW_BLOCK)
+				.canDestroy("minecraft:snow_block")
 				.create();
 
 		Bukkit.getOnlinePlayers().forEach((player) -> player.getInventory().setItem(0, shovel));

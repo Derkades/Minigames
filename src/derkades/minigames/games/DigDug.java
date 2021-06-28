@@ -101,10 +101,13 @@ public class DigDug extends Game<DigDugMap> {
 		final ItemStack shovel = new ItemBuilder(Material.DIAMOND_SHOVEL)
 				.name(ChatColor.GREEN + "The Dig Dug Digger")
 				.unbreakable()
-				.canDestroy(Material.DIRT, Material.GRASS_BLOCK,
-						Material.COAL_ORE, Material.IRON_ORE,
-						Material.IRON_ORE, Material.GOLD_ORE,
-						Material.EMERALD_ORE, Material.NETHERRACK, Material.QUARTZ_BLOCK)
+//				.canDestroy(Material.DIRT, Material.GRASS_BLOCK,
+//						Material.COAL_ORE, Material.IRON_ORE,
+//						Material.IRON_ORE, Material.GOLD_ORE,
+//						Material.EMERALD_ORE, Material.NETHERRACK, Material.QUARTZ_BLOCK)
+				.canDestroy("minecraft:dirt", "minecraft:grass_block", "minecraft:coal_ore",
+						"minecraft:iron_ore", "minecraft:gold_ore", "minecraft:emerald_ore",
+						"minecraft:netherrack", "minecraft:quartz_block")
 				.create();
 
 		shovel.addUnsafeEnchantment(Enchantment.DIG_SPEED, 10);

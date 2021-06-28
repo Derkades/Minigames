@@ -28,15 +28,14 @@ public class BreakTheBlock extends Game<BreakTheBlockMap> {
 			.unbreakable()
 			.name(ChatColor.GOLD + "Block breaker")
 			.lore(ChatColor.YELLOW + "Use this gold pickaxe to break the ", ChatColor.YELLOW + "gold block at the end of the game.")
-//			.canDestroy("gold_block")
-			.canDestroy(Material.GOLD_BLOCK)
+			.canDestroy("minecraft:gold_block")
 			.create();
 
 	@Override
 	public String getIdentifier() {
 		return "break_the_block";
 	}
-	
+
 	@Override
 	public String getName() {
 		return "Break the Block";
@@ -69,7 +68,7 @@ public class BreakTheBlock extends Game<BreakTheBlockMap> {
 	public int getPreDuration() {
 		return 2;
 	}
-	
+
 	@Override
 	public String getAlias() {
 		return "btb";
@@ -147,7 +146,7 @@ public class BreakTheBlock extends Game<BreakTheBlockMap> {
 		}
 
 		final PlayerInventory inv = player.getInventory();
-		
+
 		if (player.getLocation().getBlock().getRelative(BlockFace.DOWN).getType().equals(Material.ORANGE_CONCRETE) &&
 				!inv.contains(Material.FIREWORK_ROCKET)) {
 			inv.addItem(new ItemBuilder(Material.FIREWORK_ROCKET).name(ChatColor.LIGHT_PURPLE + "Elytra fireworks").create());

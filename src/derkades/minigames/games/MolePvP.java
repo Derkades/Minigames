@@ -21,7 +21,7 @@ import net.md_5.bungee.api.ChatColor;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
 
 public class MolePvP extends Game<MolePvPMap> {
-	
+
 	@Override
 	public String getIdentifier() {
 		return "mole_pvp";
@@ -212,8 +212,8 @@ public class MolePvP extends Game<MolePvPMap> {
 
 		final ItemStack shovel = new ItemBuilder(Material.DIAMOND_SHOVEL)
 				.enchant(Enchantment.DIG_SPEED, 5)
-//				.canDestroy("dirt")
-				.canDestroy(Material.DIRT)
+				.canDestroy("minecraft:dirt")
+//				.canDestroy(Material.DIRT)
 				.unbreakable()
 				.create();
 
@@ -228,7 +228,7 @@ public class MolePvP extends Game<MolePvPMap> {
 
 	@Override
 	public void onPlayerQuit(final MPlayer player) {
-		
+
 	}
 
 }

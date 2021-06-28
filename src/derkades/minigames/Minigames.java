@@ -35,11 +35,11 @@ public class Minigames extends JavaPlugin implements Listener {
 	public static boolean STOP_GAMES = false;
 
 	public static boolean BYPASS_PLAYER_MINIMUM_CHECKS = false;
-	
+
 	static {
 		MinecraftVersion.disableUpdateCheck();
 	}
-	
+
 //	public static Economy economy = null;
 
 	@SuppressWarnings("deprecation")
@@ -48,11 +48,11 @@ public class Minigames extends JavaPlugin implements Listener {
 		instance = this;
 
 		super.saveDefaultConfig();
-		
+
 		integrityCheck();
 
 		Logger.debugMode = getConfig().getBoolean("debug_mode");
-		
+
 		Logger.info("Plugin enabled");
 
 		Var.WORLD = Bukkit.getWorld("minigames");
@@ -83,7 +83,7 @@ public class Minigames extends JavaPlugin implements Listener {
 		ChatPoll.startup(this);
 		SpawnZombieShooter.init();
 		new SneakPrevention(this);
-		new JazzRoom();
+//		new JazzRoom();
 
 		TaskQueue.start();
 
@@ -116,10 +116,10 @@ public class Minigames extends JavaPlugin implements Listener {
 				Logger.info("Players online, not starting games automatically");
 			}
 		});
-		
+
 		new AutoReloader(this);
 	}
-	
+
 	private void integrityCheck() {
 		for (final Game<?> game : Game.GAMES) {
 			Validate.notNull(game.getIdentifier(), game.getClass().getName());
@@ -136,7 +136,7 @@ public class Minigames extends JavaPlugin implements Listener {
 	@Override
 	public void onDisable(){
 		CURRENT_GAME = null;
-		
+
 		Logger.debug("Unloading worlds");
 
 		for (final GameWorld gWorld : GameWorld.values()) {
@@ -174,7 +174,7 @@ public class Minigames extends JavaPlugin implements Listener {
 //        economy = rsp.getProvider();
 //        return economy != null;
 //    }
-    
+
     public static MPlayer getPlayer(final UUID uuid) {
     	final Player player = Bukkit.getPlayer(uuid);
     	return player == null ? null : new MPlayer(player);

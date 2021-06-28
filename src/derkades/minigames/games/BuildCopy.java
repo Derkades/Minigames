@@ -31,8 +31,16 @@ public class BuildCopy extends Game<BuildCopyMap> {
 			Material.SAND,
 	};
 
+	private static final String[] MATERIALS_VANILLA = {
+			"minecraft:birch_planks",
+			"minecraft:end_stone_bricks",
+			"minecraft:end_stone",
+			"minecraft:sandstone",
+			"minecraft:sand",
+	};
+
 	private static final ItemStack PICKAXE = new ItemBuilder(Material.IRON_PICKAXE)
-			.canDestroy(MATERIALS)
+			.canDestroy(MATERIALS_VANILLA)
 			.unbreakable()
 			.create();
 
@@ -108,7 +116,7 @@ public class BuildCopy extends Game<BuildCopyMap> {
 		for (int i = 0; i < MATERIALS.length; i++) {
 			items[i+1] = new ItemBuilder(MATERIALS[i])
 					.amount(64)
-					.canPlaceOn(Material.GRAY_STAINED_GLASS)
+					.canPlaceOn("minecraft:gray_stained_glass")
 					.create();
 		}
 		player.giveItem(items);

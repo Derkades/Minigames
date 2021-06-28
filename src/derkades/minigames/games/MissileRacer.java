@@ -27,14 +27,17 @@ public class MissileRacer extends Game<MissileRacerMap> {
 	private static final ItemStack PLACEABLE_TNT = new ItemBuilder(Material.TNT)
 			.amount(20)
 			.canPlaceOn(
-					Material.OBSIDIAN,
-					Material.SLIME_BLOCK,
-					Material.REDSTONE_BLOCK,
-					Material.GLASS,
-					Material.HONEY_BLOCK,
-					Material.OBSERVER,
-					Material.PISTON,
-					Material.STICKY_PISTON
+//					Material.OBSIDIAN,
+//					Material.SLIME_BLOCK,
+//					Material.REDSTONE_BLOCK,
+//					Material.GLASS,
+//					Material.HONEY_BLOCK,
+//					Material.OBSERVER,
+//					Material.PISTON,
+//					Material.STICKY_PISTON
+					"minecraft:obsidian", "minecraft:slime_block", "minecraft:redstone_block",
+					"minecraft:glass", "minecraft:honey_block", "minecraft:observer", "minecraft:piston",
+					"minecraft:sticky_piston"
 					)
 			.create();
 
