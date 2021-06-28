@@ -8,7 +8,7 @@ api-version: 1.16
 
 commands:
   games:
-    aliases: ['.']
+    aliases: ['.', 'g']
   bug:
     usage: /<command>
     aliases: [feedback, idea]
