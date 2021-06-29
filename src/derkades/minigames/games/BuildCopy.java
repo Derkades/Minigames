@@ -2,6 +2,7 @@ package derkades.minigames.games;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 import org.bukkit.Color;
@@ -9,7 +10,9 @@ import org.bukkit.FireworkEffect;
 import org.bukkit.Material;
 import org.bukkit.entity.Firework;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.FireworkMeta;
 
@@ -30,6 +33,9 @@ public class BuildCopy extends Game<BuildCopyMap> {
 			Material.SANDSTONE,
 			Material.SAND,
 	};
+
+	private static final Set<Material> MATERIALS_SET = Set.of(MATERIALS);
+
 
 	private static final String[] MATERIALS_VANILLA = {
 			"minecraft:birch_planks",
@@ -114,7 +120,7 @@ public class BuildCopy extends Game<BuildCopyMap> {
 		final ItemStack[] items = new ItemStack[MATERIALS.length + 1];
 		items[0] = PICKAXE;
 		for (int i = 0; i < MATERIALS.length; i++) {
-			items[i+1] = new ItemBuilder(MATERIALS[i])
+			items[i + 1] = new ItemBuilder(MATERIALS[i])
 					.amount(64)
 					.canPlaceOn("minecraft:gray_stained_glass")
 					.create();
@@ -173,6 +179,15 @@ public class BuildCopy extends Game<BuildCopyMap> {
 			firework.detonate();
 		} else {
 //			Logger.debug("Incorrect pattern for %s", player.getName());
+		}
+	}
+
+	@EventHandler
+	public void onPlace(final PlayerInteractEvent event) {
+		if (event.getAction() != Action.LEFT_CLICK_BLOCK &&
+				event.getPlayer().getInventory().getItemInMainHand().getType() == PICKAXE.getType() &&
+				MATERIALS_SET.contains(event.getClickedBlock().getType())) {
+			event.getClickedBlock().setType(Material.AIR);
 		}
 	}
 
