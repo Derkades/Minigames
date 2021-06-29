@@ -34,7 +34,7 @@ public class RandomPicking {
 
 	public static GameMap getRandomMap(final List<GameMap> maps) {
 		final GameMap map;
-		if (FORCE_GAME != null) {
+		if (FORCE_MAP != null) {
 			map = FORCE_MAP;
 			FORCE_MAP = null;
 			Logger.debug("Not picking a random map, forced map ", map);

@@ -63,10 +63,9 @@ public class Command implements CommandExecutor {
 		}
 
 		if (args.length == 2 && (args[0].equalsIgnoreCase("map") || args[0].equalsIgnoreCase("m")) && sender.hasPermission("minigames.nextmap")) {
-			final String name = args[1].replace("_", " ");
-			final GameMap map = GameMap.fromIdentifier(name);
+			final GameMap map = GameMap.fromIdentifier(args[1]);
 			if (map == null) {
-				sender.sendMessage("The specified map '" + name + "' does not exist.");
+				sender.sendMessage("The specified map '" + args[1] + "' does not exist.");
 			} else {
 				sender.sendMessage(map.getIdentifier() + " will be chosen as the next map");
 				RandomPicking.FORCE_MAP = map;
