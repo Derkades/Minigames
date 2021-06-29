@@ -8,6 +8,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.block.data.Waterlogged;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -249,10 +250,18 @@ public class GlobalListeners implements Listener {
 		if (Minigames.CURRENT_GAME == null){
 			final MPlayer player = new MPlayer(event);
 
-			final Material type = event.getTo().getBlock().getType();
+			final Block to = event.getTo().getBlock();
 			final Material below = event.getTo().getBlock().getRelative(BlockFace.DOWN).getType();
 
-			if (type == Material.WATER &&
+			if (
+					(
+							to.getType() == Material.WATER ||
+							(
+									to.getBlockData() != null &&
+									to.getBlockData() instanceof Waterlogged &&
+									((Waterlogged) to.getBlockData()).isWaterlogged()
+							)
+					) &&
 					player.getGameMode() == GameMode.ADVENTURE &&
 					!player.getMetadataBool("lobby parkour teleporting", false)) {
 				player.setMetadata("lobby parkour teleporting", true);
