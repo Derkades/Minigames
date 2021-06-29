@@ -24,9 +24,9 @@ import derkades.minigames.utils.Utils;
 import net.md_5.bungee.api.ChatColor;
 
 public class UpdateSigns {
-	
+
 	private static final Location[][] LEADERBOARD_SIGNS = new Location[3][3];
-	
+
 	static {
 		LEADERBOARD_SIGNS[0][0] = new Location(Var.LOBBY_WORLD, 225, 66, 273);
 		LEADERBOARD_SIGNS[0][1] = new Location(Var.LOBBY_WORLD, 225, 65, 273);
@@ -38,10 +38,10 @@ public class UpdateSigns {
 		LEADERBOARD_SIGNS[2][1] = new Location(Var.LOBBY_WORLD, 225, 65, 275);
 		LEADERBOARD_SIGNS[2][2] = new Location(Var.LOBBY_WORLD, 225, 64, 275);
 	}
-	
+
 	public static void updateLeaderboard() {
 		final int lastGameNumber = Minigames.getInstance().getConfig().getInt("last-game-number");
-		
+
 		// Retrieve game info from files async
 		Scheduler.async(() -> {
 			final long readStart = System.currentTimeMillis();
@@ -61,10 +61,10 @@ public class UpdateSigns {
 				}
 			}
 			final long readEndSortStart = System.currentTimeMillis();
-			
+
 			final Map<UUID, Integer> sorted = Utils.sortByValue(winsByUuid);
 			final long sortEnd = System.currentTimeMillis();
-			
+
 			Scheduler.run(() -> {
 				final long fillStart = System.currentTimeMillis();
 				final String[][] leaderboard = new String[3][12];
@@ -86,14 +86,14 @@ public class UpdateSigns {
 						break;
 					}
 				}
-				
+
 				final long fillEndRenderStart = System.currentTimeMillis();
-				
+
 				renderLeaderboard(leaderboard);
-				
+
 				final long renderEnd = System.currentTimeMillis();
-				
-				Logger.debug("Updated leaderboard - %sms read %sms sort %sms fill %sms render",
+
+				Logger.debug("Updated leaderboard - %sms(A) read, %sms(A) sort, %sms(S) fill, %sms(S) render",
 						readEndSortStart - readStart,
 						sortEnd - readEndSortStart,
 						fillEndRenderStart - fillStart,
@@ -101,7 +101,7 @@ public class UpdateSigns {
 			});
 		});
 	}
-	
+
 	private static void renderLeaderboard(final String[][] leaderboard) {
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 3; j++) {
@@ -113,7 +113,7 @@ public class UpdateSigns {
 			}
 		}
 	}
-	
+
 	public static void updateGlobalStats() {
 		final int players = Bukkit.getOfflinePlayers().length;
 		final int gamesPlayed = Minigames.getInstance().getConfig().getInt("last-game-number");
@@ -124,7 +124,7 @@ public class UpdateSigns {
 		globalStats.setLine(2, ChatColor.YELLOW + "Games played");
 		globalStats.setLine(3, ChatColor.WHITE + "" + gamesPlayed);
 		globalStats.update();
-		
+
 		final Sign globalStats2 = (Sign) new Location(Var.LOBBY_WORLD, 217, 65, 280).getBlock().getState();
 		globalStats2.setLine(0, ChatColor.YELLOW + "Games");
 		final int gameCount = Game.GAMES.length;
