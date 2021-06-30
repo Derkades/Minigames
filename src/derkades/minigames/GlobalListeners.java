@@ -244,15 +244,17 @@ public class GlobalListeners implements Listener {
 	}
 
 	private static final PotionEffect SLIME_JUMP_EFFECT = new PotionEffect(PotionEffectType.JUMP, 30, 7, true, false);
+	private static final Location parkourWater1 = new Location(Var.LOBBY_WORLD, 213, 78, 239);
+	private static final Location parkourWater2 = new Location(Var.LOBBY_WORLD, 195, 78, 264);
 
 	@EventHandler
 	public void lobbyEffects(final PlayerMoveEvent event){
 		if (Minigames.CURRENT_GAME == null){
 			final MPlayer player = new MPlayer(event);
+			player.removeFire();
 
 			final Block to = event.getTo().getBlock();
 			final Material below = event.getTo().getBlock().getRelative(BlockFace.DOWN).getType();
-
 			if (
 					(
 							to.getType() == Material.WATER ||
@@ -263,7 +265,8 @@ public class GlobalListeners implements Listener {
 							)
 					) &&
 					player.getGameMode() == GameMode.ADVENTURE &&
-					!player.getMetadataBool("lobby parkour teleporting", false)) {
+					!player.getMetadataBool("lobby parkour teleporting", false) &&
+					player.isIn2dBounds(parkourWater1, parkourWater2)) {
 				player.setMetadata("lobby parkour teleporting", true);
 				Scheduler.delay(5, () -> {
 					player.teleport(new Location(Var.LOBBY_LOCATION.getWorld(), 213.5, 68, 255.9, 70, 0));
