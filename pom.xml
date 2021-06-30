@@ -109,13 +109,6 @@
 		</dependency>
 
 		<dependency>
-			<groupId>net.milkbowl.vault</groupId>
-			<artifactId>VaultAPI</artifactId>
-			<version>1.7</version>
-			<scope>provided</scope>
-		</dependency>
-
-		<dependency>
 			<groupId>de.tr7zw</groupId>
 			<artifactId>item-nbt-api</artifactId>
 			<version>2.8.0</version>
@@ -134,11 +127,6 @@
 		<repository>
 			<id>spigot</id>
 			<url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
-		</repository>
-
-		<repository>
-			<id>vault</id>
-			<url>http://nexus.hc.to/content/repositories/pub_releases</url>
 		</repository>
 
 		<repository>
