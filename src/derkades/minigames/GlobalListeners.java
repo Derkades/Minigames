@@ -157,12 +157,8 @@ public class GlobalListeners implements Listener {
 			MaterialLists.TRAPDOORS,
 			MaterialLists.DOORS,
 			MaterialLists.FENCE_GATES,
-			MaterialLists.POTTED_PLANT,
+			MaterialLists.FLOWER_POTS,
 	};
-
-	private static final Set<Material> CANCEL_INTERACT_2 = Set.of(
-			Material.FLOWER_POT
-	);
 
 	@EventHandler
 	public void onInteract(final PlayerInteractEvent event) {
@@ -173,8 +169,7 @@ public class GlobalListeners implements Listener {
 		final Action action = event.getAction();
 		final Block block = event.getClickedBlock();
 		if (action == Action.RIGHT_CLICK_BLOCK &&
-				(MaterialLists.isInList(block.getType(), CANCEL_INTERACT) ||
-						CANCEL_INTERACT_2.contains(block.getType()))) {
+				(MaterialLists.isInList(block.getType(), CANCEL_INTERACT))) {
 			event.setCancelled(true);
 		}
 
