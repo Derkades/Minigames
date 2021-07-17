@@ -77,7 +77,7 @@ public class GlobalListeners implements Listener {
 						.underlined(false)
 						.create()));
 		} else {
-			//Game is running, game will handle teleporting
+			// Game is running, game will handle teleporting
 			Minigames.CURRENT_GAME.onPlayerJoin(player);
 
 			Scheduler.delay(1, () -> player.spigot().sendMessage(
