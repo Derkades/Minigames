@@ -20,20 +20,20 @@ import xyz.derkades.derkutils.bukkit.menu.IconMenu;
 import xyz.derkades.derkutils.bukkit.menu.OptionClickEvent;
 
 public class PointsLeaderboardMenu extends IconMenu {
-	
+
 	private final int page;
 
 	public PointsLeaderboardMenu(final Player player) {
 		this(player, 0);
 	}
-	
+
 	private PointsLeaderboardMenu(final Player player, final int page) {
 		super(Minigames.getInstance(), "Points leaderboard", 4, player);
-		
+
 		this.page = page;
-		
+
 		this.addItem(31, Menu.BACK_BUTTON);
-		
+
 		Scheduler.async(() -> {
 			final Map<OfflinePlayer, Integer> sorted = getSortedPointsMap();
 			int pos = -1;
@@ -42,12 +42,12 @@ public class PointsLeaderboardMenu extends IconMenu {
 				if (++pos < page*36) {
 					continue;
 				}
-				
+
 				if (slot > 26) {
 					TaskQueue.add(() -> this.addItem(35, Menu.NEXT_BUTTON));
 					break;
 				}
-				
+
 				final int finalPos = pos;
 				final int finalSlot = slot++;
 				TaskQueue.add(() -> {
@@ -56,13 +56,13 @@ public class PointsLeaderboardMenu extends IconMenu {
 					this.addItem(finalSlot, item);
 				});
 			}
-			
+
 			if (page > 0) {
 				TaskQueue.add(() -> this.addItem(27, Menu.PREV_BUTTON));
 			}
 		});
 	}
-	
+
 	private Map<OfflinePlayer, Integer> getSortedPointsMap() {
 		final Map<OfflinePlayer, Integer> map = new HashMap<>();
 

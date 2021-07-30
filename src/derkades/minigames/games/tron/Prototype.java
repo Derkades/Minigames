@@ -53,7 +53,7 @@ public class Prototype extends TronMap {
 		map.put(TronTeam.WHITE, new Location(this.getWorld(), -14.5, 65, -20.5));		// 10
 		return map;
 	}
-	
+
 	@Override
 	public Direction getSpawnDirection(final TronTeam team) {
 		switch(team) {
@@ -94,5 +94,5 @@ public class Prototype extends TronMap {
 	public String getIdentifier() {
 		return "tron_prototype";
 	}
-	
+
 }

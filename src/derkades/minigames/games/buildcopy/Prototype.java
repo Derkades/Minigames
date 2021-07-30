@@ -7,7 +7,7 @@ import derkades.minigames.random.Size;
 import derkades.minigames.worlds.GameWorld;
 
 public class Prototype extends BuildCopyMap {
-	
+
 	@Override
 	public Size getSize() {
 		return Size.ADAPTIVE;

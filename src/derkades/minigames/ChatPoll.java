@@ -96,8 +96,9 @@ public class ChatPoll {
 
 		@Override
 		public boolean onCommand(final CommandSender sender, final Command command, final String label, final String[] args) {
-			if (args.length != 2)
+			if (args.length != 2) {
 				return true;
+			}
 
 			final String providedToken = args[0];
 

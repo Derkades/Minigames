@@ -47,7 +47,7 @@ public class MissileWars extends Game<MissileWarsMap> {
 	public int getDuration() {
 		return 300;
 	}
-	
+
 	private static final Set<Material> DONT_REPLACE = Set.of(
 			Material.BARRIER,
 			Material.BEDROCK
@@ -58,14 +58,14 @@ public class MissileWars extends Game<MissileWarsMap> {
 	@Override
 	public void onPreStart() {
 		this.teams = new HashMap<>();
-		
+
 		for (final MPlayer player : Minigames.getOnlinePlayers()) {
 			TaskQueue.add(() -> {
 				player.teleport(this.map.getWorld().getSpawnLocation());
 				player.setGameMode(GameMode.SPECTATOR);
 			});
 		}
-		
+
 		final Location min = this.map.getArenaBorderMin();
 		final Location max = this.map.getArenaBorderMax();
 		for (int y = max.getBlockY() - 1; y >= 0; y--) {
@@ -115,7 +115,7 @@ public class MissileWars extends Game<MissileWarsMap> {
 
 	@Override
 	public void onPlayerQuit(final MPlayer player) {
-		
+
 	}
 
 }

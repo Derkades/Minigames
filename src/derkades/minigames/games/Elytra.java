@@ -20,7 +20,7 @@ public class Elytra extends Game<ElytraMap> {
 	public String getIdentifier() {
 		return "elytra";
 	}
-	
+
 	@Override
 	public String getName() {
 		return "Elytra";
@@ -88,11 +88,7 @@ public class Elytra extends Game<ElytraMap> {
 	public void onMove(final PlayerMoveEvent event){
 		final MPlayer player = new MPlayer(event);
 
-		if (!this.started) {
-			return;
-		}
-
-		if (this.finished.contains(player.getUniqueId())) {
+		if (!this.started || this.finished.contains(player.getUniqueId())) {
 			return;
 		}
 

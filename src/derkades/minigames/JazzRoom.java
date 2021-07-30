@@ -38,15 +38,13 @@ public class JazzRoom implements Runnable {
 					player.playSound(random, 1.0f);
 					PLAYING.put(player.getName(), random);
 				}
-			} else {
-				if (PLAYING.containsKey(player.getName())) {
-					player.sendTitle("Bye", ChatColor.RED + "You have left Jazz room.");
-					final Sound sound = PLAYING.get(player.getName());
-					Logger.debug("Stopping sound %s for %s", sound.name(), player.getName());
-					player.bukkit().stopSound(sound);
-					player.removeMetadata("jazz-room");
-					PLAYING.remove(player.getName());
-				}
+			} else if (PLAYING.containsKey(player.getName())) {
+				player.sendTitle("Bye", ChatColor.RED + "You have left Jazz room.");
+				final Sound sound = PLAYING.get(player.getName());
+				Logger.debug("Stopping sound %s for %s", sound.name(), player.getName());
+				player.bukkit().stopSound(sound);
+				player.removeMetadata("jazz-room");
+				PLAYING.remove(player.getName());
 			}
 		}
 	}

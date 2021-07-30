@@ -127,11 +127,7 @@ public class GlobalListeners implements Listener {
 
 	@EventHandler
 	public void gamesMenuOpen(final PlayerInteractEntityEvent event){
-		if (Minigames.CURRENT_GAME != null) {
-			return;
-		}
-
-		if (!event.getHand().equals(EquipmentSlot.HAND)) {
+		if ((Minigames.CURRENT_GAME != null) || !event.getHand().equals(EquipmentSlot.HAND)) {
 			return;
 		}
 

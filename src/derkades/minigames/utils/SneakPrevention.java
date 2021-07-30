@@ -23,7 +23,7 @@ public class SneakPrevention extends BukkitRunnable {
 	 * player in map - Sneak prevention is enabled
 	 */
 	private static final Map<UUID, Integer> WARNINGS = new HashMap<>();
-	
+
 	private static final Map<UUID, Consumer<MPlayer>> ON_PUNISH = new HashMap<>();
 
 	public SneakPrevention(final Plugin plugin) {
@@ -53,21 +53,21 @@ public class SneakPrevention extends BukkitRunnable {
 		}
 
 	}
-	
+
 	static void enable(final MPlayer player, final Consumer<MPlayer> onPunish) {
 		if (isEnabled(player)) {
 			return;
 		}
-		
+
 		WARNINGS.put(player.getUniqueId(), 0);
 		ON_PUNISH.put(player.getUniqueId(), onPunish);
 	}
-	
+
 	static void disable(final MPlayer player) {
 		WARNINGS.remove(player.getUniqueId());
 		ON_PUNISH.remove(player.getUniqueId());
 	}
-	
+
 	static boolean isEnabled(final MPlayer player) {
 		return WARNINGS.containsKey(player.getUniqueId());
 	}

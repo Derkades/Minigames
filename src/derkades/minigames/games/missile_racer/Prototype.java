@@ -34,12 +34,12 @@ public class Prototype extends MissileRacerMap {
 	public String getIdentifier() {
 		return "missileracer_prototype";
 	}
-	
+
 	@Override
 	public void onPreStart() {
 		BlockUtils.fillArea(this.getWorld(), -5, 66, -2, -19, 66, -2, Material.OAK_FENCE);
 	}
-	
+
 	@Override
 	public void onTimer(final int secondsLeft) {
 		BlockUtils.fillArea(this.getWorld(), -2, 75, 11, 5, 75, 11, Material.LIME_TERRACOTTA);

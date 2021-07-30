@@ -199,15 +199,13 @@ public class MurderyMister extends Game<MurderyMisterMap> {
 			event.setDamage(0);
 			event.setCancelled(true);
 			return;
+		} else if (event.getDamagerEntity().getType() == EntityType.ARROW ||
+				event.getDamagerEntity().getType() == EntityType.TRIDENT) {
+			event.setDamage(40);
 		} else {
-			if (event.getDamagerEntity().getType() == EntityType.ARROW ||
-					event.getDamagerEntity().getType() == EntityType.TRIDENT) {
-				event.setDamage(40);
-			} else {
-				event.setDamage(0);
-				event.setCancelled(true);
-				return;
-			}
+			event.setDamage(0);
+			event.setCancelled(true);
+			return;
 		}
 
 		if (event.willBeDead()) {

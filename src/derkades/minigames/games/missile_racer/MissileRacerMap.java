@@ -12,9 +12,9 @@ public abstract class MissileRacerMap extends GameMap {
 	};
 
 	public abstract Location getSpawnLocation();
-	
+
 	public abstract boolean isInFinishBounds(MPlayer player);
-	
+
 	public abstract int getMinimumY();
-	
+
 }

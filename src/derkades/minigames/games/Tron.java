@@ -41,7 +41,7 @@ public class Tron extends Game<TronMap> {
 	public String getIdentifier() {
 		return "tron";
 	}
-	
+
 	@Override
 	public String getName() {
 		return "Tron";
@@ -155,22 +155,22 @@ public class Tron extends Game<TronMap> {
 
 	@Override
 	public void onPlayerQuit(final MPlayer player) {}
-	
+
 	public enum Direction {
-		
+
 		NORTH(180),
 		EAST(270),
 		SOUTH(0),
 		WEST(90),
-		
+
 		;
-		
+
 		float yaw;
-		
+
 		Direction(final float yaw){
 			this.yaw = yaw;
 		}
-		
+
 	}
 
 	public enum TronTeam {
@@ -194,17 +194,17 @@ public class Tron extends Game<TronMap> {
 		private final Material glassBlock;
 
 		private Direction direction;
-		
+
 		TronTeam(final ChatColor chatColor, final Material bottomBlock, final Material glassBlock){
 			this.chatColor = chatColor;
 			this.bottomBlock = bottomBlock;
 			this.glassBlock = glassBlock;
 		}
-		
+
 		public Direction getDirection() {
 			return this.direction;
 		}
-		
+
 		public void rotateLeft() {
 			switch(this.direction) {
 			case NORTH:
@@ -223,7 +223,7 @@ public class Tron extends Game<TronMap> {
 				Minigames.shutdown(ShutdownReason.EMERGENCY_AUTOMATIC, "Illegal direction '" + this.direction + "'");
 			}
 		}
-		
+
 		public void rotateRight() {
 			switch(this.direction) {
 			case NORTH:
@@ -261,7 +261,7 @@ public class Tron extends Game<TronMap> {
 				this.cancel();
 				return;
 			}
-			
+
 			if (!this.offlinePlayer.isOnline()) {
 				Logger.debug("Player " + this.offlinePlayer.getName() + " is no longer online");
 				cancel();
@@ -291,9 +291,9 @@ public class Tron extends Game<TronMap> {
 			this.i++;
 
 			final TronTeam team = Tron.this.teams.get(player.getUniqueId());
-			
+
 			boolean changedDirection = false;
-			
+
 			final PlayerInventory inv = player.getInventory();
 			if (inv.getHeldItemSlot() == 3) {
 				team.rotateLeft();
@@ -302,18 +302,18 @@ public class Tron extends Game<TronMap> {
 				team.rotateRight();
 				changedDirection = true;
 			}
-			
+
 			if (inv.getHeldItemSlot() != 4) {
 				inv.setHeldItemSlot(4);
 			}
-			
+
 			final Direction direction = team.getDirection();
 
 			final Location walkingTo = player.getLocation();
 			walkingTo.add(0, -PLAYER_Y_DISTANCE, 0);
 			final Location location = player.getLocation();
 			location.add(0, -PLAYER_Y_DISTANCE, 0);
-			
+
 			final Block block = location.getBlock();
 			block.setType(team.glassBlock);
 			block.getRelative(BlockFace.UP).setType(team.glassBlock);
@@ -345,7 +345,7 @@ public class Tron extends Game<TronMap> {
 				Minigames.shutdown(ShutdownReason.EMERGENCY_AUTOMATIC, "Illegal direction '" + direction + "'");
 				newVelo = null;
 			}
-			
+
 			player.bukkit().setVelocity(newVelo);
 
 			if (changedDirection ||

@@ -17,12 +17,12 @@ public class Menu {
 			.name(ChatColor.DARK_RED + "" + ChatColor.BOLD + "Close")
 			.lore(ChatColor.RED + "Click to close the menu")
 			.create();
-	
+
 	static final ItemStack PREV_BUTTON = new ItemBuilder(Material.ARROW)
 			.name(ChatColor.DARK_RED + "" + ChatColor.BOLD + "Previous")
 			.lore(ChatColor.GRAY + "Go to the previous page")
 			.create();
-	
+
 	static final ItemStack NEXT_BUTTON = new ItemBuilder(Material.ARROW)
 			.name(ChatColor.DARK_RED + "" + ChatColor.BOLD + "Next")
 			.lore(ChatColor.GRAY + "Go to the next page")

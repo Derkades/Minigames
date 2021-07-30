@@ -14,6 +14,6 @@ public abstract class TeamsBowBattleMap extends GameMap {
 
 	public abstract Location getTeamBlueSpawnLocation();
 
-	public void onGameStart() {};
+	public void onGameStart() {}
 
 }

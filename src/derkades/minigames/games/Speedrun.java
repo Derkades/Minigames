@@ -23,7 +23,7 @@ public class Speedrun extends Game<SpeedrunMap> {
 	public String getIdentifier() {
 		return "speedrun";
 	}
-	
+
 	@Override
 	public String getName() {
 		return "Speedrun";
@@ -43,7 +43,7 @@ public class Speedrun extends Game<SpeedrunMap> {
 	public SpeedrunMap[] getGameMaps() {
 		return SpeedrunMap.MAPS;
 	}
-	
+
 	@Override
 	public int getPreDuration() {
 		return 0;
@@ -88,13 +88,7 @@ public class Speedrun extends Game<SpeedrunMap> {
 			return;
 		}
 
-		if (player.bukkit().isSneaking()){
-			player.sendActionBar(ChatColor.RED + "Sprinting is not allowed");
-			player.teleport(this.map.getStartLocation());
-			return;
-		}
-
-		if (player.bukkit().isSprinting()){
+		if (player.bukkit().isSneaking() || player.bukkit().isSprinting()){
 			player.sendActionBar(ChatColor.RED + "Sprinting is not allowed");
 			player.teleport(this.map.getStartLocation());
 			return;

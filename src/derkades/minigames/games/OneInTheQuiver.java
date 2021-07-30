@@ -21,8 +21,8 @@ import derkades.minigames.Minigames;
 import derkades.minigames.games.oitq.OITQMap;
 import derkades.minigames.utils.MPlayer;
 import derkades.minigames.utils.MinigamesPlayerDamageEvent;
-import derkades.minigames.utils.Utils;
 import derkades.minigames.utils.MinigamesPlayerDamageEvent.DamageType;
+import derkades.minigames.utils.Utils;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
 
 public class OneInTheQuiver extends Game<OITQMap> {
@@ -39,7 +39,7 @@ public class OneInTheQuiver extends Game<OITQMap> {
 
 	private static final ItemStack ARROW = new ItemBuilder(Material.ARROW)
 			.create();
-	
+
 	@Override
 	public String getIdentifier() {
 		return "oitq";
@@ -141,18 +141,16 @@ public class OneInTheQuiver extends Game<OITQMap> {
 	@EventHandler
 	public void onDamage(final MinigamesPlayerDamageEvent event) {
 		final MPlayer player = event.getPlayer();
-		
+
 		if (event.getDamagerEntity() == null) {
 			return;
 		}
 
 		if (event.getDamagerEntity().getType().equals(EntityType.ARROW)){
 			event.setDamage(20);
-		} else {
-			if (event.getType().equals(DamageType.ENTITY)) {
-				if (event.getDamagerEntity().getType().equals(EntityType.PLAYER)) {
-					event.setDamage(3);
-				}
+		} else if (event.getType().equals(DamageType.ENTITY)) {
+			if (event.getDamagerEntity().getType().equals(EntityType.PLAYER)) {
+				event.setDamage(3);
 			}
 		}
 

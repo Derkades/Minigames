@@ -60,9 +60,9 @@ public abstract class GameMap implements RandomlyPickable {
 		final String configPath = "game-voting.map." + this.getIdentifier();
 		return Minigames.getInstance().getConfig().getDouble(configPath, 1);
 	}
-	
+
 	private static final Map<String, GameMap> BY_IDENTIFIER = new HashMap<>();
-	
+
 	public static final void init() {
 		for (final Game<? extends GameMap> game : Game.GAMES) {
 			for (final GameMap map : game.getGameMaps()) {

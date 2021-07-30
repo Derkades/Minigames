@@ -24,12 +24,12 @@ import xyz.derkades.derkutils.bukkit.ItemBuilder;
 public class Platform extends Game<PlatformMap> {
 
 	private static final int KNOCKBACK_SWORDS_TIME = 20;
-	
+
 	@Override
 	public String getIdentifier() {
 		return "platform";
 	}
-	
+
 	@Override
 	public String getName() {
 		return "Platform";
@@ -135,7 +135,7 @@ public class Platform extends Game<PlatformMap> {
 				player.teleport(this.map.getSpawnLocation());
 				return;
 			}
-			
+
 			if (this.alive.size() <= 1) {
 				return;
 			}

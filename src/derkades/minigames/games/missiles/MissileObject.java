@@ -11,15 +11,15 @@ import org.bukkit.scheduler.BukkitRunnable;
 import derkades.minigames.Minigames;
 
 public abstract class MissileObject {
-	
+
 	private final int lr, fb, ud;
-	
+
 	MissileObject(final int lr, final int ud, final int fb) {
 		this.lr = lr; this.fb = fb; this.ud = ud;
 	}
-	
+
 	abstract void place(Location location, BlockFace[] directions);
-	
+
 	public static void build(final MissileObject[] objects, final Location startLocation, final BlockFace direction, final Runnable onComplete) {
 		final BlockFace front = direction;
 		final BlockFace back = direction.getOppositeFace();
@@ -48,9 +48,9 @@ public abstract class MissileObject {
 				front,
 				back,
 		};
-		
+
 		final MutableInt i = new MutableInt(0);
-		
+
 		new BukkitRunnable() {
 			@Override
 			public void run() {
@@ -61,23 +61,23 @@ public abstract class MissileObject {
 					}
 					return;
 				}
-				
+
 				final MissileObject mo = objects[i.getAndIncrement()];
-				
+
 				Block block = startLocation;
 				block = rel(block, mo.lr, right, left);
 				block = rel(block, mo.ud, BlockFace.UP, BlockFace.DOWN);
 				block = rel(block, mo.fb, front, back);
-				
+
 				mo.place(block.getLocation(), directions);
-				
+
 				block.getWorld().playSound(block.getLocation(), Sound.BLOCK_STONE_PLACE, 0.75f, 1.0f);
 				block.getWorld().spawnParticle(Particle.WHITE_ASH, block.getLocation(), 5);
 				block.getWorld().spawnParticle(Particle.ASH, block.getLocation(), 5);
 			}
 		}.runTaskTimer(Minigames.getInstance(), 0, 1);
 	}
-	
+
 	static Block rel(Block block, final int comp, final BlockFace a, final BlockFace b) {
 		for (int i = 0; i < comp; i++) {
 			block = block.getRelative(a);

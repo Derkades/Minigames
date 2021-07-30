@@ -161,15 +161,7 @@ public class MissileRacer extends Game<MissileRacerMap> {
 
 	@EventHandler
 	public void onClick(final PlayerInteractEvent event) {
-		if (!this.started) {
-			return;
-		}
-
-		if (event.getAction() != Action.RIGHT_CLICK_AIR && event.getAction() != Action.RIGHT_CLICK_BLOCK) {
-			return;
-		}
-
-		if (event.getHand() != EquipmentSlot.HAND) {
+		if (!this.started || (event.getAction() != Action.RIGHT_CLICK_AIR && event.getAction() != Action.RIGHT_CLICK_BLOCK) || (event.getHand() != EquipmentSlot.HAND)) {
 			return;
 		}
 

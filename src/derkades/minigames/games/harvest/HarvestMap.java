@@ -11,7 +11,7 @@ public abstract class HarvestMap extends GameMap {
 	public static final HarvestMap[] MAPS = {
 			new Prototype(),
 	};
-	
+
 	public abstract List<Location> getCropLocations();
 
 	public Location getSpawnLocation() {

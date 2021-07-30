@@ -129,11 +129,7 @@ public class DigDug extends Game<DigDugMap> {
 
 	@EventHandler
 	public void onInteract(final PlayerInteractEvent event) {
-		if (event.getAction() != Action.LEFT_CLICK_BLOCK) {
-			return;
-		}
-
-		if (!event.getHand().equals(EquipmentSlot.HAND)) {
+		if ((event.getAction() != Action.LEFT_CLICK_BLOCK) || !event.getHand().equals(EquipmentSlot.HAND)) {
 			return;
 		}
 

@@ -53,13 +53,13 @@ public class Prototype extends ControlPointsMap {
 		} else {
 			newMaterial = Material.GRAY_CONCRETE;
 		}
-		
+
 		// Corners
 		location             		 .getBlock().setType(newMaterial);
 		location.clone().add(3, 0, 0).getBlock().setType(newMaterial);
 		location.clone().add(0, 0, 3).getBlock().setType(newMaterial);
 		location.clone().add(3, 0, 3).getBlock().setType(newMaterial);
-		
+
 		// Middle
 		location.clone().add(1, 0, 1).getBlock().setType(newMaterial);
 		location.clone().add(1, 0, 2).getBlock().setType(newMaterial);

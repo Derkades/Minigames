@@ -19,15 +19,15 @@ import net.md_5.bungee.api.chat.hover.content.Content;
 import net.md_5.bungee.api.chat.hover.content.Text;
 
 public class BugCommand implements CommandExecutor {
-	
+
 	private static final String SUBMITTING = Utils.getChatPrefix(ChatColor.AQUA, 'P') + "Submitting feedback..";
-	
+
 	private static final String UNAVAILABLE = Utils.getChatPrefix(ChatColor.AQUA, 'P') + "Sorry, this command is temporarily unavailable.";
-	
+
 	private static final Content CLICK_TO_VISIT = new Text(
 			new ComponentBuilder("Click to visit https://github.com/Derkades/Minigames/issues")
 			.color(ChatColor.GRAY).create());
-	
+
 	private static final BaseComponent[] THANKS = new ComponentBuilder("")
 			.appendLegacy(Utils.getChatPrefix(ChatColor.AQUA, 'P') + "Thanks for letting us know. You can view all open issues ")
 			.append("here.")
@@ -66,7 +66,7 @@ public class BugCommand implements CommandExecutor {
 					sender.sendMessage(UNAVAILABLE);
 					return;
 				}
-				
+
 				final GitHub github = GitHub.connectUsingOAuth(Minigames.getInstance().getConfig().getString("github-token"));
 				final GHRepository repo = github.getRepository("Derkades/Minigames");
 				final String description = String.join(" ", args);
@@ -76,7 +76,7 @@ public class BugCommand implements CommandExecutor {
 				} else {
 					issue.addLabels(repo.getLabel("bot"), repo.getLabel(issueLabel));
 				}
-				
+
 				player.spigot().sendMessage(THANKS);
 			} catch (final Exception e) {
 				Logger.warning("%s encountered an issue while trying to create an issue", sender.getName());

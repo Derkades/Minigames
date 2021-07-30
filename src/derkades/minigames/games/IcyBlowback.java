@@ -32,7 +32,7 @@ public class IcyBlowback extends Game<IcyBlowbackMap> {
 	public String getIdentifier() {
 		return "icy_blowback";
 	}
-	
+
 	@Override
 	public String getName() {
 		return "Icy Blowback";
@@ -59,7 +59,7 @@ public class IcyBlowback extends Game<IcyBlowbackMap> {
 	public int getDuration() {
 		return 100;
 	}
-	
+
 	private Set<UUID> alive;
 
 	@Override
@@ -74,12 +74,12 @@ public class IcyBlowback extends Game<IcyBlowbackMap> {
 			}
 
 			final Location loc = spawnLocations[index];
-			
+
 			TaskQueue.add(() -> {
 				player.teleport(loc);
 				player.placeCage(true);
 			});
-			
+
 			index++;
 		}
 	}

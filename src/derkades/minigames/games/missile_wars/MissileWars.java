@@ -40,11 +40,11 @@ public class MissileWars extends MissileWarsMap {
 		TaskQueue.add(() -> BlockUtils.fillArea(this.getWorld(), -39, 63, 62, 36, 27, 57, Material.WHITE_STAINED_GLASS));
 		TaskQueue.add(() -> BlockUtils.fillArea(this.getWorld(), -39, 63, 55, 36, 27, 50, Material.LIGHT_BLUE_STAINED_GLASS));
 		TaskQueue.add(() -> BlockUtils.fillArea(this.getWorld(), -39, 63, 48, 36, 27, 43, Material.BLUE_STAINED_GLASS));
-		
+
 		TaskQueue.add(() -> BlockUtils.fillArea(this.getWorld(), -39, 63, -63, 36, 27, -58, Material.WHITE_STAINED_GLASS));
 		TaskQueue.add(() -> BlockUtils.fillArea(this.getWorld(), -39, 63, -56, 36, 27, -51, Material.ORANGE_STAINED_GLASS));
 		TaskQueue.add(() -> BlockUtils.fillArea(this.getWorld(), -39, 63, -49, 36, 27, -44, Material.RED_STAINED_GLASS));
-		
+
 		for (final int z : new int[] { 66, -67 }) {
 			for (final int x : new int[] { -39, 36}) {
 				TaskQueue.add(() -> BlockUtils.fillArea(this.getWorld(), x, 28, z, x, 62, z, Material.OBSIDIAN));

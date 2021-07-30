@@ -26,7 +26,7 @@ public class TeamsBowBattle extends Game<TeamsBowBattleMap> {
 	public String getIdentifier() {
 		return "teams_bow_battle";
 	}
-	
+
 	@Override
 	public String getName() {
 		return "Teams Bow Battle";
@@ -196,7 +196,7 @@ public class TeamsBowBattle extends Game<TeamsBowBattleMap> {
 
 	private void giveItems(final MPlayer player) {
 		player.clearInventory();
-		
+
 		final ItemBuilder helmet = new ItemBuilder(Material.LEATHER_HELMET);
 		final ItemBuilder chestplate = new ItemBuilder(Material.LEATHER_CHESTPLATE);
 		final ItemBuilder leggings = new ItemBuilder(Material.LEATHER_LEGGINGS);

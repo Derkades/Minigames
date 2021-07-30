@@ -15,7 +15,7 @@ public class StatsMenu extends IconMenu {
 
 	public StatsMenu(final Player player) {
 		super(Minigames.getInstance(), "Stats", 1, player);
-		
+
 		Game<? extends GameMap> worstMapGame = null;
 		GameMap worstMap = null;
 		Game<? extends GameMap> bestMapGame = null;
@@ -28,13 +28,13 @@ public class StatsMenu extends IconMenu {
 			} else if (game.getWeight() < worstGame.getWeight()) {
 				worstGame = game;
 			}
-			
+
 			if (bestGame == null) {
 				bestGame = game;
 			} else if (game.getWeight() > bestGame.getWeight()) {
 				bestGame = game;
 			}
-			
+
 			final GameMap[] maps = game.getGameMaps();
 			for (final GameMap map : maps) {
 				if (worstMap == null) {
@@ -44,7 +44,7 @@ public class StatsMenu extends IconMenu {
 					worstMap = map;
 					worstMapGame = game;
 				}
-				
+
 				if (bestMap == null) {
 					bestMap = map;
 					bestMapGame = game;
@@ -54,22 +54,22 @@ public class StatsMenu extends IconMenu {
 				}
 			}
 		}
-		
+
 		addItem(0, new ItemBuilder(Material.GRAY_DYE)
 				.name("Best game")
 				.lore(bestGame.getName(), "Weight: " + NumberUtils.roundApprox(bestGame.getWeight(), 2))
 				.create());
-		
+
 		addItem(1, new ItemBuilder(Material.GRAY_DYE)
 				.name("Worst game")
 				.lore(worstGame.getName(), "Weight: " + NumberUtils.roundApprox(worstGame.getWeight(), 2))
 				.create());
-		
+
 		addItem(2, new ItemBuilder(Material.GRAY_DYE)
 				.name("Best map")
 				.lore(bestMapGame.getName() + " - " + bestMap.getName(), "Weight: " + NumberUtils.roundApprox(bestMap.getWeight(), 2))
 				.create());
-		
+
 		addItem(3, new ItemBuilder(Material.GRAY_DYE)
 				.name("Worst map")
 				.lore(worstMapGame.getName() + " - " + worstMap.getName(), "Weight: " + NumberUtils.roundApprox(worstMap.getWeight(), 2))

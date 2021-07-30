@@ -15,79 +15,83 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.Plugin;
 
 public class UUIDUtils implements Listener {
-	
+
 	private static File file;
 	private static Plugin plugin;
-	
+
 	private static YamlConfiguration config;
-	
+
 	private static void reload(){
 		config = YamlConfiguration.loadConfiguration(file);
 	}
-	
+
 	private static YamlConfiguration getConfig(){
-		if (config == null) reload();
+		if (config == null) {
+			reload();
+		}
 		return config;
 	}
-	
+
 	@EventHandler(priority = EventPriority.MONITOR)
-	public void onJoin(PlayerJoinEvent event){
-		Player player = event.getPlayer();
-		
+	public void onJoin(final PlayerJoinEvent event){
+		final Player player = event.getPlayer();
+
 		getConfig().set("uuid." + player.getName(), player.getUniqueId().toString());
 		getConfig().set("name." + player.getUniqueId(), player.getName());
-		
+
 		try {
 			getConfig().save(file);
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	/**
 	 * Registers the PlayerJoinEvent and sets the name of the file where UUIDs will be saved. Run this method in your onEnable()
 	 * @param plugin Your main class (which extends JavaPlugin). If you don't know what this means, just use "this"
 	 * @param fileName The name of the file where UUIDs will be saved. This file will be in your plugin directory. For example "uuid" for "plugins/yourplugin/uuid.yml"
 	 */
-	public static void initialize(Plugin plugin, String fileName){
+	public static void initialize(final Plugin plugin, final String fileName){
 		plugin.getServer().getPluginManager().registerEvents(new UUIDUtils(), plugin);
-		
+
 		file = new File(plugin.getDataFolder(), fileName + ".yml");
 		UUIDUtils.plugin = plugin;
 	}
-	
-	public static void initialize(Plugin plugin, String fileName, String directory){
+
+	public static void initialize(final Plugin plugin, final String fileName, final String directory){
 		UUIDUtils.plugin.getServer().getPluginManager().registerEvents(new UUIDUtils(), plugin);
 		file = new File(plugin.getDataFolder() + "/" + directory, fileName + ".yml");
 	}
-	
+
 	/**
 	 * Gets the UUID from a player with the name <em>playerName</em>. Returns null if no UUID has been cached for a player with that name.
 	 * @param playerName (self explanatory)
 	 * @return Player UUID or null
 	 */
-	public static UUID getUUID(String playerName){
-		if (!getConfig().isSet("uuid." + playerName))
+	public static UUID getUUID(final String playerName){
+		if (!getConfig().isSet("uuid." + playerName)) {
 			return null;
-		
-		String uuidString = getConfig().getString("uuid." + playerName);
+		}
+
+		final String uuidString = getConfig().getString("uuid." + playerName);
 		return UUID.fromString(uuidString);
 	}
-	
+
 	/**
 	 * Gets the name from a player with the UUID specified. Returns null if no name has been cached for a player with that UUID.
 	 * @param uuid (self explanatory)
 	 * @return Player name or null
 	 */
-	public static String getName(UUID uuid){
-		if (!getConfig().isSet("name." + uuid))
+	public static String getName(final UUID uuid){
+		if (!getConfig().isSet("name." + uuid)) {
 			return null;
-		
+		}
+
 		return getConfig().getString("name." + uuid);
 	}
-	
-	public static OfflinePlayer getOfflinePlayer(String playerName){
-		UUID uuid = getUUID(playerName);
+
+	public static OfflinePlayer getOfflinePlayer(final String playerName){
+		final UUID uuid = getUUID(playerName);
 		return Bukkit.getOfflinePlayer(uuid);
 	}
 

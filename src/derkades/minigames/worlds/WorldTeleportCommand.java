@@ -28,7 +28,7 @@ public class WorldTeleportCommand implements CommandExecutor {
 		}
 
 		final Player player = (Player) sender;
-		
+
 		if (args[0].equals("lobby")) {
 			player.teleport(Var.LOBBY_LOCATION);
 		} else {

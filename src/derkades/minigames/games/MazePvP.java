@@ -4,7 +4,7 @@ package derkades.minigames.games;
 public class MazePvP /*extends Game*/ {
 /*
 	private Map<String, Boolean> isDead = new HashMap<>();
-	
+
 	@Override
 	String[] getDescription() {
 		return new String[]{
@@ -34,14 +34,14 @@ public class MazePvP /*extends Game*/ {
 	}
 
 	@Override
-	void begin() {		
+	void begin() {
 		for (Player player : Bukkit.getOnlinePlayers()){
 			player.teleport(new Location(Var.WORLD, 136.0, 81, 361.0, -180, 0));
-			
+
 			Minigames.setCanTakeDamage(player, true); //Allow PvP
-			
+
 			Utils.giveInfiniteEffect(player, PotionEffectType.NIGHT_VISION);
-			
+
 			player.getInventory().addItem(new ItemBuilder(Material.IRON_SWORD)
 					.name(ChatColor.DARK_AQUA + "" + ChatColor.BOLD + "PvP Sword")
 					.lore("Use this to kill other players.")
@@ -49,30 +49,30 @@ public class MazePvP /*extends Game*/ {
 					.enchant(Enchantment.DAMAGE_ALL, 1)
 					.create());
 		}
-		
+
 		Utils.setGameRule("naturalRegeneration", false);
 	}
-	
+
 	public void playerWinEndGame(Player player){
 		Utils.setGameRule("naturalRegeneration", true);
 		super.startNextGame(Arrays.asList(player));
 	}
-	
+
 	@EventHandler
 	public void onDeath(PlayerDeathEvent event){
 		Player player = event.getEntity();
 		Player killer = event.getEntity().getKiller();
-		
+
 		super.sendMessage(killer.getName() + " has won the game by killing " + player.getName() + ".");
-		
+
 		playerWinEndGame(killer);
-		
+
 		Scheduler.runTaskLater(3L, new Runnable(){
 			public void run(){
 				player.spigot().respawn();
 			}
 		});
-		
+
 		event.setDeathMessage("");
 	}
 */

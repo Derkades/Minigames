@@ -48,16 +48,18 @@ public class MinigamesPlayerDamageEvent extends Event implements Cancellable {
 	}
 
 	public MPlayer getDamagerPlayer() {
-		if (this.damager.getType().equals(EntityType.PLAYER))
+		if (this.damager.getType().equals(EntityType.PLAYER)) {
 			return new MPlayer((Player) this.damager);
-		else if (this.damager.getType().equals(EntityType.ARROW)) {
+		} else if (this.damager.getType().equals(EntityType.ARROW)) {
 			final ProjectileSource shooter = ((Arrow) this.damager).getShooter();
-			if (shooter instanceof Player)
+			if (shooter instanceof Player) {
 				return new MPlayer((Player) shooter);
-			else
+			} else {
 				return null;
-		} else
+			}
+		} else {
 			return null;
+		}
 
 	}
 

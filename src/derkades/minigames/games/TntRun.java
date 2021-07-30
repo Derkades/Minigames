@@ -25,7 +25,7 @@ public class TntRun extends Game<TNTMap> {
 	public String getIdentifier() {
 		return "tnt_run";
 	}
-	
+
 	@Override
 	public String getName() {
 		return "TNT Run";
@@ -123,19 +123,19 @@ public class TntRun extends Game<TNTMap> {
 		final Deque<Block> toRemove = new ArrayDeque<>();
 
 		final double offset = 0.31;
-		
+
 		final Location loc = player.getLocation();
 		loc.setY(loc.getY() - 1);
-		
+
 		final Block mainBlock = loc.getBlock();
 		toRemove.add(mainBlock);
 
 		final double origX = loc.getX();
 		final double origZ = loc.getZ();
-		
+
 		final double[] xValues = new double[] {origX-offset, origX, origX+offset};
 		final double[] zValues = new double[] {origZ-offset, origZ, origZ+offset};
-		
+
 		for (final double x : xValues) {
 			for (final double z : zValues) {
 				loc.setX(x);
@@ -149,30 +149,26 @@ public class TntRun extends Game<TNTMap> {
 				// game ended
 				return;
 			}
-			
+
 			while(!toRemove.isEmpty()) {
 				final Block block = toRemove.pop();
-				if (block.getType() != this.map.floorMaterial()) {
+				if ((block.getType() != this.map.floorMaterial()) || this.removedBlocks.contains(block)) {
 					continue;
 				}
-	
-				if (this.removedBlocks.contains(block)) {
-					continue;
-				}
-	
+
 				this.removedBlocks.add(block);
 				block.setType(Material.AIR);
 			}
 		}, 7);
 	}
-	
+
 	private void addIfNotMain(final Deque<Block> stack, final Location loc, final Block mainBlock) {
 		final Block block = loc.getBlock();
 		if (!mainBlock.equals(block)) {
 			stack.add(block);
 		}
 	}
-	
+
 	@Override
 	public void onPlayerJoin(final MPlayer player) {
 		this.alive.remove(player.getUniqueId());

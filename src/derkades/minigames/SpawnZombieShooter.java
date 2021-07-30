@@ -39,45 +39,41 @@ public class SpawnZombieShooter {
 		new SpawnTask().runTaskTimer(Minigames.getInstance(), 40, 50);
 		Bukkit.getPluginManager().registerEvents(new ZombieDieListener(), Minigames.getInstance());
 	}
-	
+
 	private static class ZombieDieListener implements Listener {
-		
+
 		@EventHandler
 		public void onDeath(final EntityDeathEvent event) {
 			if (Minigames.CURRENT_GAME != null || event.getEntityType() != EntityType.ZOMBIE) {
 				return;
 			}
-			
+
 			final Zombie zombie = (Zombie) event.getEntity();
-			
+
 			if (zombie.getLastDamageCause().getCause() != DamageCause.PROJECTILE) {
 				return;
 			}
-			
+
 			final Player killer = zombie.getKiller();
-			
+
 			if (killer == null) {
 				return;
 			}
-			
+
 			killer.playSound(killer.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 1.0f, 1.0f);
 			int killCount = Minigames.getInstance().getConfig().getInt("zombie-kill-count", 0);
 			Minigames.getInstance().getConfig().set("zombie-kill-count", ++killCount);
 			Minigames.getInstance().saveConfig();
 			UpdateSigns.updateGlobalStats();
 		}
-		
+
 	}
 
 	private static class BowAndTargetTask extends BukkitRunnable {
 
 		@Override
 		public void run() {
-			if (Minigames.CURRENT_GAME != null) {
-				return;
-			}
-			
-			if (Var.LOBBY_WORLD.getPlayers().isEmpty()) {
+			if ((Minigames.CURRENT_GAME != null) || Var.LOBBY_WORLD.getPlayers().isEmpty()) {
 				return;
 			}
 
@@ -121,11 +117,7 @@ public class SpawnZombieShooter {
 		@Override
 		public void run() {
 			// No need to spawn zombies when a game is running
-			if (Minigames.CURRENT_GAME != null) {
-				return;
-			}
-			
-			if (Var.LOBBY_WORLD.getPlayers().isEmpty()) {
+			if ((Minigames.CURRENT_GAME != null) || Var.LOBBY_WORLD.getPlayers().isEmpty()) {
 				return;
 			}
 

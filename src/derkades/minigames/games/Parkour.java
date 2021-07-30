@@ -23,7 +23,7 @@ public class Parkour extends Game<ParkourMap> {
 	public String getIdentifier() {
 		return "parkour";
 	}
-	
+
 	@Override
 	public String getName() {
 		return "Parkour";

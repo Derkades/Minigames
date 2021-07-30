@@ -14,7 +14,7 @@ public class Prototype extends HarvestMap {
 	public String getName() {
 		return "Prototype";
 	}
-	
+
 	@Override
 	public List<Location> getCropLocations() {
 		final int minX = -9;

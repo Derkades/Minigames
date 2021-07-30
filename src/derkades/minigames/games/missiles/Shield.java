@@ -7,7 +7,7 @@ import org.bukkit.block.BlockFace;
 import derkades.minigames.games.teams.GameTeam;
 
 public enum Shield {
-	
+
 	RED(GameTeam.RED, new MissileBlock[] {
 			new MissileBlock(0, 0, 0, Material.ORANGE_STAINED_GLASS),
 			new MissileBlock(-1, 0, 0, Material.RED_STAINED_GLASS),
@@ -55,7 +55,7 @@ public enum Shield {
 			new MissileBlock(2, -3, 0, Material.BLACK_STAINED_GLASS),
 			new MissileBlock(3, -2, 0, Material.BLACK_STAINED_GLASS),
 	}),
-	
+
 	BLUE(GameTeam.RED, new MissileBlock[] {
 			new MissileBlock(0, 0, 0, Material.LIGHT_BLUE_STAINED_GLASS),
 			new MissileBlock(-1, 0, 0, Material.BLUE_STAINED_GLASS),
@@ -103,17 +103,17 @@ public enum Shield {
 			new MissileBlock(2, -3, 0, Material.BLACK_STAINED_GLASS),
 			new MissileBlock(3, -2, 0, Material.BLACK_STAINED_GLASS),
 	}),
-	
+
 	;
-	
+
 	private GameTeam team;
 	private MissileObject[] objects;
-	
+
 	Shield(final GameTeam team, final MissileObject[] objects) {
 		this.team = team;
 		this.objects = objects;
 	}
-	
+
 	public GameTeam getTeam() {
 		return this.team;
 	}
@@ -121,5 +121,5 @@ public enum Shield {
 	public void build(final Location center, final BlockFace direction) {
 		MissileObject.build(this.objects, center, direction, null);
 	}
-	
+
 }

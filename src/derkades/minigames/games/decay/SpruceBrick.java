@@ -35,7 +35,7 @@ public class SpruceBrick extends DecayMap {
 		}
 		return blocks.toArray(new Location[] {});
 	}
-	
+
 	@Override
 	public boolean isDead(final MPlayer player) {
 		return player.getLocation().getBlock().getRelative(BlockFace.DOWN).getType().equals(Material.BLACK_CONCRETE);

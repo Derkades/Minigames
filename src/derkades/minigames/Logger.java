@@ -38,7 +38,7 @@ public class Logger {
 			player.sendMessage(message);
 		}
 	}
-	
+
 	public static boolean debugModeEnabled() {
 		return debugMode;
 	}

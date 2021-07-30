@@ -13,8 +13,8 @@ import derkades.minigames.Minigames;
 import derkades.minigames.games.dropper.DropperMap;
 import derkades.minigames.utils.MPlayer;
 import derkades.minigames.utils.MinigamesPlayerDamageEvent;
-import derkades.minigames.utils.Utils;
 import derkades.minigames.utils.MinigamesPlayerDamageEvent.DamageType;
+import derkades.minigames.utils.Utils;
 
 public class Dropper extends Game<DropperMap> {
 
@@ -22,7 +22,7 @@ public class Dropper extends Game<DropperMap> {
 	public String getIdentifier() {
 		return "dropper";
 	}
-	
+
 	@Override
 	public String getName() {
 		return "Dropper";
