@@ -135,41 +135,49 @@ public class DigDug extends Game<DigDugMap> {
 
 		final MPlayer player = new MPlayer(event);
 		final Block block = event.getClickedBlock();
-		if (block.getType() == Material.COAL_ORE) {
-			addPoints(player, COAL_POINTS);
-			block.setType(Material.AIR);
-			player.playSound(Sound.ENTITY_ARROW_HIT_PLAYER, 1.0f);
-		} else if (block.getType() == Material.IRON_ORE) {
-			addPoints(player, IRON_POINTS);
-			block.setType(Material.AIR);
-			player.playSound(Sound.ENTITY_ARROW_HIT_PLAYER, 1.2f);
-		} else if (block.getType() == Material.GOLD_ORE) {
-			addPoints(player, GOLD_POINTS);
-			block.setType(Material.AIR);
-			player.playSound(Sound.ENTITY_ARROW_HIT_PLAYER, 1.35f);
-		} else if (block.getType() == Material.EMERALD_ORE) {
-			addPoints(player, EMERALD_POINTS);
-			block.setType(Material.AIR);
-			player.playSound(Sound.ENTITY_ARROW_HIT_PLAYER, 1.5f);
-		} else if (block.getType() == Material.NETHERRACK) {
-			player.sendActionBar(ChatColor.RED + "Everyone is now blinded for " + NETHERRACK_EFFECT_TIME / 20 + " seconds.");
-			final PotionEffect blind = new PotionEffect(PotionEffectType.BLINDNESS, NETHERRACK_EFFECT_TIME, 0, true, false);
-			final PotionEffect slow = new PotionEffect(PotionEffectType.SLOW, NETHERRACK_EFFECT_TIME, 1, true, false);
-			for (final Player online : Bukkit.getOnlinePlayers()) {
-				if (player.getUniqueId() != online.getUniqueId()) {
-					online.addPotionEffects(Arrays.asList(blind, slow));
-				}
+		switch(block.getType()) {
+			case COAL_ORE -> {
+				addPoints(player, COAL_POINTS);
+				block.setType(Material.AIR);
+				player.playSound(Sound.ENTITY_ARROW_HIT_PLAYER, 1.0f);
 			}
-			block.setType(Material.AIR);
-			player.playSound(Sound.ENTITY_ARROW_HIT_PLAYER, 0.5f);
-		} else if (block.getType() == Material.QUARTZ_BLOCK) {
-			player.sendActionBar(ChatColor.AQUA + "Your walking speed and vision has been boosted for " + QUARTZ_EFFECT_TIME / 20 + " seconds.");
-			final PotionEffect speed = new PotionEffect(PotionEffectType.SPEED, QUARTZ_EFFECT_TIME, 2, true, false);
-			final PotionEffect vision = new PotionEffect(PotionEffectType.NIGHT_VISION, QUARTZ_EFFECT_TIME, 0, true, false);
-			player.bukkit().addPotionEffect(speed);
-			player.bukkit().addPotionEffect(vision);
-			block.setType(Material.AIR);
-			player.playSound(Sound.ENTITY_ARROW_HIT_PLAYER, 1.0f);
+			case IRON_ORE -> {
+				addPoints(player, IRON_POINTS);
+				block.setType(Material.AIR);
+				player.playSound(Sound.ENTITY_ARROW_HIT_PLAYER, 1.2f);
+			}
+			case GOLD_ORE -> {
+				addPoints(player, GOLD_POINTS);
+				block.setType(Material.AIR);
+				player.playSound(Sound.ENTITY_ARROW_HIT_PLAYER, 1.35f);
+			}
+			case EMERALD_ORE -> {
+				addPoints(player, EMERALD_POINTS);
+				block.setType(Material.AIR);
+				player.playSound(Sound.ENTITY_ARROW_HIT_PLAYER, 1.5f);
+			}
+			case NETHERRACK -> {
+				player.sendActionBar(ChatColor.RED + "Everyone is now blinded for " + NETHERRACK_EFFECT_TIME / 20 + " seconds.");
+				final PotionEffect blind = new PotionEffect(PotionEffectType.BLINDNESS, NETHERRACK_EFFECT_TIME, 0, true, false);
+				final PotionEffect slow = new PotionEffect(PotionEffectType.SLOW, NETHERRACK_EFFECT_TIME, 1, true, false);
+				for (final Player online : Bukkit.getOnlinePlayers()) {
+					if (player.getUniqueId() != online.getUniqueId()) {
+						online.addPotionEffects(Arrays.asList(blind, slow));
+					}
+				}
+				block.setType(Material.AIR);
+				player.playSound(Sound.ENTITY_ARROW_HIT_PLAYER, 0.5f);
+			}
+			case QUARTZ_BLOCK -> {
+				player.sendActionBar(ChatColor.AQUA + "Your walking speed and vision has been boosted for " + QUARTZ_EFFECT_TIME / 20 + " seconds.");
+				final PotionEffect speed = new PotionEffect(PotionEffectType.SPEED, QUARTZ_EFFECT_TIME, 2, true, false);
+				final PotionEffect vision = new PotionEffect(PotionEffectType.NIGHT_VISION, QUARTZ_EFFECT_TIME, 0, true, false);
+				player.bukkit().addPotionEffect(speed);
+				player.bukkit().addPotionEffect(vision);
+				block.setType(Material.AIR);
+				player.playSound(Sound.ENTITY_ARROW_HIT_PLAYER, 1.0f);
+			}
+			default -> {}
 		}
 	}
 
