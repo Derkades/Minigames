@@ -1,10 +1,6 @@
 package derkades.minigames.menu;
 
-import java.util.UUID;
-
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
 import derkades.minigames.Minigames;
@@ -15,6 +11,9 @@ import xyz.derkades.derkutils.bukkit.menu.IconMenu;
 import xyz.derkades.derkutils.bukkit.menu.OptionClickEvent;
 
 public class PointsListMenu extends IconMenu {
+
+	private static final String MHF_QUESTION = "ewogICJ0aW1lc3RhbXAiIDogMTYzMDY2NjgyMzMxOCwKICAicHJvZmlsZUlkIiA6ICI2MDZlMmZmMGVkNzc0ODQyOWQ2Y2UxZDMzMjFjNzgzOCIsCiAgInByb2ZpbGVOYW1lIiA6ICJNSEZfUXVlc3Rpb24iLAogICJ0ZXh0dXJlcyIgOiB7CiAgICAiU0tJTiIgOiB7CiAgICAgICJ1cmwiIDogImh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDM0ZTA2M2NhZmI0NjdhNWM4ZGU0M2VjNzg2MTkzOTlmMzY5ZjRhNTI0MzRkYTgwMTdhOTgzY2RkOTI1MTZhMCIKICAgIH0KICB9Cn0";
+	private static final String MONITOR = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTFmYWQ1ZDJiODIyZmNlOGQ1OWJjZTA4NDE0YjlmODdmMjdhYTlkNzdhNzM4MjNhNThkZDUxN2VhODBiMmE1In19fQ==";
 
 	public PointsListMenu(final Player player) {
 		super(Minigames.getInstance(), "Points", 3, player);
@@ -28,9 +27,8 @@ public class PointsListMenu extends IconMenu {
 			slot++;
 		}
 
-		this.addItem(24, new ItemBuilder(Material.PLAYER_HEAD).name(ChatColor.GOLD + "View all players").create());
-		final OfflinePlayer mhfQuestion = Bukkit.getOfflinePlayer(UUID.fromString("606e2ff0-ed77-4842-9d6c-e1d3321c7838"));
-		this.addItem(25, new ItemBuilder(mhfQuestion).name(ChatColor.GOLD + "Points explanation")
+		this.addItem(24, new ItemBuilder(Material.PLAYER_HEAD).skullTexture(MONITOR).name(ChatColor.GOLD + "View all players").create());
+		this.addItem(25, new ItemBuilder(Material.PLAYER_HEAD).skullTexture(MHF_QUESTION).name(ChatColor.GOLD + "Points explanation")
 				.lore(ChatColor.GREEN + "" + ChatColor.BOLD + "Winning a game",
 						ChatColor.GRAY + "  1-2 online players: +3 points, +3 GladeCoins",
 						ChatColor.GRAY + "  3-4 online players: +4 points, +4 GladeCoins",
