@@ -86,8 +86,6 @@ public class GlobalListeners implements Listener {
 					.append(Minigames.CURRENT_GAME.getName()).color(ChatColor.WHITE)
 					.create()));
 		}
-
-		ResourcePack.sendPack(player.bukkit());
 	}
 
 	@EventHandler

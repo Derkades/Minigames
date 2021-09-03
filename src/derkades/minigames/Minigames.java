@@ -11,13 +11,19 @@ import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventException;
+import org.bukkit.plugin.RegisteredListener;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import de.tr7zw.changeme.nbtapi.utils.MinecraftVersion;
 import derkades.minigames.games.Game;
 import derkades.minigames.games.maps.GameMap;
+import derkades.minigames.modules.InfoBar;
+import derkades.minigames.modules.ResourcePack;
 import derkades.minigames.task.RegenerateHunger;
 import derkades.minigames.utils.MPlayer;
+import derkades.minigames.utils.PluginLoadEvent;
+import derkades.minigames.utils.PluginUnloadEvent;
 import derkades.minigames.utils.Scheduler;
 import derkades.minigames.utils.SneakPrevention;
 import derkades.minigames.utils.queue.TaskQueue;
@@ -85,6 +91,9 @@ public class Minigames extends JavaPlugin implements Listener {
 		new SneakPrevention(this);
 		new JazzRoom();
 
+		new InfoBar();
+		new ResourcePack();
+
 		TaskQueue.start();
 
 		if (Logger.debugMode) {
@@ -119,7 +128,7 @@ public class Minigames extends JavaPlugin implements Listener {
 
 		new AutoReloader(this);
 
-		ResourcePack.refreshAsync();
+		Bukkit.getPluginManager().callEvent(new PluginLoadEvent());
 	}
 
 	private void integrityCheck() {
@@ -143,6 +152,16 @@ public class Minigames extends JavaPlugin implements Listener {
 
 		for (final GameWorld gWorld : GameWorld.values()) {
 			gWorld.unload();
+		}
+
+		// Hacky solution to call events, regular callEvent doesn't work when plugin is disabled
+		final PluginUnloadEvent event = new PluginUnloadEvent();
+		for (final RegisteredListener listener : PluginUnloadEvent.getHandlerList().getRegisteredListeners()) {
+			try {
+				listener.callEvent(event);
+			} catch (final EventException e) {
+				e.printStackTrace();
+			}
 		}
 
 		Logger.info("Plugin disabled");

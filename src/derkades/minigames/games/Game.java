@@ -147,7 +147,6 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 
 	// This is set in the timer for loop, modifying the variable has no effect
 	private int secondsLeft;
-
 	public int getSecondsLeft() {
 		return this.secondsLeft;
 	}
@@ -282,7 +281,7 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 
 			@Override
 			public void run() {
-				this.secondsLeft--;
+				Game.this.secondsLeft = --this.secondsLeft;
 
 				// pre-start countdown
 				if (this.secondsLeft > Game.this.getDuration()) {

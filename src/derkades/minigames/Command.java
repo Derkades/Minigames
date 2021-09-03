@@ -30,6 +30,7 @@ import derkades.minigames.games.missiles.Shield;
 import derkades.minigames.menu.GamesListMenu;
 import derkades.minigames.menu.MainMenu;
 import derkades.minigames.menu.StatsMenu;
+import derkades.minigames.modules.ResourcePack;
 import derkades.minigames.random.RandomPicking;
 import derkades.minigames.utils.MPlayer;
 import derkades.minigames.utils.Scheduler;
@@ -135,11 +136,11 @@ public class Command implements CommandExecutor {
 					player.stopSound(Sound.MUSIC_DISC_13);
 				}
 			} else if (args[0].equals("refreshpack") && sender.hasPermission("minigames.refreshpack")) {
-				ResourcePack.refreshAsync();
+				ResourcePack.refresh();
 			} else if (args[0].equals("clearpack") && sender.hasPermission("minigames.clearpack")) {
 				ResourcePack.sendEmptyPack((Player) sender);
 			} else if (args[0].equals("applypack") && sender.hasPermission("minigames.applypack")) {
-				ResourcePack.sendPack((Player) sender);
+				ResourcePack.sendResourcePack((Player) sender);
 			}
 		}
 

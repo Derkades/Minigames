@@ -29,7 +29,7 @@ public class Logger {
 		if (debugMode) {
 			final String formatted = String.format(message, arg1);
 			Minigames.getInstance().getLogger().info(formatted);
-			broadcast(ChatColor.WHITE + "Debug: " + ChatColor.GRAY + formatted);
+			broadcast(ChatColor.GRAY + "Debug: " + ChatColor.DARK_GRAY + formatted);
 		}
 	}
 
