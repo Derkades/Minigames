@@ -134,6 +134,12 @@ public class Command implements CommandExecutor {
 				for (final Player player : Bukkit.getOnlinePlayers()) {
 					player.stopSound(Sound.MUSIC_DISC_13);
 				}
+			} else if (args[0].equals("refreshpack") && sender.hasPermission("minigames.refreshpack")) {
+				ResourcePack.refreshAsync();
+			} else if (args[0].equals("clearpack") && sender.hasPermission("minigames.clearpack")) {
+				ResourcePack.sendEmptyPack((Player) sender);
+			} else if (args[0].equals("applypack") && sender.hasPermission("minigames.applypack")) {
+				ResourcePack.sendPack((Player) sender);
 			}
 		}
 

@@ -83,7 +83,7 @@ public class Minigames extends JavaPlugin implements Listener {
 		ChatPoll.startup(this);
 		SpawnZombieShooter.init();
 		new SneakPrevention(this);
-//		new JazzRoom();
+		new JazzRoom();
 
 		TaskQueue.start();
 
@@ -118,6 +118,8 @@ public class Minigames extends JavaPlugin implements Listener {
 		});
 
 		new AutoReloader(this);
+
+		ResourcePack.refreshAsync();
 	}
 
 	private void integrityCheck() {
