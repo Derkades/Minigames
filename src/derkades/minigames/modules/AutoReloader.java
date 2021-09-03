@@ -1,10 +1,10 @@
-package derkades.minigames;
+package derkades.minigames.modules;
 
 import java.io.File;
 
 import org.bukkit.Bukkit;
-import org.bukkit.plugin.java.JavaPlugin;
 
+import derkades.minigames.Minigames;
 import derkades.minigames.utils.Scheduler;
 
 public class AutoReloader {
@@ -12,15 +12,15 @@ public class AutoReloader {
 	private File file;
 	private final long lastModified;
 
-	AutoReloader(final JavaPlugin plugin) {
+	public AutoReloader() {
 		this.file = null;
 
-		for (final File file : plugin.getDataFolder().getParentFile().listFiles()) {
+		for (final File file : Minigames.getInstance().getDataFolder().getParentFile().listFiles()) {
 			if (!file.isFile()) {
 				continue;
 			}
 
-			if (file.getName().toLowerCase().contains(plugin.getName().toLowerCase())) {
+			if (file.getName().toLowerCase().contains(Minigames.getInstance().getName().toLowerCase())) {
 				this.file = file;
 			}
 		}

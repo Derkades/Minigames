@@ -1,20 +1,19 @@
-package derkades.minigames.utils;
+package derkades.minigames.modules;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 import java.util.function.Consumer;
 
-import org.bukkit.plugin.Plugin;
-import org.bukkit.scheduler.BukkitRunnable;
-
 import derkades.minigames.Minigames;
+import derkades.minigames.utils.MPlayer;
+import derkades.minigames.utils.Scheduler;
 import net.md_5.bungee.api.ChatColor;
 
 /**
  * Runs every 5 ticks
  */
-public class SneakPrevention extends BukkitRunnable {
+public class SneakPrevention extends Module implements Runnable {
 
 	private static final int MAX_WARNINGS = 10;
 
@@ -26,8 +25,8 @@ public class SneakPrevention extends BukkitRunnable {
 
 	private static final Map<UUID, Consumer<MPlayer>> ON_PUNISH = new HashMap<>();
 
-	public SneakPrevention(final Plugin plugin) {
-		runTaskTimer(plugin, 50, 5);
+	public SneakPrevention() {
+		Scheduler.repeat(5, this);
 	}
 
 	@Override
@@ -54,7 +53,7 @@ public class SneakPrevention extends BukkitRunnable {
 
 	}
 
-	static void enable(final MPlayer player, final Consumer<MPlayer> onPunish) {
+	public static void enable(final MPlayer player, final Consumer<MPlayer> onPunish) {
 		if (isEnabled(player)) {
 			return;
 		}
@@ -63,12 +62,12 @@ public class SneakPrevention extends BukkitRunnable {
 		ON_PUNISH.put(player.getUniqueId(), onPunish);
 	}
 
-	static void disable(final MPlayer player) {
+	public static void disable(final MPlayer player) {
 		WARNINGS.remove(player.getUniqueId());
 		ON_PUNISH.remove(player.getUniqueId());
 	}
 
-	static boolean isEnabled(final MPlayer player) {
+	public static boolean isEnabled(final MPlayer player) {
 		return WARNINGS.containsKey(player.getUniqueId());
 	}
 

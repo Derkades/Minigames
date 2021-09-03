@@ -72,7 +72,7 @@ public class Tron extends Game<TronMap> {
 
 	@Override
 	public int getDuration() {
-		return 100;
+		return 150;
 	}
 
 	private List<BukkitTask> tasks;

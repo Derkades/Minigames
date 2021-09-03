@@ -18,14 +18,18 @@ import org.bukkit.plugin.java.JavaPlugin;
 import de.tr7zw.changeme.nbtapi.utils.MinecraftVersion;
 import derkades.minigames.games.Game;
 import derkades.minigames.games.maps.GameMap;
+import derkades.minigames.modules.AutoReloader;
 import derkades.minigames.modules.InfoBar;
+import derkades.minigames.modules.JazzRoom;
+import derkades.minigames.modules.LobbyStormDisabler;
 import derkades.minigames.modules.ResourcePack;
+import derkades.minigames.modules.SneakPrevention;
+import derkades.minigames.modules.SpawnZombieShooter;
 import derkades.minigames.task.RegenerateHunger;
 import derkades.minigames.utils.MPlayer;
 import derkades.minigames.utils.PluginLoadEvent;
 import derkades.minigames.utils.PluginUnloadEvent;
 import derkades.minigames.utils.Scheduler;
-import derkades.minigames.utils.SneakPrevention;
 import derkades.minigames.utils.queue.TaskQueue;
 import derkades.minigames.worlds.GameWorld;
 import derkades.minigames.worlds.WorldTeleportCommand;
@@ -78,21 +82,19 @@ public class Minigames extends JavaPlugin implements Listener {
 		getCommand("wtp").setTabCompleter(new WorldTeleportCommandCompleter());
 		getCommand("voteskip").setExecutor(new VoteSkipCommand());
 
-		Scheduler.repeat(20, () -> {
-			Var.WORLD.setStorm(false);
-		});
-
 //		if (!setupEconomy()) {
 //			getLogger().severe("Vault error");
 //		}
 
 		ChatPoll.startup(this);
-		SpawnZombieShooter.init();
-		new SneakPrevention(this);
-		new JazzRoom();
 
+		new AutoReloader();
 		new InfoBar();
+		new JazzRoom();
+		new LobbyStormDisabler();
 		new ResourcePack();
+		new SneakPrevention();
+		new SpawnZombieShooter();
 
 		TaskQueue.start();
 
@@ -125,8 +127,6 @@ public class Minigames extends JavaPlugin implements Listener {
 				Logger.info("Players online, not starting games automatically");
 			}
 		});
-
-		new AutoReloader(this);
 
 		Bukkit.getPluginManager().callEvent(new PluginLoadEvent());
 	}

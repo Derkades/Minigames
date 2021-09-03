@@ -1,16 +1,19 @@
-package derkades.minigames;
+package derkades.minigames.modules;
 
 import java.util.HashMap;
 
 import org.bukkit.Location;
 import org.bukkit.Sound;
 
+import derkades.minigames.Logger;
+import derkades.minigames.Minigames;
+import derkades.minigames.Var;
 import derkades.minigames.utils.MPlayer;
 import derkades.minigames.utils.Scheduler;
 import net.md_5.bungee.api.ChatColor;
 import xyz.derkades.derkutils.ListUtils;
 
-public class JazzRoom implements Runnable {
+public class JazzRoom extends Module implements Runnable {
 
 	private static final Sound[] JAZZ_MUSIC = new Sound[] {
 			Sound.MUSIC_DISC_13,

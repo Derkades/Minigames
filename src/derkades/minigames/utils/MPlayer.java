@@ -25,6 +25,7 @@ import org.bukkit.util.Vector;
 
 import derkades.minigames.Minigames;
 import derkades.minigames.Points;
+import derkades.minigames.modules.SneakPrevention;
 import derkades.minigames.utils.queue.TaskQueue;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.ChatMessageType;
