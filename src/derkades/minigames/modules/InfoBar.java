@@ -23,8 +23,6 @@ public class InfoBar extends Module {
 	private int lastTimeLeft = -1;
 	private int numberOfTimesTheSameTime = 0;
 
-	public InfoBar() {}
-
 	public void tick() {
 		final Game<?> game = Minigames.CURRENT_GAME;
 		if (game != null) {
@@ -61,7 +59,8 @@ public class InfoBar extends Module {
 			this.numberOfTimesTheSameTime = 0;
 			this.lastTimeLeft = timeLeftSeconds;
 		}
-		return timeLeftTicks / (totalSeconds*20f);
+		final float progress = timeLeftTicks / (totalSeconds*20f);
+		return progress >= 0 ? progress : 0;
 	}
 
 	@EventHandler(priority = EventPriority.MONITOR)
