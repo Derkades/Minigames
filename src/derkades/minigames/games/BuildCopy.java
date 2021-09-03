@@ -149,6 +149,11 @@ public class BuildCopy extends Game<BuildCopyMap> {
 	}
 
 	@Override
+	public boolean endEarly() {
+		return false;
+	}
+
+	@Override
 	public void onEnd() {
 		endGame(this.leaderboard.getWinnersPrintHide(this));
 		this.positions = null;

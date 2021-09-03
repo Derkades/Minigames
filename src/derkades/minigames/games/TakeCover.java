@@ -69,6 +69,11 @@ public class TakeCover extends Game<TakeCoverMap> {
 	}
 
 	@Override
+	public boolean endEarly() {
+		return false;
+	}
+
+	@Override
 	public void onEnd() {
 		// TODO Auto-generated method stub
 

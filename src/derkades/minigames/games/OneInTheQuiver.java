@@ -110,11 +110,12 @@ public class OneInTheQuiver extends Game<OITQMap> {
 
 	@Override
 	public int gameTimer(final int secondsLeft) {
-		if (this.alive.size() < 2 && secondsLeft > 2) {
-			return 2;
-		}
-
 		return secondsLeft;
+	}
+
+	@Override
+	public boolean endEarly() {
+		return this.alive.size() < 2;
 	}
 
 	@Override

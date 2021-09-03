@@ -10,7 +10,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
-import derkades.minigames.Minigames;
+import derkades.minigames.GameState;
 import derkades.minigames.games.Game;
 import derkades.minigames.utils.PluginLoadEvent;
 import derkades.minigames.utils.PluginUnloadEvent;
@@ -20,36 +20,59 @@ public class InfoBar extends Module {
 
 	private BossBar bar;
 
-	private int lastTimeLeft = -1;
-	private int numberOfTimesTheSameTime = 0;
-
 	public void tick() {
-		final Game<?> game = Minigames.CURRENT_GAME;
-		if (game != null) {
-			if (game.hasStarted()) {
-				this.bar.setTitle("Playing " + game.getName());
-				this.bar.setProgress(getSmoothProgress(game.getSecondsLeft(), game.getDuration()));
-				this.bar.setColor(BarColor.BLUE);
+		switch(GameState.getCurrentState()) {
+			case IDLE -> {
+				this.bar.setTitle("Waiting");
+				this.bar.setProgress(1.0f);
+				this.bar.setColor(BarColor.WHITE);
 				this.bar.setStyle(BarStyle.SOLID);
-			} else {
+			}
+			case IDLE_MAINTENANCE -> {
+				this.bar.setTitle("Maintenance mode");
+				this.bar.setProgress(1.0f);
+				this.bar.setColor(BarColor.RED);
+				this.bar.setStyle(BarStyle.SOLID);
+			}
+			case COUNTDOWN -> {
+				final Game<?> game = GameState.getCurrentGame();
+				this.bar.setTitle("Next up: " + game.getName());
+				this.bar.setProgress(1.0f);
+				this.bar.setColor(BarColor.GREEN);
+				this.bar.setStyle(BarStyle.SOLID);
+			}
+			case RUNNING_COUNTDOWN -> {
+				final Game<?> game = GameState.getCurrentGame();
 				this.bar.setTitle("Starting soon: " + game.getName());
 				if (game.getPreDuration() > 0) {
-					this.bar.setProgress(getSmoothProgress(game.getSecondsLeft() - game.getDuration(), game.getPreDuration()));
+					this.bar.setProgress(getInterpolatedSmoothProgress(game.getSecondsLeft() - game.getDuration(), game.getPreDuration()));
 				} else {
 					this.bar.setProgress(0f);
 				}
 				this.bar.setColor(BarColor.GREEN);
 				this.bar.setStyle(BarStyle.SEGMENTED_10);
 			}
-		} else {
-			this.bar.setTitle("Waiting");
-			this.bar.setProgress(1.0f);
-			this.bar.setColor(BarColor.WHITE);
-			this.bar.setStyle(BarStyle.SOLID);
+			case RUNNING_STARTED -> {
+				final Game<?> game = GameState.getCurrentGame();
+				this.bar.setTitle("Playing " + game.getName());
+				this.bar.setProgress(getInterpolatedSmoothProgress(game.getSecondsLeft(), game.getDuration()));
+				this.bar.setColor(BarColor.BLUE);
+				this.bar.setStyle(BarStyle.SOLID);
+			}
+			case RUNNING_SKIPPED, RUNNING_ENDED_EARLY -> {
+				final Game<?> game = GameState.getCurrentGame();
+				this.bar.setTitle("Playing " + game.getName());
+				this.bar.setProgress(getInterpolatedSmoothProgress(game.getSecondsLeft(), game.getDuration()));
+				this.bar.setColor(BarColor.RED);
+				this.bar.setStyle(BarStyle.SOLID);
+			}
 		}
 	}
 
-	private float getSmoothProgress(final int timeLeftSeconds, final int totalSeconds) {
+	private int lastTimeLeft = -1;
+	private int numberOfTimesTheSameTime = 0;
+
+	private float getInterpolatedSmoothProgress(final int timeLeftSeconds, final int totalSeconds) {
 		int timeLeftTicks;
 		if (timeLeftSeconds == this.lastTimeLeft) {
 			timeLeftTicks = timeLeftSeconds*20 - this.numberOfTimesTheSameTime;

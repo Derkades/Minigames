@@ -148,15 +148,7 @@ public class MurderyMister extends Game<MurderyMisterMap> {
 	}
 
 	@Override
-	public int gameTimer(int secondsLeft) {
-		if (this.alive.size() < 1 && secondsLeft > 5) {
-			secondsLeft = 5;
-		}
-
-		if (this.murdererDead && secondsLeft > 5) {
-			secondsLeft = 5;
-		}
-
+	public int gameTimer(final int secondsLeft) {
 		if (this.map.getCandles() != null) {
 			for (final Location location : this.map.getCandles()) {
 				location.setX(location.getX() + .5);
@@ -174,6 +166,11 @@ public class MurderyMister extends Game<MurderyMisterMap> {
 		}
 
 		return secondsLeft;
+	}
+
+	@Override
+	public boolean endEarly() {
+		return this.alive.size() < 1 || this.murdererDead;
 	}
 
 	@Override

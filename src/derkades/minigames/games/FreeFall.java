@@ -109,6 +109,11 @@ public class FreeFall extends Game<FreeFallMap> {
 	}
 
 	@Override
+	public boolean endEarly() {
+		return false;
+	}
+
+	@Override
 	public void onEnd() {
 		this.endGame(this.winners);
 		this.winners = null;

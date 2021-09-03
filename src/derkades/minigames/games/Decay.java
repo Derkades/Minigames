@@ -67,12 +67,12 @@ public class Decay extends Game<DecayMap> {
 	}
 
 	private List<Location> blocks;
-	private Set<UUID> winners;
+	private Set<UUID> alive;
 
 	@Override
 	public void onPreStart() {
 		this.blocks = new ArrayList<>();
-		this.winners = Utils.getOnlinePlayersUuidSet();
+		this.alive = Utils.getOnlinePlayersUuidSet();
 
 		for (final Location loc : this.map.getBlocks()) {
 			loc.getBlock().setType(BLOCK_TYPES[0]);
@@ -129,18 +129,19 @@ public class Decay extends Game<DecayMap> {
 			}
 		}
 
-		if (secondsLeft > 5 && this.winners.size() <= 1) {
-			return 5;
-		}
-
 		return secondsLeft;
 	}
 
 	@Override
+	public boolean endEarly() {
+		return this.alive.size() < 2;
+	}
+
+	@Override
 	public void onEnd() {
-		endGame(this.winners, false);
+		endGame(this.alive, false);
 		this.blocks = null;
-		this.winners = null;
+		this.alive = null;
 	}
 
 	@Override
@@ -151,7 +152,7 @@ public class Decay extends Game<DecayMap> {
 
 	@Override
 	public void onPlayerQuit(final MPlayer player) {
-		this.winners.remove(player.getUniqueId());
+		this.alive.remove(player.getUniqueId());
 	}
 
 	@EventHandler
@@ -165,7 +166,7 @@ public class Decay extends Game<DecayMap> {
 		if (this.map.isDead(player)) {
 			if (this.hasStarted()) {
 				player.dieTo(this.map.getSpawnLocation());
-				this.winners.remove(player.getUniqueId());
+				this.alive.remove(player.getUniqueId());
 			} else {
 				player.teleport(this.map.getSpawnLocation());
 			}

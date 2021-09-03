@@ -119,7 +119,11 @@ public class Command implements CommandExecutor {
 				Minigames.getInstance().saveConfig();
 				sender.sendMessage("Set debug mode to " + Logger.debugMode);
 			} else if (args[0].equals("currentgame") && sender.hasPermission("minigames.currentgame")) {
-				sender.sendMessage("Current game: " + Minigames.CURRENT_GAME);
+				if (GameState.currentlyHasGame()) {
+					sender.sendMessage("Current game: " + GameState.getCurrentGame().getName());
+				} else {
+					sender.sendMessage("No game in progress.");
+				}
 			} else if (args[0].equals("stats")) {
 				new StatsMenu((Player) sender);
 			} else if (args[0].equals("jazz") && sender.hasPermission("minigames.music")) {

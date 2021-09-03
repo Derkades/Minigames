@@ -108,13 +108,16 @@ public class BreakTheBlock extends Game<BreakTheBlockMap> {
 
 	@Override
 	public int gameTimer(final int secondsLeft) {
-		if (BreakTheBlock.this.blockBreaker != null && secondsLeft > 5) {
-			Minigames.getOnlinePlayers().forEach(MPlayer::disableSneakPrevention);
-
-			return 5;
-		}
-
 		return secondsLeft;
+	}
+
+	@Override
+	public boolean endEarly() {
+		if (BreakTheBlock.this.blockBreaker != null) {
+			Minigames.getOnlinePlayers().forEach(MPlayer::disableSneakPrevention);
+			return true;
+		}
+		return false;
 	}
 
 	@Override

@@ -76,13 +76,10 @@ public class GladeRoyale extends Game<GladeRoyaleMap> {
 	private int currentBorderSize = 0;
 
 	private Set<UUID> alive;
-	private boolean gameEnded = false;
 
 	@Override
 	public void onPreStart() {
 		this.currentBorderSize = this.map.getWorldborderSize();
-
-		this.gameEnded = false;
 		this.alive = Utils.getOnlinePlayersUuidSet();
 
 		final WorldBorder border = this.map.getWorld().getWorldBorder();
@@ -148,16 +145,7 @@ public class GladeRoyale extends Game<GladeRoyaleMap> {
 	}
 
 	@Override
-	public int gameTimer(int secondsLeft) {
-		if (this.alive.size() < 2 && !this.gameEnded) {
-			secondsLeft = 10;
-			this.gameEnded = true;
-			this.map.getWorld().getWorldBorder().setSize(this.map.getWorldborderSize());
-			for (final MPlayer player : Minigames.getOnlinePlayers()) {
-				player.playSound(Sound.UI_TOAST_CHALLENGE_COMPLETE, 1.0f);
-			}
-		}
-
+	public int gameTimer(final int secondsLeft) {
 		if (secondsLeft > 10 && ((secondsLeft > 360 && secondsLeft % 5 == 0) || secondsLeft % 20 == 0)) {
 			this.spawnSupplyDrop();
 		}
@@ -252,6 +240,18 @@ public class GladeRoyale extends Game<GladeRoyaleMap> {
 		}
 
 		return secondsLeft;
+	}
+
+	@Override
+	public boolean endEarly() {
+		if (this.alive.size() < 2) {
+			this.map.getWorld().getWorldBorder().setSize(this.map.getWorldborderSize());
+			for (final MPlayer player : Minigames.getOnlinePlayers()) {
+				player.playSound(Sound.UI_TOAST_CHALLENGE_COMPLETE, 1.0f);
+			}
+			return true;
+		}
+		return false;
 	}
 
 	@Override

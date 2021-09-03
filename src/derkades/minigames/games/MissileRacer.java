@@ -128,7 +128,7 @@ public class MissileRacer extends Game<MissileRacerMap> {
 	}
 
 	@Override
-	public int gameTimer(int secondsLeft) {
+	public int gameTimer(final int secondsLeft) {
 		for (final MPlayer player : Minigames.getOnlinePlayers()) {
 			if (!player.getInventory().contains(Material.TNT, 32)) {
 				player.getInventory().addItem(PLACEABLE_TNT);
@@ -138,20 +138,23 @@ public class MissileRacer extends Game<MissileRacerMap> {
 			}
 		}
 
+
+
+		return secondsLeft;
+	}
+
+	@Override
+	public boolean endEarly() {
 		if (this.winner == null) {
 			for (final MPlayer player : Minigames.getOnlinePlayers()) {
 				if (this.map.isInFinishBounds(player)) {
 					sendMessage(player.getName() + " made it to the finish line!");
 					this.winner = player.getUniqueId();
-					if (secondsLeft > 5) {
-						secondsLeft = 5;
-					}
-					break;
+					return true;
 				}
 			}
 		}
-
-		return secondsLeft;
+		return false;
 	}
 
 	@Override

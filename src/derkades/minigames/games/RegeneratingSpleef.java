@@ -104,11 +104,12 @@ public class RegeneratingSpleef extends Game<SpleefMap> {
 
 	@Override
 	public int gameTimer(final int secondsLeft) {
-		if (this.alive.size() < 2 && secondsLeft > 5) {
-			return 5;
-		}
-
 		return secondsLeft;
+	}
+
+	@Override
+	public boolean endEarly() {
+		return this.alive.size() < 2;
 	}
 
 	@Override

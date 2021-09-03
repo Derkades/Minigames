@@ -80,6 +80,11 @@ public class Speedrun extends Game<SpeedrunMap> {
 	}
 
 	@Override
+	public boolean endEarly() {
+		return false;
+	}
+
+	@Override
 	public void onEnd() {
 		Speedrun.this.endGame(this.finished);
 		this.finished = null;

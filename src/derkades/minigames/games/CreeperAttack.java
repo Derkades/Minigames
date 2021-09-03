@@ -90,10 +90,6 @@ public class CreeperAttack extends Game<CreeperAttackMap> {
 
 	@Override
 	public int gameTimer(final int secondsLeft) {
-		if (this.alive.size() <= 1 && secondsLeft > 5) {
-			return 5;
-		}
-
 		if (secondsLeft % 10 == 0){
 			this.numberOfCreepers++;
 		}
@@ -107,6 +103,11 @@ public class CreeperAttack extends Game<CreeperAttackMap> {
 		}
 
 		return secondsLeft;
+	}
+
+	@Override
+	public boolean endEarly() {
+		return this.alive.size() < 2;
 	}
 
 	@Override

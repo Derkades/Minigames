@@ -107,13 +107,13 @@ public class Leaderboard {
 
 	public Set<UUID> getWinnersPrintHide(final Game<?> game) {
 		this.hide();
-		this.printToChat(game);
+		this.printToChat(Bukkit::broadcastMessage);
 		return getWinners();
 	}
 
-	public void printToChat(final Game<?> game) {
-		printToChat(game::sendMessage);
-	}
+//	public void printToChat(final Game<?> game) {
+//		printToChat(game::sendMessage);
+//	}
 
 	public void printToChat(final Consumer<String> printFunction) {
 		final AtomicInteger i = new AtomicInteger();

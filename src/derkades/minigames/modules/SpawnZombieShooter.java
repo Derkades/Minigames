@@ -14,6 +14,7 @@ import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.inventory.ItemStack;
 
+import derkades.minigames.GameState;
 import derkades.minigames.Minigames;
 import derkades.minigames.UpdateSigns;
 import derkades.minigames.Var;
@@ -41,7 +42,7 @@ public class SpawnZombieShooter extends Module {
 	}
 
 	public void tickBowTarget() {
-		if ((Minigames.CURRENT_GAME != null) || Var.LOBBY_WORLD.getPlayers().isEmpty()) {
+		if (GameState.isCurrentlyInGame() || Var.LOBBY_WORLD.getPlayers().isEmpty()) {
 			return;
 		}
 
@@ -79,8 +80,7 @@ public class SpawnZombieShooter extends Module {
 	}
 
 	public void tickSpawn() {
-		// No need to spawn zombies when a game is running
-		if ((Minigames.CURRENT_GAME != null) || Var.LOBBY_WORLD.getPlayers().isEmpty()) {
+		if (GameState.isCurrentlyInGame() || Var.LOBBY_WORLD.getPlayers().isEmpty()) {
 			return;
 		}
 
@@ -90,11 +90,15 @@ public class SpawnZombieShooter extends Module {
 
 	@EventHandler
 	public void onDeath(final EntityDeathEvent event) {
-		if (Minigames.CURRENT_GAME != null || event.getEntityType() != EntityType.ZOMBIE) {
+		if (event.getEntityType() != EntityType.ZOMBIE) {
 			return;
 		}
 
 		final Zombie zombie = (Zombie) event.getEntity();
+
+		if (!zombie.getLocation().getWorld().equals(Var.LOBBY_WORLD)) {
+			return;
+		}
 
 		if (zombie.getLastDamageCause().getCause() != DamageCause.PROJECTILE) {
 			return;

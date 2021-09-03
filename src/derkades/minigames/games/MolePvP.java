@@ -99,11 +99,12 @@ public class MolePvP extends Game<MolePvPMap> {
 
 	@Override
 	public int gameTimer(final int secondsLeft) {
-		if ((MolePvP.this.getNumPlayersLeftInBlueTeam() == 0 || MolePvP.this.getNumPlayersLeftInRedTeam() == 0) && secondsLeft > 5) {
-			return 5;
-		}
-
 		return secondsLeft;
+	}
+
+	@Override
+	public boolean endEarly() {
+		return MolePvP.this.getNumPlayersLeftInBlueTeam() == 0 || MolePvP.this.getNumPlayersLeftInRedTeam() == 0;
 	}
 
 	@Override

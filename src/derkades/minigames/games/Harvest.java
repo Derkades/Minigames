@@ -149,6 +149,11 @@ public class Harvest extends Game<HarvestMap> {
 	}
 
 	@Override
+	public boolean endEarly() {
+		return false;
+	}
+
+	@Override
 	public void onEnd() {
 		endGame(this.leaderboard.getWinnersPrintHide(this));
 		this.blocks = null;

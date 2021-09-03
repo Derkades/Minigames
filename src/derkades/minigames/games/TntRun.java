@@ -80,10 +80,6 @@ public class TntRun extends Game<TNTMap> {
 
 	@Override
 	public int gameTimer(final int secondsLeft) {
-		if (this.alive.size() < 2 && secondsLeft > 3) {
-			return 3;
-		}
-
 		Minigames.getOnlinePlayers().forEach((p) -> {
 			if (this.alive.contains(p.getUniqueId())) {
 				TntRun.this.removeBlocks(p);
@@ -91,6 +87,11 @@ public class TntRun extends Game<TNTMap> {
 		});
 
 		return secondsLeft;
+	}
+
+	@Override
+	public boolean endEarly() {
+		return this.alive.size() < 2;
 	}
 
 	@Override

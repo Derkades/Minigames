@@ -40,7 +40,7 @@ public class Minigames extends JavaPlugin implements Listener {
 
 	private static Minigames instance;
 
-	public static Game<? extends GameMap> CURRENT_GAME = null;
+//	public static Game<? extends GameMap> CURRENT_GAME = null;
 
 	public static boolean STOP_GAMES = false;
 
@@ -146,8 +146,6 @@ public class Minigames extends JavaPlugin implements Listener {
 
 	@Override
 	public void onDisable(){
-		CURRENT_GAME = null;
-
 		Logger.debug("Unloading worlds");
 
 		for (final GameWorld gWorld : GameWorld.values()) {
@@ -177,11 +175,11 @@ public class Minigames extends JavaPlugin implements Listener {
 	 * Used by connector addon
 	 */
 	public static String getCurrentGameName() {
-		if (CURRENT_GAME == null) {
+		if (GameState.getCurrentState().hasGame()) {
+			return GameState.getCurrentGame().getName();
+		} else {
 			return "None";
 		}
-
-		return CURRENT_GAME.getName();
 	}
 
 //    private boolean setupEconomy() {

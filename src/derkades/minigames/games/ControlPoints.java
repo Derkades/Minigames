@@ -17,6 +17,7 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.event.EventHandler;
 import org.bukkit.potion.PotionEffectType;
 
+import derkades.minigames.GameState;
 import derkades.minigames.Minigames;
 import derkades.minigames.games.pointcontrol.ControlPointsMap;
 import derkades.minigames.games.pointcontrol.ControlStatus;
@@ -181,20 +182,27 @@ public class ControlPoints extends Game<ControlPointsMap> {
 		this.barRed.setProgress(redPoints / max);
 		this.barBlue.setProgress(bluePoints / max);
 
-		if (secondsLeft > 6) {
+		if (secondsLeft > 5) {
 			if (redPoints == this.map.getControlPointLocations().length) {
 				end("red");
-				return 6;
+				return 5;
 			} else if (bluePoints == this.map.getControlPointLocations().length) {
 				end("blue");
-				return 6;
+				return 5;
 			}
 		}
 
 		return secondsLeft;
 	}
 
+	@Override
+	public boolean endEarly() {
+		return false; // more convenient to handle manually in gameTimer for now
+		// TODO use this method instead
+	}
+
 	public void end(final String winningTeam) {
+		GameState.setState(GameState.RUNNING_ENDED_EARLY, this); // TODO remove when endEarly is used
 		if (winningTeam.equals("red")) {
 			this.winners = this.teamRed;
 		} else {

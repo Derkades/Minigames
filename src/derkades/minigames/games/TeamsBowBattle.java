@@ -96,11 +96,12 @@ public class TeamsBowBattle extends Game<TeamsBowBattleMap> {
 
 	@Override
 	public int gameTimer(final int secondsLeft) {
-		if ((TeamsBowBattle.this.getNumPlayersLeftInBlueTeam() == 0 || TeamsBowBattle.this.getNumPlayersLeftInRedTeam() == 0) && secondsLeft > 1) {
-			return 1;
-		}
-
 		return secondsLeft;
+	}
+
+	@Override
+	public boolean endEarly() {
+		return TeamsBowBattle.this.getNumPlayersLeftInBlueTeam() == 0 || TeamsBowBattle.this.getNumPlayersLeftInRedTeam() == 0;
 	}
 
 	@Override

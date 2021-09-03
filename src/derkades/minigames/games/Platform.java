@@ -96,11 +96,12 @@ public class Platform extends Game<PlatformMap> {
 			Platform.this.giveSwords();
 		}
 
-		if (this.alive.size() <= 1 && secondsLeft > 5) {
-			return 5;
-		}
-
 		return secondsLeft;
+	}
+
+	@Override
+	public boolean endEarly() {
+		return this.alive.size() < 2;
 	}
 
 	@Override

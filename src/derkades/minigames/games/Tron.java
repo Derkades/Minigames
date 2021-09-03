@@ -130,11 +130,12 @@ public class Tron extends Game<TronMap> {
 
 	@Override
 	public int gameTimer(final int secondsLeft) {
-		if (Tron.this.teams.size() < 2 && secondsLeft > 2) {
-			return 2;
-		}
-
 		return secondsLeft;
+	}
+
+	@Override
+	public boolean endEarly() {
+		return Tron.this.teams.size() < 2;
 	}
 
 	@Override

@@ -90,7 +90,7 @@ public class BowSpleef extends Game<BowSpleefMap> {
 	}
 
 	@Override
-	public int gameTimer(int secondsLeft) {
+	public int gameTimer(final int secondsLeft) {
 		Minigames.getOnlinePlayers().stream()
 			.filter((p) -> this.alive.contains(p.getUniqueId()))
 			.filter((p) -> p.getLocation().getY() < this.map.getLayerCenter().getY() - 20)
@@ -101,11 +101,12 @@ public class BowSpleef extends Game<BowSpleefMap> {
 				sendMessage(p.getName() + " died");
 			});
 
-		if (this.alive.size() < 2 && secondsLeft > 2) {
-			secondsLeft = 2;
-		}
-
 		return secondsLeft;
+	}
+
+	@Override
+	public boolean endEarly() {
+		return this.alive.size() < 2;
 	}
 
 	@Override

@@ -41,6 +41,7 @@ import com.google.gson.stream.JsonWriter;
 import derkades.minigames.AutoRotate;
 import derkades.minigames.ChatPoll.Poll;
 import derkades.minigames.ChatPoll.PollAnswer;
+import derkades.minigames.GameState;
 import derkades.minigames.Logger;
 import derkades.minigames.Minigames;
 import derkades.minigames.Minigames.ShutdownReason;
@@ -127,6 +128,8 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 
 	public abstract int gameTimer(int secondsLeft);
 
+	public abstract boolean endEarly();
+
 	public abstract void onEnd();
 
 	public abstract void onPlayerJoin(MPlayer player);
@@ -152,10 +155,15 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 	}
 
 	private Set<UUID> gameSkipVotes;
+	@Deprecated
 	private boolean skipped = false;
 
-	public boolean voteGameSkip(final UUID uuid) {
-		return this.gameSkipVotes.add(uuid);
+	public boolean voteGameSkip(final Player player) {
+		if (this.gameSkipVotes.add(player.getUniqueId())) {
+			sendMessage(player.getName() + " voted to skip this game using /voteskip.");
+			return true;
+		}
+		return false;
 	}
 
 	public boolean hasStarted() {
@@ -215,6 +223,8 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 			this.map.getGameWorld().load();
 		}
 
+		GameState.setState(GameState.COUNTDOWN, this);
+
 		// Countdown using sounds and the XP bar
 		new BukkitRunnable() {
 			int timeLeft = 200;
@@ -258,7 +268,8 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 						player.getInventory().setHeldItemSlot(0);
 					}
 
-					Minigames.CURRENT_GAME = Game.this;
+//					Minigames.CURRENT_GAME = Game.this;
+					GameState.setState(GameState.RUNNING_COUNTDOWN, Game.this);
 					Bukkit.getPluginManager().registerEvents(Game.this, Minigames.getInstance());
 					Game.this.begin();
 				}
@@ -306,6 +317,7 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 					Game.this.onStart();
 					Game.this.map.onStart();
 					Game.this.started = true;
+					GameState.setState(GameState.RUNNING_STARTED, Game.this);
 					return;
 				}
 
@@ -315,10 +327,19 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 					sendMessage(String.format(SkipConfig.SKIP_MESSAGE, Game.this.gameSkipVotes.size()));
 					this.secondsLeft = SkipConfig.SKIP_TO_SECONDS_LEFT;
 					Game.this.skipped = true;
+					GameState.setState(GameState.RUNNING_SKIPPED, Game.this);
 				}
 
 				final int newSecondsLeft = Game.this.gameTimer(this.secondsLeft);
 				this.secondsLeft = newSecondsLeft > 0 ? newSecondsLeft : this.secondsLeft;
+				if (this.secondsLeft > 5 &&
+						GameState.getCurrentState() != GameState.RUNNING_ENDED_EARLY &&
+						GameState.getCurrentState() != GameState.RUNNING_SKIPPED &&
+						Game.this.endEarly()) {
+					this.secondsLeft = 5;
+					GameState.setState(GameState.RUNNING_ENDED_EARLY, Game.this);
+				}
+
 				Game.this.map.onTimer(this.secondsLeft);
 
 				if (this.secondsLeft <= 0) {
@@ -336,8 +357,7 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 		}.runTaskTimer(Minigames.getInstance(), 0, 20);
 	}
 
-
-	public void sendMessage(final String message){
+	protected void sendMessage(final String message){
 		Bukkit.broadcastMessage(Utils.getChatPrefix(ChatColor.AQUA, 'G') + message);
 	}
 
@@ -363,7 +383,8 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 	}
 
 	protected void endGame(final Set<UUID> winners) {
-		Minigames.CURRENT_GAME = null;
+//		Minigames.CURRENT_GAME = null;
+		GameState.setState(GameState.IDLE);
 		HandlerList.unregisterAll(this); // Unregister events
 		this.gameSkipVotes = null;
 

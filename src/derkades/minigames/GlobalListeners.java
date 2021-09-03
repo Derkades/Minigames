@@ -34,6 +34,7 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 import derkades.minigames.Minigames.ShutdownReason;
+import derkades.minigames.games.Game;
 import derkades.minigames.menu.MainMenu;
 import derkades.minigames.utils.MPlayer;
 import derkades.minigames.utils.MinigamesPlayerDamageEvent;
@@ -61,7 +62,17 @@ public class GlobalListeners implements Listener {
 		player.setDisableItemMoving(true);
 		player.disableSneakPrevention();
 
-		if (Minigames.CURRENT_GAME == null) {
+		if (GameState.getCurrentState().isInGame()) {
+			// Game is running, game will handle teleporting
+			final Game<?> game = GameState.getCurrentGame();
+			game.onPlayerJoin(player);
+
+//			Scheduler.delay(1, () -> player.spigot().sendMessage(
+//					Utils.getComponentBuilderWithPrefix(ChatColor.GREEN, 'P')
+//					.append("Current game: ")
+//					.append(game.getName()).color(ChatColor.WHITE)
+//					.create()));
+		} else {
 			// No game is running, teleport to lobby
 			player.teleport(Var.LOBBY_LOCATION);
 			player.applyLobbySettings();
@@ -76,15 +87,6 @@ public class GlobalListeners implements Listener {
 						.append(".")
 						.underlined(false)
 						.create()));
-		} else {
-			// Game is running, game will handle teleporting
-			Minigames.CURRENT_GAME.onPlayerJoin(player);
-
-			Scheduler.delay(1, () -> player.spigot().sendMessage(
-					Utils.getComponentBuilderWithPrefix(ChatColor.GREEN, 'P')
-					.append("Current game: ")
-					.append(Minigames.CURRENT_GAME.getName()).color(ChatColor.WHITE)
-					.create()));
 		}
 	}
 
@@ -93,8 +95,9 @@ public class GlobalListeners implements Listener {
 		final MPlayer player = new MPlayer(event);
 		event.setQuitMessage(String.format("[%s-%s] %s| %s%s", ChatColor.RED, ChatColor.RESET, ChatColor.DARK_GRAY, ChatColor.RED, player.getName()));
 
-		if (Minigames.CURRENT_GAME != null) {
-			Minigames.CURRENT_GAME.onPlayerQuit(player);
+		if (GameState.getCurrentState().isInGame()) {
+//			Minigames.CURRENT_GAME.onPlayerQuit(player);
+			GameState.getCurrentGame().onPlayerQuit(player);
 		}
 	}
 
@@ -127,7 +130,7 @@ public class GlobalListeners implements Listener {
 
 	@EventHandler
 	public void gamesMenuOpen(final PlayerInteractEntityEvent event){
-		if ((Minigames.CURRENT_GAME != null) || !event.getHand().equals(EquipmentSlot.HAND)) {
+		if (!GameState.isCurrentlyInGame() || !event.getHand().equals(EquipmentSlot.HAND)) {
 			return;
 		}
 
@@ -158,7 +161,9 @@ public class GlobalListeners implements Listener {
 
 	@EventHandler
 	public void onInteract(final PlayerInteractEvent event) {
-		if (event.getPlayer().getGameMode() != GameMode.ADVENTURE) {
+		if (!GameState.isCurrentlyInGame() ||
+				event.getHand() != EquipmentSlot.HAND ||
+				event.getPlayer().getGameMode() != GameMode.ADVENTURE) {
 			return;
 		}
 
@@ -169,12 +174,10 @@ public class GlobalListeners implements Listener {
 			event.setCancelled(true);
 		}
 
-		if (event.getHand() == EquipmentSlot.HAND) {
-			final ItemStack itemInHand = event.getPlayer().getInventory().getItemInMainHand();
+		final ItemStack itemInHand = event.getPlayer().getInventory().getItemInMainHand();
 
-			if (Minigames.CURRENT_GAME == null && itemInHand.getType().equals(Material.COMPARATOR)) {
-				new MainMenu(event.getPlayer());
-			}
+		if (itemInHand.getType().equals(Material.COMPARATOR)) {
+			new MainMenu(event.getPlayer());
 		}
 	}
 
@@ -240,32 +243,34 @@ public class GlobalListeners implements Listener {
 
 	@EventHandler
 	public void lobbyEffects(final PlayerMoveEvent event){
-		if (Minigames.CURRENT_GAME == null){
-			final MPlayer player = new MPlayer(event);
-			player.removeFire();
+		if (GameState.isCurrentlyInGame()) {
+			return;
+		}
 
-			final Block to = event.getTo().getBlock();
-			final Material below = event.getTo().getBlock().getRelative(BlockFace.DOWN).getType();
-			if (
-					(
-							to.getType() == Material.WATER ||
-							(
-									to.getBlockData() != null &&
-									to.getBlockData() instanceof Waterlogged &&
-									((Waterlogged) to.getBlockData()).isWaterlogged()
-							)
-					) &&
-					player.getGameMode() == GameMode.ADVENTURE &&
-					!player.getMetadataBool("lobby parkour teleporting", false) &&
-					player.isIn2dBounds(parkourWater1, parkourWater2)) {
-				player.setMetadata("lobby parkour teleporting", true);
-				Scheduler.delay(5, () -> {
-					player.teleport(new Location(Var.LOBBY_LOCATION.getWorld(), 213.5, 68, 255.9, 70, 0));
-					player.removeMetadata("lobby parkour teleporting");
-				});
-			} else if (below == Material.SLIME_BLOCK) {
-				player.giveEffect(SLIME_JUMP_EFFECT);
-			}
+		final MPlayer player = new MPlayer(event);
+		player.removeFire();
+
+		final Block to = event.getTo().getBlock();
+		final Material below = event.getTo().getBlock().getRelative(BlockFace.DOWN).getType();
+		if (
+				(
+						to.getType() == Material.WATER ||
+						(
+								to.getBlockData() != null &&
+								to.getBlockData() instanceof Waterlogged &&
+								((Waterlogged) to.getBlockData()).isWaterlogged()
+						)
+				) &&
+				player.getGameMode() == GameMode.ADVENTURE &&
+				!player.getMetadataBool("lobby parkour teleporting", false) &&
+				player.isIn2dBounds(parkourWater1, parkourWater2)) {
+			player.setMetadata("lobby parkour teleporting", true);
+			Scheduler.delay(5, () -> {
+				player.teleport(new Location(Var.LOBBY_LOCATION.getWorld(), 213.5, 68, 255.9, 70, 0));
+				player.removeMetadata("lobby parkour teleporting");
+			});
+		} else if (below == Material.SLIME_BLOCK) {
+			player.giveEffect(SLIME_JUMP_EFFECT);
 		}
 	}
 

@@ -68,7 +68,7 @@ public class HungerGames extends Game<HungerGamesMap> {
 		return 150;
 	}
 
-	private List<UUID> all;
+	private List<UUID> all; // TODO don't use all list
 	private List<UUID> dead;
 
 	@Override
@@ -128,16 +128,17 @@ public class HungerGames extends Game<HungerGamesMap> {
 
 	@Override
 	public int gameTimer(final int secondsLeft) {
-		if (this.all.stream().filter(p -> this.dead.contains(p)).count() < 2 && secondsLeft > 10) {
-			return 10;
-		}
-
 		if (secondsLeft == 100) {
 			final WorldBorder border = this.map.getWorld().getWorldBorder();
 			border.setSize(this.map.getMinBorderSize(), 90);
 		}
 
 		return secondsLeft;
+	}
+
+	@Override
+	public boolean endEarly() {
+		return this.all.stream().filter(p -> this.dead.contains(p)).count() < 2;
 	}
 
 	@Override

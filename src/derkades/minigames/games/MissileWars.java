@@ -109,6 +109,11 @@ public class MissileWars extends Game<MissileWarsMap> {
 	}
 
 	@Override
+	public boolean endEarly() {
+		return false;
+	}
+
+	@Override
 	public void onEnd() {
 		endGame();
 	}

@@ -76,11 +76,12 @@ public class Elytra extends Game<ElytraMap> {
 
 	@Override
 	public int gameTimer(final int secondsLeft) {
-		if (Utils.allPlayersFinished(this.finished) && secondsLeft > 5) {
-			return 5;
-		}
-
 		return secondsLeft;
+	}
+
+	@Override
+	public boolean endEarly() {
+		return Utils.allPlayersFinished(this.finished);
 	}
 
 	@Override

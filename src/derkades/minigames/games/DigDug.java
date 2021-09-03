@@ -127,6 +127,11 @@ public class DigDug extends Game<DigDugMap> {
 	}
 
 	@Override
+	public boolean endEarly() {
+		return false;
+	}
+
+	@Override
 	public void onEnd() {
 		DigDug.this.endGame(this.leaderboard.getWinnersPrintHide(this));
 		this.leaderboard = null;
