@@ -25,6 +25,8 @@ import net.md_5.bungee.api.ChatColor;
 
 public class UpdateSigns {
 
+	private static final int LEADERBOARD_LAST_GAME_COUNT = 250;
+
 	private static final Location[][] LEADERBOARD_SIGNS = new Location[3][3];
 
 	static {
@@ -46,7 +48,7 @@ public class UpdateSigns {
 		Scheduler.async(() -> {
 			final long readStart = System.currentTimeMillis();
 			final Map<UUID, Integer> winsByUuid = new HashMap<>();
-			for (int i = lastGameNumber-100; i <= lastGameNumber; i++) {
+			for (int i = lastGameNumber-LEADERBOARD_LAST_GAME_COUNT; i <= lastGameNumber; i++) {
 				final File file = new File("game_results", i + ".json");
 				try (final Reader reader = new FileReader(file)) {
 					final JsonObject json = (JsonObject) JsonParser.parseReader(reader);
