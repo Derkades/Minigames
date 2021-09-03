@@ -145,13 +145,6 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 	private long preStartTime;
 	private long startTime;
 
-	// This is set in the timer for loop, modifying the variable has no effect
-	private int secondsLeft;
-
-	public int getSecondsLeft() {
-		return this.secondsLeft;
-	}
-
 	private Set<UUID> gameSkipVotes;
 	private boolean skipped = false;
 
