@@ -148,6 +148,18 @@ public class OneInTheQuiver extends Game<OITQMap> {
 		final MPlayer player = event.getPlayer();
 
 		if (event.getDamagerEntity() == null) {
+			if (event.willBeDead()) {
+				event.setCancelled(true);
+				this.alive.remove(player.getUniqueId());
+				player.clearInventory();
+				final int playersLeft = this.alive.size();
+				if (playersLeft > 1) {
+					sendMessage(String.format("%s has died. There are %s players left.", player.getName(), this.alive.size()));
+				} else {
+					sendMessage(player.getName() + " has died.");
+				}
+				player.dieUp(2);
+			}
 			return;
 		}
 
