@@ -30,11 +30,11 @@ public class PointsListMenu extends IconMenu {
 		this.addItem(24, new ItemBuilder(Material.PLAYER_HEAD).skullTexture(MONITOR).name(ChatColor.GOLD + "View all players").create());
 		this.addItem(25, new ItemBuilder(Material.PLAYER_HEAD).skullTexture(MHF_QUESTION).name(ChatColor.GOLD + "Points explanation")
 				.lore(ChatColor.GREEN + "" + ChatColor.BOLD + "Winning a game",
-						ChatColor.GRAY + "  1-2 online players: +3 points, +3 GladeCoins",
-						ChatColor.GRAY + "  3-4 online players: +4 points, +4 GladeCoins",
-						ChatColor.GRAY + "  5+ online players: +5 points, +5 GladeCoins",
+						ChatColor.GRAY + "  1-2 online players: +3 points",
+						ChatColor.GRAY + "  3-4 online players: +4 points",
+						ChatColor.GRAY + "  5+ online players: +5 points",
 						ChatColor.RED + "" + ChatColor.BOLD + "Losing a game",
-						ChatColor.GRAY + "  +1 point, +0 GladeCoins").create());
+						ChatColor.GRAY + "  +1 point").create());
 		this.addItem(26, Menu.BACK_BUTTON);
 	}
 
