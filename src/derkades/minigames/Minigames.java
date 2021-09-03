@@ -174,6 +174,7 @@ public class Minigames extends JavaPlugin implements Listener {
 	/**
 	 * Used by connector addon
 	 */
+	@Deprecated
 	public static String getCurrentGameName() {
 		if (GameState.getCurrentState().hasGame()) {
 			return GameState.getCurrentGame().getName();
@@ -203,15 +204,13 @@ public class Minigames extends JavaPlugin implements Listener {
     	return Bukkit.getOnlinePlayers().stream().map(MPlayer::new).collect(Collectors.toList());
     }
 
-    public static List<MPlayer> getOnlinePlayersInRandomOrder(){
+    public static List<MPlayer> getOnlinePlayersInRandomOrder() {
     	final List<MPlayer> players = getOnlinePlayers();
     	Collections.shuffle(players);
     	return players;
     }
 
     public static void shutdown(final ShutdownReason reason, final String text) {
-    	System.out.println(text);
-
     	if (reason == ShutdownReason.EMERGENCY_AUTOMATIC) {
     		Bukkit.broadcastMessage(ChatColor.RED + "Something went wrong, so an emergency shutdown been performed automatically. "
     				+ "Please notify a server administrator if they are not online.");
@@ -219,7 +218,10 @@ public class Minigames extends JavaPlugin implements Listener {
     		Bukkit.broadcastMessage(ChatColor.RED + "An administrator has performed an emergency shutdown.");
     	} else {
     		shutdown(ShutdownReason.EMERGENCY_AUTOMATIC, "Shutdown reason is invalid or null. Original text: " + text);
+    		return;
     	}
+
+    	Logger.warning("Shutdown reason: " + text);
 
 		Minigames.getOnlinePlayers().forEach((p) -> {
 			p.clearInventory();
