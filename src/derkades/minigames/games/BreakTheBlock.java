@@ -99,6 +99,7 @@ public class BreakTheBlock extends Game<BreakTheBlockMap> {
 			player.enableSneakPrevention(p -> {
 				p.clearInventory();
 				p.teleport(this.map.getStartLocation());
+				p.giveItem(PICKAXE);
 			});
 			player.giveInfiniteEffect(PotionEffectType.SLOW_DIGGING, 1);
 		});
