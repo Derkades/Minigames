@@ -65,6 +65,11 @@ public class OneInTheQuiver extends Game<OITQMap> {
 	}
 
 	@Override
+	public Material getMaterial() {
+		return Material.ARROW;
+	}
+
+	@Override
 	public int getRequiredPlayers() {
 		return 3;
 	}

@@ -50,6 +50,11 @@ public class ControlPoints extends Game<ControlPointsMap> {
 	}
 
 	@Override
+	public Material getMaterial() {
+		return Material.CLOCK;
+	}
+
+	@Override
 	public int getRequiredPlayers() {
 		return 6;
 	}

@@ -49,6 +49,11 @@ public class GladeRoyale extends Game<GladeRoyaleMap> {
 	}
 
 	@Override
+	public Material getMaterial() {
+		return Material.CHEST;
+	}
+
+	@Override
 	public int getRequiredPlayers() {
 		return 8;
 	}

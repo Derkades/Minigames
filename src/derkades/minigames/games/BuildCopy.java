@@ -68,6 +68,11 @@ public class BuildCopy extends Game<BuildCopyMap> {
 	}
 
 	@Override
+	public Material getMaterial() {
+		return Material.SANDSTONE;
+	}
+
+	@Override
 	public int getRequiredPlayers() {
 		return 2;
 	}

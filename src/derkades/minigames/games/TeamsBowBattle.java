@@ -40,6 +40,11 @@ public class TeamsBowBattle extends Game<TeamsBowBattleMap> {
 	}
 
 	@Override
+	public Material getMaterial() {
+		return Material.BOW;
+	}
+
+	@Override
 	public int getRequiredPlayers() {
 		return 4;
 	}

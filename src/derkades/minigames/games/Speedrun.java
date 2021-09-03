@@ -35,6 +35,11 @@ public class Speedrun extends Game<SpeedrunMap> {
 	}
 
 	@Override
+	public Material getMaterial() {
+		return Material.POTION;
+	}
+
+	@Override
 	public int getRequiredPlayers() {
 		return 1;
 	}

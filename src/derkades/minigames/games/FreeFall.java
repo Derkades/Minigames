@@ -4,6 +4,7 @@ import java.util.Set;
 import java.util.UUID;
 
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 
@@ -34,6 +35,11 @@ public class FreeFall extends Game<FreeFallMap> {
 		return new String[] {
 				"On every layer, choose the correct platform",
 		};
+	}
+
+	@Override
+	public Material getMaterial() {
+		return Material.DIAMOND_BOOTS;
 	}
 
 	@Override

@@ -40,6 +40,11 @@ public class MolePvP extends Game<MolePvPMap> {
 	}
 
 	@Override
+	public Material getMaterial() {
+		return Material.DIRT;
+	}
+
+	@Override
 	public int getRequiredPlayers() {
 		return 4;
 	}

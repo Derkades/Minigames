@@ -1,6 +1,7 @@
 package derkades.minigames.games;
 
 import org.bukkit.Location;
+import org.bukkit.Material;
 
 import derkades.minigames.games.takecover.TakeCoverMap;
 import derkades.minigames.utils.MPlayer;
@@ -24,6 +25,11 @@ public class TakeCover extends Game<TakeCoverMap> {
 	@Override
 	public String[] getDescription() {
 		return null;
+	}
+
+	@Override
+	public Material getMaterial() {
+		return Material.SNOWBALL;
 	}
 
 	@Override

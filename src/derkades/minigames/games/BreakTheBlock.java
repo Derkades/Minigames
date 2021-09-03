@@ -50,6 +50,11 @@ public class BreakTheBlock extends Game<BreakTheBlockMap> {
 	}
 
 	@Override
+	public Material getMaterial() {
+		return Material.IRON_PICKAXE;
+	}
+
+	@Override
 	public int getRequiredPlayers() {
 		return 3;
 	}

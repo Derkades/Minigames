@@ -34,6 +34,11 @@ public class Dropper extends Game<DropperMap> {
 	}
 
 	@Override
+	public Material getMaterial() {
+		return Material.DIAMOND_BOOTS;
+	}
+
+	@Override
 	public int getRequiredPlayers() {
 		return 1;
 	}

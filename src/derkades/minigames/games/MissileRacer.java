@@ -85,6 +85,11 @@ public class MissileRacer extends Game<MissileRacerMap> {
 	}
 
 	@Override
+	public Material getMaterial() {
+		return Material.PISTON;
+	}
+
+	@Override
 	public int getRequiredPlayers() {
 		return 2;
 	}

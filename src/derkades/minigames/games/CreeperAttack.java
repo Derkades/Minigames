@@ -43,6 +43,11 @@ public class CreeperAttack extends Game<CreeperAttackMap> {
 	}
 
 	@Override
+	public Material getMaterial() {
+		return Material.CREEPER_HEAD;
+	}
+
+	@Override
 	public int getRequiredPlayers() {
 		return 2;
 	}

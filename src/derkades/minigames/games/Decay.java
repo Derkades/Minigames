@@ -47,6 +47,11 @@ public class Decay extends Game<DecayMap> {
 	}
 
 	@Override
+	public Material getMaterial() {
+		return Material.RED_CONCRETE;
+	}
+
+	@Override
 	public int getRequiredPlayers() {
 		return 2;
 	}

@@ -46,6 +46,11 @@ public class Platform extends Game<PlatformMap> {
 	}
 
 	@Override
+	public Material getMaterial() {
+		return Material.SMOOTH_STONE_SLAB;
+	}
+
+	@Override
 	public int getRequiredPlayers() {
 		return 2;
 	}

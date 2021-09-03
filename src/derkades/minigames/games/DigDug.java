@@ -67,6 +67,11 @@ public class DigDug extends Game<DigDugMap> {
 	}
 
 	@Override
+	public Material getMaterial() {
+		return Material.IRON_SHOVEL;
+	}
+
+	@Override
 	public int getRequiredPlayers() {
 		return 2;
 	}

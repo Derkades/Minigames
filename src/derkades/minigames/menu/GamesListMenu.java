@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
 import derkades.minigames.Minigames;
@@ -66,7 +65,7 @@ public class GamesListMenu extends IconMenu {
 				}
 			}
 
-			this.addItem(slot, new ItemBuilder(Material.GRAY_DYE)
+			this.addItem(slot, new ItemBuilder(game.getMaterial())
 				.name(GOLD + game.getName())
 				.lore(lore)
 				.create());

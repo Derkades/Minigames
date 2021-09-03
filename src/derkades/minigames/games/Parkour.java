@@ -37,6 +37,11 @@ public class Parkour extends Game<ParkourMap> {
 	}
 
 	@Override
+	public Material getMaterial() {
+		return Material.GOLDEN_BOOTS;
+	}
+
+	@Override
 	public int getRequiredPlayers() {
 		return 1;
 	}

@@ -52,6 +52,11 @@ public class RegeneratingSpleef extends Game<SpleefMap> {
 	}
 
 	@Override
+	public Material getMaterial() {
+		return Material.SNOW_BLOCK;
+	}
+
+	@Override
 	public int getRequiredPlayers() {
 		return 2;
 	}

@@ -49,6 +49,11 @@ public class HungerGames extends Game<HungerGamesMap> {
 	}
 
 	@Override
+	public Material getMaterial() {
+		return Material.APPLE;
+	}
+
+	@Override
 	public int getRequiredPlayers() {
 		return 4;
 	}

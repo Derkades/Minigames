@@ -61,6 +61,11 @@ public class MurderyMister extends Game<MurderyMisterMap> {
 	}
 
 	@Override
+	public Material getMaterial() {
+		return Material.TRIDENT;
+	}
+
+	@Override
 	public int getRequiredPlayers() {
 		return 3;
 	}

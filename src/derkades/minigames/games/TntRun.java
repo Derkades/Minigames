@@ -40,6 +40,11 @@ public class TntRun extends Game<TNTMap> {
 	}
 
 	@Override
+	public Material getMaterial() {
+		return Material.TNT;
+	}
+
+	@Override
 	public int getRequiredPlayers() {
 		return 2;
 	}

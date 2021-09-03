@@ -35,6 +35,11 @@ public class Elytra extends Game<ElytraMap> {
 	}
 
 	@Override
+	public Material getMaterial() {
+		return Material.ELYTRA;
+	}
+
+	@Override
 	public int getRequiredPlayers() {
 		return 1;
 	}

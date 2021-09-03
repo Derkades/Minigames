@@ -56,6 +56,11 @@ public class Tron extends Game<TronMap> {
 	}
 
 	@Override
+	public Material getMaterial() {
+		return Material.YELLOW_STAINED_GLASS_PANE;
+	}
+
+	@Override
 	public int getRequiredPlayers() {
 		return 3;
 	}

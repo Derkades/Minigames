@@ -23,6 +23,7 @@ import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
@@ -107,6 +108,8 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 	public String getAlias(){ return null; }
 
 	public abstract String[] getDescription();
+
+	public abstract Material getMaterial();
 
 	public abstract int getRequiredPlayers();
 

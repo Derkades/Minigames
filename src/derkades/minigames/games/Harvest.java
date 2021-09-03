@@ -53,6 +53,11 @@ public class Harvest extends Game<HarvestMap> {
 	}
 
 	@Override
+	public Material getMaterial() {
+		return Material.WHEAT;
+	}
+
+	@Override
 	public String[] getDescription() {
 		return new String[] {
 				"Harvest crops to get as much wheat as possible. Make",

@@ -46,6 +46,11 @@ public class IcyBlowback extends Game<IcyBlowbackMap> {
 	}
 
 	@Override
+	public Material getMaterial() {
+		return Material.ICE;
+	}
+
+	@Override
 	public int getRequiredPlayers() {
 		return 3;
 	}
