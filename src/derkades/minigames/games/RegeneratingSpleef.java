@@ -145,7 +145,7 @@ public class RegeneratingSpleef extends Game<SpleefMap> {
 
 	@EventHandler(priority = EventPriority.MONITOR)
 	public void onMove(final PlayerMoveEvent event){
-		if (!this.started) {
+		if (!this.hasStarted()) {
 			return;
 		}
 

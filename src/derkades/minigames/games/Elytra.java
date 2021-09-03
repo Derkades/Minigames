@@ -93,7 +93,7 @@ public class Elytra extends Game<ElytraMap> {
 	public void onMove(final PlayerMoveEvent event){
 		final MPlayer player = new MPlayer(event);
 
-		if (!this.started || this.finished.contains(player.getUniqueId())) {
+		if (!this.hasStarted() || this.finished.contains(player.getUniqueId())) {
 			return;
 		}
 

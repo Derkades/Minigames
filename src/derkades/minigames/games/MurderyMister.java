@@ -256,7 +256,7 @@ public class MurderyMister extends Game<MurderyMisterMap> {
 
 	@EventHandler
 	public void chat(final AsyncPlayerChatEvent event) {
-		if (this.started && event.getPlayer().getGameMode() == GameMode.SPECTATOR) {
+		if (this.hasStarted() && event.getPlayer().getGameMode() == GameMode.SPECTATOR) {
 			new MPlayer(event).sendTitle("", ChatColor.RED + "Chat is disabled for spectators");
 			event.setCancelled(true);
 		}

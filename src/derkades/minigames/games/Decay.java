@@ -163,7 +163,7 @@ public class Decay extends Game<DecayMap> {
 		}
 
 		if (this.map.isDead(player)) {
-			if (this.started) {
+			if (this.hasStarted()) {
 				player.dieTo(this.map.getSpawnLocation());
 				this.winners.remove(player.getUniqueId());
 			} else {

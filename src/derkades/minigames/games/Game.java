@@ -140,7 +140,7 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 	protected M map = null;
 
 	// Can be used by listeners in game classes to check if the game has started.
-	protected boolean started = false;
+	private boolean started = false;
 
 	private long preStartTime;
 	private long startTime;
@@ -150,6 +150,10 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 
 	public boolean voteGameSkip(final UUID uuid) {
 		return this.gameSkipVotes.add(uuid);
+	}
+
+	public boolean hasStarted() {
+		return this.started;
 	}
 
 	@SuppressWarnings("unchecked")

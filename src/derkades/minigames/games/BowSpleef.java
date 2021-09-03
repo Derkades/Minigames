@@ -116,7 +116,7 @@ public class BowSpleef extends Game<BowSpleefMap> {
 
 	@Override
 	public void onPlayerJoin(final MPlayer player) {
-		if (this.started) {
+		if (this.hasStarted()) {
 			player.spectator();
 		} else {
 			this.alive.add(player.getUniqueId());

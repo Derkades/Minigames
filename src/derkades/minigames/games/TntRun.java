@@ -102,7 +102,7 @@ public class TntRun extends Game<TNTMap> {
 
 	@EventHandler
 	public void onMove(final PlayerMoveEvent event) {
-		if (!this.started) {
+		if (!this.hasStarted()) {
 			return;
 		}
 

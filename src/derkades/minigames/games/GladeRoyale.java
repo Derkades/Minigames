@@ -262,7 +262,7 @@ public class GladeRoyale extends Game<GladeRoyaleMap> {
 
 	@EventHandler
 	public void damage(final MinigamesPlayerDamageEvent event) {
-		if (!this.started) {
+		if (!this.hasStarted()) {
 			return;
 		}
 
