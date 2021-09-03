@@ -6,6 +6,7 @@ import java.util.Map.Entry;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -13,8 +14,8 @@ import org.bukkit.inventory.ItemStack;
 import derkades.minigames.Minigames;
 import derkades.minigames.utils.Scheduler;
 import derkades.minigames.utils.Utils;
-import derkades.minigames.utils.queue.TaskQueue;
 import net.md_5.bungee.api.ChatColor;
+import xyz.derkades.derkutils.bukkit.HeadTextures;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
 import xyz.derkades.derkutils.bukkit.menu.IconMenu;
 import xyz.derkades.derkutils.bukkit.menu.OptionClickEvent;
@@ -44,21 +45,19 @@ public class PointsLeaderboardMenu extends IconMenu {
 				}
 
 				if (slot > 26) {
-					TaskQueue.add(() -> this.addItem(35, Menu.NEXT_BUTTON));
+					this.addItem(35, Menu.NEXT_BUTTON);
 					break;
 				}
 
 				final int finalPos = pos;
 				final int finalSlot = slot++;
-				TaskQueue.add(() -> {
-					final String playerName = e.getKey().getName();
-					final ItemStack item = new ItemBuilder(e.getKey()).amount(finalPos + 1).name(ChatColor.GOLD + playerName).lore(ChatColor.GRAY + "Points: " + ChatColor.YELLOW + e.getValue()).create();
-					this.addItem(finalSlot, item);
-				});
+				final String texture = HeadTextures.getHeadTexture(e.getKey().getUniqueId()).get();
+				final ItemStack item = new ItemBuilder(Material.PLAYER_HEAD).skullTexture(texture).amount(finalPos + 1).name(ChatColor.GOLD + e.getKey().getName()).lore(ChatColor.GRAY + "Points: " + ChatColor.YELLOW + e.getValue()).create();
+				Scheduler.run(() -> this.addItem(finalSlot, item));
 			}
 
 			if (page > 0) {
-				TaskQueue.add(() -> this.addItem(27, Menu.PREV_BUTTON));
+				this.addItem(27, Menu.PREV_BUTTON);
 			}
 		});
 	}
