@@ -22,7 +22,7 @@ import xyz.derkades.derkutils.bukkit.menu.OptionClickEvent;
 public class GamesListMenu extends IconMenu {
 
 	public GamesListMenu(final Player player) {
-		super(Minigames.getInstance(), "Games list", 6, player);
+		super(Minigames.getInstance(), "Games list", (int) (Math.ceil(Game.GAMES.length / 9f) + 1), player);
 
 		int slot = 0;
 		for (final Game<? extends GameMap> game : Game.GAMES){
@@ -73,13 +73,13 @@ public class GamesListMenu extends IconMenu {
 			slot++;
 		}
 
-		addItem(53, Menu.BACK_BUTTON);
+		addItem(this.getSize() - 1, Menu.BACK_BUTTON);
 	}
 
 	@Override
 	public boolean onOptionClick(final OptionClickEvent event) {
 		// Back button
-		if (event.getPosition() == 53) {
+		if (event.getPosition() == this.getSize() - 1) {
 			new MainMenu(event.getPlayer());
 		}
 
