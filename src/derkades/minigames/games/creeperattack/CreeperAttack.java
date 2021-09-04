@@ -1,4 +1,4 @@
-package derkades.minigames.games;
+package derkades.minigames.games.creeperattack;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -15,7 +15,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.inventory.ItemStack;
 
 import derkades.minigames.Minigames;
-import derkades.minigames.games.creeperattack.CreeperAttackMap;
+import derkades.minigames.games.Game;
 import derkades.minigames.utils.MPlayer;
 import derkades.minigames.utils.MinigamesPlayerDamageEvent;
 import net.md_5.bungee.api.ChatColor;

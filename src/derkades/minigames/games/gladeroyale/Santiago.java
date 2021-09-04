@@ -5,22 +5,7 @@ import org.bukkit.Location;
 import derkades.minigames.random.Size;
 import derkades.minigames.worlds.GameWorld;
 
-public class Santiago extends GladeRoyaleMap {
-
-	@Override
-	public int getWorldborderSize() {
-		return 512;
-	}
-
-	@Override
-	public Location getMapCenter() {
-		return new Location(this.getWorld(), 1374.5, 50.0, 637);
-	}
-
-	@Override
-	public String getName() {
-		return "Santiago";
-	}
+class Santiago extends GladeRoyaleMap {
 
 	@Override
 	public GameWorld getGameWorld() {
@@ -43,12 +28,27 @@ public class Santiago extends GladeRoyaleMap {
 	}
 
 	@Override
-	public int getMinY() {
+	int getWorldborderSize() {
+		return 512;
+	}
+
+	@Override
+	Location getMapCenter() {
+		return new Location(this.getWorld(), 1374.5, 50.0, 637);
+	}
+
+	@Override
+	public String getName() {
+		return "Santiago";
+	}
+
+	@Override
+	int getMinY() {
 		return 30;
 	}
 
 	@Override
-	public int getMaxY() {
+	int getMaxY() {
 		return 125;
 	}
 

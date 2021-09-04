@@ -8,7 +8,7 @@ import derkades.minigames.random.Size;
 import derkades.minigames.utils.MPlayer;
 import derkades.minigames.worlds.GameWorld;
 
-public class Jungle extends BreakTheBlockMap {
+class Jungle extends BreakTheBlockMap {
 
 	@Override
 	public void onPreStart() {
@@ -26,7 +26,7 @@ public class Jungle extends BreakTheBlockMap {
 	}
 
 	@Override
-	public Location getStartLocation() {
+	Location getStartLocation() {
 		return new Location(this.getWorld(), 0.5, 65, 0.5, -123f, 14f);
 	}
 

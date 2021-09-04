@@ -12,28 +12,28 @@ public class Layer {
 	private final Hole[] holes;
 	private Hole correctHole;
 
-	public Layer(final int height, final Hole[] holes) {
+	Layer(final int height, final Hole[] holes) {
 		this.height = height;
 		this.holes = holes;
 	}
 
-	public Hole setRandomCorrectHole() {
+	Hole setRandomCorrectHole() {
 		return this.correctHole = this.holes[ThreadLocalRandom.current().nextInt(this.holes.length)];
 	}
 
-	public void placeBlocks() {
+	void placeBlocks() {
 		for (final Hole hole : this.holes) {
 			hole.fill(this.height);
 		}
 	}
 
-	public void removeBlocks() {
+	void removeBlocks() {
 		for (final Hole hole : this.holes) {
 			hole.empty(this.height);
 		}
 	}
 
-	public void placeFluid() {
+	void placeFluid() {
 		for (final Hole hole : this.holes) {
 			if (hole == this.correctHole) {
 				hole.fill(this.height + LIQUID_HEIGHT_RELATIVE, Material.WATER);
@@ -43,7 +43,7 @@ public class Layer {
 		}
 	}
 
-	public void removeFluid() {
+	void removeFluid() {
 		for (final Hole hole : this.holes) {
 			hole.fill(this.height + LIQUID_HEIGHT_RELATIVE, Material.AIR);
 		}

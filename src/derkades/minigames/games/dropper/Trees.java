@@ -7,26 +7,11 @@ import derkades.minigames.random.Size;
 import derkades.minigames.worlds.GameWorld;
 import xyz.derkades.derkutils.bukkit.BlockUtils;
 
-public class Trees extends DropperMap {
+class Trees extends DropperMap {
 
 	@Override
 	public String getName() {
 		return "Trees";
-	}
-
-	@Override
-	public Location getLobbyLocation() {
-		return new Location(this.getWorld(), -4.5, 82, -6.5, 90, 0);
-	}
-
-	@Override
-	public void openDoor() {
-		this.fillDoor(Material.AIR);
-	}
-
-	@Override
-	public void closeDoor() {
-		this.fillDoor(Material.GREEN_STAINED_GLASS);
 	}
 
 	private void fillDoor(final Material material) {
@@ -51,6 +36,21 @@ public class Trees extends DropperMap {
 	@Override
 	public String getIdentifier() {
 		return "dropper_trees";
+	}
+
+	@Override
+	Location getLobbyLocation() {
+		return new Location(this.getWorld(), -4.5, 82, -6.5, 90, 0);
+	}
+
+	@Override
+	void openDoor() {
+		this.fillDoor(Material.AIR);
+	}
+
+	@Override
+	void closeDoor() {
+		this.fillDoor(Material.GREEN_STAINED_GLASS);
 	}
 
 }

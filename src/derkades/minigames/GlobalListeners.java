@@ -84,7 +84,7 @@ public class GlobalListeners implements Listener {
 		event.setQuitMessage(String.format("[%s-%s] %s| %s%s", ChatColor.RED, ChatColor.RESET, ChatColor.DARK_GRAY, ChatColor.RED, player.getName()));
 
 		if (GameState.getCurrentState().isInGame()) {
-			GameState.getCurrentGame().onPlayerQuit(player);
+			GameState.getCurrentGame().onPlayerQuit(player); // TODO move to game class?
 		}
 	}
 

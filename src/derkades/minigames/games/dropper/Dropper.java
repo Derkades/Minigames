@@ -1,4 +1,4 @@
-package derkades.minigames.games;
+package derkades.minigames.games.dropper;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -10,7 +10,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerMoveEvent;
 
 import derkades.minigames.Minigames;
-import derkades.minigames.games.dropper.DropperMap;
+import derkades.minigames.games.Game;
 import derkades.minigames.utils.MPlayer;
 import derkades.minigames.utils.MinigamesPlayerDamageEvent;
 import derkades.minigames.utils.MinigamesPlayerDamageEvent.DamageType;

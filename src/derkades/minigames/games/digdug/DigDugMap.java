@@ -4,16 +4,16 @@ import org.bukkit.Location;
 
 import derkades.minigames.games.maps.GameMap;
 
-public abstract class DigDugMap extends GameMap {
+abstract class DigDugMap extends GameMap {
 
-	public static final DigDugMap[] MAPS = {
+	static final DigDugMap[] MAPS = {
 			new Prototype(),
 	};
 
-	public abstract Location getBlocksMinLocation();
+	abstract Location getBlocksMinLocation();
 
-	public abstract Location getBlocksMaxLocation();
+	abstract Location getBlocksMaxLocation();
 
-	public abstract Location getSpawnLocation();
+	abstract Location getSpawnLocation();
 
 }

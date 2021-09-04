@@ -7,21 +7,21 @@ import org.bukkit.Material;
 import derkades.minigames.games.maps.GameMap;
 import xyz.derkades.derkutils.bukkit.BlockUtils;
 
-public abstract class BowSpleefMap extends GameMap {
+abstract class BowSpleefMap extends GameMap {
 
-	public static final BowSpleefMap[] MAPS = {
-			new BowSpleef(),
+	static final BowSpleefMap[] MAPS = {
+			new BowSpleefMapOriginal(),
 	};
 
-	public abstract Location getSpawnLocation();
+	abstract Location getSpawnLocation();
 
-	public abstract Location getLayerCenter();
+	abstract Location getLayerCenter();
 
-	public abstract int getSmallSize();
+	abstract int getSmallSize();
 
-	public abstract int getLargeSize();
+	abstract int getLargeSize();
 
-	private void fillLayer(final Location center, final int size, final Material material) {
+	void fillLayer(final Location center, final int size, final Material material) {
 		final Location a = new Location(getWorld(),
 				center.getX() + size,
 				center.getY(),
@@ -35,7 +35,7 @@ public abstract class BowSpleefMap extends GameMap {
 		BlockUtils.fillArea(a, b, material);
 	}
 
-	public void restoreLayers() {
+	void restoreLayers() {
 		fillLayer(getLayerCenter(), getLargeSize(), Material.AIR);
 
 		fillLayer(getLayerCenter(),

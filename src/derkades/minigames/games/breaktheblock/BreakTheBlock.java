@@ -1,4 +1,4 @@
-package derkades.minigames.games;
+package derkades.minigames.games.breaktheblock;
 
 import java.util.UUID;
 
@@ -17,7 +17,7 @@ import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.potion.PotionEffectType;
 
 import derkades.minigames.Minigames;
-import derkades.minigames.games.breaktheblock.BreakTheBlockMap;
+import derkades.minigames.games.Game;
 import derkades.minigames.utils.MPlayer;
 import net.md_5.bungee.api.ChatColor;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;

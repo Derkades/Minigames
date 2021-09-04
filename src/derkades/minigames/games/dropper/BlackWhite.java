@@ -7,26 +7,11 @@ import derkades.minigames.random.Size;
 import derkades.minigames.worlds.GameWorld;
 import xyz.derkades.derkutils.bukkit.BlockUtils;
 
-public class BlackWhite extends DropperMap {
+class BlackWhite extends DropperMap {
 
 	@Override
 	public String getName() {
 		return "Black and White";
-	}
-
-	@Override
-	public Location getLobbyLocation() {
-		return new Location(this.getWorld(), 0.5, 85, 0.5, -90, 0);
-	}
-
-	@Override
-	public void openDoor() {
-		BlockUtils.fillArea(this.getWorld(), 6, 83, -1, 4, 83, 1, Material.AIR);
-	}
-
-	@Override
-	public void closeDoor() {
-		BlockUtils.fillArea(this.getWorld(), 6, 83, -1, 4, 83, 1, Material.WHITE_STAINED_GLASS);
 	}
 
 	@Override
@@ -47,6 +32,21 @@ public class BlackWhite extends DropperMap {
 	@Override
 	public String getIdentifier() {
 		return "dropper_blackwhite";
+	}
+
+	@Override
+	Location getLobbyLocation() {
+		return new Location(this.getWorld(), 0.5, 85, 0.5, -90, 0);
+	}
+
+	@Override
+	void openDoor() {
+		BlockUtils.fillArea(this.getWorld(), 6, 83, -1, 4, 83, 1, Material.AIR);
+	}
+
+	@Override
+	void closeDoor() {
+		BlockUtils.fillArea(this.getWorld(), 6, 83, -1, 4, 83, 1, Material.WHITE_STAINED_GLASS);
 	}
 
 }

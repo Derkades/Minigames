@@ -5,7 +5,7 @@ import org.bukkit.Location;
 import derkades.minigames.random.Size;
 import derkades.minigames.worlds.GameWorld;
 
-public class Prototype extends FreeFallMap {
+class Prototype extends FreeFallMap {
 
 	@Override
 	public Size getSize() {
@@ -33,12 +33,12 @@ public class Prototype extends FreeFallMap {
 	}
 
 	@Override
-	public Location getSpawnLocation() {
+	Location getSpawnLocation() {
 		return null; // TODO Spawn location
 	}
 
 	@Override
-	public Layer[] getLayers() {
+	Layer[] getLayers() {
 		return null; // TODO Layers
 	}
 

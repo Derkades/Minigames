@@ -1,4 +1,4 @@
-package derkades.minigames.games;
+package derkades.minigames.games.harvest;
 
 import java.util.Arrays;
 import java.util.List;
@@ -17,7 +17,7 @@ import org.bukkit.inventory.ItemStack;
 
 import derkades.minigames.Logger;
 import derkades.minigames.Minigames;
-import derkades.minigames.games.harvest.HarvestMap;
+import derkades.minigames.games.Game;
 import derkades.minigames.utils.Leaderboard;
 import derkades.minigames.utils.MPlayer;
 import derkades.minigames.utils.MinigamesPlayerDamageEvent;

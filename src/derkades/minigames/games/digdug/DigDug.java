@@ -1,4 +1,4 @@
-package derkades.minigames.games;
+package derkades.minigames.games.digdug;
 
 import java.util.Arrays;
 import java.util.concurrent.ThreadLocalRandom;
@@ -19,7 +19,7 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 import derkades.minigames.Minigames;
-import derkades.minigames.games.digdug.DigDugMap;
+import derkades.minigames.games.Game;
 import derkades.minigames.utils.Leaderboard;
 import derkades.minigames.utils.MPlayer;
 import net.md_5.bungee.api.ChatColor;

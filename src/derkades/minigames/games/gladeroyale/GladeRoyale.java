@@ -1,4 +1,4 @@
-package derkades.minigames.games;
+package derkades.minigames.games.gladeroyale;
 
 import java.util.Set;
 import java.util.UUID;
@@ -18,8 +18,7 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import derkades.minigames.GameState;
 import derkades.minigames.Logger;
 import derkades.minigames.Minigames;
-import derkades.minigames.games.gladeroyale.GladeRoyaleItems;
-import derkades.minigames.games.gladeroyale.GladeRoyaleMap;
+import derkades.minigames.games.Game;
 import derkades.minigames.utils.MPlayer;
 import derkades.minigames.utils.MinigamesPlayerDamageEvent;
 import derkades.minigames.utils.MinigamesPlayerDamageEvent.DamageType;

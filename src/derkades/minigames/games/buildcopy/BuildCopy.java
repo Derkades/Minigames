@@ -1,4 +1,4 @@
-package derkades.minigames.games;
+package derkades.minigames.games.buildcopy;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -18,7 +18,7 @@ import org.bukkit.inventory.meta.FireworkMeta;
 
 import derkades.minigames.Logger;
 import derkades.minigames.Minigames;
-import derkades.minigames.games.buildcopy.BuildCopyMap;
+import derkades.minigames.games.Game;
 import derkades.minigames.utils.Leaderboard;
 import derkades.minigames.utils.MPlayer;
 import xyz.derkades.derkutils.ListUtils;

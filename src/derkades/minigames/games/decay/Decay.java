@@ -1,4 +1,4 @@
-package derkades.minigames.games;
+package derkades.minigames.games.decay;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +14,7 @@ import org.bukkit.potion.PotionEffectType;
 
 import derkades.minigames.GameState;
 import derkades.minigames.Minigames;
-import derkades.minigames.games.decay.DecayMap;
+import derkades.minigames.games.Game;
 import derkades.minigames.utils.MPlayer;
 import derkades.minigames.utils.Scheduler;
 import derkades.minigames.utils.Utils;

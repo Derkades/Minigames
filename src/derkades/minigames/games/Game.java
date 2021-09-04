@@ -47,6 +47,16 @@ import derkades.minigames.UpdateSigns;
 import derkades.minigames.Var;
 import derkades.minigames.constants.SkipConfig;
 import derkades.minigames.constants.VoteConfig;
+import derkades.minigames.games.bowspleef.BowSpleef;
+import derkades.minigames.games.breaktheblock.BreakTheBlock;
+import derkades.minigames.games.buildcopy.BuildCopy;
+import derkades.minigames.games.creeperattack.CreeperAttack;
+import derkades.minigames.games.decay.Decay;
+import derkades.minigames.games.digdug.DigDug;
+import derkades.minigames.games.dropper.Dropper;
+import derkades.minigames.games.elytra.Elytra;
+import derkades.minigames.games.gladeroyale.GladeRoyale;
+import derkades.minigames.games.harvest.Harvest;
 import derkades.minigames.games.maps.GameMap;
 import derkades.minigames.modules.ChatPoll.Poll;
 import derkades.minigames.modules.ChatPoll.PollAnswer;
@@ -122,15 +132,15 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 		return 10;
 	}
 
-	public abstract void onPreStart();
+	protected abstract void onPreStart();
 
-	public abstract void onStart();
+	protected abstract void onStart();
 
 	public abstract int gameTimer(int secondsLeft);
 
 	public abstract boolean endEarly();
 
-	public abstract void onEnd();
+	protected abstract void onEnd();
 
 	public abstract void onPlayerJoin(MPlayer player);
 

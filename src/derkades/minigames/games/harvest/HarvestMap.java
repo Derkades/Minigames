@@ -6,15 +6,15 @@ import org.bukkit.Location;
 
 import derkades.minigames.games.maps.GameMap;
 
-public abstract class HarvestMap extends GameMap {
+abstract class HarvestMap extends GameMap {
 
-	public static final HarvestMap[] MAPS = {
+	static final HarvestMap[] MAPS = {
 			new Prototype(),
 	};
 
-	public abstract List<Location> getCropLocations();
+	abstract List<Location> getCropLocations();
 
-	public Location getSpawnLocation() {
+	Location getSpawnLocation() {
 		return this.getWorld().getSpawnLocation();
 	}
 

@@ -7,15 +7,15 @@ import derkades.minigames.utils.MPlayer;
 
 public abstract class DecayMap extends GameMap {
 
-	public static final DecayMap[] MAPS = {
+	static final DecayMap[] MAPS = {
 			new SpruceBrick(),
 			new SquareDonut(),
 	};
 
-	public abstract Location getSpawnLocation();
+	abstract Location getSpawnLocation();
 
-	public abstract Location[] getBlocks();
+	abstract Location[] getBlocks();
 
-	public abstract boolean isDead(MPlayer player);
+	abstract boolean isDead(MPlayer player);
 
 }

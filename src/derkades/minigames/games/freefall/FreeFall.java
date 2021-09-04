@@ -1,4 +1,4 @@
-package derkades.minigames.games;
+package derkades.minigames.games.freefall;
 
 import java.util.Set;
 import java.util.UUID;
@@ -9,9 +9,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 
 import derkades.minigames.Minigames;
-import derkades.minigames.games.freefall.FreeFallMap;
-import derkades.minigames.games.freefall.Hole;
-import derkades.minigames.games.freefall.Layer;
+import derkades.minigames.games.Game;
 import derkades.minigames.utils.MPlayer;
 import derkades.minigames.utils.MinigamesPlayerDamageEvent;
 import derkades.minigames.utils.MinigamesPlayerDamageEvent.DamageType;

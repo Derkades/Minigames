@@ -4,19 +4,19 @@ import org.bukkit.Location;
 
 import derkades.minigames.games.maps.GameMap;
 
-public abstract class DropperMap extends GameMap {
+abstract class DropperMap extends GameMap {
 
-	public static DropperMap[] DROPPER_MAPS = new DropperMap[] {
+	static DropperMap[] DROPPER_MAPS = new DropperMap[] {
 			new BlackWhite(),
 			new Rainbow(),
 			new Redstone(),
 			new Trees(),
 	};
 
-	public abstract Location getLobbyLocation();
+	abstract Location getLobbyLocation();
 
-	public abstract void openDoor();
+	abstract void openDoor();
 
-	public abstract void closeDoor();
+	abstract void closeDoor();
 
 }

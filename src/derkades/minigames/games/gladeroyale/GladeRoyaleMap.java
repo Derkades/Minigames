@@ -4,21 +4,21 @@ import org.bukkit.Location;
 
 import derkades.minigames.games.maps.GameMap;
 
-public abstract class GladeRoyaleMap extends GameMap {
+abstract class GladeRoyaleMap extends GameMap {
 
-	public static final GladeRoyaleMap[] MAPS = {
+	static final GladeRoyaleMap[] MAPS = {
 		new Santiago(),
 	};
 
-	public abstract int getWorldborderSize();
+	abstract int getWorldborderSize();
 
-	public abstract Location getMapCenter();
+	abstract Location getMapCenter();
 
-	public abstract int getMinY();
+	abstract int getMinY();
 
-	public abstract int getMaxY();
+	abstract int getMaxY();
 
-	public int getSpawnY() {
+	int getSpawnY() {
 		return 200;
 	}
 

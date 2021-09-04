@@ -5,15 +5,15 @@ import org.bukkit.Location;
 import derkades.minigames.random.Size;
 import derkades.minigames.worlds.GameWorld;
 
-public class Hedges extends CreeperAttackMap {
+class Hedges extends CreeperAttackMap {
 
 	@Override
-	public Location getCreeperLocation() {
+	Location getCreeperLocation() {
 		return new Location(this.getWorld(), 0.5, 65, 0.5);
 	}
 
 	@Override
-	public Location getSpawnLocation() {
+	Location getSpawnLocation() {
 		return new Location(this.getWorld(), 0.5, 65, 0.5);
 	}
 

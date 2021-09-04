@@ -6,7 +6,7 @@ import org.bukkit.World;
 import derkades.minigames.utils.MPlayer;
 import xyz.derkades.derkutils.bukkit.BlockUtils;
 
-public class Hole {
+class Hole {
 
 	private final World world;
 	private final int x1;
@@ -28,15 +28,15 @@ public class Hole {
 		BlockUtils.fillArea(this.world, this.x1, y, this.z1, this.x2, y, this.z2, material);
 	}
 
-	public void fill(final int y) {
+	void fill(final int y) {
 		this.fill(y, this.material);
 	}
 
-	public void empty(final int y) {
+	void empty(final int y) {
 		this.fill(y, Material.AIR);
 	}
 
-	public boolean isInHole(final MPlayer player) {
+	boolean isInHole(final MPlayer player) {
 		return player.isIn2dBounds(this.world, this.x1, this.z1, this.x2, this.z2);
 	}
 

@@ -8,9 +8,9 @@ import net.md_5.bungee.api.ChatColor;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
 import xyz.derkades.derkutils.bukkit.lootchests.LootItem;
 
-public class GladeRoyaleItems {
+class GladeRoyaleItems {
 
-	public static final ItemStack BLOCK = new ItemBuilder(Material.TERRACOTTA)
+	static final ItemStack BLOCK = new ItemBuilder(Material.TERRACOTTA)
 			.canPlaceOn(
 					Material.GRASS_BLOCK,
 					Material.RED_CONCRETE_POWDER,
@@ -22,14 +22,14 @@ public class GladeRoyaleItems {
 			.name(ChatColor.YELLOW + "Block")
 			.create();
 
-	public static final ItemStack TOOL = new ItemBuilder(Material.IRON_PICKAXE)
+	static final ItemStack TOOL = new ItemBuilder(Material.IRON_PICKAXE)
 			.canDestroy(Material.TERRACOTTA)
 			.name(ChatColor.YELLOW + "Block breaker")
 			.enchant(Enchantment.DIG_SPEED, 3)
 			.unbreakable()
 			.create();
 
-	public static final LootItem[] SUPPLY_DROP = {
+	static final LootItem[] SUPPLY_DROP = {
 			new LootItem(BLOCK, 1, 5, 0.9f),
 			new LootItem(BLOCK, 1, 15, 0.7f),
 			new LootItem(BLOCK, 10, 30, 0.5f),
