@@ -4,7 +4,6 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.kohsuke.github.GHIssue;
 import org.kohsuke.github.GHRepository;
 import org.kohsuke.github.GitHub;
 
@@ -50,14 +49,14 @@ public class BugCommand implements CommandExecutor {
 
 		Scheduler.async(() -> {
 			try {
-				String issueLabel;
-				if (label.equalsIgnoreCase("bug")) {
-					issueLabel = "bug";
-				} else if (label.equalsIgnoreCase("idea")) {
-					issueLabel = "enhancement";
-				} else {
-					issueLabel = null;
-				}
+//				String issueLabel;
+//				if (label.equalsIgnoreCase("bug")) {
+//					issueLabel = "bug";
+//				} else if (label.equalsIgnoreCase("idea")) {
+//					issueLabel = "enhancement";
+//				} else {
+//					issueLabel = null;
+//				}
 
 				if (!Minigames.getInstance().getConfig().isString("github-token")) {
 					sender.sendMessage(UNAVAILABLE);
@@ -67,12 +66,12 @@ public class BugCommand implements CommandExecutor {
 				final GitHub github = GitHub.connectUsingOAuth(Minigames.getInstance().getConfig().getString("github-token"));
 				final GHRepository repo = github.getRepository("Derkades/Minigames");
 				final String description = String.join(" ", args);
-				final GHIssue issue = repo.createIssue("[" + player.getName() + "] " + description).body(description + "").create();
-				if (issueLabel == null) {
-					issue.addLabels(repo.getLabel("bot"));
-				} else {
-					issue.addLabels(repo.getLabel("bot"), repo.getLabel(issueLabel));
-				}
+				/*final GHIssue issue = */repo.createIssue(description).body(description + "\n\n" + "This issue was submitted in-game by '" + player.getName() + "'.").create();
+//				if (issueLabel == null) {
+//					issue.addLabels(repo.getLabel("bot"));
+//				} else {
+//					issue.addLabels(repo.getLabel("bot"), repo.getLabel(issueLabel));
+//				}
 
 				player.spigot().sendMessage(THANKS);
 			} catch (final Exception e) {
