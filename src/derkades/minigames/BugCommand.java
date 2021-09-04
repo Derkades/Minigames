@@ -59,9 +59,6 @@ public class BugCommand implements CommandExecutor {
 					issueLabel = null;
 				}
 
-//				final String user = Minigames.getInstance().getConfig().getString("github-user");
-//				final String pass = Minigames.getInstance().getConfig().getString("github-password");
-//				final GitHub github = GitHub.connectUsingPassword(user, pass);
 				if (!Minigames.getInstance().getConfig().isString("github-token")) {
 					sender.sendMessage(UNAVAILABLE);
 					return;

@@ -84,7 +84,6 @@ public class GlobalListeners implements Listener {
 		event.setQuitMessage(String.format("[%s-%s] %s| %s%s", ChatColor.RED, ChatColor.RESET, ChatColor.DARK_GRAY, ChatColor.RED, player.getName()));
 
 		if (GameState.getCurrentState().isInGame()) {
-//			Minigames.CURRENT_GAME.onPlayerQuit(player);
 			GameState.getCurrentGame().onPlayerQuit(player);
 		}
 	}
@@ -92,7 +91,7 @@ public class GlobalListeners implements Listener {
 	@EventHandler
 	public void onPlayerDropItem(final PlayerDropItemEvent event){
 		if (event.getPlayer().getGameMode() == GameMode.ADVENTURE && new MPlayer(event).getDisableItemMoving()) {
-			event.setCancelled(true); //Cancel players dropping items
+			event.setCancelled(true); // Cancel players dropping items
 		}
 	}
 

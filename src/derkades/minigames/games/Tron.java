@@ -360,7 +360,6 @@ public class Tron extends Game<TronMap> {
 					) {
 				final Location loc2 = location.clone().add(0, PLAYER_Y_DISTANCE, 0);
 				loc2.setYaw(direction.yaw);
-//				loc2.setYaw(0);
 				loc2.setPitch(PLAYER_PITCH);
 				player.teleport(loc2);
 			}
@@ -406,23 +405,6 @@ public class Tron extends Game<TronMap> {
 				player.die();
 			}
 		}
-
-//	    public String getDirection(final MPlayer player) {
-//		    float yaw = player.getLocation().getYaw();
-//		    if (yaw < 0) {
-//		        yaw += 360;
-//		    }
-//		    if (yaw >= 315 || yaw < 45) {
-//				return "south";
-//			} else if (yaw < 135) {
-//				return "west";
-//			} else if (yaw < 225) {
-//				return "north";
-//			} else if (yaw < 315) {
-//				return "east";
-//			}
-//		    return "north";
-//		}
 
 	}
 

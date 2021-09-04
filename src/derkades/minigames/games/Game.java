@@ -258,7 +258,6 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 						player.getInventory().setHeldItemSlot(0);
 					}
 
-//					Minigames.CURRENT_GAME = Game.this;
 					GameState.setState(GameState.RUNNING_COUNTDOWN, Game.this);
 					Bukkit.getPluginManager().registerEvents(Game.this, Minigames.getInstance());
 					Game.this.begin();
@@ -310,7 +309,6 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 					return;
 				}
 
-//				Logger.debug("skip: %s", ((float) Game.this.gameSkipVotes.size()) / Bukkit.getOnlinePlayers().size());
 				final boolean skip = (float) Game.this.gameSkipVotes.size() / Bukkit.getOnlinePlayers().size() > SkipConfig.SKIP_VOTE_PERCENTAGE;
 				if (skip && this.secondsLeft > SkipConfig.SKIP_TO_SECONDS_LEFT) {
 					sendMessage(String.format(SkipConfig.SKIP_MESSAGE, Game.this.gameSkipVotes.size()));
@@ -403,7 +401,7 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 		// Give rewards
 		for (final MPlayer player : Minigames.getOnlinePlayers()){
 			if (winners.contains(player.getUniqueId())){
-				//If player has won
+				// If player has won
 				final int onlinePlayers = Bukkit.getOnlinePlayers().size();
 
 				final int points;
