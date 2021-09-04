@@ -15,6 +15,7 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.BlockPlaceEvent;
 
+import derkades.minigames.GameState;
 import derkades.minigames.Logger;
 import derkades.minigames.Minigames;
 import derkades.minigames.games.gladeroyale.GladeRoyaleItems;
@@ -262,7 +263,7 @@ public class GladeRoyale extends Game<GladeRoyaleMap> {
 
 	@EventHandler
 	public void damage(final MinigamesPlayerDamageEvent event) {
-		if (!this.hasStarted()) {
+		if (!GameState.getCurrentState().gameIsRunning()) {
 			return;
 		}
 

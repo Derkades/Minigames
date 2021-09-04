@@ -13,6 +13,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.inventory.ItemStack;
 
+import derkades.minigames.GameState;
 import derkades.minigames.Minigames;
 import derkades.minigames.games.bowspleef.BowSpleefMap;
 import derkades.minigames.utils.MPlayer;
@@ -117,9 +118,10 @@ public class BowSpleef extends Game<BowSpleefMap> {
 
 	@Override
 	public void onPlayerJoin(final MPlayer player) {
-		if (this.hasStarted()) {
+		if (GameState.getCurrentState().gameIsRunning()) {
 			player.spectator();
 		} else {
+			// If the game hasn't started yet, the player can still participate
 			this.alive.add(player.getUniqueId());
 		}
 

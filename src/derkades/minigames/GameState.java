@@ -5,31 +5,43 @@ import derkades.minigames.games.maps.GameMap;
 
 public enum GameState {
 
-	IDLE(false, false),
-	IDLE_MAINTENANCE(false, false),
-	COUNTDOWN(true, false),
-	RUNNING_COUNTDOWN(true, true),
-	RUNNING_STARTED(true, true),
-	RUNNING_SKIPPED(true, true),
-	RUNNING_ENDED_EARLY(true, true);
+	IDLE                (false, false, false),
+	IDLE_MAINTENANCE    (false, false, false),
+	COUNTDOWN           (true,  false, false),
+	RUNNING_COUNTDOWN   (true,  true,  false),
+	RUNNING_STARTED     (true,  true,  true),
+	RUNNING_SKIPPED     (true,  true,  false),
+	RUNNING_ENDED_EARLY (true,  true,  false);
 
 	private boolean hasGame;
 	private boolean inGame;
+	private boolean running;
 
-	GameState(final boolean hasGame, final boolean inGame) {
+	GameState(final boolean hasGame, final boolean inGame, final boolean running) {
 		if (inGame && !hasGame) {
 			throw new IllegalStateException("hasGame must be true if inGame is true");
 		}
 		this.hasGame = hasGame;
 		this.inGame = inGame;
+		this.running = running;
 	}
 
+	/**
+	 * @return True if the current game is known in this state. Note that the game is not necessarily running.
+	 */
 	public boolean hasGame() {
 		return this.hasGame;
 	}
 
+	/**
+	 * @return True if players are physically in a game world.
+	 */
 	public boolean isInGame() {
 		return this.inGame;
+	}
+
+	public boolean gameIsRunning() {
+		return this.running;
 	}
 
 	private static GameState CURRENT_STATE = GameState.IDLE_MAINTENANCE;

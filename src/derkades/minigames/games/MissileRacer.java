@@ -13,6 +13,7 @@ import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
 
+import derkades.minigames.GameState;
 import derkades.minigames.Minigames;
 import derkades.minigames.games.missile_racer.MissileRacerMap;
 import derkades.minigames.games.missiles.Missile;
@@ -169,7 +170,10 @@ public class MissileRacer extends Game<MissileRacerMap> {
 
 	@EventHandler
 	public void onClick(final PlayerInteractEvent event) {
-		if (!this.hasStarted() || (event.getAction() != Action.RIGHT_CLICK_AIR && event.getAction() != Action.RIGHT_CLICK_BLOCK) || (event.getHand() != EquipmentSlot.HAND)) {
+		if (!GameState.getCurrentState().gameIsRunning() ||
+				(event.getAction() != Action.RIGHT_CLICK_AIR && event.getAction() != Action.RIGHT_CLICK_BLOCK) ||
+				(event.getHand() != EquipmentSlot.HAND)
+				) {
 			return;
 		}
 

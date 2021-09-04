@@ -14,6 +14,7 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerMoveEvent;
 
+import derkades.minigames.GameState;
 import derkades.minigames.Minigames;
 import derkades.minigames.games.tntrun.TNTMap;
 import derkades.minigames.utils.MPlayer;
@@ -103,15 +104,12 @@ public class TntRun extends Game<TNTMap> {
 
 	@EventHandler
 	public void onMove(final PlayerMoveEvent event) {
-		if (!this.hasStarted()) {
+		if (!GameState.getCurrentState().gameIsRunning() ||
+				!this.alive.contains(event.getPlayer().getUniqueId())) {
 			return;
 		}
 
 		final MPlayer player = new MPlayer(event);
-
-		if (!this.alive.contains(player.getUniqueId())) {
-			return;
-		}
 
 		final Block belowPlayer = event.getFrom().getBlock().getRelative(BlockFace.DOWN);
 

@@ -18,6 +18,7 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
+import derkades.minigames.GameState;
 import derkades.minigames.games.spleef.SpleefMap;
 import derkades.minigames.utils.MPlayer;
 import derkades.minigames.utils.Scheduler;
@@ -146,15 +147,12 @@ public class RegeneratingSpleef extends Game<SpleefMap> {
 
 	@EventHandler(priority = EventPriority.MONITOR)
 	public void onMove(final PlayerMoveEvent event){
-		if (!this.hasStarted()) {
+		if (!GameState.getCurrentState().gameIsRunning() ||
+				!this.alive.contains(event.getPlayer().getUniqueId())) {
 			return;
 		}
 
 		final MPlayer player = new MPlayer(event);
-
-		if (!this.alive.contains(player.getUniqueId())) {
-			return;
-		}
 
 		if (player.getBlockOn().getType() == Material.BEDROCK){
 			this.alive.remove(player.getUniqueId());

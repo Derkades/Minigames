@@ -9,6 +9,7 @@ import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerMoveEvent;
 
+import derkades.minigames.GameState;
 import derkades.minigames.Minigames;
 import derkades.minigames.games.elytra.ElytraMap;
 import derkades.minigames.utils.MPlayer;
@@ -94,7 +95,7 @@ public class Elytra extends Game<ElytraMap> {
 	public void onMove(final PlayerMoveEvent event){
 		final MPlayer player = new MPlayer(event);
 
-		if (!this.hasStarted() || this.finished.contains(player.getUniqueId())) {
+		if (!GameState.getCurrentState().gameIsRunning() || this.finished.contains(player.getUniqueId())) {
 			return;
 		}
 

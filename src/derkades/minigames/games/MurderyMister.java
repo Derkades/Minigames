@@ -22,6 +22,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
+import derkades.minigames.GameState;
 import derkades.minigames.Logger;
 import derkades.minigames.Minigames;
 import derkades.minigames.Var;
@@ -253,7 +254,7 @@ public class MurderyMister extends Game<MurderyMisterMap> {
 
 	@EventHandler
 	public void chat(final AsyncPlayerChatEvent event) {
-		if (this.hasStarted() && event.getPlayer().getGameMode() == GameMode.SPECTATOR) {
+		if (GameState.getCurrentState().gameIsRunning() && event.getPlayer().getGameMode() == GameMode.SPECTATOR) {
 			new MPlayer(event).sendTitle("", ChatColor.RED + "Chat is disabled for spectators");
 			event.setCancelled(true);
 		}

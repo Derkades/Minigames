@@ -12,6 +12,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.potion.PotionEffectType;
 
+import derkades.minigames.GameState;
 import derkades.minigames.Minigames;
 import derkades.minigames.games.decay.DecayMap;
 import derkades.minigames.utils.MPlayer;
@@ -164,7 +165,7 @@ public class Decay extends Game<DecayMap> {
 		}
 
 		if (this.map.isDead(player)) {
-			if (this.hasStarted()) {
+			if (GameState.getCurrentState().gameIsRunning()) {
 				player.dieTo(this.map.getSpawnLocation());
 				this.alive.remove(player.getUniqueId());
 			} else {

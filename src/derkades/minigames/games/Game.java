@@ -79,7 +79,7 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 			new HungerGames(),
 			new IcyBlowback(),
 			new GladeRoyale(),
-			//new MazePvp(),
+//			new MazePvp(),
 			new MissileRacer(),
 //			new MissileWars(),
 			new MolePvP(),
@@ -89,11 +89,11 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 			new ControlPoints(),
 			new RegeneratingSpleef(),
 			new Parkour(),
-			//new SnowFight(),
+//			new SnowFight(),
 			new Speedrun(),
 			new TeamsBowBattle(),
 			new TntRun(),
-			//new TntTag(),
+//			new TntTag(),
 			new Tron(),
 	};
 
@@ -142,9 +142,7 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 
 	protected M map = null;
 
-	// Can be used by listeners in game classes to check if the game has started.
-	private boolean started = false;
-
+	// Used by saveGameResult
 	private long preStartTime;
 	private long startTime;
 
@@ -155,8 +153,6 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 	}
 
 	private Set<UUID> gameSkipVotes;
-	@Deprecated
-	private boolean skipped = false;
 
 	public boolean voteGameSkip(final Player player) {
 		if (this.gameSkipVotes.add(player.getUniqueId())) {
@@ -166,15 +162,9 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 		return false;
 	}
 
-	public boolean hasStarted() {
-		return this.started;
-	}
-
 	@SuppressWarnings("unchecked")
 	public void start() {
-		this.started = false;
 		this.gameSkipVotes = new HashSet<>();
-		this.skipped = false;
 
 		// Pick random map
 		if (this.getGameMaps() == null) {
@@ -316,7 +306,6 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 					Game.this.startTime = System.currentTimeMillis();
 					Game.this.onStart();
 					Game.this.map.onStart();
-					Game.this.started = true;
 					GameState.setState(GameState.RUNNING_STARTED, Game.this);
 					return;
 				}
@@ -326,7 +315,6 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 				if (skip && this.secondsLeft > SkipConfig.SKIP_TO_SECONDS_LEFT) {
 					sendMessage(String.format(SkipConfig.SKIP_MESSAGE, Game.this.gameSkipVotes.size()));
 					this.secondsLeft = SkipConfig.SKIP_TO_SECONDS_LEFT;
-					Game.this.skipped = true;
 					GameState.setState(GameState.RUNNING_SKIPPED, Game.this);
 				}
 
@@ -384,6 +372,7 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 
 	protected void endGame(final Set<UUID> winners) {
 //		Minigames.CURRENT_GAME = null;
+		final boolean skipped = GameState.getCurrentState() == GameState.RUNNING_SKIPPED;
 		GameState.setState(GameState.IDLE);
 		HandlerList.unregisterAll(this); // Unregister events
 		this.gameSkipVotes = null;
@@ -392,14 +381,14 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 
 		final List<Player> winnersPlayers;
 		String winnersText = null;
-		if (this.skipped) {
+		if (skipped) {
 			winnersPlayers = Collections.emptyList();
 		} else {
 			winnersPlayers = Bukkit.getOnlinePlayers().stream().filter((p) -> winners.contains(p.getUniqueId())).collect(Collectors.toList());
 			winnersText = winnersPlayers.stream().map(Player::getName).collect(Collectors.joining(", "));
 		}
 
-		if (this.skipped) {
+		if (skipped) {
 			this.sendMessage("The " + this.getName() + " game has ended. There are no winners, this game was skipped.");
 		} else if (winners.isEmpty()){
 			this.sendMessage("The " + this.getName() + " game has ended.");
@@ -409,7 +398,7 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 			this.sendMessage("The " + this.getName() + " game has ended! Winners: " + YELLOW + winnersText);
 		}
 
-		saveGameResult(winnersPlayers);
+		saveGameResult(winnersPlayers, skipped);
 
 		// Give rewards
 		for (final MPlayer player : Minigames.getOnlinePlayers()){
@@ -467,7 +456,7 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 		});
 	}
 
-	private void saveGameResult(final List<Player> winners) {
+	private void saveGameResult(final List<Player> winners, final boolean skipped) {
 		final File gameResultsDir = new File("game_results");
 		if (!gameResultsDir.exists()) {
 			Logger.warning("Skipped saving game data, directory '%s' does not exist.", gameResultsDir.getAbsolutePath());
@@ -523,7 +512,7 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 			json.name("online_players");
 			writePlayersJson(json, Bukkit.getOnlinePlayers());
 			json.name("skipped");
-			json.value(this.skipped);
+			json.value(skipped);
 
 			final String gameSpecific = this.getGameSpecificResultJson();
 			if (gameSpecific != null) {
