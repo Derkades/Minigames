@@ -32,8 +32,8 @@ public class GamesListMenu extends IconMenu {
 
 			final double gameWeight = NumberUtils.roundApprox(game.getWeight(), 2);
 
-			lore.add(GOLD + "Game multiplier: " + YELLOW + gameWeight);
-			lore.add(GOLD + "Minimum online players: " + YELLOW + game.getRequiredPlayers());
+			lore.add(GOLD + "Multiplier: " + YELLOW + gameWeight);
+			lore.add(GOLD + "Minimum players: " + YELLOW + game.getRequiredPlayers());
 			if (game.getGameMaps() == null) {
 				lore.add(GOLD + "Maps: " + YELLOW + "none");
 			} else {
@@ -46,28 +46,30 @@ public class GamesListMenu extends IconMenu {
 						lore.add(GRAY + "  Credits: " + map.getCredits());
 					}
 					if (player.hasPermission("minigames.list_admin")) {
-						lore.add(DARK_GRAY + "  Name for commands: " + map.getName().replace(" ", "_").toLowerCase());
+						lore.add(DARK_GRAY + "  Identifier: " + map.getIdentifier());
+						lore.add(DARK_GRAY + "  World: " + map.getGameWorld());
 					}
 				}
 			}
 
 			if (player.hasPermission("minigames.list_admin")) {
 				lore.add("");
-				lore.add(DARK_GRAY + "Identifier " + game.getIdentifier());
-				lore.add(DARK_GRAY + "Name for commands: " + game.getName().toLowerCase().replace(" ", "_"));
-				lore.add(DARK_GRAY + "" + game.getClass());
+				lore.add(DARK_GRAY + "Identifier: " + game.getIdentifier());
+				lore.add(DARK_GRAY + "Command name: " + game.getIdentifier() + " (alias " + game.getAlias() + ")");
+				lore.add(DARK_GRAY + "" + game.getClass().getName().substring(25));
 				if (game.getGameMaps() == null) {
 					lore.add(DARK_GRAY + "No map support");
 				} else if (game.getGameMaps().length == 0) {
 					lore.add(DARK_GRAY + "No maps defined");
 				} else {
-					lore.add(DARK_GRAY + "" + game.getGameMaps().getClass());
+					lore.add(DARK_GRAY + "" + game.getGameMaps().getClass().getName().substring(27));
 				}
 			}
 
 			this.addItem(slot, new ItemBuilder(game.getMaterial())
 				.name(GOLD + game.getName())
 				.lore(lore)
+				.hideFlags(63)
 				.create());
 
 			slot++;
