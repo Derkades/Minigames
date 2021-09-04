@@ -17,7 +17,7 @@ public class LobbyMenuOpen extends Module {
 
 	@EventHandler
 	public void gamesMenuOpen(final PlayerInteractEntityEvent event){
-		if (!GameState.isCurrentlyInGame() || !event.getHand().equals(EquipmentSlot.HAND)) {
+		if (GameState.isCurrentlyInGame() || !event.getHand().equals(EquipmentSlot.HAND)) {
 			return;
 		}
 
@@ -37,7 +37,7 @@ public class LobbyMenuOpen extends Module {
 		}
 	}
 
-	@EventHandler()
+	@EventHandler
 	public void onInteract(final PlayerInteractEvent event) {
 		if (!GameState.isCurrentlyInGame() &&
 				event.getHand() == EquipmentSlot.HAND &&
