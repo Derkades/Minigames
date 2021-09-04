@@ -12,18 +12,18 @@ class GladeRoyaleItems {
 
 	static final ItemStack BLOCK = new ItemBuilder(Material.TERRACOTTA)
 			.canPlaceOn(
-					Material.GRASS_BLOCK,
-					Material.RED_CONCRETE_POWDER,
-					Material.BLACK_CONCRETE_POWDER,
-					Material.SAND,
-					Material.SANDSTONE,
-					Material.LIGHT_GRAY_TERRACOTTA,
-					Material.TERRACOTTA)
+					"minecraft:grass_block",
+					"minecraft:red_concrete_powder",
+					"minecraft:black_concrete_powder",
+					"minecraft:sand",
+					"minecraft:sandstone",
+					"minecraft:light_gray_terracotta",
+					"minecraft:terracotta")
 			.name(ChatColor.YELLOW + "Block")
 			.create();
 
 	static final ItemStack TOOL = new ItemBuilder(Material.IRON_PICKAXE)
-			.canDestroy(Material.TERRACOTTA)
+			.canDestroy("minecraft:terracotta")
 			.name(ChatColor.YELLOW + "Block breaker")
 			.enchant(Enchantment.DIG_SPEED, 3)
 			.unbreakable()
