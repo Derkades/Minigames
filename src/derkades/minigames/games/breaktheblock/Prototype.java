@@ -2,8 +2,11 @@ package derkades.minigames.games.breaktheblock;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 
 import derkades.minigames.random.Size;
+import derkades.minigames.utils.MPlayer;
 import derkades.minigames.worlds.GameWorld;
 
 class Prototype extends BreakTheBlockMap {
@@ -41,6 +44,16 @@ class Prototype extends BreakTheBlockMap {
 	@Override
 	public String getIdentifier() {
 		return "breaktheblock_prototype";
+	}
+
+	@Override
+	boolean canTakeDamage(final MPlayer player) {
+		final Block block = player.getBlockOn();
+		return
+				block.getType() == Material.RED_CONCRETE ||
+				block.getRelative(BlockFace.DOWN).getType() == Material.RED_CONCRETE ||
+				block.getType() == Material.GOLD_BLOCK ||
+				block.getRelative(BlockFace.DOWN).getType() == Material.GOLD_BLOCK;
 	}
 
 }

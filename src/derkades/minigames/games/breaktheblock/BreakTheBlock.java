@@ -6,7 +6,7 @@ import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.BlockBreakEvent;
@@ -14,6 +14,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
+import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 import derkades.minigames.Minigames;
@@ -28,7 +29,10 @@ public class BreakTheBlock extends Game<BreakTheBlockMap> {
 			.unbreakable()
 			.name(ChatColor.GOLD + "Block breaker")
 			.lore(ChatColor.YELLOW + "Use this gold pickaxe to break the ", ChatColor.YELLOW + "gold block at the end of the game.")
-			.canDestroy("minecraft:gold_block")
+			.canDestroy(
+					"minecraft:gold_block",
+					"minecraft:red_glazed_terracotta" // cherry in cake map
+					)
 			.create();
 
 	@Override
@@ -96,11 +100,11 @@ public class BreakTheBlock extends Game<BreakTheBlockMap> {
 	public void onStart() {
 		Minigames.getOnlinePlayers().forEach((player) -> {
 			player.setDisableDamage(false);
-			player.enableSneakPrevention(p -> {
-				p.clearInventory();
-				p.teleport(this.map.getStartLocation());
-				p.giveItem(PICKAXE);
-			});
+//			player.enableSneakPrevention(p -> {
+//				p.clearInventory();
+//				p.teleport(this.map.getStartLocation());
+//				p.giveItem(PICKAXE);
+//			});
 			player.giveInfiniteEffect(PotionEffectType.SLOW_DIGGING, 1);
 		});
 
@@ -131,10 +135,10 @@ public class BreakTheBlock extends Game<BreakTheBlockMap> {
 		player.teleport(this.map.getStartLocation());
 		player.giveItem(PICKAXE);
 		player.setDisableDamage(false);
-		player.enableSneakPrevention(p -> {
-			p.clearInventory();
-			p.teleport(this.map.getStartLocation());
-		});
+//		player.enableSneakPrevention(p -> {
+//			p.clearInventory();
+//			p.teleport(this.map.getStartLocation());
+//		});
 		player.giveInfiniteEffect(PotionEffectType.SLOW_DIGGING, 1);
 	}
 
@@ -143,11 +147,15 @@ public class BreakTheBlock extends Game<BreakTheBlockMap> {
 
 	}
 
+	private static final PotionEffect SLIME_BOOST = new PotionEffect(PotionEffectType.JUMP, 20, 8);
+	private static final ItemStack BOW = new ItemBuilder(Material.BOW).unbreakable().enchant(Enchantment.ARROW_INFINITE, 1).create();
+	private static final ItemStack ARROW = new ItemStack(Material.ARROW);
+
 	@EventHandler
 	public void onMove(final PlayerMoveEvent event) {
 		final MPlayer player = new MPlayer(event);
 
-		if (player.getBlockIn().getType() == Material.WATER){
+		if (player.getBlockIn().getType() == Material.WATER || player.getLocation().getY() < 60){
 			player.teleport(this.map.getStartLocation());
 			player.clearInventory();
 			player.giveItem(PICKAXE);
@@ -156,17 +164,35 @@ public class BreakTheBlock extends Game<BreakTheBlockMap> {
 
 		final PlayerInventory inv = player.getInventory();
 
-		if (player.getLocation().getBlock().getRelative(BlockFace.DOWN).getType().equals(Material.ORANGE_CONCRETE) &&
+		final Block blockOn = player.getBlockOn();
+
+		if (blockOn.getType().equals(Material.ORANGE_CONCRETE) &&
 				!inv.contains(Material.FIREWORK_ROCKET)) {
 			inv.addItem(new ItemBuilder(Material.FIREWORK_ROCKET).name(ChatColor.LIGHT_PURPLE + "Elytra fireworks").create());
 		}
 
-		if (player.getLocation().getBlock().getRelative(BlockFace.DOWN).getType().equals(Material.PINK_CONCRETE) &&
+		if (blockOn.getType().equals(Material.PINK_CONCRETE) &&
 				!inv.contains(Material.ELYTRA)) {
 			final ItemStack elytra = new ItemBuilder(Material.ELYTRA)
 					.unbreakable()
 					.create();
 			player.setArmor(null, elytra, null, null);
+		}
+
+		if (blockOn.getType() == Material.LIME_CONCRETE) {
+			player.giveEffect(SLIME_BOOST);
+		}
+
+		if (blockOn.getType() == Material.MAGENTA_CONCRETE) {
+			if (player.getInventory().getItem(1) == null ||
+					player.getInventory().getItem(1).getType() == Material.AIR) {
+				player.getInventory().setHeldItemSlot(1);
+				player.getInventory().setItem(1, BOW);
+				player.getInventory().setItem(9, ARROW);
+			}
+		} else {
+			player.getInventory().setItem(1, null);
+			player.getInventory().setItem(9, null);
 		}
 	}
 
@@ -194,13 +220,9 @@ public class BreakTheBlock extends Game<BreakTheBlockMap> {
 			return;
 		}
 
-		final Block blockBelow = event.getEntity().getLocation().getBlock().getRelative(BlockFace.DOWN);
-		event.setCancelled(!(
-				blockBelow.getType() == Material.RED_CONCRETE ||
-				blockBelow.getRelative(BlockFace.DOWN).getType() == Material.RED_CONCRETE ||
-				blockBelow.getType() == Material.GOLD_BLOCK ||
-				blockBelow.getRelative(BlockFace.DOWN).getType() == Material.GOLD_BLOCK
-				));
+//		final Block blockBelow = event.getEntity().getLocation().getBlock().getRelative(BlockFace.DOWN);
+		event.setCancelled(!this.map.canTakeDamage(new MPlayer(event)));
+		event.setDamage(0);
 	}
 
 }

@@ -1,14 +1,6 @@
 package derkades.minigames.games.breaktheblock;
 
-import org.bukkit.Location;
-import org.bukkit.Material;
-
-import derkades.minigames.Minigames;
-import derkades.minigames.random.Size;
-import derkades.minigames.utils.MPlayer;
-import derkades.minigames.worlds.GameWorld;
-
-class Jungle extends BreakTheBlockMap {
+class Jungle /*extends BreakTheBlockMap {
 
 	@Override
 	public void onPreStart() {
@@ -54,5 +46,5 @@ class Jungle extends BreakTheBlockMap {
 	public String getIdentifier() {
 		return "breaktheblock_jungle";
 	}
-
+*/{
 }
