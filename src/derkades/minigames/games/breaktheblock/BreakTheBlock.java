@@ -48,8 +48,7 @@ public class BreakTheBlock extends Game<BreakTheBlockMap> {
 	@Override
 	public String[] getDescription() {
 		return new String[] {
-				"Be the first player to break the gold block.",
-				"You can hit players who are standing on red concrete."
+				"Make it through an obstacle course to break the gold block.",
 				};
 	}
 
