@@ -1,14 +1,12 @@
-package derkades.minigames;
+package derkades.minigames.modules;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.java.JavaPlugin;
 
 import derkades.minigames.utils.Utils;
 import net.md_5.bungee.api.ChatColor;
@@ -16,27 +14,27 @@ import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.hover.content.Text;
+import xyz.derkades.derkutils.bukkit.reflection.ReflectionUtil;
 
-public class ChatPoll {
+public class ChatPoll extends Module {
 
 	private static final long TOKEN_EXPIRE_TIME = 20*1000;
+	private static final String COMMAND_NAME = "dm90ZSEh";
 
-	private static Map<String, Long> tokens;
-	private static Map<String, PollCallback> callbacks;
+	private final Map<String, Long> tokens = new HashMap<>();
+	private final Map<String, PollCallback> callbacks = new HashMap<>();
 
-	static void startup(final JavaPlugin plugin) {
-		tokens = new HashMap<>();
-		callbacks = new HashMap<>();
-		plugin.getCommand("dm90ZSEh").setExecutor(new ChatPollCallbackCommand());
+	public ChatPoll() {
+		ReflectionUtil.registerCommand(COMMAND_NAME, new ChatPollCallbackCommand(COMMAND_NAME));
 	}
 
-	public static class Poll {
+	public class Poll {
 
 		private final String question;
 		private final PollCallback callback;
 		private final PollAnswer[] answers;
 
-		public Poll (final String question, final PollCallback callback, final PollAnswer... answers){
+		public Poll(final String question, final PollCallback callback, final PollAnswer... answers){
 			this.question = question;
 			this.callback = callback;
 			this.answers = answers;
@@ -45,9 +43,9 @@ public class ChatPoll {
 		public void send(final Player player) {
 			final String token = UUID.randomUUID().toString().replace("-", "");
 
-			tokens.put(token, System.currentTimeMillis());
+			ChatPoll.this.tokens.put(token, System.currentTimeMillis());
 
-			callbacks.put(token, this.callback);
+			ChatPoll.this.callbacks.put(token, this.callback);
 
 			player.sendMessage(Utils.getChatPrefix(ChatColor.AQUA, 'P') + ChatColor.DARK_GRAY + "-----------------------------------------");
 			player.spigot().sendMessage(new ComponentBuilder("").appendLegacy(Utils.getChatPrefix(ChatColor.AQUA, 'P')).append(this.question).create());
@@ -92,31 +90,35 @@ public class ChatPoll {
 
 	}
 
-	private static class ChatPollCallbackCommand implements CommandExecutor {
+	private class ChatPollCallbackCommand extends Command {
+
+		protected ChatPollCallbackCommand(final String name) {
+			super(name);
+		}
 
 		@Override
-		public boolean onCommand(final CommandSender sender, final Command command, final String label, final String[] args) {
+		public boolean execute(final CommandSender sender, final String commandLabel, final String[] args) {
 			if (args.length != 2) {
 				return true;
 			}
 
 			final String providedToken = args[0];
 
-			if (!tokens.containsKey(providedToken)) {
+			if (!ChatPoll.this.tokens.containsKey(providedToken)) {
 				sender.sendMessage(ChatColor.RED + "You have already voted on this poll.");
 				return true;
 			}
 
-			if (System.currentTimeMillis() - tokens.get(providedToken) > TOKEN_EXPIRE_TIME) {
+			if (System.currentTimeMillis() - ChatPoll.this.tokens.get(providedToken) > TOKEN_EXPIRE_TIME) {
 				sender.sendMessage(ChatColor.RED + "This poll has expired.");
 				return true;
 			}
 
-			tokens.remove(providedToken);
+			ChatPoll.this.tokens.remove(providedToken);
 
 			final Player player = (Player) sender;
 
-			callbacks.get(providedToken).callback(player, Integer.parseInt(args[1]));
+			ChatPoll.this.callbacks.get(providedToken).callback(player, Integer.parseInt(args[1]));
 
 			return true;
 		}

@@ -1,12 +1,16 @@
-package derkades.minigames.task;
+package derkades.minigames.modules;
 
 import org.bukkit.GameMode;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import derkades.minigames.Minigames;
 import derkades.minigames.utils.MPlayer;
+import derkades.minigames.utils.Scheduler;
 
-public class RegenerateHunger extends BukkitRunnable {
+public class RegenerateHunger extends Module implements Runnable {
+
+	public RegenerateHunger() {
+		Scheduler.repeat(40, this);
+	}
 
 	@Override
 	public void run() {

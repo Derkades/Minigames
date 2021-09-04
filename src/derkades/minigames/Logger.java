@@ -7,7 +7,7 @@ import net.md_5.bungee.api.ChatColor;
 
 public class Logger {
 
-	static boolean debugMode = true;
+	static boolean debugMode = Minigames.getInstance().getConfig().getBoolean("debug_mode");
 
 	public static void warning(final String message, final Object... arg1) {
 		final String formatted = String.format(message, arg1);

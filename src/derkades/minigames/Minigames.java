@@ -19,13 +19,18 @@ import de.tr7zw.changeme.nbtapi.utils.MinecraftVersion;
 import derkades.minigames.games.Game;
 import derkades.minigames.games.maps.GameMap;
 import derkades.minigames.modules.AutoReloader;
+import derkades.minigames.modules.CancelInteract;
+import derkades.minigames.modules.ChatPoll;
+import derkades.minigames.modules.DisableInventoryItemMove;
 import derkades.minigames.modules.InfoBar;
 import derkades.minigames.modules.JazzRoom;
+import derkades.minigames.modules.LobbyMenuOpen;
 import derkades.minigames.modules.LobbyStormDisabler;
+import derkades.minigames.modules.RegenerateHunger;
+import derkades.minigames.modules.ResetPlayersOnEnable;
 import derkades.minigames.modules.ResourcePack;
 import derkades.minigames.modules.SneakPrevention;
 import derkades.minigames.modules.SpawnZombieShooter;
-import derkades.minigames.task.RegenerateHunger;
 import derkades.minigames.utils.MPlayer;
 import derkades.minigames.utils.PluginLoadEvent;
 import derkades.minigames.utils.PluginUnloadEvent;
@@ -40,11 +45,11 @@ public class Minigames extends JavaPlugin implements Listener {
 
 	private static Minigames instance;
 
-//	public static Game<? extends GameMap> CURRENT_GAME = null;
-
 	public static boolean STOP_GAMES = false;
 
 	public static boolean BYPASS_PLAYER_MINIMUM_CHECKS = false;
+
+	public static ChatPoll CHAT_POLL = null;
 
 	static {
 		MinecraftVersion.disableUpdateCheck();
@@ -61,16 +66,12 @@ public class Minigames extends JavaPlugin implements Listener {
 
 		integrityCheck();
 
-		Logger.debugMode = getConfig().getBoolean("debug_mode");
-
 		Logger.info("Plugin enabled");
 
 		Var.WORLD = Bukkit.getWorld("minigames");
 		Var.LOBBY_WORLD = Bukkit.getWorld("minigames");
 		Var.LOBBY_LOCATION = new Location(Var.WORLD, 219.5, 64, 279.5, 180, 0);
 		GameMap.init();
-
-		new RegenerateHunger().runTaskTimer(this, 40, 40);
 
 		getServer().getPluginManager().registerEvents(new GlobalListeners(), this);
 
@@ -86,32 +87,21 @@ public class Minigames extends JavaPlugin implements Listener {
 //			getLogger().severe("Vault error");
 //		}
 
-		ChatPoll.startup(this);
-
 		new AutoReloader();
+		new CancelInteract();
+		CHAT_POLL = new ChatPoll();
+		new DisableInventoryItemMove();
 		new InfoBar();
 		new JazzRoom();
+		new LobbyMenuOpen();
 		new LobbyStormDisabler();
+		new RegenerateHunger();
+		new ResetPlayersOnEnable();
 		new ResourcePack();
 		new SneakPrevention();
 		new SpawnZombieShooter();
 
 		TaskQueue.start();
-
-		if (Logger.debugMode) {
-			Logger.info("Debug mode is enabled, only going to reset players who are not in creative mode.");
-			Minigames.getOnlinePlayers().stream().filter(p -> p.getGameMode() != GameMode.CREATIVE).forEach((p) -> {
-				Logger.debug("Resetting player %s (debug mode, adventure)", p.getName());
-				p.applyLobbySettings();
-				p.queueTeleport(Var.LOBBY_LOCATION);
-			});
-		} else {
-			Minigames.getOnlinePlayers().forEach((p) -> {
-				Logger.debug("Resetting player %s (no debug mode)", p.getName());
-				p.applyLobbySettings();
-				p.queueTeleport(Var.LOBBY_LOCATION);
-			});
-		}
 
 		Scheduler.delay(20, () -> {
 //			GameWorld.init();

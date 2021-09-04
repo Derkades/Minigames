@@ -12,6 +12,7 @@ import org.bukkit.World;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityEvent;
 import org.bukkit.event.player.PlayerEvent;
@@ -44,6 +45,10 @@ public class MPlayer {
 
 	public MPlayer(final Player player) {
 		this.player = player;
+	}
+
+	public MPlayer(final HumanEntity human) {
+		this.player = (Player) human;
 	}
 
 	public MPlayer(final PlayerEvent event) {

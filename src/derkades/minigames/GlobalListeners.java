@@ -1,7 +1,5 @@
 package derkades.minigames;
 
-import java.util.Set;
-
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
@@ -9,40 +7,30 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.data.Waterlogged;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Villager;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
-import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
-import org.bukkit.event.player.PlayerInteractEntityEvent;
-import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.inventory.EquipmentSlot;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 import derkades.minigames.Minigames.ShutdownReason;
 import derkades.minigames.games.Game;
-import derkades.minigames.menu.MainMenu;
 import derkades.minigames.utils.MPlayer;
 import derkades.minigames.utils.MinigamesPlayerDamageEvent;
 import derkades.minigames.utils.Scheduler;
 import derkades.minigames.utils.Utils;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.ClickEvent;
-import xyz.derkades.derkutils.bukkit.MaterialLists;
 
 public class GlobalListeners implements Listener {
 
@@ -129,69 +117,8 @@ public class GlobalListeners implements Listener {
 	}
 
 	@EventHandler
-	public void gamesMenuOpen(final PlayerInteractEntityEvent event){
-		if (!GameState.isCurrentlyInGame() || !event.getHand().equals(EquipmentSlot.HAND)) {
-			return;
-		}
-
-		final Player player = event.getPlayer();
-
-		// 1.16 triggers interact events when clicking items in a menu for some reason
-		// We need to ignore these
-		// If the player does not have an open inventory, getOpenInventory returns their crafting or creative inventory
-		if (player.getOpenInventory().getType() != InventoryType.CRAFTING &&
-				player.getOpenInventory().getType() != InventoryType.CREATIVE) {
-			return;
-		}
-
-		final Entity entity = event.getRightClicked();
-		if (entity instanceof Villager){
-			event.setCancelled(true);
-			new MainMenu(player);
-		}
-	}
-
-	@SuppressWarnings("unchecked")
-	private static final Set<Material>[] CANCEL_INTERACT = new Set[] {
-			MaterialLists.TRAPDOORS,
-			MaterialLists.DOORS,
-			MaterialLists.FENCE_GATES,
-			MaterialLists.FLOWER_POTS,
-	};
-
-	@EventHandler
-	public void onInteract(final PlayerInteractEvent event) {
-		if (!GameState.isCurrentlyInGame() ||
-				event.getHand() != EquipmentSlot.HAND ||
-				event.getPlayer().getGameMode() != GameMode.ADVENTURE) {
-			return;
-		}
-
-		final Action action = event.getAction();
-		final Block block = event.getClickedBlock();
-		if (action == Action.RIGHT_CLICK_BLOCK &&
-				(MaterialLists.isInList(block.getType(), CANCEL_INTERACT))) {
-			event.setCancelled(true);
-		}
-
-		final ItemStack itemInHand = event.getPlayer().getInventory().getItemInMainHand();
-
-		if (itemInHand.getType().equals(Material.COMPARATOR)) {
-			new MainMenu(event.getPlayer());
-		}
-	}
-
-	@EventHandler
 	public void onChat(final AsyncPlayerChatEvent event) {
 		event.setFormat(Utils.getChatPrefix(ChatColor.AQUA, 'C') + ChatColor.WHITE + "%s: " + ChatColor.GRAY + "%s");
-	}
-
-	@EventHandler
-	public void inventoryClickEvent(final InventoryClickEvent event) {
-		final MPlayer player = new MPlayer((Player) event.getView().getPlayer());
-		if (player.getDisableItemMoving() && player.getGameMode().equals(GameMode.ADVENTURE)) {
-			event.setCancelled(true);
-		}
 	}
 
 	@EventHandler
