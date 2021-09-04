@@ -2,14 +2,8 @@ package derkades.minigames;
 
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
-import org.bukkit.block.data.Waterlogged;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
-import org.bukkit.entity.Villager;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
@@ -18,10 +12,7 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 
 import derkades.minigames.Minigames.ShutdownReason;
 import derkades.minigames.games.Game;
@@ -97,20 +88,8 @@ public class GlobalListeners implements Listener {
 
 	@EventHandler
 	public void damage(final EntityDamageEvent event){
-		if (event.getEntity() instanceof Villager){
-			final Villager villager = (Villager) event.getEntity();
-			if (villager.getCustomName().equals("Bait") ||
-					villager.getCustomName().contentEquals("Click Me!")) {
-				event.setCancelled(true);
-			}
-		}
-
-		if (!(event.getEntity() instanceof Player)) {
-			return;
-		}
-
-		final MPlayer player = new MPlayer(event);
-		if (player.getDisableDamage()){
+		if (event.getEntityType() == EntityType.PLAYER &&
+				new MPlayer(event).hasDisabledDamage()) {
 			event.setCancelled(true);
 		}
 	}
@@ -161,43 +140,6 @@ public class GlobalListeners implements Listener {
 	public void onDeath(final PlayerDeathEvent event) {
 		event.setDeathMessage("");
 		Minigames.shutdown(ShutdownReason.EMERGENCY_AUTOMATIC, "A player died: " + event.getEntity().getName());
-	}
-
-	private static final PotionEffect SLIME_JUMP_EFFECT = new PotionEffect(PotionEffectType.JUMP, 30, 7, true, false);
-	private static final Location parkourWater1 = new Location(Var.LOBBY_WORLD, 213, 78, 239);
-	private static final Location parkourWater2 = new Location(Var.LOBBY_WORLD, 195, 78, 264);
-
-	@EventHandler
-	public void lobbyEffects(final PlayerMoveEvent event){
-		if (GameState.isCurrentlyInGame()) {
-			return;
-		}
-
-		final MPlayer player = new MPlayer(event);
-		player.removeFire();
-
-		final Block to = event.getTo().getBlock();
-		final Material below = event.getTo().getBlock().getRelative(BlockFace.DOWN).getType();
-		if (
-				(
-						to.getType() == Material.WATER ||
-						(
-								to.getBlockData() != null &&
-								to.getBlockData() instanceof Waterlogged &&
-								((Waterlogged) to.getBlockData()).isWaterlogged()
-						)
-				) &&
-				player.getGameMode() == GameMode.ADVENTURE &&
-				!player.getMetadataBool("lobby parkour teleporting", false) &&
-				player.isIn2dBounds(parkourWater1, parkourWater2)) {
-			player.setMetadata("lobby parkour teleporting", true);
-			Scheduler.delay(5, () -> {
-				player.teleport(new Location(Var.LOBBY_LOCATION.getWorld(), 213.5, 68, 255.9, 70, 0));
-				player.removeMetadata("lobby parkour teleporting");
-			});
-		} else if (below == Material.SLIME_BLOCK) {
-			player.giveEffect(SLIME_JUMP_EFFECT);
-		}
 	}
 
 }

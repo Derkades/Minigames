@@ -5,6 +5,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Villager;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -13,7 +14,7 @@ import org.bukkit.inventory.EquipmentSlot;
 import derkades.minigames.GameState;
 import derkades.minigames.menu.MainMenu;
 
-public class LobbyMenuOpen extends Module {
+public class LobbyMenu extends Module {
 
 	@EventHandler
 	public void gamesMenuOpen(final PlayerInteractEntityEvent event){
@@ -45,6 +46,17 @@ public class LobbyMenuOpen extends Module {
 				event.getPlayer().getInventory().getItemInMainHand().getType().equals(Material.COMPARATOR)) {
 			event.setCancelled(true);
 			new MainMenu(event.getPlayer());
+		}
+	}
+
+	@EventHandler
+	public void onEntityDamage(final EntityDamageEvent event) {
+		if (event.getEntity() instanceof Villager){
+			final Villager villager = (Villager) event.getEntity();
+			if (villager.getCustomName().equals("Bait") ||
+					villager.getCustomName().contentEquals("Click Me!")) {
+				event.setCancelled(true);
+			}
 		}
 	}
 

@@ -92,7 +92,7 @@ public class MPlayer {
 		this.setMetadata("disable_damage", disableDamage);
 	}
 
-	public boolean getDisableDamage() {
+	public boolean hasDisabledDamage() {
 		return this.getMetadataBool("disable_damage", true);
 	}
 
