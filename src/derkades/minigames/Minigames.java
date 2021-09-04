@@ -53,6 +53,17 @@ public class Minigames extends JavaPlugin implements Listener {
 
 	static {
 		MinecraftVersion.disableUpdateCheck();
+
+		for (final Game<?> game : Game.GAMES) {
+			Validate.notNull(game.getIdentifier(), "game identifier null: " + game.getClass().getName());
+			Validate.notNull(game.getName(), "game name null: " + game.getClass().getName());
+			if (game.getGameMaps() != null) {
+				for (final GameMap map : game.getGameMaps()) {
+					Validate.notNull(map.getIdentifier(), "map identifier null: " + game.getClass().getName() + " " + map.getClass().getName());
+					Validate.notNull(map.getName(), "map name is null: " + map.getIdentifier());
+				}
+			}
+		}
 	}
 
 //	public static Economy economy = null;
@@ -63,13 +74,10 @@ public class Minigames extends JavaPlugin implements Listener {
 
 		super.saveDefaultConfig();
 
-		integrityCheck();
-
 		Logger.info("Plugin enabled");
 
 		Var.LOBBY_WORLD = Bukkit.getWorld("minigames");
 		Var.LOBBY_LOCATION = new Location(Var.LOBBY_WORLD, 219.5, 64, 279.5, 180, 0);
-		GameMap.init();
 
 		getServer().getPluginManager().registerEvents(new GlobalListeners(), this);
 
@@ -102,8 +110,6 @@ public class Minigames extends JavaPlugin implements Listener {
 		TaskQueue.start();
 
 		Scheduler.delay(20, () -> {
-//			GameWorld.init();
-
 			if (Bukkit.getOnlinePlayers().size() == 0) {
 				if (!Logger.debugMode) {
 					Logger.info("No players online, starting games automatically");
@@ -117,19 +123,6 @@ public class Minigames extends JavaPlugin implements Listener {
 		});
 
 		Bukkit.getPluginManager().callEvent(new PluginLoadEvent());
-	}
-
-	private void integrityCheck() {
-		for (final Game<?> game : Game.GAMES) {
-			Validate.notNull(game.getIdentifier(), game.getClass().getName());
-			Validate.notNull(game.getName(), game.getClass().getName());
-			if (game.getGameMaps() != null) {
-				for (final GameMap map : game.getGameMaps()) {
-					Validate.notNull(game.getIdentifier(), map.getClass().getName());
-					Validate.notNull(map.getName(), map.getClass().getName());
-				}
-			}
-		}
 	}
 
 	@Override

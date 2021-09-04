@@ -63,12 +63,13 @@ public abstract class GameMap implements RandomlyPickable {
 
 	private static final Map<String, GameMap> BY_IDENTIFIER = new HashMap<>();
 
-	public static final void init() {
+	static {
 		for (final Game<? extends GameMap> game : Game.GAMES) {
 			for (final GameMap map : game.getGameMaps()) {
 				if (BY_IDENTIFIER.containsKey(map.getIdentifier())) {
-					Minigames.shutdown(ShutdownReason.EMERGENCY_AUTOMATIC, "Duplicate identifier " + map.getIdentifier());
-					continue;
+					throw new IllegalStateException("Duplicate identifier " + map.getIdentifier());
+//					Minigames.shutdown(ShutdownReason.EMERGENCY_AUTOMATIC, "Duplicate identifier " + map.getIdentifier());
+//					continue;
 				}
 				BY_IDENTIFIER.put(map.getIdentifier(), map);
 			}
