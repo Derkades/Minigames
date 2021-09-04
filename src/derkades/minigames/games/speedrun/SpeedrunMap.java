@@ -5,7 +5,7 @@ import org.bukkit.Material;
 
 import derkades.minigames.games.GameMap;
 
-public abstract class SpeedrunMap extends GameMap {
+abstract class SpeedrunMap extends GameMap {
 
 	public static final SpeedrunMap[] MAPS = {
 //		new Backwards(),
@@ -13,16 +13,16 @@ public abstract class SpeedrunMap extends GameMap {
 //		new Construction(),
 	};
 
-	public Material getFloorBlock() {
+	Material getFloorBlock() {
 		return Material.RED_TERRACOTTA;
 	}
 
-	public Material getEndBlock() {
+	Material getEndBlock() {
 		return Material.GRAY_TERRACOTTA;
 	}
 
-	public abstract Location getStartLocation();
+	abstract Location getStartLocation();
 
-	public abstract Location getSpectatorLocation();
+	abstract Location getSpectatorLocation();
 
 }

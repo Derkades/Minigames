@@ -5,12 +5,7 @@ import org.bukkit.Location;
 import derkades.minigames.random.Size;
 import derkades.minigames.worlds.GameWorld;
 
-public class Desert extends PlatformMap {
-
-	@Override
-	public Location getSpawnLocation() {
-		return new Location(this.getWorld(), 0, 65, 0);
-	}
+class Desert extends PlatformMap {
 
 	@Override
 	public String getName() {
@@ -35,6 +30,11 @@ public class Desert extends PlatformMap {
 	@Override
 	public String getIdentifier() {
 		return "platform_desert";
+	}
+
+	@Override
+	Location getSpawnLocation() {
+		return new Location(this.getWorld(), 0, 65, 0);
 	}
 
 }

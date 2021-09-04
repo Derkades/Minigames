@@ -87,14 +87,6 @@ public class GlobalListeners implements Listener {
 	}
 
 	@EventHandler
-	public void damage(final EntityDamageEvent event){
-		if (event.getEntityType() == EntityType.PLAYER &&
-				new MPlayer(event).hasDisabledDamage()) {
-			event.setCancelled(true);
-		}
-	}
-
-	@EventHandler
 	public void onChat(final AsyncPlayerChatEvent event) {
 		event.setFormat(Utils.getChatPrefix(ChatColor.AQUA, 'C') + ChatColor.WHITE + "%s: " + ChatColor.GRAY + "%s");
 	}

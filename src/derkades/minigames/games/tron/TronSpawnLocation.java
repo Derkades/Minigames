@@ -2,9 +2,7 @@ package derkades.minigames.games.tron;
 
 import org.bukkit.Location;
 
-import derkades.minigames.games.Tron.Direction;
-
-public class TronSpawnLocation {
+class TronSpawnLocation {
 
 	private final Location location;
 	private final Direction direction;
@@ -14,11 +12,11 @@ public class TronSpawnLocation {
 		this.direction = direction;
 	}
 
-	public Location getLocation() {
+	Location getLocation() {
 		return this.location;
 	}
 
-	public Direction getDirection() {
+	Direction getDirection() {
 		return this.direction;
 	}
 

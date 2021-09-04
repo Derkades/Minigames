@@ -1,4 +1,4 @@
-package derkades.minigames.games;
+package derkades.minigames.games.platform;
 
 import java.util.Set;
 import java.util.UUID;
@@ -15,7 +15,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
 
 import derkades.minigames.Minigames;
-import derkades.minigames.games.platform.PlatformMap;
+import derkades.minigames.games.Game;
 import derkades.minigames.utils.MPlayer;
 import derkades.minigames.utils.Utils;
 import net.md_5.bungee.api.ChatColor;

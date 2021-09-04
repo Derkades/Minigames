@@ -5,12 +5,7 @@ import org.bukkit.Location;
 import derkades.minigames.random.Size;
 import derkades.minigames.worlds.GameWorld;
 
-public class Ice extends PlatformMap {
-
-	@Override
-	public Location getSpawnLocation() {
-		return new Location(this.getWorld(), -32.5, 71, 10.5, -180, 0);
-	}
+class Ice extends PlatformMap {
 
 	@Override
 	public String getName() {
@@ -35,6 +30,11 @@ public class Ice extends PlatformMap {
 	@Override
 	public String getIdentifier() {
 		return "platform_ice";
+	}
+
+	@Override
+	Location getSpawnLocation() {
+		return new Location(this.getWorld(), -32.5, 71, 10.5, -180, 0);
 	}
 
 }

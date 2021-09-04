@@ -1,4 +1,4 @@
-package derkades.minigames.games;
+package derkades.minigames.games.controlpoints;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -19,8 +19,7 @@ import org.bukkit.potion.PotionEffectType;
 
 import derkades.minigames.GameState;
 import derkades.minigames.Minigames;
-import derkades.minigames.games.pointcontrol.ControlPointsMap;
-import derkades.minigames.games.pointcontrol.ControlStatus;
+import derkades.minigames.games.Game;
 import derkades.minigames.utils.MPlayer;
 import derkades.minigames.utils.MinigamesPlayerDamageEvent;
 import derkades.minigames.utils.MinigamesPlayerDamageEvent.DamageType;

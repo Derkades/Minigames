@@ -5,19 +5,19 @@ import org.bukkit.Material;
 
 import derkades.minigames.games.GameMap;
 
-public abstract class TNTMap extends GameMap {
+abstract class TntRunMap extends GameMap {
 
-	public static final TNTMap[] MAPS = {
+	static final TntRunMap[] MAPS = {
 			new Aqua(),
 			new Future(),
 			new Jungle(),
 			new WaterLava(),
 	};
 
-	public abstract void restore();
+	abstract void restore();
 
-	public abstract Material floorMaterial();
+	abstract Material floorMaterial();
 
-	public abstract Location spawnLocation();
+	abstract Location spawnLocation();
 
 }

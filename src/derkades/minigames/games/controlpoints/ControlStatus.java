@@ -1,4 +1,4 @@
-package derkades.minigames.games.pointcontrol;
+package derkades.minigames.games.controlpoints;
 
 public enum ControlStatus {
 

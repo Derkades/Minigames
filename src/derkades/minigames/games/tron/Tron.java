@@ -1,4 +1,4 @@
-package derkades.minigames.games;
+package derkades.minigames.games.tron;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -18,14 +18,13 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.util.Vector;
 
 import derkades.minigames.Logger;
 import derkades.minigames.Minigames;
 import derkades.minigames.Minigames.ShutdownReason;
-import derkades.minigames.games.tron.TronMap;
-import derkades.minigames.games.tron.TronSpawnLocation;
+import derkades.minigames.games.Game;
+import derkades.minigames.games.GameTeam;
 import derkades.minigames.utils.MPlayer;
 import derkades.minigames.utils.queue.TaskQueue;
 import xyz.derkades.derkutils.ListUtils;
@@ -76,14 +75,13 @@ public class Tron extends Game<TronMap> {
 		return 150;
 	}
 
-	private List<BukkitTask> tasks;
+//	private List<BukkitTask> tasks;
 	private List<UUID> spectators;
-
 	private Map<UUID, TronPlayer> players;
 
 	@Override
 	public void onPreStart() {
-		this.tasks = new ArrayList<>();
+//		this.tasks = new ArrayList<>();
 		this.spectators = new ArrayList<>();
 		this.players = new HashMap<>();
 
@@ -126,12 +124,22 @@ public class Tron extends Game<TronMap> {
 	public void onStart() {
 		for (final MPlayer player : Minigames.getOnlinePlayers()) {
 			player.clearPotionEffects();
-			player.giveInfiniteEffect(PotionEffectType.SPEED, 3);
 			player.placeCage(false, CAGE_MATERIAL);
-			player.getInventory().setHeldItemSlot(4);
-			this.tasks.add(new BlockPlacerTask(player).runTaskTimer(Minigames.getInstance(), 1, 1));
-			player.sendTitle(ChatColor.GRAY + "Use keyboard", ChatColor.GRAY + "[4] LEFT [6] RIGHT");
 			player.hideForEveryoneElse();
+
+			final TronPlayer tronPlayer = this.players.get(player.getUniqueId());
+			if (tronPlayer == null) {
+				// Logged in after pre-start
+				player.spectator();
+				this.spectators.add(player.getUniqueId());
+				continue;
+			}
+
+			player.giveInfiniteEffect(PotionEffectType.SPEED, 3);
+			player.getInventory().setHeldItemSlot(4);
+			player.sendTitle(ChatColor.GRAY + "Use keyboard", ChatColor.GRAY + "[4] LEFT [6] RIGHT");
+
+			tronPlayer.blockPlacerTask = new BlockPlacerTask(player).runTaskTimer(Minigames.getInstance(), 1, 1);
 		}
 	}
 
@@ -153,8 +161,10 @@ public class Tron extends Game<TronMap> {
 			Tron.this.endGame();
 		}
 
-		this.tasks.forEach((task) -> task.cancel());
-		this.tasks = null;
+		for (final TronPlayer tronPlayer : this.players.values()) {
+			tronPlayer.blockPlacerTask.cancel();
+		}
+
 		this.spectators = null;
 		this.players = null;
 	}
@@ -168,82 +178,11 @@ public class Tron extends Game<TronMap> {
 
 	@Override
 	public void onPlayerQuit(final MPlayer player) {
+		final TronPlayer tronPlayer = this.players.get(player.getUniqueId());
+		if (tronPlayer != null) {
+			tronPlayer.blockPlacerTask.cancel();
+		}
 		this.players.remove(player.getUniqueId());
-	}
-
-	public enum Direction {
-
-		NORTH(180),
-		EAST(270),
-		SOUTH(0),
-		WEST(90),
-
-		;
-
-		float yaw;
-
-		Direction(final float yaw){
-			this.yaw = yaw;
-		}
-
-	}
-
-	private class TronPlayer {
-
-		private final GameTeam team;
-		private Direction direction;
-
-		TronPlayer(final GameTeam team, final TronSpawnLocation spawnLocation) {
-			this.team = team;
-			this.direction = spawnLocation.getDirection();
-		}
-
-		private GameTeam getTeam() {
-			return this.team;
-		}
-
-		private Direction getDirection() {
-			return this.direction;
-		}
-
-		private void rotateLeft() {
-			switch(this.direction) {
-			case NORTH:
-				this.direction = Direction.WEST;
-				break;
-			case WEST:
-				this.direction = Direction.SOUTH;
-				break;
-			case SOUTH:
-				this.direction = Direction.EAST;
-				break;
-			case EAST:
-				this.direction = Direction.NORTH;
-				break;
-			default:
-				Minigames.shutdown(ShutdownReason.EMERGENCY_AUTOMATIC, "Illegal direction '" + this.direction + "'");
-			}
-		}
-
-		private void rotateRight() {
-			switch(this.direction) {
-			case NORTH:
-				this.direction = Direction.EAST;
-				break;
-			case EAST:
-				this.direction = Direction.SOUTH;
-				break;
-			case SOUTH:
-				this.direction = Direction.WEST;
-				break;
-			case WEST:
-				this.direction = Direction.NORTH;
-				break;
-			default:
-				Minigames.shutdown(ShutdownReason.EMERGENCY_AUTOMATIC, "Illegal direction '" + this.direction + "'");
-			}
-		}
-
 	}
 
 	private class BlockPlacerTask extends BukkitRunnable {
@@ -394,7 +333,6 @@ public class Tron extends Game<TronMap> {
 				player.die();
 			}
 		}
-
 	}
 
 }

@@ -4,16 +4,16 @@ import org.bukkit.Location;
 
 import derkades.minigames.games.GameMap;
 
-public abstract class TeamsBowBattleMap extends GameMap {
+abstract class TeamsBowBattleMap extends GameMap {
 
-	public static final TeamsBowBattleMap[] MAPS = {
+	static final TeamsBowBattleMap[] MAPS = {
 			new Forest(),
 	};
 
-	public abstract Location getTeamRedSpawnLocation();
+	abstract Location getTeamRedSpawnLocation();
 
-	public abstract Location getTeamBlueSpawnLocation();
+	abstract Location getTeamBlueSpawnLocation();
 
-	public void onGameStart() {}
+//	void onGameStart() {}
 
 }

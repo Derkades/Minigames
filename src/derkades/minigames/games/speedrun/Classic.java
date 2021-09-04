@@ -5,17 +5,7 @@ import org.bukkit.Location;
 import derkades.minigames.random.Size;
 import derkades.minigames.worlds.GameWorld;
 
-public class Classic extends SpeedrunMap {
-
-	@Override
-	public Location getStartLocation() {
-		return new Location(this.getWorld(), 1.0, 65, 1.0, -180, 0);
-	}
-
-	@Override
-	public Location getSpectatorLocation() {
-		return new Location(this.getWorld(), -10, 74, -57);
-	}
+class Classic extends SpeedrunMap {
 
 	@Override
 	public String getName() {
@@ -40,6 +30,16 @@ public class Classic extends SpeedrunMap {
 	@Override
 	public String getIdentifier() {
 		return "speedrun_classic";
+	}
+
+	@Override
+	Location getStartLocation() {
+		return new Location(this.getWorld(), 1.0, 65, 1.0, -180, 0);
+	}
+
+	@Override
+	Location getSpectatorLocation() {
+		return new Location(this.getWorld(), -10, 74, -57);
 	}
 
 }

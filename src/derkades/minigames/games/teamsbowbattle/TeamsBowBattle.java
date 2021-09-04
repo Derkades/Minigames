@@ -1,4 +1,4 @@
-package derkades.minigames.games;
+package derkades.minigames.games.teamsbowbattle;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -13,7 +13,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.inventory.ItemStack;
 
 import derkades.minigames.Minigames;
-import derkades.minigames.games.teamsbowbattle.TeamsBowBattleMap;
+import derkades.minigames.games.Game;
 import derkades.minigames.utils.MPlayer;
 import derkades.minigames.utils.MinigamesPlayerDamageEvent;
 import derkades.minigames.utils.MinigamesPlayerDamageEvent.DamageType;

@@ -1,4 +1,4 @@
-package derkades.minigames.games;
+package derkades.minigames.games.tntrun;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
@@ -16,11 +16,11 @@ import org.bukkit.event.player.PlayerMoveEvent;
 
 import derkades.minigames.GameState;
 import derkades.minigames.Minigames;
-import derkades.minigames.games.tntrun.TNTMap;
+import derkades.minigames.games.Game;
 import derkades.minigames.utils.MPlayer;
 import derkades.minigames.utils.Utils;
 
-public class TntRun extends Game<TNTMap> {
+public class TntRun extends Game<TntRunMap> {
 
 	@Override
 	public String getIdentifier() {
@@ -51,8 +51,8 @@ public class TntRun extends Game<TNTMap> {
 	}
 
 	@Override
-	public TNTMap[] getGameMaps() {
-		return TNTMap.MAPS;
+	public TntRunMap[] getGameMaps() {
+		return TntRunMap.MAPS;
 	}
 
 	@Override

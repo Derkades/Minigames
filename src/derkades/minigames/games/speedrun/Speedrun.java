@@ -1,4 +1,4 @@
-package derkades.minigames.games;
+package derkades.minigames.games.speedrun;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -13,7 +13,7 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.potion.PotionEffectType;
 
 import derkades.minigames.Minigames;
-import derkades.minigames.games.speedrun.SpeedrunMap;
+import derkades.minigames.games.Game;
 import derkades.minigames.utils.MPlayer;
 import net.md_5.bungee.api.ChatColor;
 

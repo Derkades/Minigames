@@ -7,25 +7,7 @@ import derkades.minigames.random.Size;
 import derkades.minigames.worlds.GameWorld;
 import xyz.derkades.derkutils.bukkit.BlockUtils;
 
-public class Future extends TNTMap {
-
-	@Override
-	public void restore() {
-		BlockUtils.fillArea(this.getWorld(), -6, 64, 6, 6, 64, -6, this.floorMaterial());
-		BlockUtils.fillArea(this.getWorld(), -6, 58, 6, 6, 58, -6, this.floorMaterial());
-		BlockUtils.fillArea(this.getWorld(), -6, 52, 6, 6, 52, -6, this.floorMaterial());
-		BlockUtils.fillArea(this.getWorld(), -6, 46, 6, 6, 46, -6, this.floorMaterial());
-	}
-
-	@Override
-	public Material floorMaterial() {
-		return Material.IRON_BLOCK;
-	}
-
-	@Override
-	public Location spawnLocation() {
-		return new Location(this.getWorld(), 0.5, 65, 0.5);
-	}
+class Future extends TntRunMap {
 
 	@Override
 	public String getName() {
@@ -50,6 +32,24 @@ public class Future extends TNTMap {
 	@Override
 	public String getIdentifier() {
 		return "tntrun_future";
+	}
+
+	@Override
+	void restore() {
+		BlockUtils.fillArea(this.getWorld(), -6, 64, 6, 6, 64, -6, this.floorMaterial());
+		BlockUtils.fillArea(this.getWorld(), -6, 58, 6, 6, 58, -6, this.floorMaterial());
+		BlockUtils.fillArea(this.getWorld(), -6, 52, 6, 6, 52, -6, this.floorMaterial());
+		BlockUtils.fillArea(this.getWorld(), -6, 46, 6, 6, 46, -6, this.floorMaterial());
+	}
+
+	@Override
+	Material floorMaterial() {
+		return Material.IRON_BLOCK;
+	}
+
+	@Override
+	Location spawnLocation() {
+		return new Location(this.getWorld(), 0.5, 65, 0.5);
 	}
 
 }

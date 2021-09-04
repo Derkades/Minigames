@@ -38,7 +38,7 @@ public class BreakTheBlock extends Game<BreakTheBlockMap> {
 
 	@Override
 	public String getName() {
-		return "Break the Block";
+		return "Gold Rush";
 	}
 
 	@Override

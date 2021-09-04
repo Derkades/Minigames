@@ -1,4 +1,4 @@
-package derkades.minigames.games;
+package derkades.minigames.games.spleef;
 
 import java.util.Set;
 import java.util.UUID;
@@ -19,7 +19,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
 import derkades.minigames.GameState;
-import derkades.minigames.games.spleef.SpleefMap;
+import derkades.minigames.games.Game;
 import derkades.minigames.utils.MPlayer;
 import derkades.minigames.utils.Scheduler;
 import derkades.minigames.utils.Utils;

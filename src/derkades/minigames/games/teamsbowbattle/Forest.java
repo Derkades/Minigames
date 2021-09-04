@@ -7,7 +7,7 @@ import derkades.minigames.Minigames;
 import derkades.minigames.random.Size;
 import derkades.minigames.worlds.GameWorld;
 
-public class Forest extends TeamsBowBattleMap {
+class Forest extends TeamsBowBattleMap {
 
 	@Override
 	public String getName() {
@@ -15,17 +15,7 @@ public class Forest extends TeamsBowBattleMap {
 	}
 
 	@Override
-	public Location getTeamRedSpawnLocation() {
-		return new Location(this.getWorld(), 0.5, 63, -34.5, 0f, 0f);
-	}
-
-	@Override
-	public Location getTeamBlueSpawnLocation() {
-		return new Location(this.getWorld(), 0.5, 63, 35.5, -180f, 0f);
-	}
-
-	@Override
-	public void onGameStart() {
+	public void onStart() {
 		Minigames.getOnlinePlayers().forEach((p) -> p.giveInfiniteEffect(PotionEffectType.SPEED, 1));
 	}
 
@@ -47,6 +37,16 @@ public class Forest extends TeamsBowBattleMap {
 	@Override
 	public String getIdentifier() {
 		return "teamsbowbattle_forest";
+	}
+
+	@Override
+	Location getTeamRedSpawnLocation() {
+		return new Location(this.getWorld(), 0.5, 63, -34.5, 0f, 0f);
+	}
+
+	@Override
+	Location getTeamBlueSpawnLocation() {
+		return new Location(this.getWorld(), 0.5, 63, 35.5, -180f, 0f);
 	}
 
 }

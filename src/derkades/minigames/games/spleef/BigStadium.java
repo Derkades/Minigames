@@ -7,17 +7,7 @@ import derkades.minigames.random.Size;
 import derkades.minigames.worlds.GameWorld;
 import xyz.derkades.derkutils.bukkit.BlockUtils;
 
-public class BigStadium extends SpleefMap {
-
-	@Override
-	public Location getStartLocation() {
-		return new Location(this.getWorld(), 0, 65, 0);
-	}
-
-	@Override
-	public void fill() {
-		BlockUtils.fillArea(this.getWorld(), 22, 64, -12, -22, 64, 13, Material.SNOW_BLOCK);
-	}
+class BigStadium extends SpleefMap {
 
 	@Override
 	public String getName() {
@@ -27,11 +17,6 @@ public class BigStadium extends SpleefMap {
 	@Override
 	public GameWorld getGameWorld() {
 		return GameWorld.SPLEEF_BIGSTADIUM;
-	}
-
-	@Override
-	public boolean enableFlyingBlocks() {
-		return false;
 	}
 
 	@Override
@@ -47,6 +32,21 @@ public class BigStadium extends SpleefMap {
 	@Override
 	public String getIdentifier() {
 		return "spleef_bigstadium";
+	}
+
+	@Override
+	Location getStartLocation() {
+		return new Location(this.getWorld(), 0, 65, 0);
+	}
+
+	@Override
+	void fill() {
+		BlockUtils.fillArea(this.getWorld(), 22, 64, -12, -22, 64, 13, Material.SNOW_BLOCK);
+	}
+
+	@Override
+	boolean enableFlyingBlocks() {
+		return false;
 	}
 
 }

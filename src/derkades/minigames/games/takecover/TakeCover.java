@@ -1,9 +1,9 @@
-package derkades.minigames.games;
+package derkades.minigames.games.takecover;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
 
-import derkades.minigames.games.takecover.TakeCoverMap;
+import derkades.minigames.games.Game;
 import derkades.minigames.utils.MPlayer;
 import derkades.minigames.utils.Scheduler;
 

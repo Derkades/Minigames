@@ -19,6 +19,7 @@ public enum GameWorld {
 
 	BOWSPLEEF_BOWSPLEEF,
 
+	BTB_CAKE,
 	BTB_PROTOTYPE,
 	BTB_JUNGLE,
 
