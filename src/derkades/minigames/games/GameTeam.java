@@ -11,16 +11,16 @@ import xyz.derkades.derkutils.ListUtils;
 
 public enum GameTeam {
 
-	RED(ChatColor.RED, Material.RED_STAINED_GLASS, Material.RED_CONCRETE, Material.RED_TERRACOTTA),
-	BLUE(ChatColor.BLUE, Material.BLUE_STAINED_GLASS, Material.BLUE_CONCRETE, Material.BLUE_TERRACOTTA),
-	GREEN(ChatColor.GREEN, Material.LIME_STAINED_GLASS, Material.LIME_CONCRETE, Material.LIME_TERRACOTTA),
-	ORANGE(ChatColor.GOLD, Material.ORANGE_STAINED_GLASS, Material.ORANGE_CONCRETE, Material.ORANGE_TERRACOTTA),
-	PURPLE(ChatColor.DARK_PURPLE, Material.PURPLE_STAINED_GLASS, Material.PURPLE_CONCRETE, Material.PURPLE_TERRACOTTA),
-	LIGHT_BLUE(ChatColor.BLUE, Material.LIGHT_BLUE_STAINED_GLASS, Material.LIGHT_BLUE_CONCRETE, Material.LIGHT_BLUE_TERRACOTTA),
-	YELLOW(ChatColor.YELLOW, Material.YELLOW_STAINED_GLASS, Material.YELLOW_CONCRETE, Material.YELLOW_TERRACOTTA),
-	PINK(ChatColor.LIGHT_PURPLE, Material.PINK_STAINED_GLASS, Material.PINK_CONCRETE, Material.PINK_TERRACOTTA),
-	LIME(ChatColor.GREEN, Material.LIME_STAINED_GLASS, Material.LIME_CONCRETE, Material.LIME_TERRACOTTA),
-	WHITE(ChatColor.WHITE, Material.WHITE_STAINED_GLASS, Material.WHITE_CONCRETE, Material.WHITE_TERRACOTTA),
+	RED("Red", ChatColor.RED, "RED"),
+	BLUE("Blue", ChatColor.BLUE, "BLUE"),
+	GREEN("Green", ChatColor.DARK_GREEN, "GREEN"),
+	ORANGE("Orange", ChatColor.GOLD, "ORANGE"),
+	PURPLE("Purple", ChatColor.DARK_PURPLE, "PURPLE"),
+	LIGHT_BLUE("Light Blue", ChatColor.BLUE, "LIGHT_BLUE"),
+	YELLOW("Yellow", ChatColor.YELLOW, "YELLOW"),
+	PINK("Pink", ChatColor.LIGHT_PURPLE, "PINK"),
+	LIME("Lime", ChatColor.GREEN, "LIME"),
+	WHITE("White", ChatColor.WHITE, "WHITE"),
 
 	;
 
@@ -31,13 +31,13 @@ public enum GameTeam {
 	private Material concrete;
 	private Material terracotta;
 
-	GameTeam(final ChatColor color, final Material glassBlock, final Material concrete, final Material terracotta) {
+	GameTeam(final String name, final ChatColor color, final String materialPrefix) {
 		this.color = color;
 		this.string = color + "" + ChatColor.BOLD + this.name();
-		this.glassBlock = glassBlock;
-		this.glassPane = Material.valueOf(glassBlock.name() + "_PANE");
-		this.concrete = concrete;
-		this.terracotta = terracotta;
+		this.glassBlock = Material.valueOf(materialPrefix + "_STAINED_GLASS");
+		this.glassPane = Material.valueOf(materialPrefix + "_STAINED_GLASS_PANE");
+		this.concrete = Material.valueOf(materialPrefix + "_CONCRETE");
+		this.terracotta = Material.valueOf(materialPrefix + "_TERRACOTTA");
 	}
 
 	public ChatColor getColor() {
