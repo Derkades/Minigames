@@ -2,17 +2,17 @@ package derkades.minigames.games.icyblowback;
 
 import org.bukkit.Location;
 
-import derkades.minigames.games.maps.GameMap;
+import derkades.minigames.games.GameMap;
 
-public abstract class IcyBlowbackMap extends GameMap {
+abstract class IcyBlowbackMap extends GameMap {
 
-	public static final IcyBlowbackMap[] MAPS = {
-			new IcyBlowback(),
+	static final IcyBlowbackMap[] MAPS = {
+			new IcyBlowbackMapImpl(),
 	};
 
-	public abstract Location[] getSpawnLocations();
+	abstract Location[] getSpawnLocations();
 
-	public abstract int getBottomFloorLevel();
+	abstract int getBottomFloorLevel();
 
 
 }

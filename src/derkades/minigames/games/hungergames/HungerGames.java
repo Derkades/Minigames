@@ -1,4 +1,4 @@
-package derkades.minigames.games;
+package derkades.minigames.games.hungergames;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,8 +13,7 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.event.EventHandler;
 
 import derkades.minigames.Minigames;
-import derkades.minigames.games.hungergames.HungerGamesLoot;
-import derkades.minigames.games.hungergames.HungerGamesMap;
+import derkades.minigames.games.Game;
 import derkades.minigames.utils.MPlayer;
 import derkades.minigames.utils.MinigamesPlayerDamageEvent;
 import derkades.minigames.utils.MinigamesPlayerDamageEvent.DamageType;

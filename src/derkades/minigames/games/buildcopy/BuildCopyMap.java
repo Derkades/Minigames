@@ -3,7 +3,7 @@ package derkades.minigames.games.buildcopy;
 import org.bukkit.Location;
 import org.bukkit.Material;
 
-import derkades.minigames.games.maps.GameMap;
+import derkades.minigames.games.GameMap;
 
 abstract class BuildCopyMap extends GameMap {
 

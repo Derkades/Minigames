@@ -3,7 +3,7 @@ package derkades.minigames.games.speedrun;
 import org.bukkit.Location;
 import org.bukkit.Material;
 
-import derkades.minigames.games.maps.GameMap;
+import derkades.minigames.games.GameMap;
 
 public abstract class SpeedrunMap extends GameMap {
 

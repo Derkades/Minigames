@@ -2,7 +2,7 @@ package derkades.minigames.games.decay;
 
 import org.bukkit.Location;
 
-import derkades.minigames.games.maps.GameMap;
+import derkades.minigames.games.GameMap;
 import derkades.minigames.utils.MPlayer;
 
 public abstract class DecayMap extends GameMap {

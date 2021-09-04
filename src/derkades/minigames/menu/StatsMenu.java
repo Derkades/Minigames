@@ -5,7 +5,7 @@ import org.bukkit.entity.Player;
 
 import derkades.minigames.Minigames;
 import derkades.minigames.games.Game;
-import derkades.minigames.games.maps.GameMap;
+import derkades.minigames.games.GameMap;
 import xyz.derkades.derkutils.NumberUtils;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
 import xyz.derkades.derkutils.bukkit.menu.IconMenu;

@@ -5,10 +5,35 @@ import org.bukkit.Location;
 import derkades.minigames.random.Size;
 import derkades.minigames.worlds.GameWorld;
 
-public class Windmill extends HungerGamesMap {
+class Windmill extends HungerGamesMap {
 
 	@Override
-	public Location[] getStartLocations() {
+	public String getName() {
+		return "Windmill";
+	}
+
+	@Override
+	public GameWorld getGameWorld() {
+		return GameWorld.HG_WINDMILL;
+	}
+
+	@Override
+	public String getCredits() {
+		return "Maps list on MCProHosting";
+	}
+
+	@Override
+	public Size getSize() {
+		return Size.LARGE;
+	}
+
+	@Override
+	public String getIdentifier() {
+		return "hungergames_windmill";
+	}
+
+	@Override
+	Location[] getStartLocations() {
 		return new Location[] {
 				new Location(this.getWorld(), 227.5, 70.5, 203.5),
 				new Location(this.getWorld(), 227.5, 70.5, 200.5),
@@ -25,7 +50,7 @@ public class Windmill extends HungerGamesMap {
 	}
 
 	@Override
-	public Location[] getLootLevelOneLocations() {
+	Location[] getLootLevelOneLocations() {
 		return new Location[] {
 				//center chests
 				new Location(this.getWorld(), 237, 70, 199),
@@ -77,7 +102,7 @@ public class Windmill extends HungerGamesMap {
 	}
 
 	@Override
-	public Location[] getLootLevelTwoLocations() {
+	Location[] getLootLevelTwoLocations() {
 		return new Location[] {
 				//house next to windmill
 				new Location(this.getWorld(), 258, 69, 171),
@@ -110,42 +135,17 @@ public class Windmill extends HungerGamesMap {
 	}
 
 	@Override
-	public String getName() {
-		return "Windmill";
-	}
-
-	@Override
-	public GameWorld getGameWorld() {
-		return GameWorld.HG_WINDMILL;
-	}
-
-	@Override
-	public String getCredits() {
-		return "Maps list on MCProHosting";
-	}
-
-	@Override
-	public Size getSize() {
-		return Size.LARGE;
-	}
-
-	@Override
-	public String getIdentifier() {
-		return "hungergames_windmill";
-	}
-
-	@Override
-	public Location getCenterLocation() {
+	Location getCenterLocation() {
 		return new Location(this.getWorld(), 232.5, 73, 201.5);
 	}
 
 	@Override
-	public double getMaxBorderSize() {
+	double getMaxBorderSize() {
 		return 400;
 	}
 
 	@Override
-	public double getMinBorderSize() {
+	double getMinBorderSize() {
 		return 40;
 	}
 

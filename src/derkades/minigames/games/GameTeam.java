@@ -1,4 +1,4 @@
-package derkades.minigames.games.teams;
+package derkades.minigames.games;
 
 import java.util.HashMap;
 import java.util.List;

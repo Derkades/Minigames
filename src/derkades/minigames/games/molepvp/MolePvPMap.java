@@ -2,19 +2,19 @@ package derkades.minigames.games.molepvp;
 
 import org.bukkit.Location;
 
-import derkades.minigames.games.maps.GameMap;
+import derkades.minigames.games.GameMap;
 
-public abstract class MolePvPMap extends GameMap {
+abstract class MolePvPMap extends GameMap {
 
-	public static final MolePvPMap[] MAPS = {
+	static final MolePvPMap[] MAPS = {
 			new Prototype(),
 	};
 
-	public abstract void setupMap();
+	abstract void setUpMap();
 
-	public abstract Location getTeamRedSpawnLocation();
+	abstract Location getTeamRedSpawnLocation();
 
-	public abstract Location getTeamBlueSpawnLocation();
+	abstract Location getTeamBlueSpawnLocation();
 
 
 }

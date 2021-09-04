@@ -24,7 +24,6 @@ import org.bukkit.util.Vector;
 import derkades.minigames.Logger;
 import derkades.minigames.Minigames;
 import derkades.minigames.Minigames.ShutdownReason;
-import derkades.minigames.games.teams.GameTeam;
 import derkades.minigames.games.tron.TronMap;
 import derkades.minigames.games.tron.TronSpawnLocation;
 import derkades.minigames.utils.MPlayer;

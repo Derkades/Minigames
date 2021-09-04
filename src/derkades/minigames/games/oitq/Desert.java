@@ -5,16 +5,11 @@ import org.bukkit.Location;
 import derkades.minigames.random.Size;
 import derkades.minigames.worlds.GameWorld;
 
-public class Desert extends OITQMap {
+class Desert extends OITQMap {
 
 	@Override
 	public String getName() {
 		return "Desert";
-	}
-
-	@Override
-	public Location getSpawnLocation() {
-		return new Location(this.getWorld(), -27, 72, -4);
 	}
 
 	@Override
@@ -35,6 +30,11 @@ public class Desert extends OITQMap {
 	@Override
 	public String getIdentifier() {
 		return "oneinthequiver_desert";
+	}
+
+	@Override
+	Location getSpawnLocation() {
+		return new Location(this.getWorld(), -27, 72, -4);
 	}
 
 }

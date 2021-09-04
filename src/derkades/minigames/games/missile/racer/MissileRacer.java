@@ -1,4 +1,4 @@
-package derkades.minigames.games;
+package derkades.minigames.games.missile.racer;
 
 import java.util.UUID;
 
@@ -15,8 +15,8 @@ import org.bukkit.potion.PotionEffectType;
 
 import derkades.minigames.GameState;
 import derkades.minigames.Minigames;
-import derkades.minigames.games.missile_racer.MissileRacerMap;
-import derkades.minigames.games.missiles.Missile;
+import derkades.minigames.games.Game;
+import derkades.minigames.games.missile.Missile;
 import derkades.minigames.utils.MPlayer;
 import derkades.minigames.utils.MinigamesPlayerDamageEvent;
 import xyz.derkades.derkutils.Cooldown;

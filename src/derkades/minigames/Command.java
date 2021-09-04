@@ -23,10 +23,10 @@ import org.bukkit.util.Vector;
 
 import derkades.minigames.Minigames.ShutdownReason;
 import derkades.minigames.games.Game;
-import derkades.minigames.games.maps.GameMap;
-import derkades.minigames.games.missile_wars.MissileWarsMap;
-import derkades.minigames.games.missiles.Missile;
-import derkades.minigames.games.missiles.Shield;
+import derkades.minigames.games.GameMap;
+import derkades.minigames.games.missile.Missile;
+import derkades.minigames.games.missile.Shield;
+import derkades.minigames.games.missile.wars.MissileWarsMap;
 import derkades.minigames.menu.GamesListMenu;
 import derkades.minigames.menu.MainMenu;
 import derkades.minigames.menu.StatsMenu;

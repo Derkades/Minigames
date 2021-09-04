@@ -17,7 +17,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import de.tr7zw.changeme.nbtapi.utils.MinecraftVersion;
 import derkades.minigames.games.Game;
-import derkades.minigames.games.maps.GameMap;
+import derkades.minigames.games.GameMap;
 import derkades.minigames.modules.AutoReloader;
 import derkades.minigames.modules.CancelInteract;
 import derkades.minigames.modules.ChatPoll;

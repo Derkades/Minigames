@@ -1,4 +1,4 @@
-package derkades.minigames.games.missile_racer;
+package derkades.minigames.games.missile.racer;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -8,7 +8,7 @@ import derkades.minigames.utils.MPlayer;
 import derkades.minigames.worlds.GameWorld;
 import xyz.derkades.derkutils.bukkit.BlockUtils;
 
-public class Prototype extends MissileRacerMap {
+class Prototype extends MissileRacerMap {
 
 	@Override
 	public Size getSize() {
@@ -49,17 +49,17 @@ public class Prototype extends MissileRacerMap {
 	}
 
 	@Override
-	public Location getSpawnLocation() {
+	Location getSpawnLocation() {
 		return new Location(this.getWorld(), -15, 66, -4);
 	}
 
 	@Override
-	public boolean isInFinishBounds(final MPlayer player) {
+	boolean isInFinishBounds(final MPlayer player) {
 		return player.isIn3dBounds(this.getWorld(), 5, 75, 11, -2, 80, 20);
 	}
 
 	@Override
-	public int getMinimumY() {
+	int getMinimumY() {
 		return 48;
 	}
 

@@ -1,4 +1,4 @@
-package derkades.minigames.games;
+package derkades.minigames.games.missile.wars;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -11,8 +11,8 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 
 import derkades.minigames.Minigames;
-import derkades.minigames.games.missile_wars.MissileWarsMap;
-import derkades.minigames.games.teams.GameTeam;
+import derkades.minigames.games.Game;
+import derkades.minigames.games.GameTeam;
 import derkades.minigames.utils.MPlayer;
 import derkades.minigames.utils.queue.TaskQueue;
 

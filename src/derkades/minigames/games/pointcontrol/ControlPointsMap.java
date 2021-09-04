@@ -2,7 +2,7 @@ package derkades.minigames.games.pointcontrol;
 
 import org.bukkit.Location;
 
-import derkades.minigames.games.maps.GameMap;
+import derkades.minigames.games.GameMap;
 import derkades.minigames.utils.MPlayer;
 
 public abstract class ControlPointsMap extends GameMap {

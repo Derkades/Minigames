@@ -1,4 +1,4 @@
-package derkades.minigames.games;
+package derkades.minigames.games.molepvp;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -13,7 +13,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.inventory.ItemStack;
 
 import derkades.minigames.Minigames;
-import derkades.minigames.games.molepvp.MolePvPMap;
+import derkades.minigames.games.Game;
 import derkades.minigames.utils.MPlayer;
 import derkades.minigames.utils.MinigamesPlayerDamageEvent;
 import derkades.minigames.utils.MinigamesPlayerDamageEvent.DamageType;
@@ -69,7 +69,7 @@ public class MolePvP extends Game<MolePvPMap> {
 		this.teamRed = new HashSet<>();
 		this.teamBlue = new HashSet<>();
 
-		this.map.setupMap();
+		this.map.setUpMap();
 
 		boolean team = false;
 

@@ -1,4 +1,4 @@
-package derkades.minigames.games.missiles;
+package derkades.minigames.games.missile;
 
 import java.util.Set;
 

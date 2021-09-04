@@ -2,7 +2,7 @@ package derkades.minigames.games.digdug;
 
 import org.bukkit.Location;
 
-import derkades.minigames.games.maps.GameMap;
+import derkades.minigames.games.GameMap;
 
 abstract class DigDugMap extends GameMap {
 

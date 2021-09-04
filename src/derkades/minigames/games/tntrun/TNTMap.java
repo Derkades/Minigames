@@ -3,7 +3,7 @@ package derkades.minigames.games.tntrun;
 import org.bukkit.Location;
 import org.bukkit.Material;
 
-import derkades.minigames.games.maps.GameMap;
+import derkades.minigames.games.GameMap;
 
 public abstract class TNTMap extends GameMap {
 

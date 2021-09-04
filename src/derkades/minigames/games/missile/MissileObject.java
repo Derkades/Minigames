@@ -1,4 +1,4 @@
-package derkades.minigames.games.missiles;
+package derkades.minigames.games.missile;
 
 import org.apache.commons.lang3.mutable.MutableInt;
 import org.bukkit.Location;

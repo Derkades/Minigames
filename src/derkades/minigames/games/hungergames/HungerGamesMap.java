@@ -2,26 +2,26 @@ package derkades.minigames.games.hungergames;
 
 import org.bukkit.Location;
 
-import derkades.minigames.games.maps.GameMap;
+import derkades.minigames.games.GameMap;
 
-public abstract class HungerGamesMap extends GameMap {
+abstract class HungerGamesMap extends GameMap {
 
-	public static final HungerGamesMap[] MAPS = {
+	static final HungerGamesMap[] MAPS = {
 			//new Prototype(),
 			new Treehouse(),
 			new Windmill(),
 	};
 
-	public abstract Location getCenterLocation();
+	abstract Location getCenterLocation();
 
-	public abstract Location[] getStartLocations();
+	abstract Location[] getStartLocations();
 
-	public abstract Location[] getLootLevelOneLocations();
+	abstract Location[] getLootLevelOneLocations();
 
-	public abstract Location[] getLootLevelTwoLocations();
+	abstract Location[] getLootLevelTwoLocations();
 
-	public abstract double getMaxBorderSize();
+	abstract double getMaxBorderSize();
 
-	public abstract double getMinBorderSize();
+	abstract double getMinBorderSize();
 
 }

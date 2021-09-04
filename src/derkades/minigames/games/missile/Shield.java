@@ -1,10 +1,10 @@
-package derkades.minigames.games.missiles;
+package derkades.minigames.games.missile;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.BlockFace;
 
-import derkades.minigames.games.teams.GameTeam;
+import derkades.minigames.games.GameTeam;
 
 public enum Shield {
 

@@ -5,7 +5,7 @@ import static org.bukkit.ChatColor.RED;
 import org.bukkit.Bukkit;
 
 import derkades.minigames.games.Game;
-import derkades.minigames.games.maps.GameMap;
+import derkades.minigames.games.GameMap;
 import derkades.minigames.random.RandomPicking;
 import derkades.minigames.utils.Scheduler;
 import net.md_5.bungee.api.ChatColor;

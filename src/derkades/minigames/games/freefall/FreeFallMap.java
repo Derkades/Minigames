@@ -2,7 +2,7 @@ package derkades.minigames.games.freefall;
 
 import org.bukkit.Location;
 
-import derkades.minigames.games.maps.GameMap;
+import derkades.minigames.games.GameMap;
 
 abstract class FreeFallMap extends GameMap {
 

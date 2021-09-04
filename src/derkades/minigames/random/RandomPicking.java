@@ -9,7 +9,7 @@ import org.bukkit.Bukkit;
 
 import derkades.minigames.Logger;
 import derkades.minigames.games.Game;
-import derkades.minigames.games.maps.GameMap;
+import derkades.minigames.games.GameMap;
 import derkades.minigames.utils.Utils;
 
 public class RandomPicking {

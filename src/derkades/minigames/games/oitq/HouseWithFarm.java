@@ -5,11 +5,10 @@ import org.bukkit.Location;
 import derkades.minigames.random.Size;
 import derkades.minigames.worlds.GameWorld;
 
-public class HouseWithFarm extends OITQMap {
+class HouseWithFarm extends OITQMap {
 
 	@Override
 	public Location getSpawnLocation() {
-		//return new Location(Var.WORLD, 183.5, 86, 213.5);
 		return new Location(this.getWorld(), -21, 58, -3);
 	}
 

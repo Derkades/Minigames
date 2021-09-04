@@ -9,7 +9,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 
 import derkades.minigames.games.Game;
-import derkades.minigames.games.maps.GameMap;
+import derkades.minigames.games.GameMap;
 
 public class CommandTabCompleter implements TabCompleter {
 

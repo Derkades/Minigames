@@ -1,11 +1,11 @@
-package derkades.minigames.games.missiles;
+package derkades.minigames.games.missile;
 
-import static derkades.minigames.games.missiles.MissileBlock.BACK;
-import static derkades.minigames.games.missiles.MissileBlock.DOWN;
-import static derkades.minigames.games.missiles.MissileBlock.FRONT;
-import static derkades.minigames.games.missiles.MissileBlock.LEFT;
-import static derkades.minigames.games.missiles.MissileBlock.RIGHT;
-import static derkades.minigames.games.missiles.MissileBlock.UP;
+import static derkades.minigames.games.missile.MissileBlock.BACK;
+import static derkades.minigames.games.missile.MissileBlock.DOWN;
+import static derkades.minigames.games.missile.MissileBlock.FRONT;
+import static derkades.minigames.games.missile.MissileBlock.LEFT;
+import static derkades.minigames.games.missile.MissileBlock.RIGHT;
+import static derkades.minigames.games.missile.MissileBlock.UP;
 
 import java.util.HashMap;
 import java.util.Map;

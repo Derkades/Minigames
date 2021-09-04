@@ -1,4 +1,4 @@
-package derkades.minigames.games;
+package derkades.minigames.games.parkour;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -13,7 +13,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerMoveEvent;
 
 import derkades.minigames.Minigames;
-import derkades.minigames.games.parkour.ParkourMap;
+import derkades.minigames.games.Game;
 import derkades.minigames.utils.MPlayer;
 import derkades.minigames.utils.Utils;
 

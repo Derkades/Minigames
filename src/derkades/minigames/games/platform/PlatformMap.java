@@ -2,7 +2,7 @@ package derkades.minigames.games.platform;
 
 import org.bukkit.Location;
 
-import derkades.minigames.games.maps.GameMap;
+import derkades.minigames.games.GameMap;
 
 public abstract class PlatformMap extends GameMap {
 

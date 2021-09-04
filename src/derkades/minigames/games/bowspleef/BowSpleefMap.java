@@ -4,7 +4,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 
-import derkades.minigames.games.maps.GameMap;
+import derkades.minigames.games.GameMap;
 import xyz.derkades.derkutils.bukkit.BlockUtils;
 
 abstract class BowSpleefMap extends GameMap {

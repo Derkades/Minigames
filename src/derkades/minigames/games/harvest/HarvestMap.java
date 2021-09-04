@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.bukkit.Location;
 
-import derkades.minigames.games.maps.GameMap;
+import derkades.minigames.games.GameMap;
 
 abstract class HarvestMap extends GameMap {
 

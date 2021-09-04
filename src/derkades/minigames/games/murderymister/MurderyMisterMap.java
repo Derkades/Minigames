@@ -2,19 +2,19 @@ package derkades.minigames.games.murderymister;
 
 import org.bukkit.Location;
 
-import derkades.minigames.games.maps.GameMap;
+import derkades.minigames.games.GameMap;
 
-public abstract class MurderyMisterMap extends GameMap {
+abstract class MurderyMisterMap extends GameMap {
 
-	public static final MurderyMisterMap[] MAPS = {
+	static final MurderyMisterMap[] MAPS = {
 			new DeckedOutCastle(),
 			new HauntedHouse(),
 	};
 
-	public abstract Location[] getSpawnLocations();
+	abstract Location[] getSpawnLocations();
 
-	public abstract Location[] getFlickeringRedstoneLamps();
+	abstract Location[] getFlickeringRedstoneLamps();
 
-	public abstract Location[] getCandles();
+	abstract Location[] getCandles();
 
 }

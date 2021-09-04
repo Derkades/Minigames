@@ -1,4 +1,4 @@
-package derkades.minigames.games;
+package derkades.minigames.games.oitq;
 
 import java.util.Set;
 import java.util.UUID;
@@ -18,7 +18,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
 import derkades.minigames.Minigames;
-import derkades.minigames.games.oitq.OITQMap;
+import derkades.minigames.games.Game;
 import derkades.minigames.utils.MPlayer;
 import derkades.minigames.utils.MinigamesPlayerDamageEvent;
 import derkades.minigames.utils.MinigamesPlayerDamageEvent.DamageType;

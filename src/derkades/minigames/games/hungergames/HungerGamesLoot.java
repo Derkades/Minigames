@@ -6,9 +6,9 @@ import org.bukkit.Material;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
 import xyz.derkades.derkutils.bukkit.lootchests.LootItem;
 
-public class HungerGamesLoot {
+class HungerGamesLoot {
 
-	public static final LootItem[] LOOT_1 = {
+	static final LootItem[] LOOT_1 = {
 			new LootItem(Material.WOODEN_SWORD, 0.6f),
 			new LootItem(Material.STONE_SWORD, 0.5f),
 			new LootItem(Material.IRON_SWORD, 0.1f),
@@ -36,7 +36,7 @@ public class HungerGamesLoot {
 			new LootItem(Material.ARROW, 6, 12, 0.2f),
 	};
 
-	public static final LootItem[] LOOT_2 = {
+	static final LootItem[] LOOT_2 = {
 			new LootItem(Material.COOKED_BEEF, 1, 3, 0.7f),
 			new LootItem(Material.IRON_SWORD, 0.4f),
 			new LootItem(Material.DIAMOND_BOOTS, 0.4f),

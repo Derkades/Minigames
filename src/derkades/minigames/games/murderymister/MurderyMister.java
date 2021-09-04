@@ -1,4 +1,4 @@
-package derkades.minigames.games;
+package derkades.minigames.games.murderymister;
 
 import java.util.List;
 import java.util.Set;
@@ -26,7 +26,7 @@ import derkades.minigames.GameState;
 import derkades.minigames.Logger;
 import derkades.minigames.Minigames;
 import derkades.minigames.Var;
-import derkades.minigames.games.murderymister.MurderyMisterMap;
+import derkades.minigames.games.Game;
 import derkades.minigames.utils.MPlayer;
 import derkades.minigames.utils.MinigamesPlayerDamageEvent;
 import derkades.minigames.utils.MinigamesPlayerDamageEvent.DamageType;

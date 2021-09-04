@@ -1,4 +1,4 @@
-package derkades.minigames.games.missile_wars;
+package derkades.minigames.games.missile.wars;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -8,7 +8,7 @@ import derkades.minigames.utils.queue.TaskQueue;
 import derkades.minigames.worlds.GameWorld;
 import xyz.derkades.derkutils.bukkit.BlockUtils;
 
-public class MissileWars extends MissileWarsMap {
+class MissileWarsMapImpl extends MissileWarsMap {
 
 	@Override
 	public Size getSize() {
@@ -69,12 +69,12 @@ public class MissileWars extends MissileWarsMap {
 	}
 
 	@Override
-	public Location getTeamRedSpawnLocation() {
+	Location getTeamRedSpawnLocation() {
 		return new Location(this.getWorld(), -1.0, 65, -54, 0, 0);
 	}
 
 	@Override
-	public Location getTeamBlueSpawnLocation() {
+	Location getTeamBlueSpawnLocation() {
 		return new Location(this.getWorld(), -1.0, 65, 54, 180, 0);
 	}
 

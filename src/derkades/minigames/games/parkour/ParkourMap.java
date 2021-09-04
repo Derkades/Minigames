@@ -4,12 +4,12 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
-import derkades.minigames.games.maps.GameMap;
+import derkades.minigames.games.GameMap;
 import derkades.minigames.utils.MPlayer;
 
-public abstract class ParkourMap extends GameMap {
+abstract class ParkourMap extends GameMap {
 
-	public static final ParkourMap[] MAPS = {
+	static final ParkourMap[] MAPS = {
 			new JungleRun(),
 			//new Plains(),
 			//new RedstoneCave(),
@@ -17,18 +17,18 @@ public abstract class ParkourMap extends GameMap {
 			new TNT(),
 	};
 
-	public abstract Location getStartLocation();
+	abstract Location getStartLocation();
 
-	public abstract Location getSpectatorLocation();
+	abstract Location getSpectatorLocation();
 
-	public abstract boolean hasFinished(MPlayer player, Material blockType);
+	abstract boolean hasFinished(MPlayer player, Material blockType);
 
-	public abstract boolean hasDied(MPlayer player, Material blockType);
+	abstract boolean hasDied(MPlayer player, Material blockType);
 
-	public abstract boolean spectatorFreeFlight();
+	abstract boolean allowSpectatorFreeFlight();
 
-	public abstract int getDuration();
+	abstract int getDuration();
 
-	public void onPlayerFinish(final Player player) {}
+	void onPlayerFinish(final Player player) {}
 
 }

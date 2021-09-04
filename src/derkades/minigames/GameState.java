@@ -1,7 +1,7 @@
 package derkades.minigames;
 
 import derkades.minigames.games.Game;
-import derkades.minigames.games.maps.GameMap;
+import derkades.minigames.games.GameMap;
 
 public enum GameState {
 

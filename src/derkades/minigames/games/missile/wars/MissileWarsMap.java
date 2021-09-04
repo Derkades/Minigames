@@ -1,13 +1,13 @@
-package derkades.minigames.games.missile_wars;
+package derkades.minigames.games.missile.wars;
 
 import org.bukkit.Location;
 
-import derkades.minigames.games.maps.GameMap;
+import derkades.minigames.games.GameMap;
 
 public abstract class MissileWarsMap extends GameMap {
 
 	public static final MissileWarsMap[] MAPS = {
-			new MissileWars(),
+			new MissileWarsMapImpl(),
 	};
 
 	public abstract void buildArena();
@@ -16,8 +16,8 @@ public abstract class MissileWarsMap extends GameMap {
 
 	public abstract Location getArenaBorderMax();
 
-	public abstract Location getTeamRedSpawnLocation();
+	abstract Location getTeamRedSpawnLocation();
 
-	public abstract Location getTeamBlueSpawnLocation();
+	abstract Location getTeamBlueSpawnLocation();
 
 }

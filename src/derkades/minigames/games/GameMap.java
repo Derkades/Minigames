@@ -1,4 +1,4 @@
-package derkades.minigames.games.maps;
+package derkades.minigames.games;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -7,7 +7,6 @@ import org.bukkit.World;
 
 import derkades.minigames.Minigames;
 import derkades.minigames.Minigames.ShutdownReason;
-import derkades.minigames.games.Game;
 import derkades.minigames.random.RandomlyPickable;
 import derkades.minigames.worlds.GameWorld;
 

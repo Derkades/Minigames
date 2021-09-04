@@ -5,12 +5,7 @@ import org.bukkit.Location;
 import derkades.minigames.random.Size;
 import derkades.minigames.worlds.GameWorld;
 
-public class Castle extends OITQMap {
-
-	@Override
-	public Location getSpawnLocation() {
-		return new Location(this.getWorld(), 0, 65.5, 0);
-	}
+class Castle extends OITQMap {
 
 	@Override
 	public String getName() {
@@ -35,6 +30,11 @@ public class Castle extends OITQMap {
 	@Override
 	public String getIdentifier() {
 		return "oneinthequiver_castle";
+	}
+
+	@Override
+	public Location getSpawnLocation() {
+		return new Location(this.getWorld(), 0, 65.5, 0);
 	}
 
 }

@@ -1,4 +1,4 @@
-package derkades.minigames.games.missiles;
+package derkades.minigames.games.missile;
 
 import org.bukkit.Location;
 import org.bukkit.block.BlockFace;
