@@ -61,6 +61,7 @@ public abstract class GameMap implements RandomlyPickable {
 	}
 
 	private static final Map<String, GameMap> BY_IDENTIFIER = new HashMap<>();
+	private static final Map<GameMap, Game<? extends GameMap>> MAP_TO_GAME = new HashMap<>();
 
 	static {
 		for (final Game<? extends GameMap> game : Game.GAMES) {
@@ -75,12 +76,17 @@ public abstract class GameMap implements RandomlyPickable {
 //					continue;
 				}
 				BY_IDENTIFIER.put(map.getIdentifier(), map);
+				MAP_TO_GAME.put(map, game);
 			}
 		}
 	}
 
 	public static GameMap fromIdentifier(final String identifier) {
 		return BY_IDENTIFIER.get(identifier);
+	}
+
+	public static Game<? extends GameMap> getGame(final GameMap map) {
+		return MAP_TO_GAME.get(map);
 	}
 
 }
