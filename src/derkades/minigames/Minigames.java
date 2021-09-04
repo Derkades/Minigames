@@ -187,6 +187,10 @@ public class Minigames extends JavaPlugin implements Listener {
     	return Bukkit.getOnlinePlayers().stream().map(MPlayer::new).collect(Collectors.toList());
     }
 
+    public static int getOnlinePlayerCount() {
+    	return Bukkit.getOnlinePlayers().size();
+    }
+
     public static List<MPlayer> getOnlinePlayersInRandomOrder() {
     	final List<MPlayer> players = getOnlinePlayers();
     	Collections.shuffle(players);

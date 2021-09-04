@@ -1,14 +1,13 @@
 package derkades.minigames.games.teams;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang3.Validate;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+
+import xyz.derkades.derkutils.ListUtils;
 
 public enum GameTeam {
 
@@ -16,6 +15,12 @@ public enum GameTeam {
 	BLUE(ChatColor.BLUE, Material.BLUE_STAINED_GLASS, Material.BLUE_CONCRETE, Material.BLUE_TERRACOTTA),
 	GREEN(ChatColor.GREEN, Material.LIME_STAINED_GLASS, Material.LIME_CONCRETE, Material.LIME_TERRACOTTA),
 	ORANGE(ChatColor.GOLD, Material.ORANGE_STAINED_GLASS, Material.ORANGE_CONCRETE, Material.ORANGE_TERRACOTTA),
+	PURPLE(ChatColor.DARK_PURPLE, Material.PURPLE_STAINED_GLASS, Material.PURPLE_CONCRETE, Material.PURPLE_TERRACOTTA),
+	LIGHT_BLUE(ChatColor.BLUE, Material.LIGHT_BLUE_STAINED_GLASS, Material.LIGHT_BLUE_CONCRETE, Material.LIGHT_BLUE_TERRACOTTA),
+	YELLOW(ChatColor.YELLOW, Material.YELLOW_STAINED_GLASS, Material.YELLOW_CONCRETE, Material.YELLOW_TERRACOTTA),
+	PINK(ChatColor.LIGHT_PURPLE, Material.PINK_STAINED_GLASS, Material.PINK_CONCRETE, Material.PINK_TERRACOTTA),
+	LIME(ChatColor.GREEN, Material.LIME_STAINED_GLASS, Material.LIME_CONCRETE, Material.LIME_TERRACOTTA),
+	WHITE(ChatColor.WHITE, Material.WHITE_STAINED_GLASS, Material.WHITE_CONCRETE, Material.WHITE_TERRACOTTA),
 
 	;
 
@@ -76,17 +81,18 @@ public enum GameTeam {
 	}
 
 	public static List<GameTeam> getTeams(final int amount) {
-		final GameTeam[] array = GameTeam.values();
-		Validate.isTrue(amount <= array.length, "Requested too many teams");
-		final List<GameTeam> teams = new ArrayList<>(array.length);
-		for (final GameTeam team : array) {
-			teams.add(team);
-		}
-		Collections.shuffle(teams);
-		while (teams.size() > amount) {
-			teams.remove(teams.size() - 1);
-		}
-		return Collections.unmodifiableList(teams);
+//		final GameTeam[] array = GameTeam.values();
+//		Validate.isTrue(amount <= array.length, "Requested too many teams");
+//		final List<GameTeam> teams = new ArrayList<>(array.length);
+//		for (final GameTeam team : array) {
+//			teams.add(team);
+//		}
+//		Collections.shuffle(teams);
+//		while (teams.size() > amount) {
+//			teams.remove(teams.size() - 1);
+//		}
+//		return Collections.unmodifiableList(teams);
+		return ListUtils.chooseMultiple(GameTeam.values(), amount);
 	}
 
 }

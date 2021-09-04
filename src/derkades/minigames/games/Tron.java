@@ -1,11 +1,10 @@
 package derkades.minigames.games;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.UUID;
 
 import org.bukkit.ChatColor;
@@ -25,9 +24,12 @@ import org.bukkit.util.Vector;
 import derkades.minigames.Logger;
 import derkades.minigames.Minigames;
 import derkades.minigames.Minigames.ShutdownReason;
+import derkades.minigames.games.teams.GameTeam;
 import derkades.minigames.games.tron.TronMap;
+import derkades.minigames.games.tron.TronSpawnLocation;
 import derkades.minigames.utils.MPlayer;
 import derkades.minigames.utils.queue.TaskQueue;
+import xyz.derkades.derkutils.ListUtils;
 import xyz.derkades.derkutils.bukkit.BlockUtils;
 
 public class Tron extends Game<TronMap> {
@@ -78,13 +80,13 @@ public class Tron extends Game<TronMap> {
 	private List<BukkitTask> tasks;
 	private List<UUID> spectators;
 
-	private Map<UUID, TronTeam> teams;
+	private Map<UUID, TronPlayer> players;
 
 	@Override
 	public void onPreStart() {
 		this.tasks = new ArrayList<>();
 		this.spectators = new ArrayList<>();
-		this.teams = new HashMap<>();
+		this.players = new HashMap<>();
 
 		BlockUtils.fillArea(this.map.getWorld(),
 				this.map.getInnerCornerOne().getBlockX(), this.map.getInnerCornerOne().getBlockY(), this.map.getInnerCornerOne().getBlockZ(),
@@ -96,13 +98,19 @@ public class Tron extends Game<TronMap> {
 				this.map.getInnerCornerTwo().getBlockX(), this.map.getInnerCornerTwo().getBlockY() + 2, this.map.getInnerCornerTwo().getBlockZ(),
 				Material.AIR);
 
-		final List<TronTeam> availableTeams = new LinkedList<>(Arrays.asList(TronTeam.values()));
+		final List<MPlayer> mplayers = Minigames.getOnlinePlayersInRandomOrder();
+		final List<GameTeam> teams = GameTeam.getTeams(mplayers.size());
+		final List<TronSpawnLocation> spawnLocations = ListUtils.chooseMultiple(this.map.getSpawnLocations(), mplayers.size());
 
-		for (final MPlayer player : Minigames.getOnlinePlayers()) {
-			final TronTeam playerTeam = availableTeams.remove(0);
-			playerTeam.direction = this.map.getSpawnDirection(playerTeam);
-			this.teams.put(player.getUniqueId(), playerTeam);
-			final Location loc = this.map.getSpawnLocations().get(playerTeam).clone().add(0, PLAYER_Y_DISTANCE, 0);
+		for (int i = 0; i < mplayers.size(); i++) {
+			final MPlayer player = mplayers.get(i);
+			final GameTeam team = teams.get(i);
+			final TronSpawnLocation spawnLocation = spawnLocations.get(i);
+
+			final TronPlayer tronPlayer = new TronPlayer(team, spawnLocation);
+			this.players.put(player.getUniqueId(), tronPlayer);
+
+			final Location loc = spawnLocation.getLocation().clone().add(0, PLAYER_Y_DISTANCE, 0);
 			loc.setYaw(90f);
 			TaskQueue.add(() -> {
 				player.teleport(loc);
@@ -135,13 +143,13 @@ public class Tron extends Game<TronMap> {
 
 	@Override
 	public boolean endEarly() {
-		return Tron.this.teams.size() < 2;
+		return this.players.size() < 2;
 	}
 
 	@Override
 	public void onEnd() {
-		if (Tron.this.teams.size() == 1) {
-			Tron.this.endGame(Tron.this.teams.keySet().toArray(new UUID[] {})[0]);
+		if (this.players.size() == 1) {
+			Tron.this.endGame(this.players.keySet().toArray(UUID[]::new)[0]);
 		} else {
 			Tron.this.endGame();
 		}
@@ -149,18 +157,20 @@ public class Tron extends Game<TronMap> {
 		this.tasks.forEach((task) -> task.cancel());
 		this.tasks = null;
 		this.spectators = null;
-		this.teams = null;
+		this.players = null;
 	}
 
 	@Override
 	public void onPlayerJoin(final MPlayer player) {
 		this.spectators.add(player.getUniqueId());
-		this.teams.remove(player.getUniqueId());
-		player.dieTo(this.map.getSpawnLocations().get(TronTeam.WHITE));
+		this.players.remove(player.getUniqueId());
+		player.dieTo(this.map.getSpectatorLocation());
 	}
 
 	@Override
-	public void onPlayerQuit(final MPlayer player) {}
+	public void onPlayerQuit(final MPlayer player) {
+		this.players.remove(player.getUniqueId());
+	}
 
 	public enum Direction {
 
@@ -179,39 +189,25 @@ public class Tron extends Game<TronMap> {
 
 	}
 
-	public enum TronTeam {
+	private class TronPlayer {
 
-		ORANGE(ChatColor.GOLD, Material.ORANGE_CONCRETE, Material.ORANGE_STAINED_GLASS),
-		PURPLE(ChatColor.DARK_PURPLE, Material.PURPLE_CONCRETE, Material.PURPLE_STAINED_GLASS),
-		LIGHT_BLUE(ChatColor.BLUE, Material.LIGHT_BLUE_CONCRETE, Material.LIGHT_BLUE_STAINED_GLASS),
-		YELLOW(ChatColor.YELLOW, Material.YELLOW_CONCRETE, Material.YELLOW_STAINED_GLASS),
-		GREEN(ChatColor.DARK_GREEN, Material.GREEN_CONCRETE, Material.GREEN_STAINED_GLASS),
-		PINK(ChatColor.LIGHT_PURPLE, Material.PINK_CONCRETE, Material.PINK_STAINED_GLASS),
-		LIME(ChatColor.GREEN, Material.LIME_CONCRETE, Material.LIME_STAINED_GLASS),
-		RED(ChatColor.RED, Material.RED_CONCRETE, Material.RED_STAINED_GLASS),
-		WHITE(ChatColor.WHITE, Material.WHITE_CONCRETE, Material.WHITE_STAINED_GLASS),
-		BLUE(ChatColor.DARK_BLUE, Material.BLUE_CONCRETE, Material.BLUE_STAINED_GLASS),
-
-		;
-
-		@SuppressWarnings("unused")
-		private final ChatColor chatColor;
-		private final Material bottomBlock;
-		private final Material glassBlock;
-
+		private final GameTeam team;
 		private Direction direction;
 
-		TronTeam(final ChatColor chatColor, final Material bottomBlock, final Material glassBlock){
-			this.chatColor = chatColor;
-			this.bottomBlock = bottomBlock;
-			this.glassBlock = glassBlock;
+		TronPlayer(final GameTeam team, final TronSpawnLocation spawnLocation) {
+			this.team = team;
+			this.direction = spawnLocation.getDirection();
 		}
 
-		public Direction getDirection() {
+		private GameTeam getTeam() {
+			return this.team;
+		}
+
+		private Direction getDirection() {
 			return this.direction;
 		}
 
-		public void rotateLeft() {
+		private void rotateLeft() {
 			switch(this.direction) {
 			case NORTH:
 				this.direction = Direction.WEST;
@@ -230,7 +226,7 @@ public class Tron extends Game<TronMap> {
 			}
 		}
 
-		public void rotateRight() {
+		private void rotateRight() {
 			switch(this.direction) {
 			case NORTH:
 				this.direction = Direction.EAST;
@@ -262,7 +258,7 @@ public class Tron extends Game<TronMap> {
 
 		@Override
 		public void run() {
-			if (Tron.this.teams == null) {
+			if (Tron.this.players == null) {
 				Logger.warning("Stopping tron block placer tasks because teams is null. This should never happen");
 				this.cancel();
 				return;
@@ -276,7 +272,7 @@ public class Tron extends Game<TronMap> {
 
 			final MPlayer player = new MPlayer((Player) this.offlinePlayer);
 
-			if (!Tron.this.teams.containsKey(player.getUniqueId())) {
+			if (!Tron.this.players.containsKey(player.getUniqueId())) {
 				Logger.warning("Player " + this.offlinePlayer.getName() + " is not in the teams hashmap");
 				cancel();
 				return;
@@ -296,24 +292,22 @@ public class Tron extends Game<TronMap> {
 
 			this.i++;
 
-			final TronTeam team = Tron.this.teams.get(player.getUniqueId());
+			final TronPlayer tronPlayer = Tron.this.players.get(player.getUniqueId());
 
 			boolean changedDirection = false;
 
 			final PlayerInventory inv = player.getInventory();
-			if (inv.getHeldItemSlot() == 3) {
-				team.rotateLeft();
-				changedDirection = true;
-			} else if (inv.getHeldItemSlot() == 5) {
-				team.rotateRight();
-				changedDirection = true;
-			}
 
 			if (inv.getHeldItemSlot() != 4) {
+				if (inv.getHeldItemSlot() < 4) {
+					tronPlayer.rotateLeft();
+				} else if (inv.getHeldItemSlot() > 4) {
+					tronPlayer.rotateRight();
+				}
+				changedDirection = true;
 				inv.setHeldItemSlot(4);
 			}
 
-			final Direction direction = team.getDirection();
 
 			final Location walkingTo = player.getLocation();
 			walkingTo.add(0, -PLAYER_Y_DISTANCE, 0);
@@ -321,10 +315,11 @@ public class Tron extends Game<TronMap> {
 			location.add(0, -PLAYER_Y_DISTANCE, 0);
 
 			final Block block = location.getBlock();
-			block.setType(team.glassBlock);
-			block.getRelative(BlockFace.UP).setType(team.glassBlock);
-			block.getRelative(BlockFace.DOWN).setType(team.bottomBlock);
+			block.setType(tronPlayer.getTeam().getGlassBlock());
+			block.getRelative(BlockFace.UP).setType(tronPlayer.getTeam().getGlassBlock());
+			block.getRelative(BlockFace.DOWN).setType(tronPlayer.getTeam().getConcrete());
 
+			final Direction direction = tronPlayer.getDirection();
 			Vector newVelo;
 			switch(direction) {
 			case NORTH:
@@ -369,38 +364,33 @@ public class Tron extends Game<TronMap> {
 				cancel();
 
 				// Try to get killer
-				TronTeam killerTeam = null;
-				for (final TronTeam team2 : TronTeam.values()) {
-					if (toType.equals(team2.glassBlock)) {
-						killerTeam = team2;
+				TronPlayer killer = null;
+				MPlayer killerPlayer = null;
+				for (final Entry<UUID, TronPlayer> e : Tron.this.players.entrySet()) {
+					final TronPlayer tronPlayer2 = e.getValue();
+					if (toType.equals(tronPlayer2.getTeam().getGlassBlock())) {
+						killer = tronPlayer2;
+						killerPlayer = Minigames.getPlayer(e.getKey());
 						break;
 					}
 				}
 
-				if (killerTeam != null) {
-					// Try to get player
-					MPlayer killer = null;
-					for (final MPlayer player2 : Minigames.getOnlinePlayers()) {
-						if (Tron.this.teams.containsKey(player2.getUniqueId()) &&
-								Tron.this.teams.get(player2.getUniqueId()).equals(killerTeam)) {
-							killer = player2;
-						}
-					}
-
-					if (killer != null) {
-						sendMessage(player.getName() + " was killed by " + killer.getName());
-					} else {
-						// can occur for example if the killer has logged out
-						final String killerTeamName = killerTeam.name().toLowerCase().replace("_", " ");
+				if (killer != null) {
+					if (killerPlayer == null) {
+						// Player logged out, in theory the team shouldn't exist anymore but just in case
+						final String killerTeamName = killer.getTeam().name().toLowerCase().replace("_", " ");
 						sendMessage(player.getName() + " was killed by the " + killerTeamName + " team");
+					} else {
+						sendMessage(player.getName() + " was killed by " + killerPlayer.getName());
 					}
 				} else {
-					sendMessage(player.getName() + " ran into a wall.");
+					// Ran into a wall or into a player who already died
+					sendMessage(player.getName() + " died.");
 				}
 
 				// dead
 				Tron.this.spectators.add(player.getUniqueId());
-				Tron.this.teams.remove(player.getUniqueId());
+				Tron.this.players.remove(player.getUniqueId());
 
 				player.die();
 			}

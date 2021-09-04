@@ -1,11 +1,7 @@
 package derkades.minigames.games.tron;
 
-import java.util.Map;
-
 import org.bukkit.Location;
 
-import derkades.minigames.games.Tron.Direction;
-import derkades.minigames.games.Tron.TronTeam;
 import derkades.minigames.games.maps.GameMap;
 
 public abstract class TronMap extends GameMap {
@@ -34,8 +30,10 @@ public abstract class TronMap extends GameMap {
 	 */
 	public abstract Location getInnerCornerTwo();
 
-	public abstract Map<TronTeam, Location> getSpawnLocations();
+	public abstract TronSpawnLocation[] getSpawnLocations();
 
-	public abstract Direction getSpawnDirection(TronTeam team);
+	public abstract Location getSpectatorLocation();
+
+//	public abstract Direction getSpawnDirection(GameTeam team);
 
 }
