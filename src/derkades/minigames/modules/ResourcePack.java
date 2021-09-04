@@ -25,7 +25,6 @@ import derkades.minigames.Minigames;
 import derkades.minigames.utils.PluginLoadEvent;
 import derkades.minigames.utils.PluginUnloadEvent;
 import derkades.minigames.utils.Scheduler;
-import xyz.derkades.derkutils.NumberUtils;
 
 public class ResourcePack extends Module {
 
@@ -92,7 +91,7 @@ public class ResourcePack extends Module {
 				return;
 			}
 			final byte[] pack = response.body();
-			Logger.debug("Received %s MB.", NumberUtils.roundApprox(pack.length / 1_000_000f, 2));
+			Logger.debug("Received %.2f MB.", pack.length / 1_000_000f);
 			final byte[] hash = DigestUtils.sha1(pack);
 			Logger.debug("Pack SHA-1 hash: %s", Hex.encodeHexString(hash));
 			if (Arrays.equals(this.hash, hash)) {
