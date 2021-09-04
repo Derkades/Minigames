@@ -65,6 +65,10 @@ public abstract class GameMap implements RandomlyPickable {
 
 	static {
 		for (final Game<? extends GameMap> game : Game.GAMES) {
+			if (game.getGameMaps() == null) {
+				continue;
+			}
+
 			for (final GameMap map : game.getGameMaps()) {
 				if (BY_IDENTIFIER.containsKey(map.getIdentifier())) {
 					throw new IllegalStateException("Duplicate identifier " + map.getIdentifier());
