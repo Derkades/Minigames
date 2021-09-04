@@ -57,7 +57,6 @@ public class Minigames extends JavaPlugin implements Listener {
 
 //	public static Economy economy = null;
 
-	@SuppressWarnings("deprecation")
 	@Override
 	public void onEnable(){
 		instance = this;
@@ -68,9 +67,8 @@ public class Minigames extends JavaPlugin implements Listener {
 
 		Logger.info("Plugin enabled");
 
-		Var.WORLD = Bukkit.getWorld("minigames");
 		Var.LOBBY_WORLD = Bukkit.getWorld("minigames");
-		Var.LOBBY_LOCATION = new Location(Var.WORLD, 219.5, 64, 279.5, 180, 0);
+		Var.LOBBY_LOCATION = new Location(Var.LOBBY_WORLD, 219.5, 64, 279.5, 180, 0);
 		GameMap.init();
 
 		getServer().getPluginManager().registerEvents(new GlobalListeners(), this);
