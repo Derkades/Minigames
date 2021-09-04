@@ -59,8 +59,6 @@ public class ResourcePack extends Module {
 		} else {
 			Logger.warning("Unable to load previous resource pack hash from config file");
 		}
-
-		refreshAsync();
 	}
 
 	@EventHandler
