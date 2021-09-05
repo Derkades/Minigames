@@ -17,7 +17,6 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.EntityShootBowEvent;
-import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
@@ -33,6 +32,7 @@ import derkades.minigames.utils.MinigamesPlayerDamageEvent.DamageType;
 import derkades.minigames.utils.Scheduler;
 import derkades.minigames.utils.Utils;
 import derkades.minigames.utils.queue.TaskQueue;
+import io.papermc.paper.event.player.AsyncChatEvent;
 import net.md_5.bungee.api.ChatColor;
 import xyz.derkades.derkutils.ListUtils;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
@@ -253,7 +253,7 @@ public class MurderyMister extends Game<MurderyMisterMap> {
 	}
 
 	@EventHandler
-	public void chat(final AsyncPlayerChatEvent event) {
+	public void chat(final AsyncChatEvent event) {
 		if (GameState.getCurrentState().gameIsRunning() && event.getPlayer().getGameMode() == GameMode.SPECTATOR) {
 			new MPlayer(event).sendTitle("", ChatColor.RED + "Chat is disabled for spectators");
 			event.setCancelled(true);

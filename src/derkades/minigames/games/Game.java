@@ -80,12 +80,13 @@ import derkades.minigames.utils.MPlayer;
 import derkades.minigames.utils.Scheduler;
 import derkades.minigames.utils.Utils;
 import derkades.minigames.utils.queue.TaskQueue;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.event.HoverEvent;
+import net.kyori.adventure.text.format.TextDecoration;
 import net.md_5.bungee.api.ChatColor;
-import net.md_5.bungee.api.chat.ComponentBuilder;
-import net.md_5.bungee.api.chat.HoverEvent;
-import net.md_5.bungee.api.chat.hover.content.Text;
 import xyz.derkades.derkutils.Hastebin;
 import xyz.derkades.derkutils.NumberUtils;
+import xyz.derkades.derkutils.bukkit.StandardTextColor;
 
 public abstract class Game<M extends GameMap> implements Listener, RandomlyPickable {
 
@@ -198,42 +199,34 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 
 		// Send description
 		for (final Player player : Bukkit.getOnlinePlayers()) {
-			final String prefix = Utils.getChatPrefix(ChatColor.AQUA, 'G');
-
-			player.sendMessage(prefix + DARK_GRAY + "-----------------------------------------");
-			player.spigot().sendMessage(new ComponentBuilder("").appendLegacy(prefix)
-					.append(this.getName()).bold(true).color(GOLD).append(" (" + NumberUtils.roundApprox(this.getWeight(), 1) + ")")
-					.color(GRAY).bold(false).append(" [hover for help]").color(YELLOW)
-					.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
-							new Text(new ComponentBuilder("The number shown after the game name in parentheses\n"
-									+ "is the game weight. A higher weight means that the\n"
-									+ "minigame has a higher chance of being picked. The\n"
-									+ "game weight can be increased or decreased by voting\n"
-									+ "on the poll at the end of the game.").color(GRAY).create())))
-					.create());
+			player.sendMessage(DARK_GRAY + "-----------------------------------------");
+			player.sendMessage(Component.text().append(
+					Component.text(this.getName()).decorate(TextDecoration.BOLD).color(StandardTextColor.GOLD)).append(
+							Component.text(String.format(" (multiplier %.1f, hover for help)", this.getWeight()))
+									.color(StandardTextColor.GRAY)
+									.hoverEvent(HoverEvent.showText(Component
+											.text("The number shown after the game name in parentheses\n"
+													+ "is the game weight. A higher weight means that the\n"
+													+ "minigame has a higher chance of being picked. The\n"
+													+ "game weight can be increased or decreased by voting\n"
+													+ "on the poll at the end of the game.")
+											.color(StandardTextColor.GRAY)))));
 
 			if (!Minigames.getInstance().getConfig().getStringList("disabled-description")
 					.contains(player.getUniqueId().toString())) {
 				if (this.getDescription() != null) {
-					for (final String line : this.getDescription()) {
-						player.sendMessage(prefix + line);
-					}
+					Arrays.stream(this.getDescription()).forEach(player::sendMessage);
 				} else {
 					Logger.warning("No description for game %s", this.getName());
 				}
-				player.sendMessage(prefix + "Minimum players: " + YELLOW + this.getRequiredPlayers());
+				player.sendMessage("Minimum players: " + YELLOW + this.getRequiredPlayers());
 			}
 
 			if (this.map != null) {
-				player.sendMessage(prefix + "Map: " + YELLOW + this.map.getName() + GRAY + " (" + NumberUtils.roundApprox(this.map.getWeight(), 1) + ")");
+				player.sendMessage("Map: " + YELLOW + this.map.getName() + GRAY + " (" + NumberUtils.roundApprox(this.map.getWeight(), 1) + ")");
 			}
 
-			player.sendMessage(prefix + DARK_GRAY + "-----------------------------------------");
-		}
-
-		// Load world now to avoid lag spike when teleporting
-		if (this.map.getGameWorld() != null) {
-			this.map.getGameWorld().load();
+			player.sendMessage(DARK_GRAY + "-----------------------------------------");
 		}
 
 		GameState.setState(GameState.COUNTDOWN, this);
@@ -366,8 +359,17 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 		}.runTaskTimer(Minigames.getInstance(), 0, 20);
 	}
 
+	@Deprecated
 	protected void sendMessage(final String message){
 		Bukkit.broadcastMessage(Utils.getChatPrefix(ChatColor.AQUA, 'G') + message);
+	}
+
+	protected void sendPlainMessage(final String message) {
+		Bukkit.broadcast(Component.text(message).color(StandardTextColor.GRAY));
+	}
+
+	protected void sendMessage(final Component message) {
+		Bukkit.broadcast(Component.text().append(message).build());
 	}
 
 	protected void endGame() {
@@ -466,15 +468,15 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 			AutoRotate.startNewRandomGame();
 		});
 
-		Scheduler.delay(20*20, () -> {
-			// Unload world from previous game. It can be done now, because all players should
-			// be teleported to the lobby by now.
-			if (this.map.getGameWorld() != null) {
-				this.map.getGameWorld().unload();
-			} else {
-				Logger.warning("Game %s is still in lobby world", this.getName());
-			}
-		});
+//		Scheduler.delay(20*20, () -> {
+//			// Unload world from previous game. It can be done now, because all players should
+//			// be teleported to the lobby by now.
+//			if (this.map.getGameWorld() != null) {
+//				this.map.getGameWorld().unload();
+//			} else {
+//				Logger.warning("Game %s is still in lobby world", this.getName());
+//			}
+//		});
 	}
 
 	private void saveGameResult(final List<Player> winners, final boolean skipped) {

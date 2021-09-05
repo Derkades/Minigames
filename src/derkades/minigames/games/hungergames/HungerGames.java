@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.WorldBorder;
@@ -16,7 +15,6 @@ import derkades.minigames.Minigames;
 import derkades.minigames.games.Game;
 import derkades.minigames.utils.MPlayer;
 import derkades.minigames.utils.MinigamesPlayerDamageEvent;
-import derkades.minigames.utils.MinigamesPlayerDamageEvent.DamageType;
 import derkades.minigames.utils.Scheduler;
 import derkades.minigames.utils.Utils;
 import derkades.minigames.utils.Winners;
@@ -159,24 +157,16 @@ public class HungerGames extends Game<HungerGamesMap> {
 			player.dropItems();
 			player.dieUp(2);
 
-			if (event.getType().equals(DamageType.ENTITY)) {
-				final MPlayer killer = event.getDamagerPlayer();
-
-				if (killer == null) {
-					Bukkit.broadcastMessage("error, killer unknown");
-				}
-
+			final MPlayer killer = event.getDamagerPlayer();
+			if (killer != null) {
 				final int playersLeft = (int) this.all.stream().filter(p -> this.dead.contains(p)).count();
 				this.sendMessage(String.format("%s has been killed by %s. There are %s players left.",
 						player.getName(), killer.getName(), playersLeft));
-			} else if (event.getType().equals(DamageType.SELF)) {
+			} else {
 				final int playersLeft = (int) this.all.stream().filter(p -> this.dead.contains(p)).count();
 				this.sendMessage(String.format("%s has died. There are %s players left.",
 						player.getName(), playersLeft));
-			} else {
-				throw new AssertionError();
 			}
-
 		}
 	}
 

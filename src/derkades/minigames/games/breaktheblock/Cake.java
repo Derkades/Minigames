@@ -13,6 +13,7 @@ import derkades.minigames.Logger;
 import derkades.minigames.random.Size;
 import derkades.minigames.utils.MPlayer;
 import derkades.minigames.worlds.GameWorld;
+import net.kyori.adventure.text.Component;
 import xyz.derkades.derkutils.bukkit.BlockUtils;
 
 public class Cake extends BreakTheBlockMap {
@@ -51,7 +52,7 @@ public class Cake extends BreakTheBlockMap {
 		final Block block = this.getWorld().getBlockAt(x, y, z);
 		block.setType(Material.CRIMSON_WALL_SIGN, false);
 		final Sign sign = (Sign) block.getState();
-		sign.setLine(1, "Eat Me!");
+		sign.line(1, Component.text("Eat Me!"));
 		sign.setGlowingText(true);
 		sign.setColor(DyeColor.RED);
 		sign.update();
