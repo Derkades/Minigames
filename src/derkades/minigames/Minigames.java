@@ -23,6 +23,7 @@ import derkades.minigames.modules.CancelInteract;
 import derkades.minigames.modules.ChatPoll;
 import derkades.minigames.modules.DisableDamage;
 import derkades.minigames.modules.DisableInventoryItemMove;
+import derkades.minigames.modules.DynamicMotd;
 import derkades.minigames.modules.HeadTextureCaching;
 import derkades.minigames.modules.InfoBar;
 import derkades.minigames.modules.JazzRoom;
@@ -101,6 +102,7 @@ public class Minigames extends JavaPlugin implements Listener {
 		CHAT_POLL = new ChatPoll();
 		new DisableDamage();
 		new DisableInventoryItemMove();
+		new DynamicMotd();
 		new HeadTextureCaching();
 		new InfoBar();
 		new JazzRoom();
