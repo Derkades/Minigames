@@ -28,6 +28,7 @@ import derkades.minigames.Minigames;
 import derkades.minigames.Points;
 import derkades.minigames.modules.SneakPrevention;
 import derkades.minigames.utils.queue.TaskQueue;
+import net.kyori.adventure.text.Component;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.BaseComponent;
@@ -227,7 +228,11 @@ public class MPlayer {
     }
 
     public void queueTeleport(final Location location) {
-    	TaskQueue.add(() -> this.player.teleport(location));
+    	TaskQueue.add(() -> this.player.teleportAsync(location));
+    }
+
+    public void queueTeleport(final Location location, final Runnable callback) {
+    	TaskQueue.add(() -> this.player.teleportAsync(location).thenRun(callback));
     }
 
     public void setAllowFlight(final boolean allowFlight) {
@@ -499,16 +504,26 @@ public class MPlayer {
 		this.sendActionBar(TextComponent.fromLegacyText(message));
 	}
 
+	@Deprecated
 	public void sendActionBar(final BaseComponent... components) {
 		this.player.spigot().sendMessage(ChatMessageType.ACTION_BAR, components);
+	}
+
+	public void sendActionBar(final Component message) {
+		this.player.sendActionBar(message);
 	}
 
 	public void sendChat(final String message) {
 		this.player.sendMessage(message);
 	}
 
+	@Deprecated
 	public void sendChat(final BaseComponent... components) {
 		this.player.spigot().sendMessage(components);
+	}
+
+	public void sendChat(final Component message) {
+		this.player.sendMessage(message);
 	}
 
 }

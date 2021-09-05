@@ -1,32 +1,31 @@
 package derkades.minigames;
 
-import static org.bukkit.ChatColor.RED;
-
 import org.bukkit.Bukkit;
 
 import derkades.minigames.games.Game;
 import derkades.minigames.games.GameMap;
 import derkades.minigames.random.RandomPicking;
 import derkades.minigames.utils.Scheduler;
-import net.md_5.bungee.api.ChatColor;
+import net.kyori.adventure.text.Component;
+import xyz.derkades.derkutils.bukkit.StandardTextColor;
 
 public class AutoRotate {
 
 	public static void startNewRandomGame() {
 		if (!Minigames.getInstance().getConfig().getBoolean("autorotate")) {
-			Bukkit.broadcastMessage("AutoRotate disabled, not starting a new game");
+			Bukkit.broadcast(Component.text("AutoRotate disabled, not starting a new game"));
 			return;
 		}
 
 		if (Minigames.STOP_GAMES) {
-			Bukkit.broadcastMessage(RED + "An admin stopped the next game from starting. This is probably because some maintenance needs to be done.");
+			Bukkit.broadcast(Component.text("An admin stopped the next game from starting. This is probably because some maintenance needs to be done.").color(StandardTextColor.RED));
 			Minigames.STOP_GAMES = false;
 			GameState.setState(GameState.IDLE_MAINTENANCE);
 			return;
 		}
 
 		if (Bukkit.getOnlinePlayers().size() < 2) {
-			Bukkit.broadcastMessage(ChatColor.RED + "Not enough players to start a game.");
+			Bukkit.broadcast(Component.text("Not enough players to start a game.").color(StandardTextColor.RED));
 			Scheduler.delay(8*20, AutoRotate::startNewRandomGame);
 			return;
 		}

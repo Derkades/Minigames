@@ -133,7 +133,7 @@ public enum GameWorld {
 	 * Creates world or just loads it if it already exists
 	 */
 	public World load() {
-		Logger.debug("Loading %s", toString());
+		Logger.debug("Loading world %s", toString());
 
 		final WorldCreator creator = new WorldCreator(getName());
 		creator.generateStructures(false);
@@ -146,6 +146,7 @@ public enum GameWorld {
 		world.setTime(6000);
 		world.setDifficulty(Difficulty.NORMAL);
 		world.setSpawnLocation(0, 65, 0);
+		world.setKeepSpawnInMemory(false);
 
 		world.setGameRule(GameRule.ANNOUNCE_ADVANCEMENTS, false); 			// Whether advancements should be announced in chat
 		world.setGameRule(GameRule.COMMAND_BLOCK_OUTPUT, false); 			// Whether command blocks should notify admins when they perform commands
@@ -184,6 +185,7 @@ public enum GameWorld {
 		return world;
 	}
 
+	@Deprecated
 	public boolean unload() {
 		final World world = Bukkit.getWorld(getName());
 		if (world == null) {

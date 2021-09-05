@@ -9,7 +9,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
-import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
@@ -18,18 +17,27 @@ import derkades.minigames.Minigames.ShutdownReason;
 import derkades.minigames.games.Game;
 import derkades.minigames.utils.MPlayer;
 import derkades.minigames.utils.MinigamesPlayerDamageEvent;
-import derkades.minigames.utils.Scheduler;
-import derkades.minigames.utils.Utils;
+import io.papermc.paper.event.player.AsyncChatEvent;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.TextColor;
 import net.md_5.bungee.api.ChatColor;
-import net.md_5.bungee.api.chat.ClickEvent;
 
 public class GlobalListeners implements Listener {
+
+	private Component getJoinLeaveMessage(final String name, final ChatColor color) {
+		final TextColor textColor = TextColor.color(color.getColor().getRGB());
+		return Component.text("[")
+				.append(Component.text("-").color(textColor))
+				.append(Component.text("] "))
+				.append(Component.text(name).color(textColor));
+	}
 
 	@EventHandler
 	public void onJoin(final PlayerJoinEvent event){
 		final MPlayer player = new MPlayer(event.getPlayer());
 
-		event.setJoinMessage(String.format("[%s+%s] %s| %s%s", ChatColor.GREEN, ChatColor.RESET, ChatColor.DARK_GRAY, ChatColor.GREEN, player.getName()));
+//		event.setJoinMessage(String.format("[%s+%s] %s| %s%s", ChatColor.GREEN, ChatColor.RESET, ChatColor.DARK_GRAY, ChatColor.GREEN, player.getName()));
+		event.joinMessage(getJoinLeaveMessage(player.getName(), ChatColor.GREEN));
 
 		// Anti collision
 		Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "team join global " + player.getName());
@@ -56,23 +64,24 @@ public class GlobalListeners implements Listener {
 			player.teleport(Var.LOBBY_LOCATION);
 			player.applyLobbySettings();
 
-			Scheduler.delay(1, () -> player.spigot().sendMessage(
-						Utils.getComponentBuilderWithPrefix(ChatColor.GREEN, 'P')
-						.append("For feature requests and bug reports, ")
-						.color(ChatColor.GRAY)
-						.append("click here")
-						.underlined(true)
-						.event(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://github.com/Derkades/Minigames/issues"))
-						.append(".")
-						.underlined(false)
-						.create()));
+//			Scheduler.delay(1, () -> player.spigot().sendMessage(
+//						Utils.getComponentBuilderWithPrefix(ChatColor.GREEN, 'P')
+//						.append("For feature requests and bug reports, ")
+//						.color(ChatColor.GRAY)
+//						.append("click here")
+//						.underlined(true)
+//						.event(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://github.com/Derkades/Minigames/issues"))
+//						.append(".")
+//						.underlined(false)
+//						.create()));
 		}
 	}
 
 	@EventHandler
 	public void onQuit(final PlayerQuitEvent event){
 		final MPlayer player = new MPlayer(event);
-		event.setQuitMessage(String.format("[%s-%s] %s| %s%s", ChatColor.RED, ChatColor.RESET, ChatColor.DARK_GRAY, ChatColor.RED, player.getName()));
+//		event.setQuitMessage(String.format("[%s-%s] %s| %s%s", ChatColor.RED, ChatColor.RESET, ChatColor.DARK_GRAY, ChatColor.RED, player.getName()));
+		event.quitMessage(getJoinLeaveMessage(player.getName(), ChatColor.RED));
 
 		if (GameState.getCurrentState().isInGame()) {
 			GameState.getCurrentGame().onPlayerQuit(player); // TODO move to game class?
@@ -87,8 +96,13 @@ public class GlobalListeners implements Listener {
 	}
 
 	@EventHandler
-	public void onChat(final AsyncPlayerChatEvent event) {
-		event.setFormat(Utils.getChatPrefix(ChatColor.AQUA, 'C') + ChatColor.WHITE + "%s: " + ChatColor.GRAY + "%s");
+	public void onChat(final AsyncChatEvent event) {
+		event.message(
+				Component.text(event.getPlayer().getName())
+				.append(Component.text(": ").color(TextColor.color(0x000000)))
+				.append(event.originalMessage())
+				);
+//		event.setFormat(Utils.getChatPrefix(ChatColor.AQUA, 'C') + ChatColor.WHITE + "%s: " + ChatColor.GRAY + "%s");
 	}
 
 	@EventHandler
@@ -130,7 +144,8 @@ public class GlobalListeners implements Listener {
 
 	@EventHandler
 	public void onDeath(final PlayerDeathEvent event) {
-		event.setDeathMessage("");
+//		event.setDeathMessage("");
+		event.deathMessage(Component.empty());
 		Minigames.shutdown(ShutdownReason.EMERGENCY_AUTOMATIC, "A player died: " + event.getEntity().getName());
 	}
 

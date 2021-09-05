@@ -36,7 +36,7 @@ import derkades.minigames.utils.MPlayer;
 import derkades.minigames.utils.Scheduler;
 import derkades.minigames.utils.Utils;
 import derkades.minigames.utils.queue.TaskQueue;
-import derkades.minigames.worlds.GameWorld;
+import net.kyori.adventure.text.Component;
 import net.md_5.bungee.api.ChatColor;
 import xyz.derkades.derkutils.Hastebin;
 
@@ -82,8 +82,12 @@ public class Command implements CommandExecutor {
 
 		if (args.length == 1){
 			if ((args[0].equalsIgnoreCase("start") || args[0].equals("b")) && sender.hasPermission("minigames.start")) {
-				AutoRotate.startNewRandomGame();
-				Minigames.STOP_GAMES = false;
+				if (GameState.getCurrentState() == GameState.IDLE_MAINTENANCE) {
+					AutoRotate.startNewRandomGame();
+					Minigames.STOP_GAMES = false;
+				} else {
+					sender.sendMessage("this command will only start a new game when the server is in maintenance mode");
+				}
 			} else if ((args[0].equalsIgnoreCase("stop") || args[0].equals("e")) && sender.hasPermission("minigames.stop")) {
 				sender.sendMessage(ChatColor.RED + "! STOPPED GAMES !");
 				Minigames.STOP_GAMES = true;
@@ -93,25 +97,25 @@ public class Command implements CommandExecutor {
 			} else if (args[0].equalsIgnoreCase("min") && sender.hasPermission("minigames.min")) {
 				Minigames.BYPASS_PLAYER_MINIMUM_CHECKS = true;
 				sender.sendMessage("Bypassing minimum player check");
-			} else if (args[0].equals("reloadworlds") && sender.hasPermission("minigames.world.reload")) {
-				Logger.info("Reloading worlds, this may take a long time and cause lag..");
-
-				for (final GameWorld world : GameWorld.values()) {
-					TaskQueue.add(() -> {
-						world.load();
-						world.unload();
-					});
-				}
-
-				Logger.info("Reloading worlds done.");
-			} else if (args[0].equals("unloadworlds") && sender.hasPermission("minigames.world.unload")) {
-				Logger.info("Unloading worlds");
-
-				for (final GameWorld world : GameWorld.values()) {
-					world.unload();
-				}
-
-				Logger.info("Reloading worlds done.");
+//			} else if (args[0].equals("reloadworlds") && sender.hasPermission("minigames.world.reload")) {
+//				Logger.info("Reloading worlds, this may take a long time and cause lag..");
+//
+//				for (final GameWorld world : GameWorld.values()) {
+//					TaskQueue.add(() -> {
+//						world.load();
+//						world.unload();
+//					});
+//				}
+//
+//				Logger.info("Reloading worlds done.");
+//			} else if (args[0].equals("unloadworlds") && sender.hasPermission("minigames.world.unload")) {
+//				Logger.info("Unloading worlds");
+//
+//				for (final GameWorld world : GameWorld.values()) {
+//					world.unload();
+//				}
+//
+//				Logger.info("Reloading worlds done.");
 			} else if (args[0].equalsIgnoreCase("list")) {
 				new GamesListMenu((Player) sender);
 			} else if (args[0].equals("damage") && sender.hasPermission("minigames.damage")) {
@@ -132,7 +136,7 @@ public class Command implements CommandExecutor {
 			} else if (args[0].equals("stats")) {
 				new StatsMenu((Player) sender);
 			} else if (args[0].equals("jazz") && sender.hasPermission("minigames.music")) {
-				Bukkit.broadcastMessage("Initiating jazz mode...");
+				Bukkit.broadcast(Component.text("Initiating jazz mode..."));
 				Scheduler.delay(15, () -> {
 					for (final Player player : Bukkit.getOnlinePlayers()) {
 						player.stopSound(Sound.MUSIC_DISC_13);

@@ -9,13 +9,11 @@ import org.kohsuke.github.GitHub;
 
 import derkades.minigames.utils.Scheduler;
 import derkades.minigames.utils.Utils;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.event.ClickEvent;
+import net.kyori.adventure.text.event.HoverEvent;
 import net.md_5.bungee.api.ChatColor;
-import net.md_5.bungee.api.chat.BaseComponent;
-import net.md_5.bungee.api.chat.ClickEvent;
-import net.md_5.bungee.api.chat.ComponentBuilder;
-import net.md_5.bungee.api.chat.HoverEvent;
-import net.md_5.bungee.api.chat.hover.content.Content;
-import net.md_5.bungee.api.chat.hover.content.Text;
+import xyz.derkades.derkutils.bukkit.StandardTextColor;
 
 public class BugCommand implements CommandExecutor {
 
@@ -23,18 +21,14 @@ public class BugCommand implements CommandExecutor {
 
 	private static final String UNAVAILABLE = Utils.getChatPrefix(ChatColor.AQUA, 'P') + "Sorry, this command is temporarily unavailable.";
 
-	private static final Content CLICK_TO_VISIT = new Text(
-			new ComponentBuilder("Click to visit https://github.com/Derkades/Minigames/issues")
-			.color(ChatColor.GRAY).create());
-
-	private static final BaseComponent[] THANKS = new ComponentBuilder("")
-			.appendLegacy(Utils.getChatPrefix(ChatColor.AQUA, 'P') + "Thanks for letting us know. You can view all open issues ")
-			.append("here.")
-			.color(ChatColor.YELLOW)
-			.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, CLICK_TO_VISIT))
-			.event(new ClickEvent(ClickEvent.Action.OPEN_URL,
-					"https://github.com/Derkades/Minigames/issues"))
-			.create();
+	private static final Component THANKS = Component.text()
+			.append(Component.text("Thanks for letting us know. You can view all open issues ")
+					.color(StandardTextColor.GRAY))
+			.append(Component.text("here").color(StandardTextColor.YELLOW)
+					.hoverEvent(HoverEvent.showText(
+							Component.text("Click to visit https://github.com/Derkades/Minigames/issues").color(StandardTextColor.GRAY)))
+					.clickEvent(ClickEvent.openUrl("https://github.com/Derkades/Minigames/issues")))
+			.append(Component.text(".").color(StandardTextColor.GRAY)).build();
 
 	@Override
 	public boolean onCommand(final CommandSender sender, final Command arg1, final String label, final String[] args) {
@@ -73,7 +67,7 @@ public class BugCommand implements CommandExecutor {
 //					issue.addLabels(repo.getLabel("bot"), repo.getLabel(issueLabel));
 //				}
 
-				player.spigot().sendMessage(THANKS);
+				player.sendMessage(THANKS);
 			} catch (final Exception e) {
 				Logger.warning("%s encountered an issue while trying to create an issue", sender.getName());
 				player.sendMessage("An error occured while trying to create an issue.");

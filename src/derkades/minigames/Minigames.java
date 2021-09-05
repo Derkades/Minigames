@@ -24,6 +24,7 @@ import derkades.minigames.modules.ChatPoll;
 import derkades.minigames.modules.DisableDamage;
 import derkades.minigames.modules.DisableInventoryItemMove;
 import derkades.minigames.modules.DynamicMotd;
+import derkades.minigames.modules.GameWorldManagement;
 import derkades.minigames.modules.HeadTextureCaching;
 import derkades.minigames.modules.InfoBar;
 import derkades.minigames.modules.JazzRoom;
@@ -43,7 +44,8 @@ import derkades.minigames.utils.queue.TaskQueue;
 import derkades.minigames.worlds.GameWorld;
 import derkades.minigames.worlds.WorldTeleportCommand;
 import derkades.minigames.worlds.WorldTeleportCommandCompleter;
-import net.md_5.bungee.api.ChatColor;
+import net.kyori.adventure.text.Component;
+import xyz.derkades.derkutils.bukkit.StandardTextColor;
 
 public class Minigames extends JavaPlugin implements Listener {
 
@@ -103,6 +105,7 @@ public class Minigames extends JavaPlugin implements Listener {
 		new DisableDamage();
 		new DisableInventoryItemMove();
 		new DynamicMotd();
+		new GameWorldManagement();
 		new HeadTextureCaching();
 		new InfoBar();
 		new JazzRoom();
@@ -131,16 +134,14 @@ public class Minigames extends JavaPlugin implements Listener {
 		});
 
 		Bukkit.getPluginManager().callEvent(new PluginLoadEvent());
+
+		for (final GameWorld world : GameWorld.values()) {
+			TaskQueue.add(() -> world.load());
+		}
 	}
 
 	@Override
 	public void onDisable(){
-		Logger.debug("Unloading worlds");
-
-		for (final GameWorld gWorld : GameWorld.values()) {
-			gWorld.unload();
-		}
-
 		// Hacky solution to call events, regular callEvent doesn't work when plugin is disabled
 		final PluginUnloadEvent event = new PluginUnloadEvent();
 		for (final RegisteredListener listener : PluginUnloadEvent.getHandlerList().getRegisteredListeners()) {
@@ -205,10 +206,13 @@ public class Minigames extends JavaPlugin implements Listener {
 
     public static void shutdown(final ShutdownReason reason, final String text) {
     	if (reason == ShutdownReason.EMERGENCY_AUTOMATIC) {
-    		Bukkit.broadcastMessage(ChatColor.RED + "Something went wrong, so an emergency shutdown been performed automatically. "
-    				+ "Please notify a server administrator if they are not online.");
+			Bukkit.broadcast(
+					Component
+							.text("Something went wrong, so an emergency shutdown been performed automatically. Please "
+									+ "notify a server administrator if they are not online.")
+							.color(StandardTextColor.RED));
     	} else if (reason == ShutdownReason.EMERGENCY_MANUAL) {
-    		Bukkit.broadcastMessage(ChatColor.RED + "An administrator has performed an emergency shutdown.");
+    		Bukkit.broadcast(Component.text("An administrator has performed an emergency shutdown.").color(StandardTextColor.RED));
     	} else {
     		shutdown(ShutdownReason.EMERGENCY_AUTOMATIC, "Shutdown reason is invalid or null. Original text: " + text);
     		return;
