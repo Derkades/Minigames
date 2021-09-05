@@ -99,7 +99,6 @@ public class InfoBar extends Module {
 	@EventHandler
 	public void onLoad(final PluginLoadEvent event) {
 		this.bar = Bukkit.getServer().createBossBar("...loading...", BarColor.WHITE, BarStyle.SOLID);
-		System.out.println(this.bar.isVisible());
 		for (final Player player : Bukkit.getOnlinePlayers()) {
 			this.bar.addPlayer(player);
 		}
