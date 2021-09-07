@@ -107,8 +107,8 @@ public class GlobalListeners implements Listener {
 			public @NotNull Component render(@NotNull final Player source, @NotNull final Component sourceDisplayName,
 					@NotNull final Component message) {
 				return sourceDisplayName
-					.append(Component.text(": ").color(TextColor.color(0x000000)))
-					.append(message.color(StandardTextColor.GRAY));
+						.append(Component.text(": ").color(TextColor.color(0x000000)))
+						.append(message.color(StandardTextColor.GRAY));
 			}
 
 		}));

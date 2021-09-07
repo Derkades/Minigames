@@ -3,7 +3,6 @@ package derkades.minigames.utils.queue;
 import java.util.LinkedList;
 import java.util.Queue;
 
-import derkades.minigames.Logger;
 import derkades.minigames.utils.Scheduler;
 
 public class TaskQueue {
@@ -21,7 +20,7 @@ public class TaskQueue {
 	public static void start() {
 		Scheduler.repeat(20, 1, () -> {
 			if (!QUEUE.isEmpty()) {
-				Logger.debug("Processing task queue, " + QUEUE.size() + " entries left.");
+//				Logger.debug("Processing task queue, " + QUEUE.size() + " entries left.");
 				QUEUE.remove().run();
 			}
 		});
