@@ -12,15 +12,19 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.jetbrains.annotations.NotNull;
 
 import derkades.minigames.Minigames.ShutdownReason;
 import derkades.minigames.games.Game;
 import derkades.minigames.utils.MPlayer;
 import derkades.minigames.utils.MinigamesPlayerDamageEvent;
+import io.papermc.paper.chat.ChatRenderer;
+import io.papermc.paper.chat.ChatRenderer.ViewerUnaware;
 import io.papermc.paper.event.player.AsyncChatEvent;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
 import net.md_5.bungee.api.ChatColor;
+import xyz.derkades.derkutils.bukkit.StandardTextColor;
 
 public class GlobalListeners implements Listener {
 
@@ -97,11 +101,17 @@ public class GlobalListeners implements Listener {
 
 	@EventHandler
 	public void onChat(final AsyncChatEvent event) {
-		event.message(
-				Component.text(event.getPlayer().getName())
-				.append(Component.text(": ").color(TextColor.color(0x000000)))
-				.append(event.originalMessage())
-				);
+		event.renderer(ChatRenderer.viewerUnaware(new ViewerUnaware() {
+
+			@Override
+			public @NotNull Component render(@NotNull final Player source, @NotNull final Component sourceDisplayName,
+					@NotNull final Component message) {
+				return sourceDisplayName
+					.append(Component.text(": ").color(TextColor.color(0x000000)))
+					.append(message.color(StandardTextColor.GRAY));
+			}
+
+		}));
 //		event.setFormat(Utils.getChatPrefix(ChatColor.AQUA, 'C') + ChatColor.WHITE + "%s: " + ChatColor.GRAY + "%s");
 	}
 
