@@ -7,9 +7,11 @@ import java.util.Map;
 import org.bukkit.Color;
 import org.bukkit.Material;
 
+import derkades.minigames.utils.MPlayer;
 import net.kyori.adventure.text.format.TextColor;
 import net.md_5.bungee.api.ChatColor;
 import xyz.derkades.derkutils.ListUtils;
+import xyz.derkades.derkutils.bukkit.ItemBuilder;
 
 public enum GameTeam {
 
@@ -86,6 +88,15 @@ public enum GameTeam {
 
 	public Material getTerracotta() {
 		return this.terracotta;
+	}
+
+	public void equipArmor(final MPlayer player) {
+		player.setArmor(
+				new ItemBuilder(Material.LEATHER_HELMET).leatherArmorColor(this.getBukkitColor()).create(),
+				new ItemBuilder(Material.LEATHER_CHESTPLATE).leatherArmorColor(this.getBukkitColor()).create(),
+				new ItemBuilder(Material.LEATHER_LEGGINGS).leatherArmorColor(this.getBukkitColor()).create(),
+				new ItemBuilder(Material.LEATHER_BOOTS).leatherArmorColor(this.getBukkitColor()).create()
+				);
 	}
 
 	private static final Map<Material, GameTeam> BY_MATERIAL = new HashMap<>();

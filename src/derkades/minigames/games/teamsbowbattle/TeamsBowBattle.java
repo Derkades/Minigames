@@ -226,12 +226,7 @@ public class TeamsBowBattle extends Game<TeamsBowBattleMap> {
 			return;
 		}
 
-		player.setArmor(
-				new ItemBuilder(Material.LEATHER_HELMET).leatherArmorColor(team.getBukkitColor()).create(),
-				new ItemBuilder(Material.LEATHER_CHESTPLATE).leatherArmorColor(team.getBukkitColor()).create(),
-				new ItemBuilder(Material.LEATHER_LEGGINGS).leatherArmorColor(team.getBukkitColor()).create(),
-				new ItemBuilder(Material.LEATHER_BOOTS).leatherArmorColor(team.getBukkitColor()).create()
-				);
+		team.equipArmor(player);
 
 		final ItemStack bow = new ItemBuilder(Material.BOW)
 				.enchant(Enchantment.ARROW_DAMAGE, 3)
