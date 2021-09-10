@@ -17,8 +17,12 @@ import derkades.minigames.games.Game;
 import derkades.minigames.utils.MPlayer;
 import derkades.minigames.utils.MinigamesPlayerDamageEvent;
 import derkades.minigames.utils.MinigamesPlayerDamageEvent.DamageType;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.TextColor;
+import net.kyori.adventure.text.format.TextDecoration;
 import net.md_5.bungee.api.ChatColor;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
+import xyz.derkades.derkutils.bukkit.StandardTextColor;
 
 public class TeamsBowBattle extends Game<TeamsBowBattleMap> {
 
@@ -131,13 +135,17 @@ public class TeamsBowBattle extends Game<TeamsBowBattleMap> {
 			event.setCancelled(true);
 			if (event.getType().equals(DamageType.ENTITY)) {
 				final MPlayer killer = event.getDamagerPlayer();
-				sendMessage(String.format("%s%s%s %shas been killed by %s%s%s",
-						getTeamColor(player), ChatColor.BOLD, player.getName(), ChatColor.GRAY,
-						getTeamColor(killer), ChatColor.BOLD, killer.getName()));
+				sendMessage(Component.empty()
+						.append(Component.text(player.getName(), TextColor.color(getTeamColor(player).getColor().getRGB())).decorate(TextDecoration.BOLD))
+						.append(Component.text(" has been killed by ", StandardTextColor.GRAY))
+						.append(Component.text(killer.getName(), TextColor.color(getTeamColor(player).getColor().getRGB())).decorate(TextDecoration.BOLD))
+						.append(Component.text(".", StandardTextColor.GRAY))
+						);
 			} else {
-				sendMessage(String.format("%s%s%s %has died.",
-						getTeamColor(player), ChatColor.BOLD, player.getName(), ChatColor.GRAY));
-
+				sendMessage(Component.empty()
+						.append(Component.text(player.getName(), TextColor.color(getTeamColor(player).getColor().getRGB())).decorate(TextDecoration.BOLD))
+						.append(Component.text(" has died.", StandardTextColor.GRAY))
+						);
 			}
 
 			this.dead.add(player.getUniqueId());

@@ -150,42 +150,22 @@ public class GladeRoyale extends Game<GladeRoyaleMap> {
 			this.spawnSupplyDrop();
 		}
 
-		if (secondsLeft == 360) {
-			final int newSize = this.currentBorderSize / 2; // e.g. 512 -> 256
-			this.sendPlainMessage(String.format("Shrinking border from %sx%s to %sx%s in 1 minute",
-					this.currentBorderSize, this.currentBorderSize, newSize, newSize));
+		if (secondsLeft == 360 || secondsLeft == 260) {
+			final int newSize = this.currentBorderSize / 2;
+			this.sendFormattedPlainMessage("Shrinking border from %sx%s to %sx%s in 1 minute",
+					this.currentBorderSize, this.currentBorderSize, newSize, newSize);
 		}
 
-		if (secondsLeft == 310) {
-			final int newSize = this.currentBorderSize / 2; // e.g. 512 -> 256
-			this.sendPlainMessage(String.format("Shrinking border from %sx%s to %sx%s in 10 seconds",
-					this.currentBorderSize, this.currentBorderSize, newSize, newSize));
+		if (secondsLeft == 310 || secondsLeft == 210) {
+			final int newSize = this.currentBorderSize / 2;
+			this.sendFormattedPlainMessage("Shrinking border from %sx%s to %sx%s in 10 seconds",
+					this.currentBorderSize, this.currentBorderSize, newSize, newSize);
 		}
 
-		if (secondsLeft == 300) {
-			final int newSize = this.currentBorderSize / 2; // e.g. 512 -> 256
-			this.sendPlainMessage(String.format("Shrinking border from %sx%s to %sx%s",
-					this.currentBorderSize, this.currentBorderSize, newSize, newSize));
-			this.map.getWorld().getWorldBorder().setSize(newSize, 20);
-			this.currentBorderSize = newSize;
-		}
-
-		if (secondsLeft == 260) {
-			final int newSize = this.currentBorderSize / 2; // e.g. 256 -> 128
-			this.sendPlainMessage(String.format("Shrinking border from %sx%s to %sx%s in 1 minute",
-					this.currentBorderSize, this.currentBorderSize, newSize, newSize));
-		}
-
-		if (secondsLeft == 210) {
-			final int newSize = this.currentBorderSize / 2; // e.g. 256 -> 128
-			this.sendPlainMessage(String.format("Shrinking border from %sx%s to %sx%s in 10 seconds",
-					this.currentBorderSize, this.currentBorderSize, newSize, newSize));
-		}
-
-		if (secondsLeft == 200) {
-			final int newSize = this.currentBorderSize / 2; // e.g. 256 -> 128
-			this.sendPlainMessage(String.format("Shrinking border from %sx%s to %sx%s",
-					this.currentBorderSize, this.currentBorderSize, newSize, newSize));
+		if (secondsLeft == 300 || secondsLeft == 200) {
+			final int newSize = this.currentBorderSize / 2;
+			this.sendFormattedPlainMessage("Shrinking border from %sx%s to %sx%s",
+					this.currentBorderSize, this.currentBorderSize, newSize, newSize);
 			this.map.getWorld().getWorldBorder().setSize(newSize, 20);
 			this.currentBorderSize = newSize;
 		}
@@ -201,42 +181,42 @@ public class GladeRoyale extends Game<GladeRoyaleMap> {
 		}
 
 		if (secondsLeft == 30 || secondsLeft == 22 || secondsLeft == 14) {
-			this.sendMessage("Country roads, take me home");
+			this.sendPlainMessage("Country roads, take me home");
 		}
 		if (secondsLeft == 29 || secondsLeft == 21 || secondsLeft == 13) {
-			this.sendMessage("To the place I belong");
+			this.sendPlainMessage("To the place I belong");
 		}
 		if (secondsLeft == 28 || secondsLeft == 20 || secondsLeft == 12) {
-			this.sendMessage("West Virginia, mountain mama");
+			this.sendPlainMessage("West Virginia, mountain mama");
 		}
 		if (secondsLeft == 27 || secondsLeft == 19 || secondsLeft == 11) {
-			this.sendMessage("Take me home, country roads");
+			this.sendPlainMessage("Take me home, country roads");
 		}
 
 		if (secondsLeft == 26) {
-			this.sendMessage("All my memories gather round her");
+			this.sendPlainMessage("All my memories gather round her");
 		}
 		if (secondsLeft == 25) {
-			this.sendMessage("Miner's lady, stranger to blue water");
+			this.sendPlainMessage("Miner's lady, stranger to blue water");
 		}
 		if (secondsLeft == 24) {
-			this.sendMessage("Dark and dusty, painted on the sky");
+			this.sendPlainMessage("Dark and dusty, painted on the sky");
 		}
 		if (secondsLeft == 23) {
-			this.sendMessage("Misty taste of moonshine, teardrop in my eye");
+			this.sendPlainMessage("Misty taste of moonshine, teardrop in my eye");
 		}
 
 		if (secondsLeft == 18) {
-			this.sendMessage("I hear her voice, in the morning hour she calls me");
+			this.sendPlainMessage("I hear her voice, in the morning hour she calls me");
 		}
 		if (secondsLeft == 17) {
-			this.sendMessage("The radio reminds me of my home far away");
+			this.sendPlainMessage("The radio reminds me of my home far away");
 		}
 		if (secondsLeft == 16) {
-			this.sendMessage("And driving down the road I get a feeling");
+			this.sendPlainMessage("And driving down the road I get a feeling");
 		}
 		if (secondsLeft == 15) {
-			this.sendMessage("That I should have been home yesterday, yesterday");
+			this.sendPlainMessage("That I should have been home yesterday, yesterday");
 		}
 
 		return secondsLeft;

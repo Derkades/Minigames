@@ -156,7 +156,7 @@ public class RegeneratingSpleef extends Game<SpleefMap> {
 
 		if (player.getBlockOn().getType() == Material.BEDROCK){
 			this.alive.remove(player.getUniqueId());
-			sendMessage(player.getName() + " died");
+			sendFormattedPlainMessage("%s died", player.getName());
 			player.dieUp(3);
 		}
 	}

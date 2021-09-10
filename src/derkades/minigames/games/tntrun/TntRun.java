@@ -115,7 +115,7 @@ public class TntRun extends Game<TntRunMap> {
 
 		if (belowPlayer.getType().equals(Material.RED_TERRACOTTA)) {
 			this.alive.remove(player.getUniqueId());
-			sendMessage(player.getName() + " has died. " + this.alive.size() + " players left.");
+			sendFormattedPlainMessage("%s has died. %s players left.", player.getName(), this.alive.size());
 			player.dieUp(10);
 			return;
 		}

@@ -117,7 +117,7 @@ public class Tron extends Game<TronMap> {
 			player.giveInfiniteEffect(PotionEffectType.JUMP, 200);
 		}
 
-		sendMessage("Steer using your 4 (left) and 6 (right) keys or by scrolling up and down using your mouse weel");
+		sendPlainMessage("Steer using your 4 (left) and 6 (right) keys or by scrolling up and down using your mouse weel");
 	}
 
 	@Override
