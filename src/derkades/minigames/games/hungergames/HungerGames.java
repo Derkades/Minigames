@@ -119,7 +119,7 @@ public class HungerGames extends Game<HungerGamesMap> {
 			for (final MPlayer player : Minigames.getOnlinePlayers()) {
 				player.setDisableDamage(false);
 			}
-			sendMessage("PvP enabled");
+			sendPlainMessage("PvP enabled");
 		});
 	}
 
@@ -160,12 +160,12 @@ public class HungerGames extends Game<HungerGamesMap> {
 			final MPlayer killer = event.getDamagerPlayer();
 			if (killer != null) {
 				final int playersLeft = (int) this.all.stream().filter(p -> this.dead.contains(p)).count();
-				this.sendMessage(String.format("%s has been killed by %s. There are %s players left.",
-						player.getName(), killer.getName(), playersLeft));
+				this.sendFormattedPlainMessage("%s has been killed by %s. There are %s players left.",
+						player.getName(), killer.getName(), playersLeft);
 			} else {
 				final int playersLeft = (int) this.all.stream().filter(p -> this.dead.contains(p)).count();
-				this.sendMessage(String.format("%s has died. There are %s players left.",
-						player.getName(), playersLeft));
+				this.sendFormattedPlainMessage("%s has died. There are %s players left.",
+						player.getName(), playersLeft);
 			}
 		}
 	}

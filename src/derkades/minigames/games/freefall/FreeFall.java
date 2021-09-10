@@ -13,8 +13,8 @@ import derkades.minigames.games.Game;
 import derkades.minigames.utils.MPlayer;
 import derkades.minigames.utils.MinigamesPlayerDamageEvent;
 import derkades.minigames.utils.MinigamesPlayerDamageEvent.DamageType;
-import net.md_5.bungee.api.ChatColor;
-import net.md_5.bungee.api.chat.ComponentBuilder;
+import net.kyori.adventure.text.Component;
+import xyz.derkades.derkutils.bukkit.StandardTextColor;
 
 public class FreeFall extends Game<FreeFallMap> {
 
@@ -95,9 +95,9 @@ public class FreeFall extends Game<FreeFallMap> {
 
 			for (final MPlayer player : Minigames.getOnlinePlayers()) {
 				if (correctHole.isInHole(player)) {
-					player.sendActionBar(new ComponentBuilder("You chose the correct hole").color(ChatColor.GREEN).create());
+					player.sendActionBar(Component.text("You chose the correct hole", StandardTextColor.GREEN));
 				} else {
-					player.sendActionBar(new ComponentBuilder("You chose the wrong hole").color(ChatColor.RED).create());
+					player.sendActionBar(Component.text("You chose the wrong hole", StandardTextColor.RED));
 				}
 			}
 			return secondsLeft;

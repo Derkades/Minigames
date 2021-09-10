@@ -367,6 +367,10 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 	protected void sendPlainMessage(final String message) {
 		Bukkit.broadcast(Component.text(message).color(StandardTextColor.GRAY));
 	}
+	
+	protected void sendFormattedPlainMessage(final String message, Object... replacements) {
+		Bukkit.broadcast(Component.text(String.format(message, replacements)).color(StandardTextColor.GRAY));
+	}
 
 	protected void sendMessage(final Component message) {
 		Bukkit.broadcast(Component.text().append(message).build());

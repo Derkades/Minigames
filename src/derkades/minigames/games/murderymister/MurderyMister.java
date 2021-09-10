@@ -216,7 +216,7 @@ public class MurderyMister extends Game<MurderyMisterMap> {
 
 			final MPlayer player = event.getPlayer();
 
-			sendMessage(player.getName() + " has been killed");
+			sendFormattedPlainMessage("%s has been killed", player.getName());
 			Minigames.getOnlinePlayers().forEach((p) -> p.playSound(Sound.ENTITY_PLAYER_HURT_SWEET_BERRY_BUSH, 1.0f));
 			this.alive.remove(player.getUniqueId());
 
@@ -225,7 +225,7 @@ public class MurderyMister extends Game<MurderyMisterMap> {
 				this.arrowRemoveTask.cancel();
 				this.murdererDead = true;
 				player.die();
-				sendMessage("The murderer has been killed by " + event.getDamagerPlayer().getName() + "!");
+				sendFormattedPlainMessage("The murderer has been killed by %s!", event.getDamagerPlayer().getName());
 			} else if (player.getInventory().contains(Material.BOW)) {
 				// Sheriff is dead, give bow to random player
 				if (this.alive.size() > 0) {

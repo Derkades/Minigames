@@ -135,7 +135,7 @@ public class CreeperAttack extends Game<CreeperAttackMap> {
 			final MPlayer player = event.getPlayer();
 			this.alive.remove(player.getUniqueId());
 			player.die();
-			sendMessage(player.getName() + " has been blown up by a creeper");
+			sendPlainMessage(player.getName() + " has been blown up by a creeper");
 		}
 	}
 

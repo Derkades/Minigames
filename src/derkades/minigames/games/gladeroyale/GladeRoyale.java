@@ -93,7 +93,7 @@ public class GladeRoyale extends Game<GladeRoyaleMap> {
 			player.setDisableItemMoving(false);
 		}
 
-		this.sendMessage("Starting world reset, you will experience lag.");
+		this.sendPlainMessage("Starting world reset, you will experience lag.");
 
 		final int minX = this.map.getMapCenter().getBlockX() - this.currentBorderSize / 2;
 		final int maxX = this.map.getMapCenter().getBlockX() + this.currentBorderSize / 2;
@@ -119,7 +119,7 @@ public class GladeRoyale extends Game<GladeRoyaleMap> {
 
 		Logger.info("Removed %s blocks", counter.get());
 
-		this.sendMessage("When the game starts, you will be teleported into the sky. Don't forget to activate your elytra!");
+		this.sendPlainMessage("When the game starts, you will be teleported into the sky. Don't forget to activate your elytra!");
 	}
 
 	@Override
@@ -152,19 +152,19 @@ public class GladeRoyale extends Game<GladeRoyaleMap> {
 
 		if (secondsLeft == 360) {
 			final int newSize = this.currentBorderSize / 2; // e.g. 512 -> 256
-			this.sendMessage(String.format("Shrinking border from %sx%s to %sx%s in 1 minute",
+			this.sendPlainMessage(String.format("Shrinking border from %sx%s to %sx%s in 1 minute",
 					this.currentBorderSize, this.currentBorderSize, newSize, newSize));
 		}
 
 		if (secondsLeft == 310) {
 			final int newSize = this.currentBorderSize / 2; // e.g. 512 -> 256
-			this.sendMessage(String.format("Shrinking border from %sx%s to %sx%s in 10 seconds",
+			this.sendPlainMessage(String.format("Shrinking border from %sx%s to %sx%s in 10 seconds",
 					this.currentBorderSize, this.currentBorderSize, newSize, newSize));
 		}
 
 		if (secondsLeft == 300) {
 			final int newSize = this.currentBorderSize / 2; // e.g. 512 -> 256
-			this.sendMessage(String.format("Shrinking border from %sx%s to %sx%s",
+			this.sendPlainMessage(String.format("Shrinking border from %sx%s to %sx%s",
 					this.currentBorderSize, this.currentBorderSize, newSize, newSize));
 			this.map.getWorld().getWorldBorder().setSize(newSize, 20);
 			this.currentBorderSize = newSize;
@@ -172,32 +172,32 @@ public class GladeRoyale extends Game<GladeRoyaleMap> {
 
 		if (secondsLeft == 260) {
 			final int newSize = this.currentBorderSize / 2; // e.g. 256 -> 128
-			this.sendMessage(String.format("Shrinking border from %sx%s to %sx%s in 1 minute",
+			this.sendPlainMessage(String.format("Shrinking border from %sx%s to %sx%s in 1 minute",
 					this.currentBorderSize, this.currentBorderSize, newSize, newSize));
 		}
 
 		if (secondsLeft == 210) {
 			final int newSize = this.currentBorderSize / 2; // e.g. 256 -> 128
-			this.sendMessage(String.format("Shrinking border from %sx%s to %sx%s in 10 seconds",
+			this.sendPlainMessage(String.format("Shrinking border from %sx%s to %sx%s in 10 seconds",
 					this.currentBorderSize, this.currentBorderSize, newSize, newSize));
 		}
 
 		if (secondsLeft == 200) {
 			final int newSize = this.currentBorderSize / 2; // e.g. 256 -> 128
-			this.sendMessage(String.format("Shrinking border from %sx%s to %sx%s",
+			this.sendPlainMessage(String.format("Shrinking border from %sx%s to %sx%s",
 					this.currentBorderSize, this.currentBorderSize, newSize, newSize));
 			this.map.getWorld().getWorldBorder().setSize(newSize, 20);
 			this.currentBorderSize = newSize;
 		}
 
 		if (secondsLeft == 150) {
-			this.sendMessage("Slowly shrinking border to 20x20");
+			this.sendPlainMessage("Slowly shrinking border to 20x20");
 			this.map.getWorld().getWorldBorder().setSize(20, 100);
 			this.currentBorderSize = 20;
 		}
 
 		if (secondsLeft == 40) {
-			this.sendMessage("Camping doesn't work, if more than one player is alive at the end, no one will win.");
+			this.sendPlainMessage("Camping doesn't work, if more than one player is alive at the end, no one will win.");
 		}
 
 		if (secondsLeft == 30 || secondsLeft == 22 || secondsLeft == 14) {
@@ -273,9 +273,9 @@ public class GladeRoyale extends Game<GladeRoyaleMap> {
 			event.getPlayer().dropItems();
 
 			if (event.getType() == DamageType.ENTITY) {
-				this.sendMessage(String.format("%s has been killed by %s", event.getPlayer().getName(), event.getDamagerPlayer().getName()));
+				this.sendFormattedPlainMessage("%s has been killed by %s", event.getPlayer().getName(), event.getDamagerPlayer().getName());
 			} else {
-				this.sendMessage(String.format("%s has died", event.getPlayer().getName()));
+				this.sendFormattedPlainMessage("%s has died", event.getPlayer().getName());
 			}
 		}
 	}
@@ -304,7 +304,7 @@ public class GladeRoyale extends Game<GladeRoyaleMap> {
 			return;
 		}
 
-		this.sendMessage(String.format("Supply drop at (%s, %s)", loc.getBlockX(), loc.getBlockZ()));
+		this.sendFormattedPlainMessage("Supply drop at (%s, %s)", loc.getBlockX(), loc.getBlockZ());
 
 		final Location shulkerBullet = new Location(loc.getWorld(), loc.getX() + 0.5, loc.getY() + 100, loc.getZ() + 0.5);
 		loc.getWorld().spawnEntity(shulkerBullet, EntityType.SHULKER_BULLET);
@@ -345,7 +345,7 @@ public class GladeRoyale extends Game<GladeRoyaleMap> {
 		}
 
 		if (location == null) {
-			this.sendMessage(String.format("[debug warning] Unsuitable loot location at (%s, %s)", x, z));
+			this.sendFormattedPlainMessage("[debug warning] Unsuitable loot location at (%s, %s)", x, z);
 		}
 
 		if (location != null) {

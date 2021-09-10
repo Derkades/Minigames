@@ -173,7 +173,7 @@ public class BuildCopy extends Game<BuildCopyMap> {
 		if (this.map.checkCopy(position, this.currentPatterns.get(player.getUniqueId()))) {
 			this.map.clearCopy(position);
 
-			sendMessage(player.getName() + " finished pattern " + this.leaderboard.incrementAndGetScore(player));
+			sendPlainMessage(player.getName() + " finished pattern " + this.leaderboard.incrementAndGetScore(player));
 
 			giveItems(player);
 

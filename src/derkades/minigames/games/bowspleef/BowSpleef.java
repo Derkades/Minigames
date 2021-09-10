@@ -99,7 +99,7 @@ public class BowSpleef extends Game<BowSpleefMap> {
 				p.clearInventory();
 				p.dieTo(this.map.getSpawnLocation());
 				this.alive.remove(p.getUniqueId());
-				sendMessage(p.getName() + " died");
+				sendPlainMessage(p.getName() + " died");
 			});
 
 		return secondsLeft;

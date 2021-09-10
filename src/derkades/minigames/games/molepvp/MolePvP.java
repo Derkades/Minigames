@@ -145,12 +145,12 @@ public class MolePvP extends Game<MolePvPMap> {
 			event.setCancelled(true);
 			if (event.getType().equals(DamageType.ENTITY)) {
 				final MPlayer killer = event.getDamagerPlayer();
-				this.sendMessage(String.format("%s%s%s %shas been killed by %s%s%s",
+				this.sendFormattedPlainMessage("%s%s%s %shas been killed by %s%s%s",
 						this.getTeamColor(player), ChatColor.BOLD, player.getName(), ChatColor.GRAY,
-						this.getTeamColor(killer), ChatColor.BOLD, killer.getName()));
+						this.getTeamColor(killer), ChatColor.BOLD, killer.getName());
 			} else {
-				this.sendMessage(String.format("%s%s%s %has died.",
-						this.getTeamColor(player), ChatColor.BOLD, player.getName(), ChatColor.GRAY));
+				this.sendFormattedPlainMessage("%s%s%s %has died.",
+						this.getTeamColor(player), ChatColor.BOLD, player.getName(), ChatColor.GRAY);
 			}
 
 			this.dead.add(player.getUniqueId());

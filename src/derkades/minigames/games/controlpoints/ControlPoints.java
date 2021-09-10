@@ -208,7 +208,7 @@ public class ControlPoints extends Game<ControlPointsMap> {
 			this.winners = this.teamBlue;
 		}
 
-		sendMessage("The game has ended, team " + winningTeam + " is in control of all control points!");
+		sendPlainMessage("The game has ended, team " + winningTeam + " is in control of all control points!");
 		Minigames.getOnlinePlayers().forEach(p -> {
 			p.spectator();
 		});
@@ -267,9 +267,9 @@ public class ControlPoints extends Game<ControlPointsMap> {
 			event.setCancelled(true);
 
 			if (event.getType() == DamageType.ENTITY) {
-				sendMessage(player.getName() + " was killed by " + event.getDamagerPlayer().getName());
+				sendPlainMessage(player.getName() + " was killed by " + event.getDamagerPlayer().getName());
 			} else {
-				sendMessage(player.getName() + " has died");
+				sendPlainMessage(player.getName() + " has died");
 			}
 
 			player.die();

@@ -201,7 +201,7 @@ public class BreakTheBlock extends Game<BreakTheBlockMap> {
 			return;
 		}
 
-		sendMessage(event.getPlayer().getName() + " has broken the block!");
+		sendPlainMessage(event.getPlayer().getName() + " has broken the block!");
 
 		this.blockBreaker = event.getPlayer().getUniqueId();
 

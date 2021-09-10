@@ -111,10 +111,10 @@ public class Parkour extends Game<ParkourMap> {
 
 		if (this.map.hasFinished(player, blockType)) {
 			if (this.finished.isEmpty()) {
-				super.sendMessage(player.getName() + " finished first and got an extra point!");
+				super.sendFormattedPlainMessage("%s finished first and got an extra point!", player.getName());
 				player.addPoints(1);
 			} else {
-				sendMessage(player.getName() + " has made it to the finish!");
+				sendFormattedPlainMessage("%s has made it to the finish!", player.getName());
 			}
 
 			this.finished.add(player.getUniqueId());

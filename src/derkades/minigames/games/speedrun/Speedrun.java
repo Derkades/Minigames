@@ -115,10 +115,10 @@ public class Speedrun extends Game<SpeedrunMap> {
 		if (type == this.map.getEndBlock()){
 			player.clearPotionEffects();
 			if (this.finished.isEmpty()){
-				super.sendMessage(player.getName() + " finished first and got an extra point!");
+				sendFormattedPlainMessage("%s finished first and got an extra point!", player.getName() );
 				player.addPoints(1);
 			} else {
-				super.sendMessage(player.getName() + " has finished!");
+				sendFormattedPlainMessage("%s has finished!", player.getName());
 			}
 			this.finished.add(player.getUniqueId());
 			player.finishTo(this.map.getSpectatorLocation());

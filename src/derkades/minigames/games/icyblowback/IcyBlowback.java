@@ -130,7 +130,7 @@ public class IcyBlowback extends Game<IcyBlowbackMap> {
 			this.alive.remove(player.getUniqueId());
 			this.map.getWorld().spigot().strikeLightningEffect(player.getLocation(), false);
 			player.dieUp(10);
-			this.sendMessage(player.getName() + " has died");
+			this.sendFormattedPlainMessage("%s has died", player.getName());
 		}
 	}
 
