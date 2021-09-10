@@ -29,6 +29,7 @@ import derkades.minigames.Points;
 import derkades.minigames.modules.SneakPrevention;
 import derkades.minigames.utils.queue.TaskQueue;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.title.Title;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.BaseComponent;
@@ -255,10 +256,6 @@ public class MPlayer {
 		for (final PotionEffect effect : this.player.getActivePotionEffects()) {
 			this.player.removePotionEffect(effect.getType());
 		}
-	}
-
-	public void sendTitle(final String title, final String subtitle) {
-		this.player.sendTitle(title, subtitle, 10, 70, 20);
 	}
 
 	public PlayerInventory getInventory() {
@@ -524,6 +521,18 @@ public class MPlayer {
 
 	public void sendChat(final Component message) {
 		this.player.sendMessage(message);
+	}
+
+	public void sendTitle(final String title, final String subtitle) {
+		this.player.sendTitle(title, subtitle, 10, 70, 20);
+	}
+
+	public void sendTitle(final Title title) {
+		this.player.showTitle(title);
+	}
+
+	public void sendTitle(final Component mainTitle, final Component subTitle) {
+		this.player.showTitle(Title.title(mainTitle, subTitle));
 	}
 
 }
