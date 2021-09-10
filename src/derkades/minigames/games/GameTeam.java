@@ -4,9 +4,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 
+import net.kyori.adventure.text.format.TextColor;
+import net.md_5.bungee.api.ChatColor;
 import xyz.derkades.derkutils.ListUtils;
 
 public enum GameTeam {
@@ -25,6 +26,7 @@ public enum GameTeam {
 	;
 
 	private ChatColor color;
+	private TextColor textColor;
 	private String string;
 	private Material glassBlock;
 	private Material glassPane;
@@ -33,6 +35,7 @@ public enum GameTeam {
 
 	GameTeam(final String name, final ChatColor color, final String materialPrefix) {
 		this.color = color;
+		this.textColor = TextColor.color(color.getColor().getRGB());
 		this.string = color + "" + ChatColor.BOLD + this.name();
 		this.glassBlock = Material.valueOf(materialPrefix + "_STAINED_GLASS");
 		this.glassPane = Material.valueOf(materialPrefix + "_STAINED_GLASS_PANE");
@@ -40,8 +43,17 @@ public enum GameTeam {
 		this.terracotta = Material.valueOf(materialPrefix + "_TERRACOTTA");
 	}
 
+	@Deprecated
 	public ChatColor getColor() {
 		return this.color;
+	}
+
+	public ChatColor getChatColor() {
+		return this.color;
+	}
+
+	public TextColor getTextColor() {
+		return this.textColor;
 	}
 
 	@Override
