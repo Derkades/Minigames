@@ -24,6 +24,7 @@ import derkades.minigames.modules.ChatPoll;
 import derkades.minigames.modules.DisableDamage;
 import derkades.minigames.modules.DisableInventoryItemMove;
 import derkades.minigames.modules.DynamicMotd;
+import derkades.minigames.modules.FastDripleafReset;
 import derkades.minigames.modules.GameWorldManagement;
 import derkades.minigames.modules.HeadTextureCaching;
 import derkades.minigames.modules.InfoBar;
@@ -106,7 +107,7 @@ public class Minigames extends JavaPlugin implements Listener {
 		new DisableDamage();
 		new DisableInventoryItemMove();
 		new DynamicMotd();
-//		new FastDripleafReset();
+		new FastDripleafReset();
 		new GameWorldManagement();
 		new HeadTextureCaching();
 		new InfoBar();
