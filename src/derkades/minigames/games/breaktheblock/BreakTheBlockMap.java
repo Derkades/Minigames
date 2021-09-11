@@ -14,7 +14,7 @@ public abstract class BreakTheBlockMap extends GameMap {
 			new Prototype(),
 	};
 
-	abstract Location getStartLocation();
+	abstract Location[] getStartLocations();
 
 	abstract boolean canTakeDamage(MPlayer player);
 

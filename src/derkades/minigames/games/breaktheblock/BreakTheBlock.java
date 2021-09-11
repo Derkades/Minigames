@@ -21,6 +21,7 @@ import derkades.minigames.Minigames;
 import derkades.minigames.games.Game;
 import derkades.minigames.utils.MPlayer;
 import net.md_5.bungee.api.ChatColor;
+import xyz.derkades.derkutils.ListUtils;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
 
 public class BreakTheBlock extends Game<BreakTheBlockMap> {
@@ -34,6 +35,8 @@ public class BreakTheBlock extends Game<BreakTheBlockMap> {
 					"minecraft:red_glazed_terracotta" // cherry in cake map
 					)
 			.create();
+
+	private static final int MINIMUM_PLAYERS_FOR_MULTIPLE_SPAWN_LOCATIONS = 4;
 
 	@Override
 	public String getIdentifier() {
@@ -88,11 +91,19 @@ public class BreakTheBlock extends Game<BreakTheBlockMap> {
 	public void onPreStart() {
 		this.blockBreaker = null;
 
-		Minigames.getOnlinePlayers().forEach((p) -> {
-			p.giveItem(PICKAXE);
-			p.queueTeleport(this.map.getStartLocation());
-			p.giveInfiniteEffect(PotionEffectType.DAMAGE_RESISTANCE, 10);
-		});
+		if (Minigames.getOnlinePlayerCount() >= MINIMUM_PLAYERS_FOR_MULTIPLE_SPAWN_LOCATIONS) {
+			int i = 0;
+			for (final MPlayer player : Minigames.getOnlinePlayersInRandomOrder()) {
+				player.queueTeleport(this.map.getStartLocations()[i]);
+
+				i++;
+				if (i >= this.map.getStartLocations().length) {
+					i = 0;
+				}
+			}
+		} else {
+			Minigames.getOnlinePlayers().forEach(p -> p.queueTeleport(this.map.getStartLocations()[0]));
+		}
 	}
 
 	@Override
@@ -104,6 +115,8 @@ public class BreakTheBlock extends Game<BreakTheBlockMap> {
 //				p.teleport(this.map.getStartLocation());
 //				p.giveItem(PICKAXE);
 //			});
+			player.giveItem(PICKAXE);
+			player.giveInfiniteEffect(PotionEffectType.DAMAGE_RESISTANCE, 10);
 			player.giveInfiniteEffect(PotionEffectType.SLOW_DIGGING, 1);
 		});
 
@@ -131,7 +144,11 @@ public class BreakTheBlock extends Game<BreakTheBlockMap> {
 
 	@Override
 	public void onPlayerJoin(final MPlayer player) {
-		player.teleport(this.map.getStartLocation());
+		if (Minigames.getOnlinePlayerCount() > MINIMUM_PLAYERS_FOR_MULTIPLE_SPAWN_LOCATIONS) {
+			player.teleport(ListUtils.choice(this.map.getStartLocations()));
+		} else {
+			player.teleport(this.map.getStartLocations()[0]);
+		}
 		player.giveItem(PICKAXE);
 		player.setDisableDamage(false);
 //		player.enableSneakPrevention(p -> {
@@ -155,7 +172,11 @@ public class BreakTheBlock extends Game<BreakTheBlockMap> {
 		final MPlayer player = new MPlayer(event);
 
 		if (player.getBlockIn().getType() == Material.WATER || player.getLocation().getY() < 60){
-			player.teleport(this.map.getStartLocation());
+			if (Minigames.getOnlinePlayerCount() > MINIMUM_PLAYERS_FOR_MULTIPLE_SPAWN_LOCATIONS) {
+				player.teleport(ListUtils.choice(this.map.getStartLocations()));
+			} else {
+				player.teleport(this.map.getStartLocations()[0]);
+			}
 			player.clearInventory();
 			player.giveItem(PICKAXE);
 			return;

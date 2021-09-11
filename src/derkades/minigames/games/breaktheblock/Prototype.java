@@ -22,8 +22,10 @@ class Prototype extends BreakTheBlockMap {
 	}
 
 	@Override
-	Location getStartLocation() {
-		return new Location(this.getWorld(), 0.5, 65, 0.5, -90f, 0f);
+	Location[] getStartLocations() {
+		return new Location[] {
+				new Location(this.getWorld(), 0.5, 65, 0.5, -90f, 0f),
+		};
 	}
 
 	@Override

@@ -34,8 +34,11 @@ public class HollowHills extends BreakTheBlockMap {
 	}
 
 	@Override
-	Location getStartLocation() {
-		return new Location(this.getWorld(), 0.5, 54, 19.5, -180, 0);
+	Location[] getStartLocations() {
+		return new Location[] {
+				new Location(this.getWorld(), 0.5, 54, 19.5, -180, 0),
+				new Location(this.getWorld(), 0.5, 54, -18.5, 0, 0),
+		};
 	}
 
 	@Override
