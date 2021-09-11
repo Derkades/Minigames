@@ -9,6 +9,7 @@ public abstract class BreakTheBlockMap extends GameMap {
 
 	static final BreakTheBlockMap[] MAPS = {
 			new Cake(),
+			new HollowHills(),
 //			new Jungle(),
 			new Prototype(),
 	};
