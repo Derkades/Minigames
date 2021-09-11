@@ -8,6 +8,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import derkades.minigames.Minigames;
 import derkades.minigames.utils.Utils;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.ClickEvent;
@@ -19,13 +20,13 @@ import xyz.derkades.derkutils.bukkit.reflection.ReflectionUtil;
 public class ChatPoll extends Module {
 
 	private static final long TOKEN_EXPIRE_TIME = 20*1000;
-	private static final String COMMAND_NAME = "dm90ZSEh";
+	private static final String COMMAND_NAME = "votepoll";
 
 	private final Map<String, Long> tokens = new HashMap<>();
 	private final Map<String, PollCallback> callbacks = new HashMap<>();
 
 	public ChatPoll() {
-		ReflectionUtil.registerCommand(COMMAND_NAME, new ChatPollCallbackCommand(COMMAND_NAME));
+		ReflectionUtil.registerCommand(Minigames.getInstance().getName(), new ChatPollCallbackCommand());
 	}
 
 	public class Poll {
@@ -58,7 +59,7 @@ public class ChatPoll extends Module {
 				answerMessage.append(String.format(" [%s] ", answer.displayName))
 					.color(answer.answerColor)
 					.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(new ComponentBuilder(answer.hoverMessage).color(ChatColor.GRAY).create())))
-					.event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, String.format("/dm90ZSEh %s %s", token, answer.id)));
+					.event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, String.format("/%s %s %s", COMMAND_NAME, token, answer.id)));
 			}
 
 			player.spigot().sendMessage(answerMessage.create());
@@ -92,8 +93,8 @@ public class ChatPoll extends Module {
 
 	private class ChatPollCallbackCommand extends Command {
 
-		protected ChatPollCallbackCommand(final String name) {
-			super(name);
+		protected ChatPollCallbackCommand() {
+			super(COMMAND_NAME);
 		}
 
 		@Override

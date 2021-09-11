@@ -12,8 +12,6 @@ commands:
   bug:
     usage: /<command>
     aliases: [feedback, idea]
-  dm90ZSEh:
-    usage: /<command> HI HOW ARE YOU DOING
   spectate:
     aliases: [spec]
   wtp:
