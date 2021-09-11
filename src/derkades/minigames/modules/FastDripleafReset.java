@@ -36,7 +36,6 @@ public class FastDripleafReset extends Module {
 				}
 
 				final BigDripleaf dripleaf = (BigDripleaf) block.getBlockData();
-				Logger.debug("Current tilt: %s", dripleaf.getTilt());
 				if (dripleaf.getTilt() == Tilt.FULL) {
 					dripleaf.setTilt(Tilt.NONE);
 					block.setBlockData(dripleaf);
