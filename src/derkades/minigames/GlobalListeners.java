@@ -28,10 +28,10 @@ import xyz.derkades.derkutils.bukkit.StandardTextColor;
 
 public class GlobalListeners implements Listener {
 
-	private Component getJoinLeaveMessage(final String name, final ChatColor color) {
+	private Component getJoinLeaveMessage(final String name, final ChatColor color, final char c) {
 		final TextColor textColor = TextColor.color(color.getColor().getRGB());
 		return Component.text("[")
-				.append(Component.text("-").color(textColor))
+				.append(Component.text(c).color(textColor))
 				.append(Component.text("] "))
 				.append(Component.text(name).color(textColor));
 	}
@@ -41,7 +41,7 @@ public class GlobalListeners implements Listener {
 		final MPlayer player = new MPlayer(event.getPlayer());
 
 //		event.setJoinMessage(String.format("[%s+%s] %s| %s%s", ChatColor.GREEN, ChatColor.RESET, ChatColor.DARK_GRAY, ChatColor.GREEN, player.getName()));
-		event.joinMessage(getJoinLeaveMessage(player.getName(), ChatColor.GREEN));
+		event.joinMessage(getJoinLeaveMessage(player.getName(), ChatColor.GREEN, '+'));
 
 		// Anti collision
 		Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "team join global " + player.getName());
@@ -85,7 +85,7 @@ public class GlobalListeners implements Listener {
 	public void onQuit(final PlayerQuitEvent event){
 		final MPlayer player = new MPlayer(event);
 //		event.setQuitMessage(String.format("[%s-%s] %s| %s%s", ChatColor.RED, ChatColor.RESET, ChatColor.DARK_GRAY, ChatColor.RED, player.getName()));
-		event.quitMessage(getJoinLeaveMessage(player.getName(), ChatColor.RED));
+		event.quitMessage(getJoinLeaveMessage(player.getName(), ChatColor.RED, '-'));
 
 		if (GameState.getCurrentState().isInGame()) {
 			GameState.getCurrentGame().onPlayerQuit(player); // TODO move to game class?
