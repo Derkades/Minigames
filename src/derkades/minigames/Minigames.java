@@ -31,6 +31,7 @@ import derkades.minigames.modules.JazzRoom;
 import derkades.minigames.modules.LobbyEffects;
 import derkades.minigames.modules.LobbyMenu;
 import derkades.minigames.modules.LobbyStormDisabler;
+import derkades.minigames.modules.RandomNameColor;
 import derkades.minigames.modules.RegenerateHunger;
 import derkades.minigames.modules.ResetPlayersOnEnable;
 import derkades.minigames.modules.ResourcePack;
@@ -105,6 +106,7 @@ public class Minigames extends JavaPlugin implements Listener {
 		new DisableDamage();
 		new DisableInventoryItemMove();
 		new DynamicMotd();
+//		new FastDripleafReset();
 		new GameWorldManagement();
 		new HeadTextureCaching();
 		new InfoBar();
@@ -112,6 +114,7 @@ public class Minigames extends JavaPlugin implements Listener {
 		new LobbyEffects();
 		new LobbyMenu();
 		new LobbyStormDisabler();
+		new RandomNameColor();
 		new RegenerateHunger();
 		new ResetPlayersOnEnable();
 		new ResourcePack();
