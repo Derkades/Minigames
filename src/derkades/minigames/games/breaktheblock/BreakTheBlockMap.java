@@ -18,4 +18,8 @@ public abstract class BreakTheBlockMap extends GameMap {
 
 	abstract boolean canTakeDamage(MPlayer player);
 
+	int getMinimumY() {
+		return 60;
+	}
+
 }

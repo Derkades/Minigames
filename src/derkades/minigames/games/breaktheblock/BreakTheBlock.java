@@ -76,11 +76,6 @@ public class BreakTheBlock extends Game<BreakTheBlockMap> {
 	}
 
 	@Override
-	public int getPreDuration() {
-		return 2;
-	}
-
-	@Override
 	public String getAlias() {
 		return "btb";
 	}
@@ -163,7 +158,7 @@ public class BreakTheBlock extends Game<BreakTheBlockMap> {
 
 	}
 
-	private static final PotionEffect SLIME_BOOST = new PotionEffect(PotionEffectType.JUMP, 20, 8);
+	private static final PotionEffect SLIME_BOOST = new PotionEffect(PotionEffectType.JUMP, 20, 6);
 	private static final ItemStack BOW = new ItemBuilder(Material.BOW).unbreakable().enchant(Enchantment.ARROW_INFINITE, 1).create();
 	private static final ItemStack ARROW = new ItemStack(Material.ARROW);
 
@@ -171,7 +166,7 @@ public class BreakTheBlock extends Game<BreakTheBlockMap> {
 	public void onMove(final PlayerMoveEvent event) {
 		final MPlayer player = new MPlayer(event);
 
-		if (player.getBlockIn().getType() == Material.WATER || player.getLocation().getY() < 60){
+		if (player.getLocation().getY() < this.map.getMinimumY()){
 			if (Minigames.getOnlinePlayerCount() > MINIMUM_PLAYERS_FOR_MULTIPLE_SPAWN_LOCATIONS) {
 				player.teleport(ListUtils.choice(this.map.getStartLocations()));
 			} else {
@@ -211,8 +206,11 @@ public class BreakTheBlock extends Game<BreakTheBlockMap> {
 				player.getInventory().setItem(9, ARROW);
 			}
 		} else {
-			player.getInventory().setItem(1, null);
-			player.getInventory().setItem(9, null);
+			if (player.getInventory().getItem(1) != null &&
+					player.getInventory().getItem(1).getType() == Material.BOW) {
+				player.getInventory().setItem(1, null);
+				player.getInventory().setItem(9, null);
+			}
 		}
 	}
 

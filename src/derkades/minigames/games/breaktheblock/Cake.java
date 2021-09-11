@@ -66,7 +66,7 @@ public class Cake extends BreakTheBlockMap {
 	}
 
 	@Override
-	public void onStart() {
+	public void onPreStart() {
 		try {
 			BlockUtils.fillArea(this.getWorld(), 1, 94, 1, -1, 96, -1, Material.RED_GLAZED_TERRACOTTA, null, false);
 			this.getWorld().getBlockAt(0, 95, 0).setType(Material.GOLD_BLOCK);
@@ -78,6 +78,15 @@ public class Cake extends BreakTheBlockMap {
 			e.printStackTrace();
 			Logger.warning("Failed to place blocks on top of cake");
 		}
+
+		BlockUtils.fillArea(this.getWorld(), -1, 69, 17, 1, 69, 17, Material.COBBLED_DEEPSLATE_WALL);
+		BlockUtils.fillArea(this.getWorld(), -1, 69, -17, 1, 69, -17, Material.COBBLED_DEEPSLATE_WALL);
+	}
+
+	@Override
+	public void onStart() {
+		BlockUtils.fillArea(this.getWorld(), -1, 69, 17, 1, 69, 17, Material.AIR);
+		BlockUtils.fillArea(this.getWorld(), -1, 69, -17, 1, 69, -17, Material.AIR);
 	}
 
 	@Override
