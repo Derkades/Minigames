@@ -8,12 +8,6 @@ import derkades.minigames.worlds.GameWorld;
 class Mineshaft extends CreeperAttackMap {
 
 	@Override
-	Location getCreeperLocation() {
-		return new Location(this.getWorld(), 0.5, 65, 0.5);
-
-	}
-
-	@Override
 	Location getSpawnLocation() {
 		return new Location(this.getWorld(), 0.5, 65, 0.5, -180f, 0f);
 	}
@@ -41,6 +35,16 @@ class Mineshaft extends CreeperAttackMap {
 	@Override
 	public String getIdentifier() {
 		return "creeperattack_mineshaft";
+	}
+
+	@Override
+	Location getSpawnBoundsMin() {
+		return new Location(this.getWorld(), -4, 64, -10);
+	}
+
+	@Override
+	Location getSpawnBoundsMax() {
+		return new Location(this.getWorld(), 13, 70, 3);
 	}
 
 }

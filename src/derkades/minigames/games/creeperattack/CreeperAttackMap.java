@@ -12,8 +12,10 @@ public abstract class CreeperAttackMap extends GameMap {
 			new Hedges(),
 	};
 
-	abstract Location getCreeperLocation();
-
 	abstract Location getSpawnLocation();
+
+	abstract Location getSpawnBoundsMin();
+
+	abstract Location getSpawnBoundsMax();
 
 }

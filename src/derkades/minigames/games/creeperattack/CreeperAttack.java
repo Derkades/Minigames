@@ -3,10 +3,14 @@ package derkades.minigames.games.creeperattack;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
+import java.util.concurrent.ThreadLocalRandom;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Creeper;
 import org.bukkit.entity.EntityType;
@@ -21,6 +25,7 @@ import derkades.minigames.utils.MinigamesPlayerDamageEvent;
 import net.md_5.bungee.api.ChatColor;
 import xyz.derkades.derkutils.ListUtils;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
+import xyz.derkades.derkutils.bukkit.MaterialLists;
 
 public class CreeperAttack extends Game<CreeperAttackMap> {
 
@@ -64,7 +69,7 @@ public class CreeperAttack extends Game<CreeperAttackMap> {
 
 	private Set<UUID> alive;
 
-	private int numberOfCreepers = 1;
+	private int numberOfCreepers = 2;
 
 	@Override
 	public void onPreStart() {
@@ -96,13 +101,39 @@ public class CreeperAttack extends Game<CreeperAttackMap> {
 
 		for (int i = 0; i < this.numberOfCreepers; i++) {
 			if (this.alive.size() > 1) {
-				final Creeper creeper = CreeperAttack.this.map.getWorld().spawn(CreeperAttack.this.map.getCreeperLocation(), Creeper.class);
-				creeper.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).setBaseValue(creeper.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).getBaseValue() * 1.5);
-				creeper.setTarget(Bukkit.getPlayer(ListUtils.choice(CreeperAttack.this.alive)));
+				spawnCreeper();
 			}
 		}
 
 		return secondsLeft;
+	}
+
+	private boolean checkSpawnable(final Block block) {
+		return block.isSolid() &&
+				!MaterialLists.LEAVES.contains(block.getType()) &&
+				block.getType() != Material.BARRIER &&
+				block.getRelative(BlockFace.UP).getType() == Material.AIR &&
+				block.getRelative(BlockFace.UP).getRelative(BlockFace.UP).getType() == Material.AIR;
+	}
+
+	private void spawnCreeper() {
+		attemptLoop:
+		for (int attempts = 0; attempts < 10; attempts++) {
+			final int x = ThreadLocalRandom.current().nextInt(this.map.getSpawnBoundsMin().getBlockX(), this.map.getSpawnBoundsMax().getBlockX() + 1);
+			final int z = ThreadLocalRandom.current().nextInt(this.map.getSpawnBoundsMin().getBlockZ(), this.map.getSpawnBoundsMax().getBlockZ() + 1);
+
+			for (int y = this.map.getSpawnBoundsMax().getBlockY(); y >= this.map.getSpawnBoundsMin().getBlockY(); y--) {
+				final Block block = this.map.getWorld().getBlockAt(x, y, z);
+				if (checkSpawnable(block)) {
+					final Location loc = block.getLocation();
+					loc.add(.5, 1, .5);
+					final Creeper creeper = CreeperAttack.this.map.getWorld().spawn(loc, Creeper.class);
+					creeper.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).setBaseValue(creeper.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).getBaseValue() * 1.5);
+					creeper.setTarget(Bukkit.getPlayer(ListUtils.choice(CreeperAttack.this.alive)));
+					break attemptLoop;
+				}
+			}
+		}
 	}
 
 	@Override

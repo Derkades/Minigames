@@ -13,11 +13,6 @@ class DeckedOutForest extends CreeperAttackMap {
 	}
 
 	@Override
-	Location getCreeperLocation() {
-		return new Location(this.getWorld(), 0.5, 65, 0.5);
-	}
-
-	@Override
 	Location getSpawnLocation() {
 		return new Location(this.getWorld(), 0.5, 65, 0.5);
 	}
@@ -45,6 +40,16 @@ class DeckedOutForest extends CreeperAttackMap {
 	@Override
 	public void onStart() {
 		this.getWorld().setTime(18000);
+	}
+
+	@Override
+	Location getSpawnBoundsMin() {
+		return new Location(this.getWorld(), -21, 60, -22);
+	}
+
+	@Override
+	Location getSpawnBoundsMax() {
+		return new Location(this.getWorld(), 24, 77, 18);
 	}
 
 }
