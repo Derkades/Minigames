@@ -22,6 +22,7 @@ import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 
+import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -377,7 +378,11 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 	}
 
 	protected void endGame(final UUID winner) {
-		this.endGame(Collections.singleton(winner));
+		if (winner == null) {
+			this.endGame(Collections.emptySet());
+		} else {
+			this.endGame(Collections.singleton(winner));
+		}
 	}
 
 	protected void endGame(final Set<UUID> winners, final boolean multipleWinnersIsNoWinner) {
@@ -394,7 +399,8 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 	}
 
 	protected void endGame(final Set<UUID> winners) {
-//		Minigames.CURRENT_GAME = null;
+		Validate.noNullElements(winners);
+
 		final boolean skipped = GameState.getCurrentState() == GameState.RUNNING_SKIPPED;
 		GameState.setState(GameState.IDLE);
 		HandlerList.unregisterAll(this); // Unregister events
@@ -403,22 +409,19 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 		Utils.showEveryoneToEveryone();
 
 		final List<Player> winnersPlayers;
-		String winnersText = null;
 		if (skipped) {
 			winnersPlayers = Collections.emptyList();
 		} else {
 			winnersPlayers = Bukkit.getOnlinePlayers().stream().filter((p) -> winners.contains(p.getUniqueId())).collect(Collectors.toList());
-			winnersText = winnersPlayers.stream().map(Player::getName).collect(Collectors.joining(", "));
 		}
 
 		if (skipped) {
-			this.sendMessage("The " + this.getName() + " game has ended. There are no winners, this game was skipped.");
-		} else if (winners.isEmpty()){
-			this.sendMessage("The " + this.getName() + " game has ended.");
-		} else if (winners.size() == 1){
-			this.sendMessage("The " + this.getName() + " game has ended! Winner: " + YELLOW + winnersText);
+			this.sendFormattedPlainMessage("The %s game has ended. There are no winners, this game was skipped.", this.getName());
+		} else if (winnersPlayers.isEmpty()) {
+			this.sendFormattedPlainMessage("The %s game has ended.", this.getName());
 		} else {
-			this.sendMessage("The " + this.getName() + " game has ended! Winners: " + YELLOW + winnersText);
+			this.sendMessage(Component.text("The " + this.getName() + " game has ended! Winner" + (winnersPlayers.size() == 1 ? "" : "s") + ": ")
+					.append(Component.text(winnersPlayers.stream().map(Player::getName).collect(Collectors.joining(", "))).color(StandardTextColor.YELLOW)));
 		}
 
 		saveGameResult(winnersPlayers, skipped);
@@ -467,19 +470,11 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 		Scheduler.delay(10*20, () -> {
 			AutoRotate.startNewRandomGame();
 		});
-
-//		Scheduler.delay(20*20, () -> {
-//			// Unload world from previous game. It can be done now, because all players should
-//			// be teleported to the lobby by now.
-//			if (this.map.getGameWorld() != null) {
-//				this.map.getGameWorld().unload();
-//			} else {
-//				Logger.warning("Game %s is still in lobby world", this.getName());
-//			}
-//		});
 	}
 
 	private void saveGameResult(final List<Player> winners, final boolean skipped) {
+		Validate.noNullElements(winners);
+
 		final File gameResultsDir = new File("game_results");
 		if (!gameResultsDir.exists()) {
 			Logger.warning("Skipped saving game data, directory '%s' does not exist.", gameResultsDir.getAbsolutePath());
