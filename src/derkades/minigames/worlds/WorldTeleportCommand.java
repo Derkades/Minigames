@@ -10,6 +10,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import derkades.minigames.Var;
+import derkades.minigames.utils.MPlayer;
 
 public class WorldTeleportCommand implements CommandExecutor {
 
@@ -27,18 +28,18 @@ public class WorldTeleportCommand implements CommandExecutor {
 			return true;
 		}
 
-		final Player player = (Player) sender;
+		final MPlayer player = new MPlayer((Player) sender);
 
 		if (args[0].equals("lobby")) {
 			player.teleport(Var.LOBBY_LOCATION);
 		} else {
 			final String enumName = args[0].toUpperCase();
 			try {
-				player.teleport(new Location(GameWorld.valueOf(args[0].toUpperCase()).getWorld(), 0.5, 65, 0.5));
+				player.queueTeleport(new Location(GameWorld.valueOf(args[0].toUpperCase()).getWorld(), 0.5, 65, 0.5));
 				player.setGameMode(GameMode.CREATIVE);
-				player.setFlying(true);
+				player.bukkit().setFlying(true);
 			} catch (final IllegalArgumentException e) {
-				player.sendMessage("No world '" + enumName + "'");
+				player.sendChat("No world '" + enumName + "'");
 			}
 		}
 
