@@ -38,6 +38,7 @@ import net.md_5.bungee.api.chat.TextComponent;
 import xyz.derkades.derkutils.bukkit.BlockUtils;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
 import xyz.derkades.derkutils.bukkit.LocationUtils;
+import xyz.derkades.derkutils.bukkit.StandardTextColor;
 
 public class MPlayer {
 
@@ -497,6 +498,9 @@ public class MPlayer {
 		placeCage(cage, Material.GLASS);
 	}
 
+
+
+	@Deprecated
 	public void sendActionBar(final String message) {
 		this.sendActionBar(TextComponent.fromLegacyText(message));
 	}
@@ -506,10 +510,27 @@ public class MPlayer {
 		this.player.spigot().sendMessage(ChatMessageType.ACTION_BAR, components);
 	}
 
+	public void sendFormattedPlainActionBar(final String message, final Object... replacements) {
+		this.sendActionBar(Component.text(String.format(message, replacements), StandardTextColor.GRAY));
+	}
+
+	public void sendPlainActionBar(final String message) {
+		this.sendActionBar(Component.text(message, StandardTextColor.GRAY));
+	}
+
 	public void sendActionBar(final Component message) {
 		this.player.sendActionBar(message);
 	}
 
+	public void sendFormattedPlainChat(final String message, final Object... replacements) {
+		this.sendChat(Component.text(String.format(message, replacements), StandardTextColor.GRAY));
+	}
+
+	public void sendPlainChat(final String message) {
+		this.sendChat(Component.text(message, StandardTextColor.GRAY));
+	}
+
+	@Deprecated
 	public void sendChat(final String message) {
 		this.player.sendMessage(message);
 	}
