@@ -514,11 +514,6 @@ public class MPlayer {
 		this.player.sendMessage(message);
 	}
 
-	@Deprecated
-	public void sendChat(final BaseComponent... components) {
-		this.player.spigot().sendMessage(components);
-	}
-
 	public void sendChat(final Component message) {
 		this.player.sendMessage(message);
 	}

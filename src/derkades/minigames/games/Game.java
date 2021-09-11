@@ -181,7 +181,7 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 
 	public boolean voteGameSkip(final Player player) {
 		if (this.gameSkipVotes.add(player.getUniqueId())) {
-			sendMessage(player.getName() + " voted to skip this game using /voteskip.");
+			sendFormattedPlainMessage("%s voted to skip this game using /voteskip.", player.getName());
 			return true;
 		}
 		return false;
@@ -328,7 +328,7 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 
 				final boolean skip = (float) Game.this.gameSkipVotes.size() / Bukkit.getOnlinePlayers().size() > SkipConfig.SKIP_VOTE_PERCENTAGE;
 				if (skip && this.secondsLeft > SkipConfig.SKIP_TO_SECONDS_LEFT) {
-					sendMessage(String.format(SkipConfig.SKIP_MESSAGE, Game.this.gameSkipVotes.size()));
+					sendFormattedPlainMessage("Ending this game early, %s players voted to skip.", Game.this.gameSkipVotes.size());
 					this.secondsLeft = SkipConfig.SKIP_TO_SECONDS_LEFT;
 					GameState.setState(GameState.RUNNING_SKIPPED, Game.this);
 				}
@@ -354,11 +354,6 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 			}
 
 		}.runTaskTimer(Minigames.getInstance(), 0, 20);
-	}
-
-	@Deprecated
-	protected void sendMessage(final String message){
-		Bukkit.broadcastMessage(Utils.getChatPrefix(ChatColor.AQUA, 'G') + message);
 	}
 
 	protected void sendPlainMessage(final String message) {
