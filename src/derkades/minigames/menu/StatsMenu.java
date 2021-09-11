@@ -1,5 +1,8 @@
 package derkades.minigames.menu;
 
+import java.io.File;
+import java.util.Date;
+
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
@@ -74,6 +77,12 @@ public class StatsMenu extends IconMenu {
 				.name("Worst map")
 				.lore(worstMapGame.getName() + " - " + worstMap.getName(), "Weight: " + NumberUtils.roundApprox(worstMap.getWeight(), 2))
 				.create());
+
+		addItem(4, new ItemBuilder(Material.GRAY_DYE)
+				.name("Last plugin update")
+				.lore(Minigames.PRETTY_TIME.format(new Date(new File(Minigames.getInstance().getDataFolder().getParentFile().getPath(), "Minigames.jar").lastModified())))
+				.create()
+				);
 	}
 
 	@Override

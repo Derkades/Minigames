@@ -14,6 +14,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventException;
 import org.bukkit.plugin.RegisteredListener;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.ocpsoft.prettytime.PrettyTime;
 
 import de.tr7zw.changeme.nbtapi.utils.MinecraftVersion;
 import derkades.minigames.games.Game;
@@ -50,6 +51,8 @@ import net.kyori.adventure.text.Component;
 import xyz.derkades.derkutils.bukkit.StandardTextColor;
 
 public class Minigames extends JavaPlugin implements Listener {
+
+	public static final PrettyTime PRETTY_TIME = new PrettyTime();
 
 	private static Minigames instance;
 
