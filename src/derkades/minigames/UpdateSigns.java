@@ -110,7 +110,8 @@ public class UpdateSigns {
 			for (int j = 0; j < 3; j++) {
 				final Sign sign = (Sign) LEADERBOARD_SIGNS[i][j].getBlock().getState();
 				for (int line = 0; line < 4; line++) {
-					sign.line(line, components[i][j*4+line]);
+					final Component component = components[i][j*4+line];
+					sign.line(line, component == null ? Component.empty() : component);
 				}
 				sign.update();
 			}
