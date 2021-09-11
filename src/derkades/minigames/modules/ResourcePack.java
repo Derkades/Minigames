@@ -14,7 +14,6 @@ import java.util.concurrent.Executors;
 import org.apache.commons.codec.DecoderException;
 import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.codec.digest.DigestUtils;
-import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -29,6 +28,16 @@ import derkades.minigames.utils.Scheduler;
 public class ResourcePack extends Module {
 
 	private static final String EMPTY_DOWNLOAD_URL = "http://vps3.derkad.es:12345/empty.zip";
+	private static final byte[] EMPTY_HASH;
+	static {
+		byte[] hash = null;
+		try {
+			hash = Hex.decodeHex("6bf5ff711e75e780d2fa5e8ecfad977b6684e73f");
+		} catch (final DecoderException e) {
+			e.printStackTrace();
+		}
+		EMPTY_HASH = hash;
+	}
 	private static final String DOWNLOAD_URL = "http://vps3.derkad.es:12345/minigames.zip";
 	private static final URI DOWNLOAD_URI = URI.create(DOWNLOAD_URL);
 
@@ -97,12 +106,13 @@ public class ResourcePack extends Module {
 				return;
 			} else {
 				this.hash = hash;
-				Logger.debug("Sending new pack to all online players");
-				Scheduler.run(() -> {
-					for (final Player player : Bukkit.getOnlinePlayers()) {
-						sendPack(player);
-					}
-				});
+				Logger.debug("Resource pack has changed, please rejoin to apply.");
+//				Scheduler.run(() -> {
+//					Logger.debug("Sending new pack to all online players");
+//					for (final Player player : Bukkit.getOnlinePlayers()) {
+//						sendPack(player);
+//					}
+//				});
 			}
 		});
 	}
@@ -115,7 +125,7 @@ public class ResourcePack extends Module {
 	}
 
 	public static void sendEmptyPack(final Player player) {
-		player.setResourcePack(EMPTY_DOWNLOAD_URL);
+		player.setResourcePack(EMPTY_DOWNLOAD_URL, EMPTY_HASH);
 	}
 
 	public static void sendResourcePack(final Player player) {
