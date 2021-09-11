@@ -132,7 +132,7 @@ public class UpdateSigns {
 		globalStats2.line(0, Component.text("Games", StandardTextColor.YELLOW));
 		final int gameCount = Game.GAMES.length;
 		final int mapCount = Arrays.stream(Game.GAMES).mapToInt(g -> g.getGameMaps().length).sum();
-		globalStats2.line(1, Component.text(gameCount + "(" + mapCount + " maps)", StandardTextColor.WHITE));
+		globalStats2.line(1, Component.text(gameCount + " (" + mapCount + " maps)", StandardTextColor.WHITE));
 		globalStats2.line(2, Component.text("Zombies killed", StandardTextColor.YELLOW));
 		final int killCount = Minigames.getInstance().getConfig().getInt("zombie-kill-count", 0);
 		globalStats2.line(3, Component.text(killCount, StandardTextColor.WHITE));
