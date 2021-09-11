@@ -255,9 +255,9 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 				if (this.timeLeft == 100) {
 					final int online = Bukkit.getOnlinePlayers().size();
 					if (online < 4) {
-						Game.this.sendMessage("Many games require more players. Larger games are generally more fun, so get a few more friends online to play them!");
+						Game.this.sendPlainMessage("Many games require more players. Larger games are generally more fun, so get a few more friends online to play them!");
 					} else if (online < 5) {
-						Game.this.sendMessage("Some games require more players. Get a few more friends online to play them!");
+						Game.this.sendPlainMessage("Some games require more players. Get a few more friends online to play them!");
 					}
 				}
 
@@ -367,8 +367,8 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 	protected void sendPlainMessage(final String message) {
 		Bukkit.broadcast(Component.text(message).color(StandardTextColor.GRAY));
 	}
-	
-	protected void sendFormattedPlainMessage(final String message, Object... replacements) {
+
+	protected void sendFormattedPlainMessage(final String message, final Object... replacements) {
 		Bukkit.broadcast(Component.text(String.format(message, replacements)).color(StandardTextColor.GRAY));
 	}
 
