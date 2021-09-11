@@ -49,11 +49,6 @@ public class Dropper extends Game<DropperMap> {
 	}
 
 	@Override
-	public int getPreDuration() {
-		return 5;
-	}
-
-	@Override
 	public int getDuration() {
 		return 45;
 	}
