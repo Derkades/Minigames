@@ -40,7 +40,7 @@ public enum GameTeam {
 	GameTeam(final String name, final ChatColor color, final String materialPrefix) {
 		this.color = color;
 		this.textColor = TextColor.color(color.getColor().getRGB());
-		this.bukkitColor = Color.fromRGB(color.getColor().getRGB());
+		this.bukkitColor = Color.fromRGB(color.getColor().getRGB() & 0x00FFFFFF); // need to remove alpha bits or bukkit will complain
 		this.string = color + "" + ChatColor.BOLD + this.name();
 		this.glassBlock = Material.valueOf(materialPrefix + "_STAINED_GLASS");
 		this.glassPane = Material.valueOf(materialPrefix + "_STAINED_GLASS_PANE");
