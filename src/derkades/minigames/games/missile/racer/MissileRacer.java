@@ -28,10 +28,10 @@ public class MissileRacer extends Game<MissileRacerMap> {
 	private static final ItemStack PLACEABLE_TNT = new ItemBuilder(Material.TNT)
 			.amount(20)
 			.canPlaceOn(
-					"minecraft:obsidian", 
-					"minecraft:slime_block", 
+					"minecraft:obsidian",
+					"minecraft:slime_block",
 					"minecraft:redstone_block",
-					"minecraft:glass", 
+					"minecraft:glass",
 					"minecraft:honey_block",
 					"minecraft:observer",
 					"minecraft:piston",
@@ -187,7 +187,7 @@ public class MissileRacer extends Game<MissileRacerMap> {
 		final String cooldownId = "missileracer" + player.getName();
 
 		if (Cooldown.getCooldown(cooldownId) > 0) {
-			player.sendActionBar("You cannot use this right now.");
+			player.sendPlainActionBar("You cannot use this right now.");
 			return;
 		}
 

@@ -263,7 +263,7 @@ public class GladeRoyale extends Game<GladeRoyaleMap> {
 	@EventHandler(ignoreCancelled = true)
 	public void blockPlace(final BlockPlaceEvent event) {
 		if (event.getBlock().getY() >= this.map.getMaxY()) {
-			new MPlayer(event.getPlayer()).sendChat("You cannot build any higher");
+			new MPlayer(event.getPlayer()).sendPlainChat("You cannot build any higher");
 			event.setCancelled(true);
 		}
 	}

@@ -33,13 +33,12 @@ public class WorldTeleportCommand implements CommandExecutor {
 		if (args[0].equals("lobby")) {
 			player.teleport(Var.LOBBY_LOCATION);
 		} else {
-			final String enumName = args[0].toUpperCase();
 			try {
 				player.queueTeleport(new Location(GameWorld.valueOf(args[0].toUpperCase()).getWorld(), 0.5, 65, 0.5));
 				player.setGameMode(GameMode.CREATIVE);
 				player.bukkit().setFlying(true);
 			} catch (final IllegalArgumentException e) {
-				player.sendChat("No world '" + enumName + "'");
+				player.sendFormattedPlainChat("No world '%s'", args[0]);
 			}
 		}
 

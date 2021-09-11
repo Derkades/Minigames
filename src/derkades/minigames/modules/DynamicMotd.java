@@ -6,6 +6,7 @@ import org.bukkit.event.server.ServerListPingEvent;
 import derkades.minigames.GameState;
 import derkades.minigames.Logger;
 import derkades.minigames.games.Game;
+import net.kyori.adventure.text.Component;
 
 public class DynamicMotd extends Module {
 
@@ -41,7 +42,7 @@ public class DynamicMotd extends Module {
 				line2 = "Unknown state";
 			}
 		}
-		event.setMotd(line1 + "\n" + line2);
+		event.motd(Component.text(line1 + "\n" + line2));
 	}
 
 }

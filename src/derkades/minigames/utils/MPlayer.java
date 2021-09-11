@@ -31,10 +31,6 @@ import derkades.minigames.utils.queue.TaskQueue;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.title.Title;
 import net.md_5.bungee.api.ChatColor;
-import net.md_5.bungee.api.ChatMessageType;
-import net.md_5.bungee.api.chat.BaseComponent;
-import net.md_5.bungee.api.chat.ComponentBuilder;
-import net.md_5.bungee.api.chat.TextComponent;
 import xyz.derkades.derkutils.bukkit.BlockUtils;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
 import xyz.derkades.derkutils.bukkit.LocationUtils;
@@ -306,8 +302,7 @@ public class MPlayer {
 	public void spectator() {
 		this.player.setGameMode(GameMode.SPECTATOR);
 		this.disableSneakPrevention();
-		this.sendActionBar(new ComponentBuilder("You are now a specator. Use /spec <player> to spectate a player.")
-				.color(ChatColor.GRAY).create());
+		this.sendPlainActionBar("You are now a specator. Use /spec <player> to spectate a player.");
 	}
 
 	public boolean isSpectator() {
@@ -498,18 +493,6 @@ public class MPlayer {
 		placeCage(cage, Material.GLASS);
 	}
 
-
-
-	@Deprecated
-	public void sendActionBar(final String message) {
-		this.sendActionBar(TextComponent.fromLegacyText(message));
-	}
-
-	@Deprecated
-	public void sendActionBar(final BaseComponent... components) {
-		this.player.spigot().sendMessage(ChatMessageType.ACTION_BAR, components);
-	}
-
 	public void sendFormattedPlainActionBar(final String message, final Object... replacements) {
 		this.sendActionBar(Component.text(String.format(message, replacements), StandardTextColor.GRAY));
 	}
@@ -528,11 +511,6 @@ public class MPlayer {
 
 	public void sendPlainChat(final String message) {
 		this.sendChat(Component.text(message, StandardTextColor.GRAY));
-	}
-
-	@Deprecated
-	public void sendChat(final String message) {
-		this.player.sendMessage(message);
 	}
 
 	public void sendChat(final Component message) {

@@ -22,9 +22,11 @@ import derkades.minigames.utils.Leaderboard;
 import derkades.minigames.utils.MPlayer;
 import derkades.minigames.utils.MinigamesPlayerDamageEvent;
 import derkades.minigames.utils.Scheduler;
+import net.kyori.adventure.text.Component;
 import net.md_5.bungee.api.ChatColor;
 import xyz.derkades.derkutils.ListUtils;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
+import xyz.derkades.derkutils.bukkit.StandardTextColor;
 
 public class Harvest extends Game<HarvestMap> {
 
@@ -210,7 +212,7 @@ public class Harvest extends Game<HarvestMap> {
 		}
 
 		final MPlayer player = new MPlayer(event.getPlayer());
-		player.sendChat(ChatColor.RED + "This crop was not fully grown yet! You lose one wheat.");
+		player.sendChat(Component.text("This crop was not fully grown yet! You lost one wheat.", StandardTextColor.RED));
 		player.sendTitle("", ChatColor.RED + "-1");
 		player.getInventory().removeItem(new ItemStack(Material.WHEAT, 1));
 	}

@@ -609,10 +609,10 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 					} else {
 						this.map.setWeight(weight);
 					}
-				}, new PollAnswer(1, "Yes", ChatColor.GREEN, "The " + typeString + " will be picked more often"),
-						new PollAnswer(2, "No", ChatColor.RED, "The " + typeString + " will be picked less often"));
+				}, new PollAnswer(1, "Yes", StandardTextColor.GREEN, "The " + typeString + " will be picked more often"),
+						new PollAnswer(2, "No", StandardTextColor.RED, "The " + typeString + " will be picked less often"));
 
-				Bukkit.getOnlinePlayers().forEach(poll::send);
+				Minigames.getOnlinePlayers().forEach(poll::send);
 			});
 		}
 	}

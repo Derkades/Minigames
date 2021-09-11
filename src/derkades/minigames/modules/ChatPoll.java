@@ -9,12 +9,13 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import derkades.minigames.Minigames;
-import derkades.minigames.utils.Utils;
+import derkades.minigames.utils.MPlayer;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.event.ClickEvent;
+import net.kyori.adventure.text.event.HoverEvent;
+import net.kyori.adventure.text.format.TextColor;
 import net.md_5.bungee.api.ChatColor;
-import net.md_5.bungee.api.chat.ClickEvent;
-import net.md_5.bungee.api.chat.ComponentBuilder;
-import net.md_5.bungee.api.chat.HoverEvent;
-import net.md_5.bungee.api.chat.hover.content.Text;
+import xyz.derkades.derkutils.bukkit.StandardTextColor;
 import xyz.derkades.derkutils.bukkit.reflection.ReflectionUtil;
 
 public class ChatPoll extends Module {
@@ -41,29 +42,28 @@ public class ChatPoll extends Module {
 			this.answers = answers;
 		}
 
-		public void send(final Player player) {
+		public void send(final MPlayer player) {
 			final String token = UUID.randomUUID().toString().replace("-", "");
 
 			ChatPoll.this.tokens.put(token, System.currentTimeMillis());
 
 			ChatPoll.this.callbacks.put(token, this.callback);
 
-			player.sendMessage(Utils.getChatPrefix(ChatColor.AQUA, 'P') + ChatColor.DARK_GRAY + "-----------------------------------------");
-			player.spigot().sendMessage(new ComponentBuilder("").appendLegacy(Utils.getChatPrefix(ChatColor.AQUA, 'P')).append(this.question).create());
+			player.sendChat(Component.text("-----------------------------------------", StandardTextColor.DARK_GRAY));
+			player.sendPlainChat(this.question);
 
-			final ComponentBuilder answerMessage = new ComponentBuilder("");
-
-			answerMessage.appendLegacy(Utils.getChatPrefix(ChatColor.AQUA, 'P'));
+			final Component answerMessage = Component.empty();
 
 			for (final PollAnswer answer : this.answers) {
-				answerMessage.append(String.format(" [%s] ", answer.displayName))
-					.color(answer.answerColor)
-					.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(new ComponentBuilder(answer.hoverMessage).color(ChatColor.GRAY).create())))
-					.event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, String.format("/%s %s %s", COMMAND_NAME, token, answer.id)));
+				answerMessage.append(
+						Component.text(String.format(" [%s] ", answer.displayName), answer.answerColor)
+						.hoverEvent(HoverEvent.showText(Component.text(answer.hoverMessage, StandardTextColor.GRAY)))
+						.clickEvent(ClickEvent.runCommand(String.format("/%s %s %s", COMMAND_NAME, token, answer.id)))
+						);
 			}
 
-			player.spigot().sendMessage(answerMessage.create());
-			player.sendMessage(Utils.getChatPrefix(ChatColor.AQUA, 'P') + ChatColor.DARK_GRAY + "-----------------------------------------");
+			player.sendChat(answerMessage);
+			player.sendChat(Component.text("-----------------------------------------", StandardTextColor.DARK_GRAY));
 
 		}
 	}
@@ -72,10 +72,10 @@ public class ChatPoll extends Module {
 
 		private final int id;
 		private final String displayName;
-		private final ChatColor answerColor;
+		private final TextColor answerColor;
 		private final String hoverMessage;
 
-		public PollAnswer (final int id, final String displayName, final ChatColor answerColor, final String hoverMessage){
+		public PollAnswer (final int id, final String displayName, final TextColor answerColor, final String hoverMessage){
 			this.id = id;
 			this.displayName = displayName;
 			this.answerColor = answerColor;

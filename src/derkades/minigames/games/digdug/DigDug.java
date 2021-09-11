@@ -22,9 +22,11 @@ import derkades.minigames.Minigames;
 import derkades.minigames.games.Game;
 import derkades.minigames.utils.Leaderboard;
 import derkades.minigames.utils.MPlayer;
+import net.kyori.adventure.text.Component;
 import net.md_5.bungee.api.ChatColor;
 import xyz.derkades.derkutils.bukkit.BlockUtils;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
+import xyz.derkades.derkutils.bukkit.StandardTextColor;
 
 public class DigDug extends Game<DigDugMap> {
 
@@ -167,7 +169,7 @@ public class DigDug extends Game<DigDugMap> {
 				player.playSound(Sound.ENTITY_ARROW_HIT_PLAYER, 1.5f);
 			}
 			case NETHERRACK -> {
-				player.sendActionBar(ChatColor.RED + "Everyone is now blinded for " + NETHERRACK_EFFECT_TIME / 20 + " seconds.");
+				player.sendFormattedPlainActionBar("Everyone is now blinded for %s seconds.", NETHERRACK_EFFECT_TIME / 20);
 				final PotionEffect blind = new PotionEffect(PotionEffectType.BLINDNESS, NETHERRACK_EFFECT_TIME, 0, true, false);
 				final PotionEffect slow = new PotionEffect(PotionEffectType.SLOW, NETHERRACK_EFFECT_TIME, 1, true, false);
 				for (final Player online : Bukkit.getOnlinePlayers()) {
@@ -179,7 +181,7 @@ public class DigDug extends Game<DigDugMap> {
 				player.playSound(Sound.ENTITY_ARROW_HIT_PLAYER, 0.5f);
 			}
 			case QUARTZ_BLOCK -> {
-				player.sendActionBar(ChatColor.AQUA + "Your walking speed and vision has been boosted for " + QUARTZ_EFFECT_TIME / 20 + " seconds.");
+				player.sendFormattedPlainActionBar("Your walking speed and vision has been boosted for %s seconds.", QUARTZ_EFFECT_TIME / 20);
 				final PotionEffect speed = new PotionEffect(PotionEffectType.SPEED, QUARTZ_EFFECT_TIME, 2, true, false);
 				final PotionEffect vision = new PotionEffect(PotionEffectType.NIGHT_VISION, QUARTZ_EFFECT_TIME, 0, true, false);
 				player.bukkit().addPotionEffect(speed);
@@ -192,7 +194,7 @@ public class DigDug extends Game<DigDugMap> {
 	}
 
 	private void addPoints(final MPlayer player, final int pointsToAdd) {
-		player.sendActionBar(ChatColor.GREEN + "+ " + pointsToAdd + " points");
+		player.sendActionBar(Component.text("+ " + pointsToAdd + " points", StandardTextColor.GREEN));
 		this.leaderboard.setScore(player, this.leaderboard.getScore(player) + pointsToAdd);
 	}
 

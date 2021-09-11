@@ -143,10 +143,10 @@ public class ControlPoints extends Game<ControlPointsMap> {
 
 				if (this.map.isOnControlPoint(controlPoint, player)) {
 					if (this.teamRed.contains(player.getUniqueId())) {
-						player.sendActionBar("Claiming control point! " + this.status.get(i));
+						player.sendFormattedPlainActionBar("Claiming control point! %s", this.status.get(i));
 						red++;
 					} else if (this.teamBlue.contains(player.getUniqueId())) {
-						player.sendActionBar("Claiming control point! " + -this.status.get(i));
+						player.sendFormattedPlainActionBar("Claiming control point! %s", -this.status.get(i));
 						blue++;
 					}
 				}

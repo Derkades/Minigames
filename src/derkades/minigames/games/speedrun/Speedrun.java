@@ -15,7 +15,8 @@ import org.bukkit.potion.PotionEffectType;
 import derkades.minigames.Minigames;
 import derkades.minigames.games.Game;
 import derkades.minigames.utils.MPlayer;
-import net.md_5.bungee.api.ChatColor;
+import net.kyori.adventure.text.Component;
+import xyz.derkades.derkutils.bukkit.StandardTextColor;
 
 public class Speedrun extends Game<SpeedrunMap> {
 
@@ -99,7 +100,7 @@ public class Speedrun extends Game<SpeedrunMap> {
 		}
 
 		if (player.bukkit().isSneaking() || player.bukkit().isSprinting()){
-			player.sendActionBar(ChatColor.RED + "Sprinting is not allowed");
+			player.sendActionBar(Component.text("Sprinting is not allowed", StandardTextColor.RED));
 			player.teleport(this.map.getStartLocation());
 			return;
 		}

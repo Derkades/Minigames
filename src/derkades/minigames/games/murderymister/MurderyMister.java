@@ -33,6 +33,7 @@ import derkades.minigames.utils.Scheduler;
 import derkades.minigames.utils.Utils;
 import derkades.minigames.utils.queue.TaskQueue;
 import io.papermc.paper.event.player.AsyncChatEvent;
+import net.kyori.adventure.text.Component;
 import net.md_5.bungee.api.ChatColor;
 import xyz.derkades.derkutils.ListUtils;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
@@ -244,7 +245,7 @@ public class MurderyMister extends Game<MurderyMisterMap> {
 				if (event.getType().equals(DamageType.ENTITY) && !event.getDamagerPlayer().getUniqueId().equals(this.murderer)) {
 					final MPlayer killer = event.getDamagerPlayer();
 					killer.bukkit().damage(40);
-					killer.sendActionBar(ChatColor.RED + "You killed an innocent player!");
+					killer.sendActionBar(Component.text("You killed an innocent player!"));
 
 				}
 			}
