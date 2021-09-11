@@ -294,7 +294,7 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 
 		new BukkitRunnable() {
 
-			private int secondsLeft = Game.this.getDuration() + Game.this.getPreDuration();
+			private int secondsLeft = Game.this.getDuration() + Game.this.getPreDuration() + 1; // + 1 to compensate for -- at first iteration
 
 			@Override
 			public void run() {
