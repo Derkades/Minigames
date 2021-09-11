@@ -317,7 +317,7 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 
 				if (this.secondsLeft == Game.this.getDuration()) {
 					Minigames.getOnlinePlayers().forEach((p) -> p.sendTitle("", ""));
-					Game.this.sendMessage("The game has started.");
+//					Game.this.sendMessage("The game has started.");
 					Game.this.startTime = System.currentTimeMillis();
 					Game.this.onStart();
 					Game.this.map.onStart();
@@ -349,10 +349,6 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 					Game.this.onEnd();
 					Game.this.map.onEnd();
 					return;
-				}
-
-				if (this.secondsLeft == 60 || this.secondsLeft == 30 || this.secondsLeft == 10 || this.secondsLeft == 5 || this.secondsLeft <= 3) {
-					Game.this.sendMessage(String.format("%s seconds left", this.secondsLeft));
 				}
 			}
 
