@@ -83,11 +83,11 @@ import derkades.minigames.utils.Utils;
 import derkades.minigames.utils.queue.TaskQueue;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.HoverEvent;
+import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import net.md_5.bungee.api.ChatColor;
 import xyz.derkades.derkutils.Hastebin;
 import xyz.derkades.derkutils.NumberUtils;
-import xyz.derkades.derkutils.bukkit.StandardTextColor;
 
 public abstract class Game<M extends GameMap> implements Listener, RandomlyPickable {
 
@@ -202,16 +202,16 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 		for (final Player player : Bukkit.getOnlinePlayers()) {
 			player.sendMessage(DARK_GRAY + "-----------------------------------------");
 			player.sendMessage(Component.text().append(
-					Component.text(this.getName()).decorate(TextDecoration.BOLD).color(StandardTextColor.GOLD)).append(
+					Component.text(this.getName()).decorate(TextDecoration.BOLD).color(NamedTextColor.GOLD)).append(
 							Component.text(String.format(" (multiplier %.1f, hover for help)", this.getWeight()))
-									.color(StandardTextColor.GRAY)
+									.color(NamedTextColor.GRAY)
 									.hoverEvent(HoverEvent.showText(Component
 											.text("The number shown after the game name in parentheses\n"
 													+ "is the game weight. A higher weight means that the\n"
 													+ "minigame has a higher chance of being picked. The\n"
 													+ "game weight can be increased or decreased by voting\n"
 													+ "on the poll at the end of the game.")
-											.color(StandardTextColor.GRAY)))));
+											.color(NamedTextColor.GRAY)))));
 
 			if (!Minigames.getInstance().getConfig().getStringList("disabled-description")
 					.contains(player.getUniqueId().toString())) {
@@ -357,11 +357,11 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 	}
 
 	protected void sendPlainMessage(final String message) {
-		Bukkit.broadcast(Component.text(message).color(StandardTextColor.GRAY));
+		Bukkit.broadcast(Component.text(message).color(NamedTextColor.GRAY));
 	}
 
 	protected void sendFormattedPlainMessage(final String message, final Object... replacements) {
-		Bukkit.broadcast(Component.text(String.format(message, replacements)).color(StandardTextColor.GRAY));
+		Bukkit.broadcast(Component.text(String.format(message, replacements)).color(NamedTextColor.GRAY));
 	}
 
 	protected void sendMessage(final Component message) {
@@ -416,7 +416,7 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 			this.sendFormattedPlainMessage("The %s game has ended.", this.getName());
 		} else {
 			this.sendMessage(Component.text("The " + this.getName() + " game has ended! Winner" + (winnersPlayers.size() == 1 ? "" : "s") + ": ")
-					.append(Component.text(winnersPlayers.stream().map(Player::getName).collect(Collectors.joining(", "))).color(StandardTextColor.YELLOW)));
+					.append(Component.text(winnersPlayers.stream().map(Player::getName).collect(Collectors.joining(", "))).color(NamedTextColor.YELLOW)));
 		}
 
 		saveGameResult(winnersPlayers, skipped);
@@ -609,8 +609,8 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 					} else {
 						this.map.setWeight(weight);
 					}
-				}, new PollAnswer(1, "Yes", StandardTextColor.GREEN, "The " + typeString + " will be picked more often"),
-						new PollAnswer(2, "No", StandardTextColor.RED, "The " + typeString + " will be picked less often"));
+				}, new PollAnswer(1, "Yes", NamedTextColor.GREEN, "The " + typeString + " will be picked more often"),
+						new PollAnswer(2, "No", NamedTextColor.RED, "The " + typeString + " will be picked less often"));
 
 				Minigames.getOnlinePlayers().forEach(poll::send);
 			});

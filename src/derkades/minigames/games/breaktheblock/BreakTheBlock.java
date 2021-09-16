@@ -205,12 +205,10 @@ public class BreakTheBlock extends Game<BreakTheBlockMap> {
 				player.getInventory().setItem(1, BOW);
 				player.getInventory().setItem(9, ARROW);
 			}
-		} else {
-			if (player.getInventory().getItem(1) != null &&
-					player.getInventory().getItem(1).getType() == Material.BOW) {
-				player.getInventory().setItem(1, null);
-				player.getInventory().setItem(9, null);
-			}
+		} else if (player.getInventory().getItem(1) != null &&
+				player.getInventory().getItem(1).getType() == Material.BOW) {
+			player.getInventory().setItem(1, null);
+			player.getInventory().setItem(9, null);
 		}
 	}
 

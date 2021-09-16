@@ -22,9 +22,9 @@ import derkades.minigames.utils.MPlayer;
 import derkades.minigames.utils.MinigamesPlayerDamageEvent;
 import derkades.minigames.utils.MinigamesPlayerDamageEvent.DamageType;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
-import xyz.derkades.derkutils.bukkit.StandardTextColor;
 
 public class TeamsBowBattle extends Game<TeamsBowBattleMap> {
 
@@ -81,9 +81,9 @@ public class TeamsBowBattle extends Game<TeamsBowBattleMap> {
 			final GameTeam team = teamBool ? GameTeam.RED : GameTeam.BLUE;
 			this.teamMembers.get(team).add(player.getUniqueId());
 			player.sendTitle(Component.empty(),
-					Component.text("You are in the ", StandardTextColor.GRAY)
+					Component.text("You are in the ", NamedTextColor.GRAY)
 					.append(Component.text(team.getDisplayName(), team.getTextColor()).decorate(TextDecoration.BOLD))
-					.append(Component.text(".", StandardTextColor.GRAY))
+					.append(Component.text(".", NamedTextColor.GRAY))
 					);
 
 			player.queueTeleport(getSpawnLocation(team));
@@ -140,14 +140,14 @@ public class TeamsBowBattle extends Game<TeamsBowBattleMap> {
 				final GameTeam killerTeam = getTeam(killer);
 				sendMessage(Component.empty()
 						.append(Component.text(player.getName(), playerTeam.getTextColor()).decorate(TextDecoration.BOLD))
-						.append(Component.text(" has been killed by ", StandardTextColor.GRAY))
+						.append(Component.text(" has been killed by ", NamedTextColor.GRAY))
 						.append(Component.text(killer.getName(), killerTeam.getTextColor()).decorate(TextDecoration.BOLD))
-						.append(Component.text(".", StandardTextColor.GRAY))
+						.append(Component.text(".", NamedTextColor.GRAY))
 						);
 			} else {
 				sendMessage(Component.empty()
 						.append(Component.text(player.getName(), playerTeam.getTextColor()).decorate(TextDecoration.BOLD))
-						.append(Component.text(" has died.", StandardTextColor.GRAY))
+						.append(Component.text(" has died.", NamedTextColor.GRAY))
 						);
 			}
 

@@ -28,9 +28,9 @@ import derkades.minigames.games.GameTeam;
 import derkades.minigames.utils.MPlayer;
 import derkades.minigames.utils.queue.TaskQueue;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import xyz.derkades.derkutils.ListUtils;
 import xyz.derkades.derkutils.bukkit.BlockUtils;
-import xyz.derkades.derkutils.bukkit.StandardTextColor;
 
 public class Tron extends Game<TronMap> {
 
@@ -320,23 +320,23 @@ public class Tron extends Game<TronMap> {
 						// Player logged out, in theory the team shouldn't exist anymore but just in case
 						sendMessage(
 								Component.text(player.getName(), tronPlayer.getTeam().getTextColor())
-								.append(Component.text(" was killed by the ", StandardTextColor.GRAY))
+								.append(Component.text(" was killed by the ", NamedTextColor.GRAY))
 								.append(Component.text(killer.getTeam().getDisplayName(), killer.getTeam().getTextColor()))
-								.append(Component.text(" team.", StandardTextColor.GRAY))
+								.append(Component.text(" team.", NamedTextColor.GRAY))
 								);
 					} else {
 						sendMessage(
 								Component.text(player.getName(), tronPlayer.getTeam().getTextColor())
-								.append(Component.text(" was killed by ", StandardTextColor.GRAY))
+								.append(Component.text(" was killed by ", NamedTextColor.GRAY))
 								.append(Component.text(killerPlayer.getName(), killer.getTeam().getTextColor()))
-								.append(Component.text(".", StandardTextColor.GRAY))
+								.append(Component.text(".", NamedTextColor.GRAY))
 								);
 					}
 				} else {
 					// Ran into a wall or into a player who already died
 					sendMessage(
 							Component.text(player.getName(), tronPlayer.getTeam().getTextColor())
-							.append(Component.text(" died.", StandardTextColor.GRAY))
+							.append(Component.text(" died.", NamedTextColor.GRAY))
 							);
 				}
 

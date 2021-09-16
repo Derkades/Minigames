@@ -7,7 +7,7 @@ import derkades.minigames.games.GameMap;
 import derkades.minigames.random.RandomPicking;
 import derkades.minigames.utils.Scheduler;
 import net.kyori.adventure.text.Component;
-import xyz.derkades.derkutils.bukkit.StandardTextColor;
+import net.kyori.adventure.text.format.NamedTextColor;
 
 public class AutoRotate {
 
@@ -18,14 +18,14 @@ public class AutoRotate {
 		}
 
 		if (Minigames.STOP_GAMES) {
-			Bukkit.broadcast(Component.text("An admin stopped the next game from starting. This is probably because some maintenance needs to be done.").color(StandardTextColor.RED));
+			Bukkit.broadcast(Component.text("An admin stopped the next game from starting. This is probably because some maintenance needs to be done.").color(NamedTextColor.RED));
 			Minigames.STOP_GAMES = false;
 			GameState.setState(GameState.IDLE_MAINTENANCE);
 			return;
 		}
 
 		if (Bukkit.getOnlinePlayers().size() < 2) {
-			Bukkit.broadcast(Component.text("Not enough players to start a game.").color(StandardTextColor.RED));
+			Bukkit.broadcast(Component.text("Not enough players to start a game.").color(NamedTextColor.RED));
 			Scheduler.delay(8*20, AutoRotate::startNewRandomGame);
 			return;
 		}

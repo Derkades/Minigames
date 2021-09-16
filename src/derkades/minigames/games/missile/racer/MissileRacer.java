@@ -176,11 +176,7 @@ public class MissileRacer extends Game<MissileRacerMap> {
 
 		final MPlayer player = new MPlayer(event);
 
-		if (player.getGameMode() != GameMode.ADVENTURE) {
-			return;
-		}
-
-		if (player.getInventory().getItemInMainHand().getType() != Material.PISTON) {
+		if ((player.getGameMode() != GameMode.ADVENTURE) || (player.getInventory().getItemInMainHand().getType() != Material.PISTON)) {
 			return;
 		}
 

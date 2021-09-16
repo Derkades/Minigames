@@ -12,8 +12,8 @@ import derkades.minigames.utils.Utils;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.ClickEvent;
 import net.kyori.adventure.text.event.HoverEvent;
+import net.kyori.adventure.text.format.NamedTextColor;
 import net.md_5.bungee.api.ChatColor;
-import xyz.derkades.derkutils.bukkit.StandardTextColor;
 
 public class BugCommand implements CommandExecutor {
 
@@ -23,12 +23,12 @@ public class BugCommand implements CommandExecutor {
 
 	private static final Component THANKS = Component.text()
 			.append(Component.text("Thanks for letting us know. You can view all open issues ")
-					.color(StandardTextColor.GRAY))
-			.append(Component.text("here").color(StandardTextColor.YELLOW)
+					.color(NamedTextColor.GRAY))
+			.append(Component.text("here").color(NamedTextColor.YELLOW)
 					.hoverEvent(HoverEvent.showText(
-							Component.text("Click to visit https://github.com/Derkades/Minigames/issues").color(StandardTextColor.GRAY)))
+							Component.text("Click to visit https://github.com/Derkades/Minigames/issues").color(NamedTextColor.GRAY)))
 					.clickEvent(ClickEvent.openUrl("https://github.com/Derkades/Minigames/issues")))
-			.append(Component.text(".").color(StandardTextColor.GRAY)).build();
+			.append(Component.text(".").color(NamedTextColor.GRAY)).build();
 
 	@Override
 	public boolean onCommand(final CommandSender sender, final Command arg1, final String label, final String[] args) {

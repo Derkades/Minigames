@@ -22,9 +22,9 @@ import io.papermc.paper.chat.ChatRenderer;
 import io.papermc.paper.chat.ChatRenderer.ViewerUnaware;
 import io.papermc.paper.event.player.AsyncChatEvent;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextColor;
 import net.md_5.bungee.api.ChatColor;
-import xyz.derkades.derkutils.bukkit.StandardTextColor;
 
 public class GlobalListeners implements Listener {
 
@@ -107,8 +107,8 @@ public class GlobalListeners implements Listener {
 			public @NotNull Component render(@NotNull final Player source, @NotNull final Component sourceDisplayName,
 					@NotNull final Component message) {
 				return sourceDisplayName
-						.append(Component.text(" \u00BB ").color(StandardTextColor.DARK_GRAY))
-						.append(message.color(StandardTextColor.GRAY));
+						.append(Component.text(" \u00BB ").color(NamedTextColor.DARK_GRAY))
+						.append(message.color(NamedTextColor.GRAY));
 			}
 
 		}));

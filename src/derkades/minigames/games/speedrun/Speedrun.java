@@ -16,7 +16,7 @@ import derkades.minigames.Minigames;
 import derkades.minigames.games.Game;
 import derkades.minigames.utils.MPlayer;
 import net.kyori.adventure.text.Component;
-import xyz.derkades.derkutils.bukkit.StandardTextColor;
+import net.kyori.adventure.text.format.NamedTextColor;
 
 public class Speedrun extends Game<SpeedrunMap> {
 
@@ -100,7 +100,7 @@ public class Speedrun extends Game<SpeedrunMap> {
 		}
 
 		if (player.bukkit().isSneaking() || player.bukkit().isSprinting()){
-			player.sendActionBar(Component.text("Sprinting is not allowed", StandardTextColor.RED));
+			player.sendActionBar(Component.text("Sprinting is not allowed", NamedTextColor.RED));
 			player.teleport(this.map.getStartLocation());
 			return;
 		}

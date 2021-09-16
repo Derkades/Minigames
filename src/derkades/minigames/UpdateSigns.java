@@ -22,7 +22,7 @@ import derkades.minigames.games.Game;
 import derkades.minigames.utils.Scheduler;
 import derkades.minigames.utils.Utils;
 import net.kyori.adventure.text.Component;
-import xyz.derkades.derkutils.bukkit.StandardTextColor;
+import net.kyori.adventure.text.format.NamedTextColor;
 
 public class UpdateSigns {
 
@@ -71,9 +71,9 @@ public class UpdateSigns {
 			Scheduler.run(() -> {
 				final long fillStart = System.currentTimeMillis();
 				final Component[][] leaderboard = new Component[3][12];
-				leaderboard[0][0] = Component.text("Username", StandardTextColor.GREEN);
-				leaderboard[1][0] = Component.text("Recent wins", StandardTextColor.GREEN);
-				leaderboard[2][0] = Component.text("Total points", StandardTextColor.GREEN);
+				leaderboard[0][0] = Component.text("Username", NamedTextColor.GREEN);
+				leaderboard[1][0] = Component.text("Recent wins", NamedTextColor.GREEN);
+				leaderboard[2][0] = Component.text("Total points", NamedTextColor.GREEN);
 
 				int i = 1;
 				for (final Map.Entry<UUID, Integer> wins : sorted.entrySet()) {
@@ -81,9 +81,9 @@ public class UpdateSigns {
 					final int recentWins = wins.getValue();
 					final int totalPoints = Minigames.getInstance().getConfig().getInt("points." + uuid, 0);
 					final String name = Bukkit.getOfflinePlayer(uuid).getName();
-					leaderboard[0][i] = Component.text(name == null ? "?" : name, StandardTextColor.WHITE);
-					leaderboard[1][i] = Component.text(recentWins, StandardTextColor.WHITE);
-					leaderboard[2][i] = Component.text(totalPoints, StandardTextColor.WHITE);
+					leaderboard[0][i] = Component.text(name == null ? "?" : name, NamedTextColor.WHITE);
+					leaderboard[1][i] = Component.text(recentWins, NamedTextColor.WHITE);
+					leaderboard[2][i] = Component.text(totalPoints, NamedTextColor.WHITE);
 					i = i + 1;
 					if (i > 12) {
 						break;
@@ -123,20 +123,20 @@ public class UpdateSigns {
 		final int gamesPlayed = Minigames.getInstance().getConfig().getInt("last-game-number");
 
 		final Sign globalStats = (Sign) new Location(Var.LOBBY_WORLD, 221, 65, 280).getBlock().getState();
-		globalStats.line(0, Component.text("Players", StandardTextColor.YELLOW));
-		globalStats.line(1, Component.text(uniquePlayerCount, StandardTextColor.WHITE));
-		globalStats.line(2, Component.text("Games played", StandardTextColor.YELLOW));
-		globalStats.line(3, Component.text(gamesPlayed, StandardTextColor.WHITE));
+		globalStats.line(0, Component.text("Players", NamedTextColor.YELLOW));
+		globalStats.line(1, Component.text(uniquePlayerCount, NamedTextColor.WHITE));
+		globalStats.line(2, Component.text("Games played", NamedTextColor.YELLOW));
+		globalStats.line(3, Component.text(gamesPlayed, NamedTextColor.WHITE));
 		globalStats.update();
 
 		final Sign globalStats2 = (Sign) new Location(Var.LOBBY_WORLD, 217, 65, 280).getBlock().getState();
-		globalStats2.line(0, Component.text("Games", StandardTextColor.YELLOW));
+		globalStats2.line(0, Component.text("Games", NamedTextColor.YELLOW));
 		final int gameCount = Game.GAMES.length;
 		final int mapCount = Arrays.stream(Game.GAMES).mapToInt(g -> g.getGameMaps().length).sum();
-		globalStats2.line(1, Component.text(gameCount + " (" + mapCount + " maps)", StandardTextColor.WHITE));
-		globalStats2.line(2, Component.text("Zombies killed", StandardTextColor.YELLOW));
+		globalStats2.line(1, Component.text(gameCount + " (" + mapCount + " maps)", NamedTextColor.WHITE));
+		globalStats2.line(2, Component.text("Zombies killed", NamedTextColor.YELLOW));
 		final int killCount = Minigames.getInstance().getConfig().getInt("zombie-kill-count", 0);
-		globalStats2.line(3, Component.text(killCount, StandardTextColor.WHITE));
+		globalStats2.line(3, Component.text(killCount, NamedTextColor.WHITE));
 		globalStats2.update();
 	}
 

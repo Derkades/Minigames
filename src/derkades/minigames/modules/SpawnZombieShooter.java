@@ -57,11 +57,7 @@ public class SpawnZombieShooter extends Module {
 		}
 
 		for (final MPlayer player : Minigames.getOnlinePlayers()) {
-			if (!player.getGameMode().equals(GameMode.ADVENTURE)) {
-				continue;
-			}
-
-			if (!player.getLocation().getWorld().equals(Var.LOBBY_WORLD)) {
+			if (!player.getGameMode().equals(GameMode.ADVENTURE) || !player.getLocation().getWorld().equals(Var.LOBBY_WORLD)) {
 				continue;
 			}
 
@@ -96,11 +92,7 @@ public class SpawnZombieShooter extends Module {
 
 		final Zombie zombie = (Zombie) event.getEntity();
 
-		if (!zombie.getLocation().getWorld().equals(Var.LOBBY_WORLD)) {
-			return;
-		}
-
-		if (zombie.getLastDamageCause().getCause() != DamageCause.PROJECTILE) {
+		if (!zombie.getLocation().getWorld().equals(Var.LOBBY_WORLD) || (zombie.getLastDamageCause().getCause() != DamageCause.PROJECTILE)) {
 			return;
 		}
 

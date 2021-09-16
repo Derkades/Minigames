@@ -29,12 +29,12 @@ import derkades.minigames.Points;
 import derkades.minigames.modules.SneakPrevention;
 import derkades.minigames.utils.queue.TaskQueue;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.title.Title;
 import net.md_5.bungee.api.ChatColor;
 import xyz.derkades.derkutils.bukkit.BlockUtils;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
 import xyz.derkades.derkutils.bukkit.LocationUtils;
-import xyz.derkades.derkutils.bukkit.StandardTextColor;
 
 public class MPlayer {
 
@@ -494,11 +494,11 @@ public class MPlayer {
 	}
 
 	public void sendFormattedPlainActionBar(final String message, final Object... replacements) {
-		this.sendActionBar(Component.text(String.format(message, replacements), StandardTextColor.GRAY));
+		this.sendActionBar(Component.text(String.format(message, replacements), NamedTextColor.GRAY));
 	}
 
 	public void sendPlainActionBar(final String message) {
-		this.sendActionBar(Component.text(message, StandardTextColor.GRAY));
+		this.sendActionBar(Component.text(message, NamedTextColor.GRAY));
 	}
 
 	public void sendActionBar(final Component message) {
@@ -506,11 +506,11 @@ public class MPlayer {
 	}
 
 	public void sendFormattedPlainChat(final String message, final Object... replacements) {
-		this.sendChat(Component.text(String.format(message, replacements), StandardTextColor.GRAY));
+		this.sendChat(Component.text(String.format(message, replacements), NamedTextColor.GRAY));
 	}
 
 	public void sendPlainChat(final String message) {
-		this.sendChat(Component.text(message, StandardTextColor.GRAY));
+		this.sendChat(Component.text(message, NamedTextColor.GRAY));
 	}
 
 	public void sendChat(final Component message) {

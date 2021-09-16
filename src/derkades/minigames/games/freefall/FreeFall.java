@@ -14,7 +14,7 @@ import derkades.minigames.utils.MPlayer;
 import derkades.minigames.utils.MinigamesPlayerDamageEvent;
 import derkades.minigames.utils.MinigamesPlayerDamageEvent.DamageType;
 import net.kyori.adventure.text.Component;
-import xyz.derkades.derkutils.bukkit.StandardTextColor;
+import net.kyori.adventure.text.format.NamedTextColor;
 
 public class FreeFall extends Game<FreeFallMap> {
 
@@ -95,9 +95,9 @@ public class FreeFall extends Game<FreeFallMap> {
 
 			for (final MPlayer player : Minigames.getOnlinePlayers()) {
 				if (correctHole.isInHole(player)) {
-					player.sendActionBar(Component.text("You chose the correct hole", StandardTextColor.GREEN));
+					player.sendActionBar(Component.text("You chose the correct hole", NamedTextColor.GREEN));
 				} else {
-					player.sendActionBar(Component.text("You chose the wrong hole", StandardTextColor.RED));
+					player.sendActionBar(Component.text("You chose the wrong hole", NamedTextColor.RED));
 				}
 			}
 			return secondsLeft;

@@ -13,9 +13,9 @@ import derkades.minigames.utils.MPlayer;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.ClickEvent;
 import net.kyori.adventure.text.event.HoverEvent;
+import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextColor;
 import net.md_5.bungee.api.ChatColor;
-import xyz.derkades.derkutils.bukkit.StandardTextColor;
 import xyz.derkades.derkutils.bukkit.reflection.ReflectionUtil;
 
 public class ChatPoll extends Module {
@@ -49,7 +49,7 @@ public class ChatPoll extends Module {
 
 			ChatPoll.this.callbacks.put(token, this.callback);
 
-			player.sendChat(Component.text("-----------------------------------------", StandardTextColor.DARK_GRAY));
+			player.sendChat(Component.text("-----------------------------------------", NamedTextColor.DARK_GRAY));
 			player.sendPlainChat(this.question);
 
 			final Component answerMessage = Component.empty();
@@ -57,13 +57,13 @@ public class ChatPoll extends Module {
 			for (final PollAnswer answer : this.answers) {
 				answerMessage.append(
 						Component.text(String.format(" [%s] ", answer.displayName), answer.answerColor)
-						.hoverEvent(HoverEvent.showText(Component.text(answer.hoverMessage, StandardTextColor.GRAY)))
+						.hoverEvent(HoverEvent.showText(Component.text(answer.hoverMessage, NamedTextColor.GRAY)))
 						.clickEvent(ClickEvent.runCommand(String.format("/%s %s %s", COMMAND_NAME, token, answer.id)))
 						);
 			}
 
 			player.sendChat(answerMessage);
-			player.sendChat(Component.text("-----------------------------------------", StandardTextColor.DARK_GRAY));
+			player.sendChat(Component.text("-----------------------------------------", NamedTextColor.DARK_GRAY));
 
 		}
 	}

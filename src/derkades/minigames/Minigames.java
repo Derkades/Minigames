@@ -48,7 +48,7 @@ import derkades.minigames.worlds.GameWorld;
 import derkades.minigames.worlds.WorldTeleportCommand;
 import derkades.minigames.worlds.WorldTeleportCommandCompleter;
 import net.kyori.adventure.text.Component;
-import xyz.derkades.derkutils.bukkit.StandardTextColor;
+import net.kyori.adventure.text.format.NamedTextColor;
 
 public class Minigames extends JavaPlugin implements Listener {
 
@@ -217,9 +217,9 @@ public class Minigames extends JavaPlugin implements Listener {
 					Component
 							.text("Something went wrong, so an emergency shutdown been performed automatically. Please "
 									+ "notify a server administrator if they are not online.")
-							.color(StandardTextColor.RED));
+							.color(NamedTextColor.RED));
     	} else if (reason == ShutdownReason.EMERGENCY_MANUAL) {
-    		Bukkit.broadcast(Component.text("An administrator has performed an emergency shutdown.").color(StandardTextColor.RED));
+    		Bukkit.broadcast(Component.text("An administrator has performed an emergency shutdown.").color(NamedTextColor.RED));
     	} else {
     		shutdown(ShutdownReason.EMERGENCY_AUTOMATIC, "Shutdown reason is invalid or null. Original text: " + text);
     		return;

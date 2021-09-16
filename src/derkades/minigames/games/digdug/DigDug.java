@@ -23,10 +23,10 @@ import derkades.minigames.games.Game;
 import derkades.minigames.utils.Leaderboard;
 import derkades.minigames.utils.MPlayer;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import net.md_5.bungee.api.ChatColor;
 import xyz.derkades.derkutils.bukkit.BlockUtils;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
-import xyz.derkades.derkutils.bukkit.StandardTextColor;
 
 public class DigDug extends Game<DigDugMap> {
 
@@ -194,7 +194,7 @@ public class DigDug extends Game<DigDugMap> {
 	}
 
 	private void addPoints(final MPlayer player, final int pointsToAdd) {
-		player.sendActionBar(Component.text("+ " + pointsToAdd + " points", StandardTextColor.GREEN));
+		player.sendActionBar(Component.text("+ " + pointsToAdd + " points", NamedTextColor.GREEN));
 		this.leaderboard.setScore(player, this.leaderboard.getScore(player) + pointsToAdd);
 	}
 
