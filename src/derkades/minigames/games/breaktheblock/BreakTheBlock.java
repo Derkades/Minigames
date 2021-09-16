@@ -159,7 +159,10 @@ public class BreakTheBlock extends Game<BreakTheBlockMap> {
 	}
 
 	private static final PotionEffect SLIME_BOOST = new PotionEffect(PotionEffectType.JUMP, 20, 6);
-	private static final ItemStack BOW = new ItemBuilder(Material.BOW).unbreakable().enchant(Enchantment.ARROW_INFINITE, 1).create();
+	private static final ItemStack BOW = new ItemBuilder(Material.BOW)
+			.unbreakable()
+			.enchant(Enchantment.ARROW_INFINITE)
+			.create();
 	private static final ItemStack ARROW = new ItemStack(Material.ARROW);
 
 	@EventHandler
@@ -210,6 +213,10 @@ public class BreakTheBlock extends Game<BreakTheBlockMap> {
 			player.getInventory().setItem(1, null);
 			player.getInventory().setItem(9, null);
 		}
+
+		if (player.bukkit().hasPotionEffect(PotionEffectType.JUMP) && player.getBlockOn().getType().isAir()) {
+			player.bukkit().removePotionEffect(PotionEffectType.JUMP);
+		}
 	}
 
 	@EventHandler
@@ -229,7 +236,7 @@ public class BreakTheBlock extends Game<BreakTheBlockMap> {
 		}
 	}
 
-	@EventHandler
+	@EventHandler(ignoreCancelled = true)
 	public void onDamage(final EntityDamageByEntityEvent event) {
 		if (event.getEntity().getType() != EntityType.PLAYER ||
 				event.getDamager().getType() != EntityType.PLAYER) {
