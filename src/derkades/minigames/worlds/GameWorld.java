@@ -17,6 +17,8 @@ public enum GameWorld {
 
 	// DO NOT CHANGE THESE VALUES!!
 
+	STEAMPUNK_LOBBY,
+
 	BOWSPLEEF_BOWSPLEEF,
 
 	BTB_CAKE,
