@@ -1,6 +1,7 @@
 package derkades.minigames.modules;
 
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarStyle;
 import org.bukkit.boss.BossBar;
@@ -21,6 +22,27 @@ public class InfoBar extends Module {
 	private BossBar bar;
 
 	public void tick() {
+		if (this.bar.isVisible()) {
+			boolean everyoneCreative = true;
+			for (final Player player : Bukkit.getOnlinePlayers()) {
+				if (player.getGameMode() != GameMode.CREATIVE) {
+					everyoneCreative = false;
+					break;
+				}
+			}
+
+			if (everyoneCreative) {
+				this.bar.setVisible(false);
+			}
+		} else {
+			for (final Player player : Bukkit.getOnlinePlayers()) {
+				if (player.getGameMode() != GameMode.CREATIVE) {
+					this.bar.setVisible(true);
+					break;
+				}
+			}
+		}
+
 		switch(GameState.getCurrentState()) {
 			case IDLE -> {
 				this.bar.setTitle("Waiting");
