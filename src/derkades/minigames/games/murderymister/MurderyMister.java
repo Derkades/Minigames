@@ -83,7 +83,7 @@ public class MurderyMister extends Game<MurderyMisterMap> {
 	}
 
 	private UUID murderer;
-	private Set<UUID> alive; // All alive players, except murderer
+	private Set<UUID> aliveInnocent; // All alive players, except murderer
 	private BukkitTask arrowRemoveTask;
 
 	private boolean murdererDead;
@@ -91,7 +91,7 @@ public class MurderyMister extends Game<MurderyMisterMap> {
 	@Override
 	public void onPreStart() {
 		this.murderer = null;
-		this.alive = Utils.getOnlinePlayersUuidSet();
+		this.aliveInnocent = Utils.getOnlinePlayersUuidSet();
 		this.murdererDead = false;
 
 		this.arrowRemoveTask = new ArrowRemoveTask().runTaskTimer(Minigames.getInstance(), 1, 1);
@@ -131,7 +131,7 @@ public class MurderyMister extends Game<MurderyMisterMap> {
 		murderer.getInventory().setHeldItemSlot(1);
 		this.murderer = murderer.getUniqueId();
 
-		this.alive.remove(this.murderer);
+		this.aliveInnocent.remove(this.murderer);
 
 		final List<MPlayer> all = Minigames.getOnlinePlayersInRandomOrder();
 		all.removeIf((p) -> p.getUniqueId().equals(this.murderer));
@@ -172,18 +172,18 @@ public class MurderyMister extends Game<MurderyMisterMap> {
 
 	@Override
 	public boolean endEarly() {
-		return this.alive.size() < 1 || this.murdererDead;
+		return this.aliveInnocent.size() < 1 || this.murdererDead;
 	}
 
 	@Override
 	public void onEnd() {
 		if (this.murdererDead) {
-			super.endGame(this.alive);
+			super.endGame(this.aliveInnocent);
 		} else {
 			super.endGame(this.murderer);
 		}
 		this.murderer = null;
-		this.alive = null;
+		this.aliveInnocent = null;
 		this.arrowRemoveTask.cancel();
 		this.arrowRemoveTask = null;
 	}
@@ -219,7 +219,7 @@ public class MurderyMister extends Game<MurderyMisterMap> {
 
 			sendFormattedPlainMessage("%s has been killed", player.getName());
 			Minigames.getOnlinePlayers().forEach((p) -> p.playSound(Sound.ENTITY_PLAYER_HURT_SWEET_BERRY_BUSH, 1.0f));
-			this.alive.remove(player.getUniqueId());
+			this.aliveInnocent.remove(player.getUniqueId());
 
 			if (player.getUniqueId().equals(this.murderer)) {
 				// Murder is dead, all alive players win (except murderer)
@@ -229,8 +229,8 @@ public class MurderyMister extends Game<MurderyMisterMap> {
 				sendFormattedPlainMessage("The murderer has been killed by %s!", event.getDamagerPlayer().getName());
 			} else if (player.getInventory().contains(Material.BOW)) {
 				// Sheriff is dead, give bow to random player
-				if (this.alive.size() > 0) {
-					final Player target = Bukkit.getPlayer(ListUtils.choice(this.alive));
+				if (this.aliveInnocent.size() > 0) {
+					final Player target = Bukkit.getPlayer(ListUtils.choice(this.aliveInnocent));
 					if (target != null) {
 						target.getInventory().addItem(new ItemBuilder(Material.BOW).unbreakable().create());
 						target.getInventory().addItem(new ItemBuilder(Material.ARROW).create());
@@ -242,11 +242,12 @@ public class MurderyMister extends Game<MurderyMisterMap> {
 				// Innocent is dead
 				player.die();
 				Logger.debug("Innocent died");
-				if (event.getType().equals(DamageType.ENTITY) && !event.getDamagerPlayer().getUniqueId().equals(this.murderer)) {
-					final MPlayer killer = event.getDamagerPlayer();
-					killer.bukkit().damage(40);
+				MPlayer killer = event.getDamagerPlayer();
+				killer.bukkit().damage(40);
+				if (killer != null) {
 					killer.sendActionBar(Component.text("You killed an innocent player!"));
-
+					killer.die();
+					aliveInnocent.remove(killer.getUniqueId());
 				}
 			}
 			player.clearInventory();
@@ -281,7 +282,7 @@ public class MurderyMister extends Game<MurderyMisterMap> {
 
 	@Override
 	public void onPlayerQuit(final MPlayer player) {
-		this.alive.remove(player.getUniqueId());
+		this.aliveInnocent.remove(player.getUniqueId());
 	}
 
 }
