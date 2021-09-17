@@ -29,9 +29,12 @@ import derkades.minigames.Points;
 import derkades.minigames.modules.SneakPrevention;
 import derkades.minigames.utils.queue.TaskQueue;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.title.Title;
 import net.md_5.bungee.api.ChatColor;
+import xyz.derkades.derkutils.Colors;
 import xyz.derkades.derkutils.bukkit.BlockUtils;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
 import xyz.derkades.derkutils.bukkit.LocationUtils;
@@ -527,6 +530,45 @@ public class MPlayer {
 
 	public void sendTitle(final Component mainTitle, final Component subTitle) {
 		this.player.showTitle(Title.title(mainTitle, subTitle));
+	}
+
+	/**
+	 * 0.0 - 0.5
+	 * Lower value means more visible gradient
+	 */
+	private static final float GRADIENT_MARGIN = 0.2f;
+	private static final String TAB_NAME_PADDING = "    ";
+
+	private Component generateGradientName() {
+		final int rgb1 = Colors.randomPastelColor().getRGB();
+		final int rgb2 = Colors.randomPastelColor().getRGB();
+		final TextComponent.Builder b = Component.text();
+		float f = GRADIENT_MARGIN;
+		final float f_step = (1.0f - 2*GRADIENT_MARGIN) / (this.player.getName().length() - 1);
+		for (final char c : this.player.getName().toCharArray()) {
+			final int r1 = (int) ((1-f) * (0xFF & rgb1));
+			final int g1 = (int) ((1-f) * ((0xFF00 & rgb1) >> 8)) << 8;
+			final int b1 = (int) ((1-f) * ((0xFF0000 & rgb1) >> 16)) << 16;
+			final int r2 = (int) (f * (0xFF & rgb2));
+			final int g2 = (int) (f * ((0xFF00 & rgb2) >> 8)) << 8;
+			final int b2 = (int) (f * ((0xFF0000 & rgb2) >> 16)) << 16;
+			b.append(Component.text(c, TextColor.color(r1 + g1 + b1 + r2 + g2 + b2)));
+			f += f_step;
+			if (f > 1.0f) {
+				f = 1.0f;
+			}
+		}
+
+		return b.asComponent();
+	}
+
+	public void setDisplayName(final Component displayName) {
+		this.player.displayName(displayName == null ? generateGradientName() : displayName);
+		this.player.playerListName(Component.text(TAB_NAME_PADDING).append(this.player.displayName()).append(Component.text(TAB_NAME_PADDING)));
+	}
+
+	public Component getDisplayName() {
+		return this.player.displayName();
 	}
 
 }
