@@ -14,6 +14,7 @@ import org.bukkit.entity.Player;
 import derkades.minigames.Minigames;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import net.md_5.bungee.api.ChatColor;
 import xyz.derkades.derkutils.bukkit.sidebar.Sidebar;
 import xyz.derkades.derkutils.bukkit.sidebar.SidebarString;
@@ -41,6 +42,11 @@ public class Leaderboard {
 
 		return this.sortedCache;
 	}
+	
+	private Component leaderboardEntry(Player player, int points) {
+		
+		return player.displayName().append(Component.text(": ", NamedTextColor.GRAY)).append(Component.text(points, NamedTextColor.WHITE));
+	}
 
 	public void update(final int secondsLeft) {
 		final List<SidebarString> sidebarStrings = new ArrayList<>();
@@ -50,7 +56,9 @@ public class Leaderboard {
 			if (player == null) {
 				return;
 			}
-			sidebarStrings.add(new SidebarString(ChatColor.DARK_GREEN + player.getName() + ChatColor.GRAY + ": " + ChatColor.GREEN + points));
+			
+			Component c = leaderboardEntry(player, points);
+			sidebarStrings.add(new SidebarString(LegacyComponentSerializer.legacySection().serialize(c)));
 		});
 
 		this.sidebar.setEntries(sidebarStrings);
@@ -119,11 +127,7 @@ public class Leaderboard {
 				return;
 			}
 			
-			Bukkit.broadcast(Component.text()
-								.append(player.displayName())
-								.append(Component.text(": ", NamedTextColor.GRAY))
-								.append(Component.text(points, NamedTextColor.WHITE))
-								.asComponent());
+			Bukkit.broadcast(leaderboardEntry(player, points));
 		});
 		
 		return getWinners();
