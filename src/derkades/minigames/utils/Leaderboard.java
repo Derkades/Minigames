@@ -7,13 +7,13 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.function.Consumer;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import derkades.minigames.Minigames;
-import derkades.minigames.games.Game;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import net.md_5.bungee.api.ChatColor;
 import xyz.derkades.derkutils.bukkit.sidebar.Sidebar;
 import xyz.derkades.derkutils.bukkit.sidebar.SidebarString;
@@ -105,19 +105,11 @@ public class Leaderboard {
 		return Winners.fromPointsMap(this.points);
 	}
 
-	public Set<UUID> getWinnersPrintHide(final Game<?> game) {
+	public Set<UUID> getWinnersPrintHide() {
 		this.hide();
-		this.printToChat(Bukkit::broadcastMessage);
-		return getWinners();
-	}
-
-//	public void printToChat(final Game<?> game) {
-//		printToChat(game::sendMessage);
-//	}
-
-	public void printToChat(final Consumer<String> printFunction) {
 		final AtomicInteger i = new AtomicInteger();
 		getSorted().forEach((uuid, points) -> {
+			// Only list top 3 players
 			if (i.getAndIncrement() > 2) {
 				return;
 			}
@@ -126,9 +118,15 @@ public class Leaderboard {
 			if (player == null) {
 				return;
 			}
-
-			printFunction.accept(ChatColor.DARK_GREEN + player.getName() + ChatColor.GRAY + ": " + ChatColor.GREEN + points);
+			
+			Bukkit.broadcast(Component.text()
+								.append(player.displayName())
+								.append(Component.text(": ", NamedTextColor.GRAY))
+								.append(Component.text(points, NamedTextColor.WHITE))
+								.asComponent());
 		});
+		
+		return getWinners();
 	}
 
 }
