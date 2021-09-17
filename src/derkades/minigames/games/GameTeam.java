@@ -8,6 +8,7 @@ import org.bukkit.Color;
 import org.bukkit.Material;
 
 import derkades.minigames.utils.MPlayer;
+import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
 import net.md_5.bungee.api.ChatColor;
 import xyz.derkades.derkutils.ListUtils;
@@ -67,6 +68,10 @@ public enum GameTeam {
 
 	public String getDisplayName() {
 		return this.string;
+	}
+	
+	public Component getColoredDisplayName() {
+		return Component.text(this.getDisplayName(), this.getTextColor());
 	}
 
 	@Override

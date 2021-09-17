@@ -4,23 +4,26 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.inventory.ItemStack;
 
 import derkades.minigames.Minigames;
 import derkades.minigames.games.Game;
+import derkades.minigames.games.GameTeam;
+import derkades.minigames.games.TeamGame;
+import derkades.minigames.games.TeamManager;
 import derkades.minigames.utils.MPlayer;
 import derkades.minigames.utils.MinigamesPlayerDamageEvent;
 import derkades.minigames.utils.MinigamesPlayerDamageEvent.DamageType;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import net.md_5.bungee.api.ChatColor;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
 
-public class MolePvP extends Game<MolePvPMap> {
+public class MolePvP extends Game<MolePvPMap> implements TeamGame {
 
 	@Override
 	public String getIdentifier() {
@@ -60,31 +63,27 @@ public class MolePvP extends Game<MolePvPMap> {
 	}
 
 	private Set<UUID> dead;
-	private Set<UUID> teamRed;
-	private Set<UUID> teamBlue;
+	private TeamManager teams;
 
 	@Override
 	public void onPreStart() {
 		this.dead = new HashSet<>();
-		this.teamRed = new HashSet<>();
-		this.teamBlue = new HashSet<>();
+		this.teams = new TeamManager(Set.of(GameTeam.RED, GameTeam.BLUE));
 
 		this.map.setUpMap();
 
-		boolean team = false;
+		boolean teamBool = false;
 
 		for (final MPlayer player : Minigames.getOnlinePlayersInRandomOrder()) {
-			if (team) {
-				player.sendTitle("", String.format("%sYou are in the %s%sRED%s team", ChatColor.GRAY, ChatColor.RED, ChatColor.BOLD, ChatColor.GRAY));
-				this.teamRed.add(player.getUniqueId());
-				player.queueTeleport(this.map.getTeamRedSpawnLocation());
-			} else {
-				player.sendTitle("", String.format("%sYou are in the %s%sBLUE%s team", ChatColor.GRAY, ChatColor.BLUE, ChatColor.BOLD, ChatColor.GRAY));
-				this.teamBlue.add(player.getUniqueId());
-				player.queueTeleport(this.map.getTeamBlueSpawnLocation());
-			}
-
-			team = !team;
+			GameTeam team = teamBool ? GameTeam.RED : GameTeam.BLUE;
+			player.sendTitle(Component.empty(), 
+					Component.text("You are in the ", NamedTextColor.GRAY)
+					.append(team.getColoredDisplayName())
+					.append(Component.text(" team", NamedTextColor.GRAY))
+					);
+			player.queueTeleport(teamBool ? map.getTeamRedSpawnLocation() : map.getTeamBlueSpawnLocation());
+			this.teams.setTeam(player, team);
+			teamBool = !teamBool;
 		}
 
 	}
@@ -104,24 +103,28 @@ public class MolePvP extends Game<MolePvPMap> {
 
 	@Override
 	public boolean endEarly() {
-		return MolePvP.this.getNumPlayersLeftInBlueTeam() == 0 || MolePvP.this.getNumPlayersLeftInRedTeam() == 0;
+		return this.teams.anyEmptyTeam() != null;
 	}
 
 	@Override
 	public void onEnd() {
-		if (MolePvP.this.getNumPlayersLeftInBlueTeam() == 0) {
+		if (this.teams.getMemberCount(GameTeam.BLUE) == 0) {
 			// blue is dead so team red wins
-			MolePvP.super.endGame(MolePvP.this.teamRed);
-		} else if (MolePvP.this.getNumPlayersLeftInRedTeam() == 0) {
+			super.endGame(this.teams.getMembers(GameTeam.RED));
+		} else if (this.teams.getMemberCount(GameTeam.RED) == 0) {
 			// red is dead so team blue wins
-			MolePvP.super.endGame(MolePvP.this.teamBlue);
+			MolePvP.super.endGame(this.teams.getMembers(GameTeam.BLUE));
 		} else {
 			// both teams are still alive
 			MolePvP.super.endGame();
 		}
 		this.dead = null;
-		this.teamRed = null;
-		this.teamBlue = null;
+		this.teams = null;
+	}
+	
+	@Override
+	public TeamManager getTeams() {
+		return teams;
 	}
 
 	@EventHandler
@@ -132,9 +135,9 @@ public class MolePvP extends Game<MolePvPMap> {
 			final MPlayer damager = player;
 			final MPlayer damaged = event.getDamagerPlayer();
 
-			if (this.teamBlue.contains(damager.getUniqueId()) && this.teamRed.contains(damaged.getUniqueId())) {
+			if (this.teams.isTeamMember(damager, GameTeam.BLUE) && this.teams.isTeamMember(damaged, GameTeam.RED)) {
 				// blue attacks red -> allow
-			} else if (this.teamRed.contains(damager.getUniqueId()) && this.teamBlue.contains(damaged.getUniqueId())) {
+			} else if (this.teams.isTeamMember(damager, GameTeam.RED) && this.teams.isTeamMember(damaged, GameTeam.BLUE)) {
 				// red attacks blue -> allow
 			} else {
 				event.setCancelled(true);
@@ -146,45 +149,15 @@ public class MolePvP extends Game<MolePvPMap> {
 			if (event.getType().equals(DamageType.ENTITY)) {
 				final MPlayer killer = event.getDamagerPlayer();
 				this.sendFormattedPlainMessage("%s%s%s %shas been killed by %s%s%s",
-						this.getTeamColor(player), ChatColor.BOLD, player.getName(), ChatColor.GRAY,
-						this.getTeamColor(killer), ChatColor.BOLD, killer.getName());
+						this.teams.getTeam(player).getChatColor(), ChatColor.BOLD, player.getName(), ChatColor.GRAY,
+						this.teams.getTeam(killer).getChatColor(), ChatColor.BOLD, killer.getName());
 			} else {
 				this.sendFormattedPlainMessage("%s%s%s %has died.",
-						this.getTeamColor(player), ChatColor.BOLD, player.getName(), ChatColor.GRAY);
+						this.teams.getTeam(player).getChatColor(), ChatColor.BOLD, player.getName(), ChatColor.GRAY);
 			}
 
 			this.dead.add(player.getUniqueId());
 			player.die();
-		}
-	}
-
-	private int getNumPlayersLeftInRedTeam() {
-		int players = 0;
-		for (final Player player : Bukkit.getOnlinePlayers()) {
-			if (this.teamRed.contains(player.getUniqueId()) && !this.dead.contains(player.getUniqueId())) {
-				players++;
-			}
-		}
-		return players;
-	}
-
-	private int getNumPlayersLeftInBlueTeam() {
-		int players = 0;
-		for (final Player player : Bukkit.getOnlinePlayers()) {
-			if (this.teamBlue.contains(player.getUniqueId()) && !this.dead.contains(player.getUniqueId())) {
-				players++;
-			}
-		}
-		return players;
-	}
-
-	private ChatColor getTeamColor(final MPlayer player) {
-		if (this.teamRed.contains(player.getUniqueId())) {
-			return ChatColor.RED;
-		} else if (this.teamBlue.contains(player.getUniqueId())) {
-			return ChatColor.BLUE;
-		} else {
-			return ChatColor.GREEN;
 		}
 	}
 
@@ -194,14 +167,14 @@ public class MolePvP extends Game<MolePvPMap> {
 		final ItemBuilder leggings = new ItemBuilder(Material.LEATHER_LEGGINGS);
 		final ItemBuilder boots = new ItemBuilder(Material.LEATHER_BOOTS);
 
-		if (this.teamRed.contains(player.getUniqueId())) {
+		if (this.teams.isTeamMember(player, GameTeam.RED)) {
 			helmet.leatherArmorColor(Color.RED);
 			chestplate.leatherArmorColor(Color.RED);
 			leggings.leatherArmorColor(Color.RED);
 			boots.leatherArmorColor(Color.RED);
 		}
 
-		if (this.teamBlue.contains(player.getUniqueId())) {
+		if (this.teams.isTeamMember(player, GameTeam.BLUE)) {
 			helmet.leatherArmorColor(Color.BLUE);
 			chestplate.leatherArmorColor(Color.BLUE);
 			leggings.leatherArmorColor(Color.BLUE);
@@ -211,15 +184,14 @@ public class MolePvP extends Game<MolePvPMap> {
 		player.setArmor(helmet.create(), chestplate.create(), leggings.create(), boots.create());
 
 		final ItemStack sword = new ItemBuilder(Material.IRON_SWORD)
-				.enchant(Enchantment.KNOCKBACK, 1)
-				.enchant(Enchantment.DAMAGE_ALL, 1)
+				.enchant(Enchantment.KNOCKBACK)
+				.enchant(Enchantment.DAMAGE_ALL)
 				.unbreakable()
 				.create();
 
 		final ItemStack shovel = new ItemBuilder(Material.DIAMOND_SHOVEL)
 				.enchant(Enchantment.DIG_SPEED, 5)
 				.canDestroy("minecraft:dirt")
-//				.canDestroy(Material.DIRT)
 				.unbreakable()
 				.create();
 
