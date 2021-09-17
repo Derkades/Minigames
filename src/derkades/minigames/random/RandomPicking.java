@@ -10,6 +10,7 @@ import org.bukkit.Bukkit;
 import derkades.minigames.Logger;
 import derkades.minigames.games.Game;
 import derkades.minigames.games.GameMap;
+import derkades.minigames.utils.Disableable;
 import derkades.minigames.utils.Utils;
 
 public class RandomPicking {
@@ -51,6 +52,12 @@ public class RandomPicking {
 
 		// Populate hashmap
 		for (final RandomlyPickable randomlyPickableThing : list) {
+			if (randomlyPickableThing instanceof Disableable) {
+				if (((Disableable) randomlyPickableThing).isDisabled()) {
+					continue;
+				}
+			}
+			
 			final Size size = randomlyPickableThing.getSize();
 			final int online = Bukkit.getOnlinePlayers().size();
 

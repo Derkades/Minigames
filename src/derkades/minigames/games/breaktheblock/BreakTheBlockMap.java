@@ -11,7 +11,7 @@ public abstract class BreakTheBlockMap extends GameMap {
 			new Cake(),
 			new HollowHills(),
 //			new Jungle(),
-//			new Prototype(),
+			new Prototype(),
 	};
 
 	abstract Location[] getStartLocations();

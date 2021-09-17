@@ -3,6 +3,7 @@ package derkades.minigames.menu;
 import static org.bukkit.ChatColor.DARK_GRAY;
 import static org.bukkit.ChatColor.GOLD;
 import static org.bukkit.ChatColor.GRAY;
+import static org.bukkit.ChatColor.RED;
 import static org.bukkit.ChatColor.YELLOW;
 
 import java.util.ArrayList;
@@ -39,7 +40,8 @@ public class GamesListMenu extends IconMenu {
 			} else {
 				lore.add(GOLD + "Maps:");
 				for (final GameMap map : game.getGameMaps()) {
-					lore.add("  " + YELLOW + map.getName());
+					String disabled = map.isDisabled() ? RED + " (disabled)" : "";
+					lore.add("  " + YELLOW + map.getName() + disabled);
 					final double mapWeight = NumberUtils.roundApprox(map.getWeight(), 2);
 					lore.add(GRAY + "  Multiplier: " + YELLOW + mapWeight);
 					if (map.getCredits() != null) {

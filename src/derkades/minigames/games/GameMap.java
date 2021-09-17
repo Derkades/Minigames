@@ -8,9 +8,10 @@ import org.bukkit.World;
 import derkades.minigames.Minigames;
 import derkades.minigames.Minigames.ShutdownReason;
 import derkades.minigames.random.RandomlyPickable;
+import derkades.minigames.utils.Disableable;
 import derkades.minigames.worlds.GameWorld;
 
-public abstract class GameMap implements RandomlyPickable {
+public abstract class GameMap implements RandomlyPickable, Disableable {
 
 	public abstract String getName();
 
@@ -58,6 +59,11 @@ public abstract class GameMap implements RandomlyPickable {
 
 		final String configPath = "game-voting.map." + this.getIdentifier();
 		return Minigames.getInstance().getConfig().getDouble(configPath, 1);
+	}
+	
+	@Override
+	public boolean isDisabled() {
+		return false;
 	}
 
 	private static final Map<String, GameMap> BY_IDENTIFIER = new HashMap<>();

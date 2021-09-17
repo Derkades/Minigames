@@ -47,6 +47,11 @@ class Prototype extends BreakTheBlockMap {
 	public String getIdentifier() {
 		return "breaktheblock_prototype";
 	}
+	
+	@Override
+	public boolean isDisabled() {
+		return true;
+	}
 
 	@Override
 	boolean canTakeDamage(final MPlayer player) {
