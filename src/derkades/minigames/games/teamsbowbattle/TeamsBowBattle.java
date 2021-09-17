@@ -1,11 +1,8 @@
 package derkades.minigames.games.teamsbowbattle;
 
-import java.util.EnumMap;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
-import java.util.function.Predicate;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -18,6 +15,8 @@ import derkades.minigames.Logger;
 import derkades.minigames.Minigames;
 import derkades.minigames.games.Game;
 import derkades.minigames.games.GameTeam;
+import derkades.minigames.games.TeamGame;
+import derkades.minigames.games.TeamManager;
 import derkades.minigames.utils.MPlayer;
 import derkades.minigames.utils.MinigamesPlayerDamageEvent;
 import derkades.minigames.utils.MinigamesPlayerDamageEvent.DamageType;
@@ -26,7 +25,7 @@ import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
 
-public class TeamsBowBattle extends Game<TeamsBowBattleMap> {
+public class TeamsBowBattle extends Game<TeamsBowBattleMap> implements TeamGame {
 
 	@Override
 	public String getIdentifier() {
@@ -64,22 +63,25 @@ public class TeamsBowBattle extends Game<TeamsBowBattleMap> {
 	public int getDuration() {
 		return 120;
 	}
+	
+	@Override
+	public TeamManager getTeams() {
+		return teams;
+	}
 
 	private Set<UUID> dead;
-	private Map<GameTeam, Set<UUID>> teamMembers;
-
+	private TeamManager teams;
+	
 	@Override
 	public void onPreStart() {
 		this.dead = new HashSet<>();
-		this.teamMembers = new EnumMap<>(GameTeam.class);
-		this.teamMembers.put(GameTeam.RED, new HashSet<>());
-		this.teamMembers.put(GameTeam.BLUE, new HashSet<>());
+		teams = new TeamManager(Set.of(GameTeam.RED, GameTeam.BLUE));
 
 		boolean teamBool = false;
 
 		for (final MPlayer player : Minigames.getOnlinePlayersInRandomOrder()) {
 			final GameTeam team = teamBool ? GameTeam.RED : GameTeam.BLUE;
-			this.teamMembers.get(team).add(player.getUniqueId());
+			teams.setTeam(player, team);
 			player.sendTitle(Component.empty(),
 					Component.text("You are in the ", NamedTextColor.GRAY)
 					.append(Component.text(team.getDisplayName(), team.getTextColor()).decorate(TextDecoration.BOLD))
@@ -107,37 +109,37 @@ public class TeamsBowBattle extends Game<TeamsBowBattleMap> {
 
 	@Override
 	public boolean endEarly() {
-		return TeamsBowBattle.this.getNumPlayersLeftInTeam(GameTeam.RED) == 0 || TeamsBowBattle.this.getNumPlayersLeftInTeam(GameTeam.BLUE) == 0;
+		return teams.anyEmptyTeam() != null;
 	}
 
 	@Override
 	public void onEnd() {
-		if (getNumPlayersLeftInTeam(GameTeam.BLUE) == 0) {
+		if (teams.getMemberCount(GameTeam.BLUE) == 0) {
 			// blue is dead so team red wins
-			TeamsBowBattle.super.endGame(this.teamMembers.get(GameTeam.RED));
-		} else if (getNumPlayersLeftInTeam(GameTeam.RED) == 0) {
+			TeamsBowBattle.super.endGame(teams.getMembers(GameTeam.RED));
+		} else if (teams.getMemberCount(GameTeam.RED) == 0) {
 			// red is dead so team blue wins
-			TeamsBowBattle.super.endGame(this.teamMembers.get(GameTeam.BLUE));
+			TeamsBowBattle.super.endGame(teams.getMembers(GameTeam.BLUE));
 		} else {
 			// both teams are still alive
 			TeamsBowBattle.super.endGame();
 		}
 
 		this.dead = null;
-		this.teamMembers = null;
+		this.teams = null;
 	}
 
 	@EventHandler
 	public void damage(final MinigamesPlayerDamageEvent event){
 		final MPlayer player = event.getPlayer();
 
-		final GameTeam playerTeam = getTeam(player);
+		final GameTeam playerTeam = teams.getTeam(player);
 
 		if (event.willBeDead()) {
 			event.setCancelled(true);
 			if (event.getType().equals(DamageType.ENTITY)) {
 				final MPlayer killer = event.getDamagerPlayer();
-				final GameTeam killerTeam = getTeam(killer);
+				final GameTeam killerTeam = teams.getTeam(killer);
 				sendMessage(Component.empty()
 						.append(Component.text(player.getName(), playerTeam.getTextColor()).decorate(TextDecoration.BOLD))
 						.append(Component.text(" has been killed by ", NamedTextColor.GRAY))
@@ -169,9 +171,9 @@ public class TeamsBowBattle extends Game<TeamsBowBattleMap> {
 
 		final MPlayer shooter = event.getDamagerPlayer();
 
-		if (this.teamMembers.get(GameTeam.BLUE).contains(shooter.getUniqueId()) && this.teamMembers.get(GameTeam.RED).contains(player.getUniqueId())) {
+		if (teams.isTeamMember(shooter, GameTeam.BLUE) && teams.isTeamMember(player, GameTeam.RED)) {
 			// blue attacks red -> allow
-		} else if (this.teamMembers.get(GameTeam.RED).contains(shooter.getUniqueId()) && this.teamMembers.get(GameTeam.BLUE).contains(player.getUniqueId())) {
+		} else if (teams.isTeamMember(shooter, GameTeam.RED) && teams.isTeamMember(player, GameTeam.BLUE)) {
 			// red attacks blue -> allow
 		} else {
 			/*
@@ -183,23 +185,6 @@ public class TeamsBowBattle extends Game<TeamsBowBattleMap> {
 			 */
 			event.setCancelled(true);
 		}
-	}
-
-	private int getNumPlayersLeftInTeam(final GameTeam team) {
-		return (int) Minigames.getOnlinePlayers().stream()
-				.map(MPlayer::getUniqueId)
-				.filter(Predicate.not(this.dead::contains))
-				.filter(this.teamMembers.get(team)::contains)
-				.count();
-	}
-
-	private GameTeam getTeam(final MPlayer player) {
-		if (this.teamMembers.get(GameTeam.RED).contains(player.getUniqueId())) {
-			return GameTeam.RED;
-		} else if (this.teamMembers.get(GameTeam.BLUE).contains(player.getUniqueId())) {
-			return GameTeam.BLUE;
-		}
-		return null;
 	}
 
 	private Location getSpawnLocation(final GameTeam team) {
@@ -219,7 +204,7 @@ public class TeamsBowBattle extends Game<TeamsBowBattleMap> {
 	private void giveItems(final MPlayer player) {
 		player.clearInventory();
 
-		final GameTeam team = getTeam(player);
+		final GameTeam team = teams.getTeam(player);
 
 		if (team == null) {
 			Logger.warning("Not giving items to %s, unknown team", player.getName());
@@ -242,7 +227,7 @@ public class TeamsBowBattle extends Game<TeamsBowBattleMap> {
 
 	@Override
 	public void onPlayerJoin(final MPlayer player) {
-		final GameTeam team = getTeam(player);
+		final GameTeam team = teams.getTeam(player);
 		if (team == null) {
 			player.dieTo(this.map.getTeamBlueSpawnLocation());
 			return;
