@@ -1,5 +1,7 @@
 package derkades.minigames.worlds;
 
+import java.util.Arrays;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Difficulty;
 import org.bukkit.GameRule;
@@ -11,6 +13,7 @@ import org.bukkit.WorldType;
 import derkades.minigames.Logger;
 import derkades.minigames.Minigames;
 import derkades.minigames.Minigames.ShutdownReason;
+import derkades.minigames.utils.queue.TaskQueue;
 import xyz.derkades.derkutils.bukkit.VoidGenerator;
 
 public enum GameWorld {
@@ -23,8 +26,8 @@ public enum GameWorld {
 
 	BTB_CAKE,
 	BTB_HOLLOWHILLS,
-	BTB_PROTOTYPE,
-	BTB_JUNGLE,
+	BTB_PROTOTYPE(false),
+	BTB_JUNGLE(false),
 
 	BUILDCOPY_PROTOTYPE,
 
@@ -37,7 +40,7 @@ public enum GameWorld {
 	DECAY_SPRUCEBRICK,
 	DECAY_SQUAREDONUT,
 
-	DIGDUG_GROOVES,
+	DIGDUG_GROOVES(false),
 	DIGDUG_PROTOTYPE,
 
 	DROPPER_BLACKWHITE,
@@ -46,9 +49,9 @@ public enum GameWorld {
 	DROPPER_TREES,
 
 	ELYTRA_CAVE,
-	ELYTRA_SPACE,
+	ELYTRA_SPACE(false),
 
-	FREEFALL_PROTOTYPE,
+	FREEFALL_PROTOTYPE(false),
 
 	HARVEST_PROTOTYPE,
 
@@ -61,7 +64,7 @@ public enum GameWorld {
 
 	MISSILERACER_PROTOTYPE,
 
-	MGR_ISLAND,
+	MGR_ISLAND(false),
 	MGR_SANTIAGO,
 
 	MAZEPVP_PROTOTYPE,
@@ -85,7 +88,7 @@ public enum GameWorld {
 	PLATFORM_DESERT,
 	PLATFORM_ICE,
 
-	SPEEDRUN_BACKWARS,
+	SPEEDRUN_BACKWARS(false), // TODO fix typo
 	SPEEDRUN_CLASSIC,
 	SPEEDRUN_CONSTRUCTION,
 
@@ -94,7 +97,7 @@ public enum GameWorld {
 	SPLEEF_ORIGINAL,
 
 	TBB_FOREST,
-	TBB_MEDIEVALMOUNTAIN, // http://www.minecraftmaps.com/creation-maps/medieval-mountain
+	TBB_MEDIEVALMOUNTAIN(false), // http://www.minecraftmaps.com/creation-maps/medieval-mountain
 
 	TNTRUN_AQUA,
 	TNTRUN_FUTURE,
@@ -104,15 +107,28 @@ public enum GameWorld {
 	TRON_PROTOTYPE,
 
 	// Testing worlds, move up when assigned to game
-	PICKLES_PROTOTYPE,
-	MISSILES_PROTOTYPE,
-	TAKECOVER_PROTOTYPE,
+	PICKLES_PROTOTYPE(false),
+	MISSILES_PROTOTYPE(false),
+	TAKECOVER_PROTOTYPE(false),
 
 	// Reserved worlds
-	RESERVED_BACKUP,
-	RESERVED_TESTING,
+	RESERVED_BACKUP(false),
+	RESERVED_TESTING(false),
 
 	;
+	
+	/**
+	 * Specifies whether a world should be loaded at startup
+	 */
+	private final boolean load;
+	
+	GameWorld() {
+		this(true);
+	}
+	
+	GameWorld(boolean load) {
+		this.load = load;
+	}
 
 	public String getName() {
 		return "worlds/" + toString().toLowerCase();
@@ -198,6 +214,13 @@ public enum GameWorld {
 			Logger.debug(success ? "Unloaded world %s" : "Couldn't unload world %s", toString());
 			return success;
 		}
+	}
+	
+	/**
+	 * Called in onEnable()
+	 */
+	public static void loadWorlds() {
+		Arrays.stream(GameWorld.values()).filter(w -> w.load).forEach(world -> TaskQueue.add(() -> world.load()));
 	}
 
 //	public static void init() {

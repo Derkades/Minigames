@@ -141,10 +141,8 @@ public class Minigames extends JavaPlugin implements Listener {
 		});
 
 		Bukkit.getPluginManager().callEvent(new PluginLoadEvent());
-
-		for (final GameWorld world : GameWorld.values()) {
-			TaskQueue.add(() -> world.load());
-		}
+		
+		GameWorld.loadWorlds();
 	}
 
 	@Override
