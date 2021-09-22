@@ -19,9 +19,9 @@ import org.ocpsoft.prettytime.PrettyTime;
 import de.tr7zw.changeme.nbtapi.utils.MinecraftVersion;
 import derkades.minigames.games.Game;
 import derkades.minigames.games.GameMap;
-import derkades.minigames.modules.AutoReloader;
 import derkades.minigames.modules.CancelInteract;
 import derkades.minigames.modules.ChatPoll;
+import derkades.minigames.modules.CustomPlayerList;
 import derkades.minigames.modules.DisableDamage;
 import derkades.minigames.modules.DisableInventoryItemMove;
 import derkades.minigames.modules.DynamicMotd;
@@ -64,6 +64,7 @@ public class Minigames extends JavaPlugin implements Listener {
 
 	static {
 		MinecraftVersion.disableUpdateCheck();
+		MinecraftVersion.disableBStats();
 
 		for (final Game<?> game : Game.GAMES) {
 			Validate.notNull(game.getIdentifier(), "game identifier null: " + game.getClass().getName());
@@ -79,6 +80,7 @@ public class Minigames extends JavaPlugin implements Listener {
 
 //	public static Economy economy = null;
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public void onEnable(){
 		instance = this;
@@ -104,9 +106,10 @@ public class Minigames extends JavaPlugin implements Listener {
 //			getLogger().severe("Vault error");
 //		}
 
-		new AutoReloader();
+//		new AutoReloader();
 		new CancelInteract();
 		CHAT_POLL = new ChatPoll();
+		new CustomPlayerList();
 		new DisableDamage();
 		new DisableInventoryItemMove();
 		new DynamicMotd();
@@ -141,7 +144,7 @@ public class Minigames extends JavaPlugin implements Listener {
 		});
 
 		Bukkit.getPluginManager().callEvent(new PluginLoadEvent());
-		
+
 		GameWorld.loadWorlds();
 	}
 
@@ -228,8 +231,11 @@ public class Minigames extends JavaPlugin implements Listener {
 		Minigames.getOnlinePlayers().forEach((p) -> {
 			p.clearInventory();
 			p.setGameMode(GameMode.ADVENTURE);
-			p.teleport(Var.LOBBY_LOCATION);
+//			p.teleport(Var.LOBBY_LOCATION);
+			p.teleportSteampunkLobby();
 		});
+
+//		Bukkit.getPluginManager().
 
 		Bukkit.reload();
     }

@@ -15,8 +15,11 @@ public class WorldTeleportCommandCompleter implements TabCompleter {
 	public List<String> onTabComplete(final CommandSender arg0, final Command arg1, final String arg2, final String[] args) {
 		if (args.length == 1) {
 			final List<String> complete = new ArrayList<>();
-			complete.addAll(Arrays.asList(GameWorld.values()).stream().map((s) -> s.toString().toLowerCase()).filter((s) -> s.startsWith(args[0])).collect(Collectors.toList()));
-			if ("lobby".startsWith(args[0])) {
+			complete.addAll(Arrays.asList(GameWorld.values()).stream().map((s) -> s.toString().toLowerCase()).filter((s) -> s.contains(args[0]) || s.equals(args[0])).collect(Collectors.toList()));
+			if ("old_lobby".contains(args[0]) || args[0].equals("old_lobby")) {
+				complete.add("old_lobby");
+			}
+			if ("lobby".contains(args[0]) || args[0].equals("lobby")) {
 				complete.add("lobby");
 			}
 			return complete;

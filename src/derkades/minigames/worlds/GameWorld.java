@@ -13,7 +13,6 @@ import org.bukkit.WorldType;
 import derkades.minigames.Logger;
 import derkades.minigames.Minigames;
 import derkades.minigames.Minigames.ShutdownReason;
-import derkades.minigames.utils.queue.TaskQueue;
 import xyz.derkades.derkutils.bukkit.VoidGenerator;
 
 public enum GameWorld {
@@ -116,17 +115,17 @@ public enum GameWorld {
 	RESERVED_TESTING(false),
 
 	;
-	
+
 	/**
 	 * Specifies whether a world should be loaded at startup
 	 */
 	private final boolean load;
-	
+
 	GameWorld() {
 		this(true);
 	}
-	
-	GameWorld(boolean load) {
+
+	GameWorld(final boolean load) {
 		this.load = load;
 	}
 
@@ -152,7 +151,7 @@ public enum GameWorld {
 	 * Creates world or just loads it if it already exists
 	 */
 	public World load() {
-		Logger.debug("Loading world %s", toString());
+//		Logger.debug("Loading world %s", toString());
 
 		final WorldCreator creator = new WorldCreator(getName());
 		creator.generateStructures(false);
@@ -215,12 +214,15 @@ public enum GameWorld {
 			return success;
 		}
 	}
-	
+
 	/**
 	 * Called in onEnable()
 	 */
 	public static void loadWorlds() {
-		Arrays.stream(GameWorld.values()).filter(w -> w.load).forEach(world -> TaskQueue.add(() -> world.load()));
+//		Arrays.stream(GameWorld.values()).filter(w -> w.load).forEach(world -> TaskQueue.add(() -> world.load()));
+		final long start = System.nanoTime();
+		Arrays.stream(GameWorld.values()).filter(w -> w.load).forEach(GameWorld::load);
+		Logger.debug("Loaded worlds, took %.2fms", (System.nanoTime() - start) / 1_000_000d);
 	}
 
 //	public static void init() {

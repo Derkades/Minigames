@@ -1,11 +1,9 @@
 package derkades.minigames;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
-import java.util.stream.Collectors;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -24,7 +22,6 @@ import org.bukkit.util.Vector;
 import derkades.minigames.Minigames.ShutdownReason;
 import derkades.minigames.games.Game;
 import derkades.minigames.games.GameMap;
-import derkades.minigames.games.missile.Missile;
 import derkades.minigames.games.missile.Shield;
 import derkades.minigames.games.missile.wars.MissileWarsMap;
 import derkades.minigames.menu.GamesListMenu;
@@ -38,6 +35,7 @@ import derkades.minigames.utils.Utils;
 import derkades.minigames.utils.queue.TaskQueue;
 import net.kyori.adventure.text.Component;
 import net.md_5.bungee.api.ChatColor;
+import nl.rkslot.pluginreloader.PluginReloader;
 import xyz.derkades.derkutils.Hastebin;
 
 public class Command implements CommandExecutor {
@@ -217,28 +215,32 @@ public class Command implements CommandExecutor {
 //				final NBTItem nbt = new NBTItem(new ItemStack(Material.DIAMOND_SHOVEL));
 //				nbt.getStringList("CanDestroy").add("minecraft:dirt");
 //				((Player) sender).getInventory().addItem(nbt.getItem());
-			final Player player = (Player) sender;
+//			final MPlayer player = new MPlayer((Player) sender);
 
-			if (args.length == 2) {
-				Missile missile;
-				try {
-					missile = Missile.valueOf(args[1].toUpperCase());
-				} catch (final IllegalArgumentException e) {
-					player.sendMessage("Deze missile bestaat niet, kies uit: ");
-					player.sendMessage("geef naam, kies uit:");
-					player.sendMessage(Arrays.stream(Missile.values()).map(Missile::name).map(String::toLowerCase).sorted().collect(Collectors.joining(", ")));
-					return true;
-				}
+//			if (args.length == 2) {
+//				Missile missile;
+//				try {
+//					missile = Missile.valueOf(args[1].toUpperCase());
+//				} catch (final IllegalArgumentException e) {
+//					player.sendMessage("Deze missile bestaat niet, kies uit: ");
+//					player.sendMessage("geef naam, kies uit:");
+//					player.sendMessage(Arrays.stream(Missile.values()).map(Missile::name).map(String::toLowerCase).sorted().collect(Collectors.joining(", ")));
+//					return true;
+//				}
+//
+//				final BlockFace face = new MPlayer(player).getFacingAsBlockFace();
+//				Logger.debug("%s: building missile \"%s\" in direction %s", player.getName(), missile, face);
+//				missile.build(player.getLocation().add(0, -3, 0), face);
+//				return true;
+//			} else {
+//				player.sendMessage("geef naam, kies uit:");
+//				player.sendMessage(Arrays.stream(Missile.values()).map(Missile::name).map(String::toLowerCase).sorted().collect(Collectors.joining(", ")));
+//				return true;
+//			}
 
-				final BlockFace face = new MPlayer(player).getFacingAsBlockFace();
-				Logger.debug("%s: building missile \"%s\" in direction %s", player.getName(), missile, face);
-				missile.build(player.getLocation().add(0, -3, 0), face);
-				return true;
-			} else {
-				player.sendMessage("geef naam, kies uit:");
-				player.sendMessage(Arrays.stream(Missile.values()).map(Missile::name).map(String::toLowerCase).sorted().collect(Collectors.joining(", ")));
-				return true;
-			}
+//			player.teleportSteampunkLobbyAsync();
+			final PluginReloader reloader = (PluginReloader) Bukkit.getPluginManager().getPlugin("PluginReloader");
+			reloader.forceReload(Minigames.getInstance());
 		}
 
 		if (args.length >= 1 && args[0].equals("test2") && sender.hasPermission("minigames.test")) {

@@ -1,6 +1,7 @@
 package derkades.minigames.utils;
 
 import java.util.UUID;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.Consumer;
 
 import org.bukkit.Bukkit;
@@ -28,6 +29,7 @@ import derkades.minigames.Minigames;
 import derkades.minigames.Points;
 import derkades.minigames.modules.SneakPrevention;
 import derkades.minigames.utils.queue.TaskQueue;
+import derkades.minigames.worlds.GameWorld;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -236,6 +238,65 @@ public class MPlayer {
     	TaskQueue.add(() -> this.player.teleportAsync(location).thenRun(callback));
     }
 
+    private Location getRandomLobbyLocation() {
+    	final float f = ThreadLocalRandom.current().nextFloat();
+    	int x, z;
+    	if (f < 0.25f) {
+    		x = -3; z = 0;
+    	} else if (f < 0.5f) {
+    		x = 3; z = 0;
+    	} else if (f < 0.75f) {
+    		x = 0; z = -3;
+    	} else {
+    		x = 0; z = 3;
+    	}
+    	final float yaw = ThreadLocalRandom.current().nextFloat() * 360;
+    	return new Location(GameWorld.STEAMPUNK_LOBBY.getWorld(), x + 0.5, 69, z + 0.5, yaw, 0);
+    }
+
+    private void afterTeleport() {
+		final double force = 0.3f;
+		final Vector vec = new Vector(force * ThreadLocalRandom.current().nextDouble(), 0, force * ThreadLocalRandom.current().nextDouble());
+		Scheduler.delay(1, () -> this.player.setVelocity(vec));
+
+		this.setDisableDamage(true);
+		this.setDisableHunger(true);
+		this.setDisableItemMoving(true);
+		this.disableSneakPrevention();
+
+		this.setGameMode(GameMode.ADVENTURE);
+		this.setAllowFlight(false);
+
+		this.player.setExp(0.0f);
+		this.player.setLevel(0);
+
+		this.heal();
+		this.clearInventory();
+		this.clearPotionEffects();
+
+//    	if (this.player.hasPermission("games.torch")) {
+//			this.player.getInventory().setItem(7, new ItemBuilder(Material.REDSTONE_TORCH)
+//					.name(ChatColor.AQUA + "" + ChatColor.BOLD + "Staff lounge key")
+//					.lore(ChatColor.YELLOW + "Place in upper-south-east-corner on gray terracotta")
+//					.canPlaceOn("cyan_terracotta")
+//					.create());
+//		}
+
+		this.player.getInventory().setItem(8, new ItemBuilder(Material.COMPARATOR)
+				.name(ChatColor.AQUA + "" + ChatColor.BOLD + "Menu")
+				.lore(ChatColor.YELLOW + "Click to open menu")
+				.create());
+    }
+
+    public void teleportSteampunkLobby() {
+    	this.player.teleport(getRandomLobbyLocation());
+    	afterTeleport();
+    }
+
+    public void teleportSteampunkLobbyAsync() {
+    	queueTeleport(getRandomLobbyLocation(), this::afterTeleport);
+    }
+
     public void setAllowFlight(final boolean allowFlight) {
     	this.player.setAllowFlight(allowFlight);
     }
@@ -332,6 +393,7 @@ public class MPlayer {
 		this.giveInfiniteEffect(PotionEffectType.INVISIBILITY);
 	}
 
+	@Deprecated
 	public void applyLobbySettings() {
 		this.setDisableDamage(true);
 		this.setDisableHunger(true);
@@ -350,6 +412,7 @@ public class MPlayer {
 		this.giveLobbyInventoryItems();
 	}
 
+	@Deprecated
 	public void giveLobbyInventoryItems() {
 //    	if (this.player.hasPermission("games.torch")) {
 //			this.player.getInventory().setItem(7, new ItemBuilder(Material.REDSTONE_TORCH)

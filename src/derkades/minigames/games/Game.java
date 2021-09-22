@@ -33,9 +33,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.entity.Trident;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
-import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.util.Vector;
 
 import com.google.gson.stream.JsonWriter;
 
@@ -45,7 +43,6 @@ import derkades.minigames.Logger;
 import derkades.minigames.Minigames;
 import derkades.minigames.Minigames.ShutdownReason;
 import derkades.minigames.UpdateSigns;
-import derkades.minigames.Var;
 import derkades.minigames.constants.SkipConfig;
 import derkades.minigames.constants.VoteConfig;
 import derkades.minigames.games.bowspleef.BowSpleef;
@@ -80,7 +77,6 @@ import derkades.minigames.random.Size;
 import derkades.minigames.utils.MPlayer;
 import derkades.minigames.utils.Scheduler;
 import derkades.minigames.utils.Utils;
-import derkades.minigames.utils.queue.TaskQueue;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.HoverEvent;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -128,7 +124,7 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 
 	@Override
 	public String toString() {
-		return getName();
+		return "Game[" + getIdentifier() + "]";
 	}
 
 	public String getAlias(){ return null; }
@@ -450,12 +446,13 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 
 		for (final MPlayer player : Minigames.getOnlinePlayers()){
 			// Teleport the player and give them a bit of forwards and sidewards velocity
-			TaskQueue.add(() -> {
-				player.teleport(Var.LOBBY_LOCATION);
-				player.bukkit().setVelocity(new Vector(ThreadLocalRandom.current().nextDouble() - 0.5, 0.3, -0.8));
-				player.giveEffect(PotionEffectType.INVISIBILITY, 30, 0);
-				player.applyLobbySettings();
-			});
+//			TaskQueue.add(() -> {
+//				player.teleport(Var.LOBBY_LOCATION);
+//				player.bukkit().setVelocity(new Vector(ThreadLocalRandom.current().nextDouble() - 0.5, 0.3, -0.8));
+//				player.giveEffect(PotionEffectType.INVISIBILITY, 30, 0);
+//				player.applyLobbySettings();
+//			});
+			player.teleportSteampunkLobbyAsync();
 		}
 
 		Scheduler.delay(5*20, () -> {

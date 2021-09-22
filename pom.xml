@@ -111,6 +111,13 @@
 		</dependency>
 
 		<dependency>
+			<groupId>nl.rkslot</groupId>
+			<artifactId>plugin-reloader</artifactId>
+			<version>1.0.0</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
 			<groupId>org.kohsuke</groupId>
 			<artifactId>github-api</artifactId>
 			<version>1.133</version>

@@ -14,6 +14,7 @@ import derkades.minigames.utils.MPlayer;
 
 public class WorldTeleportCommand implements CommandExecutor {
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public boolean onCommand(final CommandSender sender, final Command command, final String label, final String[] args) {
 		if (!sender.hasPermission("minigames.world.tp")){
@@ -22,6 +23,7 @@ public class WorldTeleportCommand implements CommandExecutor {
 
 		if (args.length != 1) {
 			sender.sendMessage("");
+			sender.sendMessage("old_lobby");
 			sender.sendMessage("lobby");
 			sender.sendMessage("");
 			Arrays.asList(GameWorld.values()).stream().map(GameWorld::toString).map(String::toLowerCase).forEach(sender::sendMessage);
@@ -30,8 +32,10 @@ public class WorldTeleportCommand implements CommandExecutor {
 
 		final MPlayer player = new MPlayer((Player) sender);
 
-		if (args[0].equals("lobby")) {
+		if (args[0].equals("old_lobby")) {
 			player.teleport(Var.LOBBY_LOCATION);
+		} else if (args[0].equals("lobby")) {
+			player.teleportSteampunkLobbyAsync();
 		} else {
 			try {
 				player.queueTeleport(new Location(GameWorld.valueOf(args[0].toUpperCase()).getWorld(), 0.5, 65, 0.5));
