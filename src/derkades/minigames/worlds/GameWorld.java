@@ -63,7 +63,8 @@ public enum GameWorld {
 
 	MISSILERACER_PROTOTYPE,
 
-	MGR_ISLAND(false),
+//	MGR_ISLAND(false),
+	MGR_SNOW(false), // "Northwatch"
 	MGR_SANTIAGO,
 
 	MAZEPVP_PROTOTYPE,
@@ -96,7 +97,7 @@ public enum GameWorld {
 	SPLEEF_ORIGINAL,
 
 	TBB_FOREST,
-	TBB_MEDIEVALMOUNTAIN(false), // http://www.minecraftmaps.com/creation-maps/medieval-mountain
+//	TBB_MEDIEVALMOUNTAIN(false), // http://www.minecraftmaps.com/creation-maps/medieval-mountain
 
 	TNTRUN_AQUA,
 	TNTRUN_FUTURE,
@@ -203,7 +204,6 @@ public enum GameWorld {
 		return world;
 	}
 
-	@Deprecated
 	public boolean unload() {
 		final World world = Bukkit.getWorld(getName());
 		if (world == null) {
