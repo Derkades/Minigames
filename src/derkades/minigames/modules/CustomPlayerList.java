@@ -12,14 +12,14 @@ import derkades.minigames.games.Game;
 import derkades.minigames.utils.Scheduler;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
+import nl.rkslot.pluginreloader.PluginReloader;
 
 public class CustomPlayerList extends Module {
 
 	private final AtomicReference<String> lastPluginUpdate;
+	final PluginReloader reloader = (PluginReloader) Bukkit.getPluginManager().getPlugin("PluginReloader");
 
 	public CustomPlayerList() {
-
-
 		this.lastPluginUpdate = new AtomicReference<>();
 		this.lastPluginUpdate.set("?");
 		final Component header = Component.text(" ");
@@ -32,7 +32,8 @@ public class CustomPlayerList extends Module {
 					.append(Component.text(" / ", NamedTextColor.GRAY))
 					.append(Component.text(Game.GAMES.length, NamedTextColor.WHITE))
 					.append(Component.text("\nLast plugin update: " + this.lastPluginUpdate.get(), NamedTextColor.GRAY))
-					.append(Component.text("\nReload count: " + this.getReloadCount(), NamedTextColor.GRAY));
+					.append(Component.text("\nBukkit reload count: " + this.getReloadCount(), NamedTextColor.GRAY))
+					.append(Component.text("\nPlugin reload count: " + this.reloader.getReloadCount(Minigames.getInstance()), NamedTextColor.GRAY));
 
 			Bukkit.getOnlinePlayers().forEach(p -> p.sendPlayerListHeaderAndFooter(header, footer));
 		});
