@@ -125,7 +125,7 @@ public class BowSpleef extends Game<BowSpleefMap> {
 			this.alive.add(player.getUniqueId());
 		}
 
-		player.queueTeleport(this.map.getSpawnLocation());
+		player.queueTeleportNoFadeIn(this.map.getSpawnLocation());
 	}
 
 	@Override
