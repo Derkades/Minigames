@@ -91,6 +91,7 @@ public class Minigames extends JavaPlugin implements Listener {
 
 		Var.LOBBY_WORLD = Bukkit.getWorld("minigames");
 		Var.LOBBY_LOCATION = new Location(Var.LOBBY_WORLD, 219.5, 64, 279.5, 180, 0);
+		Var.JAIL_LOCATION = new Location(Var.LOBBY_WORLD, 206.5, 65, 271.5);
 
 		getServer().getPluginManager().registerEvents(new GlobalListeners(), this);
 
@@ -233,7 +234,8 @@ public class Minigames extends JavaPlugin implements Listener {
 			p.clearInventory();
 			p.setGameMode(GameMode.ADVENTURE);
 //			p.teleport(Var.LOBBY_LOCATION);
-			p.teleportLobby();
+//			p.teleportLobby();
+			p.teleport(Var.JAIL_LOCATION);
 		});
 
 //		Bukkit.getPluginManager().

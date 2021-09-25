@@ -452,7 +452,7 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 		this.showPolls();
 
 		for (final MPlayer player : Minigames.getOnlinePlayers()){
-			player.teleportLobbyAsync();
+			player.queueLobbyTeleport();
 		}
 
 		Scheduler.delay(5*20, () -> {

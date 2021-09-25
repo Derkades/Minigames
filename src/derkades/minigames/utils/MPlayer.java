@@ -220,9 +220,9 @@ public class MPlayer {
 		return this.player.getName();
 	}
 
-    public UUID getUniqueId() {
-    	return this.player.getUniqueId();
-    }
+	public UUID getUniqueId() {
+		return this.player.getUniqueId();
+	}
 
     public void clearInventory() {
 		final PlayerInventory inv = this.player.getInventory();
@@ -234,11 +234,6 @@ public class MPlayer {
 		inv.setBoots(air);
 	}
 
-    public void queueTeleport(final Location location) {
-//    	TaskQueue.add(() -> this.player.teleportAsync(location));
-    	queueTeleport(location, () -> {});
-    }
-
 	private static final int TITLE_FADE_TICKS = 5;
 	private static final Title TITLE_FADE_OUT = Title.title(Component.text(SpecialCharacter.BLACK_BOX), Component.empty(),
 			Times.of(Duration.ofMillis(TITLE_FADE_TICKS * 50), Duration.ofMillis(100), Duration.ofMillis(0)));
@@ -246,6 +241,10 @@ public class MPlayer {
 			Times.of(Duration.ofMillis(0), Duration.ofMillis(100), Duration.ofMillis(0)));
 	private static final Title TITLE_FADE_IN = Title.title(Component.text(SpecialCharacter.BLACK_BOX), Component.empty(),
 			Times.of(Duration.ofMillis(0), Duration.ofMillis(0), Duration.ofMillis(TITLE_FADE_TICKS * 50)));
+
+	public void queueTeleport(final Location location) {
+		queueTeleport(location, () -> {});
+	}
 
 	public void queueTeleport(final Location location, final Runnable callback) {
 		this.sendTitle(TITLE_FADE_OUT);
@@ -262,25 +261,47 @@ public class MPlayer {
 				this.sendTitle(TITLE_FADE_IN);
 			}));
 		});
-    }
+	}
 
-//    private Location getRandomLobbyLocation() {
-//    	final float f = ThreadLocalRandom.current().nextFloat();
-//    	int x, z;
-//    	if (f < 0.25f) {
-//    		x = -3; z = 0;
-//    	} else if (f < 0.5f) {
-//    		x = 3; z = 0;
-//    	} else if (f < 0.75f) {
-//    		x = 0; z = -3;
-//    	} else {
-//    		x = 0; z = 3;
-//    	}
-//    	final float yaw = ThreadLocalRandom.current().nextFloat() * 360;
-//    	return new Location(GameWorld.STEAMPUNK_LOBBY.getWorld(), x + 0.5, 69, z + 0.5, yaw, 0);
-//    }
+	// Used on join
+	public void queueTeleportNoFadeIn(final Location location) {
+		queueTeleportNoFadeIn(location, () -> {});
+	}
 
-    private void afterTeleport() {
+	// Used on join
+	public void queueTeleportNoFadeIn(final Location location, final Runnable callback) {
+		// Refresh black screen every tick (50ms)
+		final BukkitTask task = Scheduler.repeat(1, () -> {
+			this.sendTitle(TITLE_BLACK);
+		});
+
+		TaskQueue.add(() -> this.player.teleportAsync(location).thenRun(() -> {
+			task.cancel();
+			this.sendTitle(TITLE_FADE_IN);
+		}));
+	}
+
+//	private Location getRandomLobbyLocation() {
+//		final float f = ThreadLocalRandom.current().nextFloat();
+//		int x, z;
+//		if (f < 0.25f) {
+//			x = -3;
+//			z = 0;
+//		} else if (f < 0.5f) {
+//			x = 3;
+//			z = 0;
+//		} else if (f < 0.75f) {
+//			x = 0;
+//			z = -3;
+//		} else {
+//			x = 0;
+//			z = 3;
+//		}
+//		final float yaw = ThreadLocalRandom.current().nextFloat() * 360;
+//		return new Location(GameWorld.STEAMPUNK_LOBBY.getWorld(), x + 0.5, 69, z + 0.5, yaw, 0);
+//	}
+
+    public void afterLobbyTeleport() {
 //		final double force = 0.3f;
 //		final Vector vec = new Vector(force * ThreadLocalRandom.current().nextDouble(), 0, force * ThreadLocalRandom.current().nextDouble());
     	final Vector vec = new Vector(ThreadLocalRandom.current().nextDouble() - 0.5, 0.3, -0.8);
@@ -315,39 +336,30 @@ public class MPlayer {
 				.create());
     }
 
-//    public void teleportSteampunkLobby() {
-//    	this.player.teleport(getRandomLobbyLocation());
-//    	afterTeleport();
-//    }
-//
-//    public void teleportSteampunkLobbyAsync() {
-//    	queueTeleport(getRandomLobbyLocation(), this::afterTeleport);
-//    }
+	public void queueLobbyTeleport() {
+		queueTeleport(Var.LOBBY_LOCATION, this::afterLobbyTeleport);
+	}
 
-    public void teleportLobby() {
-    	this.player.teleport(Var.LOBBY_LOCATION);
-    	afterTeleport();
-    }
+    // Used on join
+	void teleportLobbyNoFadeIn() {
+		queueTeleportNoFadeIn(Var.LOBBY_LOCATION, this::afterLobbyTeleport);
+	}
 
-    public void teleportLobbyAsync() {
-    	queueTeleport(Var.LOBBY_LOCATION, this::afterTeleport);
-    }
+	public void setAllowFlight(final boolean allowFlight) {
+		this.player.setAllowFlight(allowFlight);
+	}
 
-    public void setAllowFlight(final boolean allowFlight) {
-    	this.player.setAllowFlight(allowFlight);
-    }
+	public boolean getAllowFlight() {
+		return this.player.getAllowFlight();
+	}
 
-    public boolean getAllowFlight() {
-    	return this.player.getAllowFlight();
-    }
+	public void setGameMode(final GameMode gameMode) {
+		this.player.setGameMode(gameMode);
+	}
 
-    public void setGameMode(final GameMode gameMode) {
-    	this.player.setGameMode(gameMode);
-    }
-
-    public GameMode getGameMode() {
-    	return this.player.getGameMode();
-    }
+	public GameMode getGameMode() {
+		return this.player.getGameMode();
+	}
 
 	public void clearPotionEffects(){
 		for (final PotionEffect effect : this.player.getActivePotionEffects()) {
@@ -427,41 +439,6 @@ public class MPlayer {
 
 	public void giveInvisibility(){
 		this.giveInfiniteEffect(PotionEffectType.INVISIBILITY);
-	}
-
-	@Deprecated
-	public void applyLobbySettings() {
-		this.setDisableDamage(true);
-		this.setDisableHunger(true);
-		this.setDisableItemMoving(true);
-		this.disableSneakPrevention();
-
-		this.setGameMode(GameMode.ADVENTURE);
-		this.setAllowFlight(false);
-
-		this.player.setExp(0.0f);
-		this.player.setLevel(0);
-
-		this.heal();
-		this.clearInventory();
-		this.clearPotionEffects();
-		this.giveLobbyInventoryItems();
-	}
-
-	@Deprecated
-	public void giveLobbyInventoryItems() {
-//    	if (this.player.hasPermission("games.torch")) {
-//			this.player.getInventory().setItem(7, new ItemBuilder(Material.REDSTONE_TORCH)
-//					.name(ChatColor.AQUA + "" + ChatColor.BOLD + "Staff lounge key")
-//					.lore(ChatColor.YELLOW + "Place in upper-south-east-corner on gray terracotta")
-//					.canPlaceOn("cyan_terracotta")
-//					.create());
-//		}
-
-		this.player.getInventory().setItem(8, new ItemBuilder(Material.COMPARATOR)
-				.name(ChatColor.AQUA + "" + ChatColor.BOLD + "Menu")
-				.lore(ChatColor.YELLOW + "Click to open menu")
-				.create());
 	}
 
 	public void addPoints(final int points) {

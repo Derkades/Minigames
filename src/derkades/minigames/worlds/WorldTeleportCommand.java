@@ -26,7 +26,7 @@ public class WorldTeleportCommand implements CommandExecutor {
 //			sender.sendMessage("");
 
 //			Arrays.stream(GameWorld.values()).map(GameWorld::toString).map(String::toLowerCase).forEach(sender::sendMessage);
-			player.teleportLobbyAsync();
+			player.queueLobbyTeleport();
 			return true;
 		}
 
@@ -36,9 +36,10 @@ public class WorldTeleportCommand implements CommandExecutor {
 //			player.teleportSteampunkLobbyAsync();
 //		} else {
 			try {
-				player.queueTeleport(new Location(GameWorld.valueOf(args[0].toUpperCase()).getWorld(), 0.5, 65, 0.5));
-				player.setGameMode(GameMode.CREATIVE);
-				player.bukkit().setFlying(true);
+				player.queueTeleport(new Location(GameWorld.valueOf(args[0].toUpperCase()).getWorld(), 0.5, 65, 0.5), () -> {
+					player.setGameMode(GameMode.CREATIVE);
+					player.bukkit().setFlying(true);
+				});
 			} catch (final IllegalArgumentException e) {
 				player.sendFormattedPlainChat("No world '%s'", args[0]);
 			}

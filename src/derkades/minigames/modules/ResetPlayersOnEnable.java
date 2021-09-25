@@ -17,14 +17,15 @@ public class ResetPlayersOnEnable extends Module {
 				Logger.debug("Resetting player %s (debug mode, not creative)", p.getName());
 //				p.applyLobbySettings();
 //				p.queueTeleport(Var.LOBBY_LOCATION);
-				p.teleportLobbyAsync();
+//				p.teleportLobbyAsync();
+				p.queueLobbyTeleport();
 			});
 		} else {
 			Minigames.getOnlinePlayers().forEach((p) -> {
 				Logger.debug("Resetting player %s (no debug mode)", p.getName());
 //				p.applyLobbySettings();
 //				p.queueTeleport(Var.LOBBY_LOCATION);
-				p.teleportLobbyAsync();
+				p.queueLobbyTeleport();
 			});
 		}
 	}

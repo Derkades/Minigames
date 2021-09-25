@@ -40,7 +40,6 @@ public class GlobalListeners implements Listener {
 	public void onJoin(final PlayerJoinEvent event){
 		final MPlayer player = new MPlayer(event.getPlayer());
 
-//		event.setJoinMessage(String.format("[%s+%s] %s| %s%s", ChatColor.GREEN, ChatColor.RESET, ChatColor.DARK_GRAY, ChatColor.GREEN, player.getName()));
 		event.joinMessage(getJoinLeaveMessage(player.bukkit().displayName(), ChatColor.GREEN, '+'));
 
 		// Anti collision
@@ -53,21 +52,17 @@ public class GlobalListeners implements Listener {
 		player.setDisableItemMoving(true);
 		player.disableSneakPrevention();
 
+		player.teleport(Var.JAIL_LOCATION);
+
 		if (GameState.getCurrentState().isInGame()) {
 			// Game is running, game will handle teleporting
 			final Game<?> game = GameState.getCurrentGame();
 			game.onPlayerJoin(player);
-
-//			Scheduler.delay(1, () -> player.spigot().sendMessage(
-//					Utils.getComponentBuilderWithPrefix(ChatColor.GREEN, 'P')
-//					.append("Current game: ")
-//					.append(game.getName()).color(ChatColor.WHITE)
-//					.create()));
 		} else {
 			// No game is running, teleport to lobby
-//			player.teleport(Var.LOBBY_LOCATION);
-//			player.applyLobbySettings();
-			player.teleportLobby();
+			player.queueTeleportNoFadeIn(Var.LOBBY_LOCATION, () -> {
+				player.afterLobbyTeleport();
+			});
 
 //			Scheduler.delay(1, () -> player.spigot().sendMessage(
 //						Utils.getComponentBuilderWithPrefix(ChatColor.GREEN, 'P')
@@ -85,7 +80,7 @@ public class GlobalListeners implements Listener {
 	@EventHandler
 	public void onQuit(final PlayerQuitEvent event){
 		final MPlayer player = new MPlayer(event);
-//		event.setQuitMessage(String.format("[%s-%s] %s| %s%s", ChatColor.RED, ChatColor.RESET, ChatColor.DARK_GRAY, ChatColor.RED, player.getName()));
+
 		event.quitMessage(getJoinLeaveMessage(player.bukkit().displayName(), ChatColor.RED, '-'));
 
 		if (GameState.getCurrentState().isInGame()) {
