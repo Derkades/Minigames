@@ -82,6 +82,7 @@ public class SpawnZombieShooter extends Module {
 
 		final Zombie zombie = Var.LOBBY_WORLD.spawn(new Location(Var.LOBBY_WORLD, 224.5, 64, 289.5), Zombie.class);
 		zombie.setAdult();
+		zombie.setSilent(true);
 	}
 
 	@EventHandler
