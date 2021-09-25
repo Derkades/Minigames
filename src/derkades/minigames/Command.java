@@ -189,7 +189,7 @@ public class Command implements CommandExecutor {
 						ResourcePack.refresh();
 					}
 				}
-				case "clearpack" -> ResourcePack.sendEmptyPack((Player) sender);
+				case "clearpack", "emptypack" -> ResourcePack.sendEmptyPack((Player) sender);
 				case "applypack" -> ResourcePack.sendResourcePack((Player) sender);
 				case "shield" -> {
 					if (sender.hasPermission("minigames.debug")) {
