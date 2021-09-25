@@ -408,14 +408,18 @@ public class MPlayer {
 		finish();
 	}
 
+	private static final Title DIE_TITLE = Title.title(Component.empty(), Component.text("You've died", NamedTextColor.RED));
+
 	public void die() {
-		sendTitle( "", ChatColor.RED + "You've died");
-		spectator();
+		this.sendTitle(DIE_TITLE);
+		this.spectator();
 	}
 
+	private static final Title FINISH_TITLE = Title.title(Component.empty(), Component.text("You've finished", NamedTextColor.GREEN));
+
 	public void finish() {
-		sendTitle("", ChatColor.GREEN + "You've finished");
-		spectator();
+		this.sendTitle(FINISH_TITLE);
+		this.spectator();
 	}
 
 	public void spectator() {
