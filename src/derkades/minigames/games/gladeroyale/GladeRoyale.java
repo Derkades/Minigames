@@ -25,6 +25,8 @@ import derkades.minigames.utils.MinigamesPlayerDamageEvent.DamageType;
 import derkades.minigames.utils.Scheduler;
 import derkades.minigames.utils.Utils;
 import derkades.minigames.utils.queue.TaskQueue;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import net.md_5.bungee.api.ChatColor;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
 import xyz.derkades.derkutils.bukkit.lootchests.LootChest;
@@ -139,7 +141,7 @@ public class GladeRoyale extends Game<GladeRoyaleMap> {
 			}
 			random.setY(this.map.getSpawnY());
 
-			player.sendTitle(ChatColor.RED + "You're falling", ChatColor.GRAY + "Activate your elytra!");
+			player.sendTitle(Component.text("You're falling", NamedTextColor.RED), Component.text("Activate your elytra!", NamedTextColor.GRAY));
 			player.queueTeleport(random);
 		}
 	}

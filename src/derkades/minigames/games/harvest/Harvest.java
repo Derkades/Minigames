@@ -24,7 +24,6 @@ import derkades.minigames.utils.MinigamesPlayerDamageEvent;
 import derkades.minigames.utils.Scheduler;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
-import net.md_5.bungee.api.ChatColor;
 import xyz.derkades.derkutils.ListUtils;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
 
@@ -213,7 +212,7 @@ public class Harvest extends Game<HarvestMap> {
 
 		final MPlayer player = new MPlayer(event.getPlayer());
 		player.sendChat(Component.text("This crop was not fully grown yet! You lost one wheat.", NamedTextColor.RED));
-		player.sendTitle("", ChatColor.RED + "-1");
+		player.sendTitle(Component.empty(), Component.text("-1", NamedTextColor.RED));
 		player.getInventory().removeItem(new ItemStack(Material.WHEAT, 1));
 	}
 
