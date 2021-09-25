@@ -469,7 +469,7 @@ public class MPlayer {
 		Bukkit.getOnlinePlayers().forEach((player2) -> player2.hidePlayer(Minigames.getInstance(), this.player));
 	}
 
-	public void setArmor(final ItemStack helmet, final ItemStack chestplate, final ItemStack leggings, final ItemStack boots){
+	public void setArmor(final ItemStack helmet, final ItemStack chestplate, final ItemStack leggings, final ItemStack boots) {
 		final PlayerInventory inv = this.player.getInventory();
 		inv.setHelmet(helmet);
 		inv.setChestplate(chestplate);
@@ -477,28 +477,13 @@ public class MPlayer {
 		inv.setBoots(boots);
 	}
 
-	public void setArmor(Material helmet, Material chestplate, Material leggings, Material boots){
-		if (helmet == null) {
-			helmet = Material.AIR;
-		}
-
-		if (chestplate == null) {
-			chestplate = Material.AIR;
-		}
-
-		if (leggings == null) {
-			leggings = Material.AIR;
-		}
-
-		if (boots == null) {
-			boots = Material.AIR;
-		}
-
+	public void setArmor(final Material helmet, final Material chestplate, final Material leggings, final Material boots) {
 		this.setArmor(
-				new ItemStack(helmet),
-				new ItemStack(chestplate),
-				new ItemStack(leggings),
-				new ItemStack(boots));
+				helmet != null ? new ItemStack(helmet) : null,
+				chestplate != null ? new ItemStack(chestplate) : null,
+				leggings != null ? new ItemStack(leggings) : null,
+				boots != null ? new ItemStack(boots) : null
+				);
 	}
 
 	public Block getBlockIn() {
