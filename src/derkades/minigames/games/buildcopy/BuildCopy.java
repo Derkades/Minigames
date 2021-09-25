@@ -36,7 +36,6 @@ public class BuildCopy extends Game<BuildCopyMap> {
 
 	private static final Set<Material> MATERIALS_SET = Set.of(MATERIALS);
 
-
 	private static final String[] MATERIALS_VANILLA = {
 			"minecraft:birch_planks",
 			"minecraft:end_stone_bricks",

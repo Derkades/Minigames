@@ -502,6 +502,10 @@ public class MPlayer {
 		this.player.playSound(this.player.getLocation(), sound, 1, pitch);
 	}
 
+	public void playSound(final net.kyori.adventure.sound.Sound sound) {
+		this.player.playSound(sound);
+	}
+
 	public void showPlayer(final MPlayer target) {
 		this.player.showPlayer(Minigames.getInstance(), target.bukkit());
 	}
