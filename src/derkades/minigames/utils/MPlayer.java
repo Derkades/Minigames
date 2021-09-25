@@ -1,5 +1,6 @@
 package derkades.minigames.utils;
 
+import java.time.Duration;
 import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.Consumer;
@@ -23,10 +24,12 @@ import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.metadata.MetadataValue;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.util.Vector;
 
 import derkades.minigames.Minigames;
 import derkades.minigames.Points;
+import derkades.minigames.SpecialCharacter;
 import derkades.minigames.Var;
 import derkades.minigames.modules.SneakPrevention;
 import derkades.minigames.utils.queue.TaskQueue;
@@ -35,6 +38,7 @@ import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.title.Title;
+import net.kyori.adventure.title.Title.Times;
 import net.md_5.bungee.api.ChatColor;
 import xyz.derkades.derkutils.Colors;
 import xyz.derkades.derkutils.bukkit.BlockUtils;
@@ -204,17 +208,17 @@ public class MPlayer {
 		return getLocation().getBlockZ();
 	}
 
-    public void setExp(final float exp) {
-    	this.player.setExp(exp);
-    }
+	public void setExp(final float exp) {
+		this.player.setExp(exp);
+	}
 
-    public void setLevel(final int level) {
-    	this.player.setLevel(level);
-    }
+	public void setLevel(final int level) {
+		this.player.setLevel(level);
+	}
 
-    public String getName() {
-    	return this.player.getName();
-    }
+	public String getName() {
+		return this.player.getName();
+	}
 
     public UUID getUniqueId() {
     	return this.player.getUniqueId();
@@ -228,14 +232,36 @@ public class MPlayer {
 		inv.setChestplate(air);
 		inv.setLeggings(air);
 		inv.setBoots(air);
-    }
+	}
 
     public void queueTeleport(final Location location) {
-    	TaskQueue.add(() -> this.player.teleportAsync(location));
+//    	TaskQueue.add(() -> this.player.teleportAsync(location));
+    	queueTeleport(location, () -> {});
     }
 
-    public void queueTeleport(final Location location, final Runnable callback) {
-    	TaskQueue.add(() -> this.player.teleportAsync(location).thenRun(callback));
+	private static final int TITLE_FADE_TICKS = 5;
+	private static final Title TITLE_FADE_OUT = Title.title(Component.text(SpecialCharacter.BLACK_BOX), Component.empty(),
+			Times.of(Duration.ofMillis(TITLE_FADE_TICKS * 50), Duration.ofMillis(100), Duration.ofMillis(0)));
+	private static final Title TITLE_BLACK = Title.title(Component.text(SpecialCharacter.BLACK_BOX), Component.empty(),
+			Times.of(Duration.ofMillis(0), Duration.ofMillis(100), Duration.ofMillis(0)));
+	private static final Title TITLE_FADE_IN = Title.title(Component.text(SpecialCharacter.BLACK_BOX), Component.empty(),
+			Times.of(Duration.ofMillis(0), Duration.ofMillis(0), Duration.ofMillis(TITLE_FADE_TICKS * 50)));
+
+	public void queueTeleport(final Location location, final Runnable callback) {
+		this.sendTitle(TITLE_FADE_OUT);
+
+		// Wait for fade-out to complete before teleporting
+		Scheduler.delay(TITLE_FADE_TICKS, () -> {
+			// Refresh black screen every tick (50ms)
+			final BukkitTask task = Scheduler.repeat(1, () -> {
+				this.sendTitle(TITLE_BLACK);
+			});
+
+			TaskQueue.add(() -> this.player.teleportAsync(location).thenRun(() -> {
+				task.cancel();
+				this.sendTitle(TITLE_FADE_IN);
+			}));
+		});
     }
 
 //    private Location getRandomLobbyLocation() {
