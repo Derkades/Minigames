@@ -451,8 +451,12 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 
 		this.showPolls();
 
-		for (final MPlayer player : Minigames.getOnlinePlayers()){
-			player.queueLobbyTeleport();
+		for (final MPlayer player : Minigames.getOnlinePlayers()) {
+			if (winners.contains(player.getUniqueId())) {
+				player.queueLobbyTeleport(() -> player.setArmor(Material.GOLDEN_HELMET, null, null, null));
+			} else {
+				player.queueLobbyTeleport();
+			}
 		}
 
 		Scheduler.delay(5*20, () -> {

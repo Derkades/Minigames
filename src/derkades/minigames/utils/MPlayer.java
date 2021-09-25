@@ -340,6 +340,13 @@ public class MPlayer {
 		queueTeleport(Var.LOBBY_LOCATION, this::afterLobbyTeleport);
 	}
 
+	public void queueLobbyTeleport(final Runnable afterTeleport) {
+		queueTeleport(Var.LOBBY_LOCATION, () -> {
+			this.afterLobbyTeleport();
+			afterTeleport.run();
+		});
+	}
+
     // Used on join
 	void teleportLobbyNoFadeIn() {
 		queueTeleportNoFadeIn(Var.LOBBY_LOCATION, this::afterLobbyTeleport);
