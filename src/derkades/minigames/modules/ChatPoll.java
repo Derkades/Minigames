@@ -6,7 +6,10 @@ import java.util.UUID;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.PluginIdentifiableCommand;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
+import org.jetbrains.annotations.NotNull;
 
 import derkades.minigames.Minigames;
 import derkades.minigames.utils.MPlayer;
@@ -91,7 +94,7 @@ public class ChatPoll extends Module {
 
 	}
 
-	private class ChatPollCallbackCommand extends Command {
+	private class ChatPollCallbackCommand extends Command implements PluginIdentifiableCommand {
 
 		protected ChatPollCallbackCommand() {
 			super(COMMAND_NAME);
@@ -122,6 +125,11 @@ public class ChatPoll extends Module {
 			ChatPoll.this.callbacks.get(providedToken).callback(player, Integer.parseInt(args[1]));
 
 			return true;
+		}
+
+		@Override
+		public @NotNull Plugin getPlugin() {
+			return Minigames.getInstance();
 		}
 
 	}
