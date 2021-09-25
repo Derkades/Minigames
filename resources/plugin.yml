@@ -15,5 +15,6 @@ commands:
   spectate:
     aliases: [spec]
   wtp:
+  testworld:
   voteskip:
     aliases: [skip]

@@ -63,31 +63,25 @@ public class TeamsBowBattle extends Game<TeamsBowBattleMap> implements TeamGame 
 	public int getDuration() {
 		return 120;
 	}
-	
+
 	@Override
 	public TeamManager getTeams() {
-		return teams;
+		return this.teams;
 	}
 
 	private Set<UUID> dead;
 	private TeamManager teams;
-	
+
 	@Override
 	public void onPreStart() {
 		this.dead = new HashSet<>();
-		teams = new TeamManager(Set.of(GameTeam.RED, GameTeam.BLUE));
+		this.teams = new TeamManager(Set.of(GameTeam.RED, GameTeam.BLUE));
 
 		boolean teamBool = false;
 
 		for (final MPlayer player : Minigames.getOnlinePlayersInRandomOrder()) {
 			final GameTeam team = teamBool ? GameTeam.RED : GameTeam.BLUE;
-			teams.setTeam(player, team);
-			player.sendTitle(Component.empty(),
-					Component.text("You are in the ", NamedTextColor.GRAY)
-					.append(Component.text(team.getDisplayName(), team.getTextColor()).decorate(TextDecoration.BOLD))
-					.append(Component.text(".", NamedTextColor.GRAY))
-					);
-
+			this.teams.setTeam(player, team, true);
 			player.queueTeleport(getSpawnLocation(team));
 
 			teamBool = !teamBool;
@@ -109,17 +103,17 @@ public class TeamsBowBattle extends Game<TeamsBowBattleMap> implements TeamGame 
 
 	@Override
 	public boolean endEarly() {
-		return teams.anyEmptyTeam() != null;
+		return this.teams.anyEmptyTeam() != null;
 	}
 
 	@Override
 	public void onEnd() {
-		if (teams.getMemberCount(GameTeam.BLUE) == 0) {
+		if (this.teams.getMemberCount(GameTeam.BLUE) == 0) {
 			// blue is dead so team red wins
-			TeamsBowBattle.super.endGame(teams.getMembers(GameTeam.RED));
-		} else if (teams.getMemberCount(GameTeam.RED) == 0) {
+			TeamsBowBattle.super.endGame(this.teams.getMembers(GameTeam.RED));
+		} else if (this.teams.getMemberCount(GameTeam.RED) == 0) {
 			// red is dead so team blue wins
-			TeamsBowBattle.super.endGame(teams.getMembers(GameTeam.BLUE));
+			TeamsBowBattle.super.endGame(this.teams.getMembers(GameTeam.BLUE));
 		} else {
 			// both teams are still alive
 			TeamsBowBattle.super.endGame();
@@ -133,13 +127,13 @@ public class TeamsBowBattle extends Game<TeamsBowBattleMap> implements TeamGame 
 	public void damage(final MinigamesPlayerDamageEvent event){
 		final MPlayer player = event.getPlayer();
 
-		final GameTeam playerTeam = teams.getTeam(player);
+		final GameTeam playerTeam = this.teams.getTeam(player);
 
 		if (event.willBeDead()) {
 			event.setCancelled(true);
 			if (event.getType().equals(DamageType.ENTITY)) {
 				final MPlayer killer = event.getDamagerPlayer();
-				final GameTeam killerTeam = teams.getTeam(killer);
+				final GameTeam killerTeam = this.teams.getTeam(killer);
 				sendMessage(Component.empty()
 						.append(Component.text(player.getName(), playerTeam.getTextColor()).decorate(TextDecoration.BOLD))
 						.append(Component.text(" has been killed by ", NamedTextColor.GRAY))
@@ -171,9 +165,9 @@ public class TeamsBowBattle extends Game<TeamsBowBattleMap> implements TeamGame 
 
 		final MPlayer shooter = event.getDamagerPlayer();
 
-		if (teams.isTeamMember(shooter, GameTeam.BLUE) && teams.isTeamMember(player, GameTeam.RED)) {
+		if (this.teams.isTeamMember(shooter, GameTeam.BLUE) && this.teams.isTeamMember(player, GameTeam.RED)) {
 			// blue attacks red -> allow
-		} else if (teams.isTeamMember(shooter, GameTeam.RED) && teams.isTeamMember(player, GameTeam.BLUE)) {
+		} else if (this.teams.isTeamMember(shooter, GameTeam.RED) && this.teams.isTeamMember(player, GameTeam.BLUE)) {
 			// red attacks blue -> allow
 		} else {
 			/*
@@ -204,7 +198,7 @@ public class TeamsBowBattle extends Game<TeamsBowBattleMap> implements TeamGame 
 	private void giveItems(final MPlayer player) {
 		player.clearInventory();
 
-		final GameTeam team = teams.getTeam(player);
+		final GameTeam team = this.teams.getTeam(player);
 
 		if (team == null) {
 			Logger.warning("Not giving items to %s, unknown team", player.getName());
@@ -227,7 +221,7 @@ public class TeamsBowBattle extends Game<TeamsBowBattleMap> implements TeamGame 
 
 	@Override
 	public void onPlayerJoin(final MPlayer player) {
-		final GameTeam team = teams.getTeam(player);
+		final GameTeam team = this.teams.getTeam(player);
 		if (team == null) {
 			player.dieTo(this.map.getTeamBlueSpawnLocation());
 			return;

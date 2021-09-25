@@ -1,7 +1,6 @@
 package derkades.minigames.games.controlpoints;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
@@ -20,11 +19,12 @@ import org.bukkit.potion.PotionEffectType;
 import derkades.minigames.GameState;
 import derkades.minigames.Minigames;
 import derkades.minigames.games.Game;
+import derkades.minigames.games.GameTeam;
+import derkades.minigames.games.TeamManager;
 import derkades.minigames.utils.MPlayer;
 import derkades.minigames.utils.MinigamesPlayerDamageEvent;
 import derkades.minigames.utils.MinigamesPlayerDamageEvent.DamageType;
 import derkades.minigames.utils.Scheduler;
-import net.md_5.bungee.api.ChatColor;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
 
 public class ControlPoints extends Game<ControlPointsMap> {
@@ -69,17 +69,16 @@ public class ControlPoints extends Game<ControlPointsMap> {
 		return 200;
 	}
 
-	private Set<UUID> teamRed;
-	private Set<UUID> teamBlue;
-	private Set<UUID> winners;
+	private TeamManager teams;
+	private GameTeam forceWinTeam;
 	private Map<Integer, Integer> status; // more negative = blue, more positive = red
 	private BossBar barRed;
 	private BossBar barBlue;
 
 	@Override
 	public void onPreStart() {
-		this.teamRed = new HashSet<>();
-		this.teamBlue = new HashSet<>();
+		this.teams = new TeamManager(Set.of(GameTeam.RED, GameTeam.BLUE));
+		this.forceWinTeam = null;
 		this.status = new HashMap<>();
 
 		this.barRed = Bukkit.createBossBar("Red", BarColor.RED, BarStyle.SOLID);
@@ -89,19 +88,13 @@ public class ControlPoints extends Game<ControlPointsMap> {
 			this.status.put(i, 0);
 		}
 
-		boolean team = false;
+		boolean teamBool = false;
 		for (final MPlayer player : Minigames.getOnlinePlayersInRandomOrder()) {
-			if (team) {
-				player.sendTitle("", String.format("%sYou are in the %s%sRED%s team", ChatColor.GRAY, ChatColor.RED, ChatColor.BOLD, ChatColor.GRAY));
-				this.teamRed.add(player.getUniqueId());
-				player.queueTeleport(this.map.getRedSpawnLocation());
-			} else {
-				player.sendTitle("", String.format("%sYou are in the %s%sBLUE%s team", ChatColor.GRAY, ChatColor.BLUE, ChatColor.BOLD, ChatColor.GRAY));
-				this.teamBlue.add(player.getUniqueId());
-				player.queueTeleport(this.map.getBlueSpawnLocation());
-			}
+			final GameTeam team = teamBool ? GameTeam.RED : GameTeam.BLUE;
+			this.teams.setTeam(player, team, true);
+			player.queueTeleport(teamBool ? this.map.getRedSpawnLocation() : this.map.getBlueSpawnLocation());
 
-			team = !team;
+			teamBool = !teamBool;
 		}
 
 		for (final Location point : this.map.getControlPointLocations()) {
@@ -142,10 +135,12 @@ public class ControlPoints extends Game<ControlPointsMap> {
 				}
 
 				if (this.map.isOnControlPoint(controlPoint, player)) {
-					if (this.teamRed.contains(player.getUniqueId())) {
+					final GameTeam team = this.teams.getTeam(player);
+					if (team == GameTeam.RED) {
 						player.sendFormattedPlainActionBar("Claiming control point! %s", this.status.get(i));
 						red++;
-					} else if (this.teamBlue.contains(player.getUniqueId())) {
+
+					} else if (team == GameTeam.BLUE) {
 						player.sendFormattedPlainActionBar("Claiming control point! %s", -this.status.get(i));
 						blue++;
 					}
@@ -203,9 +198,9 @@ public class ControlPoints extends Game<ControlPointsMap> {
 	public void end(final String winningTeam) {
 		GameState.setState(GameState.RUNNING_ENDED_EARLY, this); // TODO remove when endEarly is used
 		if (winningTeam.equals("red")) {
-			this.winners = this.teamRed;
+			this.forceWinTeam = GameTeam.RED;
 		} else {
-			this.winners = this.teamBlue;
+			this.forceWinTeam = GameTeam.BLUE;
 		}
 
 		sendPlainMessage("The game has ended, team " + winningTeam + " is in control of all control points!");
@@ -216,8 +211,8 @@ public class ControlPoints extends Game<ControlPointsMap> {
 
 	@Override
 	public void onEnd() {
-		if (this.winners != null) {
-			endGame(this.winners, false);
+		if (this.forceWinTeam != null) {
+			endGame(this.teams.getMembers(this.forceWinTeam), false);
 		} else {
 			// Team with most control points wins
 			int blue = 0;
@@ -231,17 +226,16 @@ public class ControlPoints extends Game<ControlPointsMap> {
 			}
 
 			if (blue > red) {
-				endGame(this.teamBlue);
+				endGame(this.teams.getMembers(GameTeam.BLUE));
 			} else if (red > blue) {
-				endGame(this.teamRed);
+				endGame(this.teams.getMembers(GameTeam.RED));
 			} else {
 				endGame();
 			}
 		}
 
-		this.teamRed = null;
-		this.teamBlue = null;
-		this.winners = null;
+		this.teams= null;
+		this.forceWinTeam = null;
 		this.status = null;
 		this.barBlue.removeAll();
 		this.barBlue = null;
@@ -256,8 +250,7 @@ public class ControlPoints extends Game<ControlPointsMap> {
 		if (event.getType() == DamageType.ENTITY) {
 			final MPlayer damager = event.getDamagerPlayer();
 			// Disable damage to team mates
-			if (this.teamRed.contains(player.getUniqueId()) && this.teamRed.contains(damager.getUniqueId()) ||
-					this.teamBlue.contains(player.getUniqueId()) && this.teamBlue.contains(damager.getUniqueId())) {
+			if (this.teams.isInSameTeam(player, damager)) {
 				event.setCancelled(true);
 				return;
 			}
@@ -284,29 +277,21 @@ public class ControlPoints extends Game<ControlPointsMap> {
 				player.setGameMode(GameMode.ADVENTURE);
 				player2.heal();
 
-				if (this.teamBlue.contains(player2.getUniqueId())) {
-					player2.teleport(this.map.getBlueSpawnLocation());
-				} else if (this.teamRed.contains(player2.getUniqueId())) {
-					player2.teleport(this.map.getRedSpawnLocation());
-				}
+				player.teleport(this.teams.isTeamMember(player, GameTeam.RED) ? this.map.getRedSpawnLocation() : this.map.getBlueSpawnLocation());
 			});
 		}
 	}
 
 	@Override
 	public void onPlayerJoin(final MPlayer player) {
-		if (this.teamRed.contains(player.getUniqueId())) {
-			player.setDisableDamage(false);
-			player.teleport(this.map.getRedSpawnLocation());
-			giveGear(player);
-		} else if (this.teamBlue.contains(player.getUniqueId())) {
-			player.setDisableDamage(false);
-			player.teleport(this.map.getBlueSpawnLocation());
-			giveGear(player);
-		} else {
-//			player.teleport(this.map.getWorld().getSpawnLocation()); TODO Use this when control points map has been moved to a dedicated world
-			player.teleport(this.map.getBlueSpawnLocation());
+		final GameTeam team = this.teams.getTeam(player);
+		if (team == null) {
+			player.teleport(this.map.getWorld().getSpawnLocation());
 			player.spectator();
+		} else {
+			player.setDisableDamage(false);
+			giveGear(player);
+			player.teleport(team == GameTeam.RED ? this.map.getRedSpawnLocation() : this.map.getBlueSpawnLocation());
 		}
 	}
 

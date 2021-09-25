@@ -1,7 +1,6 @@
 package derkades.minigames.games;
 
 import static net.md_5.bungee.api.ChatColor.DARK_GRAY;
-import static net.md_5.bungee.api.ChatColor.GOLD;
 import static net.md_5.bungee.api.ChatColor.GRAY;
 import static net.md_5.bungee.api.ChatColor.YELLOW;
 
@@ -12,6 +11,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
+import java.time.Duration;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -81,6 +81,8 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.HoverEvent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
+import net.kyori.adventure.title.Title;
+import net.kyori.adventure.title.Title.Times;
 import net.md_5.bungee.api.ChatColor;
 import xyz.derkades.derkutils.Hastebin;
 import xyz.derkades.derkutils.NumberUtils;
@@ -301,11 +303,11 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 					if (Game.this.getPreDuration() > 2) {
 						final int preSeconds = this.secondsLeft - Game.this.getDuration();
 						for (final MPlayer player : Minigames.getOnlinePlayers()) {
-							if (preSeconds > 3) {
-								player.sendTitle("", GRAY + "" + preSeconds);
-							} else {
-								player.sendTitle(GOLD + "" + preSeconds, "");
-							}
+							player.sendTitle(Title.title(
+									Component.empty(),
+									Component.text(preSeconds, preSeconds > 3 ? NamedTextColor.GRAY : NamedTextColor.GOLD),
+									Times.of(Duration.ofMillis(100), Duration.ofMillis(800), Duration.ofMillis(100))
+									));
 						}
 					}
 
@@ -313,7 +315,6 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 				}
 
 				if (this.secondsLeft == Game.this.getDuration()) {
-					Minigames.getOnlinePlayers().forEach((p) -> p.sendTitle("", ""));
 //					Game.this.sendMessage("The game has started.");
 					Game.this.startTime = System.currentTimeMillis();
 					Game.this.onStart();
@@ -435,24 +436,23 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 
 				player.addPoints(points);
 //				Queue.add(() -> Minigames.economy.depositPlayer(player.bukkit(), points));
-				player.sendTitle(GOLD + "You've won",  YELLOW + "+" + points + " points");
+				player.sendTitle(
+						Component.text("You've won", NamedTextColor.GOLD),
+						Component.text("+" + points + " points", NamedTextColor.YELLOW)
+						);
 			} else {
 				player.addPoints(1);
-				player.sendTitle(GOLD + "You've lost", YELLOW + "+1 point");
+				player.sendTitle(
+						Component.text("You've lost", NamedTextColor.GOLD),
+						Component.text("+1 point", NamedTextColor.YELLOW)
+						);
 			}
 		}
 
 		this.showPolls();
 
 		for (final MPlayer player : Minigames.getOnlinePlayers()){
-			// Teleport the player and give them a bit of forwards and sidewards velocity
-//			TaskQueue.add(() -> {
-//				player.teleport(Var.LOBBY_LOCATION);
-//				player.bukkit().setVelocity(new Vector(ThreadLocalRandom.current().nextDouble() - 0.5, 0.3, -0.8));
-//				player.giveEffect(PotionEffectType.INVISIBILITY, 30, 0);
-//				player.applyLobbySettings();
-//			});
-			player.teleportSteampunkLobbyAsync();
+			player.teleportLobbyAsync();
 		}
 
 		Scheduler.delay(5*20, () -> {

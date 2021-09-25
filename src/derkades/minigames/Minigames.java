@@ -39,6 +39,7 @@ import derkades.minigames.modules.ResetPlayersOnEnable;
 import derkades.minigames.modules.ResourcePack;
 import derkades.minigames.modules.SneakPrevention;
 import derkades.minigames.modules.SpawnZombieShooter;
+import derkades.minigames.modules.TestWorld;
 import derkades.minigames.utils.MPlayer;
 import derkades.minigames.utils.PluginLoadEvent;
 import derkades.minigames.utils.PluginUnloadEvent;
@@ -80,7 +81,6 @@ public class Minigames extends JavaPlugin implements Listener {
 
 //	public static Economy economy = null;
 
-	@SuppressWarnings("deprecation")
 	@Override
 	public void onEnable(){
 		instance = this;
@@ -127,6 +127,7 @@ public class Minigames extends JavaPlugin implements Listener {
 		new ResourcePack();
 		new SneakPrevention();
 		new SpawnZombieShooter();
+		new TestWorld();
 
 		TaskQueue.start();
 
@@ -232,7 +233,7 @@ public class Minigames extends JavaPlugin implements Listener {
 			p.clearInventory();
 			p.setGameMode(GameMode.ADVENTURE);
 //			p.teleport(Var.LOBBY_LOCATION);
-			p.teleportSteampunkLobby();
+			p.teleportLobby();
 		});
 
 //		Bukkit.getPluginManager().

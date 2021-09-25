@@ -10,70 +10,86 @@ import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.SetMultimap;
 
 import derkades.minigames.utils.MPlayer;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 
 public class TeamManager {
-	
+
 	private final Map<UUID, GameTeam> uuidToTeam = new HashMap<>();
 	private final SetMultimap<GameTeam, UUID> teamToUuids = MultimapBuilder.hashKeys().hashSetValues().build();
 	private final Set<GameTeam> allowedTeams;
-	
+
 	public TeamManager() {
 		this.allowedTeams = null;
 	}
-	
-	public TeamManager(Set<GameTeam> allowedTeams) {
+
+	public TeamManager(final Set<GameTeam> allowedTeams) {
 		this.allowedTeams = allowedTeams;
 	}
-	
-	public GameTeam getTeam(MPlayer player) {
-		return uuidToTeam.get(player.getUniqueId());
+
+	public GameTeam getTeam(final MPlayer player) {
+		return this.uuidToTeam.get(player.getUniqueId());
 	}
-	
-	private void checkTeam(GameTeam team, boolean allowNull) {
+
+	private void checkTeam(final GameTeam team, final boolean allowNull) {
 		if (team == null) {
 			if (!allowNull) {
 				throw new IllegalArgumentException("Provided team is null");
 			}
-		} else if (allowedTeams != null &&
-				!allowedTeams.contains(team)) {
+		} else if (this.allowedTeams != null &&
+				!this.allowedTeams.contains(team)) {
 			throw new IllegalArgumentException("Illegal team: " + team);
 		}
 	}
 
-	public void setTeam(MPlayer player, GameTeam team) {
+	public void setTeam(final MPlayer player, final GameTeam team, final boolean notifyPlayer) {
 		checkTeam(team, true);
-		
-		UUID uuid = player.getUniqueId();
-		GameTeam oldTeam = uuidToTeam.get(uuid);
+
+		final UUID uuid = player.getUniqueId();
+		final GameTeam oldTeam = this.uuidToTeam.get(uuid);
 		if (oldTeam != null) {
-			teamToUuids.remove(oldTeam, uuid);
+			this.teamToUuids.remove(oldTeam, uuid);
 		}
 		if (team == null) {
-			uuidToTeam.remove(uuid);
+			this.uuidToTeam.remove(uuid);
 		} else {
-			uuidToTeam.put(uuid, team);
-			teamToUuids.put(team, uuid);
+			this.uuidToTeam.put(uuid, team);
+			this.teamToUuids.put(team, uuid);
+		}
+
+		if (notifyPlayer) {
+			player.sendTitle(Component.empty(),
+					Component.text("You are in the ", NamedTextColor.GRAY)
+					.append(team.getColoredDisplayName())
+					.append(Component.text(" team", NamedTextColor.GRAY))
+					);
+//					 String.format("%sYou are in the %s%sRED%s team", ChatColor.GRAY, ChatColor.RED, ChatColor.BOLD, ChatColor.GRAY));
 		}
 	}
-	
-	public boolean isTeamMember(MPlayer player, GameTeam team) {
+
+	public boolean isTeamMember(final MPlayer player, final GameTeam team) {
 		checkTeam(team, false);
-		return uuidToTeam.get(player.getUniqueId()) == team;
+		return this.uuidToTeam.get(player.getUniqueId()) == team;
 	}
-	
-	public Set<UUID> getMembers(GameTeam team) {
+
+	public boolean isInSameTeam(final MPlayer a, final MPlayer b) {
+		final GameTeam team = this.getTeam(a);
+		return team != null && team == this.getTeam(b);
+	}
+
+	public Set<UUID> getMembers(final GameTeam team) {
 		checkTeam(team, false);
-		return Collections.unmodifiableSet(teamToUuids.get(team));
+		return Collections.unmodifiableSet(this.teamToUuids.get(team));
 	}
-	
-	public int getMemberCount(GameTeam team) {
+
+	public int getMemberCount(final GameTeam team) {
 		checkTeam(team, false);
-		return teamToUuids.get(team).size();
+		return this.teamToUuids.get(team).size();
 	}
-	
+
 	public GameTeam anyEmptyTeam() {
-		for (GameTeam team : teamToUuids.keys()) {
-			if (teamToUuids.get(team).size() == 0) {
+		for (final GameTeam team : this.teamToUuids.keys()) {
+			if (this.teamToUuids.get(team).size() == 0) {
 				return team;
 			}
 		}

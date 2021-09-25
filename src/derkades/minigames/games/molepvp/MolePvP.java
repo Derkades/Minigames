@@ -18,8 +18,6 @@ import derkades.minigames.games.TeamManager;
 import derkades.minigames.utils.MPlayer;
 import derkades.minigames.utils.MinigamesPlayerDamageEvent;
 import derkades.minigames.utils.MinigamesPlayerDamageEvent.DamageType;
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.NamedTextColor;
 import net.md_5.bungee.api.ChatColor;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
 
@@ -75,14 +73,9 @@ public class MolePvP extends Game<MolePvPMap> implements TeamGame {
 		boolean teamBool = false;
 
 		for (final MPlayer player : Minigames.getOnlinePlayersInRandomOrder()) {
-			GameTeam team = teamBool ? GameTeam.RED : GameTeam.BLUE;
-			player.sendTitle(Component.empty(), 
-					Component.text("You are in the ", NamedTextColor.GRAY)
-					.append(team.getColoredDisplayName())
-					.append(Component.text(" team", NamedTextColor.GRAY))
-					);
-			player.queueTeleport(teamBool ? map.getTeamRedSpawnLocation() : map.getTeamBlueSpawnLocation());
-			this.teams.setTeam(player, team);
+			final GameTeam team = teamBool ? GameTeam.RED : GameTeam.BLUE;
+			player.queueTeleport(teamBool ? this.map.getTeamRedSpawnLocation() : this.map.getTeamBlueSpawnLocation());
+			this.teams.setTeam(player, team, true);
 			teamBool = !teamBool;
 		}
 
@@ -121,10 +114,10 @@ public class MolePvP extends Game<MolePvPMap> implements TeamGame {
 		this.dead = null;
 		this.teams = null;
 	}
-	
+
 	@Override
 	public TeamManager getTeams() {
-		return teams;
+		return this.teams;
 	}
 
 	@EventHandler

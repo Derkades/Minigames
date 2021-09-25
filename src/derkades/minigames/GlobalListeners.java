@@ -67,7 +67,7 @@ public class GlobalListeners implements Listener {
 			// No game is running, teleport to lobby
 //			player.teleport(Var.LOBBY_LOCATION);
 //			player.applyLobbySettings();
-			player.teleportSteampunkLobby();
+			player.teleportLobby();
 
 //			Scheduler.delay(1, () -> player.spigot().sendMessage(
 //						Utils.getComponentBuilderWithPrefix(ChatColor.GREEN, 'P')

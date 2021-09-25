@@ -34,6 +34,7 @@ import derkades.minigames.utils.Utils;
 import derkades.minigames.utils.queue.TaskQueue;
 import io.papermc.paper.event.player.AsyncChatEvent;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import net.md_5.bungee.api.ChatColor;
 import xyz.derkades.derkutils.ListUtils;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
@@ -121,7 +122,7 @@ public class MurderyMister extends Game<MurderyMisterMap> {
 		}
 
 		final MPlayer murderer = Minigames.getOnlinePlayersInRandomOrder().get(0);
-		murderer.sendTitle("", ChatColor.RED + "You are the murderer!");
+		murderer.sendTitle(Component.empty(), Component.text("You are the murderer!", NamedTextColor.RED));
 		murderer.giveItem(new ItemBuilder(Material.TRIDENT)
 				.name(ChatColor.GOLD + "Knife")
 				.lore(ChatColor.YELLOW + "Stab people to kill them, ",
@@ -242,12 +243,12 @@ public class MurderyMister extends Game<MurderyMisterMap> {
 				// Innocent is dead
 				player.die();
 				Logger.debug("Innocent died");
-				MPlayer killer = event.getDamagerPlayer();
+				final MPlayer killer = event.getDamagerPlayer();
 				killer.bukkit().damage(40);
 				if (killer != null) {
 					killer.sendActionBar(Component.text("You killed an innocent player!"));
 					killer.die();
-					aliveInnocent.remove(killer.getUniqueId());
+					this.aliveInnocent.remove(killer.getUniqueId());
 				}
 			}
 			player.clearInventory();
@@ -257,7 +258,7 @@ public class MurderyMister extends Game<MurderyMisterMap> {
 	@EventHandler
 	public void chat(final AsyncChatEvent event) {
 		if (GameState.getCurrentState().gameIsRunning() && event.getPlayer().getGameMode() == GameMode.SPECTATOR) {
-			new MPlayer(event).sendTitle("", ChatColor.RED + "Chat is disabled for spectators");
+			new MPlayer(event).sendTitle(Component.empty(), Component.text("Chat is disabled for spectators", NamedTextColor.RED));
 			event.setCancelled(true);
 		}
 	}

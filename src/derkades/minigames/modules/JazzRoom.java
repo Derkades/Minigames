@@ -1,5 +1,9 @@
 package derkades.minigames.modules;
 
+import static net.kyori.adventure.text.format.NamedTextColor.GRAY;
+import static net.kyori.adventure.text.format.NamedTextColor.LIGHT_PURPLE;
+import static net.kyori.adventure.text.format.NamedTextColor.RED;
+
 import java.util.HashMap;
 
 import org.bukkit.Location;
@@ -10,7 +14,8 @@ import derkades.minigames.Minigames;
 import derkades.minigames.Var;
 import derkades.minigames.utils.MPlayer;
 import derkades.minigames.utils.Scheduler;
-import net.md_5.bungee.api.ChatColor;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.TextDecoration;
 import xyz.derkades.derkutils.ListUtils;
 
 public class JazzRoom extends Module implements Runnable {
@@ -35,14 +40,20 @@ public class JazzRoom extends Module implements Runnable {
 		for (final MPlayer player : Minigames.getOnlinePlayers()) {
 			if (player.isIn3dBounds(BOUNDS_A, BOUNDS_B)) {
 				if (!PLAYING.containsKey(player.getName())) {
-					player.sendTitle(ChatColor.MAGIC + "aaaaa", ChatColor.LIGHT_PURPLE + "Jazz room!");
+					player.sendTitle(
+							Component.text("aaaaa").decorate(TextDecoration.OBFUSCATED),
+							Component.text("Jazz room!", LIGHT_PURPLE)
+							);
 					final Sound random = ListUtils.choice(JAZZ_MUSIC);
 					Logger.debug("Playing %s to %s", random.name(), player.getName());
 					player.playSound(random, 1.0f);
 					PLAYING.put(player.getName(), random);
 				}
 			} else if (PLAYING.containsKey(player.getName())) {
-				player.sendTitle("Bye", ChatColor.RED + "You have left Jazz room.");
+				player.sendTitle(
+						Component.text("Bye", GRAY),
+						Component.text("You have left jazz room.", RED)
+						);
 				final Sound sound = PLAYING.get(player.getName());
 				Logger.debug("Stopping sound %s for %s", sound.name(), player.getName());
 				player.bukkit().stopSound(sound);

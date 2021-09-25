@@ -7,7 +7,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.UUID;
 
-import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -139,7 +138,7 @@ public class Tron extends Game<TronMap> {
 
 			player.giveInfiniteEffect(PotionEffectType.SPEED, 3);
 			player.getInventory().setHeldItemSlot(4);
-			player.sendTitle(ChatColor.GRAY + "Use keyboard", ChatColor.GRAY + "[4] LEFT [6] RIGHT");
+			player.sendPlainTitle("Use keyboard", "[4] LEFT [6] RIGHT");
 
 			tronPlayer.blockPlacerTask = new BlockPlacerTask(player).runTaskTimer(Minigames.getInstance(), 1, 1);
 		}

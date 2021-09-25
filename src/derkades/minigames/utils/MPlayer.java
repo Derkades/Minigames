@@ -27,9 +27,9 @@ import org.bukkit.util.Vector;
 
 import derkades.minigames.Minigames;
 import derkades.minigames.Points;
+import derkades.minigames.Var;
 import derkades.minigames.modules.SneakPrevention;
 import derkades.minigames.utils.queue.TaskQueue;
-import derkades.minigames.worlds.GameWorld;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -238,25 +238,26 @@ public class MPlayer {
     	TaskQueue.add(() -> this.player.teleportAsync(location).thenRun(callback));
     }
 
-    private Location getRandomLobbyLocation() {
-    	final float f = ThreadLocalRandom.current().nextFloat();
-    	int x, z;
-    	if (f < 0.25f) {
-    		x = -3; z = 0;
-    	} else if (f < 0.5f) {
-    		x = 3; z = 0;
-    	} else if (f < 0.75f) {
-    		x = 0; z = -3;
-    	} else {
-    		x = 0; z = 3;
-    	}
-    	final float yaw = ThreadLocalRandom.current().nextFloat() * 360;
-    	return new Location(GameWorld.STEAMPUNK_LOBBY.getWorld(), x + 0.5, 69, z + 0.5, yaw, 0);
-    }
+//    private Location getRandomLobbyLocation() {
+//    	final float f = ThreadLocalRandom.current().nextFloat();
+//    	int x, z;
+//    	if (f < 0.25f) {
+//    		x = -3; z = 0;
+//    	} else if (f < 0.5f) {
+//    		x = 3; z = 0;
+//    	} else if (f < 0.75f) {
+//    		x = 0; z = -3;
+//    	} else {
+//    		x = 0; z = 3;
+//    	}
+//    	final float yaw = ThreadLocalRandom.current().nextFloat() * 360;
+//    	return new Location(GameWorld.STEAMPUNK_LOBBY.getWorld(), x + 0.5, 69, z + 0.5, yaw, 0);
+//    }
 
     private void afterTeleport() {
-		final double force = 0.3f;
-		final Vector vec = new Vector(force * ThreadLocalRandom.current().nextDouble(), 0, force * ThreadLocalRandom.current().nextDouble());
+//		final double force = 0.3f;
+//		final Vector vec = new Vector(force * ThreadLocalRandom.current().nextDouble(), 0, force * ThreadLocalRandom.current().nextDouble());
+    	final Vector vec = new Vector(ThreadLocalRandom.current().nextDouble() - 0.5, 0.3, -0.8);
 		Scheduler.delay(1, () -> this.player.setVelocity(vec));
 
 		this.setDisableDamage(true);
@@ -288,13 +289,22 @@ public class MPlayer {
 				.create());
     }
 
-    public void teleportSteampunkLobby() {
-    	this.player.teleport(getRandomLobbyLocation());
+//    public void teleportSteampunkLobby() {
+//    	this.player.teleport(getRandomLobbyLocation());
+//    	afterTeleport();
+//    }
+//
+//    public void teleportSteampunkLobbyAsync() {
+//    	queueTeleport(getRandomLobbyLocation(), this::afterTeleport);
+//    }
+
+    public void teleportLobby() {
+    	this.player.teleport(Var.LOBBY_LOCATION);
     	afterTeleport();
     }
 
-    public void teleportSteampunkLobbyAsync() {
-    	queueTeleport(getRandomLobbyLocation(), this::afterTeleport);
+    public void teleportLobbyAsync() {
+    	queueTeleport(Var.LOBBY_LOCATION, this::afterTeleport);
     }
 
     public void setAllowFlight(final boolean allowFlight) {
@@ -583,6 +593,7 @@ public class MPlayer {
 		this.player.sendMessage(message);
 	}
 
+	@Deprecated
 	public void sendTitle(final String title, final String subtitle) {
 		this.player.sendTitle(title, subtitle, 10, 70, 20);
 	}
@@ -593,6 +604,12 @@ public class MPlayer {
 
 	public void sendTitle(final Component mainTitle, final Component subTitle) {
 		this.player.showTitle(Title.title(mainTitle, subTitle));
+	}
+
+	public void sendPlainTitle(final String title, final String subtitle) {
+		final Component a = title == null ? Component.empty() : Component.text(title, NamedTextColor.GRAY);
+		final Component b = subtitle == null ? Component.empty() : Component.text(title, NamedTextColor.GRAY);
+		this.sendTitle(a, b);
 	}
 
 	/**

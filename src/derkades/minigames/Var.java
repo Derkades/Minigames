@@ -7,7 +7,6 @@ public class Var {
 
 	public static World LOBBY_WORLD;
 
-	@Deprecated
 	public static Location LOBBY_LOCATION;
 
 }

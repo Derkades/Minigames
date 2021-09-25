@@ -1,5 +1,9 @@
 package derkades.minigames.modules;
 
+import static net.kyori.adventure.text.Component.text;
+import static net.kyori.adventure.text.format.NamedTextColor.GRAY;
+import static net.kyori.adventure.text.format.NamedTextColor.RED;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -8,7 +12,6 @@ import java.util.function.Consumer;
 import derkades.minigames.Minigames;
 import derkades.minigames.utils.MPlayer;
 import derkades.minigames.utils.Scheduler;
-import net.md_5.bungee.api.ChatColor;
 
 /**
  * Runs every 5 ticks
@@ -41,7 +44,11 @@ public class SneakPrevention extends Module implements Runnable {
 			WARNINGS.put(uuid, WARNINGS.get(uuid) + 1);
 			final int remaining = MAX_WARNINGS - WARNINGS.get(uuid);
 
-			player.sendTitle(ChatColor.RED + "No Sneaking!", ChatColor.GRAY + "" + remaining + " warnings remaining.");
+//			player.sendTitle(ChatColor.RED + "No Sneaking!", ChatColor.GRAY + "" + remaining + " warnings remaining.");
+			player.sendTitle(
+					text("No sneaking!", RED),
+					text(remaining + " warnings remaining", GRAY)
+					);
 
 			if (remaining <= 0) {
 				final Consumer<MPlayer> onPunish = ON_PUNISH.get(player.getUniqueId());
