@@ -1,6 +1,7 @@
 package derkades.minigames.modules;
 
 import java.io.File;
+import java.lang.management.ManagementFactory;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.concurrent.atomic.AtomicReference;
@@ -17,11 +18,12 @@ import nl.rkslot.pluginreloader.PluginReloader;
 public class CustomPlayerList extends Module {
 
 	private final AtomicReference<String> lastPluginUpdate;
+	private final AtomicReference<String> lastServerRestart;
 	final PluginReloader reloader = (PluginReloader) Bukkit.getPluginManager().getPlugin("PluginReloader");
 
 	public CustomPlayerList() {
-		this.lastPluginUpdate = new AtomicReference<>();
-		this.lastPluginUpdate.set("?");
+		this.lastPluginUpdate = new AtomicReference<>("?");
+		this.lastServerRestart = new AtomicReference<>("?");
 		final Component header = Component.text(" ");
 		Scheduler.repeat(20, () -> {
 			final Component footer = Component.text("\n")
@@ -32,17 +34,20 @@ public class CustomPlayerList extends Module {
 					.append(Component.text(" / ", NamedTextColor.GRAY))
 					.append(Component.text(Game.GAMES.length, NamedTextColor.WHITE))
 					.append(Component.text("\nLast plugin update: " + this.lastPluginUpdate.get(), NamedTextColor.GRAY))
+					.append(Component.text("\nLast server restart: " + this.lastServerRestart.get(), NamedTextColor.GRAY))
 					.append(Component.text("\nBukkit reload count: " + this.getReloadCount(), NamedTextColor.GRAY))
 					.append(Component.text("\nPlugin reload count: " + this.reloader.getReloadCount(Minigames.getInstance()), NamedTextColor.GRAY));
 
 			Bukkit.getOnlinePlayers().forEach(p -> p.sendPlayerListHeaderAndFooter(header, footer));
 		});
 
+		// These can be updated less frequently, reducing effect on server performance.
 		Scheduler.repeat(30*20, () -> Scheduler.async(() -> {
 			final File jar = new File(Minigames.getInstance().getDataFolder().getParentFile().getPath(), "Minigames.jar");
 			final long lastModified = jar.lastModified();
 			final String pretty = Minigames.PRETTY_TIME.format(new Date(lastModified));
 			this.lastPluginUpdate.set(pretty);
+			this.lastServerRestart.set(Minigames.PRETTY_TIME.format(new Date(System.currentTimeMillis() - ManagementFactory.getRuntimeMXBean().getUptime())));
 		}));
 	}
 
