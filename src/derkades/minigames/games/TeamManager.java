@@ -6,6 +6,9 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.SetMultimap;
 
@@ -15,15 +18,19 @@ import net.kyori.adventure.text.format.NamedTextColor;
 
 public class TeamManager {
 
-	private final Map<UUID, GameTeam> uuidToTeam = new HashMap<>();
-	private final SetMultimap<GameTeam, UUID> teamToUuids = MultimapBuilder.hashKeys().hashSetValues().build();
-	private final Set<GameTeam> allowedTeams;
+	@NotNull
+	private final Map<@NotNull UUID, GameTeam> uuidToTeam = new HashMap<>();
+	@SuppressWarnings("null")
+	@NotNull
+	private final SetMultimap<@NotNull GameTeam, @NotNull UUID> teamToUuids = MultimapBuilder.hashKeys().hashSetValues().build();
+	@Nullable
+	private final Set<@NotNull GameTeam> allowedTeams;
 
 	public TeamManager() {
 		this.allowedTeams = null;
 	}
 
-	public TeamManager(final Set<GameTeam> allowedTeams) {
+	public TeamManager(@NotNull final Set<@NotNull GameTeam> allowedTeams) {
 		this.allowedTeams = allowedTeams;
 	}
 
@@ -31,7 +38,8 @@ public class TeamManager {
 		return this.uuidToTeam.get(player.getUniqueId());
 	}
 
-	private void checkTeam(final GameTeam team, final boolean allowNull) {
+	@SuppressWarnings("null")
+	private void checkTeam(@Nullable final GameTeam team, final boolean allowNull) {
 		if (team == null) {
 			if (!allowNull) {
 				throw new IllegalArgumentException("Provided team is null");
@@ -42,7 +50,7 @@ public class TeamManager {
 		}
 	}
 
-	public void setTeam(final MPlayer player, final GameTeam team, final boolean notifyPlayer) {
+	public void setTeam(@NotNull final MPlayer player, @Nullable final GameTeam team, final boolean notifyPlayer) {
 		checkTeam(team, true);
 
 		final UUID uuid = player.getUniqueId();
@@ -55,34 +63,33 @@ public class TeamManager {
 		} else {
 			this.uuidToTeam.put(uuid, team);
 			this.teamToUuids.put(team, uuid);
-		}
 
-		if (notifyPlayer) {
-			player.sendTitle(Component.empty(),
-					Component.text("You are in the ", NamedTextColor.GRAY)
-					.append(team.getColoredDisplayName())
-					.append(Component.text(" team", NamedTextColor.GRAY))
-					);
-//					 String.format("%sYou are in the %s%sRED%s team", ChatColor.GRAY, ChatColor.RED, ChatColor.BOLD, ChatColor.GRAY));
+			if (notifyPlayer) {
+				player.sendTitle(Component.empty(),
+						Component.text("You are in the ", NamedTextColor.GRAY)
+						.append(team.getColoredDisplayName())
+						.append(Component.text(" team", NamedTextColor.GRAY))
+						);
+			}
 		}
 	}
 
-	public boolean isTeamMember(final MPlayer player, final GameTeam team) {
+	public boolean isTeamMember(@NotNull final MPlayer player, @NotNull final GameTeam team) {
 		checkTeam(team, false);
 		return this.uuidToTeam.get(player.getUniqueId()) == team;
 	}
 
-	public boolean isInSameTeam(final MPlayer a, final MPlayer b) {
+	public boolean isInSameTeam(@NotNull final MPlayer a, @NotNull final MPlayer b) {
 		final GameTeam team = this.getTeam(a);
 		return team != null && team == this.getTeam(b);
 	}
 
-	public Set<UUID> getMembers(final GameTeam team) {
+	public Set<@NotNull UUID> getMembers(@NotNull final GameTeam team) {
 		checkTeam(team, false);
 		return Collections.unmodifiableSet(this.teamToUuids.get(team));
 	}
 
-	public int getMemberCount(final GameTeam team) {
+	public int getMemberCount(@NotNull final GameTeam team) {
 		checkTeam(team, false);
 		return this.teamToUuids.get(team).size();
 	}

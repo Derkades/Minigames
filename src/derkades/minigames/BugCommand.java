@@ -4,23 +4,23 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 import org.kohsuke.github.GHRepository;
 import org.kohsuke.github.GitHub;
 
 import derkades.minigames.utils.Scheduler;
-import derkades.minigames.utils.Utils;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.ClickEvent;
 import net.kyori.adventure.text.event.HoverEvent;
 import net.kyori.adventure.text.format.NamedTextColor;
-import net.md_5.bungee.api.ChatColor;
 
 public class BugCommand implements CommandExecutor {
 
-	private static final String SUBMITTING = Utils.getChatPrefix(ChatColor.AQUA, 'P') + "Submitting feedback..";
-
-	private static final String UNAVAILABLE = Utils.getChatPrefix(ChatColor.AQUA, 'P') + "Sorry, this command is temporarily unavailable.";
-
+	@NotNull
+	private static final Component SUBMITTING = Component.text("Submitting feedback...", NamedTextColor.GRAY);
+	@NotNull
+	private static final Component UNAVAILABLE = Component.text("Sorry, this command is temporarily unavailable.", NamedTextColor.GRAY);
+	@NotNull
 	private static final Component THANKS = Component.text()
 			.append(Component.text("Thanks for letting us know. You can view all open issues ")
 					.color(NamedTextColor.GRAY))
@@ -31,7 +31,7 @@ public class BugCommand implements CommandExecutor {
 			.append(Component.text(".").color(NamedTextColor.GRAY)).build();
 
 	@Override
-	public boolean onCommand(final CommandSender sender, final Command arg1, final String label, final String[] args) {
+	public boolean onCommand(final @NotNull CommandSender sender, final @NotNull Command arg1, final @NotNull String label, final String[] args) {
 		final Player player = (Player) sender;
 
 		if (args.length < 3) {

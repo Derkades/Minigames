@@ -144,7 +144,7 @@ public abstract class Game<@NotNull M extends GameMap> implements Listener, Rand
 
 	public abstract int getRequiredPlayers();
 
-	@Nullable
+	@NotNull
 	public abstract M[] getGameMaps();
 
 	public abstract int getDuration();
@@ -628,6 +628,7 @@ public abstract class Game<@NotNull M extends GameMap> implements Listener, Rand
 		}
 	}
 
+	@SuppressWarnings({ "unused", "null" })
 	@Override
 	public void setWeight(final double weight) {
 		if (this.getIdentifier() == null) {
@@ -640,6 +641,7 @@ public abstract class Game<@NotNull M extends GameMap> implements Listener, Rand
 		Minigames.getInstance().saveConfig();
 	}
 
+	@SuppressWarnings({ "unused", "null" })
 	@Override
 	public double getWeight() {
 		if (this.getIdentifier() == null) {

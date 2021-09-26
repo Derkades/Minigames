@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.Location;
+import org.jetbrains.annotations.NotNull;
 
 import derkades.minigames.random.Size;
 import derkades.minigames.worlds.GameWorld;
@@ -11,11 +12,13 @@ import derkades.minigames.worlds.GameWorld;
 class Prototype extends HarvestMap {
 
 	@Override
+	@NotNull
 	public String getName() {
 		return "Prototype";
 	}
 
 	@Override
+	@NotNull
 	public GameWorld getGameWorld() {
 		return GameWorld.HARVEST_PROTOTYPE;
 	}
@@ -26,16 +29,19 @@ class Prototype extends HarvestMap {
 	}
 
 	@Override
+	@NotNull
 	public Size getSize() {
 		return Size.SMALL;
 	}
 
 	@Override
+	@NotNull
 	public String getIdentifier() {
 		return "harvest_prototype";
 	}
 
 	@Override
+	@NotNull
 	List<Location> getCropLocations() {
 		final int minX = -9;
 		final int minZ = -8;

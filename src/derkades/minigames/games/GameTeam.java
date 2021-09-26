@@ -138,7 +138,8 @@ public enum GameTeam {
 		return BY_MATERIAL.get(material);
 	}
 
-	public static List<GameTeam> getTeams(final int amount) {
+	@NotNull
+	public static List<@NotNull GameTeam> getTeams(final int amount) {
 //		final GameTeam[] array = GameTeam.values();
 //		Validate.isTrue(amount <= array.length, "Requested too many teams");
 //		final List<GameTeam> teams = new ArrayList<>(array.length);

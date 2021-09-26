@@ -88,6 +88,8 @@ public class Utils {
 		}
 	}
 
+	@NotNull
+	@Deprecated
 	public static String getChatPrefix(final ChatColor color, final char c) {
 		return ChatColor.DARK_GRAY + "[" + color + c + ChatColor.DARK_GRAY + "]" + ChatColor.DARK_GRAY + " | " + ChatColor.GRAY;
 	}

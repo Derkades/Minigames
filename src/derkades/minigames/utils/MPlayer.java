@@ -175,6 +175,7 @@ public class MPlayer {
 		return this.isIn3dBounds(new Location(world, x1, y1, z1), new Location(world, x2, y2, z2));
 	}
 
+	@NotNull
 	public Location getLocation() {
 		return this.player.getLocation();
 	}
@@ -219,10 +220,12 @@ public class MPlayer {
 		this.player.setLevel(level);
 	}
 
+	@NotNull
 	public String getName() {
 		return this.player.getName();
 	}
 
+	@NotNull
 	public UUID getUniqueId() {
 		return this.player.getUniqueId();
 	}

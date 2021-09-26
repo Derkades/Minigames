@@ -22,6 +22,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
+import org.jetbrains.annotations.NotNull;
 
 import derkades.minigames.Minigames.ShutdownReason;
 import derkades.minigames.games.Game;
@@ -47,7 +48,7 @@ import xyz.derkades.derkutils.Hastebin;
 public class Command implements CommandExecutor {
 
 	@Override
-	public boolean onCommand(final CommandSender sender, final org.bukkit.command.Command arg1, final String arg2, final String[] args) {
+	public boolean onCommand(final @NotNull CommandSender sender, final org.bukkit.command.@NotNull Command arg1, final @NotNull String arg2, final String[] args) {
 		if (args.length == 0) {
 			final Player player = (Player) sender;
 			new MainMenu(player);

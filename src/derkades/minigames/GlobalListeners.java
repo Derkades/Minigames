@@ -25,14 +25,12 @@ import io.papermc.paper.event.player.AsyncChatEvent;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextColor;
-import net.md_5.bungee.api.ChatColor;
 
 public class GlobalListeners implements Listener {
 
-	private Component getJoinLeaveMessage(final Component name, final ChatColor color, final char c) {
-		final TextColor textColor = TextColor.color(color.getColor().getRGB());
+	private Component getJoinLeaveMessage(@NotNull final Component name, @NotNull final TextColor color, final char c) {
 		return Component.text("[")
-				.append(Component.text(c).color(textColor))
+				.append(Component.text(c).color(color))
 				.append(Component.text("] "))
 				.append(name);
 	}
@@ -41,7 +39,7 @@ public class GlobalListeners implements Listener {
 	public void onJoin(final PlayerJoinEvent event){
 		final MPlayer player = new MPlayer(event.getPlayer());
 
-		event.joinMessage(getJoinLeaveMessage(player.bukkit().displayName(), ChatColor.GREEN, '+'));
+		event.joinMessage(getJoinLeaveMessage(player.bukkit().displayName(), NamedTextColor.GREEN, '+'));
 
 		// Anti collision
 		Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "team join global " + player.getName());
@@ -79,10 +77,10 @@ public class GlobalListeners implements Listener {
 	}
 
 	@EventHandler
-	public void onQuit(final PlayerQuitEvent event){
+	public void onQuit(@NotNull final PlayerQuitEvent event){
 		final MPlayer player = new MPlayer(event);
 
-		event.quitMessage(getJoinLeaveMessage(player.bukkit().displayName(), ChatColor.RED, '-'));
+		event.quitMessage(getJoinLeaveMessage(player.bukkit().displayName(), NamedTextColor.RED, '-'));
 
 		if (GameState.getCurrentState().isInGame()) {
 			GameState.getCurrentGame().onPlayerQuit(player); // TODO move to game class?

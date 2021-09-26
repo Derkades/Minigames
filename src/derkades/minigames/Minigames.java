@@ -3,6 +3,7 @@ package derkades.minigames;
 import java.net.http.WebSocket.Listener;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -71,21 +72,21 @@ public class Minigames extends JavaPlugin implements Listener {
 		MinecraftVersion.disableUpdateCheck();
 		MinecraftVersion.disableBStats();
 
+		// TODO Remove when all @NotNull warnings are resolved
 		for (final Game<?> game : Game.GAMES) {
 			Validate.notNull(game.getIdentifier(), "game identifier null: " + game.getClass().getName());
 			Validate.notNull(game.getName(), "game name null: " + game.getClass().getName());
 			final GameMap[] maps = game.getGameMaps();
-			if (maps != null) {
-				for (final GameMap map : maps) {
-					Validate.notNull(map.getIdentifier(), "map identifier null: " + game.getClass().getName() + " " + map.getClass().getName());
-					Validate.notNull(map.getName(), "map name is null: " + map.getIdentifier());
-				}
+			for (final GameMap map : maps) {
+				Validate.notNull(map.getIdentifier(), "map identifier null: " + game.getClass().getName() + " " + map.getClass().getName());
+				Validate.notNull(map.getName(), "map name is null: " + map.getIdentifier());
 			}
 		}
 	}
 
 //	public static Economy economy = null;
 
+	@SuppressWarnings("null")
 	@Override
 	public void onEnable(){
 		instance = this;
@@ -94,7 +95,7 @@ public class Minigames extends JavaPlugin implements Listener {
 
 		Logger.info("Plugin enabled");
 
-		Var.LOBBY_WORLD = Bukkit.getWorld("minigames");
+		Var.LOBBY_WORLD = Objects.requireNonNull(Bukkit.getWorld("minigames"), "Minigames world does not exist");
 		Var.LOBBY_LOCATION = new Location(Var.LOBBY_WORLD, 219.5, 64, 279.5, 180, 0);
 		Var.JAIL_LOCATION = new Location(Var.LOBBY_WORLD, 206.5, 65, 271.5);
 

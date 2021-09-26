@@ -14,6 +14,7 @@ import org.bukkit.entity.Item;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 import derkades.minigames.Logger;
 import derkades.minigames.Minigames;
@@ -27,7 +28,7 @@ import net.kyori.adventure.text.format.NamedTextColor;
 import xyz.derkades.derkutils.ListUtils;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
 
-public class Harvest extends Game<HarvestMap> {
+public class Harvest extends Game<@NotNull HarvestMap> {
 
 	private static final int CROPS_PER_SECOND = 30;
 	private static final int RESPAWN_DELAY = 3*20;
@@ -44,6 +45,7 @@ public class Harvest extends Game<HarvestMap> {
 	};
 
 	@Override
+	@NotNull
 	public String getIdentifier() {
 		return "harvest";
 	}
@@ -59,6 +61,7 @@ public class Harvest extends Game<HarvestMap> {
 	}
 
 	@Override
+	@NotNull
 	public String[] getDescription() {
 		return new String[] {
 				"Harvest crops to get as much wheat as possible. Make",
@@ -72,6 +75,7 @@ public class Harvest extends Game<HarvestMap> {
 	}
 
 	@Override
+	@NotNull
 	public HarvestMap[] getGameMaps() {
 		return HarvestMap.MAPS;
 	}

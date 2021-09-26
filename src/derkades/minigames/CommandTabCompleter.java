@@ -7,6 +7,7 @@ import java.util.List;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
+import org.jetbrains.annotations.NotNull;
 
 import derkades.minigames.games.Game;
 import derkades.minigames.games.GameMap;
@@ -14,7 +15,7 @@ import derkades.minigames.games.GameMap;
 public class CommandTabCompleter implements TabCompleter {
 
 	@Override
-	public List<String> onTabComplete(final CommandSender arg0, final Command arg1, final String label, final String[] args) {
+	public List<String> onTabComplete(final @NotNull CommandSender arg0, final @NotNull Command arg1, final @NotNull String label, final String[] args) {
 		if (args.length == 2 && (args[0].equalsIgnoreCase("next") || args[0].equalsIgnoreCase("n"))) {
 			if (args[1] == null) {
 				return Arrays.asList("error");
@@ -30,7 +31,8 @@ public class CommandTabCompleter implements TabCompleter {
 					list.add(formattedName);
 				}
 
-				if (game.getAlias() != null && game.getAlias().contains(arg)) {
+				final String alias = game.getAlias();
+				if (alias != null && alias.contains(arg)) {
 					list.add(game.getAlias());
 				}
 			}

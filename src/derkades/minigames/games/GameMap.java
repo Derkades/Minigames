@@ -4,21 +4,26 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.bukkit.World;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import derkades.minigames.Minigames;
-import derkades.minigames.Minigames.ShutdownReason;
 import derkades.minigames.random.RandomlyPickable;
 import derkades.minigames.utils.Disableable;
 import derkades.minigames.worlds.GameWorld;
 
 public abstract class GameMap implements RandomlyPickable, Disableable {
 
+	@NotNull
 	public abstract String getName();
 
+	@NotNull
 	public abstract GameWorld getGameWorld();
 
+	@Nullable
 	public abstract String getCredits();
 
+	@NotNull
 	public abstract String getIdentifier();
 
 	public void onPreStart() {}
@@ -30,21 +35,11 @@ public abstract class GameMap implements RandomlyPickable, Disableable {
 	public void onTimer(final int secondsLeft) {}
 
 	public World getWorld() {
-		if (this.getGameWorld() == null) {
-			Minigames.shutdown(ShutdownReason.EMERGENCY_AUTOMATIC, "A game used the get world method without setting a game world.");
-			return null;
-		} else {
-			return this.getGameWorld().getWorld();
-		}
+		return this.getGameWorld().getWorld();
 	}
 
 	@Override
 	public void setWeight(final double weight) {
-		if (this.getIdentifier() == null) {
-			Minigames.shutdown(ShutdownReason.EMERGENCY_AUTOMATIC, "Map identifier is null");
-			return;
-		}
-
 		final String configPath = "game-voting.map." + this.getIdentifier();
 		Minigames.getInstance().getConfig().set(configPath, weight);
 		Minigames.getInstance().saveConfig();
@@ -52,15 +47,10 @@ public abstract class GameMap implements RandomlyPickable, Disableable {
 
 	@Override
 	public double getWeight() {
-		if (this.getIdentifier() == null) {
-			Minigames.shutdown(ShutdownReason.EMERGENCY_AUTOMATIC, "Map identifier is null");
-			return 0;
-		}
-
 		final String configPath = "game-voting.map." + this.getIdentifier();
 		return Minigames.getInstance().getConfig().getDouble(configPath, 1);
 	}
-	
+
 	@Override
 	public boolean isDisabled() {
 		return false;
@@ -71,15 +61,9 @@ public abstract class GameMap implements RandomlyPickable, Disableable {
 
 	static {
 		for (final Game<? extends GameMap> game : Game.GAMES) {
-			if (game.getGameMaps() == null) {
-				continue;
-			}
-
 			for (final GameMap map : game.getGameMaps()) {
 				if (BY_IDENTIFIER.containsKey(map.getIdentifier())) {
 					throw new IllegalStateException("Duplicate identifier " + map.getIdentifier());
-//					Minigames.shutdown(ShutdownReason.EMERGENCY_AUTOMATIC, "Duplicate identifier " + map.getIdentifier());
-//					continue;
 				}
 				BY_IDENTIFIER.put(map.getIdentifier(), map);
 				MAP_TO_GAME.put(map, game);
