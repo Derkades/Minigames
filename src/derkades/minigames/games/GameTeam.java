@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.bukkit.Color;
 import org.bukkit.Material;
+import org.jetbrains.annotations.NotNull;
 
 import derkades.minigames.utils.MPlayer;
 import net.kyori.adventure.text.Component;
@@ -29,16 +30,25 @@ public enum GameTeam {
 
 	;
 
+	@NotNull
 	private ChatColor color;
+	@NotNull
 	private TextColor textColor;
+	@NotNull
 	private Color bukkitColor;
+	@NotNull
 	private String string;
+	@NotNull
 	private Material glassBlock;
+	@NotNull
 	private Material glassPane;
+	@NotNull
 	private Material concrete;
+	@NotNull
 	private Material terracotta;
 
-	GameTeam(final String name, final ChatColor color, final String materialPrefix) {
+	@SuppressWarnings("null")
+	GameTeam(@NotNull final String name, final ChatColor color, @NotNull final String materialPrefix) {
 		this.color = color;
 		this.textColor = TextColor.color(color.getColor().getRGB());
 		this.bukkitColor = Color.fromRGB(color.getColor().getRGB() & 0x00FFFFFF); // need to remove alpha bits or bukkit will complain
@@ -54,22 +64,27 @@ public enum GameTeam {
 		return this.color;
 	}
 
+	@NotNull
 	public ChatColor getChatColor() {
 		return this.color;
 	}
 
+	@NotNull
 	public TextColor getTextColor() {
 		return this.textColor;
 	}
 
+	@NotNull
 	public Color getBukkitColor() {
 		return this.bukkitColor;
 	}
 
+	@NotNull
 	public String getDisplayName() {
 		return this.string;
 	}
-	
+
+	@NotNull
 	public Component getColoredDisplayName() {
 		return Component.text(this.getDisplayName(), this.getTextColor());
 	}
@@ -79,18 +94,22 @@ public enum GameTeam {
 		return this.string;
 	}
 
+	@NotNull
 	public Material getGlassBlock() {
 		return this.glassBlock;
 	}
 
+	@NotNull
 	public Material getGlassPane() {
 		return this.glassPane;
 	}
 
+	@NotNull
 	public Material getConcrete() {
 		return this.concrete;
 	}
 
+	@NotNull
 	public Material getTerracotta() {
 		return this.terracotta;
 	}

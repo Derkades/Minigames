@@ -15,10 +15,10 @@ import org.bukkit.event.EventException;
 import org.bukkit.plugin.RegisteredListener;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.ocpsoft.prettytime.PrettyTime;
 
 import de.tr7zw.changeme.nbtapi.utils.MinecraftVersion;
-import derkades.minigames.Minigames.ShutdownReason;
 import derkades.minigames.games.Game;
 import derkades.minigames.games.GameMap;
 import derkades.minigames.modules.CancelInteract;
@@ -74,8 +74,9 @@ public class Minigames extends JavaPlugin implements Listener {
 		for (final Game<?> game : Game.GAMES) {
 			Validate.notNull(game.getIdentifier(), "game identifier null: " + game.getClass().getName());
 			Validate.notNull(game.getName(), "game name null: " + game.getClass().getName());
-			if (game.getGameMaps() != null) {
-				for (final GameMap map : game.getGameMaps()) {
+			final GameMap[] maps = game.getGameMaps();
+			if (maps != null) {
+				for (final GameMap map : maps) {
 					Validate.notNull(map.getIdentifier(), "map identifier null: " + game.getClass().getName() + " " + map.getClass().getName());
 					Validate.notNull(map.getName(), "map name is null: " + map.getIdentifier());
 				}
@@ -167,8 +168,6 @@ public class Minigames extends JavaPlugin implements Listener {
 		}
 
 		Logger.info("Plugin disabled");
-
-		instance = null;
 	}
 
 	@NotNull
@@ -200,12 +199,14 @@ public class Minigames extends JavaPlugin implements Listener {
 //        return economy != null;
 //    }
 
-    public static MPlayer getPlayer(final UUID uuid) {
+	@Nullable
+    public static MPlayer getPlayer(@NotNull final UUID uuid) {
     	final Player player = Bukkit.getPlayer(uuid);
     	return player == null ? null : new MPlayer(player);
     }
 
-    public static List<MPlayer> getOnlinePlayers() {
+    @SuppressWarnings("null")
+	public static @NotNull List<@NotNull MPlayer> getOnlinePlayers() {
     	return Bukkit.getOnlinePlayers().stream().map(MPlayer::new).collect(Collectors.toList());
     }
 
@@ -213,8 +214,8 @@ public class Minigames extends JavaPlugin implements Listener {
     	return Bukkit.getOnlinePlayers().size();
     }
 
-    public static List<MPlayer> getOnlinePlayersInRandomOrder() {
-    	final List<MPlayer> players = getOnlinePlayers();
+    public static @NotNull List<@NotNull MPlayer> getOnlinePlayersInRandomOrder() {
+    	final @NotNull List<@NotNull MPlayer> players = getOnlinePlayers();
     	Collections.shuffle(players);
     	return players;
     }

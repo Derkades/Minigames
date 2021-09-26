@@ -34,6 +34,8 @@ import org.bukkit.entity.Trident;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import com.google.gson.stream.JsonWriter;
 
@@ -87,7 +89,7 @@ import net.md_5.bungee.api.ChatColor;
 import xyz.derkades.derkutils.Hastebin;
 import xyz.derkades.derkutils.NumberUtils;
 
-public abstract class Game<M extends GameMap> implements Listener, RandomlyPickable {
+public abstract class Game<@NotNull M extends GameMap> implements Listener, RandomlyPickable {
 
 	public static final Game<? extends GameMap>[] GAMES = new Game<?>[] {
 			new BowSpleef(),
@@ -120,8 +122,10 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 			new Tron(),
 	};
 
+	@NotNull
 	public abstract String getIdentifier();
 
+	@NotNull
 	public abstract String getName();
 
 	@Override
@@ -129,14 +133,18 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 		return "Game[" + getIdentifier() + "]";
 	}
 
+	@Nullable
 	public String getAlias(){ return null; }
 
+	@NotNull
 	public abstract String[] getDescription();
 
+	@NotNull
 	public abstract Material getMaterial();
 
 	public abstract int getRequiredPlayers();
 
+	@Nullable
 	public abstract M[] getGameMaps();
 
 	public abstract int getDuration();
@@ -159,10 +167,12 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 
 	public abstract void onPlayerQuit(MPlayer player);
 
+	@Nullable
 	protected String getGameSpecificResultJson() {
 		return null;
 	}
 
+	@SuppressWarnings("null")
 	protected M map = null;
 
 	// Used by saveGameResult
@@ -197,7 +207,7 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 		}
 
 		// Send description
-		for (final Player player : Bukkit.getOnlinePlayers()) {
+		for (@NotNull final Player player : Bukkit.getOnlinePlayers()) {
 			player.sendMessage(DARK_GRAY + "-----------------------------------------");
 			player.sendMessage(Component.text().append(
 					Component.text(this.getName()).decorate(TextDecoration.BOLD).color(NamedTextColor.GOLD)).append(

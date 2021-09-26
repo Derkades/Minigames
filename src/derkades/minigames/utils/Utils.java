@@ -17,7 +17,6 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.projectiles.ProjectileSource;
-import org.checkerframework.checker.units.qual.K;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -27,7 +26,8 @@ import net.md_5.bungee.api.chat.ComponentBuilder;
 
 public class Utils {
 
-	public static <K, V extends Comparable<? super V>> Map<K, V> sortByValue(final Map<K, V> map) {
+	@NotNull
+	public static <K, V extends Comparable<? super V>> Map<K, V> sortByValue(@NotNull final Map<K, V> map) {
 	    return map.entrySet()
 	              .stream()
 	              .sorted(Map.Entry.comparingByValue(Collections.reverseOrder()))
@@ -39,15 +39,18 @@ public class Utils {
 	              ));
 	}
 
-	public static List<UUID> getOnlinePlayersUuidList(){
+	@SuppressWarnings("null")
+	public static @NotNull List<@NotNull UUID> getOnlinePlayersUuidList(){
 		return Bukkit.getOnlinePlayers().stream().map(Player::getUniqueId).collect(Collectors.toList());
 	}
 
-	public static Set<UUID> getOnlinePlayersUuidSet(){
+	@SuppressWarnings("null")
+	public static @NotNull Set<@NotNull UUID> getOnlinePlayersUuidSet(){
 		return Bukkit.getOnlinePlayers().stream().map(Player::getUniqueId).collect(Collectors.toSet());
 	}
 
-	public static <Key> List<Key> getHighestValuesFromHashMap(final Map<Key, Integer> map){
+	@NotNull
+	public static <Key> List<Key> getHighestValuesFromHashMap(@NotNull final Map<Key, Integer> map){
 		final Integer max = map.entrySet()
 	            .stream()
 	            .max((entry1, entry2) -> entry1.getValue() > entry2.getValue() ? 1 : -1)
@@ -76,6 +79,7 @@ public class Utils {
 	    return result;
 	}
 
+	@SuppressWarnings("null")
 	public static void showEveryoneToEveryone() {
 		for (final Player player1 : Bukkit.getOnlinePlayers()) {
 			for (final Player player2 : Bukkit.getOnlinePlayers()) {
@@ -92,8 +96,9 @@ public class Utils {
 		return new ComponentBuilder("").appendLegacy(Utils.getChatPrefix(prefixColor, prefixChar));
 	}
 
-	public static boolean allPlayersFinished(final Set<UUID> finished) {
-		for (final Player player : Bukkit.getOnlinePlayers()) {
+	@SuppressWarnings("null")
+	public static boolean allPlayersFinished(@NotNull final Set<@NotNull UUID> finished) {
+		for (final @NotNull Player player : Bukkit.getOnlinePlayers()) {
 			if (!finished.contains(player.getUniqueId())) {
 				return false;
 			}
@@ -135,7 +140,7 @@ public class Utils {
 
 	@Nullable
 	public static MPlayer getKiller(@NotNull final PlayerDeathEvent event) {
-		EntityDamageEvent cause = event.getEntity().getLastDamageCause();
+		final EntityDamageEvent cause = event.getEntity().getLastDamageCause();
 		return cause == null ? null : getDamagerPlayer(cause);
 	}
 

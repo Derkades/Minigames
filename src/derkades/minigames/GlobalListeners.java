@@ -61,7 +61,7 @@ public class GlobalListeners implements Listener {
 			game.onPlayerJoin(player);
 		} else {
 			// No game is running, teleport to lobby
-			player.queueTeleportNoFadeIn(Var.LOBBY_LOCATION, () -> {
+			player.queueTeleportNoFadeOut(Var.LOBBY_LOCATION, () -> {
 				player.afterLobbyTeleport();
 			});
 

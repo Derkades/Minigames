@@ -15,6 +15,7 @@ import org.jetbrains.annotations.Nullable;
 
 public class MPlayerDamageEvent extends Event implements Cancellable {
 
+	@NotNull
 	private static final HandlerList handlers = new HandlerList();
 
 	@NotNull
@@ -22,6 +23,7 @@ public class MPlayerDamageEvent extends Event implements Cancellable {
 	@NotNull
 	private final MPlayer player;
 
+	@SuppressWarnings("null")
 	public MPlayerDamageEvent(@NotNull final EntityDamageEvent event) {
 		this.event = Objects.requireNonNull(event);
 
@@ -34,9 +36,11 @@ public class MPlayerDamageEvent extends Event implements Cancellable {
 		this.player = new MPlayer((Player) damagee);
 	}
 
+	@NotNull
 	public MPlayer getPlayer() {
 		return this.player;
 	}
+
 
 	@Nullable
 	public Entity getDirectDamagerEntity() {
@@ -47,6 +51,7 @@ public class MPlayerDamageEvent extends Event implements Cancellable {
 		}
 	}
 
+	@Nullable
 	public MPlayer getDamagerPlayer() {
 		return Utils.getDamagerPlayer(this.event);
 	}
@@ -60,10 +65,12 @@ public class MPlayerDamageEvent extends Event implements Cancellable {
 	}
 
 	@Override
+	@NotNull
 	public HandlerList getHandlers() {
 	    return handlers;
 	}
 
+	@NotNull
 	public static HandlerList getHandlerList() {
 	    return handlers;
 	}

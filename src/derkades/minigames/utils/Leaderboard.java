@@ -10,6 +10,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import derkades.minigames.Minigames;
 import net.kyori.adventure.text.Component;
@@ -21,8 +23,11 @@ import xyz.derkades.derkutils.bukkit.sidebar.SidebarString;
 
 public class Leaderboard {
 
+	@NotNull
 	private final Sidebar sidebar;
+	@NotNull
 	private final Map<UUID, Integer> points;
+	@Nullable
 	private Map<UUID, Integer> sortedCache = null;
 
 	public Leaderboard() {
@@ -35,16 +40,21 @@ public class Leaderboard {
 		}
 	}
 
-	private Map<UUID, Integer> getSorted(){
-		if (this.sortedCache == null) {
-			this.sortedCache = Utils.sortByValue(this.points);
+	@SuppressWarnings("null")
+	@NotNull
+	private Map<@NotNull UUID, @NotNull Integer> getSorted() {
+		var cache = this.sortedCache;
+		if (cache != null) {
+			return cache;
+		} else {
+			cache = Utils.sortByValue(this.points);
+			this.sortedCache = cache;
+			return cache;
 		}
-
-		return this.sortedCache;
 	}
-	
-	private Component leaderboardEntry(Player player, int points) {
-		
+
+	@NotNull
+	private Component leaderboardEntry(final Player player, final int points) {
 		return player.displayName().append(Component.text(": ", NamedTextColor.GRAY)).append(Component.text(points, NamedTextColor.WHITE));
 	}
 
@@ -56,8 +66,8 @@ public class Leaderboard {
 			if (player == null) {
 				return;
 			}
-			
-			Component c = leaderboardEntry(player, points);
+
+			final Component c = leaderboardEntry(player, points);
 			sidebarStrings.add(new SidebarString(LegacyComponentSerializer.legacySection().serialize(c)));
 		});
 
@@ -126,10 +136,10 @@ public class Leaderboard {
 			if (player == null) {
 				return;
 			}
-			
+
 			Bukkit.broadcast(leaderboardEntry(player, points));
 		});
-		
+
 		return getWinners();
 	}
 

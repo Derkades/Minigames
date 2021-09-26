@@ -26,6 +26,8 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.util.Vector;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import derkades.minigames.Minigames;
 import derkades.minigames.Points;
@@ -49,21 +51,22 @@ public class MPlayer {
 
 	private static final String METADATA_PREFIX = "mg_";
 
+	@NotNull
 	private final Player player;
 
-	public MPlayer(final Player player) {
+	public MPlayer(@NotNull final Player player) {
 		this.player = player;
 	}
 
-	public MPlayer(final HumanEntity human) {
+	public MPlayer(@NotNull final HumanEntity human) {
 		this.player = (Player) human;
 	}
 
-	public MPlayer(final PlayerEvent event) {
+	public MPlayer(@NotNull final PlayerEvent event) {
 		this.player = event.getPlayer();
 	}
 
-	public MPlayer(final EntityEvent event) {
+	public MPlayer(@NotNull final EntityEvent event) {
 		this.player = (Player) event.getEntity();
 	}
 
@@ -132,15 +135,15 @@ public class MPlayer {
 		return SneakPrevention.isEnabled(this);
 	}
 
-	public Player bukkit() {
+	public @NotNull Player bukkit() {
 		return this.player;
 	}
 
-	public Player.Spigot spigot(){
+	public Player.@NotNull Spigot spigot(){
 		return this.player.spigot();
 	}
 
-	public void teleport(final Location location) {
+	public void teleport(@NotNull final Location location) {
 		this.player.teleport(location);
 	}
 
@@ -235,18 +238,24 @@ public class MPlayer {
 	}
 
 	private static final int TITLE_FADE_TICKS = 5;
+	@SuppressWarnings("null")
+	@NotNull
 	private static final Title TITLE_FADE_OUT = Title.title(Component.text(SpecialCharacter.BLACK_BOX), Component.empty(),
 			Times.of(Duration.ofMillis(TITLE_FADE_TICKS * 50), Duration.ofMillis(100), Duration.ofMillis(0)));
+	@SuppressWarnings("null")
+	@NotNull
 	private static final Title TITLE_BLACK = Title.title(Component.text(SpecialCharacter.BLACK_BOX), Component.empty(),
 			Times.of(Duration.ofMillis(0), Duration.ofMillis(100), Duration.ofMillis(0)));
+	@SuppressWarnings("null")
+	@NotNull
 	private static final Title TITLE_FADE_IN = Title.title(Component.text(SpecialCharacter.BLACK_BOX), Component.empty(),
 			Times.of(Duration.ofMillis(0), Duration.ofMillis(0), Duration.ofMillis(TITLE_FADE_TICKS * 50)));
 
-	public void queueTeleport(final Location location) {
-		queueTeleport(location, () -> {});
+	public void queueTeleport(@NotNull final Location location) {
+		queueTeleport(location, null);
 	}
 
-	public void queueTeleport(final Location location, final Runnable callback) {
+	public void queueTeleport(@NotNull final Location location, @Nullable final Runnable callback) {
 		this.sendTitle(TITLE_FADE_OUT);
 
 		// Wait for fade-out to complete before teleporting
@@ -259,17 +268,20 @@ public class MPlayer {
 			TaskQueue.add(() -> this.player.teleportAsync(location).thenRun(() -> {
 				task.cancel();
 				this.sendTitle(TITLE_FADE_IN);
+				if (callback != null) {
+					callback.run();
+				}
 			}));
 		});
 	}
 
 	// Used on join
-	public void queueTeleportNoFadeIn(final Location location) {
-		queueTeleportNoFadeIn(location, () -> {});
+	public void queueTeleportNoFadeIn(@NotNull final Location location) {
+		queueTeleportNoFadeOut(location, () -> {});
 	}
 
 	// Used on join
-	public void queueTeleportNoFadeIn(final Location location, final Runnable callback) {
+	public void queueTeleportNoFadeOut(@NotNull final Location location, @Nullable final Runnable callback) {
 		// Refresh black screen every tick (50ms)
 		final BukkitTask task = Scheduler.repeat(1, () -> {
 			this.sendTitle(TITLE_BLACK);
@@ -278,6 +290,9 @@ public class MPlayer {
 		TaskQueue.add(() -> this.player.teleportAsync(location).thenRun(() -> {
 			task.cancel();
 			this.sendTitle(TITLE_FADE_IN);
+			if (callback != null) {
+				callback.run();
+			}
 		}));
 	}
 
@@ -349,7 +364,7 @@ public class MPlayer {
 
     // Used on join
 	void teleportLobbyNoFadeIn() {
-		queueTeleportNoFadeIn(Var.LOBBY_LOCATION, this::afterLobbyTeleport);
+		queueTeleportNoFadeOut(Var.LOBBY_LOCATION, this::afterLobbyTeleport);
 	}
 
 	public void setAllowFlight(final boolean allowFlight) {
@@ -360,7 +375,7 @@ public class MPlayer {
 		return this.player.getAllowFlight();
 	}
 
-	public void setGameMode(final GameMode gameMode) {
+	public void setGameMode(@NotNull final GameMode gameMode) {
 		this.player.setGameMode(gameMode);
 	}
 
@@ -378,7 +393,7 @@ public class MPlayer {
 		return this.player.getInventory();
 	}
 
-	public void giveItem(final ItemStack... itemStacks) {
+	public void giveItem(@NotNull final ItemStack... itemStacks) {
 		this.player.getInventory().addItem(itemStacks);
 	}
 
@@ -388,7 +403,7 @@ public class MPlayer {
 		this.player.teleport(loc);
 	}
 
-	public void dieTo(final Location location) {
+	public void dieTo(@NotNull final Location location) {
 		this.player.teleport(location);
 		die();
 	}
@@ -398,7 +413,7 @@ public class MPlayer {
 		die();
 	}
 
-	public void finishTo(final Location location) {
+	public void finishTo(@NotNull final Location location) {
 		this.player.teleport(location);
 		finish();
 	}
@@ -408,6 +423,7 @@ public class MPlayer {
 		finish();
 	}
 
+	@NotNull
 	private static final Title DIE_TITLE = Title.title(Component.empty(), Component.text("You've died", NamedTextColor.RED));
 
 	public void die() {
@@ -415,6 +431,7 @@ public class MPlayer {
 		this.spectator();
 	}
 
+	@NotNull
 	private static final Title FINISH_TITLE = Title.title(Component.empty(), Component.text("You've finished", NamedTextColor.GREEN));
 
 	public void finish() {
@@ -432,22 +449,27 @@ public class MPlayer {
 		return getGameMode().equals(GameMode.SPECTATOR);
 	}
 
-	public void giveEffect(final PotionEffect effect) {
+	public void giveEffect(@NotNull final PotionEffect effect) {
 		this.player.addPotionEffect(effect);
 	}
 
-	public void giveEffect(final PotionEffectType type, final int duration, final int amplifier) {
+	@Deprecated
+	public void giveEffect(@NotNull final PotionEffectType type, final int duration, final int amplifier) {
 		this.player.addPotionEffect(new PotionEffect(type, duration * 20, amplifier, true, false));
 	}
 
-	public void giveInfiniteEffect(final PotionEffectType type, final int amplifier){
+	@Deprecated
+	public void giveInfiniteEffect(@NotNull final PotionEffectType type, final int amplifier){
 		this.player.addPotionEffect(new PotionEffect(type, 100000, amplifier, true, false));
 	}
 
-	public void giveInfiniteEffect(final PotionEffectType type){
+	@Deprecated
+	public void giveInfiniteEffect(@NotNull final PotionEffectType type){
 		this.player.addPotionEffect(new PotionEffect(type, 100000, 0, true, false));
 	}
 
+	@SuppressWarnings("null")
+	@Deprecated
 	public void giveInvisibility(){
 		this.giveInfiniteEffect(PotionEffectType.INVISIBILITY);
 	}
@@ -464,11 +486,13 @@ public class MPlayer {
 		this.player.setFireTicks(0);
 	}
 
+	@SuppressWarnings("null")
 	public void heal() {
 		this.removeFire();
 		this.player.setHealth(this.player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue());
 	}
 
+	@SuppressWarnings("null")
 	public void hideForEveryoneElse() {
 		Bukkit.getOnlinePlayers().forEach((player2) -> player2.hidePlayer(Minigames.getInstance(), this.player));
 	}
@@ -498,11 +522,12 @@ public class MPlayer {
 		return getBlockIn().getRelative(BlockFace.DOWN);
 	}
 
-	public void playSound(final Sound sound, final float pitch) {
+	@Deprecated
+	public void playSound(@NotNull final Sound sound, final float pitch) {
 		this.player.playSound(this.player.getLocation(), sound, 1, pitch);
 	}
 
-	public void playSound(final net.kyori.adventure.sound.Sound sound) {
+	public void playSound(final net.kyori.adventure.sound.@NotNull Sound sound) {
 		this.player.playSound(sound);
 	}
 
@@ -523,6 +548,7 @@ public class MPlayer {
 		this.player.setVelocity(new Vector(this.player.getVelocity().getX(), upwardVelocity, this.player.getVelocity().getZ()));
 	}
 
+	@SuppressWarnings("null")
 	public void dropItems() {
 		for (final ItemStack item : this.player.getInventory().getContents()) {
 			if (item != null) {
@@ -543,11 +569,11 @@ public class MPlayer {
 		}
 	}
 
-	private void dropItem(final ItemStack item) {
+	private void dropItem(@NotNull final ItemStack item) {
 		this.player.getLocation().getWorld().dropItemNaturally(this.player.getLocation(), item);
 	}
 
-	public void placeCage(final boolean cage, final Material material) {
+	public void placeCage(final boolean cage, @NotNull final Material material) {
 		final Block block = this.player.getLocation().getBlock();
 		final Block[] blocks = new Block[] {
 				block.getRelative(BlockFace.NORTH),
@@ -572,27 +598,29 @@ public class MPlayer {
 		placeCage(cage, Material.GLASS);
 	}
 
-	public void sendFormattedPlainActionBar(final String message, final Object... replacements) {
+	@SuppressWarnings("null")
+	public void sendFormattedPlainActionBar(@NotNull final String message, @NotNull final Object... replacements) {
 		this.sendActionBar(Component.text(String.format(message, replacements), NamedTextColor.GRAY));
 	}
 
-	public void sendPlainActionBar(final String message) {
+	public void sendPlainActionBar(@NotNull final String message) {
 		this.sendActionBar(Component.text(message, NamedTextColor.GRAY));
 	}
 
-	public void sendActionBar(final Component message) {
+	public void sendActionBar(@NotNull final Component message) {
 		this.player.sendActionBar(message);
 	}
 
-	public void sendFormattedPlainChat(final String message, final Object... replacements) {
+	@SuppressWarnings("null")
+	public void sendFormattedPlainChat(@NotNull final String message, @NotNull final Object... replacements) {
 		this.sendChat(Component.text(String.format(message, replacements), NamedTextColor.GRAY));
 	}
 
-	public void sendPlainChat(final String message) {
+	public void sendPlainChat(@NotNull final String message) {
 		this.sendChat(Component.text(message, NamedTextColor.GRAY));
 	}
 
-	public void sendChat(final Component message) {
+	public void sendChat(@NotNull final Component message) {
 		this.player.sendMessage(message);
 	}
 
@@ -601,17 +629,17 @@ public class MPlayer {
 		this.player.sendTitle(title, subtitle, 10, 70, 20);
 	}
 
-	public void sendTitle(final Title title) {
+	public void sendTitle(@NotNull final Title title) {
 		this.player.showTitle(title);
 	}
 
-	public void sendTitle(final Component mainTitle, final Component subTitle) {
+	public void sendTitle(@NotNull final Component mainTitle, @NotNull final Component subTitle) {
 		this.player.showTitle(Title.title(mainTitle, subTitle));
 	}
 
-	public void sendPlainTitle(final String title, final String subtitle) {
+	public void sendPlainTitle(@Nullable final String title, @Nullable final String subtitle) {
 		final Component a = title == null ? Component.empty() : Component.text(title, NamedTextColor.GRAY);
-		final Component b = subtitle == null ? Component.empty() : Component.text(title, NamedTextColor.GRAY);
+		final Component b = subtitle == null ? Component.empty() : Component.text(subtitle, NamedTextColor.GRAY);
 		this.sendTitle(a, b);
 	}
 

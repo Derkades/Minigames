@@ -13,67 +13,80 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.Plugin;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
+// TODO: Use utility from paper?
 public class UUIDUtils implements Listener {
 
-	private static File file;
-	private static Plugin plugin;
+//	@NotNull
+//	private final Plugin plugin;
+	@NotNull
+	private final File file;
+	@NotNull
+	private final YamlConfiguration config;
 
-	private static YamlConfiguration config;
+	public UUIDUtils(@NotNull final Plugin plugin, @NotNull final File file) {
+//		this.plugin = plugin;
+		this.file = file;
+		this.config = YamlConfiguration.loadConfiguration(this.file);
+		plugin.getServer().getPluginManager().registerEvents(this, plugin);
 
-	private static void reload(){
-		config = YamlConfiguration.loadConfiguration(file);
 	}
 
-	private static YamlConfiguration getConfig(){
-		if (config == null) {
-			reload();
-		}
-		return config;
-	}
+//	private void reload(){
+//		this.config = YamlConfiguration.loadConfiguration(this.file);
+//	}
+
+//	private YamlConfiguration getConfig(){
+//		if (this.config == null) {
+//			reload();
+//		}
+//		return this.config;
+//	}
 
 	@EventHandler(priority = EventPriority.MONITOR)
 	public void onJoin(final PlayerJoinEvent event){
 		final Player player = event.getPlayer();
 
-		getConfig().set("uuid." + player.getName(), player.getUniqueId().toString());
-		getConfig().set("name." + player.getUniqueId(), player.getName());
+		this.config.set("uuid." + player.getName(), player.getUniqueId().toString());
+		this.config.set("name." + player.getUniqueId(), player.getName());
 
 		try {
-			getConfig().save(file);
+			this.config.save(this.file);
 		} catch (final IOException e) {
 			e.printStackTrace();
 		}
 	}
 
-	/**
-	 * Registers the PlayerJoinEvent and sets the name of the file where UUIDs will be saved. Run this method in your onEnable()
-	 * @param plugin Your main class (which extends JavaPlugin). If you don't know what this means, just use "this"
-	 * @param fileName The name of the file where UUIDs will be saved. This file will be in your plugin directory. For example "uuid" for "plugins/yourplugin/uuid.yml"
-	 */
-	public static void initialize(final Plugin plugin, final String fileName){
-		plugin.getServer().getPluginManager().registerEvents(new UUIDUtils(), plugin);
+//	/**
+//	 * Registers the PlayerJoinEvent and sets the name of the file where UUIDs will be saved. Run this method in your onEnable()
+//	 * @param plugin Your main class (which extends JavaPlugin). If you don't know what this means, just use "this"
+//	 * @param fileName The name of the file where UUIDs will be saved. This file will be in your plugin directory. For example "uuid" for "plugins/yourplugin/uuid.yml"
+//	 */
+//	public static void initialize(final Plugin plugin, final String fileName){
+//
+//
+//		this.file = new File(plugin.getDataFolder(), fileName + ".yml");
+//		UUIDUtils.plugin = plugin;
+//	}
 
-		file = new File(plugin.getDataFolder(), fileName + ".yml");
-		UUIDUtils.plugin = plugin;
-	}
-
-	public static void initialize(final Plugin plugin, final String fileName, final String directory){
-		UUIDUtils.plugin.getServer().getPluginManager().registerEvents(new UUIDUtils(), plugin);
-		file = new File(plugin.getDataFolder() + "/" + directory, fileName + ".yml");
-	}
+//	public static void initialize(final Plugin plugin, final String fileName, final String directory){
+//		UUIDUtils.plugin.getServer().getPluginManager().registerEvents(new UUIDUtils(), plugin);
+//		this.file = new File(plugin.getDataFolder() + "/" + directory, fileName + ".yml");
+//	}
 
 	/**
 	 * Gets the UUID from a player with the name <em>playerName</em>. Returns null if no UUID has been cached for a player with that name.
 	 * @param playerName (self explanatory)
 	 * @return Player UUID or null
 	 */
-	public static UUID getUUID(final String playerName){
-		if (!getConfig().isSet("uuid." + playerName)) {
+	public @Nullable UUID getUUID(@NotNull final String playerName) {
+		if (!this.config.isSet("uuid." + playerName)) {
 			return null;
 		}
 
-		final String uuidString = getConfig().getString("uuid." + playerName);
+		final String uuidString = this.config.getString("uuid." + playerName);
 		return UUID.fromString(uuidString);
 	}
 
@@ -82,17 +95,17 @@ public class UUIDUtils implements Listener {
 	 * @param uuid (self explanatory)
 	 * @return Player name or null
 	 */
-	public static String getName(final UUID uuid){
-		if (!getConfig().isSet("name." + uuid)) {
+	public @Nullable String getName(@NotNull final UUID uuid){
+		if (!this.config.isSet("name." + uuid)) {
 			return null;
 		}
 
-		return getConfig().getString("name." + uuid);
+		return this.config.getString("name." + uuid);
 	}
 
-	public static OfflinePlayer getOfflinePlayer(final String playerName){
+	public @Nullable OfflinePlayer getOfflinePlayer(@NotNull final String playerName){
 		final UUID uuid = getUUID(playerName);
-		return Bukkit.getOfflinePlayer(uuid);
+		return uuid == null ? null : Bukkit.getOfflinePlayer(uuid);
 	}
 
 }
