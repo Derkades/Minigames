@@ -4,6 +4,7 @@ import org.bukkit.Location;
 
 import derkades.minigames.random.Size;
 import derkades.minigames.worlds.GameWorld;
+import org.jetbrains.annotations.NotNull;
 
 class Mineshaft extends CreeperAttackMap {
 
@@ -13,12 +14,12 @@ class Mineshaft extends CreeperAttackMap {
 	}
 
 	@Override
-	public String getName() {
+	public @NotNull String getName() {
 		return "Mineshaft";
 	}
 
 	@Override
-	public GameWorld getGameWorld() {
+	public @NotNull GameWorld getGameWorld() {
 		return GameWorld.CREEPERATTACK_MINESHAFT;
 	}
 
@@ -33,7 +34,7 @@ class Mineshaft extends CreeperAttackMap {
 	}
 
 	@Override
-	public String getIdentifier() {
+	public @NotNull String getIdentifier() {
 		return "creeperattack_mineshaft";
 	}
 

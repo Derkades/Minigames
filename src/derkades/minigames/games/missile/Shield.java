@@ -106,8 +106,8 @@ public enum Shield {
 
 	;
 
-	private GameTeam team;
-	private MissileObject[] objects;
+	private final GameTeam team;
+	private final MissileObject[] objects;
 
 	Shield(final GameTeam team, final MissileObject[] objects) {
 		this.team = team;

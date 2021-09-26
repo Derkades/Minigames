@@ -51,8 +51,7 @@ public class LobbyMenu extends Module {
 
 	@EventHandler
 	public void onEntityDamage(final EntityDamageEvent event) {
-		if (event.getEntity() instanceof Villager){
-			final Villager villager = (Villager) event.getEntity();
+		if (event.getEntity() instanceof final Villager villager){
 			if (villager.getCustomName().equals("Bait") ||
 					villager.getCustomName().contentEquals("Click Me!")) {
 				event.setCancelled(true);

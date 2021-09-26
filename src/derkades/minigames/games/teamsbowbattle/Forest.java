@@ -6,11 +6,12 @@ import org.bukkit.potion.PotionEffectType;
 import derkades.minigames.Minigames;
 import derkades.minigames.random.Size;
 import derkades.minigames.worlds.GameWorld;
+import org.jetbrains.annotations.NotNull;
 
 class Forest extends TeamsBowBattleMap {
 
 	@Override
-	public String getName() {
+	public @NotNull String getName() {
 		return "Forest";
 	}
 
@@ -20,7 +21,7 @@ class Forest extends TeamsBowBattleMap {
 	}
 
 	@Override
-	public GameWorld getGameWorld() {
+	public @NotNull GameWorld getGameWorld() {
 		return GameWorld.TBB_FOREST;
 	}
 
@@ -35,7 +36,7 @@ class Forest extends TeamsBowBattleMap {
 	}
 
 	@Override
-	public String getIdentifier() {
+	public @NotNull String getIdentifier() {
 		return "teamsbowbattle_forest";
 	}
 

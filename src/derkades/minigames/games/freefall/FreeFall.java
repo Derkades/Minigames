@@ -15,16 +15,17 @@ import derkades.minigames.utils.MinigamesPlayerDamageEvent;
 import derkades.minigames.utils.MinigamesPlayerDamageEvent.DamageType;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
+import org.jetbrains.annotations.NotNull;
 
 public class FreeFall extends Game<FreeFallMap> {
 
 	@Override
-	public String getIdentifier() {
+	public @NotNull String getIdentifier() {
 		return "free_fall";
 	}
 
 	@Override
-	public String getName() {
+	public @NotNull String getName() {
 		return "Free Fall";
 	}
 
@@ -36,7 +37,7 @@ public class FreeFall extends Game<FreeFallMap> {
 	}
 
 	@Override
-	public Material getMaterial() {
+	public @NotNull Material getMaterial() {
 		return Material.DIAMOND_BOOTS;
 	}
 
@@ -80,11 +81,7 @@ public class FreeFall extends Game<FreeFallMap> {
 	@Override
 	public int gameTimer(final int secondsLeft) {
 		if (this.layerHeight == 0) {
-			if (secondsLeft > 2) {
-				return 2;
-			} else {
-				return secondsLeft;
-			}
+			return Math.min(secondsLeft, 2);
 		}
 
 		if (secondsLeft % 10 == 0) {

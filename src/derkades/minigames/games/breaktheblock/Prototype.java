@@ -8,11 +8,12 @@ import org.bukkit.block.BlockFace;
 import derkades.minigames.random.Size;
 import derkades.minigames.utils.MPlayer;
 import derkades.minigames.worlds.GameWorld;
+import org.jetbrains.annotations.NotNull;
 
 class Prototype extends BreakTheBlockMap {
 
 	@Override
-	public String getName() {
+	public @NotNull String getName() {
 		return "Prototype";
 	}
 
@@ -29,7 +30,7 @@ class Prototype extends BreakTheBlockMap {
 	}
 
 	@Override
-	public GameWorld getGameWorld() {
+	public @NotNull GameWorld getGameWorld() {
 		return GameWorld.BTB_PROTOTYPE;
 	}
 
@@ -44,7 +45,7 @@ class Prototype extends BreakTheBlockMap {
 	}
 
 	@Override
-	public String getIdentifier() {
+	public @NotNull String getIdentifier() {
 		return "breaktheblock_prototype";
 	}
 	

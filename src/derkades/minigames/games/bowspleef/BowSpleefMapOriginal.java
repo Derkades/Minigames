@@ -4,6 +4,7 @@ import org.bukkit.Location;
 
 import derkades.minigames.random.Size;
 import derkades.minigames.worlds.GameWorld;
+import org.jetbrains.annotations.NotNull;
 
 class BowSpleefMapOriginal extends BowSpleefMap {
 
@@ -13,12 +14,12 @@ class BowSpleefMapOriginal extends BowSpleefMap {
 	}
 
 	@Override
-	public String getName() {
+	public @NotNull String getName() {
 		return "Bow Spleef";
 	}
 
 	@Override
-	public GameWorld getGameWorld() {
+	public @NotNull GameWorld getGameWorld() {
 		return GameWorld.BOWSPLEEF_BOWSPLEEF;
 	}
 
@@ -28,7 +29,7 @@ class BowSpleefMapOriginal extends BowSpleefMap {
 	}
 
 	@Override
-	public String getIdentifier() {
+	public @NotNull String getIdentifier() {
 		return "bowspleef_bowspleef";
 	}
 

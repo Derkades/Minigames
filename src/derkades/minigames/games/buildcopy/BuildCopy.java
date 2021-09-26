@@ -21,6 +21,7 @@ import derkades.minigames.Minigames;
 import derkades.minigames.games.Game;
 import derkades.minigames.utils.Leaderboard;
 import derkades.minigames.utils.MPlayer;
+import org.jetbrains.annotations.NotNull;
 import xyz.derkades.derkutils.ListUtils;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
 
@@ -50,12 +51,12 @@ public class BuildCopy extends Game<BuildCopyMap> {
 			.create();
 
 	@Override
-	public String getIdentifier() {
+	public @NotNull String getIdentifier() {
 		return "buildcopy";
 	}
 
 	@Override
-	public String getName() {
+	public @NotNull String getName() {
 		return "Build Copy";
 	}
 
@@ -67,7 +68,7 @@ public class BuildCopy extends Game<BuildCopyMap> {
 	}
 
 	@Override
-	public Material getMaterial() {
+	public @NotNull Material getMaterial() {
 		return Material.SANDSTONE;
 	}
 

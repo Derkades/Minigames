@@ -6,7 +6,7 @@ import derkades.minigames.games.GameMap;
 
 abstract class DropperMap extends GameMap {
 
-	static DropperMap[] DROPPER_MAPS = new DropperMap[] {
+	static final DropperMap[] DROPPER_MAPS = new DropperMap[] {
 			new BlackWhite(),
 			new Rainbow(),
 			new Redstone(),

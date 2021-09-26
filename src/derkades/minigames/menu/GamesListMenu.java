@@ -27,9 +27,8 @@ public class GamesListMenu extends IconMenu {
 
 		int slot = 0;
 		for (final Game<? extends GameMap> game : Game.GAMES){
-			final List<String> lore = new ArrayList<>();
 
-			lore.addAll(Arrays.asList(game.getDescription()));
+			final List<String> lore = new ArrayList<>(Arrays.asList(game.getDescription()));
 
 			final double gameWeight = NumberUtils.roundApprox(game.getWeight(), 2);
 

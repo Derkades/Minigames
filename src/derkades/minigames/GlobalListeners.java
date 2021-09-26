@@ -1,5 +1,15 @@
 package derkades.minigames;
 
+import derkades.minigames.Minigames.ShutdownReason;
+import derkades.minigames.games.Game;
+import derkades.minigames.utils.MPlayer;
+import derkades.minigames.utils.MPlayerDamageEvent;
+import derkades.minigames.utils.MinigamesPlayerDamageEvent;
+import io.papermc.paper.chat.ChatRenderer;
+import io.papermc.paper.event.player.AsyncChatEvent;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.entity.EntityType;
@@ -13,18 +23,6 @@ import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.jetbrains.annotations.NotNull;
-
-import derkades.minigames.Minigames.ShutdownReason;
-import derkades.minigames.games.Game;
-import derkades.minigames.utils.MPlayer;
-import derkades.minigames.utils.MPlayerDamageEvent;
-import derkades.minigames.utils.MinigamesPlayerDamageEvent;
-import io.papermc.paper.chat.ChatRenderer;
-import io.papermc.paper.chat.ChatRenderer.ViewerUnaware;
-import io.papermc.paper.event.player.AsyncChatEvent;
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.NamedTextColor;
-import net.kyori.adventure.text.format.TextColor;
 
 public class GlobalListeners implements Listener {
 
@@ -59,9 +57,7 @@ public class GlobalListeners implements Listener {
 			game.onPlayerJoin(player);
 		} else {
 			// No game is running, teleport to lobby
-			player.queueTeleportNoFadeOut(Var.LOBBY_LOCATION, () -> {
-				player.afterLobbyTeleport();
-			});
+			player.queueTeleportNoFadeOut(Var.LOBBY_LOCATION, player::afterLobbyTeleport);
 
 //			Scheduler.delay(1, () -> player.spigot().sendMessage(
 //						Utils.getComponentBuilderWithPrefix(ChatColor.GREEN, 'P')
@@ -96,17 +92,9 @@ public class GlobalListeners implements Listener {
 
 	@EventHandler
 	public void onChat(final AsyncChatEvent event) {
-		event.renderer(ChatRenderer.viewerUnaware(new ViewerUnaware() {
-
-			@Override
-			public @NotNull Component render(@NotNull final Player source, @NotNull final Component sourceDisplayName,
-					@NotNull final Component message) {
-				return sourceDisplayName
-						.append(Component.text(" \u00BB ").color(NamedTextColor.DARK_GRAY))
-						.append(message.color(NamedTextColor.GRAY));
-			}
-
-		}));
+		event.renderer(ChatRenderer.viewerUnaware((source, sourceDisplayName, message) -> sourceDisplayName
+				.append(Component.text(" \u00BB ").color(NamedTextColor.DARK_GRAY))
+				.append(message.color(NamedTextColor.GRAY))));
 //		event.setFormat(Utils.getChatPrefix(ChatColor.AQUA, 'C') + ChatColor.WHITE + "%s: " + ChatColor.GRAY + "%s");
 	}
 
@@ -117,15 +105,14 @@ public class GlobalListeners implements Listener {
 			return;
 		}
 
-		if (event instanceof EntityDamageByEntityEvent) {
-			final EntityDamageByEntityEvent event2 = (EntityDamageByEntityEvent) event;
+		if (event instanceof final EntityDamageByEntityEvent byEntity) {
 
-			if (event2.getEntity().getType() != EntityType.PLAYER) {
+			if (byEntity.getEntity().getType() != EntityType.PLAYER) {
 				return;
 			}
 
-			final MinigamesPlayerDamageEvent event3 = new MinigamesPlayerDamageEvent((Player) event2.getEntity(),
-					event2.getDamager(), event.getCause(), event.getDamage());
+			final MinigamesPlayerDamageEvent event3 = new MinigamesPlayerDamageEvent((Player) byEntity.getEntity(),
+					byEntity.getDamager(), event.getCause(), event.getDamage());
 
 			Bukkit.getPluginManager().callEvent(event3);
 

@@ -18,17 +18,18 @@ import derkades.minigames.utils.MinigamesPlayerDamageEvent;
 import derkades.minigames.utils.Scheduler;
 import derkades.minigames.utils.Utils;
 import derkades.minigames.utils.Winners;
+import org.jetbrains.annotations.NotNull;
 import xyz.derkades.derkutils.bukkit.lootchests.LootChest;
 
 public class HungerGames extends Game<HungerGamesMap> {
 
 	@Override
-	public String getIdentifier() {
+	public @NotNull String getIdentifier() {
 		return "hunger_games";
 	}
 
 	@Override
-	public String getName() {
+	public @NotNull String getName() {
 		return "Hunger Games";
 	}
 
@@ -46,7 +47,7 @@ public class HungerGames extends Game<HungerGamesMap> {
 	}
 
 	@Override
-	public Material getMaterial() {
+	public @NotNull Material getMaterial() {
 		return Material.APPLE;
 	}
 

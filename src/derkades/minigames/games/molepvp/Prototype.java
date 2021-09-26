@@ -5,17 +5,18 @@ import org.bukkit.Material;
 
 import derkades.minigames.random.Size;
 import derkades.minigames.worlds.GameWorld;
+import org.jetbrains.annotations.NotNull;
 import xyz.derkades.derkutils.bukkit.BlockUtils;
 
 class Prototype extends MolePvPMap {
 
 	@Override
-	public String getName() {
+	public @NotNull String getName() {
 		return "Prototype";
 	}
 
 	@Override
-	public GameWorld getGameWorld() {
+	public @NotNull GameWorld getGameWorld() {
 		return GameWorld.MOLEPVP_PROTOTYPE;
 	}
 
@@ -30,7 +31,7 @@ class Prototype extends MolePvPMap {
 	}
 
 	@Override
-	public String getIdentifier() {
+	public @NotNull String getIdentifier() {
 		return "molepvp_prototype";
 	}
 

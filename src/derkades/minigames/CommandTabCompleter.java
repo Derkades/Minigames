@@ -1,16 +1,15 @@
 package derkades.minigames;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
+import derkades.minigames.games.Game;
+import derkades.minigames.games.GameMap;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.jetbrains.annotations.NotNull;
 
-import derkades.minigames.games.Game;
-import derkades.minigames.games.GameMap;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class CommandTabCompleter implements TabCompleter {
 
@@ -18,7 +17,7 @@ public class CommandTabCompleter implements TabCompleter {
 	public List<String> onTabComplete(final @NotNull CommandSender arg0, final @NotNull Command arg1, final @NotNull String label, final String[] args) {
 		if (args.length == 2 && (args[0].equalsIgnoreCase("next") || args[0].equalsIgnoreCase("n"))) {
 			if (args[1] == null) {
-				return Arrays.asList("error");
+				return Collections.singletonList("error");
 			}
 
 			final String arg = args[1];

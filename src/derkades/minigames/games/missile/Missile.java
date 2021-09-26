@@ -2867,10 +2867,10 @@ public enum Missile {
 
 	;
 
-	private String name;
-	private Material material;
-	private ChatColor color;
-	private MissileObject[] objects;
+	private final String name;
+	private final Material material;
+	private final ChatColor color;
+	private final MissileObject[] objects;
 
 	Missile(final String name, final Material material, final ChatColor color, final MissileObject[] objects) {
 		this.name = name;

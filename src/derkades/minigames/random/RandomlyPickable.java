@@ -2,10 +2,10 @@ package derkades.minigames.random;
 
 public interface RandomlyPickable {
 
-	public void setWeight(double weight);
+	void setWeight(double weight);
 
-	public double getWeight();
+	double getWeight();
 
-	public Size getSize();
+	Size getSize();
 
 }

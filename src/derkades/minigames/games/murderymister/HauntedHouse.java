@@ -4,16 +4,17 @@ import org.bukkit.Location;
 
 import derkades.minigames.random.Size;
 import derkades.minigames.worlds.GameWorld;
+import org.jetbrains.annotations.NotNull;
 
 class HauntedHouse extends MurderyMisterMap {
 
 	@Override
-	public String getName() {
+	public @NotNull String getName() {
 		return "Haunted House";
 	}
 
 	@Override
-	public GameWorld getGameWorld() {
+	public @NotNull GameWorld getGameWorld() {
 		return GameWorld.MM_HAUNTEDHOUSE;
 	}
 
@@ -28,7 +29,7 @@ class HauntedHouse extends MurderyMisterMap {
 	}
 
 	@Override
-	public String getIdentifier() {
+	public @NotNull String getIdentifier() {
 		return "murderymister_hauntedhouse";
 	}
 

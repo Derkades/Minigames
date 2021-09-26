@@ -6,6 +6,7 @@ import org.bukkit.Material;
 import derkades.minigames.random.Size;
 import derkades.minigames.utils.MPlayer;
 import derkades.minigames.worlds.GameWorld;
+import org.jetbrains.annotations.NotNull;
 import xyz.derkades.derkutils.bukkit.LocationUtils;
 
 class Prototype extends ControlPointsMap {
@@ -16,12 +17,12 @@ class Prototype extends ControlPointsMap {
 	}
 
 	@Override
-	public String getName() {
+	public @NotNull String getName() {
 		return "Prototype";
 	}
 
 	@Override
-	public GameWorld getGameWorld() {
+	public @NotNull GameWorld getGameWorld() {
 		return GameWorld.CONTROL_PROTOTYPE;
 	}
 
@@ -31,7 +32,7 @@ class Prototype extends ControlPointsMap {
 	}
 
 	@Override
-	public String getIdentifier() {
+	public @NotNull String getIdentifier() {
 		return "controlpoints_prototype";
 	}
 

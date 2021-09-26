@@ -1,17 +1,9 @@
 package derkades.minigames.modules;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import org.bukkit.Bukkit;
-import org.bukkit.GameMode;
-import org.bukkit.World;
+import derkades.minigames.Logger;
+import derkades.minigames.Minigames;
+import org.bukkit.*;
 import org.bukkit.World.Environment;
-import org.bukkit.WorldCreator;
-import org.bukkit.WorldType;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -21,10 +13,13 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerChangedWorldEvent;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
-import derkades.minigames.Logger;
-import derkades.minigames.Minigames;
 import xyz.derkades.derkutils.bukkit.VoidGenerator;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class TestWorld extends Module {
 
@@ -43,7 +38,7 @@ public class TestWorld extends Module {
 		}
 	}
 
-	private class TestWorldCommand implements CommandExecutor {
+	private static class TestWorldCommand implements CommandExecutor {
 
 		@Override
 		public boolean onCommand(@NotNull final CommandSender sender, @NotNull final Command command, @NotNull final String label,
@@ -67,7 +62,7 @@ public class TestWorld extends Module {
 
 	}
 
-	private class TestWorldCommandCompleter implements TabCompleter {
+	private static class TestWorldCommandCompleter implements TabCompleter {
 
 		@Override
 		public @Nullable List<String> onTabComplete(@NotNull final CommandSender sender, @NotNull final Command command,

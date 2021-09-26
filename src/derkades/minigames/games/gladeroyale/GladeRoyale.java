@@ -1,20 +1,5 @@
 package derkades.minigames.games.gladeroyale;
 
-import java.util.Set;
-import java.util.UUID;
-import java.util.concurrent.ThreadLocalRandom;
-import java.util.concurrent.atomic.AtomicInteger;
-
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.Sound;
-import org.bukkit.WorldBorder;
-import org.bukkit.block.Block;
-import org.bukkit.block.Chest;
-import org.bukkit.entity.EntityType;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.block.BlockPlaceEvent;
-
 import derkades.minigames.GameState;
 import derkades.minigames.Logger;
 import derkades.minigames.Minigames;
@@ -28,18 +13,33 @@ import derkades.minigames.utils.queue.TaskQueue;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.md_5.bungee.api.ChatColor;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.Sound;
+import org.bukkit.WorldBorder;
+import org.bukkit.block.Block;
+import org.bukkit.block.Chest;
+import org.bukkit.entity.EntityType;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.block.BlockPlaceEvent;
+import org.jetbrains.annotations.NotNull;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
 import xyz.derkades.derkutils.bukkit.lootchests.LootChest;
+
+import java.util.Set;
+import java.util.UUID;
+import java.util.concurrent.ThreadLocalRandom;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class GladeRoyale extends Game<GladeRoyaleMap> {
 
 	@Override
-	public String getIdentifier() {
+	public @NotNull String getIdentifier() {
 		return "glade_royale";
 	}
 
 	@Override
-	public String getName() {
+	public @NotNull String getName() {
 		return "Glade Royale";
 	}
 
@@ -51,7 +51,7 @@ public class GladeRoyale extends Game<GladeRoyaleMap> {
 	}
 
 	@Override
-	public Material getMaterial() {
+	public @NotNull Material getMaterial() {
 		return Material.CHEST;
 	}
 

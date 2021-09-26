@@ -8,16 +8,17 @@ import org.bukkit.entity.Player;
 import derkades.minigames.random.Size;
 import derkades.minigames.utils.MPlayer;
 import derkades.minigames.worlds.GameWorld;
+import org.jetbrains.annotations.NotNull;
 
 class JungleRun extends ParkourMap {
 
 	@Override
-	public String getName() {
+	public @NotNull String getName() {
 		return "Jungle";
 	}
 
 	@Override
-	public GameWorld getGameWorld() {
+	public @NotNull GameWorld getGameWorld() {
 		return GameWorld.PARKOUR_JUNGLE;
 	}
 
@@ -32,7 +33,7 @@ class JungleRun extends ParkourMap {
 	}
 
 	@Override
-	public String getIdentifier() {
+	public @NotNull String getIdentifier() {
 		return "parkour_jungle";
 	}
 

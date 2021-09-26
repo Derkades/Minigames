@@ -9,6 +9,7 @@ import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.projectiles.ProjectileSource;
+import org.jetbrains.annotations.NotNull;
 
 @Deprecated
 public class MinigamesPlayerDamageEvent extends Event implements Cancellable {
@@ -85,7 +86,7 @@ public class MinigamesPlayerDamageEvent extends Event implements Cancellable {
 	}
 
 	@Override
-	public HandlerList getHandlers() {
+	public @NotNull HandlerList getHandlers() {
 	    return handlers;
 	}
 
@@ -105,7 +106,7 @@ public class MinigamesPlayerDamageEvent extends Event implements Cancellable {
 
 	public enum DamageType {
 
-		SELF, ENTITY;
+		SELF, ENTITY
 
 	}
 

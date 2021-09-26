@@ -10,6 +10,7 @@ import org.bukkit.block.BlockFace;
 import derkades.minigames.random.Size;
 import derkades.minigames.utils.MPlayer;
 import derkades.minigames.worlds.GameWorld;
+import org.jetbrains.annotations.NotNull;
 
 class SpruceBrick extends DecayMap {
 
@@ -19,12 +20,12 @@ class SpruceBrick extends DecayMap {
 	}
 
 	@Override
-	public String getName() {
+	public @NotNull String getName() {
 		return "Spruce Brick Trapdoor";
 	}
 
 	@Override
-	public GameWorld getGameWorld() {
+	public @NotNull GameWorld getGameWorld() {
 		return GameWorld.DECAY_SPRUCEBRICK;
 	}
 
@@ -34,7 +35,7 @@ class SpruceBrick extends DecayMap {
 	}
 
 	@Override
-	public String getIdentifier() {
+	public @NotNull String getIdentifier() {
 		return "decay_sprucebrick";
 	}
 

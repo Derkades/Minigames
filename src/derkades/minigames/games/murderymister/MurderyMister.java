@@ -1,28 +1,5 @@
 package derkades.minigames.games.murderymister;
 
-import java.util.List;
-import java.util.Set;
-import java.util.UUID;
-
-import org.bukkit.Bukkit;
-import org.bukkit.GameMode;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.Particle;
-import org.bukkit.Sound;
-import org.bukkit.block.data.Lightable;
-import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.Arrow;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.entity.EntityShootBowEvent;
-import org.bukkit.event.entity.PlayerDeathEvent;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.scheduler.BukkitTask;
-
 import derkades.minigames.GameState;
 import derkades.minigames.Logger;
 import derkades.minigames.Minigames;
@@ -37,18 +14,36 @@ import io.papermc.paper.event.player.AsyncChatEvent;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.md_5.bungee.api.ChatColor;
+import org.bukkit.*;
+import org.bukkit.block.data.Lightable;
+import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Arrow;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.entity.EntityShootBowEvent;
+import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scheduler.BukkitTask;
+import org.jetbrains.annotations.NotNull;
 import xyz.derkades.derkutils.ListUtils;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
+
+import java.util.List;
+import java.util.Set;
+import java.util.UUID;
 
 public class MurderyMister extends Game<MurderyMisterMap> {
 
 	@Override
-	public String getIdentifier() {
+	public @NotNull String getIdentifier() {
 		return "murdery_mister";
 	}
 
 	@Override
-	public String getName() {
+	public @NotNull String getName() {
 		return "Murdery Mister";
 	}
 
@@ -65,7 +60,7 @@ public class MurderyMister extends Game<MurderyMisterMap> {
 	}
 
 	@Override
-	public Material getMaterial() {
+	public @NotNull Material getMaterial() {
 		return Material.TRIDENT;
 	}
 
@@ -193,9 +188,7 @@ public class MurderyMister extends Game<MurderyMisterMap> {
 	@EventHandler
 	public void onDamage(final EntityShootBowEvent event) {
 		if (event.getEntity().getType().equals(EntityType.PLAYER)) {
-			Scheduler.delay(5*20, () -> {
-				((Player) event.getEntity()).getInventory().addItem(new ItemStack(Material.ARROW));
-			});
+			Scheduler.delay(5*20, () -> ((Player) event.getEntity()).getInventory().addItem(new ItemStack(Material.ARROW)));
 		}
 	}
 
@@ -212,13 +205,8 @@ public class MurderyMister extends Game<MurderyMisterMap> {
 			throw new IllegalStateException("entity cannot be null if damager player is null");
 		}
 		switch(entity.getType()) {
-			case ARROW, TRIDENT -> {
-				event.setDamage(40);
-			}
-			default -> {
-				event.setCancelled(true);
-				return;
-			}
+			case ARROW, TRIDENT -> event.setDamage(40);
+			default -> event.setCancelled(true);
 		}
 	}
 

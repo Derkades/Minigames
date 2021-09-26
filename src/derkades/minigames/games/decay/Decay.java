@@ -1,24 +1,24 @@
 package derkades.minigames.games.decay;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-import java.util.UUID;
-
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.block.Block;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.player.PlayerMoveEvent;
-import org.bukkit.potion.PotionEffectType;
-
 import derkades.minigames.GameState;
 import derkades.minigames.Minigames;
 import derkades.minigames.games.Game;
 import derkades.minigames.utils.MPlayer;
 import derkades.minigames.utils.Scheduler;
 import derkades.minigames.utils.Utils;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.block.Block;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.potion.PotionEffectType;
+import org.jetbrains.annotations.NotNull;
 import xyz.derkades.derkutils.ListUtils;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+import java.util.UUID;
 
 public class Decay extends Game<DecayMap> {
 
@@ -31,12 +31,12 @@ public class Decay extends Game<DecayMap> {
 	};
 
 	@Override
-	public String getIdentifier() {
+	public @NotNull String getIdentifier() {
 		return "decay";
 	}
 
 	@Override
-	public String getName() {
+	public @NotNull String getName() {
 		return "Decay";
 	}
 
@@ -48,7 +48,7 @@ public class Decay extends Game<DecayMap> {
 	}
 
 	@Override
-	public Material getMaterial() {
+	public @NotNull Material getMaterial() {
 		return Material.RED_CONCRETE;
 	}
 
@@ -80,9 +80,7 @@ public class Decay extends Game<DecayMap> {
 			this.blocks.add(loc);
 		}
 
-		Minigames.getOnlinePlayers().forEach(p-> {
-			p.queueTeleport(this.map.getSpawnLocation());
-		});
+		Minigames.getOnlinePlayers().forEach(p -> p.queueTeleport(this.map.getSpawnLocation()));
 	}
 
 	@Override

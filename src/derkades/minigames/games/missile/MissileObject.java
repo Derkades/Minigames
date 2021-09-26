@@ -21,22 +21,17 @@ public abstract class MissileObject {
 	abstract void place(Location location, BlockFace[] directions);
 
 	public static void build(final MissileObject[] objects, final Location startLocation, final BlockFace direction, final Runnable onComplete) {
-		final BlockFace front = direction;
 		final BlockFace back = direction.getOppositeFace();
 		BlockFace right;
-		if (front == BlockFace.NORTH) {
-			right = BlockFace.EAST;
-		} else if (front == BlockFace.EAST) {
-			right = BlockFace.SOUTH;
-		} else if (front == BlockFace.SOUTH) {
-			right = BlockFace.WEST;
-		} else if (front == BlockFace.WEST) {
-			right = BlockFace.NORTH;
-		} else {
-			throw new IllegalArgumentException(front.toString());
+		switch(direction){
+			case NORTH -> right = BlockFace.EAST;
+			case EAST -> right = BlockFace.SOUTH;
+			case SOUTH -> right = BlockFace.WEST;
+			case WEST -> right = BlockFace.NORTH;
+			default -> throw new IllegalArgumentException(direction.toString());
 		}
 		final BlockFace left = right.getOppositeFace();
-		build(objects, startLocation.getBlock(), right, left, front, back, onComplete);
+		build(objects, startLocation.getBlock(), right, left, direction, back, onComplete);
 	}
 
 	private static void build(final MissileObject[] objects, final Block startLocation, final BlockFace right, final BlockFace left, final BlockFace front, final BlockFace back, final Runnable onComplete) {

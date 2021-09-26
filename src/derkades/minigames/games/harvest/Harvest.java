@@ -1,9 +1,14 @@
 package derkades.minigames.games.harvest;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
-
+import derkades.minigames.Logger;
+import derkades.minigames.Minigames;
+import derkades.minigames.games.Game;
+import derkades.minigames.utils.Leaderboard;
+import derkades.minigames.utils.MPlayer;
+import derkades.minigames.utils.MinigamesPlayerDamageEvent;
+import derkades.minigames.utils.Scheduler;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.GameMode;
 import org.bukkit.GameRule;
 import org.bukkit.Location;
@@ -15,18 +20,13 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
-
-import derkades.minigames.Logger;
-import derkades.minigames.Minigames;
-import derkades.minigames.games.Game;
-import derkades.minigames.utils.Leaderboard;
-import derkades.minigames.utils.MPlayer;
-import derkades.minigames.utils.MinigamesPlayerDamageEvent;
-import derkades.minigames.utils.Scheduler;
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.NamedTextColor;
 import xyz.derkades.derkutils.ListUtils;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
+import java.util.UUID;
 
 public class Harvest extends Game<@NotNull HarvestMap> {
 
@@ -51,12 +51,12 @@ public class Harvest extends Game<@NotNull HarvestMap> {
 	}
 
 	@Override
-	public String getName() {
+	public @NotNull String getName() {
 		return "Harvest";
 	}
 
 	@Override
-	public Material getMaterial() {
+	public @NotNull Material getMaterial() {
 		return Material.WHEAT;
 	}
 
@@ -107,7 +107,7 @@ public class Harvest extends Game<@NotNull HarvestMap> {
 
 	private void updateLeaderboard(final int secondsLeft) {
 		Minigames.getOnlinePlayers().forEach(p -> {
-			final int amount = Arrays.stream(p.getInventory().getContents()).filter(i -> i != null).filter(i -> i.getType() == Material.WHEAT).mapToInt(ItemStack::getAmount).sum();
+			final int amount = Arrays.stream(p.getInventory().getContents()).filter(Objects::nonNull).filter(i -> i.getType() == Material.WHEAT).mapToInt(ItemStack::getAmount).sum();
 			this.leaderboard.setScore(p, amount);
 		});
 		this.leaderboard.update(secondsLeft);
@@ -115,9 +115,7 @@ public class Harvest extends Game<@NotNull HarvestMap> {
 
 	@Override
 	public void onStart() {
-		Minigames.getOnlinePlayers().forEach(p -> {
-			giveItems(p);
-		});
+		Minigames.getOnlinePlayers().forEach(this::giveItems);
 		this.leaderboard.show();
 	}
 
@@ -140,9 +138,7 @@ public class Harvest extends Game<@NotNull HarvestMap> {
 
 	@Override
 	public int gameTimer(final int secondsLeft) {
-		Minigames.getOnlinePlayers().forEach(p -> {
-			p.getInventory().remove(Material.WHEAT_SEEDS);
-		});
+		Minigames.getOnlinePlayers().forEach(p -> p.getInventory().remove(Material.WHEAT_SEEDS));
 
 		for (int i = 0; i < CROPS_PER_SECOND; i++) {
 			tick(ListUtils.choice(this.blocks));

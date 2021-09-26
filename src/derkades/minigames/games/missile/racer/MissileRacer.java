@@ -19,6 +19,7 @@ import derkades.minigames.games.Game;
 import derkades.minigames.games.missile.Missile;
 import derkades.minigames.utils.MPlayer;
 import derkades.minigames.utils.MinigamesPlayerDamageEvent;
+import org.jetbrains.annotations.NotNull;
 import xyz.derkades.derkutils.Cooldown;
 import xyz.derkades.derkutils.ListUtils;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
@@ -66,12 +67,12 @@ public class MissileRacer extends Game<MissileRacerMap> {
 			.create();
 
 	@Override
-	public String getIdentifier() {
+	public @NotNull String getIdentifier() {
 		return "missile_racer";
 	}
 
 	@Override
-	public String getName() {
+	public @NotNull String getName() {
 		return "Missile Racer";
 	}
 
@@ -83,7 +84,7 @@ public class MissileRacer extends Game<MissileRacerMap> {
 	}
 
 	@Override
-	public Material getMaterial() {
+	public @NotNull Material getMaterial() {
 		return Material.PISTON;
 	}
 

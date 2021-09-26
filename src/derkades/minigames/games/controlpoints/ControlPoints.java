@@ -1,21 +1,5 @@
 package derkades.minigames.games.controlpoints;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
-
-import org.bukkit.Bukkit;
-import org.bukkit.GameMode;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.boss.BarColor;
-import org.bukkit.boss.BarStyle;
-import org.bukkit.boss.BossBar;
-import org.bukkit.enchantments.Enchantment;
-import org.bukkit.event.EventHandler;
-import org.bukkit.potion.PotionEffectType;
-
 import derkades.minigames.GameState;
 import derkades.minigames.Minigames;
 import derkades.minigames.games.Game;
@@ -25,20 +9,38 @@ import derkades.minigames.utils.MPlayer;
 import derkades.minigames.utils.MinigamesPlayerDamageEvent;
 import derkades.minigames.utils.MinigamesPlayerDamageEvent.DamageType;
 import derkades.minigames.utils.Scheduler;
+import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.boss.BarColor;
+import org.bukkit.boss.BarStyle;
+import org.bukkit.boss.BossBar;
+import org.bukkit.enchantments.Enchantment;
+import org.bukkit.event.EventHandler;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
+import org.jetbrains.annotations.NotNull;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
 
 public class ControlPoints extends Game<ControlPointsMap> {
 
 	private static final int CONTROL_THRESHOLD = 5;
 	private static final int RESPAWN_DELAY = 5*20;
+	private static final PotionEffect INFINITE_SPEED = new PotionEffect(PotionEffectType.SPEED, Integer.MAX_VALUE, 0, true);
 
 	@Override
-	public String getIdentifier() {
+	public @NotNull String getIdentifier() {
 		return "control_points";
 	}
 
 	@Override
-	public String getName() {
+	public @NotNull String getName() {
 		return "Control Points";
 	}
 
@@ -50,7 +52,7 @@ public class ControlPoints extends Game<ControlPointsMap> {
 	}
 
 	@Override
-	public Material getMaterial() {
+	public @NotNull Material getMaterial() {
 		return Material.CLOCK;
 	}
 
@@ -108,7 +110,7 @@ public class ControlPoints extends Game<ControlPointsMap> {
 				new ItemBuilder(Material.BOW).enchant(Enchantment.ARROW_INFINITE, 1).unbreakable().create(),
 				new ItemBuilder(Material.ARROW).create()
 				);
-		player.giveInfiniteEffect(PotionEffectType.SPEED);
+		player.giveEffect(INFINITE_SPEED);
 	}
 
 	@Override
@@ -156,17 +158,16 @@ public class ControlPoints extends Game<ControlPointsMap> {
 			}
 
 			ControlStatus controlStatus;
-			switch(this.status.get(i)) {
-			case CONTROL_THRESHOLD:
-				controlStatus = ControlStatus.RED;
-				redPoints++;
-				break;
-			case -CONTROL_THRESHOLD:
-				controlStatus = ControlStatus.BLUE;
-				bluePoints++;
-				break;
-			default:
-				controlStatus = ControlStatus.NEUTRAL;
+			switch (this.status.get(i)) {
+				case CONTROL_THRESHOLD -> {
+					controlStatus = ControlStatus.RED;
+					redPoints++;
+				}
+				case -CONTROL_THRESHOLD -> {
+					controlStatus = ControlStatus.BLUE;
+					bluePoints++;
+				}
+				default -> controlStatus = ControlStatus.NEUTRAL;
 			}
 
 			this.map.setControlPointStatus(controlPoint, controlStatus);
@@ -204,9 +205,7 @@ public class ControlPoints extends Game<ControlPointsMap> {
 		}
 
 		sendPlainMessage("The game has ended, team " + winningTeam + " is in control of all control points!");
-		Minigames.getOnlinePlayers().forEach(p -> {
-			p.spectator();
-		});
+		Minigames.getOnlinePlayers().forEach(MPlayer::spectator);
 	}
 
 	@Override

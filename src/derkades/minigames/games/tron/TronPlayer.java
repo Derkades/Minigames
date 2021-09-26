@@ -26,40 +26,22 @@ class TronPlayer {
 	}
 
 	void rotateLeft() {
-		switch(this.direction) {
-		case NORTH:
-			this.direction = Direction.WEST;
-			break;
-		case WEST:
-			this.direction = Direction.SOUTH;
-			break;
-		case SOUTH:
-			this.direction = Direction.EAST;
-			break;
-		case EAST:
-			this.direction = Direction.NORTH;
-			break;
-		default:
-			Minigames.shutdown(ShutdownReason.EMERGENCY_AUTOMATIC, "Illegal direction '" + this.direction + "'");
+		switch (this.direction) {
+			case NORTH -> this.direction = Direction.WEST;
+			case WEST -> this.direction = Direction.SOUTH;
+			case SOUTH -> this.direction = Direction.EAST;
+			case EAST -> this.direction = Direction.NORTH;
+			default -> Minigames.shutdown(ShutdownReason.EMERGENCY_AUTOMATIC, "Illegal direction '" + this.direction + "'");
 		}
 	}
 
 	void rotateRight() {
-		switch(this.direction) {
-		case NORTH:
-			this.direction = Direction.EAST;
-			break;
-		case EAST:
-			this.direction = Direction.SOUTH;
-			break;
-		case SOUTH:
-			this.direction = Direction.WEST;
-			break;
-		case WEST:
-			this.direction = Direction.NORTH;
-			break;
-		default:
-			Minigames.shutdown(ShutdownReason.EMERGENCY_AUTOMATIC, "Illegal direction '" + this.direction + "'");
+		switch (this.direction) {
+			case NORTH -> this.direction = Direction.EAST;
+			case EAST -> this.direction = Direction.SOUTH;
+			case SOUTH -> this.direction = Direction.WEST;
+			case WEST -> this.direction = Direction.NORTH;
+			default -> Minigames.shutdown(ShutdownReason.EMERGENCY_AUTOMATIC, "Illegal direction '" + this.direction + "'");
 		}
 	}
 

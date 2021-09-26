@@ -16,16 +16,17 @@ import derkades.minigames.Minigames;
 import derkades.minigames.games.Game;
 import derkades.minigames.utils.MPlayer;
 import derkades.minigames.utils.Utils;
+import org.jetbrains.annotations.NotNull;
 
 public class Parkour extends Game<ParkourMap> {
 
 	@Override
-	public String getIdentifier() {
+	public @NotNull String getIdentifier() {
 		return "parkour";
 	}
 
 	@Override
-	public String getName() {
+	public @NotNull String getName() {
 		return "Parkour";
 	}
 
@@ -37,7 +38,7 @@ public class Parkour extends Game<ParkourMap> {
 	}
 
 	@Override
-	public Material getMaterial() {
+	public @NotNull Material getMaterial() {
 		return Material.GOLDEN_BOOTS;
 	}
 

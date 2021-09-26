@@ -9,11 +9,12 @@ import org.bukkit.entity.Player;
 
 import derkades.minigames.utils.Utils;
 import net.md_5.bungee.api.ChatColor;
+import org.jetbrains.annotations.NotNull;
 
 public class SpectatorCommand implements CommandExecutor {
 
 	@Override
-	public boolean onCommand(final CommandSender sender, final Command cmd, final String label, final String[] args) {
+	public boolean onCommand(final @NotNull CommandSender sender, final @NotNull Command cmd, final @NotNull String label, final String[] args) {
 		final Player player = (Player) sender;
 		if (player.getGameMode().equals(GameMode.SPECTATOR)) {
 			if (args.length == 1) {

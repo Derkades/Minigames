@@ -4,11 +4,12 @@ import org.bukkit.Location;
 
 import derkades.minigames.random.Size;
 import derkades.minigames.worlds.GameWorld;
+import org.jetbrains.annotations.NotNull;
 
 class Santiago extends GladeRoyaleMap {
 
 	@Override
-	public GameWorld getGameWorld() {
+	public @NotNull GameWorld getGameWorld() {
 		return GameWorld.MGR_SANTIAGO;
 	}
 
@@ -23,7 +24,7 @@ class Santiago extends GladeRoyaleMap {
 	}
 
 	@Override
-	public String getIdentifier() {
+	public @NotNull String getIdentifier() {
 		return "gladeroyale_santiago";
 	}
 
@@ -38,7 +39,7 @@ class Santiago extends GladeRoyaleMap {
 	}
 
 	@Override
-	public String getName() {
+	public @NotNull String getName() {
 		return "Santiago";
 	}
 

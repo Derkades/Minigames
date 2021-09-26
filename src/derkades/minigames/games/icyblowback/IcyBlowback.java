@@ -19,6 +19,7 @@ import derkades.minigames.Minigames;
 import derkades.minigames.games.Game;
 import derkades.minigames.utils.MPlayer;
 import derkades.minigames.utils.queue.TaskQueue;
+import org.jetbrains.annotations.NotNull;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
 
 public class IcyBlowback extends Game<IcyBlowbackMap> {
@@ -29,12 +30,12 @@ public class IcyBlowback extends Game<IcyBlowbackMap> {
 			.create();
 
 	@Override
-	public String getIdentifier() {
+	public @NotNull String getIdentifier() {
 		return "icy_blowback";
 	}
 
 	@Override
-	public String getName() {
+	public @NotNull String getName() {
 		return "Icy Blowback";
 	}
 
@@ -46,7 +47,7 @@ public class IcyBlowback extends Game<IcyBlowbackMap> {
 	}
 
 	@Override
-	public Material getMaterial() {
+	public @NotNull Material getMaterial() {
 		return Material.ICE;
 	}
 

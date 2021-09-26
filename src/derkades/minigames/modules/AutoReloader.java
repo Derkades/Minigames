@@ -1,13 +1,14 @@
 package derkades.minigames.modules;
 
-import java.io.File;
-
-import org.bukkit.Bukkit;
-
 import derkades.minigames.Minigames;
 import derkades.minigames.utils.Scheduler;
 import net.kyori.adventure.text.Component;
+import org.bukkit.Bukkit;
 
+import java.io.File;
+
+@SuppressWarnings("ALL")
+@Deprecated
 public class AutoReloader {
 
 	private File file;
@@ -32,14 +33,12 @@ public class AutoReloader {
 
 		this.lastModified = this.file.lastModified();
 
-		Scheduler.repeat(2*20, 20, () -> {
-			Scheduler.async(() -> {
-				if (this.file.exists() && this.file.lastModified() > this.lastModified) {
-					Bukkit.broadcast(Component.text("Plugin changed, reloading!"));
-					Scheduler.run(() -> Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "rl confirm"));
-				}
-			});
-		});
+		Scheduler.repeat(2*20, 20, () -> Scheduler.async(() -> {
+			if (this.file.exists() && this.file.lastModified() > this.lastModified) {
+				Bukkit.broadcast(Component.text("Plugin changed, reloading!"));
+				Scheduler.run(() -> Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "rl confirm"));
+			}
+		}));
 	}
 
 }

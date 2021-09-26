@@ -6,6 +6,7 @@ import org.bukkit.Material;
 import derkades.minigames.random.Size;
 import derkades.minigames.utils.queue.TaskQueue;
 import derkades.minigames.worlds.GameWorld;
+import org.jetbrains.annotations.NotNull;
 import xyz.derkades.derkutils.bukkit.BlockUtils;
 
 class MissileWarsMapImpl extends MissileWarsMap {
@@ -16,12 +17,12 @@ class MissileWarsMapImpl extends MissileWarsMap {
 	}
 
 	@Override
-	public String getName() {
+	public @NotNull String getName() {
 		return "Missile Wars";
 	}
 
 	@Override
-	public GameWorld getGameWorld() {
+	public @NotNull GameWorld getGameWorld() {
 		return GameWorld.MISSILES_PROTOTYPE;
 	}
 
@@ -31,7 +32,7 @@ class MissileWarsMapImpl extends MissileWarsMap {
 	}
 
 	@Override
-	public String getIdentifier() {
+	public @NotNull String getIdentifier() {
 		return "missiles_prototype";
 	}
 

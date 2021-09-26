@@ -1,29 +1,5 @@
 package derkades.minigames;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.ThreadLocalRandom;
-import java.util.stream.Collectors;
-
-import org.bukkit.Bukkit;
-import org.bukkit.DyeColor;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.Particle;
-import org.bukkit.Sound;
-import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
-import org.bukkit.block.Sign;
-import org.bukkit.block.data.Directional;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
-import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.util.Vector;
-import org.jetbrains.annotations.NotNull;
-
 import derkades.minigames.Minigames.ShutdownReason;
 import derkades.minigames.games.Game;
 import derkades.minigames.games.GameMap;
@@ -43,7 +19,25 @@ import derkades.minigames.worlds.GameWorld;
 import net.kyori.adventure.text.Component;
 import net.md_5.bungee.api.ChatColor;
 import nl.rkslot.pluginreloader.PluginReloader;
+import org.bukkit.*;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
+import org.bukkit.block.Sign;
+import org.bukkit.block.data.Directional;
+import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.util.Vector;
+import org.jetbrains.annotations.NotNull;
 import xyz.derkades.derkutils.Hastebin;
+
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.ThreadLocalRandom;
+import java.util.stream.Collectors;
 
 public class Command implements CommandExecutor {
 
@@ -123,8 +117,7 @@ public class Command implements CommandExecutor {
 						}
 						player.sendMessage(String.format("Char: %04x", (int) c));
 						final Block block = player.getTargetBlock(10);
-						if (block.getState() instanceof Sign) {
-							final Sign sign = (Sign) block.getState();
+						if (block.getState() instanceof final Sign sign) {
 							sign.line(0, Component.text(c));
 							sign.setColor(DyeColor.WHITE);
 							sign.setGlowingText(true);
@@ -188,9 +181,7 @@ public class Command implements CommandExecutor {
 						sender.sendMessage("No game in progress.");
 					}
 				}
-				case "stats" -> {
-					new StatsMenu((Player) sender);
-				}
+				case "stats" -> new StatsMenu((Player) sender);
 				case "jazz" -> {
 					if (sender.hasPermission("minigames.music")) {
 						Bukkit.broadcast(Component.text("Initiating jazz mode..."));
@@ -292,9 +283,7 @@ public class Command implements CommandExecutor {
 							try {
 								final String key = Hastebin.createPaste(content.toString(), "paste.derkad.es");
 								final String url = "https://paste.derkad.es/raw/" + key;
-								Scheduler.run(() -> {
-									player.sendMessage(url);
-								});
+								Scheduler.run(() -> player.sendMessage(url));
 							} catch (final Exception e) {
 								Logger.warning(e.getClass() + " " + e.getMessage());
 								Scheduler.run(() -> player.sendMessage("het ging niet goed. Als je HTTP error 400 of 413 krijgt zijn er waarschijnlijk te veel blokken, controleer dat de missile niet tegen een muur aan zit."));
@@ -376,32 +365,21 @@ public class Command implements CommandExecutor {
 			airCounter = 0;
 
 			final String line;
-			switch(block.getType()) {
-				case STICKY_PISTON:
-				case PISTON:
-				case OBSERVER:
+			switch (block.getType()) {
+				case STICKY_PISTON, PISTON, OBSERVER -> {
 					final BlockFace face = ((Directional) block.getBlockData()).getFacing();
-					String facing;
-					switch(face) {
-					case NORTH:
-						facing = "FRONT"; break;
-					case SOUTH:
-						facing = "BACK"; break;
-					case WEST:
-						facing = "LEFT"; break;
-					case EAST:
-						facing = "RIGHT"; break;
-					case DOWN:
-						facing = "DOWN"; break;
-					case UP:
-						facing = "UP"; break;
-					default:
-						facing = null;
-					}
+					String facing = switch (face) {
+						case NORTH -> "FRONT";
+						case SOUTH -> "BACK";
+						case WEST -> "LEFT";
+						case EAST -> "RIGHT";
+						case DOWN -> "DOWN";
+						case UP -> "UP";
+						default -> null;
+					};
 					line = String.format("new MissileBlock(%s, %s, %s, Material.%s, %s),", lr, ud, fb, block.getType().name(), facing);
-					break;
-				default:
-					line = String.format("new MissileBlock(%s, %s, %s, Material.%s),", lr, ud, fb, block.getType().name());
+				}
+				default -> line = String.format("new MissileBlock(%s, %s, %s, Material.%s),", lr, ud, fb, block.getType().name());
 			}
 			if (lines.containsKey(line)) {
 				return;

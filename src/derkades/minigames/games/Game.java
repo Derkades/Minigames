@@ -1,50 +1,8 @@
 package derkades.minigames.games;
 
-import static net.md_5.bungee.api.ChatColor.DARK_GRAY;
-import static net.md_5.bungee.api.ChatColor.GRAY;
-import static net.md_5.bungee.api.ChatColor.YELLOW;
-
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.Writer;
-import java.time.Duration;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.UUID;
-import java.util.concurrent.ThreadLocalRandom;
-import java.util.stream.Collectors;
-
-import org.apache.commons.lang.Validate;
-import org.bukkit.Bukkit;
-import org.bukkit.Material;
-import org.bukkit.Sound;
-import org.bukkit.entity.Arrow;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.Item;
-import org.bukkit.entity.Player;
-import org.bukkit.entity.Trident;
-import org.bukkit.event.HandlerList;
-import org.bukkit.event.Listener;
-import org.bukkit.scheduler.BukkitRunnable;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
 import com.google.gson.stream.JsonWriter;
-
-import derkades.minigames.AutoRotate;
-import derkades.minigames.GameState;
-import derkades.minigames.Logger;
-import derkades.minigames.Minigames;
+import derkades.minigames.*;
 import derkades.minigames.Minigames.ShutdownReason;
-import derkades.minigames.UpdateSigns;
 import derkades.minigames.constants.SkipConfig;
 import derkades.minigames.constants.VoteConfig;
 import derkades.minigames.games.bowspleef.BowSpleef;
@@ -86,10 +44,28 @@ import net.kyori.adventure.text.format.TextDecoration;
 import net.kyori.adventure.title.Title;
 import net.kyori.adventure.title.Title.Times;
 import net.md_5.bungee.api.ChatColor;
+import org.apache.commons.lang.Validate;
+import org.bukkit.Bukkit;
+import org.bukkit.Material;
+import org.bukkit.Sound;
+import org.bukkit.entity.*;
+import org.bukkit.event.HandlerList;
+import org.bukkit.event.Listener;
+import org.bukkit.scheduler.BukkitRunnable;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import xyz.derkades.derkutils.Hastebin;
 import xyz.derkades.derkutils.NumberUtils;
 
-public abstract class Game<@NotNull M extends GameMap> implements Listener, RandomlyPickable {
+import java.io.*;
+import java.time.Duration;
+import java.util.*;
+import java.util.concurrent.ThreadLocalRandom;
+import java.util.stream.Collectors;
+
+import static net.md_5.bungee.api.ChatColor.*;
+
+public abstract class Game<M extends GameMap> implements Listener, RandomlyPickable {
 
 	public static final Game<? extends GameMap>[] GAMES = new Game<?>[] {
 			new BowSpleef(),
@@ -214,11 +190,12 @@ public abstract class Game<@NotNull M extends GameMap> implements Listener, Rand
 							Component.text(String.format(" (multiplier %.1f, hover for help)", this.getWeight()))
 									.color(NamedTextColor.GRAY)
 									.hoverEvent(HoverEvent.showText(Component
-											.text("The number shown after the game name in parentheses\n"
-													+ "is the game weight. A higher weight means that the\n"
-													+ "minigame has a higher chance of being picked. The\n"
-													+ "game weight can be increased or decreased by voting\n"
-													+ "on the poll at the end of the game.")
+											.text("""
+													The number shown after the game name in parentheses
+													is the game weight. A higher weight means that the
+													minigame has a higher chance of being picked. The
+													game weight can be increased or decreased by voting
+													on the poll at the end of the game.""")
 											.color(NamedTextColor.GRAY)))));
 
 			if (!Minigames.getInstance().getConfig().getStringList("disabled-description")
@@ -356,7 +333,6 @@ public abstract class Game<@NotNull M extends GameMap> implements Listener, Rand
 					cancel();
 					Game.this.onEnd();
 					Game.this.map.onEnd();
-					return;
 				}
 			}
 
@@ -469,13 +445,9 @@ public abstract class Game<@NotNull M extends GameMap> implements Listener, Rand
 			}
 		}
 
-		Scheduler.delay(5*20, () -> {
-			UpdateSigns.updateLeaderboard();
-		});
+		Scheduler.delay(5*20, UpdateSigns::updateLeaderboard);
 
-		Scheduler.delay(10*20, () -> {
-			AutoRotate.startNewRandomGame();
-		});
+		Scheduler.delay(10*20, AutoRotate::startNewRandomGame);
 	}
 
 	private void saveGameResult(final List<Player> winners, final boolean skipped) {

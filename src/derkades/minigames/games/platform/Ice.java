@@ -4,16 +4,17 @@ import org.bukkit.Location;
 
 import derkades.minigames.random.Size;
 import derkades.minigames.worlds.GameWorld;
+import org.jetbrains.annotations.NotNull;
 
 class Ice extends PlatformMap {
 
 	@Override
-	public String getName() {
+	public @NotNull String getName() {
 		return "Ice";
 	}
 
 	@Override
-	public GameWorld getGameWorld() {
+	public @NotNull GameWorld getGameWorld() {
 		return GameWorld.PLATFORM_ICE;
 	}
 
@@ -28,7 +29,7 @@ class Ice extends PlatformMap {
 	}
 
 	@Override
-	public String getIdentifier() {
+	public @NotNull String getIdentifier() {
 		return "platform_ice";
 	}
 

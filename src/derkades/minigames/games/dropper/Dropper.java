@@ -15,16 +15,17 @@ import derkades.minigames.utils.MPlayer;
 import derkades.minigames.utils.MinigamesPlayerDamageEvent;
 import derkades.minigames.utils.MinigamesPlayerDamageEvent.DamageType;
 import derkades.minigames.utils.Utils;
+import org.jetbrains.annotations.NotNull;
 
 public class Dropper extends Game<DropperMap> {
 
 	@Override
-	public String getIdentifier() {
+	public @NotNull String getIdentifier() {
 		return "dropper";
 	}
 
 	@Override
-	public String getName() {
+	public @NotNull String getName() {
 		return "Dropper";
 	}
 
@@ -34,7 +35,7 @@ public class Dropper extends Game<DropperMap> {
 	}
 
 	@Override
-	public Material getMaterial() {
+	public @NotNull Material getMaterial() {
 		return Material.DIAMOND_BOOTS;
 	}
 

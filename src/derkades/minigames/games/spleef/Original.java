@@ -5,17 +5,18 @@ import org.bukkit.Material;
 
 import derkades.minigames.random.Size;
 import derkades.minigames.worlds.GameWorld;
+import org.jetbrains.annotations.NotNull;
 import xyz.derkades.derkutils.bukkit.BlockUtils;
 
 class Original extends SpleefMap {
 
 	@Override
-	public String getName() {
+	public @NotNull String getName() {
 		return "Original";
 	}
 
 	@Override
-	public GameWorld getGameWorld() {
+	public @NotNull GameWorld getGameWorld() {
 		return GameWorld.SPLEEF_ORIGINAL;
 	}
 
@@ -30,7 +31,7 @@ class Original extends SpleefMap {
 	}
 
 	@Override
-	public String getIdentifier() {
+	public @NotNull String getIdentifier() {
 		return "spleef_original";
 	}
 

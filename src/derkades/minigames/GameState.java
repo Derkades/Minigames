@@ -13,9 +13,9 @@ public enum GameState {
 	RUNNING_SKIPPED     (true,  true,  false),
 	RUNNING_ENDED_EARLY (true,  true,  false);
 
-	private boolean hasGame;
-	private boolean inGame;
-	private boolean running;
+	private final boolean hasGame;
+	private final boolean inGame;
+	private final boolean running;
 
 	GameState(final boolean hasGame, final boolean inGame, final boolean running) {
 		if (inGame && !hasGame) {

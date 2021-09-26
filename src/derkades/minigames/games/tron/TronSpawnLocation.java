@@ -2,20 +2,14 @@ package derkades.minigames.games.tron;
 
 import org.bukkit.Location;
 
-class TronSpawnLocation {
+record TronSpawnLocation(Location location, Direction direction) {
 
-	private final Location location;
-	private final Direction direction;
-
-	TronSpawnLocation(final Location location, final Direction direction) {
-		this.location = location;
-		this.direction = direction;
-	}
-
+	@Deprecated
 	Location getLocation() {
 		return this.location;
 	}
 
+	@Deprecated
 	Direction getDirection() {
 		return this.direction;
 	}

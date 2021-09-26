@@ -1,14 +1,7 @@
 package derkades.minigames.utils;
 
-import java.util.Collections;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
-import java.util.concurrent.ThreadLocalRandom;
-import java.util.stream.Collectors;
-
+import derkades.minigames.Minigames;
+import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -20,9 +13,9 @@ import org.bukkit.projectiles.ProjectileSource;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import derkades.minigames.Minigames;
-import net.md_5.bungee.api.ChatColor;
-import net.md_5.bungee.api.chat.ComponentBuilder;
+import java.util.*;
+import java.util.concurrent.ThreadLocalRandom;
+import java.util.stream.Collectors;
 
 public class Utils {
 
@@ -57,7 +50,7 @@ public class Utils {
 	            .get().getValue();
 
 	    return map.entrySet() .stream()
-	            .filter(entry -> entry.getValue() == max)
+	            .filter(entry -> entry.getValue().equals(max))
 	            .map(Map.Entry::getKey)
 	            .collect(Collectors.toList());
 	}
@@ -94,10 +87,6 @@ public class Utils {
 		return ChatColor.DARK_GRAY + "[" + color + c + ChatColor.DARK_GRAY + "]" + ChatColor.DARK_GRAY + " | " + ChatColor.GRAY;
 	}
 
-	public static ComponentBuilder getComponentBuilderWithPrefix(final ChatColor prefixColor, final char prefixChar) {
-		return new ComponentBuilder("").appendLegacy(Utils.getChatPrefix(prefixColor, prefixChar));
-	}
-
 	@SuppressWarnings("null")
 	public static boolean allPlayersFinished(@NotNull final Set<@NotNull UUID> finished) {
 		for (final @NotNull Player player : Bukkit.getOnlinePlayers()) {
@@ -128,7 +117,7 @@ public class Utils {
 			}
 			case ARROW, SPECTRAL_ARROW, FIREBALL -> {
 				final ProjectileSource shooter = ((Projectile) damagerEntity).getShooter();
-				if (shooter != null && shooter instanceof Player) {
+				if (shooter instanceof Player) {
 					return new MPlayer((Player) shooter);
 				} else {
 					return null;

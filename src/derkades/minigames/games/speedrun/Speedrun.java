@@ -17,16 +17,17 @@ import derkades.minigames.games.Game;
 import derkades.minigames.utils.MPlayer;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
+import org.jetbrains.annotations.NotNull;
 
 public class Speedrun extends Game<SpeedrunMap> {
 
 	@Override
-	public String getIdentifier() {
+	public @NotNull String getIdentifier() {
 		return "speedrun";
 	}
 
 	@Override
-	public String getName() {
+	public @NotNull String getName() {
 		return "Speedrun";
 	}
 
@@ -36,7 +37,7 @@ public class Speedrun extends Game<SpeedrunMap> {
 	}
 
 	@Override
-	public Material getMaterial() {
+	public @NotNull Material getMaterial() {
 		return Material.POTION;
 	}
 

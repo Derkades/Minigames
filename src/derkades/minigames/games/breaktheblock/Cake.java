@@ -14,6 +14,7 @@ import derkades.minigames.random.Size;
 import derkades.minigames.utils.MPlayer;
 import derkades.minigames.worlds.GameWorld;
 import net.kyori.adventure.text.Component;
+import org.jetbrains.annotations.NotNull;
 import xyz.derkades.derkutils.bukkit.BlockUtils;
 
 public class Cake extends BreakTheBlockMap {
@@ -24,12 +25,12 @@ public class Cake extends BreakTheBlockMap {
 	}
 
 	@Override
-	public String getName() {
+	public @NotNull String getName() {
 		return "Cake";
 	}
 
 	@Override
-	public GameWorld getGameWorld() {
+	public @NotNull GameWorld getGameWorld() {
 		return GameWorld.BTB_CAKE;
 	}
 
@@ -39,7 +40,7 @@ public class Cake extends BreakTheBlockMap {
 	}
 
 	@Override
-	public String getIdentifier() {
+	public @NotNull String getIdentifier() {
 		return "btb_cake";
 	}
 

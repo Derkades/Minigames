@@ -8,11 +8,12 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import derkades.minigames.utils.MPlayer;
+import org.jetbrains.annotations.NotNull;
 
 public class WorldTeleportCommand implements CommandExecutor {
 
 	@Override
-	public boolean onCommand(final CommandSender sender, final Command command, final String label, final String[] args) {
+	public boolean onCommand(final CommandSender sender, final @NotNull Command command, final @NotNull String label, final String[] args) {
 		if (!sender.hasPermission("minigames.world.tp")){
 			return true;
 		}

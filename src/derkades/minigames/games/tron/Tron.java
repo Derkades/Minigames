@@ -1,12 +1,14 @@
 package derkades.minigames.games.tron;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.UUID;
-
+import derkades.minigames.Logger;
+import derkades.minigames.Minigames;
+import derkades.minigames.Minigames.ShutdownReason;
+import derkades.minigames.games.Game;
+import derkades.minigames.games.GameTeam;
+import derkades.minigames.utils.MPlayer;
+import derkades.minigames.utils.queue.TaskQueue;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -18,18 +20,12 @@ import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
-
-import derkades.minigames.Logger;
-import derkades.minigames.Minigames;
-import derkades.minigames.Minigames.ShutdownReason;
-import derkades.minigames.games.Game;
-import derkades.minigames.games.GameTeam;
-import derkades.minigames.utils.MPlayer;
-import derkades.minigames.utils.queue.TaskQueue;
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.NamedTextColor;
+import org.jetbrains.annotations.NotNull;
 import xyz.derkades.derkutils.ListUtils;
 import xyz.derkades.derkutils.bukkit.BlockUtils;
+
+import java.util.*;
+import java.util.Map.Entry;
 
 public class Tron extends Game<TronMap> {
 
@@ -39,12 +35,12 @@ public class Tron extends Game<TronMap> {
 	private static final Material CAGE_MATERIAL = Material.BLACK_CONCRETE;
 
 	@Override
-	public String getIdentifier() {
+	public @NotNull String getIdentifier() {
 		return "tron";
 	}
 
 	@Override
-	public String getName() {
+	public @NotNull String getName() {
 		return "Tron";
 	}
 
@@ -57,7 +53,7 @@ public class Tron extends Game<TronMap> {
 	}
 
 	@Override
-	public Material getMaterial() {
+	public @NotNull Material getMaterial() {
 		return Material.YELLOW_STAINED_GLASS_PANE;
 	}
 
@@ -260,30 +256,31 @@ public class Tron extends Game<TronMap> {
 
 			final Direction direction = tronPlayer.getDirection();
 			Vector newVelo;
-			switch(direction) {
-			case NORTH:
-				walkingTo.setZ(walkingTo.getZ() - 1);
-				newVelo = new Vector(0, 0, -MOVEMENT_SPEED);
-				location.setX(location.getBlockX() + 0.5);
-				break;
-			case EAST:
-				walkingTo.setX(walkingTo.getX() + 1);
-				newVelo = new Vector(MOVEMENT_SPEED, 0, 0);
-				location.setZ(location.getBlockZ() + 0.5);
-				break;
-			case SOUTH:
-				walkingTo.setZ(walkingTo.getZ() + 1);
-				newVelo = new Vector(0, 0, MOVEMENT_SPEED);
-				location.setX(location.getBlockX() + 0.5);
-				break;
-			case WEST:
-				walkingTo.setX(walkingTo.getX() - 1);
-				newVelo = new Vector(-MOVEMENT_SPEED, 0, 0);
-				location.setZ(location.getBlockZ() + 0.5);
-				break;
-			default:
-				Minigames.shutdown(ShutdownReason.EMERGENCY_AUTOMATIC, "Illegal direction '" + direction + "'");
-				newVelo = null;
+			switch (direction) {
+				case NORTH -> {
+					walkingTo.setZ(walkingTo.getZ() - 1);
+					newVelo = new Vector(0, 0, -MOVEMENT_SPEED);
+					location.setX(location.getBlockX() + 0.5);
+				}
+				case EAST -> {
+					walkingTo.setX(walkingTo.getX() + 1);
+					newVelo = new Vector(MOVEMENT_SPEED, 0, 0);
+					location.setZ(location.getBlockZ() + 0.5);
+				}
+				case SOUTH -> {
+					walkingTo.setZ(walkingTo.getZ() + 1);
+					newVelo = new Vector(0, 0, MOVEMENT_SPEED);
+					location.setX(location.getBlockX() + 0.5);
+				}
+				case WEST -> {
+					walkingTo.setX(walkingTo.getX() - 1);
+					newVelo = new Vector(-MOVEMENT_SPEED, 0, 0);
+					location.setZ(location.getBlockZ() + 0.5);
+				}
+				default -> {
+					Minigames.shutdown(ShutdownReason.EMERGENCY_AUTOMATIC, "Illegal direction '" + direction + "'");
+					newVelo = null;
+				}
 			}
 
 			player.bukkit().setVelocity(newVelo);

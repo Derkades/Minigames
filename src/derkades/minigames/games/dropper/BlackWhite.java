@@ -5,17 +5,18 @@ import org.bukkit.Material;
 
 import derkades.minigames.random.Size;
 import derkades.minigames.worlds.GameWorld;
+import org.jetbrains.annotations.NotNull;
 import xyz.derkades.derkutils.bukkit.BlockUtils;
 
 class BlackWhite extends DropperMap {
 
 	@Override
-	public String getName() {
+	public @NotNull String getName() {
 		return "Black and White";
 	}
 
 	@Override
-	public GameWorld getGameWorld() {
+	public @NotNull GameWorld getGameWorld() {
 		return GameWorld.DROPPER_BLACKWHITE;
 	}
 
@@ -30,7 +31,7 @@ class BlackWhite extends DropperMap {
 	}
 
 	@Override
-	public String getIdentifier() {
+	public @NotNull String getIdentifier() {
 		return "dropper_blackwhite";
 	}
 

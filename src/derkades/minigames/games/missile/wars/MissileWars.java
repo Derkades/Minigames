@@ -15,16 +15,17 @@ import derkades.minigames.games.Game;
 import derkades.minigames.games.GameTeam;
 import derkades.minigames.utils.MPlayer;
 import derkades.minigames.utils.queue.TaskQueue;
+import org.jetbrains.annotations.NotNull;
 
 public class MissileWars extends Game<MissileWarsMap> {
 
 	@Override
-	public String getIdentifier() {
+	public @NotNull String getIdentifier() {
 		return "missile_wars";
 	}
 
 	@Override
-	public String getName() {
+	public @NotNull String getName() {
 		return "Missile Wars";
 	}
 
@@ -34,7 +35,7 @@ public class MissileWars extends Game<MissileWarsMap> {
 	}
 
 	@Override
-	public Material getMaterial() {
+	public @NotNull Material getMaterial() {
 		return Material.SLIME_BLOCK;
 	}
 

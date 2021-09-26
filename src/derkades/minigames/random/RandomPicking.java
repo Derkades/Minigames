@@ -1,24 +1,22 @@
 package derkades.minigames.random;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.bukkit.Bukkit;
-
 import derkades.minigames.Logger;
 import derkades.minigames.games.Game;
 import derkades.minigames.games.GameMap;
 import derkades.minigames.utils.Disableable;
 import derkades.minigames.utils.Utils;
+import org.bukkit.Bukkit;
+
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class RandomPicking {
 
 	public static Game<? extends GameMap> FORCE_GAME = null;
 	public static GameMap FORCE_MAP = null;
 
-	@SuppressWarnings("unchecked")
 	public static Game<? extends GameMap> getRandomGame() {
 		final Game<? extends GameMap> game;
 		if (FORCE_GAME != null) {

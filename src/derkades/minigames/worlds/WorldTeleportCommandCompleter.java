@@ -8,11 +8,12 @@ import java.util.stream.Collectors;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
+import org.jetbrains.annotations.NotNull;
 
 public class WorldTeleportCommandCompleter implements TabCompleter {
 
 	@Override
-	public List<String> onTabComplete(final CommandSender arg0, final Command arg1, final String arg2, final String[] args) {
+	public List<String> onTabComplete(final @NotNull CommandSender arg0, final @NotNull Command arg1, final @NotNull String arg2, final String[] args) {
 		if (args.length == 1) {
 //			final List<String> complete = new ArrayList<>();
 //			complete.addAll(Arrays.asList(GameWorld.values()).stream().map((s) -> s.toString().toLowerCase()).filter((s) -> s.contains(args[0]) || s.equals(args[0])).collect(Collectors.toList()));

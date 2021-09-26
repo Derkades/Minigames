@@ -5,12 +5,13 @@ import org.bukkit.Material;
 
 import derkades.minigames.random.Size;
 import derkades.minigames.worlds.GameWorld;
+import org.jetbrains.annotations.NotNull;
 import xyz.derkades.derkutils.bukkit.BlockUtils;
 
 class Trees extends DropperMap {
 
 	@Override
-	public String getName() {
+	public @NotNull String getName() {
 		return "Trees";
 	}
 
@@ -19,7 +20,7 @@ class Trees extends DropperMap {
 	}
 
 	@Override
-	public GameWorld getGameWorld() {
+	public @NotNull GameWorld getGameWorld() {
 		return GameWorld.DROPPER_TREES;
 	}
 
@@ -34,7 +35,7 @@ class Trees extends DropperMap {
 	}
 
 	@Override
-	public String getIdentifier() {
+	public @NotNull String getIdentifier() {
 		return "dropper_trees";
 	}
 

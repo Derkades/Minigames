@@ -4,16 +4,17 @@ import org.bukkit.Location;
 
 import derkades.minigames.random.Size;
 import derkades.minigames.worlds.GameWorld;
+import org.jetbrains.annotations.NotNull;
 
 class IcyBlowbackMapImpl extends IcyBlowbackMap {
 
 	@Override
-	public String getName() {
+	public @NotNull String getName() {
 		return "Icy Blowback";
 	}
 
 	@Override
-	public GameWorld getGameWorld() {
+	public @NotNull GameWorld getGameWorld() {
 		return GameWorld.ICYBLOWBACK_ICYBLOWBACK;
 	}
 
@@ -30,7 +31,7 @@ class IcyBlowbackMapImpl extends IcyBlowbackMap {
 	}
 
 	@Override
-	public String getIdentifier() {
+	public @NotNull String getIdentifier() {
 		return "icyblowback_icyblowback";
 	}
 

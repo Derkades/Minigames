@@ -4,7 +4,7 @@ public enum TaskPriority {
 
 	LOW,
 	NORMAL,
-	HIGH;
+	HIGH
 
 //	@Override
 //	public int compareTo(final QueuePriority priority) {

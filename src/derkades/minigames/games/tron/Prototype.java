@@ -4,16 +4,17 @@ import org.bukkit.Location;
 
 import derkades.minigames.random.Size;
 import derkades.minigames.worlds.GameWorld;
+import org.jetbrains.annotations.NotNull;
 
 class Prototype extends TronMap {
 
 	@Override
-	public String getName() {
+	public @NotNull String getName() {
 		return "Prototype";
 	}
 
 	@Override
-	public GameWorld getGameWorld() {
+	public @NotNull GameWorld getGameWorld() {
 		return GameWorld.TRON_PROTOTYPE;
 	}
 
@@ -28,7 +29,7 @@ class Prototype extends TronMap {
 	}
 
 	@Override
-	public String getIdentifier() {
+	public @NotNull String getIdentifier() {
 		return "tron_prototype";
 	}
 

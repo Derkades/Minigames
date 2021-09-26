@@ -4,6 +4,7 @@ import org.bukkit.Location;
 
 import derkades.minigames.random.Size;
 import derkades.minigames.worlds.GameWorld;
+import org.jetbrains.annotations.NotNull;
 
 public class Prototype extends TakeCoverMap {
 
@@ -28,12 +29,12 @@ public class Prototype extends TakeCoverMap {
 	}
 
 	@Override
-	public String getName() {
+	public @NotNull String getName() {
 		return "Prototype";
 	}
 
 	@Override
-	public GameWorld getGameWorld() {
+	public @NotNull GameWorld getGameWorld() {
 		return GameWorld.TAKECOVER_PROTOTYPE;
 	}
 
@@ -43,7 +44,7 @@ public class Prototype extends TakeCoverMap {
 	}
 
 	@Override
-	public String getIdentifier() {
+	public @NotNull String getIdentifier() {
 		return "takecover_prototype";
 	}
 

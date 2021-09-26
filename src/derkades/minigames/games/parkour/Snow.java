@@ -6,16 +6,17 @@ import org.bukkit.Material;
 import derkades.minigames.random.Size;
 import derkades.minigames.utils.MPlayer;
 import derkades.minigames.worlds.GameWorld;
+import org.jetbrains.annotations.NotNull;
 
 class Snow extends ParkourMap {
 
 	@Override
-	public String getName() {
+	public @NotNull String getName() {
 		return "Snow";
 	}
 
 	@Override
-	public GameWorld getGameWorld() {
+	public @NotNull GameWorld getGameWorld() {
 		return GameWorld.PARKOUR_SNOW;
 	}
 
@@ -30,7 +31,7 @@ class Snow extends ParkourMap {
 	}
 
 	@Override
-	public String getIdentifier() {
+	public @NotNull String getIdentifier() {
 		return "parkour_snow";
 	}
 

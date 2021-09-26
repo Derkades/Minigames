@@ -1,48 +1,9 @@
 package derkades.minigames;
 
-import java.net.http.WebSocket.Listener;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
-import java.util.stream.Collectors;
-
-import org.apache.commons.lang3.Validate;
-import org.bukkit.Bukkit;
-import org.bukkit.GameMode;
-import org.bukkit.Location;
-import org.bukkit.entity.Player;
-import org.bukkit.event.EventException;
-import org.bukkit.plugin.RegisteredListener;
-import org.bukkit.plugin.java.JavaPlugin;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-import org.ocpsoft.prettytime.PrettyTime;
-
 import de.tr7zw.changeme.nbtapi.utils.MinecraftVersion;
 import derkades.minigames.games.Game;
 import derkades.minigames.games.GameMap;
-import derkades.minigames.modules.CancelInteract;
-import derkades.minigames.modules.ChatPoll;
-import derkades.minigames.modules.CustomPlayerList;
-import derkades.minigames.modules.DisableDamage;
-import derkades.minigames.modules.DisableInventoryItemMove;
-import derkades.minigames.modules.DynamicMotd;
-import derkades.minigames.modules.FastDripleafReset;
-import derkades.minigames.modules.GameWorldManagement;
-import derkades.minigames.modules.HeadTextureCaching;
-import derkades.minigames.modules.InfoBar;
-import derkades.minigames.modules.JazzRoom;
-import derkades.minigames.modules.LobbyEffects;
-import derkades.minigames.modules.LobbyMenu;
-import derkades.minigames.modules.LobbyStormDisabler;
-import derkades.minigames.modules.RandomNameColor;
-import derkades.minigames.modules.RegenerateHunger;
-import derkades.minigames.modules.ResetPlayersOnEnable;
-import derkades.minigames.modules.ResourcePack;
-import derkades.minigames.modules.SneakPrevention;
-import derkades.minigames.modules.SpawnZombieShooter;
-import derkades.minigames.modules.TestWorld;
+import derkades.minigames.modules.*;
 import derkades.minigames.utils.MPlayer;
 import derkades.minigames.utils.PluginLoadEvent;
 import derkades.minigames.utils.PluginUnloadEvent;
@@ -53,6 +14,27 @@ import derkades.minigames.worlds.WorldTeleportCommand;
 import derkades.minigames.worlds.WorldTeleportCommandCompleter;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
+import org.apache.commons.lang3.Validate;
+import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
+import org.bukkit.Location;
+import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.PluginCommand;
+import org.bukkit.command.TabCompleter;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventException;
+import org.bukkit.plugin.RegisteredListener;
+import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import org.ocpsoft.prettytime.PrettyTime;
+
+import java.net.http.WebSocket.Listener;
+import java.util.Collections;
+import java.util.List;
+import java.util.Objects;
+import java.util.UUID;
+import java.util.stream.Collectors;
 
 public class Minigames extends JavaPlugin implements Listener {
 
@@ -86,6 +68,18 @@ public class Minigames extends JavaPlugin implements Listener {
 
 //	public static Economy economy = null;
 
+	private void registerCommand(@NotNull String name, @NotNull CommandExecutor executor, @Nullable TabCompleter completer) {
+		PluginCommand command = getCommand(name);
+		if (command == null){
+			throw new IllegalStateException("Command missing from plugin.yml?" + name);
+		} else {
+			command.setExecutor(executor);
+			if (completer != null) {
+				command.setTabCompleter(completer);
+			}
+		}
+	}
+
 	@SuppressWarnings("null")
 	@Override
 	public void onEnable(){
@@ -101,13 +95,11 @@ public class Minigames extends JavaPlugin implements Listener {
 
 		getServer().getPluginManager().registerEvents(new GlobalListeners(), this);
 
-		getCommand("spectate").setExecutor(new SpectatorCommand());
-		getCommand("games").setExecutor(new Command());
-		getCommand("games").setTabCompleter(new CommandTabCompleter());
-		getCommand("bug").setExecutor(new BugCommand());
-		getCommand("wtp").setExecutor(new WorldTeleportCommand());
-		getCommand("wtp").setTabCompleter(new WorldTeleportCommandCompleter());
-		getCommand("voteskip").setExecutor(new VoteSkipCommand());
+		registerCommand("spectate", new SpectatorCommand(), null);
+		registerCommand("games", new Command(), new CommandTabCompleter());
+		registerCommand("bug", new BugCommand(), null);
+		registerCommand("wtp", new WorldTeleportCommand(), new WorldTeleportCommandCompleter());
+		registerCommand("voteskip", new VoteSkipCommand(), null);
 
 //		if (!setupEconomy()) {
 //			getLogger().severe("Vault error");
@@ -157,7 +149,7 @@ public class Minigames extends JavaPlugin implements Listener {
 	}
 
 	@Override
-	public void onDisable(){
+	public void onDisable() {
 		// Hacky solution to call events, regular callEvent doesn't work when plugin is disabled
 		final PluginUnloadEvent event = new PluginUnloadEvent();
 		for (final RegisteredListener listener : PluginUnloadEvent.getHandlerList().getRegisteredListeners()) {
@@ -251,7 +243,7 @@ public class Minigames extends JavaPlugin implements Listener {
     }
 
     public enum ShutdownReason {
-    	EMERGENCY_MANUAL, EMERGENCY_AUTOMATIC;
-    }
+    	EMERGENCY_MANUAL, EMERGENCY_AUTOMATIC
+	}
 
 }

@@ -9,7 +9,7 @@ enum Direction {
 
 	;
 
-	float yaw;
+	final float yaw;
 
 	Direction(final float yaw){
 		this.yaw = yaw;

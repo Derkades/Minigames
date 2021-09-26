@@ -6,6 +6,7 @@ import org.bukkit.Material;
 import derkades.minigames.random.Size;
 import derkades.minigames.utils.MPlayer;
 import derkades.minigames.worlds.GameWorld;
+import org.jetbrains.annotations.NotNull;
 import xyz.derkades.derkutils.bukkit.BlockUtils;
 
 public class HollowHills extends BreakTheBlockMap {
@@ -16,12 +17,12 @@ public class HollowHills extends BreakTheBlockMap {
 	}
 
 	@Override
-	public String getName() {
+	public @NotNull String getName() {
 		return "Hollow Hills";
 	}
 
 	@Override
-	public GameWorld getGameWorld() {
+	public @NotNull GameWorld getGameWorld() {
 		return GameWorld.BTB_HOLLOWHILLS;
 	}
 
@@ -31,7 +32,7 @@ public class HollowHills extends BreakTheBlockMap {
 	}
 
 	@Override
-	public String getIdentifier() {
+	public @NotNull String getIdentifier() {
 		return "btb_hollowhills";
 	}
 

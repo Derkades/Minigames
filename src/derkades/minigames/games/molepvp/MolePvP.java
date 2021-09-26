@@ -1,15 +1,5 @@
 package derkades.minigames.games.molepvp;
 
-import java.util.HashSet;
-import java.util.Set;
-import java.util.UUID;
-
-import org.bukkit.Color;
-import org.bukkit.Material;
-import org.bukkit.enchantments.Enchantment;
-import org.bukkit.event.EventHandler;
-import org.bukkit.inventory.ItemStack;
-
 import derkades.minigames.Minigames;
 import derkades.minigames.games.Game;
 import derkades.minigames.games.GameTeam;
@@ -19,17 +9,27 @@ import derkades.minigames.utils.MPlayer;
 import derkades.minigames.utils.MinigamesPlayerDamageEvent;
 import derkades.minigames.utils.MinigamesPlayerDamageEvent.DamageType;
 import net.md_5.bungee.api.ChatColor;
+import org.bukkit.Color;
+import org.bukkit.Material;
+import org.bukkit.enchantments.Enchantment;
+import org.bukkit.event.EventHandler;
+import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
+
+import java.util.HashSet;
+import java.util.Set;
+import java.util.UUID;
 
 public class MolePvP extends Game<MolePvPMap> implements TeamGame {
 
 	@Override
-	public String getIdentifier() {
+	public @NotNull String getIdentifier() {
 		return "mole_pvp";
 	}
 
 	@Override
-	public String getName() {
+	public @NotNull String getName() {
 		return "Mole PvP";
 	}
 
@@ -41,7 +41,7 @@ public class MolePvP extends Game<MolePvPMap> implements TeamGame {
 	}
 
 	@Override
-	public Material getMaterial() {
+	public @NotNull Material getMaterial() {
 		return Material.DIRT;
 	}
 
@@ -125,12 +125,11 @@ public class MolePvP extends Game<MolePvPMap> implements TeamGame {
 		final MPlayer player = event.getPlayer();
 
 		if (event.getType().equals(DamageType.ENTITY)) {
-			final MPlayer damager = player;
-			final MPlayer damaged = event.getDamagerPlayer();
+			final MPlayer damager = event.getDamagerPlayer();
 
-			if (this.teams.isTeamMember(damager, GameTeam.BLUE) && this.teams.isTeamMember(damaged, GameTeam.RED)) {
+			if (this.teams.isTeamMember(damager, GameTeam.BLUE) && this.teams.isTeamMember(player, GameTeam.RED)) {
 				// blue attacks red -> allow
-			} else if (this.teams.isTeamMember(damager, GameTeam.RED) && this.teams.isTeamMember(damaged, GameTeam.BLUE)) {
+			} else if (this.teams.isTeamMember(damager, GameTeam.RED) && this.teams.isTeamMember(player, GameTeam.BLUE)) {
 				// red attacks blue -> allow
 			} else {
 				event.setCancelled(true);

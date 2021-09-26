@@ -1,16 +1,5 @@
 package derkades.minigames.games.teamsbowbattle;
 
-import java.util.HashSet;
-import java.util.Set;
-import java.util.UUID;
-
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.inventory.ItemStack;
-
 import derkades.minigames.Logger;
 import derkades.minigames.Minigames;
 import derkades.minigames.games.Game;
@@ -23,17 +12,28 @@ import derkades.minigames.utils.MinigamesPlayerDamageEvent.DamageType;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
+
+import java.util.HashSet;
+import java.util.Set;
+import java.util.UUID;
 
 public class TeamsBowBattle extends Game<TeamsBowBattleMap> implements TeamGame {
 
 	@Override
-	public String getIdentifier() {
+	public @NotNull String getIdentifier() {
 		return "teams_bow_battle";
 	}
 
 	@Override
-	public String getName() {
+	public @NotNull String getName() {
 		return "Teams Bow Battle";
 	}
 
@@ -45,7 +45,7 @@ public class TeamsBowBattle extends Game<TeamsBowBattleMap> implements TeamGame 
 	}
 
 	@Override
-	public Material getMaterial() {
+	public @NotNull Material getMaterial() {
 		return Material.BOW;
 	}
 
@@ -189,9 +189,7 @@ public class TeamsBowBattle extends Game<TeamsBowBattleMap> implements TeamGame 
 			case BLUE -> {
 				return this.map.getTeamBlueSpawnLocation();
 			}
-			default -> {
-				throw new IllegalArgumentException("Unexpected team " + team + ", only supports red and blue");
-			}
+			default -> throw new IllegalArgumentException("Unexpected team " + team + ", only supports red and blue");
 		}
 	}
 

@@ -4,16 +4,17 @@ import org.bukkit.Location;
 
 import derkades.minigames.random.Size;
 import derkades.minigames.worlds.GameWorld;
+import org.jetbrains.annotations.NotNull;
 
 class Windmill extends HungerGamesMap {
 
 	@Override
-	public String getName() {
+	public @NotNull String getName() {
 		return "Windmill";
 	}
 
 	@Override
-	public GameWorld getGameWorld() {
+	public @NotNull GameWorld getGameWorld() {
 		return GameWorld.HG_WINDMILL;
 	}
 
@@ -28,7 +29,7 @@ class Windmill extends HungerGamesMap {
 	}
 
 	@Override
-	public String getIdentifier() {
+	public @NotNull String getIdentifier() {
 		return "hungergames_windmill";
 	}
 

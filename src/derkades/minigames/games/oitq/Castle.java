@@ -4,16 +4,17 @@ import org.bukkit.Location;
 
 import derkades.minigames.random.Size;
 import derkades.minigames.worlds.GameWorld;
+import org.jetbrains.annotations.NotNull;
 
 class Castle extends OITQMap {
 
 	@Override
-	public String getName() {
+	public @NotNull String getName() {
 		return "Castle";
 	}
 
 	@Override
-	public GameWorld getGameWorld() {
+	public @NotNull GameWorld getGameWorld() {
 		return GameWorld.OITQ_CASTLE;
 	}
 
@@ -28,7 +29,7 @@ class Castle extends OITQMap {
 	}
 
 	@Override
-	public String getIdentifier() {
+	public @NotNull String getIdentifier() {
 		return "oneinthequiver_castle";
 	}
 

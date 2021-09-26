@@ -23,17 +23,18 @@ import derkades.minigames.games.Game;
 import derkades.minigames.utils.MPlayer;
 import derkades.minigames.utils.Scheduler;
 import derkades.minigames.utils.Utils;
+import org.jetbrains.annotations.NotNull;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
 
 public class RegeneratingSpleef extends Game<SpleefMap> {
 
 	@Override
-	public String getIdentifier() {
+	public @NotNull String getIdentifier() {
 		return "regenerating_spleef";
 	}
 
 	@Override
-	public String getName() {
+	public @NotNull String getName() {
 		return "Regenerating Spleef";
 	}
 
@@ -53,7 +54,7 @@ public class RegeneratingSpleef extends Game<SpleefMap> {
 	}
 
 	@Override
-	public Material getMaterial() {
+	public @NotNull Material getMaterial() {
 		return Material.SNOW_BLOCK;
 	}
 

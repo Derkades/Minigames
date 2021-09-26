@@ -8,6 +8,7 @@ import org.bukkit.Location;
 import derkades.minigames.random.Size;
 import derkades.minigames.utils.MPlayer;
 import derkades.minigames.worlds.GameWorld;
+import org.jetbrains.annotations.NotNull;
 
 class SquareDonut extends DecayMap {
 
@@ -17,12 +18,12 @@ class SquareDonut extends DecayMap {
 	}
 
 	@Override
-	public String getName() {
+	public @NotNull String getName() {
 		return "Square Donut";
 	}
 
 	@Override
-	public GameWorld getGameWorld() {
+	public @NotNull GameWorld getGameWorld() {
 		return GameWorld.DECAY_SQUAREDONUT;
 	}
 
@@ -32,7 +33,7 @@ class SquareDonut extends DecayMap {
 	}
 
 	@Override
-	public String getIdentifier() {
+	public @NotNull String getIdentifier() {
 		return "decay_squaredonut";
 	}
 

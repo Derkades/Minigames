@@ -1,19 +1,18 @@
 package derkades.minigames.games;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.bukkit.Color;
-import org.bukkit.Material;
-import org.jetbrains.annotations.NotNull;
-
 import derkades.minigames.utils.MPlayer;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
 import net.md_5.bungee.api.ChatColor;
+import org.bukkit.Color;
+import org.bukkit.Material;
+import org.jetbrains.annotations.NotNull;
 import xyz.derkades.derkutils.ListUtils;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public enum GameTeam {
 
@@ -31,28 +30,28 @@ public enum GameTeam {
 	;
 
 	@NotNull
-	private ChatColor color;
+	private final ChatColor color;
 	@NotNull
-	private TextColor textColor;
+	private final TextColor textColor;
 	@NotNull
-	private Color bukkitColor;
+	private final Color bukkitColor;
 	@NotNull
-	private String string;
+	private final String string;
 	@NotNull
-	private Material glassBlock;
+	private final Material glassBlock;
 	@NotNull
-	private Material glassPane;
+	private final Material glassPane;
 	@NotNull
-	private Material concrete;
+	private final Material concrete;
 	@NotNull
-	private Material terracotta;
+	private final Material terracotta;
 
 	@SuppressWarnings("null")
 	GameTeam(@NotNull final String name, final ChatColor color, @NotNull final String materialPrefix) {
 		this.color = color;
 		this.textColor = TextColor.color(color.getColor().getRGB());
 		this.bukkitColor = Color.fromRGB(color.getColor().getRGB() & 0x00FFFFFF); // need to remove alpha bits or bukkit will complain
-		this.string = color + "" + ChatColor.BOLD + this.name();
+		this.string = color + "" + ChatColor.BOLD + name;
 		this.glassBlock = Material.valueOf(materialPrefix + "_STAINED_GLASS");
 		this.glassPane = Material.valueOf(materialPrefix + "_STAINED_GLASS_PANE");
 		this.concrete = Material.valueOf(materialPrefix + "_CONCRETE");
@@ -60,7 +59,7 @@ public enum GameTeam {
 	}
 
 	@Deprecated
-	public ChatColor getColor() {
+	public @NotNull ChatColor getColor() {
 		return this.color;
 	}
 

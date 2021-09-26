@@ -4,6 +4,6 @@ public enum Size {
 
 	ADAPTIVE,
 
-	SMALL, NORMAL, LARGE;
+	SMALL, NORMAL, LARGE
 
 }

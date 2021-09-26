@@ -4,6 +4,7 @@ import org.bukkit.Location;
 
 import derkades.minigames.random.Size;
 import derkades.minigames.worlds.GameWorld;
+import org.jetbrains.annotations.NotNull;
 
 public class DeckedOutCastle extends MurderyMisterMap {
 
@@ -39,12 +40,12 @@ public class DeckedOutCastle extends MurderyMisterMap {
 	}
 
 	@Override
-	public String getName() {
+	public @NotNull String getName() {
 		return "Decked Out (Castle)";
 	}
 
 	@Override
-	public GameWorld getGameWorld() {
+	public @NotNull GameWorld getGameWorld() {
 		return GameWorld.MM_DECKEDOUT;
 	}
 
@@ -54,7 +55,7 @@ public class DeckedOutCastle extends MurderyMisterMap {
 	}
 
 	@Override
-	public String getIdentifier() {
+	public @NotNull String getIdentifier() {
 		return "murderymister_deckedoutcastle";
 	}
 

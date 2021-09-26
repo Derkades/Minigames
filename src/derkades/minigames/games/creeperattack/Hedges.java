@@ -4,16 +4,17 @@ import org.bukkit.Location;
 
 import derkades.minigames.random.Size;
 import derkades.minigames.worlds.GameWorld;
+import org.jetbrains.annotations.NotNull;
 
 class Hedges extends CreeperAttackMap {
 
 	@Override
-	public String getName() {
+	public @NotNull String getName() {
 		return "Hedges";
 	}
 
 	@Override
-	public GameWorld getGameWorld() {
+	public @NotNull GameWorld getGameWorld() {
 		return GameWorld.CREEPERATTACK_HEDGES;
 	}
 
@@ -28,7 +29,7 @@ class Hedges extends CreeperAttackMap {
 	}
 
 	@Override
-	public String getIdentifier() {
+	public @NotNull String getIdentifier() {
 		return "creeperattack_hedges";
 	}
 

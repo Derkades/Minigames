@@ -7,5 +7,6 @@ import org.bukkit.potion.PotionEffectType;
 public class PotionEffects {
 
 	public static final PotionEffect INFINITE_INVISIBILITY = new PotionEffect(PotionEffectType.INVISIBILITY, Integer.MAX_VALUE, 0, true);
+	public static final PotionEffect INFINITE_HIGH_DAMAGE_RESISTANCE = new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, Integer.MAX_VALUE, 10, true);
 
 }

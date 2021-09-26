@@ -6,19 +6,21 @@ import org.bukkit.Material;
 import derkades.minigames.games.Game;
 import derkades.minigames.utils.MPlayer;
 import derkades.minigames.utils.Scheduler;
+import org.jetbrains.annotations.NotNull;
 
+@SuppressWarnings("ALL")
 public class TakeCover extends Game<TakeCoverMap> {
 
 	private static final int ARROW_COUNT = 5;
 	private static final int ARROW_TIME = 3; // seconds
 
 	@Override
-	public String getIdentifier() {
+	public @NotNull String getIdentifier() {
 		return "takecover";
 	}
 
 	@Override
-	public String getName() {
+	public @NotNull String getName() {
 		return "Take Cover";
 	}
 
@@ -28,7 +30,7 @@ public class TakeCover extends Game<TakeCoverMap> {
 	}
 
 	@Override
-	public Material getMaterial() {
+	public @NotNull Material getMaterial() {
 		return Material.SNOWBALL;
 	}
 

@@ -1,25 +1,19 @@
 package derkades.minigames.utils;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
-import java.util.concurrent.atomic.AtomicInteger;
-
-import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
 import derkades.minigames.Minigames;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import net.md_5.bungee.api.ChatColor;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import xyz.derkades.derkutils.bukkit.sidebar.Sidebar;
 import xyz.derkades.derkutils.bukkit.sidebar.SidebarString;
+
+import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class Leaderboard {
 
@@ -44,13 +38,11 @@ public class Leaderboard {
 	@NotNull
 	private Map<@NotNull UUID, @NotNull Integer> getSorted() {
 		var cache = this.sortedCache;
-		if (cache != null) {
-			return cache;
-		} else {
+		if (cache == null) {
 			cache = Utils.sortByValue(this.points);
 			this.sortedCache = cache;
-			return cache;
 		}
+		return cache;
 	}
 
 	@NotNull
@@ -89,11 +81,7 @@ public class Leaderboard {
 	}
 
 	public int getScore(final MPlayer player) {
-		if (this.points.containsKey(player.getUniqueId())) {
-			return this.points.get(player.getUniqueId());
-		} else {
-			return 0;
-		}
+		return this.points.getOrDefault(player.getUniqueId(), 0);
 	}
 
 	public boolean hasScore(final MPlayer player) {

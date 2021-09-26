@@ -1,16 +1,19 @@
 package derkades.minigames.utils;
 
-import java.time.Duration;
-import java.util.UUID;
-import java.util.concurrent.ThreadLocalRandom;
-import java.util.function.Consumer;
-
-import org.bukkit.Bukkit;
-import org.bukkit.GameMode;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.Sound;
-import org.bukkit.World;
+import derkades.minigames.Minigames;
+import derkades.minigames.Points;
+import derkades.minigames.SpecialCharacter;
+import derkades.minigames.Var;
+import derkades.minigames.modules.SneakPrevention;
+import derkades.minigames.utils.queue.TaskQueue;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.TextComponent;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextColor;
+import net.kyori.adventure.title.Title;
+import net.kyori.adventure.title.Title.Times;
+import net.md_5.bungee.api.ChatColor;
+import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -28,24 +31,15 @@ import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
-import derkades.minigames.Minigames;
-import derkades.minigames.Points;
-import derkades.minigames.SpecialCharacter;
-import derkades.minigames.Var;
-import derkades.minigames.modules.SneakPrevention;
-import derkades.minigames.utils.queue.TaskQueue;
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.TextComponent;
-import net.kyori.adventure.text.format.NamedTextColor;
-import net.kyori.adventure.text.format.TextColor;
-import net.kyori.adventure.title.Title;
-import net.kyori.adventure.title.Title.Times;
-import net.md_5.bungee.api.ChatColor;
 import xyz.derkades.derkutils.Colors;
 import xyz.derkades.derkutils.bukkit.BlockUtils;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
 import xyz.derkades.derkutils.bukkit.LocationUtils;
+
+import java.time.Duration;
+import java.util.UUID;
+import java.util.concurrent.ThreadLocalRandom;
+import java.util.function.Consumer;
 
 public class MPlayer {
 
@@ -264,9 +258,7 @@ public class MPlayer {
 		// Wait for fade-out to complete before teleporting
 		Scheduler.delay(TITLE_FADE_TICKS, () -> {
 			// Refresh black screen every tick (50ms)
-			final BukkitTask task = Scheduler.repeat(1, () -> {
-				this.sendTitle(TITLE_BLACK);
-			});
+			final BukkitTask task = Scheduler.repeat(1, () -> this.sendTitle(TITLE_BLACK));
 
 			TaskQueue.add(() -> this.player.teleportAsync(location).thenRun(() -> {
 				task.cancel();
@@ -286,9 +278,7 @@ public class MPlayer {
 	// Used on join
 	public void queueTeleportNoFadeOut(@NotNull final Location location, @Nullable final Runnable callback) {
 		// Refresh black screen every tick (50ms)
-		final BukkitTask task = Scheduler.repeat(1, () -> {
-			this.sendTitle(TITLE_BLACK);
-		});
+		final BukkitTask task = Scheduler.repeat(1, () -> this.sendTitle(TITLE_BLACK));
 
 		TaskQueue.add(() -> this.player.teleportAsync(location).thenRun(() -> {
 			task.cancel();
@@ -525,7 +515,6 @@ public class MPlayer {
 		return getBlockIn().getRelative(BlockFace.DOWN);
 	}
 
-	@Deprecated
 	public void playSound(@NotNull final Sound sound, final float pitch) {
 		this.player.playSound(this.player.getLocation(), sound, 1, pitch);
 	}

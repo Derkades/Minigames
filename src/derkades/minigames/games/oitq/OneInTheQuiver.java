@@ -23,6 +23,7 @@ import derkades.minigames.utils.MPlayer;
 import derkades.minigames.utils.MinigamesPlayerDamageEvent;
 import derkades.minigames.utils.MinigamesPlayerDamageEvent.DamageType;
 import derkades.minigames.utils.Utils;
+import org.jetbrains.annotations.NotNull;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
 
 public class OneInTheQuiver extends Game<OITQMap> {
@@ -41,12 +42,12 @@ public class OneInTheQuiver extends Game<OITQMap> {
 			.create();
 
 	@Override
-	public String getIdentifier() {
+	public @NotNull String getIdentifier() {
 		return "oitq";
 	}
 
 	@Override
-	public String getName() {
+	public @NotNull String getName() {
 		return "One in the Quiver";
 	}
 
@@ -65,7 +66,7 @@ public class OneInTheQuiver extends Game<OITQMap> {
 	}
 
 	@Override
-	public Material getMaterial() {
+	public @NotNull Material getMaterial() {
 		return Material.ARROW;
 	}
 

@@ -1,9 +1,10 @@
 package derkades.minigames.games.bowspleef;
 
-import java.util.Arrays;
-import java.util.Set;
-import java.util.UUID;
-
+import derkades.minigames.GameState;
+import derkades.minigames.Minigames;
+import derkades.minigames.games.Game;
+import derkades.minigames.utils.MPlayer;
+import derkades.minigames.utils.Utils;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -12,13 +13,12 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.inventory.ItemStack;
-
-import derkades.minigames.GameState;
-import derkades.minigames.Minigames;
-import derkades.minigames.games.Game;
-import derkades.minigames.utils.MPlayer;
-import derkades.minigames.utils.Utils;
+import org.jetbrains.annotations.NotNull;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
+
+import java.util.Arrays;
+import java.util.Set;
+import java.util.UUID;
 
 public class BowSpleef extends Game<BowSpleefMap> {
 
@@ -29,12 +29,12 @@ public class BowSpleef extends Game<BowSpleefMap> {
 			.create();
 
 	@Override
-	public String getIdentifier() {
+	public @NotNull String getIdentifier() {
 		return "bow_spleef";
 	}
 
 	@Override
-	public String getName() {
+	public @NotNull String getName() {
 		return "Bow Spleef";
 	}
 
@@ -46,7 +46,7 @@ public class BowSpleef extends Game<BowSpleefMap> {
 	}
 
 	@Override
-	public Material getMaterial() {
+	public @NotNull Material getMaterial() {
 		return Material.BOW;
 	}
 

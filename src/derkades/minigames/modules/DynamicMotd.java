@@ -15,12 +15,8 @@ public class DynamicMotd extends Module {
 		final String line1 = "Minigames";
 		String line2;
 		switch(GameState.getCurrentState()) {
-			case IDLE -> {
-				line2 = "Waiting in lobby";
-			}
-			case IDLE_MAINTENANCE -> {
-				line2 = "Maintenance mode";
-			}
+			case IDLE -> line2 = "Waiting in lobby";
+			case IDLE_MAINTENANCE -> line2 = "Maintenance mode";
 			case COUNTDOWN -> {
 				final Game<?> game = GameState.getCurrentGame();
 				line2 = "Next up: " + game.getName();

@@ -1,7 +1,10 @@
 package derkades.minigames.games.breaktheblock;
 
-import java.util.UUID;
-
+import derkades.minigames.Minigames;
+import derkades.minigames.games.Game;
+import derkades.minigames.utils.MPlayer;
+import derkades.minigames.utils.PotionEffects;
+import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
@@ -16,13 +19,11 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-
-import derkades.minigames.Minigames;
-import derkades.minigames.games.Game;
-import derkades.minigames.utils.MPlayer;
-import net.md_5.bungee.api.ChatColor;
+import org.jetbrains.annotations.NotNull;
 import xyz.derkades.derkutils.ListUtils;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
+
+import java.util.UUID;
 
 public class BreakTheBlock extends Game<BreakTheBlockMap> {
 
@@ -39,12 +40,12 @@ public class BreakTheBlock extends Game<BreakTheBlockMap> {
 	private static final int MINIMUM_PLAYERS_FOR_MULTIPLE_SPAWN_LOCATIONS = 4;
 
 	@Override
-	public String getIdentifier() {
+	public @NotNull String getIdentifier() {
 		return "break_the_block";
 	}
 
 	@Override
-	public String getName() {
+	public @NotNull String getName() {
 		return "Gold Rush";
 	}
 
@@ -56,7 +57,7 @@ public class BreakTheBlock extends Game<BreakTheBlockMap> {
 	}
 
 	@Override
-	public Material getMaterial() {
+	public @NotNull Material getMaterial() {
 		return Material.IRON_PICKAXE;
 	}
 
@@ -101,6 +102,8 @@ public class BreakTheBlock extends Game<BreakTheBlockMap> {
 		}
 	}
 
+	private static final PotionEffect INFINITE_SLOW_DIGGING = new PotionEffect(PotionEffectType.SLOW_DIGGING, Integer.MAX_VALUE, 1, true);
+
 	@Override
 	public void onStart() {
 		Minigames.getOnlinePlayers().forEach((player) -> {
@@ -111,8 +114,8 @@ public class BreakTheBlock extends Game<BreakTheBlockMap> {
 //				p.giveItem(PICKAXE);
 //			});
 			player.giveItem(PICKAXE);
-			player.giveInfiniteEffect(PotionEffectType.DAMAGE_RESISTANCE, 10);
-			player.giveInfiniteEffect(PotionEffectType.SLOW_DIGGING, 1);
+			player.giveEffect(PotionEffects.INFINITE_HIGH_DAMAGE_RESISTANCE);
+			player.giveEffect(INFINITE_SLOW_DIGGING);
 		});
 
 	}
@@ -150,7 +153,7 @@ public class BreakTheBlock extends Game<BreakTheBlockMap> {
 //			p.clearInventory();
 //			p.teleport(this.map.getStartLocation());
 //		});
-		player.giveInfiniteEffect(PotionEffectType.SLOW_DIGGING, 1);
+		player.giveEffect(INFINITE_SLOW_DIGGING);
 	}
 
 	@Override

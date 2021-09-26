@@ -5,17 +5,18 @@ import org.bukkit.Material;
 
 import derkades.minigames.random.Size;
 import derkades.minigames.worlds.GameWorld;
+import org.jetbrains.annotations.NotNull;
 import xyz.derkades.derkutils.bukkit.BlockUtils;
 
 class Jungle extends TntRunMap {
 
 	@Override
-	public String getName() {
+	public @NotNull String getName() {
 		return "Jungle";
 	}
 
 	@Override
-	public GameWorld getGameWorld() {
+	public @NotNull GameWorld getGameWorld() {
 		return GameWorld.TNTRUN_JUNGLE;
 	}
 
@@ -30,7 +31,7 @@ class Jungle extends TntRunMap {
 	}
 
 	@Override
-	public String getIdentifier() {
+	public @NotNull String getIdentifier() {
 		return "tntrun_jungle";
 	}
 

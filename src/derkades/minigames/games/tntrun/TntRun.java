@@ -1,11 +1,10 @@
 package derkades.minigames.games.tntrun;
 
-import java.util.ArrayDeque;
-import java.util.Deque;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.UUID;
-
+import derkades.minigames.GameState;
+import derkades.minigames.Minigames;
+import derkades.minigames.games.Game;
+import derkades.minigames.utils.MPlayer;
+import derkades.minigames.utils.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -13,22 +12,19 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerMoveEvent;
+import org.jetbrains.annotations.NotNull;
 
-import derkades.minigames.GameState;
-import derkades.minigames.Minigames;
-import derkades.minigames.games.Game;
-import derkades.minigames.utils.MPlayer;
-import derkades.minigames.utils.Utils;
+import java.util.*;
 
 public class TntRun extends Game<TntRunMap> {
 
 	@Override
-	public String getIdentifier() {
+	public @NotNull String getIdentifier() {
 		return "tnt_run";
 	}
 
 	@Override
-	public String getName() {
+	public @NotNull String getName() {
 		return "TNT Run";
 	}
 
@@ -41,7 +37,7 @@ public class TntRun extends Game<TntRunMap> {
 	}
 
 	@Override
-	public Material getMaterial() {
+	public @NotNull Material getMaterial() {
 		return Material.TNT;
 	}
 
@@ -69,9 +65,7 @@ public class TntRun extends Game<TntRunMap> {
 
 		this.map.restore();
 
-		Minigames.getOnlinePlayers().forEach((player) -> {
-			player.queueTeleport(this.map.spawnLocation());
-		});
+		Minigames.getOnlinePlayers().forEach((player) -> player.queueTeleport(this.map.spawnLocation()));
 	}
 
 	@Override

@@ -19,6 +19,7 @@ import derkades.minigames.games.Game;
 import derkades.minigames.utils.MPlayer;
 import derkades.minigames.utils.Utils;
 import net.md_5.bungee.api.ChatColor;
+import org.jetbrains.annotations.NotNull;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
 
 public class Platform extends Game<PlatformMap> {
@@ -26,12 +27,12 @@ public class Platform extends Game<PlatformMap> {
 	private static final int KNOCKBACK_SWORDS_TIME = 20;
 
 	@Override
-	public String getIdentifier() {
+	public @NotNull String getIdentifier() {
 		return "platform";
 	}
 
 	@Override
-	public String getName() {
+	public @NotNull String getName() {
 		return "Platform";
 	}
 
@@ -46,7 +47,7 @@ public class Platform extends Game<PlatformMap> {
 	}
 
 	@Override
-	public Material getMaterial() {
+	public @NotNull Material getMaterial() {
 		return Material.SMOOTH_STONE_SLAB;
 	}
 

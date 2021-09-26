@@ -1,8 +1,12 @@
 package derkades.minigames.games.digdug;
 
-import java.util.Arrays;
-import java.util.concurrent.ThreadLocalRandom;
-
+import derkades.minigames.Minigames;
+import derkades.minigames.games.Game;
+import derkades.minigames.utils.Leaderboard;
+import derkades.minigames.utils.MPlayer;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -17,16 +21,12 @@ import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-
-import derkades.minigames.Minigames;
-import derkades.minigames.games.Game;
-import derkades.minigames.utils.Leaderboard;
-import derkades.minigames.utils.MPlayer;
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.NamedTextColor;
-import net.md_5.bungee.api.ChatColor;
+import org.jetbrains.annotations.NotNull;
 import xyz.derkades.derkutils.bukkit.BlockUtils;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
+
+import java.util.Arrays;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class DigDug extends Game<DigDugMap> {
 
@@ -45,12 +45,12 @@ public class DigDug extends Game<DigDugMap> {
 	private static final int QUARTZ_EFFECT_TIME = 10*20;
 
 	@Override
-	public String getIdentifier() {
+	public @NotNull String getIdentifier() {
 		return "dig_dug";
 	}
 
 	@Override
-	public String getName() {
+	public @NotNull String getName() {
 		return "Dig Dug";
 	}
 
@@ -69,7 +69,7 @@ public class DigDug extends Game<DigDugMap> {
 	}
 
 	@Override
-	public Material getMaterial() {
+	public @NotNull Material getMaterial() {
 		return Material.IRON_SHOVEL;
 	}
 

@@ -23,6 +23,7 @@ import derkades.minigames.games.Game;
 import derkades.minigames.utils.MPlayer;
 import derkades.minigames.utils.MinigamesPlayerDamageEvent;
 import net.md_5.bungee.api.ChatColor;
+import org.jetbrains.annotations.NotNull;
 import xyz.derkades.derkutils.ListUtils;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
 import xyz.derkades.derkutils.bukkit.MaterialLists;
@@ -30,12 +31,12 @@ import xyz.derkades.derkutils.bukkit.MaterialLists;
 public class CreeperAttack extends Game<CreeperAttackMap> {
 
 	@Override
-	public String getIdentifier() {
+	public @NotNull String getIdentifier() {
 		return "creeper_attack";
 	}
 
 	@Override
-	public String getName() {
+	public @NotNull String getName() {
 		return "Creeper Attack";
 	}
 
@@ -48,7 +49,7 @@ public class CreeperAttack extends Game<CreeperAttackMap> {
 	}
 
 	@Override
-	public Material getMaterial() {
+	public @NotNull Material getMaterial() {
 		return Material.CREEPER_HEAD;
 	}
 

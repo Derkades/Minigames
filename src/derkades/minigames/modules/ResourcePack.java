@@ -1,5 +1,18 @@
 package derkades.minigames.modules;
 
+import derkades.minigames.Logger;
+import derkades.minigames.Minigames;
+import derkades.minigames.utils.PluginLoadEvent;
+import derkades.minigames.utils.PluginUnloadEvent;
+import derkades.minigames.utils.Scheduler;
+import org.apache.commons.codec.DecoderException;
+import org.apache.commons.codec.binary.Hex;
+import org.apache.commons.codec.digest.DigestUtils;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.player.PlayerJoinEvent;
+
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -10,20 +23,6 @@ import java.time.Duration;
 import java.util.Arrays;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-
-import org.apache.commons.codec.DecoderException;
-import org.apache.commons.codec.binary.Hex;
-import org.apache.commons.codec.digest.DigestUtils;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.player.PlayerJoinEvent;
-
-import derkades.minigames.Logger;
-import derkades.minigames.Minigames;
-import derkades.minigames.utils.PluginLoadEvent;
-import derkades.minigames.utils.PluginUnloadEvent;
-import derkades.minigames.utils.Scheduler;
 
 public class ResourcePack extends Module {
 
@@ -90,10 +89,7 @@ public class ResourcePack extends Module {
 			HttpResponse<byte[]> response;
 			try {
 				response = this.HTTP_CLIENT.send(request, BodyHandlers.ofByteArray());
-			} catch (final IOException e) {
-				e.printStackTrace();
-				return;
-			} catch (final InterruptedException e) {
+			} catch (final IOException | InterruptedException e) {
 				e.printStackTrace();
 				return;
 			}
@@ -103,7 +99,6 @@ public class ResourcePack extends Module {
 			Logger.debug("Pack SHA-1 hash: %s", Hex.encodeHexString(hash));
 			if (Arrays.equals(this.hash, hash)) {
 				Logger.debug("Resource pack hasn't changed");
-				return;
 			} else {
 				this.hash = hash;
 				Logger.debug("Resource pack has changed, please rejoin to apply.");

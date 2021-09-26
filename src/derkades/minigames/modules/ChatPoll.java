@@ -1,16 +1,5 @@
 package derkades.minigames.modules;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
-
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
-import org.bukkit.command.PluginIdentifiableCommand;
-import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
-import org.jetbrains.annotations.NotNull;
-
 import derkades.minigames.Minigames;
 import derkades.minigames.utils.MPlayer;
 import net.kyori.adventure.text.Component;
@@ -19,7 +8,17 @@ import net.kyori.adventure.text.event.HoverEvent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextColor;
 import net.md_5.bungee.api.ChatColor;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
+import org.bukkit.command.PluginIdentifiableCommand;
+import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
+import org.jetbrains.annotations.NotNull;
 import xyz.derkades.derkutils.bukkit.reflection.ReflectionUtil;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 public class ChatPoll extends Module {
 
@@ -55,10 +54,10 @@ public class ChatPoll extends Module {
 			player.sendChat(Component.text("-----------------------------------------", NamedTextColor.DARK_GRAY));
 			player.sendPlainChat(this.question);
 
-			final Component answerMessage = Component.empty();
+			Component answerMessage = Component.empty();
 
 			for (final PollAnswer answer : this.answers) {
-				answerMessage.append(
+				answerMessage = answerMessage.append(
 						Component.text(String.format(" [%s] ", answer.displayName), answer.answerColor)
 						.hoverEvent(HoverEvent.showText(Component.text(answer.hoverMessage, NamedTextColor.GRAY)))
 						.clickEvent(ClickEvent.runCommand(String.format("/%s %s %s", COMMAND_NAME, token, answer.id)))
@@ -71,19 +70,8 @@ public class ChatPoll extends Module {
 		}
 	}
 
-	public static class PollAnswer {
-
-		private final int id;
-		private final String displayName;
-		private final TextColor answerColor;
-		private final String hoverMessage;
-
-		public PollAnswer (final int id, final String displayName, final TextColor answerColor, final String hoverMessage){
-			this.id = id;
-			this.displayName = displayName;
-			this.answerColor = answerColor;
-			this.hoverMessage = hoverMessage;
-		}
+	public record PollAnswer(int id, String displayName, TextColor answerColor,
+							 String hoverMessage) {
 
 	}
 
@@ -101,7 +89,7 @@ public class ChatPoll extends Module {
 		}
 
 		@Override
-		public boolean execute(final CommandSender sender, final String commandLabel, final String[] args) {
+		public boolean execute(final @NotNull CommandSender sender, final @NotNull String commandLabel, final String[] args) {
 			if (args.length != 2) {
 				return true;
 			}

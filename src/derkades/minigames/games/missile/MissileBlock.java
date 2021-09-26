@@ -34,7 +34,7 @@ public class MissileBlock extends MissileObject {
 		this.facing = facing;
 	}
 
-	private static Set<Material> DENY_REPLACE = Set.of(
+	private static final Set<Material> DENY_REPLACE = Set.of(
 			Material.BEDROCK, Material.OBSIDIAN, Material.BARRIER, Material.NETHER_PORTAL, Material.VOID_AIR
 	);
 

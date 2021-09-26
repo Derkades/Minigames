@@ -6,7 +6,7 @@ import derkades.minigames.games.GameMap;
 
 abstract class SpleefMap extends GameMap {
 
-	static SpleefMap[] MAPS = {
+	static final SpleefMap[] MAPS = {
 		new BigStadium(),
 		new LittleStadium(),
 		new Original(),

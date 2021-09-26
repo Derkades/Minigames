@@ -14,16 +14,17 @@ import derkades.minigames.Minigames;
 import derkades.minigames.games.Game;
 import derkades.minigames.utils.MPlayer;
 import derkades.minigames.utils.Utils;
+import org.jetbrains.annotations.NotNull;
 
 public class Elytra extends Game<ElytraMap> {
 
 	@Override
-	public String getIdentifier() {
+	public @NotNull String getIdentifier() {
 		return "elytra";
 	}
 
 	@Override
-	public String getName() {
+	public @NotNull String getName() {
 		return "Elytra";
 	}
 
@@ -36,7 +37,7 @@ public class Elytra extends Game<ElytraMap> {
 	}
 
 	@Override
-	public Material getMaterial() {
+	public @NotNull Material getMaterial() {
 		return Material.ELYTRA;
 	}
 

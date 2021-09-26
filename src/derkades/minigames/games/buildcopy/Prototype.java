@@ -5,6 +5,7 @@ import org.bukkit.Material;
 
 import derkades.minigames.random.Size;
 import derkades.minigames.worlds.GameWorld;
+import org.jetbrains.annotations.NotNull;
 
 class Prototype extends BuildCopyMap {
 
@@ -19,12 +20,12 @@ class Prototype extends BuildCopyMap {
 	}
 
 	@Override
-	public String getName() {
+	public @NotNull String getName() {
 		return "Prototype";
 	}
 
 	@Override
-	public GameWorld getGameWorld() {
+	public @NotNull GameWorld getGameWorld() {
 		return GameWorld.BUILDCOPY_PROTOTYPE;
 	}
 
@@ -34,7 +35,7 @@ class Prototype extends BuildCopyMap {
 	}
 
 	@Override
-	public String getIdentifier() {
+	public @NotNull String getIdentifier() {
 		return "buildcopy_prototype";
 	}
 
