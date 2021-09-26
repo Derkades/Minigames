@@ -8,12 +8,14 @@ import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 
 import org.bukkit.Bukkit;
+import org.bukkit.DyeColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.block.Sign;
 import org.bukkit.block.data.Directional;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -107,6 +109,29 @@ public class Command implements CommandExecutor {
 					final BlockFace face = new MPlayer(player).getFacingAsBlockFace();
 					Logger.debug("%s: building missile \"%s\" in direction %s", player.getName(), missile, face);
 					missile.build(player.getLocation().add(0, -3, 0), face);
+				}
+				case "sign" -> {
+					if (sender.hasPermission("minigames.debug")) {
+						final Player player = (Player) sender;
+						final char c;
+						try {
+							c = (char) Integer.parseInt(args[1], 16);
+						} catch (final NumberFormatException e) {
+							player.sendMessage("invalid base16");
+							return true;
+						}
+						player.sendMessage(String.format("Char: %04x", (int) c));
+						final Block block = player.getTargetBlock(10);
+						if (block.getState() instanceof Sign) {
+							final Sign sign = (Sign) block.getState();
+							sign.line(0, Component.text(c));
+							sign.setColor(DyeColor.WHITE);
+							sign.setGlowingText(true);
+							sign.update();
+						} else {
+							player.sendMessage("not a sign");
+						}
+					}
 				}
 			}
 		} else if (args.length == 1) {
