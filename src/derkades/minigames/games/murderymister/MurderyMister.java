@@ -13,10 +13,12 @@ import org.bukkit.Sound;
 import org.bukkit.block.data.Lightable;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Arrow;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.EntityShootBowEvent;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
@@ -27,8 +29,7 @@ import derkades.minigames.Minigames;
 import derkades.minigames.Var;
 import derkades.minigames.games.Game;
 import derkades.minigames.utils.MPlayer;
-import derkades.minigames.utils.MinigamesPlayerDamageEvent;
-import derkades.minigames.utils.MinigamesPlayerDamageEvent.DamageType;
+import derkades.minigames.utils.MPlayerDamageEvent;
 import derkades.minigames.utils.Scheduler;
 import derkades.minigames.utils.Utils;
 import derkades.minigames.utils.queue.TaskQueue;
@@ -199,60 +200,75 @@ public class MurderyMister extends Game<MurderyMisterMap> {
 	}
 
 	@EventHandler
-	public void onDamage(final MinigamesPlayerDamageEvent event) {
-		if (event.getType().equals(DamageType.SELF)) {
-			event.setDamage(0);
-			event.setCancelled(true);
-			return;
-		} else if (event.getDamagerEntity().getType() == EntityType.ARROW ||
-				event.getDamagerEntity().getType() == EntityType.TRIDENT) {
-			event.setDamage(40);
-		} else {
-			event.setDamage(0);
+	public void onDamage(final MPlayerDamageEvent event) {
+		final MPlayer damager = event.getDamagerPlayer();
+		if (damager == null) {
 			event.setCancelled(true);
 			return;
 		}
 
-		if (event.willBeDead()) {
-			event.setCancelled(true);
+		final Entity entity = event.getDirectDamagerEntity();
+		if (entity == null) {
+			throw new IllegalStateException("entity cannot be null if damager player is null");
+		}
+		switch(entity.getType()) {
+			case ARROW, TRIDENT -> {
+				event.setDamage(40);
+			}
+			default -> {
+				event.setCancelled(true);
+				return;
+			}
+		}
+	}
 
-			final MPlayer player = event.getPlayer();
+	@EventHandler
+	public void onDeath(final PlayerDeathEvent event) {
+		event.setCancelled(true);
+		final MPlayer player = new MPlayer(event);
 
-			sendFormattedPlainMessage("%s has been killed", player.getName());
-			Minigames.getOnlinePlayers().forEach((p) -> p.playSound(Sound.ENTITY_PLAYER_HURT_SWEET_BERRY_BUSH, 1.0f));
-			this.aliveInnocent.remove(player.getUniqueId());
+		sendFormattedPlainMessage("%s has been killed", player.getName());
+		Minigames.getOnlinePlayers().forEach((p) -> p.playSound(Sound.ENTITY_PLAYER_HURT_SWEET_BERRY_BUSH, 1.0f));
+		this.aliveInnocent.remove(player.getUniqueId());
 
-			if (player.getUniqueId().equals(this.murderer)) {
-				// Murder is dead, all alive players win (except murderer)
-				this.arrowRemoveTask.cancel();
-				this.murdererDead = true;
-				player.die();
-				sendFormattedPlainMessage("The murderer has been killed by %s!", event.getDamagerPlayer().getName());
-			} else if (player.getInventory().contains(Material.BOW)) {
-				// Sheriff is dead, give bow to random player
-				if (this.aliveInnocent.size() > 0) {
-					final Player target = Bukkit.getPlayer(ListUtils.choice(this.aliveInnocent));
-					if (target != null) {
-						target.getInventory().addItem(new ItemBuilder(Material.BOW).unbreakable().create());
-						target.getInventory().addItem(new ItemBuilder(Material.ARROW).create());
-					}
-				}
-				player.die();
-				Logger.debug("Sheriff died");
+		if (player.getUniqueId().equals(this.murderer)) {
+			// Murder is dead, all alive players win (except murderer)
+			this.arrowRemoveTask.cancel();
+			this.murdererDead = true;
+			player.die();
+			final MPlayer killer = Utils.getKiller(event);
+			if (killer == null) {
+				sendPlainMessage("The murderer has died!");
 			} else {
-				// Innocent is dead
-				player.die();
-				Logger.debug("Innocent died");
-				final MPlayer killer = event.getDamagerPlayer();
-				killer.bukkit().damage(40);
-				if (killer != null) {
-					killer.sendActionBar(Component.text("You killed an innocent player!"));
-					killer.die();
-					this.aliveInnocent.remove(killer.getUniqueId());
+				sendFormattedPlainMessage("The murderer has been killed by %s!", killer.getName());
+			}
+		} else if (player.getInventory().contains(Material.BOW)) {
+			// Sheriff is dead, give bow to random player
+			if (this.aliveInnocent.size() > 0) {
+				@SuppressWarnings("null")
+				final Player target = Bukkit.getPlayer(ListUtils.choice(this.aliveInnocent));
+				if (target != null) {
+					target.getInventory().addItem(new ItemBuilder(Material.BOW).unbreakable().create());
+					target.getInventory().addItem(new ItemBuilder(Material.ARROW).create());
 				}
 			}
-			player.clearInventory();
+			player.die();
+			Logger.debug("Sheriff/detective died");
+		} else {
+			// Innocent is dead
+			player.die();
+			Logger.debug("Innocent died");
+
+			final MPlayer killer = Utils.getKiller(event);
+
+			if (killer != null) {
+//				killer.bukkit().damage(40);
+				killer.sendActionBar(Component.text("You killed an innocent player!"));
+				killer.die();
+				this.aliveInnocent.remove(killer.getUniqueId());
+			}
 		}
+		player.clearInventory();
 	}
 
 	@EventHandler

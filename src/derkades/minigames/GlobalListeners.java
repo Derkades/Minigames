@@ -17,6 +17,7 @@ import org.jetbrains.annotations.NotNull;
 import derkades.minigames.Minigames.ShutdownReason;
 import derkades.minigames.games.Game;
 import derkades.minigames.utils.MPlayer;
+import derkades.minigames.utils.MPlayerDamageEvent;
 import derkades.minigames.utils.MinigamesPlayerDamageEvent;
 import io.papermc.paper.chat.ChatRenderer;
 import io.papermc.paper.chat.ChatRenderer.ViewerUnaware;
@@ -111,6 +112,7 @@ public class GlobalListeners implements Listener {
 //		event.setFormat(Utils.getChatPrefix(ChatColor.AQUA, 'C') + ChatColor.WHITE + "%s: " + ChatColor.GRAY + "%s");
 	}
 
+	@SuppressWarnings("deprecation")
 	@EventHandler
 	public void onDamageTriggerCustomEvent(final EntityDamageEvent event) {
 		if (!event.getEntity().getType().equals(EntityType.PLAYER)) {
@@ -145,6 +147,12 @@ public class GlobalListeners implements Listener {
 			if (event3.isCancelled()) {
 				event.setCancelled(true);
 			}
+		}
+
+		final MPlayerDamageEvent event2 = new MPlayerDamageEvent(event);
+		Bukkit.getPluginManager().callEvent(event2);
+		if (event2.isCancelled()) {
+			event.setCancelled(true);
 		}
 	}
 

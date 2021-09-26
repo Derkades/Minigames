@@ -14,9 +14,11 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventException;
 import org.bukkit.plugin.RegisteredListener;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.NotNull;
 import org.ocpsoft.prettytime.PrettyTime;
 
 import de.tr7zw.changeme.nbtapi.utils.MinecraftVersion;
+import derkades.minigames.Minigames.ShutdownReason;
 import derkades.minigames.games.Game;
 import derkades.minigames.games.GameMap;
 import derkades.minigames.modules.CancelInteract;
@@ -55,6 +57,8 @@ public class Minigames extends JavaPlugin implements Listener {
 
 	public static final PrettyTime PRETTY_TIME = new PrettyTime();
 
+	@SuppressWarnings("null")
+	@NotNull
 	private static Minigames instance;
 
 	public static boolean STOP_GAMES = false;
@@ -167,6 +171,7 @@ public class Minigames extends JavaPlugin implements Listener {
 		instance = null;
 	}
 
+	@NotNull
 	public static Minigames getInstance(){
 		return instance;
 	}

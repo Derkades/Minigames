@@ -10,7 +10,16 @@ import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Projectile;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.projectiles.ProjectileSource;
+import org.checkerframework.checker.units.qual.K;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import derkades.minigames.Minigames;
 import net.md_5.bungee.api.ChatColor;
@@ -90,6 +99,44 @@ public class Utils {
 			}
 		}
 		return true;
+	}
+
+	@Nullable
+	public static MPlayer getDamagerPlayer(@NotNull final EntityDamageEvent event) {
+		if (event instanceof EntityDamageByEntityEvent) {
+			return getDamagerPlayer(((EntityDamageByEntityEvent) event).getDamager());
+		} else {
+			return null;
+		}
+	}
+
+	@Nullable
+	public static MPlayer getDamagerPlayer(@Nullable final Entity damagerEntity) {
+		if (damagerEntity == null) {
+			return null;
+		}
+		switch(damagerEntity.getType()) {
+			case PLAYER -> {
+				return new MPlayer((Player) damagerEntity);
+			}
+			case ARROW, SPECTRAL_ARROW, FIREBALL -> {
+				final ProjectileSource shooter = ((Projectile) damagerEntity).getShooter();
+				if (shooter != null && shooter instanceof Player) {
+					return new MPlayer((Player) shooter);
+				} else {
+					return null;
+				}
+			}
+			default -> {
+				return null;
+			}
+		}
+	}
+
+	@Nullable
+	public static MPlayer getKiller(@NotNull final PlayerDeathEvent event) {
+		EntityDamageEvent cause = event.getEntity().getLastDamageCause();
+		return cause == null ? null : getDamagerPlayer(cause);
 	}
 
 }

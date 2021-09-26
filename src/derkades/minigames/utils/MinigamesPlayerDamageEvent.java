@@ -10,6 +10,7 @@ import org.bukkit.event.HandlerList;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.projectiles.ProjectileSource;
 
+@Deprecated
 public class MinigamesPlayerDamageEvent extends Event implements Cancellable {
 
 	private static final HandlerList handlers = new HandlerList();
@@ -102,7 +103,7 @@ public class MinigamesPlayerDamageEvent extends Event implements Cancellable {
 		this.cancelled = cancelled;
 	}
 
-	public static enum DamageType {
+	public enum DamageType {
 
 		SELF, ENTITY;
 
