@@ -542,7 +542,7 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 
 			// Upload to hastebin
 			try {
-				final String key = Hastebin.createPaste(content, "paste.derkad.es");
+				final String key = Hastebin.createPaste(content, "paste.rkslot.nl");
 				final String url = "https://paste.derkad.es/" + key + ".json";
 				Logger.info("Game result: %s", url);
 			} catch (final IOException e) {
