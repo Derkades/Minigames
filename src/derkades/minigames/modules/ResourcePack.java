@@ -26,7 +26,7 @@ import java.util.concurrent.Executors;
 
 public class ResourcePack extends Module {
 
-	private static final String EMPTY_DOWNLOAD_URL = "http://vps3.derkad.es:12345/empty.zip";
+	private static final String EMPTY_DOWNLOAD_URL = "https://downloads.rkslot.nl/empty.zip";
 	private static final byte[] EMPTY_HASH;
 	static {
 		byte[] hash = null;
@@ -37,7 +37,7 @@ public class ResourcePack extends Module {
 		}
 		EMPTY_HASH = hash;
 	}
-	private static final String DOWNLOAD_URL = "http://vps3.derkad.es:12345/minigames.zip";
+	private static final String DOWNLOAD_URL = "https://downloads.rkslot.nl/minigames.zip";
 	private static final URI DOWNLOAD_URI = URI.create(DOWNLOAD_URL);
 
 	private final ExecutorService THREAD_POOL = Executors.newCachedThreadPool();
