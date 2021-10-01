@@ -53,11 +53,6 @@ public class OneInTheQuiver extends Game<OITQMap> {
 	}
 
 	@Override
-	public String getAlias() {
-		return "oitq";
-	}
-
-	@Override
 	public String[] getDescription() {
 		return new String[] {
 				"Kill other players with a weak wooden sword.",

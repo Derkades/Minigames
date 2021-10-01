@@ -53,7 +53,7 @@ public class GamesListMenu extends IconMenu {
 			if (player.hasPermission("minigames.list_admin")) {
 				lore.add("");
 				lore.add(DARK_GRAY + "Identifier: " + game.getIdentifier());
-				lore.add(DARK_GRAY + "Command name: " + game.getIdentifier() + " (alias " + game.getAlias() + ")");
+				lore.add(DARK_GRAY + "Command name: " + game.getIdentifier());
 				lore.add(DARK_GRAY + "" + game.getClass().getName().substring(25));
 				if (game.getGameMaps() == null) {
 					lore.add(DARK_GRAY + "No map support");

@@ -1,7 +1,11 @@
 package derkades.minigames.games.breaktheblock;
 
-import java.util.UUID;
-
+import derkades.minigames.Minigames;
+import derkades.minigames.games.Game;
+import derkades.minigames.utils.MPlayer;
+import derkades.minigames.utils.PaperItemBuilder;
+import derkades.minigames.utils.PotionEffects;
+import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
@@ -17,15 +21,10 @@ import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.jetbrains.annotations.NotNull;
-
-import derkades.minigames.Minigames;
-import derkades.minigames.games.Game;
-import derkades.minigames.utils.MPlayer;
-import derkades.minigames.utils.PaperItemBuilder;
-import derkades.minigames.utils.PotionEffects;
-import net.md_5.bungee.api.ChatColor;
 import xyz.derkades.derkutils.ListUtils;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
+
+import java.util.UUID;
 
 public class BreakTheBlock extends Game<BreakTheBlockMap> {
 
@@ -76,11 +75,6 @@ public class BreakTheBlock extends Game<BreakTheBlockMap> {
 	@Override
 	public int getDuration() {
 		return 200;
-	}
-
-	@Override
-	public String getAlias() {
-		return "btb";
 	}
 
 	private UUID blockBreaker;

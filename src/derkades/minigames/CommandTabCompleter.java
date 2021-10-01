@@ -31,11 +31,6 @@ public class CommandTabCompleter implements TabCompleter {
 				if (formattedName.contains(arg)) {
 					list.add(formattedName);
 				}
-
-				final String alias = game.getAlias();
-				if (alias != null && alias.contains(arg)) {
-					list.add(game.getAlias());
-				}
 			}
 
 			return list;

@@ -75,10 +75,6 @@ public class Games {
 			Objects.requireNonNull(game.getName(), "game name null: " + game.getClass().getName());
 			GAME_BY_NAME.put(game.getIdentifier(), game);
 			GAME_BY_NAME.put(game.getName().toLowerCase(Locale.ROOT), game);
-			String alias = game.getAlias();
-			if (alias != null) {
-				GAME_BY_NAME.put(alias.toLowerCase(Locale.ROOT), game);
-			}
 			final GameMap[] maps = game.getGameMaps();
 			Objects.requireNonNull(maps, "maps array null: " + game.getClass().getName());
 			for (final GameMap map : maps) {
@@ -92,7 +88,7 @@ public class Games {
 
 	/**
 	 * Find game by name, alias or identifier
-	 * @param name Game name, alias or identifier
+	 * @param name Game name or identifier
 	 * @return Game, or null if not found
 	 */
 	@Nullable

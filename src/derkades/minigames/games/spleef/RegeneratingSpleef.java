@@ -1,8 +1,11 @@
 package derkades.minigames.games.spleef;
 
-import java.util.Set;
-import java.util.UUID;
-
+import derkades.minigames.GameState;
+import derkades.minigames.games.Game;
+import derkades.minigames.utils.MPlayer;
+import derkades.minigames.utils.PaperItemBuilder;
+import derkades.minigames.utils.Scheduler;
+import derkades.minigames.utils.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
@@ -17,14 +20,10 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
-
-import derkades.minigames.GameState;
-import derkades.minigames.games.Game;
-import derkades.minigames.utils.MPlayer;
-import derkades.minigames.utils.PaperItemBuilder;
-import derkades.minigames.utils.Scheduler;
-import derkades.minigames.utils.Utils;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.Set;
+import java.util.UUID;
 
 public class RegeneratingSpleef extends Game<SpleefMap> {
 
@@ -36,11 +35,6 @@ public class RegeneratingSpleef extends Game<SpleefMap> {
 	@Override
 	public @NotNull String getName() {
 		return "Regenerating Spleef";
-	}
-
-	@Override
-	public String getAlias() {
-		return "spleef";
 	}
 
 	@Override

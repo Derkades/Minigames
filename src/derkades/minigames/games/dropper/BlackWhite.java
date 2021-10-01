@@ -22,7 +22,8 @@ class BlackWhite extends DropperMap {
 
 	@Override
 	public String getCredits() {
-		return "Mr_Roky_HD, EnderAdamGaming, RedstonerNor, IWolfyyyyy, Dankoames, Partydragen";
+//		return "Mr_Roky_HD, EnderAdamGaming, RedstonerNor, IWolfyyyyy, Dankoames, Partydragen";
+		return "See signs in world";
 	}
 
 	@Override

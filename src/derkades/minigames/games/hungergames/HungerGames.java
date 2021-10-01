@@ -1,16 +1,5 @@
 package derkades.minigames.games.hungergames;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
-
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.WorldBorder;
-import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
-import org.bukkit.event.EventHandler;
-
 import derkades.minigames.Minigames;
 import derkades.minigames.games.Game;
 import derkades.minigames.utils.MPlayer;
@@ -18,8 +7,18 @@ import derkades.minigames.utils.MinigamesPlayerDamageEvent;
 import derkades.minigames.utils.Scheduler;
 import derkades.minigames.utils.Utils;
 import derkades.minigames.utils.Winners;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.WorldBorder;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
+import org.bukkit.event.EventHandler;
 import org.jetbrains.annotations.NotNull;
 import xyz.derkades.derkutils.bukkit.lootchests.LootChest;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 public class HungerGames extends Game<HungerGamesMap> {
 
@@ -31,11 +30,6 @@ public class HungerGames extends Game<HungerGamesMap> {
 	@Override
 	public @NotNull String getName() {
 		return "Hunger Games";
-	}
-
-	@Override
-	public String getAlias() {
-		return "hg";
 	}
 
 	@Override
