@@ -231,12 +231,14 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 				if (this.secondsLeft > Game.this.getDuration()) {
 					if (Game.this.getPreDuration() > 2) {
 						final int preSeconds = this.secondsLeft - Game.this.getDuration();
-						for (final MPlayer player : Minigames.getOnlinePlayers()) {
-							player.sendTitle(Title.title(
-									Component.empty(),
-									Component.text(preSeconds, preSeconds > 3 ? NamedTextColor.GRAY : NamedTextColor.GOLD),
-									Times.of(Duration.ofMillis(100), Duration.ofMillis(800), Duration.ofMillis(100))
-									));
+						if (preSeconds < 6){
+							for (final MPlayer player : Minigames.getOnlinePlayers()) {
+								player.sendTitle(Title.title(
+										Component.empty(),
+										Component.text(preSeconds, preSeconds > 3 ? NamedTextColor.GRAY : NamedTextColor.GOLD),
+										Times.of(Duration.ofMillis(100), Duration.ofMillis(800), Duration.ofMillis(100))
+								));
+							}
 						}
 					}
 
