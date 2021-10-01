@@ -69,6 +69,18 @@
 							<pattern>com.fasterxml.jackson</pattern>
 							<shadedPattern>derkades.minigames.lib.jackson</shadedPattern>
 						</relocation>
+						<relocation>
+							<pattern>org.ocpsoft.prettytime</pattern>
+							<shadedPattern>derkades.minigames.lib.prettytime</shadedPattern>
+						</relocation>
+						<relocation>
+							<pattern>org.jetbrains.annotations</pattern>
+							<shadedPattern>derkades.minigames.lib.jetbrains-annotations</shadedPattern>
+						</relocation>
+						<relocation>
+							<pattern>org.intellij.lang.annotations</pattern>
+							<shadedPattern>derkades.minigames.lib.intellij-annotations</shadedPattern>
+						</relocation>
 					</relocations>
 
 					<filters>
