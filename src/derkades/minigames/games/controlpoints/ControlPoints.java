@@ -6,9 +6,9 @@ import derkades.minigames.games.Game;
 import derkades.minigames.games.GameTeam;
 import derkades.minigames.games.TeamManager;
 import derkades.minigames.utils.MPlayer;
-import derkades.minigames.utils.MinigamesPlayerDamageEvent;
-import derkades.minigames.utils.MinigamesPlayerDamageEvent.DamageType;
+import derkades.minigames.utils.MPlayerDamageEvent;
 import derkades.minigames.utils.Scheduler;
+import derkades.minigames.utils.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
@@ -18,6 +18,7 @@ import org.bukkit.boss.BarStyle;
 import org.bukkit.boss.BossBar;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.jetbrains.annotations.NotNull;
@@ -243,42 +244,45 @@ public class ControlPoints extends Game<ControlPointsMap> {
 	}
 
 	@EventHandler
-	public void onDamage(final MinigamesPlayerDamageEvent event) {
-		final MPlayer player = event.getPlayer();
-
-		if (event.getType() == DamageType.ENTITY) {
-			final MPlayer damager = event.getDamagerPlayer();
+	public void onDamage(MPlayerDamageEvent event) {
+		MPlayer player = event.getPlayer();
+		MPlayer damager = event.getDamagerPlayer();
+		if (damager != null) {
 			// Disable damage to team mates
 			if (this.teams.isInSameTeam(player, damager)) {
 				event.setCancelled(true);
 				return;
 			}
 		}
+	}
 
-		if (event.willBeDead()) {
-			event.setCancelled(true);
+	@EventHandler
+	public void onDeath(final PlayerDeathEvent event) {
+		final MPlayer player = new MPlayer(event);
+		event.setCancelled(true);
 
-			if (event.getType() == DamageType.ENTITY) {
-				sendPlainMessage(player.getName() + " was killed by " + event.getDamagerPlayer().getName());
-			} else {
-				sendPlainMessage(player.getName() + " has died");
+		MPlayer killer = Utils.getKiller(event);
+
+		if (killer != null) {
+			sendPlainMessage(player.getName() + " was killed by " + killer.getName());
+		} else {
+			sendPlainMessage(player.getName() + " has died");
+		}
+
+		player.die();
+		final UUID uuid = player.getUniqueId();
+
+		Scheduler.delay(RESPAWN_DELAY, () -> {
+			final MPlayer player2 = Minigames.getPlayer(uuid);
+			if (player2 == null) {
+				return;
 			}
 
-			player.die();
-			final UUID uuid = player.getUniqueId();
+			player.setGameMode(GameMode.ADVENTURE);
+			player2.heal();
 
-			Scheduler.delay(RESPAWN_DELAY, () -> {
-				final MPlayer player2 = Minigames.getPlayer(uuid);
-				if (player2 == null) {
-					return;
-				}
-
-				player.setGameMode(GameMode.ADVENTURE);
-				player2.heal();
-
-				player.teleport(this.teams.isTeamMember(player, GameTeam.RED) ? this.map.getRedSpawnLocation() : this.map.getBlueSpawnLocation());
-			});
-		}
+			player.teleport(this.teams.isTeamMember(player, GameTeam.RED) ? this.map.getRedSpawnLocation() : this.map.getBlueSpawnLocation());
+		});
 	}
 
 	@Override

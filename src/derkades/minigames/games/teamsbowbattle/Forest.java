@@ -1,6 +1,7 @@
 package derkades.minigames.games.teamsbowbattle;
 
 import org.bukkit.Location;
+import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 import derkades.minigames.Minigames;
@@ -15,9 +16,11 @@ class Forest extends TeamsBowBattleMap {
 		return "Forest";
 	}
 
+	private static final PotionEffect SPEED = new PotionEffect(PotionEffectType.SPEED, Integer.MAX_VALUE, 1, true);
+
 	@Override
 	public void onStart() {
-		Minigames.getOnlinePlayers().forEach((p) -> p.giveInfiniteEffect(PotionEffectType.SPEED, 1));
+		Minigames.getOnlinePlayers().forEach((p) -> p.giveEffect(SPEED));
 	}
 
 	@Override

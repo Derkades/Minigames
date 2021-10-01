@@ -1,9 +1,9 @@
 package derkades.minigames.games.icyblowback;
 
-import java.util.HashSet;
-import java.util.Set;
-import java.util.UUID;
-
+import derkades.minigames.Minigames;
+import derkades.minigames.games.Game;
+import derkades.minigames.utils.MPlayer;
+import derkades.minigames.utils.queue.TaskQueue;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
@@ -13,14 +13,14 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-
-import derkades.minigames.Minigames;
-import derkades.minigames.games.Game;
-import derkades.minigames.utils.MPlayer;
-import derkades.minigames.utils.queue.TaskQueue;
 import org.jetbrains.annotations.NotNull;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
+
+import java.util.HashSet;
+import java.util.Set;
+import java.util.UUID;
 
 public class IcyBlowback extends Game<IcyBlowbackMap> {
 
@@ -28,6 +28,8 @@ public class IcyBlowback extends Game<IcyBlowbackMap> {
 			.name(ChatColor.AQUA + "Knockback sword")
 			.enchant(Enchantment.KNOCKBACK, 2)
 			.create();
+
+	private static final PotionEffect SPEED = new PotionEffect(PotionEffectType.SPEED, Integer.MAX_VALUE, 0, true);
 
 	@Override
 	public @NotNull String getIdentifier() {
@@ -95,8 +97,7 @@ public class IcyBlowback extends Game<IcyBlowbackMap> {
 		for (final MPlayer player : Minigames.getOnlinePlayers()) {
 			player.setDisableDamage(false);
 			player.giveItem(SWORD);
-			player.giveInfiniteEffect(PotionEffectType.SPEED);
-			player.giveInfiniteEffect(PotionEffectType.DAMAGE_RESISTANCE, 255);
+			player.giveEffect(SPEED);
 			player.placeCage(false);
 			IcyBlowback.this.alive.add(player.getUniqueId());
 		}
@@ -137,9 +138,7 @@ public class IcyBlowback extends Game<IcyBlowbackMap> {
 
 	@EventHandler
 	public void onDamage(final EntityDamageByEntityEvent event) {
-		if (!this.alive.contains(event.getDamager().getUniqueId())) {
-			event.setCancelled(true);
-		}
+		event.setDamage(0);
 	}
 
 	@Override

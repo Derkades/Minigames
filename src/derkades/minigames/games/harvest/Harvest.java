@@ -5,7 +5,6 @@ import derkades.minigames.Minigames;
 import derkades.minigames.games.Game;
 import derkades.minigames.utils.Leaderboard;
 import derkades.minigames.utils.MPlayer;
-import derkades.minigames.utils.MinigamesPlayerDamageEvent;
 import derkades.minigames.utils.Scheduler;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -18,6 +17,7 @@ import org.bukkit.block.data.Ageable;
 import org.bukkit.entity.Item;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import xyz.derkades.derkutils.ListUtils;
@@ -171,31 +171,29 @@ public class Harvest extends Game<@NotNull HarvestMap> {
 	public void onPlayerQuit(final MPlayer player) {}
 
 	@EventHandler
-	public void damage(final MinigamesPlayerDamageEvent event) {
-		if (event.willBeDead()) {
-			event.setCancelled(true);
-			final MPlayer player = event.getPlayer();
+	public void onDeath(final PlayerDeathEvent event) {
+		event.setCancelled(true);
+		final MPlayer player = new MPlayer(event);
 
-			for (final ItemStack item : player.getInventory()) {
-				if (item != null && item.getType() == Material.WHEAT) {
-					this.map.getSpawnLocation().getWorld().dropItemNaturally(player.getLocation(), item);
-				}
+		for (final ItemStack item : player.getInventory()) {
+			if (item != null && item.getType() == Material.WHEAT) {
+				this.map.getSpawnLocation().getWorld().dropItemNaturally(player.getLocation(), item);
+			}
+		}
+
+		player.spectator();
+		final UUID uuid = player.getUniqueId();
+		Scheduler.delay(RESPAWN_DELAY, () -> {
+			final MPlayer player2 = Minigames.getPlayer(uuid);
+			if (player2 == null) {
+				return;
 			}
 
-			player.spectator();
-			final UUID uuid = player.getUniqueId();
-			Scheduler.delay(RESPAWN_DELAY, () -> {
-				final MPlayer player2 = Minigames.getPlayer(uuid);
-				if (player2 == null) {
-					return;
-				}
-
-				player2.heal();
-				player2.setGameMode(GameMode.ADVENTURE);
-				giveItems(player2);
-				player2.teleport(this.map.getSpawnLocation());
-			});
-		}
+			player2.heal();
+			player2.setGameMode(GameMode.ADVENTURE);
+			giveItems(player2);
+			player2.teleport(this.map.getSpawnLocation());
+		});
 	}
 
 	@EventHandler

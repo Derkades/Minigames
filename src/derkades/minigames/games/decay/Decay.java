@@ -9,9 +9,10 @@ import derkades.minigames.utils.Utils;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
-import org.bukkit.potion.PotionEffectType;
 import org.jetbrains.annotations.NotNull;
 import xyz.derkades.derkutils.ListUtils;
 
@@ -42,6 +43,7 @@ public class Decay extends Game<DecayMap> {
 
 	@Override
 	public String[] getDescription() {
+		// TODO Description
 		return new String[] {
 				"something something don't die",
 		};
@@ -87,7 +89,6 @@ public class Decay extends Game<DecayMap> {
 	public void onStart() {
 		Minigames.getOnlinePlayers().forEach(p-> {
 			p.setDisableDamage(false);
-			p.giveInfiniteEffect(PotionEffectType.DAMAGE_RESISTANCE, 30);
 		});
 	}
 
@@ -169,6 +170,13 @@ public class Decay extends Game<DecayMap> {
 			} else {
 				player.teleport(this.map.getSpawnLocation());
 			}
+		}
+	}
+
+	@EventHandler
+	public void onDamage(EntityDamageByEntityEvent event) {
+		if (event.getEntity().getType() == EntityType.PLAYER){
+			event.setDamage(0);
 		}
 	}
 

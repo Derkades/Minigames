@@ -1,10 +1,9 @@
 package derkades.minigames.games.creeperattack;
 
-import java.util.HashSet;
-import java.util.Set;
-import java.util.UUID;
-import java.util.concurrent.ThreadLocalRandom;
-
+import derkades.minigames.Minigames;
+import derkades.minigames.games.Game;
+import derkades.minigames.utils.MPlayer;
+import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -16,17 +15,17 @@ import org.bukkit.entity.Creeper;
 import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.inventory.ItemStack;
-
-import derkades.minigames.Minigames;
-import derkades.minigames.games.Game;
-import derkades.minigames.utils.MPlayer;
-import derkades.minigames.utils.MinigamesPlayerDamageEvent;
-import net.md_5.bungee.api.ChatColor;
 import org.jetbrains.annotations.NotNull;
 import xyz.derkades.derkutils.ListUtils;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
 import xyz.derkades.derkutils.bukkit.MaterialLists;
+
+import java.util.HashSet;
+import java.util.Set;
+import java.util.UUID;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class CreeperAttack extends Game<CreeperAttackMap> {
 
@@ -161,14 +160,12 @@ public class CreeperAttack extends Game<CreeperAttackMap> {
 	}
 
 	@EventHandler
-	public void onDamage(final MinigamesPlayerDamageEvent event) {
-		if (event.willBeDead()) {
-			event.setCancelled(true);
-			final MPlayer player = event.getPlayer();
-			this.alive.remove(player.getUniqueId());
-			player.die();
-			sendPlainMessage(player.getName() + " has been blown up by a creeper");
-		}
+	public void onDeath(final PlayerDeathEvent event) {
+		event.setCancelled(true);
+		final MPlayer player = new MPlayer(event);
+		this.alive.remove(player.getUniqueId());
+		player.die();
+		sendPlainMessage(player.getName() + " has been blown up by a creeper");
 	}
 
 	@Override

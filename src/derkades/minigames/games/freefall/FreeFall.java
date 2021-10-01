@@ -1,21 +1,20 @@
 package derkades.minigames.games.freefall;
 
-import java.util.Set;
-import java.util.UUID;
-
+import derkades.minigames.Minigames;
+import derkades.minigames.games.Game;
+import derkades.minigames.utils.MPlayer;
+import derkades.minigames.utils.MPlayerDamageEvent;
+import derkades.minigames.utils.MinigamesPlayerDamageEvent;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
-
-import derkades.minigames.Minigames;
-import derkades.minigames.games.Game;
-import derkades.minigames.utils.MPlayer;
-import derkades.minigames.utils.MinigamesPlayerDamageEvent;
-import derkades.minigames.utils.MinigamesPlayerDamageEvent.DamageType;
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.NamedTextColor;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.Set;
+import java.util.UUID;
 
 public class FreeFall extends Game<FreeFallMap> {
 
@@ -115,12 +114,12 @@ public class FreeFall extends Game<FreeFallMap> {
 	}
 
 	@EventHandler
-	public void onDamage(final MinigamesPlayerDamageEvent event) {
-		if (event.getType() == DamageType.ENTITY) {
-			event.setCancelled(true);
-			return;
-		}
+	public void onDamage(MPlayerDamageEvent event){
+		event.setCancelled(event.getDamagerPlayer() != null);
+	}
 
+	@EventHandler
+	public void onDamage(final MinigamesPlayerDamageEvent event) {
 		final MPlayer player = event.getPlayer();
 		player.removeFire();
 

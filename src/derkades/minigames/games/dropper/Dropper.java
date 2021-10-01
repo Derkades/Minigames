@@ -1,21 +1,22 @@
 package derkades.minigames.games.dropper;
 
-import java.util.HashSet;
-import java.util.Set;
-import java.util.UUID;
-
-import org.bukkit.GameMode;
-import org.bukkit.Material;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.player.PlayerMoveEvent;
-
 import derkades.minigames.Minigames;
 import derkades.minigames.games.Game;
 import derkades.minigames.utils.MPlayer;
-import derkades.minigames.utils.MinigamesPlayerDamageEvent;
-import derkades.minigames.utils.MinigamesPlayerDamageEvent.DamageType;
+import derkades.minigames.utils.MPlayerDamageEvent;
 import derkades.minigames.utils.Utils;
+import org.bukkit.GameMode;
+import org.bukkit.Material;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.player.PlayerMoveEvent;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.HashSet;
+import java.util.Set;
+import java.util.UUID;
 
 public class Dropper extends Game<DropperMap> {
 
@@ -115,17 +116,17 @@ public class Dropper extends Game<DropperMap> {
 	}
 
 	@EventHandler
-	public void onDamage(final MinigamesPlayerDamageEvent event){
-		if (event.getType().equals(DamageType.ENTITY)) {
-			event.setCancelled(true);
-			return;
-		}
+	public void onDamage(MPlayerDamageEvent event) {
+		Entity damager = event.getDirectDamagerEntity();
+		event.setCancelled(damager != null && damager.getType() == EntityType.PLAYER);
+	}
 
-		if (event.willBeDead()) {
-			event.setCancelled(true);
-			event.getPlayer().queueTeleport(this.map.getLobbyLocation());
-			event.getPlayer().heal();
-		}
+	@EventHandler
+	public void onDeath(PlayerDeathEvent event) {
+		event.setCancelled(true);
+		MPlayer player = new MPlayer(event);
+		player.queueTeleport(this.map.getLobbyLocation());
+		player.heal();
 	}
 
 	@Override

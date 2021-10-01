@@ -1,7 +1,6 @@
 package derkades.minigames;
 
 import de.tr7zw.changeme.nbtapi.utils.MinecraftVersion;
-import derkades.minigames.games.Games;
 import derkades.minigames.modules.CancelInteract;
 import derkades.minigames.modules.ChatPoll;
 import derkades.minigames.modules.CustomPlayerList;
@@ -88,8 +87,6 @@ public class Minigames extends JavaPlugin implements Listener {
 	@Override
 	public void onEnable(){
 		instance = this;
-
-		Games.class.getName(); // force static initializer
 
 		super.saveDefaultConfig();
 
