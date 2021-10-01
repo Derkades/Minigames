@@ -1,13 +1,5 @@
 package derkades.minigames.modules;
 
-import static net.kyori.adventure.text.format.NamedTextColor.GRAY;
-import static net.kyori.adventure.text.format.NamedTextColor.LIGHT_PURPLE;
-import static net.kyori.adventure.text.format.NamedTextColor.RED;
-
-import java.util.HashMap;
-
-import org.bukkit.Location;
-
 import derkades.minigames.Logger;
 import derkades.minigames.Minigames;
 import derkades.minigames.Var;
@@ -17,7 +9,12 @@ import net.kyori.adventure.key.Key;
 import net.kyori.adventure.sound.Sound;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextDecoration;
+import org.bukkit.Location;
 import xyz.derkades.derkutils.ListUtils;
+
+import java.util.HashMap;
+
+import static net.kyori.adventure.text.format.NamedTextColor.*;
 
 public class JazzRoom extends Module implements Runnable {
 
@@ -27,7 +24,7 @@ public class JazzRoom extends Module implements Runnable {
 	};
 
 	private static final Location BOUNDS_A = new Location(Var.LOBBY_WORLD, 214, 76, 273);
-	private static final Location BOUNDS_B = new Location(Var.LOBBY_WORLD, 224, 82, 259);
+	private static final Location BOUNDS_B = new Location(Var.LOBBY_WORLD, 224, 80, 259);
 
 	private static final HashMap<String, Sound> PLAYING = new HashMap<>();
 
