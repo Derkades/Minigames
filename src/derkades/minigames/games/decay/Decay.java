@@ -87,9 +87,7 @@ public class Decay extends Game<DecayMap> {
 
 	@Override
 	public void onStart() {
-		Minigames.getOnlinePlayers().forEach(p-> {
-			p.setDisableDamage(false);
-		});
+		Minigames.getOnlinePlayers().forEach(p-> p.setDisableDamage(false));
 	}
 
 	public void decayBlock() {

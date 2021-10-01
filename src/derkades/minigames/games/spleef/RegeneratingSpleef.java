@@ -25,7 +25,6 @@ import derkades.minigames.utils.PaperItemBuilder;
 import derkades.minigames.utils.Scheduler;
 import derkades.minigames.utils.Utils;
 import org.jetbrains.annotations.NotNull;
-import xyz.derkades.derkutils.bukkit.ItemBuilder;
 
 public class RegeneratingSpleef extends Game<SpleefMap> {
 

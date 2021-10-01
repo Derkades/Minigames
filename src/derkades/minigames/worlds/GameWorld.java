@@ -209,14 +209,13 @@ public enum GameWorld {
 		return world;
 	}
 
-	public boolean unload() {
+	public void unload() {
 		final World world = Bukkit.getWorld(getName());
 		if (world == null) {
-			return true;
+			Logger.debug("World %s was already unloaded", this.name());
 		} else {
 			final boolean success = Bukkit.unloadWorld(getWorld(), true);
-			Logger.debug(success ? "Unloaded world %s" : "Couldn't unload world %s", toString());
-			return success;
+			Logger.debug(success ? "Unloaded world %s" : "Couldn't unload world %s", this.name());
 		}
 	}
 
