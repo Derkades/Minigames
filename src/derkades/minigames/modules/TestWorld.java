@@ -55,8 +55,8 @@ public class TestWorld extends Module {
 
 			final Player player = (Player) sender;
 			player.teleport(world.getSpawnLocation());
-			player.setFlying(true);
 			player.setGameMode(GameMode.CREATIVE);
+			player.setFlying(true);
 			return true;
 		}
 
