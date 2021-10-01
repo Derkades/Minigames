@@ -24,7 +24,7 @@ public class JazzRoom extends Module implements Runnable {
 	};
 
 	private static final Location BOUNDS_A = new Location(Var.LOBBY_WORLD, 214, 76, 273);
-	private static final Location BOUNDS_B = new Location(Var.LOBBY_WORLD, 224, 80, 259);
+	private static final Location BOUNDS_B = new Location(Var.LOBBY_WORLD, 224, 81, 259);
 
 	private static final HashMap<String, Sound> PLAYING = new HashMap<>();
 
