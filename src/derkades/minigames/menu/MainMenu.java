@@ -1,21 +1,19 @@
 package derkades.minigames.menu;
 
-import static org.bukkit.ChatColor.GOLD;
-import static org.bukkit.ChatColor.GRAY;
-import static org.bukkit.ChatColor.YELLOW;
-
-import java.util.List;
-
-import org.bukkit.Material;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-
+import derkades.minigames.Logger;
 import derkades.minigames.Minigames;
 import derkades.minigames.Points;
 import net.md_5.bungee.api.ChatColor;
+import org.bukkit.Material;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
 import xyz.derkades.derkutils.bukkit.menu.IconMenu;
 import xyz.derkades.derkutils.bukkit.menu.OptionClickEvent;
+
+import java.util.List;
+
+import static org.bukkit.ChatColor.*;
 
 public class MainMenu extends IconMenu {
 
@@ -42,21 +40,27 @@ public class MainMenu extends IconMenu {
 
 	@Override
 	public boolean onOptionClick(final OptionClickEvent event) {
-		if (event.getName().contains("Games")){
+		String name = event.getName();
+		if (name == null) {
+			return false;
+		}
+
+		if (name.contains("Games")){
 			new GamesListMenu(event.getPlayer());
 			return false;
-		} else if (event.getName().contains("Points")) {
+		} else if (name.contains("Points")) {
 			new PointsListMenu(event.getPlayer());
 			return false;
-		} else if (event.getName().contains("Close")){
+		} else if (name.contains("Close")){
 			return true;
-		} else if (event.getName().contains("Game descriptions")) {
+		} else if (name.contains("Game descriptions")) {
 			final Player player = event.getPlayer();
 
 			final ItemStack item = event.getItemStack();
 			final List<String> list = Minigames.getInstance().getConfig().getStringList("disabled-description");
 
-			if (item.getType().equals(Material.LIME_DYE)) {
+			if (item != null &&
+					item.getType() == Material.LIME_DYE) {
 				player.sendMessage(ChatColor.GOLD + "Minigame descriptions have been disabled.");
 				list.add(player.getUniqueId().toString());
 			} else {
@@ -71,7 +75,7 @@ public class MainMenu extends IconMenu {
 
 			return false;
 		} else {
-			event.getPlayer().sendMessage("error");
+			Logger.warning("Unhandled menu click slot %s", event.getPosition());
 			return false;
 		}
 	}
