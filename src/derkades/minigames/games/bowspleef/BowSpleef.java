@@ -16,7 +16,7 @@ import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
 
-import java.util.Arrays;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -133,14 +133,18 @@ public class BowSpleef extends Game<BowSpleefMap> {
 		this.alive.remove(player.getUniqueId());
 	}
 
+	private static final List<BlockFace> FACES = List.of(BlockFace.EAST, BlockFace.WEST, BlockFace.NORTH, BlockFace.SOUTH);
+
 	@EventHandler
 	public void onHit(final ProjectileHitEvent event) {
+		final Block block = event.getHitBlock();
+
 		if (event.getEntityType() == EntityType.ARROW &&
 				event.getHitEntity() == null &&
-				event.getHitBlock().getType() == Material.TNT) {
-			final Block block = event.getHitBlock();
+				block != null &&
+				block.getType() == Material.TNT) {
 
-			Arrays.asList(BlockFace.EAST, BlockFace.WEST, BlockFace.NORTH, BlockFace.SOUTH).forEach((f) -> {
+			FACES.forEach((f) -> {
 				final Block relative = block.getRelative(f);
 				if (relative.getType() == Material.TNT) {
 					relative.setType(Material.AIR);

@@ -58,10 +58,9 @@ class Prototype extends ControlPointsMap {
 	}
 
 	@Override
-	boolean isOnControlPoint(final Location location, final MPlayer player) {
-		final Location min = location;
-		final Location max = location.clone().add(3, 5, 3);
-		return LocationUtils.isIn2dBounds(player.getLocation(), min, max);
+	boolean isOnControlPoint(final Location minLocation, final MPlayer player) {
+		final Location maxLocation = minLocation.clone().add(3, 5, 3);
+		return LocationUtils.isIn2dBounds(player.getLocation(), minLocation, maxLocation);
 	}
 
 	@Override

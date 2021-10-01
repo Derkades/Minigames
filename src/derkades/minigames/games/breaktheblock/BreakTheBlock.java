@@ -204,15 +204,17 @@ public class BreakTheBlock extends Game<BreakTheBlockMap> {
 			player.giveEffect(SLIME_BOOST);
 		}
 
+		ItemStack secondSlot = player.getInventory().getItem(1);
+
 		if (blockOn.getType() == Material.MAGENTA_CONCRETE) {
-			if (player.getInventory().getItem(1) == null ||
-					player.getInventory().getItem(1).getType() == Material.AIR) {
+			if (secondSlot == null ||
+					secondSlot.getType() == Material.AIR) {
 				player.getInventory().setHeldItemSlot(1);
 				player.getInventory().setItem(1, BOW);
 				player.getInventory().setItem(9, ARROW);
 			}
-		} else if (player.getInventory().getItem(1) != null &&
-				player.getInventory().getItem(1).getType() == Material.BOW) {
+		} else if (secondSlot != null &&
+				secondSlot.getType() == Material.BOW) {
 			player.getInventory().setItem(1, null);
 			player.getInventory().setItem(9, null);
 		}

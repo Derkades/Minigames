@@ -58,8 +58,6 @@ public class Minigames extends JavaPlugin implements Listener {
 
 	public static final PrettyTime PRETTY_TIME = new PrettyTime();
 
-	@SuppressWarnings("null")
-	@NotNull
 	private static Minigames instance;
 
 	public static boolean STOP_GAMES = false;
@@ -87,7 +85,6 @@ public class Minigames extends JavaPlugin implements Listener {
 		}
 	}
 
-	@SuppressWarnings("null")
 	@Override
 	public void onEnable(){
 		instance = this;
