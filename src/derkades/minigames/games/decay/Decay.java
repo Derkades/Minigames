@@ -164,6 +164,7 @@ public class Decay extends Game<DecayMap> {
 		if (this.map.isDead(player)) {
 			if (GameState.getCurrentState().gameIsRunning()) {
 				player.dieTo(this.map.getSpawnLocation());
+				this.sendFormattedPlainMessage("%s died", player.getName());
 				this.alive.remove(player.getUniqueId());
 			} else {
 				player.teleport(this.map.getSpawnLocation());
