@@ -139,17 +139,6 @@ public enum GameTeam {
 
 	@NotNull
 	public static List<@NotNull GameTeam> getTeams(final int amount) {
-//		final GameTeam[] array = GameTeam.values();
-//		Validate.isTrue(amount <= array.length, "Requested too many teams");
-//		final List<GameTeam> teams = new ArrayList<>(array.length);
-//		for (final GameTeam team : array) {
-//			teams.add(team);
-//		}
-//		Collections.shuffle(teams);
-//		while (teams.size() > amount) {
-//			teams.remove(teams.size() - 1);
-//		}
-//		return Collections.unmodifiableList(teams);
 		return ListUtils.chooseMultiple(GameTeam.values(), amount);
 	}
 

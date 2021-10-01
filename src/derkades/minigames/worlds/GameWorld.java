@@ -225,8 +225,4 @@ public enum GameWorld {
 		Logger.debug("Loaded worlds, took %.2fms", (System.nanoTime() - start) / 1_000_000d);
 	}
 
-//	public static void init() {
-//		Bukkit.getOnlinePlayers().stream().filter((p) -> Arrays.asList(GameWorld.values()).stream().map(GameWorld::getName).collect(Collectors.toList()).contains(p.getWorld().getName())).forEach((p) -> p.teleport(Var.LOBBY_LOCATION));
-//	}
-
 }
