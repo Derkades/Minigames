@@ -1,10 +1,7 @@
 package derkades.minigames.games.tron;
 
-import org.bukkit.scheduler.BukkitTask;
-
-import derkades.minigames.Minigames;
-import derkades.minigames.Minigames.ShutdownReason;
 import derkades.minigames.games.GameTeam;
+import org.bukkit.scheduler.BukkitTask;
 
 class TronPlayer {
 
@@ -26,23 +23,21 @@ class TronPlayer {
 	}
 
 	void rotateLeft() {
-		switch (this.direction) {
-			case NORTH -> this.direction = Direction.WEST;
-			case WEST -> this.direction = Direction.SOUTH;
-			case SOUTH -> this.direction = Direction.EAST;
-			case EAST -> this.direction = Direction.NORTH;
-			default -> Minigames.shutdown(ShutdownReason.EMERGENCY_AUTOMATIC, "Illegal direction '" + this.direction + "'");
-		}
+		this.direction = switch (this.direction) {
+			case NORTH -> Direction.WEST;
+			case WEST -> Direction.SOUTH;
+			case SOUTH -> Direction.EAST;
+			case EAST -> Direction.NORTH;
+		};
 	}
 
 	void rotateRight() {
-		switch (this.direction) {
-			case NORTH -> this.direction = Direction.EAST;
-			case EAST -> this.direction = Direction.SOUTH;
-			case SOUTH -> this.direction = Direction.WEST;
-			case WEST -> this.direction = Direction.NORTH;
-			default -> Minigames.shutdown(ShutdownReason.EMERGENCY_AUTOMATIC, "Illegal direction '" + this.direction + "'");
-		}
+		this.direction = switch (this.direction) {
+			case NORTH -> Direction.EAST;
+			case EAST -> Direction.SOUTH;
+			case SOUTH -> Direction.WEST;
+			case WEST -> Direction.NORTH;
+		};
 	}
 
 }
