@@ -12,6 +12,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import derkades.minigames.Minigames;
+import derkades.minigames.utils.PaperItemBuilder;
 import derkades.minigames.utils.Scheduler;
 import derkades.minigames.utils.Utils;
 import net.md_5.bungee.api.ChatColor;
@@ -52,7 +53,7 @@ public class PointsLeaderboardMenu extends IconMenu {
 				final int finalPos = pos;
 				final int finalSlot = slot++;
 				final String texture = HeadTextures.getHeadTexture(e.getKey().getUniqueId()).get();
-				final ItemStack item = new ItemBuilder(Material.PLAYER_HEAD).skullTexture(texture).amount(finalPos + 1).name(ChatColor.GOLD + e.getKey().getName()).lore(ChatColor.GRAY + "Points: " + ChatColor.YELLOW + e.getValue()).create();
+				final ItemStack item = new PaperItemBuilder(Material.PLAYER_HEAD).skullTexture(texture).amount(finalPos + 1).name(ChatColor.GOLD + e.getKey().getName()).lore(ChatColor.GRAY + "Points: " + ChatColor.YELLOW + e.getValue()).create();
 				Scheduler.run(() -> this.addItem(finalSlot, item));
 			}
 

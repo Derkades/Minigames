@@ -1,10 +1,7 @@
 package derkades.minigames.games.breaktheblock;
 
-import derkades.minigames.Minigames;
-import derkades.minigames.games.Game;
-import derkades.minigames.utils.MPlayer;
-import derkades.minigames.utils.PotionEffects;
-import net.md_5.bungee.api.ChatColor;
+import java.util.UUID;
+
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
@@ -20,20 +17,25 @@ import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.jetbrains.annotations.NotNull;
+
+import derkades.minigames.Minigames;
+import derkades.minigames.games.Game;
+import derkades.minigames.utils.MPlayer;
+import derkades.minigames.utils.PaperItemBuilder;
+import derkades.minigames.utils.PotionEffects;
+import net.md_5.bungee.api.ChatColor;
 import xyz.derkades.derkutils.ListUtils;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
 
-import java.util.UUID;
-
 public class BreakTheBlock extends Game<BreakTheBlockMap> {
 
-	private static final ItemStack PICKAXE = new ItemBuilder(Material.IRON_PICKAXE)
+	private static final ItemStack PICKAXE = new PaperItemBuilder(Material.IRON_PICKAXE)
 			.unbreakable()
 			.name(ChatColor.GOLD + "Block breaker")
 			.lore(ChatColor.YELLOW + "Use this gold pickaxe to break the ", ChatColor.YELLOW + "gold block at the end of the game.")
-			.canDestroy(
-					"minecraft:gold_block",
-					"minecraft:red_glazed_terracotta" // cherry in cake map
+			.canDestroyMinecraft(
+					"gold_block",
+					"red_glazed_terracotta" // cherry in cake map
 					)
 			.create();
 

@@ -5,6 +5,7 @@ import org.bukkit.entity.Player;
 
 import derkades.minigames.Minigames;
 import derkades.minigames.utils.MPlayer;
+import derkades.minigames.utils.PaperItemBuilder;
 import net.md_5.bungee.api.ChatColor;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
 import xyz.derkades.derkutils.bukkit.menu.IconMenu;
@@ -27,8 +28,8 @@ public class PointsListMenu extends IconMenu {
 			slot++;
 		}
 
-		this.addItem(24, new ItemBuilder(Material.PLAYER_HEAD).skullTexture(MONITOR).name(ChatColor.GOLD + "View all players").create());
-		this.addItem(25, new ItemBuilder(Material.PLAYER_HEAD).skullTexture(MHF_QUESTION).name(ChatColor.GOLD + "Points explanation")
+		this.addItem(24, new PaperItemBuilder(Material.PLAYER_HEAD).skullTexture(MONITOR).name(ChatColor.GOLD + "View all players").create());
+		this.addItem(25, new PaperItemBuilder(Material.PLAYER_HEAD).skullTexture(MHF_QUESTION).name(ChatColor.GOLD + "Points explanation")
 				.lore(ChatColor.GREEN + "" + ChatColor.BOLD + "Winning a game",
 						ChatColor.GRAY + "  1-2 online players: +3 points",
 						ChatColor.GRAY + "  3-4 online players: +4 points",

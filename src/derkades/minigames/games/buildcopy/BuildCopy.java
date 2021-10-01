@@ -5,6 +5,7 @@ import derkades.minigames.Minigames;
 import derkades.minigames.games.Game;
 import derkades.minigames.utils.Leaderboard;
 import derkades.minigames.utils.MPlayer;
+import derkades.minigames.utils.PaperItemBuilder;
 import org.bukkit.Color;
 import org.bukkit.FireworkEffect;
 import org.bukkit.Material;
@@ -18,7 +19,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.FireworkMeta;
 import org.jetbrains.annotations.NotNull;
 import xyz.derkades.derkutils.ListUtils;
-import xyz.derkades.derkutils.bukkit.ItemBuilder;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -38,15 +38,15 @@ public class BuildCopy extends Game<BuildCopyMap> {
 	private static final Set<Material> MATERIALS_SET = Set.of(MATERIALS);
 
 	private static final String[] MATERIALS_VANILLA = {
-			"minecraft:birch_planks",
-			"minecraft:end_stone_bricks",
-			"minecraft:end_stone",
-			"minecraft:sandstone",
-			"minecraft:sand",
+			"birch_planks",
+			"end_stone_bricks",
+			"end_stone",
+			"sandstone",
+			"sand",
 	};
 
-	private static final ItemStack PICKAXE = new ItemBuilder(Material.IRON_PICKAXE)
-			.canDestroy(MATERIALS_VANILLA)
+	private static final ItemStack PICKAXE = new PaperItemBuilder(Material.IRON_PICKAXE)
+			.canDestroyMinecraft(MATERIALS_VANILLA)
 			.unbreakable()
 			.create();
 
@@ -125,9 +125,9 @@ public class BuildCopy extends Game<BuildCopyMap> {
 		final ItemStack[] items = new ItemStack[MATERIALS.length + 1];
 		items[0] = PICKAXE;
 		for (int i = 0; i < MATERIALS.length; i++) {
-			items[i + 1] = new ItemBuilder(MATERIALS[i])
+			items[i + 1] = new PaperItemBuilder(MATERIALS[i])
 					.amount(64)
-					.canPlaceOn("minecraft:gray_stained_glass")
+					.canPlaceOnMinecraft("gray_stained_glass")
 					.create();
 		}
 		player.giveItem(items);

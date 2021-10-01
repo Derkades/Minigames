@@ -8,6 +8,7 @@ import derkades.minigames.games.TeamManager;
 import derkades.minigames.utils.MPlayer;
 import derkades.minigames.utils.MinigamesPlayerDamageEvent;
 import derkades.minigames.utils.MinigamesPlayerDamageEvent.DamageType;
+import derkades.minigames.utils.PaperItemBuilder;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.Material;
@@ -181,9 +182,9 @@ public class MolePvP extends Game<MolePvPMap> implements TeamGame {
 				.unbreakable()
 				.create();
 
-		final ItemStack shovel = new ItemBuilder(Material.DIAMOND_SHOVEL)
+		final ItemStack shovel = new PaperItemBuilder(Material.DIAMOND_SHOVEL)
 				.enchant(Enchantment.DIG_SPEED, 5)
-				.canDestroy("minecraft:dirt")
+				.canDestroyMinecraft("dirt")
 				.unbreakable()
 				.create();
 

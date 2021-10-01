@@ -1,6 +1,5 @@
 package derkades.minigames;
 
-import de.tr7zw.changeme.nbtapi.utils.MinecraftVersion;
 import derkades.minigames.modules.CancelInteract;
 import derkades.minigames.modules.ChatPoll;
 import derkades.minigames.modules.CustomPlayerList;
@@ -65,10 +64,10 @@ public class Minigames extends JavaPlugin implements Listener {
 
 	public static ChatPoll CHAT_POLL = null;
 
-	static {
-		MinecraftVersion.disableUpdateCheck();
-		MinecraftVersion.disableBStats();
-	}
+//	static {
+//		MinecraftVersion.disableUpdateCheck();
+//		MinecraftVersion.disableBStats();
+//	}
 
 //	public static Economy economy = null;
 

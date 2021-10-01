@@ -21,6 +21,7 @@ import org.bukkit.util.Vector;
 import derkades.minigames.GameState;
 import derkades.minigames.games.Game;
 import derkades.minigames.utils.MPlayer;
+import derkades.minigames.utils.PaperItemBuilder;
 import derkades.minigames.utils.Scheduler;
 import derkades.minigames.utils.Utils;
 import org.jetbrains.annotations.NotNull;
@@ -93,12 +94,11 @@ public class RegeneratingSpleef extends Game<SpleefMap> {
 	public void onStart() {
 		this.alive = Utils.getOnlinePlayersUuidSet();
 
-		final ItemStack shovel = new ItemBuilder(Material.DIAMOND_SHOVEL)
+		final ItemStack shovel = new PaperItemBuilder(Material.DIAMOND_SHOVEL)
 				.name("Spleefanator 8000")
 				.enchant(Enchantment.DIG_SPEED, 5)
 				.unbreakable()
-//				.canDestroy(Material.SNOW_BLOCK)
-				.canDestroy("minecraft:snow_block")
+				.canDestroyMinecraft("snow_block")
 				.create();
 
 		Bukkit.getOnlinePlayers().forEach((player) -> player.getInventory().setItem(0, shovel));

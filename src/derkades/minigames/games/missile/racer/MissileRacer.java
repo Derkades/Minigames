@@ -1,7 +1,12 @@
 package derkades.minigames.games.missile.racer;
 
-import java.util.UUID;
-
+import derkades.minigames.GameState;
+import derkades.minigames.Minigames;
+import derkades.minigames.games.Game;
+import derkades.minigames.games.missile.Missile;
+import derkades.minigames.utils.MPlayer;
+import derkades.minigames.utils.MinigamesPlayerDamageEvent;
+import derkades.minigames.utils.PaperItemBuilder;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -12,31 +17,26 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
-
-import derkades.minigames.GameState;
-import derkades.minigames.Minigames;
-import derkades.minigames.games.Game;
-import derkades.minigames.games.missile.Missile;
-import derkades.minigames.utils.MPlayer;
-import derkades.minigames.utils.MinigamesPlayerDamageEvent;
 import org.jetbrains.annotations.NotNull;
 import xyz.derkades.derkutils.Cooldown;
 import xyz.derkades.derkutils.ListUtils;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
 
+import java.util.UUID;
+
 public class MissileRacer extends Game<MissileRacerMap> {
 
-	private static final ItemStack PLACEABLE_TNT = new ItemBuilder(Material.TNT)
+	private static final ItemStack PLACEABLE_TNT = new PaperItemBuilder(Material.TNT)
 			.amount(20)
-			.canPlaceOn(
-					"minecraft:obsidian",
-					"minecraft:slime_block",
-					"minecraft:redstone_block",
-					"minecraft:glass",
-					"minecraft:honey_block",
-					"minecraft:observer",
-					"minecraft:piston",
-					"minecraft:sticky_piston"
+			.canPlaceOnMinecraft(
+					"obsidian",
+					"slime_block",
+					"redstone_block",
+					"glass",
+					"honey_block",
+					"observer",
+					"piston",
+					"sticky_piston"
 					)
 			.create();
 

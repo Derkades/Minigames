@@ -1,13 +1,10 @@
 package derkades.minigames.games.harvest;
 
-import derkades.minigames.Logger;
-import derkades.minigames.Minigames;
-import derkades.minigames.games.Game;
-import derkades.minigames.utils.Leaderboard;
-import derkades.minigames.utils.MPlayer;
-import derkades.minigames.utils.Scheduler;
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.NamedTextColor;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
+import java.util.UUID;
+
 import org.bukkit.GameMode;
 import org.bukkit.GameRule;
 import org.bukkit.Location;
@@ -20,13 +17,18 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
+
+import derkades.minigames.Logger;
+import derkades.minigames.Minigames;
+import derkades.minigames.games.Game;
+import derkades.minigames.utils.Leaderboard;
+import derkades.minigames.utils.MPlayer;
+import derkades.minigames.utils.PaperItemBuilder;
+import derkades.minigames.utils.Scheduler;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import xyz.derkades.derkutils.ListUtils;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
-
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
 
 public class Harvest extends Game<@NotNull HarvestMap> {
 
@@ -34,10 +36,9 @@ public class Harvest extends Game<@NotNull HarvestMap> {
 	private static final int RESPAWN_DELAY = 3*20;
 
 	private static final ItemStack[] ITEMS = {
-			new ItemBuilder(Material.IRON_HOE)
+			new PaperItemBuilder(Material.IRON_HOE)
 					.unbreakable()
-					.canDestroy("minecraft:wheat")
-//					.canDestroy(Material.WHEAT)
+					.canDestroyMinecraft("wheat")
 					.create(),
 			new ItemBuilder(Material.WOODEN_SWORD)
 					.unbreakable()

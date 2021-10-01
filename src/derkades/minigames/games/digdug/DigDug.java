@@ -1,12 +1,8 @@
 package derkades.minigames.games.digdug;
 
-import derkades.minigames.Minigames;
-import derkades.minigames.games.Game;
-import derkades.minigames.utils.Leaderboard;
-import derkades.minigames.utils.MPlayer;
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.NamedTextColor;
-import net.md_5.bungee.api.ChatColor;
+import java.util.Arrays;
+import java.util.concurrent.ThreadLocalRandom;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -22,11 +18,16 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.jetbrains.annotations.NotNull;
-import xyz.derkades.derkutils.bukkit.BlockUtils;
-import xyz.derkades.derkutils.bukkit.ItemBuilder;
 
-import java.util.Arrays;
-import java.util.concurrent.ThreadLocalRandom;
+import derkades.minigames.Minigames;
+import derkades.minigames.games.Game;
+import derkades.minigames.utils.Leaderboard;
+import derkades.minigames.utils.MPlayer;
+import derkades.minigames.utils.PaperItemBuilder;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.md_5.bungee.api.ChatColor;
+import xyz.derkades.derkutils.bukkit.BlockUtils;
 
 public class DigDug extends Game<DigDugMap> {
 
@@ -105,16 +106,18 @@ public class DigDug extends Game<DigDugMap> {
 	public void onStart() {
 		this.leaderboard.show();
 
-		final ItemStack shovel = new ItemBuilder(Material.DIAMOND_SHOVEL)
+		final ItemStack shovel = new PaperItemBuilder(Material.DIAMOND_SHOVEL)
 				.name(ChatColor.GREEN + "The Dig Dug Digger")
 				.unbreakable()
-//				.canDestroy(Material.DIRT, Material.GRASS_BLOCK,
-//						Material.COAL_ORE, Material.IRON_ORE,
-//						Material.IRON_ORE, Material.GOLD_ORE,
-//						Material.EMERALD_ORE, Material.NETHERRACK, Material.QUARTZ_BLOCK)
-				.canDestroy("minecraft:dirt", "minecraft:grass_block", "minecraft:coal_ore",
-						"minecraft:iron_ore", "minecraft:gold_ore", "minecraft:emerald_ore",
-						"minecraft:netherrack", "minecraft:quartz_block")
+				.canDestroyMinecraft(
+						"dirt", 
+						"grass_block", 
+						"coal_ore",
+						"iron_ore", 
+						"gold_ore",
+						"emerald_ore",
+						"netherrack", 
+						"quartz_block")
 				.create();
 
 		shovel.addUnsafeEnchantment(Enchantment.DIG_SPEED, 10);

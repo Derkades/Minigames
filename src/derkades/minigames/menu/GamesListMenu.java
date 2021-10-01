@@ -4,9 +4,10 @@ import derkades.minigames.Minigames;
 import derkades.minigames.games.Game;
 import derkades.minigames.games.GameMap;
 import derkades.minigames.games.Games;
+import derkades.minigames.utils.PaperItemBuilder;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemFlag;
 import xyz.derkades.derkutils.NumberUtils;
-import xyz.derkades.derkutils.bukkit.ItemBuilder;
 import xyz.derkades.derkutils.bukkit.menu.IconMenu;
 import xyz.derkades.derkutils.bukkit.menu.OptionClickEvent;
 
@@ -63,11 +64,11 @@ public class GamesListMenu extends IconMenu {
 				}
 			}
 
-			this.addItem(slot, new ItemBuilder(game.getMaterial())
-				.name(GOLD + game.getName())
-				.lore(lore)
-				.hideFlags(63)
-				.create());
+			this.addItem(slot, new PaperItemBuilder(game.getMaterial())
+					.name(GOLD + game.getName())
+					.lore(lore)
+					.itemFlags(ItemFlag.HIDE_ATTRIBUTES)
+					.create());
 
 			slot++;
 		}
