@@ -3,7 +3,7 @@ main: derkades.minigames.Minigames
 version: 1.0
 author: Derkades
 authors: [Corrupt_World]
-softdepend: [Vault, Citizens]
+softdepend: [Vault, Citizens, PluginReloader]
 api-version: 1.16
 
 commands:
