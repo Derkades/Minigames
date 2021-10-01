@@ -1,30 +1,29 @@
 package derkades.minigames.games.oitq;
 
-import java.util.Set;
-import java.util.UUID;
-
+import derkades.minigames.Minigames;
+import derkades.minigames.games.Game;
+import derkades.minigames.utils.MPlayer;
+import derkades.minigames.utils.MPlayerDamageEvent;
+import derkades.minigames.utils.Utils;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.block.BlockFace;
+import org.bukkit.entity.AbstractArrow;
 import org.bukkit.entity.Arrow;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
-
-import derkades.minigames.Minigames;
-import derkades.minigames.games.Game;
-import derkades.minigames.utils.MPlayer;
-import derkades.minigames.utils.MinigamesPlayerDamageEvent;
-import derkades.minigames.utils.MinigamesPlayerDamageEvent.DamageType;
-import derkades.minigames.utils.Utils;
 import org.jetbrains.annotations.NotNull;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
+
+import java.util.Set;
+import java.util.UUID;
 
 public class OneInTheQuiver extends Game<OITQMap> {
 
@@ -40,6 +39,8 @@ public class OneInTheQuiver extends Game<OITQMap> {
 
 	private static final ItemStack ARROW = new ItemBuilder(Material.ARROW)
 			.create();
+
+	private static final PotionEffect INVISIBLITY = new PotionEffect(PotionEffectType.INVISIBILITY, 5*20, 0, true);
 
 	@Override
 	public @NotNull String getIdentifier() {
@@ -96,7 +97,7 @@ public class OneInTheQuiver extends Game<OITQMap> {
 
 		for (final MPlayer player : Minigames.getOnlinePlayers()) {
 			player.queueTeleport(this.map.getSpawnLocation());
-			player.giveEffect(PotionEffectType.INVISIBILITY, 5, 0);
+			player.giveEffect(INVISIBLITY);
 		}
 	}
 
@@ -146,63 +147,46 @@ public class OneInTheQuiver extends Game<OITQMap> {
 	}
 
 	@EventHandler
-	public void onDamage(final MinigamesPlayerDamageEvent event) {
-		final MPlayer player = event.getPlayer();
+	public void onDeath(PlayerDeathEvent event) {
+		MPlayer player = new MPlayer(event);
+		event.setCancelled(true);
 
-		if (event.getDamagerEntity() == null) {
-			if (event.willBeDead()) {
-				event.setCancelled(true);
-				this.alive.remove(player.getUniqueId());
-				player.clearInventory();
-				final int playersLeft = this.alive.size();
-				if (playersLeft > 1) {
-					sendFormattedPlainMessage("%s has died. There are %s players left.", player.getName(), this.alive.size());
-				} else {
-					sendFormattedPlainMessage("%s has died.", player.getName());
-				}
-				player.dieUp(2);
+		this.alive.remove(player.getUniqueId());
+		player.dieUp(2);
+
+		MPlayer killer = Utils.getKiller(event);
+		if (killer != null) {
+			killer.getInventory().addItem(ARROW);
+
+			final int playersLeft = this.alive.size();
+			if (playersLeft > 1) {
+				sendFormattedPlainMessage("%s has been killed by %s. There are %s players left.",
+						player.getName(), killer.getName(), playersLeft);
+			} else {
+				sendFormattedPlainMessage("%s has been killed by %s.",
+						player.getName(), killer.getName());
 			}
-			return;
+		} else {
+			final int playersLeft = this.alive.size();
+			if (playersLeft > 1) {
+				sendFormattedPlainMessage("%s has died. There are %s players left.",
+						player.getName(), playersLeft);
+			} else {
+				sendFormattedPlainMessage("%s has died.", player.getName());
+			}
 		}
+	}
 
-		if (event.getDamagerEntity().getType().equals(EntityType.ARROW)){
-			event.setDamage(20);
-		} else if (event.getType().equals(DamageType.ENTITY)) {
-			if (event.getDamagerEntity().getType().equals(EntityType.PLAYER)) {
+	@EventHandler
+	public void onDamage(final MPlayerDamageEvent event) {
+		MPlayer damager = event.getDamagerPlayer();
+
+		if (damager != null) {
+			if (event.getDirectDamagerEntity() instanceof AbstractArrow) {
+				event.setDamage(20);
+			} else {
 				event.setDamage(3);
 			}
-		}
-
-		if (event.willBeDead()) {
-			event.setCancelled(true);
-
-			this.alive.remove(player.getUniqueId());
-			player.clearInventory();
-
-			if (event.getType().equals(DamageType.ENTITY)) {
-				final MPlayer killer = event.getDamagerPlayer();
-
-				killer.getInventory().addItem(ARROW);
-
-				final int playersLeft = this.alive.size();
-				if (playersLeft > 1) {
-					sendFormattedPlainMessage("%s has been killed by %s. There are %s players left.",
-							player.getName(), killer.getName(), playersLeft);
-				} else {
-					sendFormattedPlainMessage("%s has been killed by %s.",
-							player.getName(), killer.getName());
-				}
-			} else {
-				final int playersLeft = this.alive.size();
-				if (playersLeft > 1) {
-					sendFormattedPlainMessage("%s has died. There are %s players left.",
-							player.getName(), playersLeft);
-				} else {
-					sendFormattedPlainMessage("%s has died.", player.getName());
-				}
-			}
-
-			player.dieUp(2);
 		}
 	}
 

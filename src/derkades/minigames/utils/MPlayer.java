@@ -435,7 +435,8 @@ public class MPlayer {
 	public void spectator() {
 		this.player.setGameMode(GameMode.SPECTATOR);
 		this.disableSneakPrevention();
-		this.sendPlainActionBar("You are now a specator. Use /spec <player> to spectate a player.");
+		this.clearInventory();
+		this.sendPlainActionBar("You are now a spectator. Use /spec <player> to spectate a player.");
 	}
 
 	public boolean isSpectator() {

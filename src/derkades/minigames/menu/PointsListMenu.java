@@ -1,13 +1,11 @@
 package derkades.minigames.menu;
 
-import org.bukkit.Material;
-import org.bukkit.entity.Player;
-
 import derkades.minigames.Minigames;
 import derkades.minigames.utils.MPlayer;
 import derkades.minigames.utils.PaperItemBuilder;
 import net.md_5.bungee.api.ChatColor;
-import xyz.derkades.derkutils.bukkit.ItemBuilder;
+import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import xyz.derkades.derkutils.bukkit.menu.IconMenu;
 import xyz.derkades.derkutils.bukkit.menu.OptionClickEvent;
 
@@ -21,10 +19,11 @@ public class PointsListMenu extends IconMenu {
 
 		int slot = 0;
 		for (final MPlayer target : Minigames.getOnlinePlayers()) {
-			this.addItem(slot, new ItemBuilder(target.bukkit())
-					.name(ChatColor.GOLD + target.getName())
-					.lore(ChatColor.GRAY + "Points: " + ChatColor.YELLOW + target.getPoints())
-					.create());
+			this.addItem(slot, new PaperItemBuilder(Material.PLAYER_HEAD)
+							.skullProfile(target.bukkit().getPlayerProfile())
+							.name(ChatColor.GOLD + target.getName())
+							.lore(ChatColor.GRAY + "Points: " + ChatColor.YELLOW + target.getPoints())
+							.create());
 			slot++;
 		}
 

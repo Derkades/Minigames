@@ -1,9 +1,7 @@
 package derkades.minigames.utils;
 
-import java.util.Arrays;
-import java.util.UUID;
-import java.util.stream.Collectors;
-
+import com.destroystokyo.paper.profile.PlayerProfile;
+import com.destroystokyo.paper.profile.ProfileProperty;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -12,11 +10,11 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.jetbrains.annotations.NotNull;
-
-import com.destroystokyo.paper.profile.PlayerProfile;
-import com.destroystokyo.paper.profile.ProfileProperty;
-
 import xyz.derkades.derkutils.bukkit.AbstractItemBuilder;
+
+import java.util.Arrays;
+import java.util.UUID;
+import java.util.stream.Collectors;
 
 public class PaperItemBuilder extends AbstractItemBuilder<PaperItemBuilder> {
 
@@ -51,20 +49,19 @@ public class PaperItemBuilder extends AbstractItemBuilder<PaperItemBuilder> {
 		ItemMeta meta = item.getItemMeta();
 		meta.addItemFlags(flags);
 		item.setItemMeta(meta);
-		
-		
-		SkullMeta skull;
-//		skull.setPlayerProfile();
-
-		
 		return this;
 	}
 	
 	@NotNull
 	public PaperItemBuilder skullTexture(@NotNull String skullTexture) {
+		PlayerProfile profile = Bukkit.getServer().createProfile(UUID.randomUUID());
+		profile.setProperty(new ProfileProperty("textures", skullTexture));
+		return this.skullProfile(profile);
+	}
+
+	@NotNull
+	public PaperItemBuilder skullProfile(@NotNull PlayerProfile profile) {
 		if (item.getItemMeta() instanceof SkullMeta meta) {
-			PlayerProfile profile = Bukkit.getServer().createProfile(UUID.randomUUID());
-			profile.setProperty(new ProfileProperty("textures", skullTexture));
 			meta.setPlayerProfile(profile);
 			item.setItemMeta(meta);
 			return this;
