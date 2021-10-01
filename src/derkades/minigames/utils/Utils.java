@@ -13,7 +13,12 @@ import org.bukkit.projectiles.ProjectileSource;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 
@@ -115,7 +120,7 @@ public class Utils {
 			case PLAYER -> {
 				return new MPlayer((Player) damagerEntity);
 			}
-			case ARROW, SPECTRAL_ARROW, FIREBALL -> {
+			case ARROW, SPECTRAL_ARROW, FIREBALL, TRIDENT -> {
 				final ProjectileSource shooter = ((Projectile) damagerEntity).getShooter();
 				if (shooter instanceof Player) {
 					return new MPlayer((Player) shooter);
