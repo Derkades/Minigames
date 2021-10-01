@@ -26,13 +26,16 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
+import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.Sign;
 import org.bukkit.block.data.Directional;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.ShulkerBullet;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
@@ -43,6 +46,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 
@@ -354,11 +358,89 @@ public class Command implements CommandExecutor {
 //					velocity.setY(1.5);
 //					fall.setVelocity(velocity);
 //					block.setType(Material.AIR);
+					Logger.debug("start meteor shower");
+					int max = 30;
+					new BukkitRunnable(){
+						int counter = 0;
+						public void run(){
+							counter++;
+							Logger.debug("%s / %s", counter, max);
+							if (counter >= max){
+								Logger.debug("stop meteor shower");
+								this.cancel();
+								return;
+							}
+
+							World world = Bukkit.getWorld("testworlds/test");
+							if (world == null){
+								Logger.warning("world not loaded");
+								this.cancel();
+								return;
+							}
+
+							float x = ThreadLocalRandom.current().nextFloat(-15, 15);
+							float y = ThreadLocalRandom.current().nextFloat(100, 130);
+							float z = ThreadLocalRandom.current().nextFloat(-15, 15);
+
+							Location bulletLoc = new Location(world, x, y, z);
+							UUID uuid = world.spawn(bulletLoc, ShulkerBullet.class).getUniqueId();
+
+							new BukkitRunnable() {
+								Location loc = null;
+
+								public void run() {
+									Entity entity = world.getEntity(uuid);
+									if (entity == null) {
+										if (loc != null){
+											loc.getWorld().createExplosion(loc, 4.0f);
+											loc.getWorld().spawnParticle(Particle.LAVA, loc, 30, 1, 0, 1, 0);
+
+											if (ThreadLocalRandom.current().nextFloat() > 0.6) {
+												while(loc.getBlock().getType() == Material.AIR) {
+													loc.add(0, -1, 0);
+													if (y < 50) {
+														return;
+													}
+												}
+
+												createFire(loc, 0, 15);
+
+												loc.getBlock().setType(Material.LAVA);
+											}
+										}
+										this.cancel();
+										return;
+									}
+									ShulkerBullet bullet = (ShulkerBullet) entity;
+									loc = bullet.getLocation();
+									loc.getWorld().spawnParticle(Particle.FLAME, loc, 5, 0, 0.5, 0, 0);
+//									loc.getWorld().spawnParticle(Particle.LAVA, loc.clone().add(0, -1, 0), 1, 0, 0, 0, 0);
+									loc.getWorld().spawnParticle(Particle.EXPLOSION_NORMAL, loc, 2, 0, .5, 0, 0);
+								}
+
+							}.runTaskTimer(Minigames.getInstance(), 1, 1);
+
+						}
+					}.runTaskTimer(Minigames.getInstance(), 0, 10);
 				}
 			}
 		}
 
 		return true;
+	}
+
+	private void createFire(Location center, int min, int max) {
+		int fireCount = ThreadLocalRandom.current().nextInt(min, max);
+		for (int i = 0; i < fireCount; i++) {
+			int x = center.getBlockX() + ThreadLocalRandom.current().nextInt(-4, 5);
+			int z = center.getBlockZ() + ThreadLocalRandom.current().nextInt(-4, 5);
+			for (int y = center.getBlockY() - 2; y < center.getBlockY() + 4; y++) {
+				Block block = center.getWorld().getBlockAt(x, y, z);
+				if (block.getType() == Material.AIR) {
+					block.setType(Material.FIRE);
+				}
+			}
+		}
 	}
 
 	public void generateMissileCode(final Block start, final int fb, final int ud, final int lr, final Map<String, Integer> lines, int airCounter) {
