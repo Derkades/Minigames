@@ -22,6 +22,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.inventory.ItemStack;
@@ -181,7 +182,7 @@ public class MurderyMister extends Game<MurderyMisterMap> {
 	}
 
 	@EventHandler
-	public void onDamage(final EntityShootBowEvent event) {
+	public void onShootBow(final EntityShootBowEvent event) {
 		if (event.getEntity().getType().equals(EntityType.PLAYER)) {
 			Scheduler.delay(5*20, () -> ((Player) event.getEntity()).getInventory().addItem(new ItemStack(Material.ARROW)));
 		}
@@ -189,9 +190,14 @@ public class MurderyMister extends Game<MurderyMisterMap> {
 
 	@EventHandler
 	public void onDamage(final MPlayerDamageEvent event) {
+		Logger.debug("event");
 		final MPlayer damager = event.getDamagerPlayer();
 		if (damager == null) {
-			event.setCancelled(true);
+			EntityDamageEvent cause = event.getPlayer().bukkit().getLastDamageCause();
+			// don't cancel plugin damage (void) or sneak cancel won't work
+			if (cause.getCause() != EntityDamageEvent.DamageCause.VOID) {
+				event.setCancelled(true);
+			}
 			return;
 		}
 
