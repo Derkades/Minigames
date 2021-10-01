@@ -256,6 +256,7 @@ public class Command implements CommandExecutor {
 				case "reload" -> {
 					if (sender.hasPermission("minigames.debug")) {
 						final PluginReloader reloader = (PluginReloader) Bukkit.getPluginManager().getPlugin("PluginReloader");
+						Objects.requireNonNull(reloader);
 						reloader.forceReload(Minigames.getInstance());
 					}
 				}

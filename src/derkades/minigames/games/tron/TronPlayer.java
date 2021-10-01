@@ -14,7 +14,7 @@ class TronPlayer {
 
 	TronPlayer(final GameTeam team, final TronSpawnLocation spawnLocation) {
 		this.team = team;
-		this.direction = spawnLocation.getDirection();
+		this.direction = spawnLocation.direction();
 	}
 
 	GameTeam getTeam() {

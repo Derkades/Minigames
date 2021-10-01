@@ -17,6 +17,7 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.PlayerInventory;
+import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
@@ -24,8 +25,12 @@ import org.jetbrains.annotations.NotNull;
 import xyz.derkades.derkutils.ListUtils;
 import xyz.derkades.derkutils.bukkit.BlockUtils;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
+import java.util.UUID;
 
 public class Tron extends Game<TronMap> {
 
@@ -33,6 +38,10 @@ public class Tron extends Game<TronMap> {
 	private static final int PLAYER_Y_DISTANCE = 30;
 	private static final float PLAYER_PITCH = 90f;
 	private static final Material CAGE_MATERIAL = Material.BLACK_CONCRETE;
+
+	private static final PotionEffect PRESTART_SLOW = new PotionEffect(PotionEffectType.SLOW, Integer.MAX_VALUE, 100, true);
+	private static final PotionEffect PRESTART_JUMP = new PotionEffect(PotionEffectType.JUMP, Integer.MAX_VALUE, 200, true);
+	private static final PotionEffect LARGER_FOV = new PotionEffect(PotionEffectType.SPEED, Integer.MAX_VALUE, 3, true);
 
 	@Override
 	public @NotNull String getIdentifier() {
@@ -104,14 +113,14 @@ public class Tron extends Game<TronMap> {
 			final TronPlayer tronPlayer = new TronPlayer(team, spawnLocation);
 			this.players.put(player.getUniqueId(), tronPlayer);
 
-			final Location loc = spawnLocation.getLocation().clone().add(0, PLAYER_Y_DISTANCE, 0);
+			final Location loc = spawnLocation.location().clone().add(0, PLAYER_Y_DISTANCE, 0);
 			loc.setYaw(90f);
 			TaskQueue.add(() -> {
 				player.teleport(loc);
 				player.placeCage(true, CAGE_MATERIAL);
 			});
-			player.giveInfiniteEffect(PotionEffectType.SLOW, 100);
-			player.giveInfiniteEffect(PotionEffectType.JUMP, 200);
+			player.giveEffect(PRESTART_SLOW);
+			player.giveEffect(PRESTART_JUMP);
 		}
 
 		sendPlainMessage("Steer using your 4 (left) and 6 (right) keys or by scrolling up and down using your mouse weel");
@@ -132,7 +141,7 @@ public class Tron extends Game<TronMap> {
 				continue;
 			}
 
-			player.giveInfiniteEffect(PotionEffectType.SPEED, 3);
+			player.giveEffect(LARGER_FOV);
 			player.getInventory().setHeldItemSlot(4);
 			player.sendPlainTitle("Use keyboard", "[4] LEFT [6] RIGHT");
 

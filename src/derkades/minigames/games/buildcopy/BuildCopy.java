@@ -1,13 +1,14 @@
 package derkades.minigames.games.buildcopy;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
-
+import derkades.minigames.Logger;
+import derkades.minigames.Minigames;
+import derkades.minigames.games.Game;
+import derkades.minigames.utils.Leaderboard;
+import derkades.minigames.utils.MPlayer;
 import org.bukkit.Color;
 import org.bukkit.FireworkEffect;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Firework;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.Action;
@@ -15,15 +16,14 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.FireworkMeta;
-
-import derkades.minigames.Logger;
-import derkades.minigames.Minigames;
-import derkades.minigames.games.Game;
-import derkades.minigames.utils.Leaderboard;
-import derkades.minigames.utils.MPlayer;
 import org.jetbrains.annotations.NotNull;
 import xyz.derkades.derkutils.ListUtils;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
 
 public class BuildCopy extends Game<BuildCopyMap> {
 
@@ -194,10 +194,12 @@ public class BuildCopy extends Game<BuildCopyMap> {
 
 	@EventHandler
 	public void onPlace(final PlayerInteractEvent event) {
+		Block clicked = event.getClickedBlock();
 		if (event.getAction() != Action.LEFT_CLICK_BLOCK &&
 				event.getPlayer().getInventory().getItemInMainHand().getType() == PICKAXE.getType() &&
-				MATERIALS_SET.contains(event.getClickedBlock().getType())) {
-			event.getClickedBlock().setType(Material.AIR);
+				clicked != null &&
+				MATERIALS_SET.contains(clicked.getType())) {
+			clicked.setType(Material.AIR);
 		}
 	}
 

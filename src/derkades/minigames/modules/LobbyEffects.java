@@ -38,7 +38,6 @@ public class LobbyEffects extends Module {
 				(
 						to.getType() == Material.WATER ||
 						(
-								to.getBlockData() != null &&
 								to.getBlockData() instanceof Waterlogged &&
 								((Waterlogged) to.getBlockData()).isWaterlogged()
 						)

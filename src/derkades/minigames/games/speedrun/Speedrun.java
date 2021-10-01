@@ -1,25 +1,27 @@
 package derkades.minigames.games.speedrun;
 
-import java.util.HashSet;
-import java.util.Set;
-import java.util.UUID;
-
+import derkades.minigames.Minigames;
+import derkades.minigames.games.Game;
+import derkades.minigames.utils.MPlayer;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-
-import derkades.minigames.Minigames;
-import derkades.minigames.games.Game;
-import derkades.minigames.utils.MPlayer;
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.NamedTextColor;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.HashSet;
+import java.util.Set;
+import java.util.UUID;
+
 public class Speedrun extends Game<SpeedrunMap> {
+
+	private static final PotionEffect SPEED_EFFECT = new PotionEffect(PotionEffectType.SPEED, Integer.MAX_VALUE, 30, true);
 
 	@Override
 	public @NotNull String getIdentifier() {
@@ -69,7 +71,7 @@ public class Speedrun extends Game<SpeedrunMap> {
 
 		for (final MPlayer player : Minigames.getOnlinePlayers()){
 			player.queueTeleport(this.map.getStartLocation());
-			player.giveInfiniteEffect(PotionEffectType.SPEED, 30);
+			player.giveEffect(SPEED_EFFECT);
 		}
 	}
 

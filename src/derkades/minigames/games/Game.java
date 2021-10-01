@@ -512,6 +512,7 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 	}
 
 	private void showPolls() {
+		//noinspection ConstantConditions
 		if (VoteConfig.VOTE_MENU_CHANCE > ThreadLocalRandom.current().nextFloat()) {
 			Scheduler.delay(40, () -> {
 				final boolean game = ThreadLocalRandom.current().nextBoolean() && Bukkit.getOnlinePlayers().size() > 1;
@@ -548,11 +549,6 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 	@SuppressWarnings({ "unused", "null" })
 	@Override
 	public void setWeight(final double weight) {
-		if (this.getIdentifier() == null) {
-			Minigames.shutdown(ShutdownReason.EMERGENCY_AUTOMATIC, "Game name is null");
-			return;
-		}
-
 		final String configPath = "game-voting." + this.getIdentifier();
 		Minigames.getInstance().getConfig().set(configPath, weight);
 		Minigames.getInstance().saveConfig();
@@ -561,11 +557,6 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 	@SuppressWarnings({ "unused", "null" })
 	@Override
 	public double getWeight() {
-		if (this.getIdentifier() == null) {
-			Minigames.shutdown(ShutdownReason.EMERGENCY_AUTOMATIC, "Game name is null");
-			return 0;
-		}
-
 		final String configPath = "game-voting." + this.getIdentifier();
 		return Minigames.getInstance().getConfig().getDouble(configPath, 1);
 	}
