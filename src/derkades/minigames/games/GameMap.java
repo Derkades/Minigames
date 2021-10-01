@@ -1,16 +1,12 @@
 package derkades.minigames.games;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import org.bukkit.World;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
 import derkades.minigames.Minigames;
 import derkades.minigames.random.RandomlyPickable;
 import derkades.minigames.utils.Disableable;
 import derkades.minigames.worlds.GameWorld;
+import org.bukkit.World;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public abstract class GameMap implements RandomlyPickable, Disableable {
 
@@ -54,29 +50,6 @@ public abstract class GameMap implements RandomlyPickable, Disableable {
 	@Override
 	public boolean isDisabled() {
 		return false;
-	}
-
-	private static final Map<String, GameMap> BY_IDENTIFIER = new HashMap<>();
-	private static final Map<GameMap, Game<? extends GameMap>> MAP_TO_GAME = new HashMap<>();
-
-	static {
-		for (final Game<? extends GameMap> game : Game.GAMES) {
-			for (final GameMap map : game.getGameMaps()) {
-				if (BY_IDENTIFIER.containsKey(map.getIdentifier())) {
-					throw new IllegalStateException("Duplicate identifier " + map.getIdentifier());
-				}
-				BY_IDENTIFIER.put(map.getIdentifier(), map);
-				MAP_TO_GAME.put(map, game);
-			}
-		}
-	}
-
-	public static GameMap fromIdentifier(final String identifier) {
-		return BY_IDENTIFIER.get(identifier);
-	}
-
-	public static Game<? extends GameMap> getGame(final GameMap map) {
-		return MAP_TO_GAME.get(map);
 	}
 
 }

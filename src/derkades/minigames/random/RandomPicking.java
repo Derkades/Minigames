@@ -3,6 +3,7 @@ package derkades.minigames.random;
 import derkades.minigames.Logger;
 import derkades.minigames.games.Game;
 import derkades.minigames.games.GameMap;
+import derkades.minigames.games.Games;
 import derkades.minigames.utils.Disableable;
 import derkades.minigames.utils.Utils;
 import org.bukkit.Bukkit;
@@ -24,7 +25,7 @@ public class RandomPicking {
 			FORCE_GAME = null;
 			Logger.debug("Not picking a random game, forced game ", game);
 		} else {
-			game = (Game<? extends GameMap>) getRandom(Arrays.asList(Game.GAMES));
+			game = (Game<? extends GameMap>) getRandom(Arrays.asList(Games.GAMES)); // TODO don't convert to list
 			Logger.debug("Picked random game ", game);
 		}
 

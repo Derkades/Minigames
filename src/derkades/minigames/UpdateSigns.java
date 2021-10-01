@@ -1,5 +1,18 @@
 package derkades.minigames;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import derkades.minigames.games.Games;
+import derkades.minigames.utils.Scheduler;
+import derkades.minigames.utils.Utils;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.block.Sign;
+
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
@@ -8,21 +21,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
-
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.block.Sign;
-
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-
-import derkades.minigames.games.Game;
-import derkades.minigames.utils.Scheduler;
-import derkades.minigames.utils.Utils;
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.NamedTextColor;
 
 public class UpdateSigns {
 
@@ -131,8 +129,8 @@ public class UpdateSigns {
 
 		final Sign globalStats2 = (Sign) new Location(Var.LOBBY_WORLD, 217, 65, 280).getBlock().getState();
 		globalStats2.line(0, Component.text("Games", NamedTextColor.YELLOW));
-		final int gameCount = Game.GAMES.length;
-		final int mapCount = Arrays.stream(Game.GAMES).mapToInt(g -> g.getGameMaps().length).sum();
+		final int gameCount = Games.GAMES.length;
+		final int mapCount = Arrays.stream(Games.GAMES).mapToInt(g -> g.getGameMaps().length).sum();
 		globalStats2.line(1, Component.text(gameCount + " (" + mapCount + " maps)", NamedTextColor.WHITE));
 		globalStats2.line(2, Component.text("Zombies killed", NamedTextColor.YELLOW));
 		final int killCount = Minigames.getInstance().getConfig().getInt("zombie-kill-count", 0);

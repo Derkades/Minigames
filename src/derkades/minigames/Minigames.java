@@ -1,9 +1,28 @@
 package derkades.minigames;
 
 import de.tr7zw.changeme.nbtapi.utils.MinecraftVersion;
-import derkades.minigames.games.Game;
-import derkades.minigames.games.GameMap;
-import derkades.minigames.modules.*;
+import derkades.minigames.games.Games;
+import derkades.minigames.modules.CancelInteract;
+import derkades.minigames.modules.ChatPoll;
+import derkades.minigames.modules.CustomPlayerList;
+import derkades.minigames.modules.DisableDamage;
+import derkades.minigames.modules.DisableInventoryItemMove;
+import derkades.minigames.modules.DynamicMotd;
+import derkades.minigames.modules.FastDripleafReset;
+import derkades.minigames.modules.GameWorldManagement;
+import derkades.minigames.modules.HeadTextureCaching;
+import derkades.minigames.modules.InfoBar;
+import derkades.minigames.modules.JazzRoom;
+import derkades.minigames.modules.LobbyEffects;
+import derkades.minigames.modules.LobbyMenu;
+import derkades.minigames.modules.LobbyStormDisabler;
+import derkades.minigames.modules.RandomNameColor;
+import derkades.minigames.modules.RegenerateHunger;
+import derkades.minigames.modules.ResetPlayersOnEnable;
+import derkades.minigames.modules.ResourcePack;
+import derkades.minigames.modules.SneakPrevention;
+import derkades.minigames.modules.SpawnZombieShooter;
+import derkades.minigames.modules.TestWorld;
 import derkades.minigames.utils.MPlayer;
 import derkades.minigames.utils.PluginLoadEvent;
 import derkades.minigames.utils.PluginUnloadEvent;
@@ -14,7 +33,6 @@ import derkades.minigames.worlds.WorldTeleportCommand;
 import derkades.minigames.worlds.WorldTeleportCommandCompleter;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
-import org.apache.commons.lang3.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
@@ -53,17 +71,6 @@ public class Minigames extends JavaPlugin implements Listener {
 	static {
 		MinecraftVersion.disableUpdateCheck();
 		MinecraftVersion.disableBStats();
-
-		// TODO Remove when all @NotNull warnings are resolved
-		for (final Game<?> game : Game.GAMES) {
-			Validate.notNull(game.getIdentifier(), "game identifier null: " + game.getClass().getName());
-			Validate.notNull(game.getName(), "game name null: " + game.getClass().getName());
-			final GameMap[] maps = game.getGameMaps();
-			for (final GameMap map : maps) {
-				Validate.notNull(map.getIdentifier(), "map identifier null: " + game.getClass().getName() + " " + map.getClass().getName());
-				Validate.notNull(map.getName(), "map name is null: " + map.getIdentifier());
-			}
-		}
 	}
 
 //	public static Economy economy = null;
@@ -85,6 +92,8 @@ public class Minigames extends JavaPlugin implements Listener {
 	public void onEnable(){
 		instance = this;
 
+		Games.class.getName(); // force static initializer
+
 		super.saveDefaultConfig();
 
 		Logger.info("Plugin enabled");
@@ -105,7 +114,6 @@ public class Minigames extends JavaPlugin implements Listener {
 //			getLogger().severe("Vault error");
 //		}
 
-//		new AutoReloader();
 		new CancelInteract();
 		CHAT_POLL = new ChatPoll();
 		new CustomPlayerList();

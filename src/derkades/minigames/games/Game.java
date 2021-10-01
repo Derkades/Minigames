@@ -5,30 +5,6 @@ import derkades.minigames.*;
 import derkades.minigames.Minigames.ShutdownReason;
 import derkades.minigames.constants.SkipConfig;
 import derkades.minigames.constants.VoteConfig;
-import derkades.minigames.games.bowspleef.BowSpleef;
-import derkades.minigames.games.breaktheblock.BreakTheBlock;
-import derkades.minigames.games.buildcopy.BuildCopy;
-import derkades.minigames.games.controlpoints.ControlPoints;
-import derkades.minigames.games.creeperattack.CreeperAttack;
-import derkades.minigames.games.decay.Decay;
-import derkades.minigames.games.digdug.DigDug;
-import derkades.minigames.games.dropper.Dropper;
-import derkades.minigames.games.elytra.Elytra;
-import derkades.minigames.games.gladeroyale.GladeRoyale;
-import derkades.minigames.games.harvest.Harvest;
-import derkades.minigames.games.hungergames.HungerGames;
-import derkades.minigames.games.icyblowback.IcyBlowback;
-import derkades.minigames.games.missile.racer.MissileRacer;
-import derkades.minigames.games.molepvp.MolePvP;
-import derkades.minigames.games.murderymister.MurderyMister;
-import derkades.minigames.games.oitq.OneInTheQuiver;
-import derkades.minigames.games.parkour.Parkour;
-import derkades.minigames.games.platform.Platform;
-import derkades.minigames.games.speedrun.Speedrun;
-import derkades.minigames.games.spleef.RegeneratingSpleef;
-import derkades.minigames.games.teamsbowbattle.TeamsBowBattle;
-import derkades.minigames.games.tntrun.TntRun;
-import derkades.minigames.games.tron.Tron;
 import derkades.minigames.modules.ChatPoll.Poll;
 import derkades.minigames.modules.ChatPoll.PollAnswer;
 import derkades.minigames.random.RandomPicking;
@@ -66,37 +42,6 @@ import java.util.stream.Collectors;
 import static net.md_5.bungee.api.ChatColor.*;
 
 public abstract class Game<M extends GameMap> implements Listener, RandomlyPickable {
-
-	public static final Game<? extends GameMap>[] GAMES = new Game<?>[] {
-			new BowSpleef(),
-			new BreakTheBlock(),
-			new BuildCopy(),
-			new CreeperAttack(),
-			new Decay(),
-			new DigDug(),
-			new Dropper(),
-			new Elytra(),
-			new Harvest(),
-			new HungerGames(),
-			new IcyBlowback(),
-			new GladeRoyale(),
-//			new MazePvp(),
-			new MissileRacer(),
-//			new MissileWars(),
-			new MolePvP(),
-			new MurderyMister(),
-			new OneInTheQuiver(),
-			new Platform(),
-			new ControlPoints(),
-			new RegeneratingSpleef(),
-			new Parkour(),
-//			new SnowFight(),
-			new Speedrun(),
-			new TeamsBowBattle(),
-			new TntRun(),
-//			new TntTag(),
-			new Tron(),
-	};
 
 	@NotNull
 	public abstract String getIdentifier();
@@ -635,16 +580,6 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 //		} else {
 //			return Size.SMALL;
 //		}
-	}
-
-	public static Game<? extends GameMap> fromString(final String string) {
-		for (final Game<? extends GameMap> game : GAMES){
-			if (game.getName().equalsIgnoreCase(string) ||
-					string.equalsIgnoreCase(game.getAlias())) {
-				return game;
-			}
-		}
-		return null;
 	}
 
 }

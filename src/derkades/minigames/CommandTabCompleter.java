@@ -2,12 +2,14 @@ package derkades.minigames;
 
 import derkades.minigames.games.Game;
 import derkades.minigames.games.GameMap;
+import derkades.minigames.games.Games;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -24,7 +26,7 @@ public class CommandTabCompleter implements TabCompleter {
 
 			final List<String> list = new ArrayList<>();
 
-			for (final Game<? extends GameMap> game : Game.GAMES) {
+			for (final Game<? extends GameMap> game : Games.GAMES) {
 				final String formattedName = game.getName().replace(" ", "_").toLowerCase();
 				if (formattedName.contains(arg)) {
 					list.add(formattedName);
@@ -43,13 +45,11 @@ public class CommandTabCompleter implements TabCompleter {
 				mapIdentifiers.add("<map>");
 			}
 
-			for (final Game<? extends GameMap> game : Game.GAMES) {
-				for (final GameMap map : game.getGameMaps()) {
-					if (map.getIdentifier().startsWith(args[1])){
-						mapIdentifiers.add(map.getIdentifier());
-					}
-				}
-			}
+			Arrays.stream(Games.GAMES)
+					.flatMap(g -> Arrays.stream(g.getGameMaps()))
+					.map(GameMap::getIdentifier)
+					.filter(i -> i.contains(args[1]))
+					.forEach(mapIdentifiers::add);
 			return mapIdentifiers;
 		} else {
 			return new ArrayList<>();

@@ -3,6 +3,7 @@ package derkades.minigames;
 import derkades.minigames.Minigames.ShutdownReason;
 import derkades.minigames.games.Game;
 import derkades.minigames.games.GameMap;
+import derkades.minigames.games.Games;
 import derkades.minigames.games.missile.Missile;
 import derkades.minigames.games.missile.Shield;
 import derkades.minigames.games.missile.wars.MissileWarsMap;
@@ -19,7 +20,12 @@ import derkades.minigames.worlds.GameWorld;
 import net.kyori.adventure.text.Component;
 import net.md_5.bungee.api.ChatColor;
 import nl.rkslot.pluginreloader.PluginReloader;
-import org.bukkit.*;
+import org.bukkit.Bukkit;
+import org.bukkit.DyeColor;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.Particle;
+import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.Sign;
@@ -35,6 +41,7 @@ import xyz.derkades.derkutils.Hastebin;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
@@ -52,18 +59,17 @@ public class Command implements CommandExecutor {
 					if (!sender.hasPermission("minigames.gamecontrol")) {
 						return true;
 					}
-					final GameMap map = GameMap.fromIdentifier(args[1]);
+
+					GameMap map = Games.getMapByIdentifier(args[1]);
 					if (map == null) {
 						sender.sendMessage("The specified map '" + args[1] + "' does not exist.");
 					} else {
-						RandomPicking.FORCE_GAME = GameMap.getGame(map);
-						if (RandomPicking.FORCE_GAME != null) {
-							RandomPicking.FORCE_MAP = map;
-							Minigames.BYPASS_PLAYER_MINIMUM_CHECKS = true;
-							sender.sendMessage(map.getIdentifier() + " will be chosen as the next map");
-						} else {
-							sender.sendMessage("error, no game exists for this map???");
-						}
+						Game<? extends GameMap> game = Games.getGameForMap(map);
+						Objects.requireNonNull(game);
+						RandomPicking.FORCE_GAME = game;
+						RandomPicking.FORCE_MAP = map;
+						Minigames.BYPASS_PLAYER_MINIMUM_CHECKS = true;
+						sender.sendMessage(map.getIdentifier() + " will be chosen as the next map");
 					}
 				}
 				case "next", "n" -> {
@@ -71,7 +77,7 @@ public class Command implements CommandExecutor {
 						return true;
 					}
 					final String name = args[1].replace("_", " ");
-					final Game<? extends GameMap> game = Game.fromString(name);
+					final Game<? extends GameMap> game = Games.getGame(name);
 					if (game == null) {
 						sender.sendMessage("The specified game '" + name + "' does not exist.");
 					} else {

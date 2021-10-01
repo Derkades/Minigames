@@ -1,32 +1,28 @@
 package derkades.minigames.menu;
 
-import static org.bukkit.ChatColor.DARK_GRAY;
-import static org.bukkit.ChatColor.GOLD;
-import static org.bukkit.ChatColor.GRAY;
-import static org.bukkit.ChatColor.RED;
-import static org.bukkit.ChatColor.YELLOW;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-import org.bukkit.entity.Player;
-
 import derkades.minigames.Minigames;
 import derkades.minigames.games.Game;
 import derkades.minigames.games.GameMap;
+import derkades.minigames.games.Games;
+import org.bukkit.entity.Player;
 import xyz.derkades.derkutils.NumberUtils;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
 import xyz.derkades.derkutils.bukkit.menu.IconMenu;
 import xyz.derkades.derkutils.bukkit.menu.OptionClickEvent;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import static org.bukkit.ChatColor.*;
+
 public class GamesListMenu extends IconMenu {
 
 	public GamesListMenu(final Player player) {
-		super(Minigames.getInstance(), "Games list", (int) (Math.ceil(Game.GAMES.length / 9f) + 1), player);
+		super(Minigames.getInstance(), "Games list", (int) (Math.ceil(Games.GAMES.length / 9f) + 1), player);
 
 		int slot = 0;
-		for (final Game<? extends GameMap> game : Game.GAMES){
+		for (final Game<? extends GameMap> game : Games.GAMES){
 
 			final List<String> lore = new ArrayList<>(Arrays.asList(game.getDescription()));
 

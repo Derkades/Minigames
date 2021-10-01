@@ -1,18 +1,18 @@
 package derkades.minigames.menu;
 
-import java.io.File;
-import java.util.Date;
-
-import org.bukkit.Material;
-import org.bukkit.entity.Player;
-
 import derkades.minigames.Minigames;
 import derkades.minigames.games.Game;
 import derkades.minigames.games.GameMap;
+import derkades.minigames.games.Games;
+import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import xyz.derkades.derkutils.NumberUtils;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
 import xyz.derkades.derkutils.bukkit.menu.IconMenu;
 import xyz.derkades.derkutils.bukkit.menu.OptionClickEvent;
+
+import java.io.File;
+import java.util.Date;
 
 public class StatsMenu extends IconMenu {
 
@@ -25,7 +25,7 @@ public class StatsMenu extends IconMenu {
 		GameMap bestMap = null;
 		Game<? extends GameMap> worstGame = null;
 		Game<? extends GameMap> bestGame = null;
-		for (final Game<? extends GameMap> game : Game.GAMES) {
+		for (final Game<? extends GameMap> game : Games.GAMES) {
 			if (worstGame == null) {
 				worstGame = game;
 			} else if (game.getWeight() < worstGame.getWeight()) {

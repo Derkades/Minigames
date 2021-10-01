@@ -1,19 +1,18 @@
 package derkades.minigames.modules;
 
+import derkades.minigames.Minigames;
+import derkades.minigames.games.Games;
+import derkades.minigames.utils.Scheduler;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+import nl.rkslot.pluginreloader.PluginReloader;
+import org.bukkit.Bukkit;
+
 import java.io.File;
 import java.lang.management.ManagementFactory;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.concurrent.atomic.AtomicReference;
-
-import org.bukkit.Bukkit;
-
-import derkades.minigames.Minigames;
-import derkades.minigames.games.Game;
-import derkades.minigames.utils.Scheduler;
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.NamedTextColor;
-import nl.rkslot.pluginreloader.PluginReloader;
 
 public class CustomPlayerList extends Module {
 
@@ -32,7 +31,7 @@ public class CustomPlayerList extends Module {
 					.append(Component.text("\nPlayable games: ", NamedTextColor.GRAY))
 					.append(Component.text(getPlayableGames(), NamedTextColor.WHITE))
 					.append(Component.text(" / ", NamedTextColor.GRAY))
-					.append(Component.text(Game.GAMES.length, NamedTextColor.WHITE))
+					.append(Component.text(Games.GAMES.length, NamedTextColor.WHITE))
 					.append(Component.text("\nLast plugin update: " + this.lastPluginUpdate.get(), NamedTextColor.GRAY))
 					.append(Component.text("\nLast server restart: " + this.lastServerRestart.get(), NamedTextColor.GRAY))
 					.append(Component.text("\nBukkit reload count: " + this.getReloadCount(), NamedTextColor.GRAY))
@@ -53,7 +52,7 @@ public class CustomPlayerList extends Module {
 
 	private int getPlayableGames() {
 		final int players = Minigames.getOnlinePlayerCount();
-		return (int) Arrays.stream(Game.GAMES).filter(g -> players >= g.getRequiredPlayers()).count();
+		return (int) Arrays.stream(Games.GAMES).filter(g -> players >= g.getRequiredPlayers()).count();
 	}
 
 	private int getReloadCount() {
