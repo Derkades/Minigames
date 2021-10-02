@@ -99,10 +99,14 @@ public class MPlayer {
 		}
 	}
 
+	// TODO use events to enable damage in a game
+	@Deprecated
 	public void setDisableDamage(final boolean disableDamage) {
 		this.setMetadata("disable_damage", disableDamage);
 	}
 
+	// TODO use events to enable damage in a game
+	@Deprecated
 	public boolean hasDisabledDamage() {
 		return this.getMetadataBool("disable_damage", true);
 	}
@@ -482,6 +486,7 @@ public class MPlayer {
 	}
 
 	public void addPoints(final int points) {
+		// TODO call an "add points" event that the leaderboard code can listen for
 		Points.addPoints(this.player, points);
 	}
 

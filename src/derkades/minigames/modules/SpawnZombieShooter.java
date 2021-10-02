@@ -1,11 +1,21 @@
 package derkades.minigames.modules;
 
+import derkades.minigames.GameState;
+import derkades.minigames.Minigames;
+import derkades.minigames.UpdateSigns;
+import derkades.minigames.Var;
+import derkades.minigames.utils.MPlayer;
+import derkades.minigames.utils.Scheduler;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.md_5.bungee.api.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Husk;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Villager;
 import org.bukkit.entity.Zombie;
@@ -13,15 +23,9 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.inventory.ItemStack;
-
-import derkades.minigames.GameState;
-import derkades.minigames.Minigames;
-import derkades.minigames.UpdateSigns;
-import derkades.minigames.Var;
-import derkades.minigames.utils.MPlayer;
-import derkades.minigames.utils.Scheduler;
-import net.md_5.bungee.api.ChatColor;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
+
+import java.util.concurrent.ThreadLocalRandom;
 
 public class SpawnZombieShooter extends Module {
 
@@ -35,6 +39,8 @@ public class SpawnZombieShooter extends Module {
 	private static final ItemStack ARROW = new ItemBuilder(Material.ARROW)
 			.name(ChatColor.YELLOW + "" + ChatColor.BOLD + "Zombie Shooter Arrow")
 			.create();
+
+	private static final float HUSK_CHANCE = 0.15f;
 
 	public SpawnZombieShooter() {
 		Scheduler.repeat(1, this::tickBowTarget);
@@ -80,14 +86,17 @@ public class SpawnZombieShooter extends Module {
 			return;
 		}
 
-		final Zombie zombie = Var.LOBBY_WORLD.spawn(new Location(Var.LOBBY_WORLD, 224.5, 64, 289.5), Zombie.class);
+		Class<? extends Zombie> type = ThreadLocalRandom.current().nextFloat() > (1.0f - HUSK_CHANCE) ? Husk.class : Zombie.class;
+		final Zombie zombie = Var.LOBBY_WORLD.spawn(new Location(Var.LOBBY_WORLD, 224.5, 64, 289.5), type);
 		zombie.setAdult();
 		zombie.setSilent(true);
 	}
 
 	@EventHandler
 	public void onDeath(final EntityDeathEvent event) {
-		if (event.getEntityType() != EntityType.ZOMBIE) {
+		if (!(
+				event.getEntityType() == EntityType.ZOMBIE ||
+				event.getEntityType() == EntityType.HUSK)) {
 			return;
 		}
 
@@ -101,6 +110,13 @@ public class SpawnZombieShooter extends Module {
 
 		if (killer == null) {
 			return;
+		}
+
+		if (event.getEntityType() == EntityType.HUSK){
+			MPlayer m = new MPlayer(killer);
+			m.sendActionBar(Component.text("Bonus point!", NamedTextColor.GOLD));
+			m.addPoints(1);
+			UpdateSigns.updateLeaderboard();
 		}
 
 		killer.playSound(killer.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 1.0f, 1.0f);
