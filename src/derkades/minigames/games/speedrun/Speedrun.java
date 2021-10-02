@@ -105,9 +105,9 @@ public class Speedrun extends Game<SpeedrunMap> {
 			player.clearPotionEffects();
 			if (this.finished.isEmpty()){
 				player.addPoints(1);
-				this.sendMessage(player.getDisplayName().append(Component.text(" finished first and got an extra point!")));
+				this.sendMessage(player.getDisplayName().append(Component.text(" finished first and got an extra point!", NamedTextColor.GRAY)));
 			} else {
-				this.sendMessage(player.getDisplayName().append(Component.text(" finished.")));
+				this.sendMessage(player.getDisplayName().append(Component.text(" finished.", NamedTextColor.GRAY)));
 			}
 			this.finished.add(player.getUniqueId());
 			player.finishTo(this.map.getSpectatorLocation());
