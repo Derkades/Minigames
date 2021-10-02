@@ -45,7 +45,7 @@ public class Platform extends Game<PlatformMap> {
 				},
 				2,
 				40,
-				EnumSet.of(GameLabel.MULTIPLAYER, GameLabel.PLAYER_COMBAT)
+				EnumSet.of(GameLabel.MULTIPLAYER, GameLabel.PLAYER_COMBAT, GameLabel.NO_TEAMS)
 		);
 	}
 

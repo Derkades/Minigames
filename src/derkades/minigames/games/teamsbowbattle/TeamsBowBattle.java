@@ -18,9 +18,6 @@ import org.bukkit.inventory.ItemStack;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
 
 import java.util.EnumSet;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.UUID;
 
 public class TeamsBowBattle extends RedBlueTeamGame<TeamsBowBattleMap> {
 
@@ -37,15 +34,15 @@ public class TeamsBowBattle extends RedBlueTeamGame<TeamsBowBattleMap> {
 				},
 				4,
 				120,
-				EnumSet.of(GameLabel.MULTIPLAYER, GameLabel.PLAYER_COMBAT, GameLabel.TEAM)
+				EnumSet.of(GameLabel.MULTIPLAYER, GameLabel.PLAYER_COMBAT, GameLabel.TEAMS)
 		);
 	}
 
-	private Set<UUID> dead;
+//	private Set<UUID> dead;
 
 	@Override
 	public void onPreStart() {
-		this.dead = new HashSet<>();
+//		this.dead = new HashSet<>();
 
 		super.splitPlayers((player, team) -> player.teleport(getSpawnLocation(team)));
 	}
@@ -76,8 +73,7 @@ public class TeamsBowBattle extends RedBlueTeamGame<TeamsBowBattleMap> {
 			TeamsBowBattle.super.endGame();
 		}
 
-		this.dead = null;
-//		this.teams = null;
+//		this.dead = null;
 	}
 
 	@EventHandler(ignoreCancelled = true)
@@ -119,7 +115,8 @@ public class TeamsBowBattle extends RedBlueTeamGame<TeamsBowBattleMap> {
 		this.sendMessage(Utils.getDeathMessage(event));
 
 		MPlayer player = new MPlayer(event);
-		this.dead.add(player.getUniqueId());
+//		this.dead.add(player.getUniqueId());
+		this.getTeams().setDead(player);
 		player.clearInventory();
 		player.dieUp(2);
 	}

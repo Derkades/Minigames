@@ -38,7 +38,7 @@ public class Parkour extends Game<ParkourMap> {
 				},
 				1,
 				120,
-				EnumSet.of(GameLabel.SINGLEPLAYER, GameLabel.PARKOUR)
+				EnumSet.of(GameLabel.SINGLEPLAYER, GameLabel.PARKOUR, GameLabel.NO_TEAMS)
 		);
 	}
 

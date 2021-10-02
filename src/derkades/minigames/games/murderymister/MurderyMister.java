@@ -58,7 +58,7 @@ public class MurderyMister extends Game<MurderyMisterMap> {
 				},
 				3,
 				150,
-				EnumSet.of(GameLabel.MULTIPLAYER, GameLabel.PLAYER_COMBAT)
+				EnumSet.of(GameLabel.MULTIPLAYER, GameLabel.PLAYER_COMBAT, GameLabel.NO_TEAMS)
 		);
 	}
 

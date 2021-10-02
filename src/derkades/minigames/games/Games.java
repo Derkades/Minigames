@@ -1,5 +1,8 @@
 package derkades.minigames.games;
 
+import com.google.common.collect.Multimap;
+import com.google.common.collect.MultimapBuilder;
+import derkades.minigames.Logger;
 import derkades.minigames.games.bowspleef.BowSpleef;
 import derkades.minigames.games.breaktheblock.BreakTheBlock;
 import derkades.minigames.games.buildcopy.BuildCopy;
@@ -27,16 +30,20 @@ import derkades.minigames.games.tron.Tron;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 
 public class Games {
 
-	private static final Map<String, Game<? extends GameMap>> GAME_BY_NAME = new HashMap<>();
-	private static final Map<String, GameMap> MAP_BY_IDENTIFIER = new HashMap<>();
-	private static final Map<GameMap, Game<? extends GameMap>> GAME_BY_MAP = new HashMap<>();
+	private static final Map<String, Game<? extends GameMap>> NAME_TO_GAME = new HashMap<>();
+	private static final Map<String, GameMap> IDENTIFIER_TO_MAP = new HashMap<>();
+	private static final Map<GameMap, Game<? extends GameMap>> MAP_TO_GAME = new HashMap<>();
+	private static final Multimap<GameLabel, Game<? extends GameMap>> GAMES_BY_LABEL = MultimapBuilder.enumKeys(GameLabel.class).hashSetValues().build();
 
 	public static final Game<? extends GameMap>[] GAMES = new Game<?>[]{
 			new BowSpleef(),
@@ -73,16 +80,26 @@ public class Games {
 		for (final Game<?> game : GAMES) {
 			Objects.requireNonNull(game.getIdentifier(), "game identifier null: " + game.getClass().getName());
 			Objects.requireNonNull(game.getName(), "game name null: " + game.getClass().getName());
-			GAME_BY_NAME.put(game.getIdentifier(), game);
-			GAME_BY_NAME.put(game.getName().toLowerCase(Locale.ROOT), game);
+			NAME_TO_GAME.put(game.getIdentifier(), game);
+			NAME_TO_GAME.put(game.getName().toLowerCase(Locale.ROOT), game);
+
 			final GameMap[] maps = game.getGameMaps();
 			Objects.requireNonNull(maps, "maps array null: " + game.getClass().getName());
 			for (final GameMap map : maps) {
 				Objects.requireNonNull(map.getIdentifier(), "map identifier null: " + game.getClass().getName() + " " + map.getClass().getName());
 				Objects.requireNonNull(map.getName(), "map name is null: " + map.getIdentifier());
-				MAP_BY_IDENTIFIER.put(map.getIdentifier(), map);
-				GAME_BY_MAP.put(map, game);
+				IDENTIFIER_TO_MAP.put(map.getIdentifier(), map);
+				MAP_TO_GAME.put(map, game);
 			}
+
+			Set<GameLabel> labels = game.getGameLabels();
+			if (!labels.contains(GameLabel.MULTIPLAYER) && !labels.contains(GameLabel.SINGLEPLAYER)) {
+				Logger.warning("%s missing label multiplayer/singleplayer", game);
+			}
+			if (!labels.contains(GameLabel.TEAMS) && !labels.contains(GameLabel.NO_TEAMS)) {
+				Logger.warning("%s missing label teams/noteams", game);
+			}
+			labels.forEach(label -> GAMES_BY_LABEL.put(label, game));
 		}
 	}
 
@@ -93,17 +110,21 @@ public class Games {
 	 */
 	@Nullable
 	public static Game<? extends GameMap> getGame(@NotNull final String name) {
-		return GAME_BY_NAME.get(name.toLowerCase(Locale.ROOT));
+		return NAME_TO_GAME.get(name.toLowerCase(Locale.ROOT));
 	}
 
 	@Nullable
 	public static Game<? extends GameMap> getGameForMap(GameMap map) {
-		return GAME_BY_MAP.get(map);
+		return MAP_TO_GAME.get(map);
 	}
 
 	@Nullable
 	public static GameMap getMapByIdentifier(String identifier) {
-		return MAP_BY_IDENTIFIER.get(identifier);
+		return IDENTIFIER_TO_MAP.get(identifier);
+	}
+
+	public static Collection<Game<? extends GameMap>> getGamesWithLabel(GameLabel label) {
+		return Collections.unmodifiableCollection(GAMES_BY_LABEL.get(label));
 	}
 
 }

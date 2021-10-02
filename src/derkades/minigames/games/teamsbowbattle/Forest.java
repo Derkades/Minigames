@@ -16,7 +16,7 @@ class Forest extends TeamsBowBattleMap {
 		return "Forest";
 	}
 
-	private static final PotionEffect SPEED = new PotionEffect(PotionEffectType.SPEED, Integer.MAX_VALUE, 1, true);
+	private static final PotionEffect SPEED = new PotionEffect(PotionEffectType.SPEED, Integer.MAX_VALUE, 1, true, false);
 
 	@Override
 	public void onStart() {

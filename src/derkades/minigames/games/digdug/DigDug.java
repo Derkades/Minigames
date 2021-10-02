@@ -65,7 +65,7 @@ public class DigDug extends Game<DigDugMap> {
 				},
 				2,
 				40,
-				EnumSet.of(GameLabel.BLOCKS, GameLabel.SINGLEPLAYER)
+				EnumSet.of(GameLabel.BLOCKS, GameLabel.SINGLEPLAYER, GameLabel.NO_TEAMS)
 		);
 	}
 
@@ -153,7 +153,7 @@ public class DigDug extends Game<DigDugMap> {
 			}
 			case NETHERRACK -> {
 				player.sendFormattedPlainActionBar("Everyone is now blinded for %s seconds.", NETHERRACK_EFFECT_TIME / 20);
-				final PotionEffect blind = new PotionEffect(PotionEffectType.BLINDNESS, NETHERRACK_EFFECT_TIME, 0, true, false);
+				final PotionEffect blind = new PotionEffect(PotionEffectType.BLINDNESS, NETHERRACK_EFFECT_TIME, 0, true, false); // TODO global field
 				final PotionEffect slow = new PotionEffect(PotionEffectType.SLOW, NETHERRACK_EFFECT_TIME, 1, true, false);
 				for (final Player online : Bukkit.getOnlinePlayers()) {
 					if (player.getUniqueId() != online.getUniqueId()) {
@@ -165,7 +165,7 @@ public class DigDug extends Game<DigDugMap> {
 			}
 			case QUARTZ_BLOCK -> {
 				player.sendFormattedPlainActionBar("Your walking speed and vision has been boosted for %s seconds.", QUARTZ_EFFECT_TIME / 20);
-				final PotionEffect speed = new PotionEffect(PotionEffectType.SPEED, QUARTZ_EFFECT_TIME, 2, true, false);
+				final PotionEffect speed = new PotionEffect(PotionEffectType.SPEED, QUARTZ_EFFECT_TIME, 2, true, false); // TODO global field
 				final PotionEffect vision = new PotionEffect(PotionEffectType.NIGHT_VISION, QUARTZ_EFFECT_TIME, 0, true, false);
 				player.bukkit().addPotionEffect(speed);
 				player.bukkit().addPotionEffect(vision);

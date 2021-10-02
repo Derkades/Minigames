@@ -48,7 +48,7 @@ public class RegeneratingSpleef extends Game<SpleefMap> {
 				},
 				2,
 				60,
-				EnumSet.of(GameLabel.MULTIPLAYER)
+				EnumSet.of(GameLabel.MULTIPLAYER, GameLabel.NO_TEAMS, GameLabel.BLOCKS)
 		);
 	}
 

@@ -18,7 +18,7 @@ import derkades.minigames.utils.Scheduler;
 
 public class LobbyEffects extends Module {
 
-	private static final String META_LOBBY_WATER_TELEPORTING = "lobby water teleporting";
+	public static final String META_LOBBY_WATER_TELEPORTING = "lobby water teleporting";
 	private static final PotionEffect SLIME_JUMP_EFFECT = new PotionEffect(PotionEffectType.JUMP, 30, 7, true, false);
 	private static final Location parkourWater1 = new Location(Var.LOBBY_WORLD, 213, 78, 239);
 	private static final Location parkourWater2 = new Location(Var.LOBBY_WORLD, 195, 78, 264);

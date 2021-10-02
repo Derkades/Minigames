@@ -24,7 +24,7 @@ public class JazzRoom extends Module implements Runnable {
 			Sound.sound(Key.key("arkades", "music.daybreak"), Sound.Source.MASTER, 1.0f, 1.0f),
 	};
 
-	private static final Location BOUNDS_A = new Location(Var.LOBBY_WORLD, 214, 76, 273);
+	private static final Location BOUNDS_A = new Location(Var.LOBBY_WORLD, 214, 78, 273);
 	private static final Location BOUNDS_B = new Location(Var.LOBBY_WORLD, 224, 81, 259);
 
 	private static final HashMap<UUID, Sound> PLAYING = new HashMap<>();

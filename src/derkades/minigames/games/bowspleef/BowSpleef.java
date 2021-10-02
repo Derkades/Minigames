@@ -44,7 +44,7 @@ public class BowSpleef extends Game<BowSpleefMap> {
 				},
 				2,
 				100,
-				EnumSet.of(GameLabel.PARKOUR, GameLabel.MULTIPLAYER, GameLabel.PLAYER_COMBAT)
+				EnumSet.of(GameLabel.PARKOUR, GameLabel.MULTIPLAYER, GameLabel.PLAYER_COMBAT, GameLabel.NO_TEAMS)
 		);
 	}
 

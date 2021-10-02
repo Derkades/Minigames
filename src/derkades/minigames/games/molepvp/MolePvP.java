@@ -36,7 +36,7 @@ public class MolePvP extends RedBlueTeamGame<MolePvPMap> {
 				},
 				4,
 				100,
-				EnumSet.of(GameLabel.MULTIPLAYER, GameLabel.BLOCKS, GameLabel.PLAYER_COMBAT, GameLabel.TEAM)
+				EnumSet.of(GameLabel.MULTIPLAYER, GameLabel.BLOCKS, GameLabel.PLAYER_COMBAT, GameLabel.TEAMS)
 		);
 	}
 

@@ -38,7 +38,7 @@ public class Elytra extends Game<ElytraMap> {
 				},
 				1,
 				40,
-				EnumSet.of(GameLabel.ELYTRA, GameLabel.SINGLEPLAYER)
+				EnumSet.of(GameLabel.ELYTRA, GameLabel.SINGLEPLAYER, GameLabel.NO_TEAMS)
 		);
 	}
 

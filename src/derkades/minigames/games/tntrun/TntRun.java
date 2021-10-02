@@ -42,7 +42,7 @@ public class TntRun extends Game<TntRunMap> {
 				},
 				2,
 				150,
-				EnumSet.of(GameLabel.MULTIPLAYER)
+				EnumSet.of(GameLabel.MULTIPLAYER, GameLabel.NO_TEAMS)
 		);
 	}
 

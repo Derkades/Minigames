@@ -82,7 +82,7 @@ public class MissileRacer extends Game<MissileRacerMap> {
 				},
 				2,
 				300,
-				EnumSet.of(GameLabel.MULTIPLAYER, GameLabel.BLOCKS)
+				EnumSet.of(GameLabel.MULTIPLAYER, GameLabel.BLOCKS, GameLabel.NO_TEAMS)
 		);
 	}
 

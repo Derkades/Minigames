@@ -41,7 +41,7 @@ public class OneInTheQuiver extends Game<OITQMap> {
 	private static final ItemStack ARROW = new ItemBuilder(Material.ARROW)
 			.create();
 
-	private static final PotionEffect INVISIBILITY = new PotionEffect(PotionEffectType.INVISIBILITY, 5*20, 0, true);
+	private static final PotionEffect INVISIBILITY = new PotionEffect(PotionEffectType.INVISIBILITY, 5*20, 0, true, false);
 
 	public OneInTheQuiver() {
 		super(
@@ -62,7 +62,7 @@ public class OneInTheQuiver extends Game<OITQMap> {
 				},
 				3,
 				120,
-				EnumSet.of(GameLabel.MULTIPLAYER, GameLabel.PLAYER_COMBAT)
+				EnumSet.of(GameLabel.MULTIPLAYER, GameLabel.PLAYER_COMBAT, GameLabel.NO_TEAMS)
 		);
 	}
 

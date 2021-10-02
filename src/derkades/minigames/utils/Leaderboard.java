@@ -14,7 +14,12 @@ import org.jetbrains.annotations.Nullable;
 import xyz.derkades.derkutils.bukkit.sidebar.Sidebar;
 import xyz.derkades.derkutils.bukkit.sidebar.SidebarString;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class Leaderboard {
@@ -28,6 +33,7 @@ public class Leaderboard {
 
 	private static final ComponentSerializer<Component, TextComponent, String> COMPONENT_SERIALIZER = LegacyComponentSerializer.builder()
 			.character(LegacyComponentSerializer.SECTION_CHAR)
+			.hexColors()
 			.useUnusualXRepeatedCharacterHexFormat()
 			.build();
 

@@ -49,7 +49,7 @@ public class Decay extends Game<DecayMap> {
 				},
 				2,
 				100,
-				EnumSet.of(GameLabel.PARKOUR, GameLabel.PLAYER_COMBAT, GameLabel.MULTIPLAYER)
+				EnumSet.of(GameLabel.PARKOUR, GameLabel.PLAYER_COMBAT, GameLabel.MULTIPLAYER, GameLabel.NO_TEAMS)
 		);
 	}
 

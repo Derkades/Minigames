@@ -48,7 +48,7 @@ public class CreeperAttack extends Game<CreeperAttackMap> {
 				},
 				2,
 				60,
-				EnumSet.of(GameLabel.ENTITY_COMBAT)
+				EnumSet.of(GameLabel.ENTITY_COMBAT, GameLabel.NO_TEAMS, GameLabel.SINGLEPLAYER)
 		);
 	}
 

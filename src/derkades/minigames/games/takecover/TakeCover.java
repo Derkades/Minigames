@@ -30,7 +30,7 @@ public class TakeCover extends Game<TakeCoverMap> {
 				},
 				2,
 				120,
-				EnumSet.of(GameLabel.SINGLEPLAYER)
+				EnumSet.of(GameLabel.SINGLEPLAYER, GameLabel.NO_TEAMS)
 		);
 	}
 

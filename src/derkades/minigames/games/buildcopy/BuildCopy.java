@@ -66,7 +66,7 @@ public class BuildCopy extends Game<BuildCopyMap> {
 				},
 				2,
 				70,
-				EnumSet.of(GameLabel.BLOCKS, GameLabel.SINGLEPLAYER)
+				EnumSet.of(GameLabel.BLOCKS, GameLabel.SINGLEPLAYER, GameLabel.NO_TEAMS)
 		);
 	}
 

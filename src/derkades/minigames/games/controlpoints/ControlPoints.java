@@ -32,7 +32,7 @@ public class ControlPoints extends RedBlueTeamGame<ControlPointsMap> {
 
 	private static final int CONTROL_THRESHOLD = 5;
 	private static final int RESPAWN_DELAY = 5*20;
-	private static final PotionEffect INFINITE_SPEED = new PotionEffect(PotionEffectType.SPEED, Integer.MAX_VALUE, 0, true);
+	private static final PotionEffect INFINITE_SPEED = new PotionEffect(PotionEffectType.SPEED, Integer.MAX_VALUE, 0, true, false);
 
 	public ControlPoints() {
 		super(
@@ -47,7 +47,7 @@ public class ControlPoints extends RedBlueTeamGame<ControlPointsMap> {
 				},
 				6,
 				200,
-				EnumSet.of(GameLabel.MULTIPLAYER, GameLabel.PLAYER_COMBAT)
+				EnumSet.of(GameLabel.MULTIPLAYER, GameLabel.PLAYER_COMBAT, GameLabel.TEAMS)
 		);
 	}
 

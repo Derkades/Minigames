@@ -32,7 +32,7 @@ public class MissileWars extends Game<MissileWarsMap> {
 				},
 				6,
 				300,
-				EnumSet.of(GameLabel.MULTIPLAYER, GameLabel.BLOCKS, GameLabel.PLAYER_COMBAT)
+				EnumSet.of(GameLabel.MULTIPLAYER, GameLabel.BLOCKS, GameLabel.PLAYER_COMBAT, GameLabel.TEAMS)
 		);
 	}
 

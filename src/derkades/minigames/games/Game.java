@@ -254,12 +254,13 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 
 	private void begin() {
 		this.preStartTime = System.currentTimeMillis();
-		this.onPreStart();
-		this.map.onPreStart();
-
 		if (this instanceof TeamGame teamGame) {
+			Logger.debug("init teams backend");
 			teamGame.initTeamsBackend();
 		}
+
+		this.onPreStart();
+		this.map.onPreStart();
 
 		this.map.getWorld().getEntitiesByClass(Arrow.class).forEach(Entity::remove);
 		this.map.getWorld().getEntitiesByClass(Trident.class).forEach(Entity::remove);
@@ -325,6 +326,7 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 					Game.this.map.onEnd();
 
 					if (Game.this instanceof TeamGame teamGame) {
+						Logger.debug("destroy teams backend");
 						teamGame.destroyTeamsBackend();
 					}
 				}

@@ -1,5 +1,6 @@
 package derkades.minigames.games.dropper;
 
+import derkades.minigames.Logger;
 import derkades.minigames.Minigames;
 import derkades.minigames.games.Game;
 import derkades.minigames.games.GameLabel;
@@ -12,6 +13,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 
@@ -38,7 +40,7 @@ public class Dropper extends Game<DropperMap> {
 				},
 				1,
 				45,
-				EnumSet.of(GameLabel.DROPPER, GameLabel.SINGLEPLAYER)
+				EnumSet.of(GameLabel.DROPPER, GameLabel.SINGLEPLAYER, GameLabel.NO_TEAMS)
 		);
 	}
 
@@ -105,9 +107,10 @@ public class Dropper extends Game<DropperMap> {
 		event.setCancelled(damager != null && damager.getType() == EntityType.PLAYER);
 	}
 
-	@EventHandler
+	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onDeath(PlayerDeathEvent event) {
 		event.setCancelled(true);
+		Logger.debug("DEATH TEST");
 		MPlayer player = new MPlayer(event);
 		player.queueTeleport(this.map.getLobbyLocation());
 		player.heal();

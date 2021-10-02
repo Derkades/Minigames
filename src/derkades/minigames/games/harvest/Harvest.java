@@ -60,7 +60,7 @@ public class Harvest extends Game<@NotNull HarvestMap> {
 				},
 				2,
 				50,
-				EnumSet.of(GameLabel.BLOCKS)
+				EnumSet.of(GameLabel.BLOCKS, GameLabel.NO_TEAMS, GameLabel.SINGLEPLAYER)
 		);
 	}
 

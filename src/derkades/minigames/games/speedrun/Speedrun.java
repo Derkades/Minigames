@@ -22,7 +22,7 @@ import java.util.UUID;
 
 public class Speedrun extends Game<SpeedrunMap> {
 
-	private static final PotionEffect SPEED_EFFECT = new PotionEffect(PotionEffectType.SPEED, Integer.MAX_VALUE, 30, true);
+	private static final PotionEffect SPEED_EFFECT = new PotionEffect(PotionEffectType.SPEED, Integer.MAX_VALUE, 30, true, false);
 
 	public Speedrun() {
 		super(
@@ -39,7 +39,7 @@ public class Speedrun extends Game<SpeedrunMap> {
 				},
 				1,
 				50,
-				EnumSet.of(GameLabel.SINGLEPLAYER, GameLabel.PARKOUR)
+				EnumSet.of(GameLabel.SINGLEPLAYER, GameLabel.PARKOUR, GameLabel.NO_TEAMS)
 		);
 	}
 

@@ -1,5 +1,6 @@
 package derkades.minigames.modules;
 
+import derkades.minigames.Logger;
 import derkades.minigames.Minigames;
 import derkades.minigames.utils.MPlayer;
 import net.kyori.adventure.text.Component;
@@ -25,8 +26,8 @@ public class ChatPoll extends Module {
 	private static final long TOKEN_EXPIRE_TIME = 20*1000;
 	private static final String COMMAND_NAME = "votepoll";
 
-	private final Map<String, Long> tokens = new HashMap<>();
-	private final Map<String, PollCallback> callbacks = new HashMap<>();
+	private final Map<UUID, Long> pollSendTimes = new HashMap<>();
+	private final Map<UUID, PollCallback> callbacks = new HashMap<>();
 
 	public ChatPoll() {
 		ReflectionUtil.registerCommand(Minigames.getInstance().getName(), new ChatPollCallbackCommand());
@@ -45,10 +46,11 @@ public class ChatPoll extends Module {
 		}
 
 		public void send(final MPlayer player) {
-			final String token = UUID.randomUUID().toString().replace("-", "");
+			final UUID token = UUID.randomUUID();
 
-			ChatPoll.this.tokens.put(token, System.currentTimeMillis());
+			Logger.debug("new poll with token %s", token);
 
+			ChatPoll.this.pollSendTimes.put(token, System.currentTimeMillis());
 			ChatPoll.this.callbacks.put(token, this.callback);
 
 			player.sendChat(Component.text("-----------------------------------------", NamedTextColor.DARK_GRAY));
@@ -66,7 +68,6 @@ public class ChatPoll extends Module {
 
 			player.sendChat(answerMessage);
 			player.sendChat(Component.text("-----------------------------------------", NamedTextColor.DARK_GRAY));
-
 		}
 	}
 
@@ -94,19 +95,28 @@ public class ChatPoll extends Module {
 				return true;
 			}
 
-			final String providedToken = args[0];
+			UUID providedToken;
+			try {
+				providedToken = UUID.fromString(args[0]);
+			} catch (Exception e) {
+				sender.sendMessage("invalid token");
+				e.printStackTrace();
+				return true;
+			}
 
-			if (!ChatPoll.this.tokens.containsKey(providedToken)) {
+			Logger.debug("received vote with token %s", providedToken);
+
+			if (!ChatPoll.this.pollSendTimes.containsKey(providedToken)) {
 				sender.sendMessage(ChatColor.RED + "You have already voted on this poll.");
 				return true;
 			}
 
-			if (System.currentTimeMillis() - ChatPoll.this.tokens.get(providedToken) > TOKEN_EXPIRE_TIME) {
+			if (System.currentTimeMillis() - ChatPoll.this.pollSendTimes.get(providedToken) > TOKEN_EXPIRE_TIME) {
 				sender.sendMessage(ChatColor.RED + "This poll has expired.");
 				return true;
 			}
 
-			ChatPoll.this.tokens.remove(providedToken);
+			ChatPoll.this.pollSendTimes.remove(providedToken);
 
 			final Player player = (Player) sender;
 

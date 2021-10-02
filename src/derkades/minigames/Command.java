@@ -2,6 +2,7 @@ package derkades.minigames;
 
 import derkades.minigames.Minigames.ShutdownReason;
 import derkades.minigames.games.Game;
+import derkades.minigames.games.GameLabel;
 import derkades.minigames.games.GameMap;
 import derkades.minigames.games.Games;
 import derkades.minigames.games.missile.Missile;
@@ -344,6 +345,15 @@ public class Command implements CommandExecutor {
 									.append(Component.text(" to "))
 									.append(player.getDisplayName())
 					);
+				}
+				case "labels" -> {
+					for (GameLabel label : GameLabel.values()) {
+						Games.getGamesWithLabel(label).stream().mapToDouble(Game::getWeight).average().ifPresentOrElse(meanWeight -> {
+							sender.sendMessage(String.format("%s - %.2f", label, meanWeight));
+						}, () -> {
+							sender.sendMessage(label + " - no games");
+						});
+					}
 				}
 				case "test" -> {
 					if (!sender.hasPermission("minigames.debug")) {

@@ -43,7 +43,7 @@ public class HungerGames extends Game<HungerGamesMap> {
 				},
 				4,
 				150,
-				EnumSet.of(GameLabel.MULTIPLAYER, GameLabel.PLAYER_COMBAT, GameLabel.LARGE_MAP)
+				EnumSet.of(GameLabel.MULTIPLAYER, GameLabel.PLAYER_COMBAT, GameLabel.LARGE_MAP, GameLabel.NO_TEAMS)
 		);
 	}
 

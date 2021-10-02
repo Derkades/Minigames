@@ -32,7 +32,7 @@ public class IcyBlowback extends Game<IcyBlowbackMap> {
 			.enchant(Enchantment.KNOCKBACK, 2)
 			.create();
 
-	private static final PotionEffect SPEED = new PotionEffect(PotionEffectType.SPEED, Integer.MAX_VALUE, 0, true);
+	private static final PotionEffect SPEED = new PotionEffect(PotionEffectType.SPEED, Integer.MAX_VALUE, 0, true, false);
 
 	public IcyBlowback() {
 		super(
@@ -47,7 +47,7 @@ public class IcyBlowback extends Game<IcyBlowbackMap> {
 				},
 				3,
 				100,
-				EnumSet.of(GameLabel.MULTIPLAYER, GameLabel.PLAYER_COMBAT)
+				EnumSet.of(GameLabel.MULTIPLAYER, GameLabel.PLAYER_COMBAT, GameLabel.NO_TEAMS)
 		);
 	}
 

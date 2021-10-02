@@ -45,7 +45,7 @@ public class GladeRoyale extends Game<GladeRoyaleMap> {
 				},
 				6,
 				400, // Do not change without changing the game timer code
-				EnumSet.of(GameLabel.MULTIPLAYER, GameLabel.BLOCKS, GameLabel.PLAYER_COMBAT, GameLabel.LARGE_MAP, GameLabel.ELYTRA)
+				EnumSet.of(GameLabel.MULTIPLAYER, GameLabel.BLOCKS, GameLabel.PLAYER_COMBAT, GameLabel.LARGE_MAP, GameLabel.ELYTRA, GameLabel.NO_TEAMS)
 		);
 	}
 

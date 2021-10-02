@@ -40,9 +40,9 @@ public class Tron extends Game<TronMap> {
 	private static final float PLAYER_PITCH = 90f;
 	private static final Material CAGE_MATERIAL = Material.BLACK_CONCRETE;
 
-	private static final PotionEffect PRESTART_SLOW = new PotionEffect(PotionEffectType.SLOW, Integer.MAX_VALUE, 100, true);
-	private static final PotionEffect PRESTART_JUMP = new PotionEffect(PotionEffectType.JUMP, Integer.MAX_VALUE, 200, true);
-	private static final PotionEffect LARGER_FOV = new PotionEffect(PotionEffectType.SPEED, Integer.MAX_VALUE, 3, true);
+	private static final PotionEffect PRESTART_SLOW = new PotionEffect(PotionEffectType.SLOW, Integer.MAX_VALUE, 100, true, false);
+	private static final PotionEffect PRESTART_JUMP = new PotionEffect(PotionEffectType.JUMP, Integer.MAX_VALUE, 200, true, false);
+	private static final PotionEffect LARGER_FOV = new PotionEffect(PotionEffectType.SPEED, Integer.MAX_VALUE, 3, true, false);
 
 	public Tron() {
 		super(
@@ -58,7 +58,7 @@ public class Tron extends Game<TronMap> {
 				},
 				3,
 				150,
-				EnumSet.of(GameLabel.MULTIPLAYER, GameLabel.THIRD_PERSON)
+				EnumSet.of(GameLabel.MULTIPLAYER, GameLabel.THIRD_PERSON, GameLabel.NO_TEAMS)
 		);
 	}
 

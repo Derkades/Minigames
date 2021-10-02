@@ -56,7 +56,7 @@ public class BreakTheBlock extends Game<BreakTheBlockMap> {
 				},
 				3,
 				200,
-				EnumSet.of(GameLabel.MULTIPLAYER, GameLabel.PLAYER_COMBAT, GameLabel.PARKOUR)
+				EnumSet.of(GameLabel.MULTIPLAYER, GameLabel.PLAYER_COMBAT, GameLabel.PARKOUR, GameLabel.NO_TEAMS)
 		);
 	}
 
@@ -81,7 +81,7 @@ public class BreakTheBlock extends Game<BreakTheBlockMap> {
 		}
 	}
 
-	private static final PotionEffect INFINITE_SLOW_DIGGING = new PotionEffect(PotionEffectType.SLOW_DIGGING, Integer.MAX_VALUE, 1, true);
+	private static final PotionEffect INFINITE_SLOW_DIGGING = new PotionEffect(PotionEffectType.SLOW_DIGGING, Integer.MAX_VALUE, 1, true, false);
 
 	@Override
 	public void onStart() {
@@ -140,7 +140,7 @@ public class BreakTheBlock extends Game<BreakTheBlockMap> {
 
 	}
 
-	private static final PotionEffect SLIME_BOOST = new PotionEffect(PotionEffectType.JUMP, 20, 6);
+	private static final PotionEffect SLIME_BOOST = new PotionEffect(PotionEffectType.JUMP, 20, 6, true, false);
 	private static final ItemStack BOW = new ItemBuilder(Material.BOW)
 			.unbreakable()
 			.enchant(Enchantment.ARROW_INFINITE)

@@ -4,6 +4,7 @@ import derkades.minigames.Minigames;
 import derkades.minigames.Points;
 import derkades.minigames.SpecialCharacter;
 import derkades.minigames.Var;
+import derkades.minigames.modules.LobbyEffects;
 import derkades.minigames.modules.SneakPrevention;
 import derkades.minigames.utils.queue.TaskQueue;
 import net.kyori.adventure.text.Component;
@@ -330,6 +331,7 @@ public class MPlayer {
 		this.setDisableHunger(true);
 		this.setDisableItemMoving(true);
 		this.disableSneakPrevention();
+		this.removeMetadata(LobbyEffects.META_LOBBY_WATER_TELEPORTING);
 
 		this.setGameMode(GameMode.ADVENTURE);
 		this.setAllowFlight(false);
