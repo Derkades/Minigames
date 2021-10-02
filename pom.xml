@@ -42,10 +42,6 @@
 					<minimizeJar>false</minimizeJar> <!-- Reduce compile time, jar size doesn't matter -->
 					<relocations>
 						<relocation>
-							<pattern>org.apache.commons.codec</pattern>
-							<shadedPattern>derkades.minigames.lib.commons-codec</shadedPattern>
-						</relocation>
-						<relocation>
 							<pattern>org.apache.commons.io</pattern>
 							<shadedPattern>derkades.minigames.lib.commons-io</shadedPattern>
 						</relocation>
