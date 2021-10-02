@@ -2,6 +2,7 @@ package derkades.minigames.menu;
 
 import derkades.minigames.Minigames;
 import derkades.minigames.games.Game;
+import derkades.minigames.games.GameLabel;
 import derkades.minigames.games.GameMap;
 import derkades.minigames.games.Games;
 import derkades.minigames.utils.PaperItemBuilder;
@@ -25,29 +26,32 @@ public class GamesListMenu extends IconMenu {
 		int slot = 0;
 		for (final Game<? extends GameMap> game : Games.GAMES){
 
-			final List<String> lore = new ArrayList<>(Arrays.asList(game.getDescription()));
+			final List<String> lore = new ArrayList<>();
+			Arrays.stream(game.getDescription()).forEach(s -> lore.add(RESET + "" + WHITE + s));
 
 			final double gameWeight = NumberUtils.roundApprox(game.getWeight(), 2);
 
 			lore.add(GOLD + "Multiplier: " + YELLOW + gameWeight);
 			lore.add(GOLD + "Minimum players: " + YELLOW + game.getRequiredPlayers());
-			if (game.getGameMaps() == null) {
-				lore.add(GOLD + "Maps: " + YELLOW + "none");
-			} else {
-				lore.add(GOLD + "Maps:");
-				for (final GameMap map : game.getGameMaps()) {
-					String disabled = map.isDisabled() ? RED + " (disabled)" : "";
-					lore.add("  " + YELLOW + map.getName() + disabled);
-					final double mapWeight = NumberUtils.roundApprox(map.getWeight(), 2);
-					lore.add(GRAY + "  Multiplier: " + YELLOW + mapWeight);
-					if (map.getCredits() != null) {
-						lore.add(GRAY + "  Credits: " + map.getCredits());
-					}
-					if (player.hasPermission("minigames.list_admin")) {
-						lore.add(DARK_GRAY + "  Identifier: " + map.getIdentifier());
-						lore.add(DARK_GRAY + "  World: " + map.getGameWorld());
-					}
+
+			lore.add(GOLD + "Maps:");
+			for (final GameMap map : game.getGameMaps()) {
+				String disabled = map.isDisabled() ? RED + " (disabled)" : "";
+				lore.add("  " + YELLOW + map.getName() + disabled);
+				final double mapWeight = NumberUtils.roundApprox(map.getWeight(), 2);
+				lore.add(GRAY + "  Multiplier: " + YELLOW + mapWeight);
+				if (map.getCredits() != null) {
+					lore.add(GRAY + "  Credits: " + map.getCredits());
 				}
+				if (player.hasPermission("minigames.list_admin")) {
+					lore.add(DARK_GRAY + "  Identifier: " + map.getIdentifier());
+					lore.add(DARK_GRAY + "  World: " + map.getGameWorld());
+				}
+			}
+
+			lore.add(GOLD + "Labels:");
+			for (GameLabel label : game.getGameLabels()) {
+				lore.add(GRAY + "  " + label);
 			}
 
 			if (player.hasPermission("minigames.list_admin")) {
@@ -55,9 +59,7 @@ public class GamesListMenu extends IconMenu {
 				lore.add(DARK_GRAY + "Identifier: " + game.getIdentifier());
 				lore.add(DARK_GRAY + "Command name: " + game.getIdentifier());
 				lore.add(DARK_GRAY + "" + game.getClass().getName().substring(25));
-				if (game.getGameMaps() == null) {
-					lore.add(DARK_GRAY + "No map support");
-				} else if (game.getGameMaps().length == 0) {
+				if (game.getGameMaps().length == 0) {
 					lore.add(DARK_GRAY + "No maps defined");
 				} else {
 					lore.add(DARK_GRAY + "" + game.getGameMaps().getClass().getName().substring(27));

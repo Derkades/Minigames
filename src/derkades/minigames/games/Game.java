@@ -50,6 +50,7 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 	private final @NotNull M@NotNull[] gameMaps;
 	private final int requiredPlayers;
 	private final int duration;
+	private final @NotNull Set<@NotNull GameLabel> gameLabels;
 
 	public Game(
 			@NotNull String identifier,
@@ -59,7 +60,7 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 			@NotNull M@NotNull[] gameMaps,
 			int requiredPlayers,
 			int duration,
-			Set<GameLabel> labels
+			Set<GameLabel> gameLabels
 	) {
 		this.identifier = identifier;
 		this.name = name;
@@ -68,6 +69,7 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 		this.gameMaps = gameMaps;
 		this.requiredPlayers = requiredPlayers;
 		this.duration = duration;
+		this.gameLabels = gameLabels;
 	}
 
 	public final @NotNull String getIdentifier() {
@@ -96,6 +98,10 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 
 	public final int getDuration() {
 		return this.duration;
+	}
+
+	public final @NotNull Set<@NotNull GameLabel> getGameLabels() {
+		return this.gameLabels;
 	}
 
 	@Override
