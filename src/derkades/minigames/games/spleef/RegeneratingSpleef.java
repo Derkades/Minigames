@@ -2,6 +2,7 @@ package derkades.minigames.games.spleef;
 
 import derkades.minigames.GameState;
 import derkades.minigames.games.Game;
+import derkades.minigames.games.GameLabel;
 import derkades.minigames.utils.MPlayer;
 import derkades.minigames.utils.PaperItemBuilder;
 import derkades.minigames.utils.Scheduler;
@@ -23,6 +24,7 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
+import java.util.EnumSet;
 import java.util.Set;
 import java.util.UUID;
 
@@ -45,7 +47,8 @@ public class RegeneratingSpleef extends Game<SpleefMap> {
 						new Original(),
 				},
 				2,
-				60
+				60,
+				EnumSet.of(GameLabel.MULTIPLAYER)
 		);
 	}
 

@@ -2,6 +2,7 @@ package derkades.minigames.games.oitq;
 
 import derkades.minigames.Minigames;
 import derkades.minigames.games.Game;
+import derkades.minigames.games.GameLabel;
 import derkades.minigames.utils.MPlayer;
 import derkades.minigames.utils.MPlayerDamageEvent;
 import derkades.minigames.utils.Utils;
@@ -21,6 +22,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
 
+import java.util.EnumSet;
 import java.util.Set;
 import java.util.UUID;
 
@@ -59,7 +61,8 @@ public class OneInTheQuiver extends Game<OITQMap> {
 						new Snow(),
 				},
 				3,
-				120
+				120,
+				EnumSet.of(GameLabel.MULTIPLAYER, GameLabel.PLAYER_COMBAT)
 		);
 	}
 

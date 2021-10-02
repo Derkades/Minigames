@@ -4,6 +4,7 @@ import derkades.minigames.Logger;
 import derkades.minigames.Minigames;
 import derkades.minigames.Minigames.ShutdownReason;
 import derkades.minigames.games.Game;
+import derkades.minigames.games.GameLabel;
 import derkades.minigames.games.GameTeam;
 import derkades.minigames.utils.MPlayer;
 import derkades.minigames.utils.queue.TaskQueue;
@@ -25,6 +26,7 @@ import xyz.derkades.derkutils.ListUtils;
 import xyz.derkades.derkutils.bukkit.BlockUtils;
 
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -55,7 +57,8 @@ public class Tron extends Game<TronMap> {
 						new Prototype(),
 				},
 				3,
-				150
+				150,
+				EnumSet.of(GameLabel.MULTIPLAYER, GameLabel.THIRD_PERSON)
 		);
 	}
 

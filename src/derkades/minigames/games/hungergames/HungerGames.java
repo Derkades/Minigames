@@ -2,6 +2,7 @@ package derkades.minigames.games.hungergames;
 
 import derkades.minigames.Minigames;
 import derkades.minigames.games.Game;
+import derkades.minigames.games.GameLabel;
 import derkades.minigames.utils.MPlayer;
 import derkades.minigames.utils.Scheduler;
 import derkades.minigames.utils.Utils;
@@ -16,6 +17,7 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import xyz.derkades.derkutils.bukkit.lootchests.LootChest;
 
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.List;
 import java.util.UUID;
 
@@ -40,7 +42,8 @@ public class HungerGames extends Game<HungerGamesMap> {
 						new Windmill(),
 				},
 				4,
-				150
+				150,
+				EnumSet.of(GameLabel.MULTIPLAYER, GameLabel.PLAYER_COMBAT, GameLabel.LARGE_MAP)
 		);
 	}
 

@@ -3,6 +3,7 @@ package derkades.minigames.games.buildcopy;
 import derkades.minigames.Logger;
 import derkades.minigames.Minigames;
 import derkades.minigames.games.Game;
+import derkades.minigames.games.GameLabel;
 import derkades.minigames.utils.Leaderboard;
 import derkades.minigames.utils.MPlayer;
 import derkades.minigames.utils.PaperItemBuilder;
@@ -21,6 +22,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.FireworkMeta;
 import xyz.derkades.derkutils.ListUtils;
 
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -63,7 +65,8 @@ public class BuildCopy extends Game<BuildCopyMap> {
 						new Prototype(),
 				},
 				2,
-				70
+				70,
+				EnumSet.of(GameLabel.BLOCKS, GameLabel.SINGLEPLAYER)
 		);
 	}
 

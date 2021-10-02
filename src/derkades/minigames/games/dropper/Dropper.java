@@ -2,6 +2,7 @@ package derkades.minigames.games.dropper;
 
 import derkades.minigames.Minigames;
 import derkades.minigames.games.Game;
+import derkades.minigames.games.GameLabel;
 import derkades.minigames.utils.MPlayer;
 import derkades.minigames.utils.MPlayerDamageEvent;
 import derkades.minigames.utils.Utils;
@@ -14,6 +15,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 
+import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
@@ -35,7 +37,8 @@ public class Dropper extends Game<DropperMap> {
 						new Trees(),
 				},
 				1,
-				45
+				45,
+				EnumSet.of(GameLabel.DROPPER, GameLabel.SINGLEPLAYER)
 		);
 	}
 

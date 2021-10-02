@@ -5,6 +5,7 @@ import derkades.minigames.Logger;
 import derkades.minigames.Minigames;
 import derkades.minigames.Var;
 import derkades.minigames.games.Game;
+import derkades.minigames.games.GameLabel;
 import derkades.minigames.utils.MPlayer;
 import derkades.minigames.utils.MPlayerDamageEvent;
 import derkades.minigames.utils.Scheduler;
@@ -36,6 +37,7 @@ import org.bukkit.scheduler.BukkitTask;
 import xyz.derkades.derkutils.ListUtils;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
 
+import java.util.EnumSet;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
@@ -55,7 +57,8 @@ public class MurderyMister extends Game<MurderyMisterMap> {
 						new HauntedHouse(),
 				},
 				3,
-				150
+				150,
+				EnumSet.of(GameLabel.MULTIPLAYER, GameLabel.PLAYER_COMBAT)
 		);
 	}
 

@@ -2,6 +2,7 @@ package derkades.minigames.games.icyblowback;
 
 import derkades.minigames.Minigames;
 import derkades.minigames.games.Game;
+import derkades.minigames.games.GameLabel;
 import derkades.minigames.utils.MPlayer;
 import derkades.minigames.utils.queue.TaskQueue;
 import net.kyori.adventure.text.Component;
@@ -19,6 +20,7 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
 
+import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
@@ -44,7 +46,8 @@ public class IcyBlowback extends Game<IcyBlowbackMap> {
 						new IcyBlowbackMapImpl(),
 				},
 				3,
-				100
+				100,
+				EnumSet.of(GameLabel.MULTIPLAYER, GameLabel.PLAYER_COMBAT)
 		);
 	}
 

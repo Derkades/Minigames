@@ -2,6 +2,7 @@ package derkades.minigames.games.digdug;
 
 import derkades.minigames.Minigames;
 import derkades.minigames.games.Game;
+import derkades.minigames.games.GameLabel;
 import derkades.minigames.utils.Leaderboard;
 import derkades.minigames.utils.MPlayer;
 import derkades.minigames.utils.PaperItemBuilder;
@@ -25,6 +26,7 @@ import org.bukkit.potion.PotionEffectType;
 import xyz.derkades.derkutils.bukkit.BlockUtils;
 
 import java.util.Arrays;
+import java.util.EnumSet;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class DigDug extends Game<DigDugMap> {
@@ -62,7 +64,8 @@ public class DigDug extends Game<DigDugMap> {
 						new Prototype(),
 				},
 				2,
-				40
+				40,
+				EnumSet.of(GameLabel.BLOCKS, GameLabel.SINGLEPLAYER)
 		);
 	}
 

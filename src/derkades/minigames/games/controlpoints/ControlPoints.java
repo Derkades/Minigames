@@ -2,6 +2,7 @@ package derkades.minigames.games.controlpoints;
 
 import derkades.minigames.GameState;
 import derkades.minigames.Minigames;
+import derkades.minigames.games.GameLabel;
 import derkades.minigames.games.GameTeam;
 import derkades.minigames.games.RedBlueTeamGame;
 import derkades.minigames.utils.MPlayer;
@@ -22,6 +23,7 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
 
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -44,7 +46,8 @@ public class ControlPoints extends RedBlueTeamGame<ControlPointsMap> {
 						new Prototype(),
 				},
 				6,
-				200
+				200,
+				EnumSet.of(GameLabel.MULTIPLAYER, GameLabel.PLAYER_COMBAT)
 		);
 	}
 

@@ -3,6 +3,7 @@ package derkades.minigames.games.tntrun;
 import derkades.minigames.GameState;
 import derkades.minigames.Minigames;
 import derkades.minigames.games.Game;
+import derkades.minigames.games.GameLabel;
 import derkades.minigames.utils.MPlayer;
 import derkades.minigames.utils.Utils;
 import net.kyori.adventure.text.Component;
@@ -17,6 +18,7 @@ import org.bukkit.event.player.PlayerMoveEvent;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
+import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
@@ -39,7 +41,8 @@ public class TntRun extends Game<TntRunMap> {
 						new WaterLava(),
 				},
 				2,
-				150
+				150,
+				EnumSet.of(GameLabel.MULTIPLAYER)
 		);
 	}
 

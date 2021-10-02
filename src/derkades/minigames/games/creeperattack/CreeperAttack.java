@@ -2,6 +2,7 @@ package derkades.minigames.games.creeperattack;
 
 import derkades.minigames.Minigames;
 import derkades.minigames.games.Game;
+import derkades.minigames.games.GameLabel;
 import derkades.minigames.utils.MPlayer;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -23,6 +24,7 @@ import xyz.derkades.derkutils.ListUtils;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
 import xyz.derkades.derkutils.bukkit.MaterialLists;
 
+import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
@@ -45,7 +47,8 @@ public class CreeperAttack extends Game<CreeperAttackMap> {
 						new Hedges(),
 				},
 				2,
-				60
+				60,
+				EnumSet.of(GameLabel.ENTITY_COMBAT)
 		);
 	}
 

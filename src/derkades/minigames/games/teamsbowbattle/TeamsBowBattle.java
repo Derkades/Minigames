@@ -2,6 +2,7 @@ package derkades.minigames.games.teamsbowbattle;
 
 import derkades.minigames.Logger;
 import derkades.minigames.Minigames;
+import derkades.minigames.games.GameLabel;
 import derkades.minigames.games.GameTeam;
 import derkades.minigames.games.RedBlueTeamGame;
 import derkades.minigames.utils.MPlayer;
@@ -16,6 +17,7 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.inventory.ItemStack;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
 
+import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
@@ -34,7 +36,8 @@ public class TeamsBowBattle extends RedBlueTeamGame<TeamsBowBattleMap> {
 						new Forest(),
 				},
 				4,
-				120
+				120,
+				EnumSet.of(GameLabel.MULTIPLAYER, GameLabel.PLAYER_COMBAT, GameLabel.TEAM)
 		);
 	}
 

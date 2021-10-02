@@ -12,12 +12,10 @@ public abstract class TeamGame<M extends GameMap> extends Game<M> {
 	private final Set<GameTeam> allowedTeams;
 
 	// TODO boolean in constructor to disable friendly fire
-	public TeamGame(
-			@NotNull String identifier, @NotNull String name, @NotNull String@NotNull[] description,
-			@NotNull Material material, @NotNull M@NotNull[] gameMaps, int requiredPlayers,
-			int duration,
-			@Nullable Set<GameTeam> allowedTeams) {
-		super(identifier, name, description, material, gameMaps, requiredPlayers, duration);
+	public TeamGame(@NotNull String identifier, @NotNull String name, @NotNull String@NotNull[] description,
+					@NotNull Material material, @NotNull M@NotNull[] gameMaps, int requiredPlayers, int duration,
+					@NotNull Set<GameLabel> gameLabels, @Nullable Set<GameTeam> allowedTeams) {
+		super(identifier, name, description, material, gameMaps, requiredPlayers, duration, gameLabels);
 		this.allowedTeams = allowedTeams;
 	}
 

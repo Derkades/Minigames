@@ -58,7 +58,8 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 			@NotNull Material material,
 			@NotNull M@NotNull[] gameMaps,
 			int requiredPlayers,
-			int duration
+			int duration,
+			Set<GameLabel> labels
 	) {
 		this.identifier = identifier;
 		this.name = name;

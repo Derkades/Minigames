@@ -2,6 +2,7 @@ package derkades.minigames.games.missile.wars;
 
 import derkades.minigames.Minigames;
 import derkades.minigames.games.Game;
+import derkades.minigames.games.GameLabel;
 import derkades.minigames.games.GameTeam;
 import derkades.minigames.utils.MPlayer;
 import derkades.minigames.utils.queue.TaskQueue;
@@ -10,6 +11,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -29,7 +31,8 @@ public class MissileWars extends Game<MissileWarsMap> {
 						new MissileWarsMapImpl(),
 				},
 				6,
-				300
+				300,
+				EnumSet.of(GameLabel.MULTIPLAYER, GameLabel.BLOCKS, GameLabel.PLAYER_COMBAT)
 		);
 	}
 

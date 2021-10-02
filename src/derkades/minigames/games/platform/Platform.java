@@ -2,6 +2,7 @@ package derkades.minigames.games.platform;
 
 import derkades.minigames.Minigames;
 import derkades.minigames.games.Game;
+import derkades.minigames.games.GameLabel;
 import derkades.minigames.utils.MPlayer;
 import derkades.minigames.utils.MPlayerDamageEvent;
 import derkades.minigames.utils.Utils;
@@ -19,6 +20,7 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.inventory.ItemStack;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
 
+import java.util.EnumSet;
 import java.util.Set;
 import java.util.UUID;
 
@@ -42,7 +44,8 @@ public class Platform extends Game<PlatformMap> {
 						new Ice(),
 				},
 				2,
-				40
+				40,
+				EnumSet.of(GameLabel.MULTIPLAYER, GameLabel.PLAYER_COMBAT)
 		);
 	}
 

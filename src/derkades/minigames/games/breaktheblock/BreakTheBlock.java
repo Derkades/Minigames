@@ -2,6 +2,7 @@ package derkades.minigames.games.breaktheblock;
 
 import derkades.minigames.Minigames;
 import derkades.minigames.games.Game;
+import derkades.minigames.games.GameLabel;
 import derkades.minigames.utils.MPlayer;
 import derkades.minigames.utils.PaperItemBuilder;
 import derkades.minigames.utils.PotionEffects;
@@ -23,6 +24,7 @@ import org.bukkit.potion.PotionEffectType;
 import xyz.derkades.derkutils.ListUtils;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
 
+import java.util.EnumSet;
 import java.util.UUID;
 
 public class BreakTheBlock extends Game<BreakTheBlockMap> {
@@ -53,7 +55,8 @@ public class BreakTheBlock extends Game<BreakTheBlockMap> {
 						new Prototype(),
 				},
 				3,
-				200
+				200,
+				EnumSet.of(GameLabel.MULTIPLAYER, GameLabel.PLAYER_COMBAT, GameLabel.PARKOUR)
 		);
 	}
 

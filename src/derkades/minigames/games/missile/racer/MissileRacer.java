@@ -3,6 +3,7 @@ package derkades.minigames.games.missile.racer;
 import derkades.minigames.GameState;
 import derkades.minigames.Minigames;
 import derkades.minigames.games.Game;
+import derkades.minigames.games.GameLabel;
 import derkades.minigames.games.missile.Missile;
 import derkades.minigames.utils.MPlayer;
 import derkades.minigames.utils.MinigamesPlayerDamageEvent;
@@ -23,6 +24,7 @@ import xyz.derkades.derkutils.Cooldown;
 import xyz.derkades.derkutils.ListUtils;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
 
+import java.util.EnumSet;
 import java.util.UUID;
 
 public class MissileRacer extends Game<MissileRacerMap> {
@@ -79,7 +81,8 @@ public class MissileRacer extends Game<MissileRacerMap> {
 						new Prototype(),
 				},
 				2,
-				300
+				300,
+				EnumSet.of(GameLabel.MULTIPLAYER, GameLabel.BLOCKS)
 		);
 	}
 

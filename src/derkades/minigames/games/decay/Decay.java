@@ -3,6 +3,7 @@ package derkades.minigames.games.decay;
 import derkades.minigames.GameState;
 import derkades.minigames.Minigames;
 import derkades.minigames.games.Game;
+import derkades.minigames.games.GameLabel;
 import derkades.minigames.utils.MPlayer;
 import derkades.minigames.utils.Scheduler;
 import derkades.minigames.utils.Utils;
@@ -18,6 +19,7 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import xyz.derkades.derkutils.ListUtils;
 
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
@@ -46,7 +48,8 @@ public class Decay extends Game<DecayMap> {
 						new SquareDonut(),
 				},
 				2,
-				100
+				100,
+				EnumSet.of(GameLabel.PARKOUR, GameLabel.PLAYER_COMBAT, GameLabel.MULTIPLAYER)
 		);
 	}
 

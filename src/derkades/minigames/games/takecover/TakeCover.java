@@ -1,10 +1,13 @@
 package derkades.minigames.games.takecover;
 
 import derkades.minigames.games.Game;
+import derkades.minigames.games.GameLabel;
 import derkades.minigames.utils.MPlayer;
 import derkades.minigames.utils.Scheduler;
 import org.bukkit.Location;
 import org.bukkit.Material;
+
+import java.util.EnumSet;
 
 @SuppressWarnings("ALL")
 public class TakeCover extends Game<TakeCoverMap> {
@@ -26,7 +29,8 @@ public class TakeCover extends Game<TakeCoverMap> {
 						new Prototype(),
 				},
 				2,
-				120
+				120,
+				EnumSet.of(GameLabel.SINGLEPLAYER)
 		);
 	}
 

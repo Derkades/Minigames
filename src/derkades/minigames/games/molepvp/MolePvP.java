@@ -2,6 +2,7 @@ package derkades.minigames.games.molepvp;
 
 import derkades.minigames.Logger;
 import derkades.minigames.Minigames;
+import derkades.minigames.games.GameLabel;
 import derkades.minigames.games.GameTeam;
 import derkades.minigames.games.RedBlueTeamGame;
 import derkades.minigames.utils.MPlayer;
@@ -15,6 +16,7 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.inventory.ItemStack;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
 
+import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
@@ -33,7 +35,8 @@ public class MolePvP extends RedBlueTeamGame<MolePvPMap> {
 						new Prototype(),
 				},
 				4,
-				100
+				100,
+				EnumSet.of(GameLabel.MULTIPLAYER, GameLabel.BLOCKS, GameLabel.PLAYER_COMBAT, GameLabel.TEAM)
 		);
 	}
 

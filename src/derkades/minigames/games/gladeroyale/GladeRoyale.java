@@ -3,6 +3,7 @@ package derkades.minigames.games.gladeroyale;
 import derkades.minigames.Logger;
 import derkades.minigames.Minigames;
 import derkades.minigames.games.Game;
+import derkades.minigames.games.GameLabel;
 import derkades.minigames.utils.MPlayer;
 import derkades.minigames.utils.Scheduler;
 import derkades.minigames.utils.Utils;
@@ -23,6 +24,7 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
 import xyz.derkades.derkutils.bukkit.lootchests.LootChest;
 
+import java.util.EnumSet;
 import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
@@ -42,7 +44,8 @@ public class GladeRoyale extends Game<GladeRoyaleMap> {
 						new Santiago(),
 				},
 				6,
-				400 // Do not change without changing the game timer code
+				400, // Do not change without changing the game timer code
+				EnumSet.of(GameLabel.MULTIPLAYER, GameLabel.BLOCKS, GameLabel.PLAYER_COMBAT, GameLabel.LARGE_MAP, GameLabel.ELYTRA)
 		);
 	}
 

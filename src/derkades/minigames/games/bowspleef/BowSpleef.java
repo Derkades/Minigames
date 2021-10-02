@@ -3,6 +3,7 @@ package derkades.minigames.games.bowspleef;
 import derkades.minigames.GameState;
 import derkades.minigames.Minigames;
 import derkades.minigames.games.Game;
+import derkades.minigames.games.GameLabel;
 import derkades.minigames.utils.MPlayer;
 import derkades.minigames.utils.Utils;
 import net.kyori.adventure.text.Component;
@@ -17,6 +18,7 @@ import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.inventory.ItemStack;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
 
+import java.util.EnumSet;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
@@ -41,7 +43,8 @@ public class BowSpleef extends Game<BowSpleefMap> {
 						new BowSpleefMapOriginal(),
 				},
 				2,
-				100
+				100,
+				EnumSet.of(GameLabel.PARKOUR, GameLabel.MULTIPLAYER, GameLabel.PLAYER_COMBAT)
 		);
 	}
 
