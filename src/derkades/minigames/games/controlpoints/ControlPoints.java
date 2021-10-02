@@ -259,13 +259,7 @@ public class ControlPoints extends Game<ControlPointsMap> {
 		final MPlayer player = new MPlayer(event);
 		event.setCancelled(true);
 
-		MPlayer killer = Utils.getKiller(event);
-
-		if (killer != null) {
-			sendPlainMessage(player.getName() + " was killed by " + killer.getName());
-		} else {
-			sendPlainMessage(player.getName() + " has died");
-		}
+		this.sendMessage(Utils.getTeamsDeathMessage(event, teams));
 
 		player.die();
 		final UUID uuid = player.getUniqueId();

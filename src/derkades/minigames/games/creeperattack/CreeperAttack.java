@@ -3,6 +3,8 @@ package derkades.minigames.games.creeperattack;
 import derkades.minigames.Minigames;
 import derkades.minigames.games.Game;
 import derkades.minigames.utils.MPlayer;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -171,7 +173,7 @@ public class CreeperAttack extends Game<CreeperAttackMap> {
 		final MPlayer player = new MPlayer(event);
 		this.alive.remove(player.getUniqueId());
 		player.die();
-		sendPlainMessage(player.getName() + " has been blown up by a creeper");
+		this.sendMessage(player.getDisplayName().append(Component.text(" has been blown up by a creeper.", NamedTextColor.GRAY)));
 	}
 
 	@Override

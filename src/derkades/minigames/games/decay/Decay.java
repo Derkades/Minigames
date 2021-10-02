@@ -6,6 +6,8 @@ import derkades.minigames.games.Game;
 import derkades.minigames.utils.MPlayer;
 import derkades.minigames.utils.Scheduler;
 import derkades.minigames.utils.Utils;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -169,7 +171,7 @@ public class Decay extends Game<DecayMap> {
 		if (this.map.isDead(player)) {
 			if (GameState.getCurrentState().gameIsRunning()) {
 				player.dieTo(this.map.getSpawnLocation());
-				this.sendFormattedPlainMessage("%s died", player.getName());
+				this.sendMessage(player.getDisplayName().append(Component.text(" has died.", NamedTextColor.GRAY)));
 				this.alive.remove(player.getUniqueId());
 			} else {
 				player.teleport(this.map.getSpawnLocation());

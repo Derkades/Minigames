@@ -5,6 +5,8 @@ import derkades.minigames.Minigames;
 import derkades.minigames.games.Game;
 import derkades.minigames.utils.MPlayer;
 import derkades.minigames.utils.Utils;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -103,7 +105,7 @@ public class BowSpleef extends Game<BowSpleefMap> {
 				p.clearInventory();
 				p.dieTo(this.map.getSpawnLocation());
 				this.alive.remove(p.getUniqueId());
-				sendPlainMessage(p.getName() + " died");
+				this.sendMessage(p.getDisplayName().append(Component.text(" has died.", NamedTextColor.GRAY)));
 			});
 
 		return secondsLeft;
