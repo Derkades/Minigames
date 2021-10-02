@@ -13,6 +13,7 @@ import org.bukkit.Location;
 import xyz.derkades.derkutils.ListUtils;
 
 import java.util.HashMap;
+import java.util.UUID;
 
 import static net.kyori.adventure.text.format.NamedTextColor.*;
 
@@ -26,7 +27,7 @@ public class JazzRoom extends Module implements Runnable {
 	private static final Location BOUNDS_A = new Location(Var.LOBBY_WORLD, 214, 76, 273);
 	private static final Location BOUNDS_B = new Location(Var.LOBBY_WORLD, 224, 81, 259);
 
-	private static final HashMap<String, Sound> PLAYING = new HashMap<>();
+	private static final HashMap<UUID, Sound> PLAYING = new HashMap<>();
 
 	public JazzRoom() {
 		Scheduler.repeat(10, this);
@@ -36,26 +37,25 @@ public class JazzRoom extends Module implements Runnable {
 	public void run() {
 		for (final MPlayer player : Minigames.getOnlinePlayers()) {
 			if (player.isIn3dBounds(BOUNDS_A, BOUNDS_B)) {
-				if (!PLAYING.containsKey(player.getName())) {
+				if (!PLAYING.containsKey(player.getUniqueId())) {
 					player.sendTitle(
-							Component.text("aaaaa").decorate(TextDecoration.OBFUSCATED),
+							Component.text("#####").decorate(TextDecoration.OBFUSCATED),
 							Component.text("Jazz room!", LIGHT_PURPLE)
 							);
 					final Sound random = ListUtils.choice(JAZZ_MUSIC);
-					Logger.debug("Playing %s to %s", random.name(), player.getName());
+					Logger.debug("Playing %s to %s", random.name(), player.getOriginalName());
 					player.playSound(random);
-					PLAYING.put(player.getName(), random);
+					PLAYING.put(player.getUniqueId(), random);
 				}
-			} else if (PLAYING.containsKey(player.getName())) {
+			} else if (PLAYING.containsKey(player.getUniqueId())) {
 				player.sendTitle(
 						Component.text("Bye", GRAY),
 						Component.text("You have left jazz room.", RED)
 						);
-				final Sound sound = PLAYING.get(player.getName());
-				Logger.debug("Stopping sound %s for %s", sound.name(), player.getName());
+				final Sound sound = PLAYING.get(player.getUniqueId());
+				Logger.debug("Stopping sound %s for %s", sound.name(), player.getOriginalName());
 				player.bukkit().stopSound(sound);
-				player.removeMetadata("jazz-room");
-				PLAYING.remove(player.getName());
+				PLAYING.remove(player.getUniqueId());
 			}
 		}
 	}

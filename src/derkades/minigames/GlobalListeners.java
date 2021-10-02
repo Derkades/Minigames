@@ -40,7 +40,7 @@ public class GlobalListeners implements Listener {
 		event.joinMessage(getJoinLeaveMessage(player.bukkit().displayName(), NamedTextColor.GREEN, '+'));
 
 		// Anti collision
-		Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "team join global " + player.getName());
+		Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "team join global " + player.getOriginalName());
 
 		player.clearInventory();
 

@@ -4,6 +4,8 @@ import derkades.minigames.Minigames;
 import derkades.minigames.games.Game;
 import derkades.minigames.utils.MPlayer;
 import derkades.minigames.utils.queue.TaskQueue;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
@@ -132,11 +134,11 @@ public class IcyBlowback extends Game<IcyBlowbackMap> {
 		}
 
 		if (player.getY() < this.map.getBottomFloorLevel()) {
-			//die
+			// die
 			this.alive.remove(player.getUniqueId());
 			this.map.getWorld().spigot().strikeLightningEffect(player.getLocation(), false);
 			player.dieUp(10);
-			this.sendFormattedPlainMessage("%s has died", player.getName());
+			this.sendMessage(player.getDisplayName().append(Component.text(" has died.", NamedTextColor.GRAY)));
 		}
 	}
 

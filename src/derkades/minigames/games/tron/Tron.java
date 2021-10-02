@@ -233,7 +233,7 @@ public class Tron extends Game<TronMap> {
 			}
 
 			if (!player.getGameMode().equals(GameMode.ADVENTURE)) {
-				Logger.warning("Player %s is no(t) (longer) in gamemode ADVENTURE", player.getName());
+				Logger.warning("Player %s is no(t) (longer) in gamemode ADVENTURE", player.getOriginalName());
 				cancel();
 				return;
 			}
@@ -328,23 +328,23 @@ public class Tron extends Game<TronMap> {
 					if (killerPlayer == null) {
 						// Player logged out, in theory the team shouldn't exist anymore but just in case
 						sendMessage(
-								Component.text(player.getName(), tronPlayer.getTeam().getTextColor())
+								Component.text(player.getOriginalName(), tronPlayer.getTeam().getTextColor())
 								.append(Component.text(" was killed by the ", NamedTextColor.GRAY))
 								.append(Component.text(killer.getTeam().getDisplayName(), killer.getTeam().getTextColor()))
 								.append(Component.text(" team.", NamedTextColor.GRAY))
 								);
 					} else {
 						sendMessage(
-								Component.text(player.getName(), tronPlayer.getTeam().getTextColor())
+								Component.text(player.getOriginalName(), tronPlayer.getTeam().getTextColor())
 								.append(Component.text(" was killed by ", NamedTextColor.GRAY))
-								.append(Component.text(killerPlayer.getName(), killer.getTeam().getTextColor()))
+								.append(Component.text(killerPlayer.getOriginalName(), killer.getTeam().getTextColor()))
 								.append(Component.text(".", NamedTextColor.GRAY))
 								);
 					}
 				} else {
 					// Ran into a wall or into a player who already died
 					sendMessage(
-							Component.text(player.getName(), tronPlayer.getTeam().getTextColor())
+							Component.text(player.getOriginalName(), tronPlayer.getTeam().getTextColor())
 							.append(Component.text(" died.", NamedTextColor.GRAY))
 							);
 				}

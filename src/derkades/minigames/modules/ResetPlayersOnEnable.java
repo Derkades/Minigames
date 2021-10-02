@@ -14,7 +14,7 @@ public class ResetPlayersOnEnable extends Module {
 		if (Logger.debugModeEnabled()) {
 			Logger.info("Debug mode is enabled, only going to reset players who are not in creative mode.");
 			Minigames.getOnlinePlayers().stream().filter(p -> p.getGameMode() != GameMode.CREATIVE).forEach((p) -> {
-				Logger.debug("Resetting player %s (debug mode, not creative)", p.getName());
+				Logger.debug("Resetting player %s (debug mode, not creative)", p.getOriginalName());
 //				p.applyLobbySettings();
 //				p.queueTeleport(Var.LOBBY_LOCATION);
 //				p.teleportLobbyAsync();
@@ -22,7 +22,7 @@ public class ResetPlayersOnEnable extends Module {
 			});
 		} else {
 			Minigames.getOnlinePlayers().forEach((p) -> {
-				Logger.debug("Resetting player %s (no debug mode)", p.getName());
+				Logger.debug("Resetting player %s (no debug mode)", p.getOriginalName());
 //				p.applyLobbySettings();
 //				p.queueTeleport(Var.LOBBY_LOCATION);
 				p.queueLobbyTeleport();

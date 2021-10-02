@@ -157,26 +157,11 @@ public class OneInTheQuiver extends Game<OITQMap> {
 		this.alive.remove(player.getUniqueId());
 		player.dieUp(2);
 
+		this.sendMessage(Utils.getSoloDeathMessage(event, this.alive.size()));
+
 		MPlayer killer = Utils.getKiller(event);
 		if (killer != null) {
 			killer.getInventory().addItem(ARROW);
-
-			final int playersLeft = this.alive.size();
-			if (playersLeft > 1) {
-				sendFormattedPlainMessage("%s has been killed by %s. There are %s players left.",
-						player.getName(), killer.getName(), playersLeft);
-			} else {
-				sendFormattedPlainMessage("%s has been killed by %s.",
-						player.getName(), killer.getName());
-			}
-		} else {
-			final int playersLeft = this.alive.size();
-			if (playersLeft > 1) {
-				sendFormattedPlainMessage("%s has died. There are %s players left.",
-						player.getName(), playersLeft);
-			} else {
-				sendFormattedPlainMessage("%s has died.", player.getName());
-			}
 		}
 	}
 

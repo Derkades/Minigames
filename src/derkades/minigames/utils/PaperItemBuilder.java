@@ -2,17 +2,19 @@ package derkades.minigames.utils;
 
 import com.destroystokyo.paper.profile.PlayerProfile;
 import com.destroystokyo.paper.profile.ProfileProperty;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import xyz.derkades.derkutils.bukkit.AbstractItemBuilder;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -32,23 +34,17 @@ public class PaperItemBuilder extends AbstractItemBuilder<PaperItemBuilder> {
 	}
 
 	public PaperItemBuilder canPlaceOnMinecraft(String... canPlaceOn) {
-		ItemMeta meta = item.getItemMeta();
-		meta.setPlaceableKeys(Arrays.stream(canPlaceOn).map(NamespacedKey::minecraft).collect(Collectors.toList()));
-		item.setItemMeta(meta);
+		item.editMeta(meta -> meta.setPlaceableKeys(Arrays.stream(canPlaceOn).map(NamespacedKey::minecraft).collect(Collectors.toList())));
 		return this;
 	}
 
 	public PaperItemBuilder canDestroyMinecraft(String... canDestroy) {
-		ItemMeta meta = item.getItemMeta();
-		meta.setDestroyableKeys(Arrays.stream(canDestroy).map(NamespacedKey::minecraft).collect(Collectors.toList()));
-		item.setItemMeta(meta);
+		item.editMeta(meta -> meta.setDestroyableKeys(Arrays.stream(canDestroy).map(NamespacedKey::minecraft).collect(Collectors.toList())));
 		return this;
 	}
 
 	public PaperItemBuilder itemFlags(ItemFlag... flags) {
-		ItemMeta meta = item.getItemMeta();
-		meta.addItemFlags(flags);
-		item.setItemMeta(meta);
+		item.editMeta(meta -> meta.addItemFlags(flags));
 		return this;
 	}
 	
@@ -61,13 +57,20 @@ public class PaperItemBuilder extends AbstractItemBuilder<PaperItemBuilder> {
 
 	@NotNull
 	public PaperItemBuilder skullProfile(@NotNull PlayerProfile profile) {
-		if (item.getItemMeta() instanceof SkullMeta meta) {
-			meta.setPlayerProfile(profile);
-			item.setItemMeta(meta);
-			return this;
-		} else {
-			throw new IllegalStateException("Not a skull");
-		}
+		item.editMeta(SkullMeta.class, meta -> meta.setPlayerProfile(profile));
+		return this;
+	}
+
+	@NotNull
+	public PaperItemBuilder nameAdventure(@Nullable Component name) {
+		item.editMeta(meta -> meta.displayName(name));
+		return this;
+	}
+
+	@NotNull
+	public PaperItemBuilder loreAdventure(@Nullable List<Component> lore) {
+		item.editMeta(meta -> meta.lore(lore));
+		return this;
 	}
 
 }

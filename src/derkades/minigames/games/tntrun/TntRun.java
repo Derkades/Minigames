@@ -5,6 +5,8 @@ import derkades.minigames.Minigames;
 import derkades.minigames.games.Game;
 import derkades.minigames.utils.MPlayer;
 import derkades.minigames.utils.Utils;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -116,7 +118,11 @@ public class TntRun extends Game<TntRunMap> {
 
 		if (belowPlayer.getType().equals(Material.RED_TERRACOTTA)) {
 			this.alive.remove(player.getUniqueId());
-			sendFormattedPlainMessage("%s has died. %s players left.", player.getName(), this.alive.size());
+			if (this.alive.size() > 1) {
+				this.sendMessage(player.getDisplayName().append(Component.text(" has died. " + this.alive.size() + " players left.", NamedTextColor.GRAY)));
+			} else {
+				this.sendMessage(player.getDisplayName().append(Component.text(" has died.", NamedTextColor.GRAY)));
+			}
 			player.dieUp(10);
 			return;
 		}

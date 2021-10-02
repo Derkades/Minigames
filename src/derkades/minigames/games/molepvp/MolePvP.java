@@ -9,7 +9,6 @@ import derkades.minigames.utils.MPlayer;
 import derkades.minigames.utils.MPlayerDamageEvent;
 import derkades.minigames.utils.PaperItemBuilder;
 import derkades.minigames.utils.Utils;
-import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -130,15 +129,7 @@ public class MolePvP extends Game<MolePvPMap> implements TeamGame {
 	public void onDeath(PlayerDeathEvent event) {
 		event.setCancelled(true);
 		MPlayer player = new MPlayer(event);
-		MPlayer killer = Utils.getKiller(event);
-		if (killer != null) {
-			this.sendFormattedPlainMessage("%s%s%s %shas been killed by %s%s%s",
-					this.teams.getTeam(player).getChatColor(), ChatColor.BOLD, player.getName(), ChatColor.GRAY,
-					this.teams.getTeam(killer).getChatColor(), ChatColor.BOLD, killer.getName());
-		} else {
-			this.sendFormattedPlainMessage("%s%s%s %has died.",
-					this.teams.getTeam(player).getChatColor(), ChatColor.BOLD, player.getName(), ChatColor.GRAY);
-		}
+		this.sendMessage(Utils.getTeamsDeathMessage(event, teams));
 
 		this.dead.add(player.getUniqueId());
 		player.die();

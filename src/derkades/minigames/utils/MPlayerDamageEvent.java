@@ -1,7 +1,5 @@
 package derkades.minigames.utils;
 
-import java.util.Objects;
-
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -12,6 +10,8 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.Objects;
 
 public class MPlayerDamageEvent extends Event implements Cancellable {
 
@@ -62,6 +62,11 @@ public class MPlayerDamageEvent extends Event implements Cancellable {
 
 	public void setDamage(final double damage) {
 		this.event.setDamage(damage);
+	}
+
+	@NotNull
+	public EntityDamageEvent getBukkitEvent() {
+		return event;
 	}
 
 	@Override

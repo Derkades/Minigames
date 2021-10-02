@@ -5,6 +5,8 @@ import derkades.minigames.Minigames;
 import derkades.minigames.games.Game;
 import derkades.minigames.utils.MPlayer;
 import derkades.minigames.utils.Utils;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
@@ -114,7 +116,7 @@ public class Elytra extends Game<ElytraMap> {
 
 			this.finished.add(player.getUniqueId());
 
-			sendPlainMessage(player.getName() + " has finished");
+			this.sendMessage(player.getDisplayName().append(Component.text(" has finished.", NamedTextColor.GRAY)));
 		}
 	}
 

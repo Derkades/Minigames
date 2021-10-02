@@ -6,6 +6,8 @@ import derkades.minigames.utils.MPlayer;
 import derkades.minigames.utils.PaperItemBuilder;
 import derkades.minigames.utils.Scheduler;
 import derkades.minigames.utils.Utils;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
@@ -156,7 +158,7 @@ public class RegeneratingSpleef extends Game<SpleefMap> {
 
 		if (player.getBlockOn().getType() == Material.BEDROCK){
 			this.alive.remove(player.getUniqueId());
-			sendFormattedPlainMessage("%s died", player.getName());
+			this.sendMessage(player.getDisplayName().append(Component.text(" has died.", NamedTextColor.GRAY)));
 			player.dieUp(3);
 		}
 	}

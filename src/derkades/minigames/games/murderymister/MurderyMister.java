@@ -198,7 +198,7 @@ public class MurderyMister extends Game<MurderyMisterMap> {
 		Logger.debug("event");
 		final MPlayer damager = event.getDamagerPlayer();
 		if (damager == null) {
-			EntityDamageEvent cause = event.getPlayer().bukkit().getLastDamageCause();
+			EntityDamageEvent cause = event.getBukkitEvent();
 			// don't cancel plugin damage (void) or sneak cancel won't work
 			if (cause.getCause() != EntityDamageEvent.DamageCause.VOID) {
 				event.setCancelled(true);
@@ -221,7 +221,7 @@ public class MurderyMister extends Game<MurderyMisterMap> {
 		event.setCancelled(true);
 		final MPlayer player = new MPlayer(event);
 
-		sendFormattedPlainMessage("%s has been killed", player.getName());
+		this.sendMessage(player.getDisplayName().append(Component.text(" has been murdered!", NamedTextColor.GRAY)));
 		Minigames.getOnlinePlayers().forEach((p) -> p.playSound(Sound.ENTITY_PLAYER_HURT_SWEET_BERRY_BUSH, 1.0f));
 		this.aliveInnocent.remove(player.getUniqueId());
 
@@ -234,7 +234,13 @@ public class MurderyMister extends Game<MurderyMisterMap> {
 			if (killer == null) {
 				sendPlainMessage("The murderer has died!");
 			} else {
-				sendFormattedPlainMessage("The murderer has been killed by %s!", killer.getName());
+				this.sendMessage(
+						Component.text("The murderer (", NamedTextColor.GRAY)
+								.append(player.getDisplayName())
+								.append(Component.text(" has been killed by ", NamedTextColor.GRAY))
+								.append(killer.getDisplayName())
+								.append(Component.text("!", NamedTextColor.GRAY))
+				);
 			}
 		} else if (player.getInventory().contains(Material.BOW)) {
 			// Sheriff is dead, give bow to random player

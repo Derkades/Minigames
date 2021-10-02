@@ -5,6 +5,7 @@ import derkades.minigames.games.Game;
 import derkades.minigames.utils.MPlayer;
 import derkades.minigames.utils.MPlayerDamageEvent;
 import derkades.minigames.utils.Utils;
+import net.kyori.adventure.text.Component;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.entity.Entity;
@@ -62,9 +63,6 @@ public class Dropper extends Game<DropperMap> {
 		return 45;
 	}
 
-	private static final String FINISHED = "%s finished.";
-	private static final String FINISHED_FIRST = "%s finished first and got 1 extra point!";
-
 	private Set<UUID> finished;
 
 	@Override
@@ -108,11 +106,11 @@ public class Dropper extends Game<DropperMap> {
 			final MPlayer player = new MPlayer(event);
 
 			if (this.finished.isEmpty()) {
-				//Player is first winner
-				player.addPoints(1); //Add bonus point
-				sendPlainMessage(String.format(FINISHED_FIRST, player.getName()));
+				// Player is first winner, add bonus point
+				player.addPoints(1);
+				this.sendMessage(player.getDisplayName().append(Component.text(" finished first and got an extra point!")));
 			} else {
-				sendPlainMessage(String.format(FINISHED, player.getName()));
+				this.sendMessage(player.getDisplayName().append(Component.text(" finished.")));
 			}
 
 			this.finished.add(player.getUniqueId());

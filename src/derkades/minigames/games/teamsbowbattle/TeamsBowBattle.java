@@ -187,7 +187,7 @@ public class TeamsBowBattle extends Game<TeamsBowBattleMap> implements TeamGame 
 		final GameTeam team = this.teams.getTeam(player);
 
 		if (team == null) {
-			Logger.warning("Not giving items to %s, unknown team", player.getName());
+			Logger.warning("Not giving items to %s, unknown team", player.getOriginalName());
 			return;
 		}
 

@@ -21,7 +21,7 @@ public class PointsListMenu extends IconMenu {
 		for (final MPlayer target : Minigames.getOnlinePlayers()) {
 			this.addItem(slot, new PaperItemBuilder(Material.PLAYER_HEAD)
 							.skullProfile(target.bukkit().getPlayerProfile())
-							.name(ChatColor.GOLD + target.getName())
+							.nameAdventure(target.getDisplayName())
 							.lore(ChatColor.GRAY + "Points: " + ChatColor.YELLOW + target.getPoints())
 							.create());
 			slot++;

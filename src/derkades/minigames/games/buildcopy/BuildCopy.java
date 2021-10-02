@@ -6,6 +6,8 @@ import derkades.minigames.games.Game;
 import derkades.minigames.utils.Leaderboard;
 import derkades.minigames.utils.MPlayer;
 import derkades.minigames.utils.PaperItemBuilder;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Color;
 import org.bukkit.FireworkEffect;
 import org.bukkit.Material;
@@ -169,7 +171,7 @@ public class BuildCopy extends Game<BuildCopyMap> {
 	public void onPlace(final BlockPlaceEvent event) {
 		final MPlayer player = new MPlayer(event.getPlayer());
 		if (!this.positions.containsKey(player.getUniqueId())) {
-			Logger.warning("Position unknown for %s", player.getName());
+			Logger.warning("Position unknown for %s", player.getOriginalName());
 			return;
 		}
 
@@ -177,7 +179,12 @@ public class BuildCopy extends Game<BuildCopyMap> {
 		if (this.map.checkCopy(position, this.currentPatterns.get(player.getUniqueId()))) {
 			this.map.clearCopy(position);
 
-			sendPlainMessage(player.getName() + " finished pattern " + this.leaderboard.incrementAndGetScore(player));
+			this.sendMessage(
+					player.getDisplayName()
+							.append(Component.text(" finished pattern ", NamedTextColor.GRAY))
+							.append(Component.text(this.leaderboard.incrementAndGetScore(player), NamedTextColor.YELLOW))
+							.append(Component.text('!', NamedTextColor.GRAY))
+			);
 
 			giveItems(player);
 
