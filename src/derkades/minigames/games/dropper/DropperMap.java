@@ -6,13 +6,6 @@ import derkades.minigames.games.GameMap;
 
 abstract class DropperMap extends GameMap {
 
-	static final DropperMap[] DROPPER_MAPS = new DropperMap[] {
-			new BlackWhite(),
-			new Rainbow(),
-			new Redstone(),
-			new Trees(),
-	};
-
 	abstract Location getLobbyLocation();
 
 	abstract void openDoor();

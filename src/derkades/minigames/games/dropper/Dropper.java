@@ -20,6 +20,13 @@ import java.util.UUID;
 
 public class Dropper extends Game<DropperMap> {
 
+	private static final DropperMap[] MAPS = new DropperMap[] {
+			new BlackWhite(),
+			new Rainbow(),
+			new Redstone(),
+			new Trees(),
+	};
+
 	@Override
 	public @NotNull String getIdentifier() {
 		return "dropper";
@@ -47,7 +54,7 @@ public class Dropper extends Game<DropperMap> {
 
 	@Override
 	public DropperMap[] getGameMaps() {
-		return DropperMap.DROPPER_MAPS;
+		return MAPS;
 	}
 
 	@Override

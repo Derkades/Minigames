@@ -34,6 +34,10 @@ import java.util.UUID;
 
 public class Tron extends Game<TronMap> {
 
+	private static final TronMap[] MAPS = {
+			new Prototype(),
+	};
+
 	private static final double MOVEMENT_SPEED = 0.3;
 	private static final int PLAYER_Y_DISTANCE = 30;
 	private static final float PLAYER_PITCH = 90f;
@@ -73,7 +77,7 @@ public class Tron extends Game<TronMap> {
 
 	@Override
 	public TronMap[] getGameMaps() {
-		return TronMap.MAPS;
+		return MAPS;
 	}
 
 	@Override

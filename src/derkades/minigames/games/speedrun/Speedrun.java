@@ -21,6 +21,12 @@ import java.util.UUID;
 
 public class Speedrun extends Game<SpeedrunMap> {
 
+	public static final SpeedrunMap[] MAPS = {
+//		new Backwards(),
+			new Classic(),
+//		new Construction(),
+	};
+
 	private static final PotionEffect SPEED_EFFECT = new PotionEffect(PotionEffectType.SPEED, Integer.MAX_VALUE, 30, true);
 
 	@Override
@@ -50,7 +56,7 @@ public class Speedrun extends Game<SpeedrunMap> {
 
 	@Override
 	public SpeedrunMap[] getGameMaps() {
-		return SpeedrunMap.MAPS;
+		return MAPS;
 	}
 
 	@Override

@@ -18,6 +18,13 @@ import java.util.*;
 
 public class TntRun extends Game<TntRunMap> {
 
+	private static final TntRunMap[] MAPS = {
+			new Aqua(),
+			new Future(),
+			new Jungle(),
+			new WaterLava(),
+	};
+
 	@Override
 	public @NotNull String getIdentifier() {
 		return "tnt_run";
@@ -48,7 +55,7 @@ public class TntRun extends Game<TntRunMap> {
 
 	@Override
 	public TntRunMap[] getGameMaps() {
-		return TntRunMap.MAPS;
+		return MAPS;
 	}
 
 	@Override

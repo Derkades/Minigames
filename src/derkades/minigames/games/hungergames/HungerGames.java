@@ -3,7 +3,6 @@ package derkades.minigames.games.hungergames;
 import derkades.minigames.Minigames;
 import derkades.minigames.games.Game;
 import derkades.minigames.utils.MPlayer;
-import derkades.minigames.utils.MinigamesPlayerDamageEvent;
 import derkades.minigames.utils.Scheduler;
 import derkades.minigames.utils.Utils;
 import derkades.minigames.utils.Winners;
@@ -13,6 +12,7 @@ import org.bukkit.WorldBorder;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.jetbrains.annotations.NotNull;
 import xyz.derkades.derkutils.bukkit.lootchests.LootChest;
 
@@ -21,6 +21,11 @@ import java.util.List;
 import java.util.UUID;
 
 public class HungerGames extends Game<HungerGamesMap> {
+
+	static final HungerGamesMap[] MAPS = {
+			new Treehouse(),
+			new Windmill(),
+	};
 
 	@Override
 	public @NotNull String getIdentifier() {
@@ -52,7 +57,7 @@ public class HungerGames extends Game<HungerGamesMap> {
 
 	@Override
 	public HungerGamesMap[] getGameMaps() {
-		return HungerGamesMap.MAPS;
+		return MAPS;
 	}
 
 	@Override
@@ -142,27 +147,16 @@ public class HungerGames extends Game<HungerGamesMap> {
 	}
 
 	@EventHandler
-	public void onDamage(final MinigamesPlayerDamageEvent event) {
-		final MPlayer player = event.getPlayer();
+	public void onDeath(final PlayerDeathEvent event) {
+		event.setCancelled(true);
+		final MPlayer player = new MPlayer(event);
 
-		if (event.willBeDead()) {
-			event.setCancelled(true); // Player must not die, or bad things happen.
+		this.dead.add(player.getUniqueId());
+		player.dropItems();
+		player.dieUp(2);
 
-			this.dead.add(player.getUniqueId());
-			player.dropItems();
-			player.dieUp(2);
-
-			final MPlayer killer = event.getDamagerPlayer();
-			if (killer != null) {
-				final int playersLeft = (int) this.all.stream().filter(p -> this.dead.contains(p)).count();
-				this.sendFormattedPlainMessage("%s has been killed by %s. There are %s players left.",
-						player.getName(), killer.getName(), playersLeft);
-			} else {
-				final int playersLeft = (int) this.all.stream().filter(p -> this.dead.contains(p)).count();
-				this.sendFormattedPlainMessage("%s has died. There are %s players left.",
-						player.getName(), playersLeft);
-			}
-		}
+		final int playersLeft = (int) this.all.stream().filter(p -> this.dead.contains(p)).count();
+		this.sendMessage(Utils.getSoloDeathMessage(event, playersLeft));
 	}
 
 	private void placeBlocks(final Location[] locations, final Material type) {

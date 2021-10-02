@@ -27,6 +27,14 @@ import java.util.UUID;
 
 public class OneInTheQuiver extends Game<OITQMap> {
 
+	private static final OITQMap[] MAPS = {
+			new Barn(),
+			new Castle(),
+			new Desert(),
+			new HouseWithFarm(),
+			new Snow(),
+	};
+
 	private static final ItemStack SWORD = new ItemBuilder(Material.WOODEN_SWORD)
 			.unbreakable()
 			.create();
@@ -73,7 +81,7 @@ public class OneInTheQuiver extends Game<OITQMap> {
 
 	@Override
 	public OITQMap[] getGameMaps() {
-		return OITQMap.MAPS;
+		return MAPS;
 	}
 
 	@Override

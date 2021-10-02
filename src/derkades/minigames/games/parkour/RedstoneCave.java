@@ -11,6 +11,11 @@ import org.jetbrains.annotations.NotNull;
 class RedstoneCave extends ParkourMap {
 
 	@Override
+	public boolean isDisabled() {
+		return true;
+	}
+
+	@Override
 	public @NotNull String getName() {
 		return "Redstone Cave";
 	}

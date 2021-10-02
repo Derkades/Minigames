@@ -4,16 +4,12 @@ import org.bukkit.Location;
 
 import derkades.minigames.games.GameMap;
 
-public abstract class TakeCoverMap extends GameMap {
+abstract class TakeCoverMap extends GameMap {
 
-	public static final TakeCoverMap[] MAPS = {
-			new Prototype(),
-	};
+	abstract Location getSpawnLocation();
 
-	public abstract Location getSpawnLocation();
+	abstract Location getCoverMin();
 
-	public abstract Location getCoverMin();
-
-	public abstract Location getCoverMax();
+	abstract Location getCoverMax();
 
 }

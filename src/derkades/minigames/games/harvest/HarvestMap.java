@@ -1,18 +1,12 @@
 package derkades.minigames.games.harvest;
 
-import java.util.List;
-
+import derkades.minigames.games.GameMap;
 import org.bukkit.Location;
 import org.jetbrains.annotations.NotNull;
 
-import derkades.minigames.games.GameMap;
+import java.util.List;
 
 abstract class HarvestMap extends GameMap {
-
-	@NotNull
-	static final HarvestMap@NotNull[] MAPS = {
-			new Prototype(),
-	};
 
 	@NotNull
 	abstract List<Location> getCropLocations();

@@ -26,6 +26,10 @@ import java.util.UUID;
 
 public class MissileRacer extends Game<MissileRacerMap> {
 
+	private static final MissileRacerMap[] MAPS = {
+			new Prototype(),
+	};
+
 	private static final ItemStack PLACEABLE_TNT = new PaperItemBuilder(Material.TNT)
 			.amount(20)
 			.canPlaceOnMinecraft(
@@ -95,7 +99,7 @@ public class MissileRacer extends Game<MissileRacerMap> {
 
 	@Override
 	public MissileRacerMap[] getGameMaps() {
-		return MissileRacerMap.MAPS;
+		return MAPS;
 	}
 
 	@Override

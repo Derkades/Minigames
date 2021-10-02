@@ -7,12 +7,6 @@ import derkades.minigames.games.GameMap;
 
 abstract class SpeedrunMap extends GameMap {
 
-	public static final SpeedrunMap[] MAPS = {
-//		new Backwards(),
-		new Classic(),
-//		new Construction(),
-	};
-
 	Material getFloorBlock() {
 		return Material.RED_TERRACOTTA;
 	}

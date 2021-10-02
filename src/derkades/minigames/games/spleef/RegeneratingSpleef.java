@@ -27,6 +27,12 @@ import java.util.UUID;
 
 public class RegeneratingSpleef extends Game<SpleefMap> {
 
+	private static final SpleefMap[] MAPS = {
+			new BigStadium(),
+			new LittleStadium(),
+			new Original(),
+	};
+
 	@Override
 	public @NotNull String getIdentifier() {
 		return "regenerating_spleef";
@@ -59,7 +65,7 @@ public class RegeneratingSpleef extends Game<SpleefMap> {
 
 	@Override
 	public SpleefMap[] getGameMaps() {
-		return SpleefMap.MAPS;
+		return MAPS;
 	}
 
 	@Override

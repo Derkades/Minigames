@@ -11,6 +11,10 @@ import org.jetbrains.annotations.NotNull;
 @SuppressWarnings("ALL")
 public class TakeCover extends Game<TakeCoverMap> {
 
+	private static final TakeCoverMap[] MAPS = {
+			new Prototype(),
+	};
+
 	private static final int ARROW_COUNT = 5;
 	private static final int ARROW_TIME = 3; // seconds
 
@@ -41,7 +45,7 @@ public class TakeCover extends Game<TakeCoverMap> {
 
 	@Override
 	public TakeCoverMap[] getGameMaps() {
-		return TakeCoverMap.MAPS;
+		return MAPS;
 	}
 
 	@Override

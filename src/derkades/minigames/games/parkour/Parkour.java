@@ -1,9 +1,9 @@
 package derkades.minigames.games.parkour;
 
-import java.util.HashSet;
-import java.util.Set;
-import java.util.UUID;
-
+import derkades.minigames.Minigames;
+import derkades.minigames.games.Game;
+import derkades.minigames.utils.MPlayer;
+import derkades.minigames.utils.Utils;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -11,14 +11,21 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerMoveEvent;
-
-import derkades.minigames.Minigames;
-import derkades.minigames.games.Game;
-import derkades.minigames.utils.MPlayer;
-import derkades.minigames.utils.Utils;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.HashSet;
+import java.util.Set;
+import java.util.UUID;
+
 public class Parkour extends Game<ParkourMap> {
+
+	private static final ParkourMap[] MAPS = {
+			new JungleRun(),
+			//new Plains(),
+			new RedstoneCave(),
+			new Snow(),
+			new TNT(),
+	};
 
 	@Override
 	public @NotNull String getIdentifier() {
@@ -49,7 +56,7 @@ public class Parkour extends Game<ParkourMap> {
 
 	@Override
 	public ParkourMap[] getGameMaps() {
-		return ParkourMap.MAPS;
+		return MAPS;
 	}
 
 	@Override

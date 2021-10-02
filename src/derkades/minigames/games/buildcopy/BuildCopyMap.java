@@ -7,10 +7,6 @@ import derkades.minigames.games.GameMap;
 
 abstract class BuildCopyMap extends GameMap {
 
-	static final BuildCopyMap[] MAPS = {
-			new Prototype(),
-	};
-
 	abstract int getSupportedPlayerCount();
 
 	abstract Location getSpawnLocation(int position);

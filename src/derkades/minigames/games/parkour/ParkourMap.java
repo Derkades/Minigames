@@ -9,14 +9,6 @@ import derkades.minigames.utils.MPlayer;
 
 abstract class ParkourMap extends GameMap {
 
-	static final ParkourMap[] MAPS = {
-			new JungleRun(),
-			//new Plains(),
-			//new RedstoneCave(),
-			new Snow(),
-			new TNT(),
-	};
-
 	abstract Location getStartLocation();
 
 	abstract Location getSpectatorLocation();

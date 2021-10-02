@@ -6,14 +6,8 @@ import derkades.minigames.games.GameMap;
 
 abstract class TeamsBowBattleMap extends GameMap {
 
-	static final TeamsBowBattleMap[] MAPS = {
-			new Forest(),
-	};
-
 	abstract Location getTeamRedSpawnLocation();
 
 	abstract Location getTeamBlueSpawnLocation();
-
-//	void onGameStart() {}
 
 }

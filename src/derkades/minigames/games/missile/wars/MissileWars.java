@@ -1,23 +1,26 @@
 package derkades.minigames.games.missile.wars;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
-
-import org.bukkit.GameMode;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.block.Block;
-
 import derkades.minigames.Minigames;
 import derkades.minigames.games.Game;
 import derkades.minigames.games.GameTeam;
 import derkades.minigames.utils.MPlayer;
 import derkades.minigames.utils.queue.TaskQueue;
+import org.bukkit.GameMode;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
+
 public class MissileWars extends Game<MissileWarsMap> {
+
+	private static final MissileWarsMap[] MAPS = {
+			new MissileWarsMapImpl(),
+	};
 
 	@Override
 	public @NotNull String getIdentifier() {
@@ -46,7 +49,7 @@ public class MissileWars extends Game<MissileWarsMap> {
 
 	@Override
 	public MissileWarsMap[] getGameMaps() {
-		return MissileWarsMap.MAPS;
+		return MAPS;
 	}
 
 	@Override

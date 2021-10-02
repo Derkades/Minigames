@@ -7,10 +7,6 @@ import derkades.minigames.utils.MPlayer;
 
 abstract class ControlPointsMap extends GameMap {
 
-	static final ControlPointsMap[] MAPS = {
-			new Prototype(),
-	};
-
 	abstract Location getBlueSpawnLocation();
 
 	abstract Location getRedSpawnLocation();

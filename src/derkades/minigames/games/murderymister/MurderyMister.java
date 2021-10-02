@@ -38,6 +38,11 @@ import java.util.UUID;
 
 public class MurderyMister extends Game<MurderyMisterMap> {
 
+	private static final MurderyMisterMap[] MAPS = {
+			new DeckedOutCastle(),
+			new HauntedHouse(),
+	};
+
 	@Override
 	public @NotNull String getIdentifier() {
 		return "murdery_mister";
@@ -67,7 +72,7 @@ public class MurderyMister extends Game<MurderyMisterMap> {
 
 	@Override
 	public MurderyMisterMap[] getGameMaps() {
-		return MurderyMisterMap.MAPS;
+		return MAPS;
 	}
 
 	@Override

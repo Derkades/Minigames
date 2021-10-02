@@ -29,6 +29,12 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class CreeperAttack extends Game<CreeperAttackMap> {
 
+	private static final CreeperAttackMap[] MAPS = {
+			new DeckedOutForest(),
+			new Mineshaft(),
+			new Hedges(),
+	};
+
 	@Override
 	public @NotNull String getIdentifier() {
 		return "creeper_attack";
@@ -59,7 +65,7 @@ public class CreeperAttack extends Game<CreeperAttackMap> {
 
 	@Override
 	public CreeperAttackMap[] getGameMaps() {
-		return CreeperAttackMap.MAPS;
+		return MAPS;
 	}
 
 	@Override

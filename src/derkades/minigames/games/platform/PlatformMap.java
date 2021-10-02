@@ -6,11 +6,6 @@ import derkades.minigames.games.GameMap;
 
 abstract class PlatformMap extends GameMap {
 
-	static final PlatformMap[] MAPS = {
-			new Desert(),
-			new Ice(),
-	};
-
 	abstract Location getSpawnLocation();
 
 }

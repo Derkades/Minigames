@@ -7,13 +7,6 @@ import derkades.minigames.utils.MPlayer;
 
 public abstract class BreakTheBlockMap extends GameMap {
 
-	static final BreakTheBlockMap[] MAPS = {
-			new Cake(),
-			new HollowHills(),
-//			new Jungle(),
-			new Prototype(),
-	};
-
 	abstract Location[] getStartLocations();
 
 	abstract boolean canTakeDamage(MPlayer player);

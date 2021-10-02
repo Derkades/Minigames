@@ -1,12 +1,9 @@
 package derkades.minigames.games.gladeroyale;
 
-import derkades.minigames.GameState;
 import derkades.minigames.Logger;
 import derkades.minigames.Minigames;
 import derkades.minigames.games.Game;
 import derkades.minigames.utils.MPlayer;
-import derkades.minigames.utils.MinigamesPlayerDamageEvent;
-import derkades.minigames.utils.MinigamesPlayerDamageEvent.DamageType;
 import derkades.minigames.utils.Scheduler;
 import derkades.minigames.utils.Utils;
 import derkades.minigames.utils.queue.TaskQueue;
@@ -22,6 +19,7 @@ import org.bukkit.block.Chest;
 import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.jetbrains.annotations.NotNull;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
 import xyz.derkades.derkutils.bukkit.lootchests.LootChest;
@@ -32,6 +30,10 @@ import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class GladeRoyale extends Game<GladeRoyaleMap> {
+
+	private static final GladeRoyaleMap[] MAPS = {
+			new Santiago(),
+	};
 
 	@Override
 	public @NotNull String getIdentifier() {
@@ -62,7 +64,7 @@ public class GladeRoyale extends Game<GladeRoyaleMap> {
 
 	@Override
 	public GladeRoyaleMap[] getGameMaps() {
-		return GladeRoyaleMap.MAPS;
+		return MAPS;
 	}
 
 	@Override
@@ -243,23 +245,13 @@ public class GladeRoyale extends Game<GladeRoyaleMap> {
 	}
 
 	@EventHandler
-	public void damage(final MinigamesPlayerDamageEvent event) {
-		if (!GameState.getCurrentState().gameIsRunning()) {
-			return;
-		}
-
-		if (event.willBeDead()) {
-			event.setCancelled(true);
-			event.getPlayer().dieUp(5);
-			this.alive.remove(event.getPlayer().getUniqueId());
-			event.getPlayer().dropItems();
-
-			if (event.getType() == DamageType.ENTITY) {
-				this.sendFormattedPlainMessage("%s has been killed by %s", event.getPlayer().getName(), event.getDamagerPlayer().getName());
-			} else {
-				this.sendFormattedPlainMessage("%s has died", event.getPlayer().getName());
-			}
-		}
+	public void damage(final PlayerDeathEvent event) {
+		event.setCancelled(true);
+		MPlayer player = new MPlayer(event);
+		player.dieUp(5);
+		this.alive.remove(player.getUniqueId());
+		player.dropItems();
+		this.sendMessage(Utils.getSoloDeathMessage(event, alive.size()));
 	}
 
 	@EventHandler(ignoreCancelled = true)

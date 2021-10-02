@@ -24,6 +24,10 @@ import java.util.UUID;
 
 public class IcyBlowback extends Game<IcyBlowbackMap> {
 
+	private static final IcyBlowbackMap[] MAPS = {
+			new IcyBlowbackMapImpl(),
+	};
+
 	private static final ItemStack SWORD = new ItemBuilder(Material.WOODEN_SWORD)
 			.name(ChatColor.AQUA + "Knockback sword")
 			.enchant(Enchantment.KNOCKBACK, 2)
@@ -60,7 +64,7 @@ public class IcyBlowback extends Game<IcyBlowbackMap> {
 
 	@Override
 	public IcyBlowbackMap[] getGameMaps() {
-		return IcyBlowbackMap.MAPS;
+		return MAPS;
 	}
 
 	@Override

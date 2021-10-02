@@ -9,11 +9,13 @@ import derkades.minigames.utils.MPlayer;
 import derkades.minigames.utils.MinigamesPlayerDamageEvent;
 import derkades.minigames.utils.MinigamesPlayerDamageEvent.DamageType;
 import derkades.minigames.utils.PaperItemBuilder;
+import derkades.minigames.utils.Utils;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
@@ -23,6 +25,10 @@ import java.util.Set;
 import java.util.UUID;
 
 public class MolePvP extends Game<MolePvPMap> implements TeamGame {
+
+	private static final MolePvPMap[] MAPS = {
+			new Prototype(),
+	};
 
 	@Override
 	public @NotNull String getIdentifier() {
@@ -53,7 +59,7 @@ public class MolePvP extends Game<MolePvPMap> implements TeamGame {
 
 	@Override
 	public MolePvPMap[] getGameMaps() {
-		return MolePvPMap.MAPS;
+		return MAPS;
 	}
 
 	@Override
@@ -122,6 +128,24 @@ public class MolePvP extends Game<MolePvPMap> implements TeamGame {
 	}
 
 	@EventHandler
+	public void onDeath(PlayerDeathEvent event) {
+		event.setCancelled(true);
+		MPlayer player = new MPlayer(event);
+		MPlayer killer = Utils.getKiller(event);
+		if (killer != null) {
+			this.sendFormattedPlainMessage("%s%s%s %shas been killed by %s%s%s",
+					this.teams.getTeam(player).getChatColor(), ChatColor.BOLD, player.getName(), ChatColor.GRAY,
+					this.teams.getTeam(killer).getChatColor(), ChatColor.BOLD, killer.getName());
+		} else {
+			this.sendFormattedPlainMessage("%s%s%s %has died.",
+					this.teams.getTeam(player).getChatColor(), ChatColor.BOLD, player.getName(), ChatColor.GRAY);
+		}
+
+		this.dead.add(player.getUniqueId());
+		player.die();
+	}
+
+	@EventHandler
 	public void onDamage(final MinigamesPlayerDamageEvent event) {
 		final MPlayer player = event.getPlayer();
 
@@ -138,19 +162,7 @@ public class MolePvP extends Game<MolePvPMap> implements TeamGame {
 		}
 
 		if (event.willBeDead()) {
-			event.setCancelled(true);
-			if (event.getType().equals(DamageType.ENTITY)) {
-				final MPlayer killer = event.getDamagerPlayer();
-				this.sendFormattedPlainMessage("%s%s%s %shas been killed by %s%s%s",
-						this.teams.getTeam(player).getChatColor(), ChatColor.BOLD, player.getName(), ChatColor.GRAY,
-						this.teams.getTeam(killer).getChatColor(), ChatColor.BOLD, killer.getName());
-			} else {
-				this.sendFormattedPlainMessage("%s%s%s %has died.",
-						this.teams.getTeam(player).getChatColor(), ChatColor.BOLD, player.getName(), ChatColor.GRAY);
-			}
 
-			this.dead.add(player.getUniqueId());
-			player.die();
 		}
 	}
 

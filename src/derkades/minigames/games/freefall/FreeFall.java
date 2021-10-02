@@ -18,6 +18,10 @@ import java.util.UUID;
 
 public class FreeFall extends Game<FreeFallMap> {
 
+	private static final FreeFallMap[] MAPS = {
+			new Prototype(),
+	};
+
 	@Override
 	public @NotNull String getIdentifier() {
 		return "free_fall";
@@ -47,7 +51,7 @@ public class FreeFall extends Game<FreeFallMap> {
 
 	@Override
 	public FreeFallMap[] getGameMaps() {
-		return FreeFallMap.MAPS;
+		return MAPS;
 	}
 
 	@Override

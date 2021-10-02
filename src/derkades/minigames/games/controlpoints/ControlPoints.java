@@ -31,6 +31,10 @@ import java.util.UUID;
 
 public class ControlPoints extends Game<ControlPointsMap> {
 
+	static final ControlPointsMap[] MAPS = {
+			new Prototype(),
+	};
+
 	private static final int CONTROL_THRESHOLD = 5;
 	private static final int RESPAWN_DELAY = 5*20;
 	private static final PotionEffect INFINITE_SPEED = new PotionEffect(PotionEffectType.SPEED, Integer.MAX_VALUE, 0, true);
@@ -64,7 +68,7 @@ public class ControlPoints extends Game<ControlPointsMap> {
 
 	@Override
 	public ControlPointsMap[] getGameMaps() {
-		return ControlPointsMap.MAPS;
+		return MAPS;
 	}
 
 	@Override
@@ -245,15 +249,9 @@ public class ControlPoints extends Game<ControlPointsMap> {
 
 	@EventHandler
 	public void onDamage(MPlayerDamageEvent event) {
-		MPlayer player = event.getPlayer();
+		// Disable damage to teammates
 		MPlayer damager = event.getDamagerPlayer();
-		if (damager != null) {
-			// Disable damage to team mates
-			if (this.teams.isInSameTeam(player, damager)) {
-				event.setCancelled(true);
-				return;
-			}
-		}
+		event.setCancelled(damager != null && this.teams.isInSameTeam(event.getPlayer(), damager));
 	}
 
 	@EventHandler

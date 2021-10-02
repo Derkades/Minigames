@@ -309,7 +309,8 @@ public class Command implements CommandExecutor {
 								Material.BARRIER,
 								Material.BEDROCK
 						);
-						final MissileWarsMap map = MissileWarsMap.MAPS[0];
+
+						final MissileWarsMap map = (MissileWarsMap) Games.getGame("missile_wars").getGameMaps()[0];
 						final Location min = map.getArenaBorderMin();
 						final Location max = map.getArenaBorderMax();
 						for (int y = max.getBlockY() - 1; y >= 0; y--) {

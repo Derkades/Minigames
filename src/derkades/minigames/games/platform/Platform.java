@@ -1,8 +1,13 @@
 package derkades.minigames.games.platform;
 
-import java.util.Set;
-import java.util.UUID;
-
+import derkades.minigames.Minigames;
+import derkades.minigames.games.Game;
+import derkades.minigames.utils.MPlayer;
+import derkades.minigames.utils.MPlayerDamageEvent;
+import derkades.minigames.utils.Utils;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.BlockFace;
@@ -12,17 +17,18 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.potion.PotionEffectType;
-
-import derkades.minigames.Minigames;
-import derkades.minigames.games.Game;
-import derkades.minigames.utils.MPlayer;
-import derkades.minigames.utils.Utils;
-import net.md_5.bungee.api.ChatColor;
 import org.jetbrains.annotations.NotNull;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
 
+import java.util.Set;
+import java.util.UUID;
+
 public class Platform extends Game<PlatformMap> {
+
+	private static final PlatformMap[] MAPS = {
+			new Desert(),
+			new Ice(),
+	};
 
 	private static final int KNOCKBACK_SWORDS_TIME = 20;
 
@@ -58,7 +64,7 @@ public class Platform extends Game<PlatformMap> {
 
 	@Override
 	public PlatformMap[] getGameMaps() {
-		return PlatformMap.MAPS;
+		return MAPS;
 	}
 
 	@Override
@@ -85,7 +91,6 @@ public class Platform extends Game<PlatformMap> {
 	public void onStart() {
 		for (final MPlayer player : Minigames.getOnlinePlayers()) {
 			player.setDisableDamage(false);
-			player.giveInfiniteEffect(PotionEffectType.DAMAGE_RESISTANCE, 255);
 		}
 
 		Platform.this.started = true;
@@ -148,10 +153,15 @@ public class Platform extends Game<PlatformMap> {
 			}
 
 			this.alive.remove(player.getUniqueId());
-			sendFormattedPlainMessage("%s died", player.getName());
+			this.sendMessage(player.getDisplayName().append(Component.text(" has died.", NamedTextColor.GRAY)));
 			player.dieUp(10);
 			this.map.getWorld().spigot().strikeLightningEffect(player.getLocation(), false);
 		}
+	}
+
+	@EventHandler(ignoreCancelled = true)
+	public void onDamage(MPlayerDamageEvent event){
+		event.setDamage(0);
 	}
 
 	@Override

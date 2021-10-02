@@ -23,6 +23,11 @@ import java.util.UUID;
 
 public class Decay extends Game<DecayMap> {
 
+	private static final DecayMap[] MAPS = {
+			new SpruceBrick(),
+			new SquareDonut(),
+	};
+
 	private static final int BLOCKS_PER_CYCLE = 70;
 	private static final Material[] BLOCK_TYPES = {
 			Material.WHITE_CONCRETE,
@@ -61,7 +66,7 @@ public class Decay extends Game<DecayMap> {
 
 	@Override
 	public DecayMap[] getGameMaps() {
-		return DecayMap.MAPS;
+		return MAPS;
 	}
 
 	@Override

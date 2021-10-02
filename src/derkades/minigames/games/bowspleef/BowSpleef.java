@@ -22,6 +22,10 @@ import java.util.UUID;
 
 public class BowSpleef extends Game<BowSpleefMap> {
 
+	private static final BowSpleefMap[] MAPS = {
+			new BowSpleefMapOriginal(),
+	};
+
 	private static final ItemStack BOW = new ItemBuilder(Material.BOW)
 			.enchant(Enchantment.ARROW_INFINITE, 1)
 			.enchant(Enchantment.ARROW_FIRE, 1)
@@ -57,7 +61,7 @@ public class BowSpleef extends Game<BowSpleefMap> {
 
 	@Override
 	public BowSpleefMap[] getGameMaps() {
-		return BowSpleefMap.MAPS;
+		return MAPS;
 	}
 
 	@Override

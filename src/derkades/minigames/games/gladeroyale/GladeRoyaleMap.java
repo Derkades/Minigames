@@ -6,10 +6,6 @@ import derkades.minigames.games.GameMap;
 
 abstract class GladeRoyaleMap extends GameMap {
 
-	static final GladeRoyaleMap[] MAPS = {
-		new Santiago(),
-	};
-
 	abstract int getWorldborderSize();
 
 	abstract Location getMapCenter();

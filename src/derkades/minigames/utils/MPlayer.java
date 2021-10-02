@@ -4,6 +4,8 @@ import derkades.minigames.Minigames;
 import derkades.minigames.Points;
 import derkades.minigames.SpecialCharacter;
 import derkades.minigames.Var;
+import derkades.minigames.games.GameTeam;
+import derkades.minigames.games.TeamManager;
 import derkades.minigames.modules.SneakPrevention;
 import derkades.minigames.utils.queue.TaskQueue;
 import net.kyori.adventure.text.Component;
@@ -13,7 +15,12 @@ import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.title.Title;
 import net.kyori.adventure.title.Title.Times;
 import net.md_5.bungee.api.ChatColor;
-import org.bukkit.*;
+import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.Sound;
+import org.bukkit.World;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -671,8 +678,20 @@ public class MPlayer {
 		this.player.playerListName(Component.text(TAB_NAME_PADDING).append(this.player.displayName()).append(Component.text(TAB_NAME_PADDING)));
 	}
 
+	@NotNull
 	public Component getDisplayName() {
 		return this.player.displayName();
+	}
+
+	/**
+	 * Gets the player's display name, with a color of their theme. If they are not in any team, this method will return {@link MPlayer#getDisplayName()}
+	 * @param teams
+	 * @return Display name component
+	 */
+	@NotNull
+	public Component getDisplayName(@NotNull TeamManager teams) {
+		GameTeam playerTeam = teams.getTeam(this);
+		return playerTeam == null ? this.getDisplayName() : Component.text(player.getName(), playerTeam.getTextColor());
 	}
 
 }

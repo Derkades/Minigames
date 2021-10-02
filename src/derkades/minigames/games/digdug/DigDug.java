@@ -1,8 +1,13 @@
 package derkades.minigames.games.digdug;
 
-import java.util.Arrays;
-import java.util.concurrent.ThreadLocalRandom;
-
+import derkades.minigames.Minigames;
+import derkades.minigames.games.Game;
+import derkades.minigames.utils.Leaderboard;
+import derkades.minigames.utils.MPlayer;
+import derkades.minigames.utils.PaperItemBuilder;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -18,18 +23,16 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.jetbrains.annotations.NotNull;
-
-import derkades.minigames.Minigames;
-import derkades.minigames.games.Game;
-import derkades.minigames.utils.Leaderboard;
-import derkades.minigames.utils.MPlayer;
-import derkades.minigames.utils.PaperItemBuilder;
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.NamedTextColor;
-import net.md_5.bungee.api.ChatColor;
 import xyz.derkades.derkutils.bukkit.BlockUtils;
 
+import java.util.Arrays;
+import java.util.concurrent.ThreadLocalRandom;
+
 public class DigDug extends Game<DigDugMap> {
+
+	private static final DigDugMap[] MAPS = {
+			new Prototype(),
+	};
 
 	private static final int COAL_AMOUNT = 100;
 	private static final int IRON_AMOUNT = 90;
@@ -81,7 +84,7 @@ public class DigDug extends Game<DigDugMap> {
 
 	@Override
 	public DigDugMap[] getGameMaps() {
-		return DigDugMap.MAPS;
+		return MAPS;
 	}
 
 	@Override

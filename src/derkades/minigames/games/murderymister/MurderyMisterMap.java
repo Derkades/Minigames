@@ -6,11 +6,6 @@ import derkades.minigames.games.GameMap;
 
 abstract class MurderyMisterMap extends GameMap {
 
-	static final MurderyMisterMap[] MAPS = {
-			new DeckedOutCastle(),
-			new HauntedHouse(),
-	};
-
 	abstract Location[] getSpawnLocations();
 
 	abstract Location[] getFlickeringRedstoneLamps();

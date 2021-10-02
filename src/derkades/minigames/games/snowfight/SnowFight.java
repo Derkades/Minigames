@@ -1,4 +1,4 @@
-package derkades.minigames.games;
+package derkades.minigames.games.snowfight;
 
 @Deprecated
 public class SnowFight {/*extends Game {

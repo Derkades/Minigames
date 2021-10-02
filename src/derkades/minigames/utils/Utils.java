@@ -1,6 +1,9 @@
 package derkades.minigames.utils;
 
 import derkades.minigames.Minigames;
+import derkades.minigames.games.TeamManager;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
@@ -138,6 +141,43 @@ public class Utils {
 	public static MPlayer getKiller(@NotNull final PlayerDeathEvent event) {
 		final EntityDamageEvent cause = event.getEntity().getLastDamageCause();
 		return cause == null ? null : getDamagerPlayer(cause);
+	}
+
+	@NotNull
+	public static Component getSoloDeathMessage(@NotNull PlayerDeathEvent event, int playersLeft) {
+		MPlayer player = new MPlayer(event);
+		MPlayer killer = Utils.getKiller(event);
+		Component playersLeftText = playersLeft <= 1 ?
+				Component.text(".", NamedTextColor.GRAY) :
+				Component.text(". There are ", NamedTextColor.GRAY)
+				.append(Component.text(playersLeft, NamedTextColor.WHITE))
+				.append(Component.text(" players left.", NamedTextColor.GRAY));
+		if (killer != null) {
+			return player.getDisplayName()
+					.append(Component.text(" has been killed by ", NamedTextColor.GRAY))
+					.append(killer.getDisplayName())
+					.append(playersLeftText);
+		} else {
+			return player.getDisplayName()
+					.append(Component.text(" has died", NamedTextColor.GRAY))
+					.append(playersLeftText);
+		}
+	}
+
+	@NotNull
+	public static Component getTeamsDeathMessage(@NotNull PlayerDeathEvent event, @NotNull TeamManager teams) {
+		MPlayer player = new MPlayer(event);
+		MPlayer killer = Utils.getKiller(event);
+
+		if (killer != null) {
+			return player.getDisplayName(teams)
+					.append(Component.text(" has been killed by ", NamedTextColor.GRAY))
+					.append(killer.getDisplayName(teams))
+					.append(Component.text(".", NamedTextColor.GRAY));
+		} else {
+			return player.getDisplayName(teams)
+					.append(Component.text(" has died.", NamedTextColor.GRAY));
+		}
 	}
 
 }

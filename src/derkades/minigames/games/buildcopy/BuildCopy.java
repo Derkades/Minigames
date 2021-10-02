@@ -27,6 +27,10 @@ import java.util.UUID;
 
 public class BuildCopy extends Game<BuildCopyMap> {
 
+	private static final BuildCopyMap[] MAPS = {
+			new Prototype(),
+	};
+
 	private static final Material[] MATERIALS = {
 			Material.BIRCH_PLANKS,
 			Material.END_STONE_BRICKS,
@@ -79,7 +83,7 @@ public class BuildCopy extends Game<BuildCopyMap> {
 
 	@Override
 	public BuildCopyMap[] getGameMaps() {
-		return BuildCopyMap.MAPS;
+		return MAPS;
 	}
 
 	@Override

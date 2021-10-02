@@ -1,22 +1,25 @@
 package derkades.minigames.games.elytra;
 
-import java.util.HashSet;
-import java.util.Set;
-import java.util.UUID;
-
-import org.bukkit.GameMode;
-import org.bukkit.Material;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.player.PlayerMoveEvent;
-
 import derkades.minigames.GameState;
 import derkades.minigames.Minigames;
 import derkades.minigames.games.Game;
 import derkades.minigames.utils.MPlayer;
 import derkades.minigames.utils.Utils;
+import org.bukkit.GameMode;
+import org.bukkit.Material;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.player.PlayerMoveEvent;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.HashSet;
+import java.util.Set;
+import java.util.UUID;
+
 public class Elytra extends Game<ElytraMap> {
+
+	private static final ElytraMap[] MAPS = {
+			new Cave(),
+	};
 
 	@Override
 	public @NotNull String getIdentifier() {
@@ -48,7 +51,7 @@ public class Elytra extends Game<ElytraMap> {
 
 	@Override
 	public ElytraMap[] getGameMaps() {
-		return ElytraMap.MAPS;
+		return MAPS;
 	}
 
 	@Override

@@ -7,16 +7,14 @@ import derkades.minigames.games.GameTeam;
 import derkades.minigames.games.TeamGame;
 import derkades.minigames.games.TeamManager;
 import derkades.minigames.utils.MPlayer;
-import derkades.minigames.utils.MinigamesPlayerDamageEvent;
-import derkades.minigames.utils.MinigamesPlayerDamageEvent.DamageType;
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.NamedTextColor;
-import net.kyori.adventure.text.format.TextDecoration;
+import derkades.minigames.utils.MPlayerDamageEvent;
+import derkades.minigames.utils.Utils;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
@@ -26,6 +24,10 @@ import java.util.Set;
 import java.util.UUID;
 
 public class TeamsBowBattle extends Game<TeamsBowBattleMap> implements TeamGame {
+
+	private static final TeamsBowBattleMap[] MAPS = {
+			new Forest(),
+	};
 
 	@Override
 	public @NotNull String getIdentifier() {
@@ -56,7 +58,7 @@ public class TeamsBowBattle extends Game<TeamsBowBattleMap> implements TeamGame 
 
 	@Override
 	public TeamsBowBattleMap[] getGameMaps() {
-		return TeamsBowBattleMap.MAPS;
+		return MAPS;
 	}
 
 	@Override
@@ -124,50 +126,25 @@ public class TeamsBowBattle extends Game<TeamsBowBattleMap> implements TeamGame 
 	}
 
 	@EventHandler
-	public void damage(final MinigamesPlayerDamageEvent event){
-		final MPlayer player = event.getPlayer();
+	public void onDamage(MPlayerDamageEvent event) {
+		MPlayer damager = event.getDamagerPlayer();
 
-		final GameTeam playerTeam = this.teams.getTeam(player);
-
-		if (event.willBeDead()) {
-			event.setCancelled(true);
-			if (event.getType().equals(DamageType.ENTITY)) {
-				final MPlayer killer = event.getDamagerPlayer();
-				final GameTeam killerTeam = this.teams.getTeam(killer);
-				sendMessage(Component.empty()
-						.append(Component.text(player.getName(), playerTeam.getTextColor()).decorate(TextDecoration.BOLD))
-						.append(Component.text(" has been killed by ", NamedTextColor.GRAY))
-						.append(Component.text(killer.getName(), killerTeam.getTextColor()).decorate(TextDecoration.BOLD))
-						.append(Component.text(".", NamedTextColor.GRAY))
-						);
-			} else {
-				sendMessage(Component.empty()
-						.append(Component.text(player.getName(), playerTeam.getTextColor()).decorate(TextDecoration.BOLD))
-						.append(Component.text(" has died.", NamedTextColor.GRAY))
-						);
-			}
-
-			this.dead.add(player.getUniqueId());
-			player.clearInventory();
-			player.dieUp(2);
-			return;
-		}
-
-		if (event.getType().equals(DamageType.SELF)) {
+		if (damager == null) {
+			// don't modify non-player damage sources like fall damage
 			return;
 		}
 
 		// Cancel damage if a player directly hits another player
-		if (event.getDamagerEntity() instanceof Player) {
+		if (event.getDirectDamagerEntity() instanceof Player) {
 			event.setCancelled(true);
 			return;
 		}
 
-		final MPlayer shooter = event.getDamagerPlayer();
+		MPlayer player = event.getPlayer();
 
-		if (this.teams.isTeamMember(shooter, GameTeam.BLUE) && this.teams.isTeamMember(player, GameTeam.RED)) {
+		if (this.teams.isTeamMember(damager, GameTeam.BLUE) && this.teams.isTeamMember(player, GameTeam.RED)) {
 			// blue attacks red -> allow
-		} else if (this.teams.isTeamMember(shooter, GameTeam.RED) && this.teams.isTeamMember(player, GameTeam.BLUE)) {
+		} else if (this.teams.isTeamMember(damager, GameTeam.RED) && this.teams.isTeamMember(player, GameTeam.BLUE)) {
 			// red attacks blue -> allow
 		} else {
 			/*
@@ -179,6 +156,17 @@ public class TeamsBowBattle extends Game<TeamsBowBattleMap> implements TeamGame 
 			 */
 			event.setCancelled(true);
 		}
+	}
+
+	@EventHandler
+	public void onDeath(PlayerDeathEvent event) {
+		event.setCancelled(true);
+		this.sendMessage(Utils.getTeamsDeathMessage(event, teams));
+
+		MPlayer player = new MPlayer(event);
+		this.dead.add(player.getUniqueId());
+		player.clearInventory();
+		player.dieUp(2);
 	}
 
 	private Location getSpawnLocation(final GameTeam team) {

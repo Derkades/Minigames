@@ -9,10 +9,6 @@ import xyz.derkades.derkutils.bukkit.BlockUtils;
 
 abstract class BowSpleefMap extends GameMap {
 
-	static final BowSpleefMap[] MAPS = {
-			new BowSpleefMapOriginal(),
-	};
-
 	abstract Location getSpawnLocation();
 
 	abstract Location getLayerCenter();

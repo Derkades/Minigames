@@ -28,6 +28,12 @@ import java.util.UUID;
 
 public class BreakTheBlock extends Game<BreakTheBlockMap> {
 
+	private static final BreakTheBlockMap[] MAPS = {
+			new Cake(),
+			new HollowHills(),
+			new Prototype(),
+	};
+
 	private static final ItemStack PICKAXE = new PaperItemBuilder(Material.IRON_PICKAXE)
 			.unbreakable()
 			.name(ChatColor.GOLD + "Block breaker")
@@ -69,7 +75,7 @@ public class BreakTheBlock extends Game<BreakTheBlockMap> {
 
 	@Override
 	public BreakTheBlockMap[] getGameMaps() {
-		return BreakTheBlockMap.MAPS;
+		return MAPS;
 	}
 
 	@Override

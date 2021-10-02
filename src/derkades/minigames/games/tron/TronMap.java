@@ -6,10 +6,6 @@ import derkades.minigames.games.GameMap;
 
 abstract class TronMap extends GameMap {
 
-	static final TronMap[] MAPS = {
-			new Prototype(),
-	};
-
 	/**
 	 * Used for determining if a player is outside of the arena
 	 */

@@ -6,7 +6,7 @@ import derkades.minigames.random.Size;
 import derkades.minigames.worlds.GameWorld;
 import org.jetbrains.annotations.NotNull;
 
-public class Prototype extends TakeCoverMap {
+class Prototype extends TakeCoverMap {
 
 	@Override
 	public Size getSize() {
@@ -14,17 +14,17 @@ public class Prototype extends TakeCoverMap {
 	}
 
 	@Override
-	public Location getSpawnLocation() {
+	Location getSpawnLocation() {
 		return this.getWorld().getSpawnLocation();
 	}
 
 	@Override
-	public Location getCoverMin() {
+	Location getCoverMin() {
 		return new Location(this.getWorld(), -8, 67, -9);
 	}
 
 	@Override
-	public Location getCoverMax() {
+	Location getCoverMax() {
 		return new Location(this.getWorld(), 8, 67, 8);
 	}
 
