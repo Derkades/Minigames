@@ -6,8 +6,7 @@ import derkades.minigames.games.GameTeam;
 import derkades.minigames.games.TeamGame;
 import derkades.minigames.games.TeamManager;
 import derkades.minigames.utils.MPlayer;
-import derkades.minigames.utils.MinigamesPlayerDamageEvent;
-import derkades.minigames.utils.MinigamesPlayerDamageEvent.DamageType;
+import derkades.minigames.utils.MPlayerDamageEvent;
 import derkades.minigames.utils.PaperItemBuilder;
 import derkades.minigames.utils.Utils;
 import net.md_5.bungee.api.ChatColor;
@@ -146,12 +145,11 @@ public class MolePvP extends Game<MolePvPMap> implements TeamGame {
 	}
 
 	@EventHandler
-	public void onDamage(final MinigamesPlayerDamageEvent event) {
+	public void onDamage(final MPlayerDamageEvent event) {
 		final MPlayer player = event.getPlayer();
+		MPlayer damager = event.getDamagerPlayer();
 
-		if (event.getType().equals(DamageType.ENTITY)) {
-			final MPlayer damager = event.getDamagerPlayer();
-
+		if (damager != null) {
 			if (this.teams.isTeamMember(damager, GameTeam.BLUE) && this.teams.isTeamMember(player, GameTeam.RED)) {
 				// blue attacks red -> allow
 			} else if (this.teams.isTeamMember(damager, GameTeam.RED) && this.teams.isTeamMember(player, GameTeam.BLUE)) {
@@ -159,10 +157,6 @@ public class MolePvP extends Game<MolePvPMap> implements TeamGame {
 			} else {
 				event.setCancelled(true);
 			}
-		}
-
-		if (event.willBeDead()) {
-
 		}
 	}
 
