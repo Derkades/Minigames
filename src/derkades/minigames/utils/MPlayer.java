@@ -691,10 +691,12 @@ public class MPlayer {
 
 	/**
 	 * Gets the player's display name, with a color of their theme. If they are not in any team, this method will return {@link MPlayer#getDisplayName()}
+	 * @deprecated Team manager already modifies standard display name
 	 * @param teams
 	 * @return Display name component
 	 */
 	@NotNull
+	@Deprecated
 	public Component getDisplayName(@NotNull TeamManager teams) {
 		GameTeam playerTeam = teams.getTeam(this);
 		return playerTeam == null ? this.getDisplayName() : Component.text(player.getName(), playerTeam.getTextColor());
