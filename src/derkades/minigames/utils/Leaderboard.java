@@ -2,7 +2,9 @@ package derkades.minigames.utils;
 
 import derkades.minigames.Minigames;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.serializer.ComponentSerializer;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
@@ -23,6 +25,11 @@ public class Leaderboard {
 	private final Map<UUID, Integer> points;
 	@Nullable
 	private Map<UUID, Integer> sortedCache = null;
+
+	private static final ComponentSerializer<Component, TextComponent, String> COMPONENT_SERIALIZER = LegacyComponentSerializer.builder()
+			.character(LegacyComponentSerializer.SECTION_CHAR)
+			.useUnusualXRepeatedCharacterHexFormat()
+			.build();
 
 	public Leaderboard() {
 		this.points = new HashMap<>();
@@ -60,7 +67,7 @@ public class Leaderboard {
 			}
 
 			final Component c = leaderboardEntry(player, points);
-			sidebarStrings.add(new SidebarString(LegacyComponentSerializer.legacySection().serialize(c)));
+			sidebarStrings.add(new SidebarString(COMPONENT_SERIALIZER.serialize(c)));
 		});
 
 		this.sidebar.setEntries(sidebarStrings);
