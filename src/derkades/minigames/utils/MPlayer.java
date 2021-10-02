@@ -222,8 +222,14 @@ public class MPlayer {
 	}
 
 	@NotNull
+	@Deprecated
 	public String getName() {
 		return this.player.getName();
+	}
+
+	@NotNull
+	public String getOriginalName() {
+		return player.getName();
 	}
 
 	@NotNull
