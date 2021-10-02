@@ -5,20 +5,20 @@ import derkades.minigames.Minigames;
 import derkades.minigames.utils.PluginLoadEvent;
 import derkades.minigames.utils.PluginUnloadEvent;
 import derkades.minigames.utils.Scheduler;
-import org.apache.commons.codec.DecoderException;
-import org.apache.commons.codec.binary.Hex;
-import org.apache.commons.codec.digest.DigestUtils;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerJoinEvent;
 
 import java.io.IOException;
+import java.math.BigInteger;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.net.http.HttpResponse.BodyHandlers;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.time.Duration;
 import java.util.Arrays;
 import java.util.concurrent.ExecutorService;
@@ -26,17 +26,17 @@ import java.util.concurrent.Executors;
 
 public class ResourcePack extends Module {
 
-	private static final String EMPTY_DOWNLOAD_URL = "https://downloads.rkslot.nl/empty.zip";
-	private static final byte[] EMPTY_HASH;
+	private static final MessageDigest SHA1_ENCODER;
 	static {
-		byte[] hash = null;
 		try {
-			hash = Hex.decodeHex("6bf5ff711e75e780d2fa5e8ecfad977b6684e73f");
-		} catch (final DecoderException e) {
-			e.printStackTrace();
+			SHA1_ENCODER = MessageDigest.getInstance("SHA-1");
+		} catch (NoSuchAlgorithmException e) {
+			throw new RuntimeException(e);
 		}
-		EMPTY_HASH = hash;
 	}
+
+	private static final String EMPTY_DOWNLOAD_URL = "https://downloads.rkslot.nl/empty.zip";
+	private static final byte[] EMPTY_HASH = new BigInteger("6bf5ff711e75e780d2fa5e8ecfad977b6684e73f", 16).toByteArray();
 	private static final String DOWNLOAD_URL = "https://downloads.rkslot.nl/minigames.zip";
 	private static final URI DOWNLOAD_URI = URI.create(DOWNLOAD_URL);
 
@@ -59,8 +59,9 @@ public class ResourcePack extends Module {
 		final FileConfiguration config = Minigames.getInstance().getConfig();
 		if (config.isString("previous-pack-hash")) {
 			try {
-				this.hash = Hex.decodeHex(config.getString("previous-pack-hash"));
-			} catch (final DecoderException e) {
+				//noinspection ConstantConditions
+				this.hash = new BigInteger(config.getString("previous-pack-hash"), 16).toByteArray();
+			} catch (final Exception e) {
 				Logger.warning("Unable to decode resource pack hash");
 				e.printStackTrace();
 			}
@@ -72,7 +73,7 @@ public class ResourcePack extends Module {
 	@EventHandler
 	public void onUnload(final PluginUnloadEvent event) {
 		if (this.hash != null) {
-			Minigames.getInstance().getConfig().set("previous-pack-hash", Hex.encodeHexString(this.hash));
+			Minigames.getInstance().getConfig().set("previous-pack-hash", bytesToHex(this.hash));
 			Minigames.getInstance().saveConfig();
 		}
 	}
@@ -88,15 +89,15 @@ public class ResourcePack extends Module {
 			final HttpRequest request = HttpRequest.newBuilder(DOWNLOAD_URI).GET().build();
 			HttpResponse<byte[]> response;
 			try {
-				response = this.HTTP_CLIENT.send(request, BodyHandlers.ofByteArray());
+				response = this.HTTP_CLIENT.send(request, HttpResponse.BodyHandlers.ofByteArray());
 			} catch (final IOException | InterruptedException e) {
 				e.printStackTrace();
 				return;
 			}
 			final byte[] pack = response.body();
 			Logger.debug("Received %.2f MB.", pack.length / 1_000_000f);
-			final byte[] hash = DigestUtils.sha1(pack);
-			Logger.debug("Pack SHA-1 hash: %s", Hex.encodeHexString(hash));
+			final byte[] hash = SHA1_ENCODER.digest(pack);
+			Logger.debug("Pack SHA-1 hash: %s", bytesToHex(hash));
 			if (Arrays.equals(this.hash, hash)) {
 				Logger.debug("Resource pack hasn't changed");
 			} else {
@@ -129,6 +130,17 @@ public class ResourcePack extends Module {
 
 	public static void refresh() {
 		instance.refreshAsync();
+	}
+
+	private static final byte[] HEX_ARRAY = "0123456789abcdef".getBytes(StandardCharsets.US_ASCII);
+	private static String bytesToHex(byte[] bytes) {
+		byte[] hexChars = new byte[bytes.length * 2];
+		for (int j = 0; j < bytes.length; j++) {
+			int v = bytes[j] & 0xFF;
+			hexChars[j * 2] = HEX_ARRAY[v >>> 4];
+			hexChars[j * 2 + 1] = HEX_ARRAY[v & 0x0F];
+		}
+		return new String(hexChars, StandardCharsets.UTF_8);
 	}
 
 }
