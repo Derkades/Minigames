@@ -33,14 +33,9 @@ public class Elytra extends Game<ElytraMap> {
 				Material.ELYTRA,
 				new ElytraMap[] {
 						new Cave(),
-				}
-
+				},
+				1
 		);
-	}
-
-	@Override
-	public int getRequiredPlayers() {
-		return 1;
 	}
 
 	@Override

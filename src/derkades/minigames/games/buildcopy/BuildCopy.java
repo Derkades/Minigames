@@ -61,13 +61,9 @@ public class BuildCopy extends Game<BuildCopyMap> {
 				Material.SANDSTONE,
 				new BuildCopyMap[] {
 						new Prototype(),
-				}
+				},
+				2
 		);
-	}
-
-	@Override
-	public int getRequiredPlayers() {
-		return 2;
 	}
 
 	@Override

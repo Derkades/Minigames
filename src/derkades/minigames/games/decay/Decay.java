@@ -44,13 +44,9 @@ public class Decay extends Game<DecayMap> {
 				new DecayMap[] {
 						new SpruceBrick(),
 						new SquareDonut(),
-				}
+				},
+				2
 		);
-	}
-
-	@Override
-	public int getRequiredPlayers() {
-		return 2;
 	}
 
 	@Override

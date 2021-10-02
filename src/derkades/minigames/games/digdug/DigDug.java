@@ -60,13 +60,9 @@ public class DigDug extends Game<DigDugMap> {
 				Material.IRON_SHOVEL,
 				new DigDugMap[] {
 						new Prototype(),
-				}
+				},
+				2
 		);
-	}
-
-	@Override
-	public int getRequiredPlayers() {
-		return 2;
 	}
 
 	@Override

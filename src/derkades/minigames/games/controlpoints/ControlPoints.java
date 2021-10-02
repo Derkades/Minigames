@@ -42,13 +42,9 @@ public class ControlPoints extends RedBlueTeamGame<ControlPointsMap> {
 				Material.CLOCK,
 				new ControlPointsMap[] {
 						new Prototype(),
-				}
+				},
+				6
 		);
-	}
-
-	@Override
-	public int getRequiredPlayers() {
-		return 6;
 	}
 
 	@Override

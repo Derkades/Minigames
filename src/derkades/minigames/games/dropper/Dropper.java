@@ -33,13 +33,9 @@ public class Dropper extends Game<DropperMap> {
 						new Rainbow(),
 						new Redstone(),
 						new Trees(),
-				}
+				},
+				1
 		);
-	}
-
-	@Override
-	public int getRequiredPlayers() {
-		return 1;
 	}
 
 	@Override

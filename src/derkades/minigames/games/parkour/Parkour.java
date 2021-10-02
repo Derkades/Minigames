@@ -33,13 +33,9 @@ public class Parkour extends Game<ParkourMap> {
 						new RedstoneCave(),
 						new Snow(),
 						new TNT(),
-				}
+				},
+				1
 		);
-	}
-
-	@Override
-	public int getRequiredPlayers() {
-		return 1;
 	}
 
 	@Override

@@ -43,13 +43,9 @@ public class RegeneratingSpleef extends Game<SpleefMap> {
 						new BigStadium(),
 						new LittleStadium(),
 						new Original(),
-				}
+				},
+				2
 		);
-	}
-
-	@Override
-	public int getRequiredPlayers() {
-		return 2;
 	}
 
 	@Override

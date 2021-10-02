@@ -48,19 +48,22 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 	private final @NotNull String@NotNull[] description;
 	private final @NotNull Material material;
 	private final @NotNull GameMap@NotNull[] gameMaps;
+	private final int requiredPlayers;
 
 	public Game(
 			@NotNull String identifier,
 			@NotNull String name,
 			@NotNull String@NotNull[] description,
 			@NotNull Material material,
-			@NotNull GameMap@NotNull[] gameMaps
+			@NotNull GameMap@NotNull[] gameMaps,
+			int requiredPlayers
 	) {
 		this.identifier = identifier;
 		this.name = name;
 		this.description = description;
 		this.material = material;
 		this.gameMaps = gameMaps;
+		this.requiredPlayers = requiredPlayers;
 	}
 
 	public final @NotNull String getIdentifier() {
@@ -83,6 +86,10 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 		return this.gameMaps;
 	}
 
+	public final int getRequiredPlayers() {
+		return this.requiredPlayers;
+	}
+
 //	@NotNull
 //	public abstract String getIdentifier();
 
@@ -99,9 +106,6 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 
 //	@NotNull
 //	public abstract Material getMaterial();
-
-	// TODO Move to constructor
-	public abstract int getRequiredPlayers();
 
 //	@NotNull
 //	public abstract M[] getGameMaps();

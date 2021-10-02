@@ -39,13 +39,9 @@ public class BowSpleef extends Game<BowSpleefMap> {
 				Material.BOW,
 				new BowSpleefMap[] {
 						new BowSpleefMapOriginal(),
-				}
+				},
+				2
 		);
-	}
-
-	@Override
-	public int getRequiredPlayers() {
-		return 2;
 	}
 
 	@Override

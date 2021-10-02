@@ -24,13 +24,9 @@ public class TakeCover extends Game<TakeCoverMap> {
 				Material.FIRE_CHARGE,
 				new TakeCoverMap[] {
 						new Prototype(),
-				}
+				},
+				2
 		);
-	}
-
-	@Override
-	public int getRequiredPlayers() {
-		return 2;
 	}
 
 	@Override

@@ -27,13 +27,9 @@ public class MissileWars extends Game<MissileWarsMap> {
 				Material.SLIME_BLOCK,
 				new MissileWarsMap[]{
 						new MissileWarsMapImpl(),
-				}
+				},
+				6
 		);
-	}
-
-	@Override
-	public int getRequiredPlayers() {
-		return 6;
 	}
 
 	@Override

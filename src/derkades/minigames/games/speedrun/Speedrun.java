@@ -34,13 +34,9 @@ public class Speedrun extends Game<SpeedrunMap> {
 //						new Backwards(),
 						new Classic(),
 //						new Construction(),
-				}
+				},
+				1
 		);
-	}
-
-	@Override
-	public int getRequiredPlayers() {
-		return 1;
 	}
 
 	@Override

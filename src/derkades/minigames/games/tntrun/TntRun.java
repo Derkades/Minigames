@@ -37,13 +37,9 @@ public class TntRun extends Game<TntRunMap> {
 						new Future(),
 						new Jungle(),
 						new WaterLava(),
-				}
+				},
+				2
 		);
-	}
-
-	@Override
-	public int getRequiredPlayers() {
-		return 2;
 	}
 
 	@Override

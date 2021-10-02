@@ -32,13 +32,9 @@ public class TeamsBowBattle extends RedBlueTeamGame<TeamsBowBattleMap> {
 				Material.BOW,
 				new TeamsBowBattleMap[] {
 						new Forest(),
-				}
+				},
+				4
 		);
-	}
-
-	@Override
-	public int getRequiredPlayers() {
-		return 4;
 	}
 
 	@Override

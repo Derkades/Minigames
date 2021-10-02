@@ -51,13 +51,9 @@ public class BreakTheBlock extends Game<BreakTheBlockMap> {
 						new Cake(),
 						new HollowHills(),
 						new Prototype(),
-				}
+				},
+				3
 		);
-	}
-
-	@Override
-	public int getRequiredPlayers() {
-		return 3;
 	}
 
 	@Override

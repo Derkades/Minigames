@@ -43,13 +43,9 @@ public class CreeperAttack extends Game<CreeperAttackMap> {
 						new DeckedOutForest(),
 						new Mineshaft(),
 						new Hedges(),
-				}
+				},
+				2
 		);
-	}
-
-	@Override
-	public int getRequiredPlayers() {
-		return 2;
 	}
 
 	@Override

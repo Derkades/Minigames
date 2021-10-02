@@ -40,13 +40,9 @@ public class GladeRoyale extends Game<GladeRoyaleMap> {
 				Material.CHEST,
 				new GladeRoyaleMap[]{
 						new Santiago(),
-				}
+				},
+				6
 		);
-	}
-
-	@Override
-	public int getRequiredPlayers() {
-		return 8;
 	}
 
 	@Override

@@ -77,13 +77,9 @@ public class MissileRacer extends Game<MissileRacerMap> {
 				Material.PISTON,
 				new MissileRacerMap[]{
 						new Prototype(),
-				}
+				},
+				2
 		);
-	}
-
-	@Override
-	public int getRequiredPlayers() {
-		return 2;
 	}
 
 	@Override

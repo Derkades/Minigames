@@ -45,25 +45,21 @@ public class OneInTheQuiver extends Game<OITQMap> {
 		super(
 				"oitq",
 				"One in the Quiver",
-				new String[] {
+				new String[]{
 						"Kill other players with a weak wooden sword.",
 						"For every kill you'll get a single arrow. Arrows",
 						"do enough damage to kill any player instantly."
 				},
 				Material.ARROW,
-				new OITQMap[] {
+				new OITQMap[]{
 						new Barn(),
 						new Castle(),
 						new Desert(),
 						new HouseWithFarm(),
 						new Snow(),
-				}
+				},
+				3
 		);
-	}
-
-	@Override
-	public int getRequiredPlayers() {
-		return 3;
 	}
 
 	@Override

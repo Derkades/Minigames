@@ -53,13 +53,9 @@ public class Tron extends Game<TronMap> {
 				Material.YELLOW_STAINED_GLASS,
 				new TronMap[] {
 						new Prototype(),
-				}
+				},
+				3
 		);
-	}
-
-	@Override
-	public int getRequiredPlayers() {
-		return 3;
 	}
 
 	@Override

@@ -38,13 +38,9 @@ public class HungerGames extends Game<HungerGamesMap> {
 				new HungerGamesMap[] {
 						new Treehouse(),
 						new Windmill(),
-				}
+				},
+				4
 		);
-	}
-
-	@Override
-	public int getRequiredPlayers() {
-		return 4;
 	}
 
 	@Override

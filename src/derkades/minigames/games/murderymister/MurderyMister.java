@@ -53,13 +53,9 @@ public class MurderyMister extends Game<MurderyMisterMap> {
 				new MurderyMisterMap[] {
 						new DeckedOutCastle(),
 						new HauntedHouse(),
-				}
+				},
+				3
 		);
-	}
-
-	@Override
-	public int getRequiredPlayers() {
-		return 3;
 	}
 
 	@Override

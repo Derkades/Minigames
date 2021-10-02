@@ -40,13 +40,9 @@ public class Platform extends Game<PlatformMap> {
 				new PlatformMap[] {
 						new Desert(),
 						new Ice(),
-				}
+				},
+				2
 		);
-	}
-
-	@Override
-	public int getRequiredPlayers() {
-		return 2;
 	}
 
 	@Override

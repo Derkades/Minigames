@@ -55,13 +55,9 @@ public class Harvest extends Game<@NotNull HarvestMap> {
 				Material.WHEAT,
 				new HarvestMap[] {
 						new Prototype(),
-				}
+				},
+				2
 		);
-	}
-
-	@Override
-	public int getRequiredPlayers() {
-		return 2;
 	}
 
 	@Override

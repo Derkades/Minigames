@@ -31,13 +31,9 @@ public class MolePvP extends RedBlueTeamGame<MolePvPMap> {
 				Material.DIRT,
 				new MolePvPMap[] {
 						new Prototype(),
-				}
+				},
+				4
 		);
-	}
-
-	@Override
-	public int getRequiredPlayers() {
-		return 4;
 	}
 
 	@Override

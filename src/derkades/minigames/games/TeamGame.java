@@ -14,9 +14,9 @@ public abstract class TeamGame<T extends GameMap> extends Game<T> {
 	// TODO boolean in constructor to disable friendly fire
 	public TeamGame(
 			@NotNull String identifier, @NotNull String name, @NotNull String@NotNull[] description,
-			@NotNull Material material, @NotNull GameMap@NotNull[] gameMaps,
+			@NotNull Material material, @NotNull GameMap@NotNull[] gameMaps, int requiredPlayers,
 			@Nullable Set<GameTeam> allowedTeams) {
-		super(identifier, name, description, material, gameMaps);
+		super(identifier, name, description, material, gameMaps, requiredPlayers);
 		this.allowedTeams = allowedTeams;
 	}
 
