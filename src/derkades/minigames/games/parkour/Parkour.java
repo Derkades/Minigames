@@ -34,13 +34,9 @@ public class Parkour extends Game<ParkourMap> {
 						new Snow(),
 						new TNT(),
 				},
-				1
+				1,
+				120
 		);
-	}
-
-	@Override
-	public int getDuration() {
-		return this.map.getDuration();
 	}
 
 	@Override
@@ -58,7 +54,6 @@ public class Parkour extends Game<ParkourMap> {
 			player.queueTeleport(this.map.getStartLocation());
 			player.hideForEveryoneElse();
 		}
-
 	}
 
 	@Override

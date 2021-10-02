@@ -71,9 +71,4 @@ class RedstoneCave extends ParkourMap {
 		return true;
 	}
 
-	@Override
-	int getDuration() {
-		return 160;
-	}
-
 }

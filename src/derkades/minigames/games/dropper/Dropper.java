@@ -34,13 +34,9 @@ public class Dropper extends Game<DropperMap> {
 						new Redstone(),
 						new Trees(),
 				},
-				1
+				1,
+				45
 		);
-	}
-
-	@Override
-	public int getDuration() {
-		return 45;
 	}
 
 	private Set<UUID> finished;

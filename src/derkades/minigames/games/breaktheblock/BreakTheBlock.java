@@ -52,13 +52,9 @@ public class BreakTheBlock extends Game<BreakTheBlockMap> {
 						new HollowHills(),
 						new Prototype(),
 				},
-				3
+				3,
+				200
 		);
-	}
-
-	@Override
-	public int getDuration() {
-		return 200;
 	}
 
 	private UUID blockBreaker;

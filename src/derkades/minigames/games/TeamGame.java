@@ -6,7 +6,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Set;
 
-public abstract class TeamGame<T extends GameMap> extends Game<T> {
+public abstract class TeamGame<M extends GameMap> extends Game<M> {
 
 	@Nullable
 	private final Set<GameTeam> allowedTeams;
@@ -14,9 +14,10 @@ public abstract class TeamGame<T extends GameMap> extends Game<T> {
 	// TODO boolean in constructor to disable friendly fire
 	public TeamGame(
 			@NotNull String identifier, @NotNull String name, @NotNull String@NotNull[] description,
-			@NotNull Material material, @NotNull GameMap@NotNull[] gameMaps, int requiredPlayers,
+			@NotNull Material material, @NotNull M@NotNull[] gameMaps, int requiredPlayers,
+			int duration,
 			@Nullable Set<GameTeam> allowedTeams) {
-		super(identifier, name, description, material, gameMaps, requiredPlayers);
+		super(identifier, name, description, material, gameMaps, requiredPlayers, duration);
 		this.allowedTeams = allowedTeams;
 	}
 

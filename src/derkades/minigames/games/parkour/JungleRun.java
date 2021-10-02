@@ -66,11 +66,6 @@ class JungleRun extends ParkourMap {
 	}
 
 	@Override
-	int getDuration() {
-		return 60;
-	}
-
-	@Override
 	void onPlayerFinish(final Player player) {
 		this.getWorld().spawnParticle(Particle.FLAME, 61, 72, 20, 1000, 0, 2, 2, 0.2);
 	}

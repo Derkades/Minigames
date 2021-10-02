@@ -28,13 +28,9 @@ public class MissileWars extends Game<MissileWarsMap> {
 				new MissileWarsMap[]{
 						new MissileWarsMapImpl(),
 				},
-				6
+				6,
+				300
 		);
-	}
-
-	@Override
-	public int getDuration() {
-		return 300;
 	}
 
 	private static final Set<Material> DONT_REPLACE = Set.of(

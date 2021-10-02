@@ -35,18 +35,14 @@ public class Speedrun extends Game<SpeedrunMap> {
 						new Classic(),
 //						new Construction(),
 				},
-				1
+				1,
+				50
 		);
 	}
 
 	@Override
 	public int getPreDuration() {
 		return 0;
-	}
-
-	@Override
-	public int getDuration() {
-		return 50;
 	}
 
 	private Set<UUID> finished;

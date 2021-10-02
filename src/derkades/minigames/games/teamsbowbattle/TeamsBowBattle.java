@@ -33,13 +33,9 @@ public class TeamsBowBattle extends RedBlueTeamGame<TeamsBowBattleMap> {
 				new TeamsBowBattleMap[] {
 						new Forest(),
 				},
-				4
+				4,
+				120
 		);
-	}
-
-	@Override
-	public int getDuration() {
-		return 120;
 	}
 
 	private Set<UUID> dead;

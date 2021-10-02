@@ -48,21 +48,17 @@ public class Harvest extends Game<@NotNull HarvestMap> {
 		super(
 				"harvest",
 				"Harvest",
-				new String[] {
+				new String[]{
 						"Harvest crops to get as much wheat as possible. Make",
 						"sure to not break any crops that are not fully grown!"
 				},
 				Material.WHEAT,
-				new HarvestMap[] {
+				new HarvestMap[]{
 						new Prototype(),
 				},
-				2
+				2,
+				50
 		);
-	}
-
-	@Override
-	public int getDuration() {
-		return 50;
 	}
 
 	private List<Location> blocks;

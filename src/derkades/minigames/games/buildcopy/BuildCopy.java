@@ -62,13 +62,9 @@ public class BuildCopy extends Game<BuildCopyMap> {
 				new BuildCopyMap[] {
 						new Prototype(),
 				},
-				2
+				2,
+				70
 		);
-	}
-
-	@Override
-	public int getDuration() {
-		return 70;
 	}
 
 	private Map<UUID, Integer> positions = null;

@@ -41,13 +41,9 @@ public class Platform extends Game<PlatformMap> {
 						new Desert(),
 						new Ice(),
 				},
-				2
+				2,
+				40
 		);
-	}
-
-	@Override
-	public int getDuration() {
-		return 40;
 	}
 
 	private Set<UUID> alive;

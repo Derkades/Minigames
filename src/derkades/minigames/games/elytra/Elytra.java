@@ -34,18 +34,14 @@ public class Elytra extends Game<ElytraMap> {
 				new ElytraMap[] {
 						new Cave(),
 				},
-				1
+				1,
+				40
 		);
 	}
 
 	@Override
 	public int getPreDuration() {
 		return 2;
-	}
-
-	@Override
-	public int getDuration() {
-		return 40;
 	}
 
 	private Set<UUID> finished;

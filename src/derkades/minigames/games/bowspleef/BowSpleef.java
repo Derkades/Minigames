@@ -40,13 +40,9 @@ public class BowSpleef extends Game<BowSpleefMap> {
 				new BowSpleefMap[] {
 						new BowSpleefMapOriginal(),
 				},
-				2
+				2,
+				100
 		);
-	}
-
-	@Override
-	public int getDuration() {
-		return 100;
 	}
 
 	private Set<UUID> alive;

@@ -44,13 +44,9 @@ public class CreeperAttack extends Game<CreeperAttackMap> {
 						new Mineshaft(),
 						new Hedges(),
 				},
-				2
+				2,
+				60
 		);
-	}
-
-	@Override
-	public int getDuration() {
-		return 60;
 	}
 
 	private Set<UUID> alive;

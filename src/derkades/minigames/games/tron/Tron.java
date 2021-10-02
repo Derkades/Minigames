@@ -54,22 +54,16 @@ public class Tron extends Game<TronMap> {
 				new TronMap[] {
 						new Prototype(),
 				},
-				3
+				3,
+				150
 		);
 	}
 
-	@Override
-	public int getDuration() {
-		return 150;
-	}
-
-//	private List<BukkitTask> tasks;
 	private List<UUID> spectators;
 	private Map<UUID, TronPlayer> players;
 
 	@Override
 	public void onPreStart() {
-//		this.tasks = new ArrayList<>();
 		this.spectators = new ArrayList<>();
 		this.players = new HashMap<>();
 

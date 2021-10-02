@@ -43,13 +43,9 @@ public class IcyBlowback extends Game<IcyBlowbackMap> {
 				new IcyBlowbackMap[] {
 						new IcyBlowbackMapImpl(),
 				},
-				3
+				3,
+				100
 		);
-	}
-
-	@Override
-	public int getDuration() {
-		return 100;
 	}
 
 	private Set<UUID> alive;

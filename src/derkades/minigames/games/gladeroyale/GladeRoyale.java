@@ -41,18 +41,14 @@ public class GladeRoyale extends Game<GladeRoyaleMap> {
 				new GladeRoyaleMap[]{
 						new Santiago(),
 				},
-				6
+				6,
+				400 // Do not change without changing the game timer code
 		);
 	}
 
 	@Override
 	public int getPreDuration() {
 		return 15;
-	}
-
-	@Override
-	public int getDuration() {
-		return 400; // Do not change without changing the game timer code
 	}
 
 	private int currentBorderSize = 0;

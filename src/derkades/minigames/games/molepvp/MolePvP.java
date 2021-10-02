@@ -25,20 +25,16 @@ public class MolePvP extends RedBlueTeamGame<MolePvPMap> {
 		super(
 				"mole_pvp",
 				"Mole PvP",
-				new String[] {
+				new String[]{
 						"Underground PvP in teams.",
 				},
 				Material.DIRT,
-				new MolePvPMap[] {
+				new MolePvPMap[]{
 						new Prototype(),
 				},
-				4
+				4,
+				100
 		);
-	}
-
-	@Override
-	public int getDuration() {
-		return 100;
 	}
 
 	private Set<UUID> dead;

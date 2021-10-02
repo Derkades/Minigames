@@ -44,18 +44,14 @@ public class RegeneratingSpleef extends Game<SpleefMap> {
 						new LittleStadium(),
 						new Original(),
 				},
-				2
+				2,
+				60
 		);
 	}
 
 	@Override
 	public int getPreDuration() {
 		return 7;
-	}
-
-	@Override
-	public int getDuration() {
-		return 60;
 	}
 
 	private Set<UUID> alive;

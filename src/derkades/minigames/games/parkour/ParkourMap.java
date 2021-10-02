@@ -19,8 +19,6 @@ abstract class ParkourMap extends GameMap {
 
 	abstract boolean allowSpectatorFreeFlight();
 
-	abstract int getDuration();
-
 	void onPlayerFinish(final Player player) {}
 
 }

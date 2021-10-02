@@ -45,13 +45,9 @@ public class Decay extends Game<DecayMap> {
 						new SpruceBrick(),
 						new SquareDonut(),
 				},
-				2
+				2,
+				100
 		);
-	}
-
-	@Override
-	public int getDuration() {
-		return 100;
 	}
 
 	private List<Location> blocks;

@@ -39,13 +39,9 @@ public class HungerGames extends Game<HungerGamesMap> {
 						new Treehouse(),
 						new Windmill(),
 				},
-				4
+				4,
+				150
 		);
-	}
-
-	@Override
-	public int getDuration() {
-		return 150;
 	}
 
 	private List<UUID> all; // TODO don't use all list

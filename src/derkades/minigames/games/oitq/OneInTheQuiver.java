@@ -58,13 +58,9 @@ public class OneInTheQuiver extends Game<OITQMap> {
 						new HouseWithFarm(),
 						new Snow(),
 				},
-				3
+				3,
+				120
 		);
-	}
-
-	@Override
-	public int getDuration() {
-		return 120;
 	}
 
 	private Set<UUID> alive;

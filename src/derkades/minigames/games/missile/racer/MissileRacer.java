@@ -78,13 +78,9 @@ public class MissileRacer extends Game<MissileRacerMap> {
 				new MissileRacerMap[]{
 						new Prototype(),
 				},
-				2
+				2,
+				300
 		);
-	}
-
-	@Override
-	public int getDuration() {
-		return 300;
 	}
 
 	private UUID winner;

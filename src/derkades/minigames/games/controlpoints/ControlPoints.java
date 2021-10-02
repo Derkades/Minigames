@@ -43,13 +43,9 @@ public class ControlPoints extends RedBlueTeamGame<ControlPointsMap> {
 				new ControlPointsMap[] {
 						new Prototype(),
 				},
-				6
+				6,
+				200
 		);
-	}
-
-	@Override
-	public int getDuration() {
-		return 200;
 	}
 
 	private GameTeam forceWinTeam;

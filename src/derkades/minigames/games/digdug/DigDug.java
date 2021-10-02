@@ -61,13 +61,9 @@ public class DigDug extends Game<DigDugMap> {
 				new DigDugMap[] {
 						new Prototype(),
 				},
-				2
+				2,
+				40
 		);
-	}
-
-	@Override
-	public int getDuration() {
-		return 40;
 	}
 
 	private Leaderboard leaderboard;

@@ -38,13 +38,9 @@ public class TntRun extends Game<TntRunMap> {
 						new Jungle(),
 						new WaterLava(),
 				},
-				2
+				2,
+				150
 		);
-	}
-
-	@Override
-	public int getDuration() {
-		return 150;
 	}
 
 	private Set<UUID> alive;

@@ -14,8 +14,8 @@ public abstract class RedBlueTeamGame<MapType extends GameMap> extends TeamGame<
 	private static final Set<GameTeam> RED_AND_BLUE = EnumSet.of(GameTeam.RED, GameTeam.BLUE);
 
 	public RedBlueTeamGame(@NotNull String identifier, @NotNull String name, @NotNull String@NotNull[] description,
-						   @NotNull Material material, @NotNull GameMap@NotNull[] gameMaps, int requiredPlayers) {
-		super(identifier, name, description, material, gameMaps, requiredPlayers, RED_AND_BLUE);
+						   @NotNull Material material, @NotNull MapType@NotNull[] gameMaps, int requiredPlayers, int duration) {
+		super(identifier, name, description, material, gameMaps, requiredPlayers, duration, RED_AND_BLUE);
 	}
 
 	protected void splitPlayers(BiConsumer<MPlayer, GameTeam> forEach) {

@@ -54,13 +54,9 @@ public class MurderyMister extends Game<MurderyMisterMap> {
 						new DeckedOutCastle(),
 						new HauntedHouse(),
 				},
-				3
+				3,
+				150
 		);
-	}
-
-	@Override
-	public int getDuration() {
-		return 150;
 	}
 
 	private UUID murderer;

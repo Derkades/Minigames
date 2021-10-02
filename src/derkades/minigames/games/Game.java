@@ -47,16 +47,18 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 	private final @NotNull String name;
 	private final @NotNull String@NotNull[] description;
 	private final @NotNull Material material;
-	private final @NotNull GameMap@NotNull[] gameMaps;
+	private final @NotNull M@NotNull[] gameMaps;
 	private final int requiredPlayers;
+	private final int duration;
 
 	public Game(
 			@NotNull String identifier,
 			@NotNull String name,
 			@NotNull String@NotNull[] description,
 			@NotNull Material material,
-			@NotNull GameMap@NotNull[] gameMaps,
-			int requiredPlayers
+			@NotNull M@NotNull[] gameMaps,
+			int requiredPlayers,
+			int duration
 	) {
 		this.identifier = identifier;
 		this.name = name;
@@ -64,6 +66,7 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 		this.material = material;
 		this.gameMaps = gameMaps;
 		this.requiredPlayers = requiredPlayers;
+		this.duration = duration;
 	}
 
 	public final @NotNull String getIdentifier() {
@@ -82,7 +85,7 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 		return this.material;
 	}
 
-	public final @NotNull GameMap@NotNull[] getGameMaps() {
+	public final @NotNull M@NotNull[] getGameMaps() {
 		return this.gameMaps;
 	}
 
@@ -90,28 +93,14 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 		return this.requiredPlayers;
 	}
 
-//	@NotNull
-//	public abstract String getIdentifier();
-
-//	@NotNull
-//	public abstract String getName();
+	public final int getDuration() {
+		return this.duration;
+	}
 
 	@Override
 	public final String toString() {
 		return "Game[" + getIdentifier() + "]";
 	}
-
-//	@NotNull
-//	public abstract String[] getDescription();
-
-//	@NotNull
-//	public abstract Material getMaterial();
-
-//	@NotNull
-//	public abstract M[] getGameMaps();
-
-	// TODO Move to constructor
-	public abstract int getDuration();
 
 	public int getPreDuration() {
 		return 10;

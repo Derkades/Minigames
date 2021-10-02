@@ -25,13 +25,9 @@ public class TakeCover extends Game<TakeCoverMap> {
 				new TakeCoverMap[] {
 						new Prototype(),
 				},
-				2
+				2,
+				120
 		);
-	}
-
-	@Override
-	public int getDuration() {
-		return 120;
 	}
 
 	private int coverCount = 0;
