@@ -334,6 +334,17 @@ public class Command implements CommandExecutor {
 						sender.sendMessage(Arrays.stream(Missile.values()).map(Missile::name).map(String::toLowerCase).sorted().collect(Collectors.joining(", ")));
 					}
 				}
+				case "newgradient" -> {
+					MPlayer player = new MPlayer((Player) sender);
+					Component old = player.getDisplayName();
+					player.setDisplayName(null);
+					player.sendChat(
+							Component.text("Updated display name from ")
+									.append(old)
+									.append(Component.text(" to "))
+									.append(player.getDisplayName())
+					);
+				}
 				case "test" -> {
 					if (!sender.hasPermission("minigames.debug")) {
 						return true;
