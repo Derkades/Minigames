@@ -1,7 +1,6 @@
 package derkades.minigames.utils;
 
 import derkades.minigames.Minigames;
-import derkades.minigames.games.TeamManager;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.md_5.bungee.api.ChatColor;
@@ -175,29 +174,6 @@ public class Utils {
 					.append(Component.text(".", NamedTextColor.GRAY));
 		} else {
 			return player.getDisplayName()
-					.append(Component.text(" has died.", NamedTextColor.GRAY));
-		}
-	}
-
-	/**
-	 * @param event
-	 * @param teams
-	 * @deprecated This doesn't need to exist, games already modify the player's display name with their team's color.
-	 * @return
-	 */
-	@NotNull
-	@Deprecated
-	public static Component getTeamsDeathMessage(@NotNull PlayerDeathEvent event, @NotNull TeamManager teams) {
-		MPlayer player = new MPlayer(event);
-		MPlayer killer = Utils.getKiller(event);
-
-		if (killer != null) {
-			return player.getDisplayName(teams)
-					.append(Component.text(" has been killed by ", NamedTextColor.GRAY))
-					.append(killer.getDisplayName(teams))
-					.append(Component.text(".", NamedTextColor.GRAY));
-		} else {
-			return player.getDisplayName(teams)
 					.append(Component.text(" has died.", NamedTextColor.GRAY));
 		}
 	}

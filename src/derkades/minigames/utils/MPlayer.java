@@ -4,8 +4,6 @@ import derkades.minigames.Minigames;
 import derkades.minigames.Points;
 import derkades.minigames.SpecialCharacter;
 import derkades.minigames.Var;
-import derkades.minigames.games.GameTeam;
-import derkades.minigames.games.TeamManager;
 import derkades.minigames.modules.SneakPrevention;
 import derkades.minigames.utils.queue.TaskQueue;
 import net.kyori.adventure.text.Component;
@@ -687,19 +685,6 @@ public class MPlayer {
 	@NotNull
 	public Component getDisplayName() {
 		return this.player.displayName();
-	}
-
-	/**
-	 * Gets the player's display name, with a color of their theme. If they are not in any team, this method will return {@link MPlayer#getDisplayName()}
-	 * @deprecated Team manager already modifies standard display name
-	 * @param teams
-	 * @return Display name component
-	 */
-	@NotNull
-	@Deprecated
-	public Component getDisplayName(@NotNull TeamManager teams) {
-		GameTeam playerTeam = teams.getTeam(this);
-		return playerTeam == null ? this.getDisplayName() : Component.text(player.getName(), playerTeam.getTextColor());
 	}
 
 }

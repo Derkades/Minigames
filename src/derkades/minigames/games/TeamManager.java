@@ -21,16 +21,12 @@ import java.util.stream.Collectors;
 
 public class TeamManager {
 
-	@NotNull
-	private final Map<@NotNull UUID, GameTeam> uuidToTeam = new HashMap<>();
-	@SuppressWarnings("null")
-	@NotNull
-	private final SetMultimap<@NotNull GameTeam, @NotNull UUID> teamToUuids = MultimapBuilder.enumKeys(GameTeam.class).hashSetValues().build();
-	@Nullable
-	private final Set<@NotNull GameTeam> allowedTeams;
-	private final Set<UUID> dead = new HashSet<>();
+	private final @NotNull Map<@NotNull UUID, @NotNull GameTeam> uuidToTeam = new HashMap<>();
+	private final @NotNull SetMultimap<@NotNull GameTeam, @NotNull UUID> teamToUuids = MultimapBuilder.enumKeys(GameTeam.class).hashSetValues().build();
+	private final @Nullable Set<@NotNull GameTeam> allowedTeams;
+	private final @NotNull Set<UUID> dead = new HashSet<>();
 
-	TeamManager(@NotNull final Set<@NotNull GameTeam> allowedTeams) {
+	TeamManager(@Nullable final Set<@NotNull GameTeam> allowedTeams) {
 		this.allowedTeams = allowedTeams;
 	}
 

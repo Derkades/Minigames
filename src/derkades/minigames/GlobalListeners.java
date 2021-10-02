@@ -4,7 +4,6 @@ import derkades.minigames.Minigames.ShutdownReason;
 import derkades.minigames.games.Game;
 import derkades.minigames.utils.MPlayer;
 import derkades.minigames.utils.MPlayerDamageEvent;
-import derkades.minigames.utils.MinigamesPlayerDamageEvent;
 import io.papermc.paper.chat.ChatRenderer;
 import io.papermc.paper.event.player.AsyncChatEvent;
 import net.kyori.adventure.text.Component;
@@ -13,10 +12,8 @@ import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
@@ -98,43 +95,14 @@ public class GlobalListeners implements Listener {
 //		event.setFormat(Utils.getChatPrefix(ChatColor.AQUA, 'C') + ChatColor.WHITE + "%s: " + ChatColor.GRAY + "%s");
 	}
 
-	@SuppressWarnings("deprecation")
 	@EventHandler
 	public void onDamageTriggerCustomEvent(final EntityDamageEvent event) {
 		if (!event.getEntity().getType().equals(EntityType.PLAYER)) {
 			return;
 		}
 
-		if (event instanceof final EntityDamageByEntityEvent byEntity) {
-
-			if (byEntity.getEntity().getType() != EntityType.PLAYER) {
-				return;
-			}
-
-			final MinigamesPlayerDamageEvent event3 = new MinigamesPlayerDamageEvent((Player) byEntity.getEntity(),
-					byEntity.getDamager(), event.getCause(), event.getDamage());
-
-			Bukkit.getPluginManager().callEvent(event3);
-
-			event.setDamage(event3.getDamage());
-
-			if (event3.isCancelled()) {
-				event.setCancelled(true);
-			}
-		} else {
-			final MinigamesPlayerDamageEvent event3 = new MinigamesPlayerDamageEvent((Player) event.getEntity(),
-					event.getCause(), event.getDamage());
-
-			Bukkit.getPluginManager().callEvent(event3);
-
-			event.setDamage(event3.getDamage());
-
-			if (event3.isCancelled()) {
-				event.setCancelled(true);
-			}
-		}
-
 		final MPlayerDamageEvent event2 = new MPlayerDamageEvent(event);
+		event2.setCancelled(event.isCancelled());
 		Bukkit.getPluginManager().callEvent(event2);
 		if (event2.isCancelled()) {
 			event.setCancelled(true);
@@ -143,7 +111,6 @@ public class GlobalListeners implements Listener {
 
 	@EventHandler
 	public void onDeath(final PlayerDeathEvent event) {
-//		event.setDeathMessage("");
 		event.deathMessage(Component.empty());
 		Minigames.shutdown(ShutdownReason.EMERGENCY_AUTOMATIC, "A player died: " + event.getEntity().getName());
 	}

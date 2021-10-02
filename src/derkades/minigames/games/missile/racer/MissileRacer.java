@@ -6,7 +6,6 @@ import derkades.minigames.games.Game;
 import derkades.minigames.games.GameLabel;
 import derkades.minigames.games.missile.Missile;
 import derkades.minigames.utils.MPlayer;
-import derkades.minigames.utils.MinigamesPlayerDamageEvent;
 import derkades.minigames.utils.PaperItemBuilder;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -15,6 +14,7 @@ import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.inventory.EquipmentSlot;
@@ -98,7 +98,7 @@ public class MissileRacer extends Game<MissileRacerMap> {
 			player.getInventory().addItem(BOW);
 			player.getInventory().addItem(ARROW);
 			player.giveInfiniteEffect(PotionEffectType.HEALTH_BOOST, 4);
-			player.giveEffect(PotionEffectType.HEAL, 1, 100);
+			player.heal();
 		}
 	}
 
@@ -179,13 +179,11 @@ public class MissileRacer extends Game<MissileRacerMap> {
 	}
 
 	@EventHandler
-	public void onDeath(final MinigamesPlayerDamageEvent event) {
-		if (event.willBeDead()) {
-			event.setCancelled(true);
-			final MPlayer player = event.getPlayer();
-			player.teleport(this.map.getSpawnLocation());
-			player.giveEffect(PotionEffectType.HEAL, 1, 100);
-		}
+	public void onDeath(final PlayerDeathEvent event) {
+		event.setCancelled(true);
+		final MPlayer player = new MPlayer(event);
+		player.teleport(this.map.getSpawnLocation());
+		player.heal();
 	}
 
 	@EventHandler
@@ -193,7 +191,7 @@ public class MissileRacer extends Game<MissileRacerMap> {
 		if (event.getTo().getY() < this.map.getMinimumY()) {
 			final MPlayer player = new MPlayer(event);
 			player.teleport(this.map.getSpawnLocation());
-			player.giveEffect(PotionEffectType.HEAL, 1, 100);
+			player.heal();
 		}
 	}
 
@@ -202,7 +200,7 @@ public class MissileRacer extends Game<MissileRacerMap> {
 		player.teleport(this.map.getSpawnLocation());
 		player.getInventory().addItem(MISSILE_SPAWNER);
 		player.giveInfiniteEffect(PotionEffectType.HEALTH_BOOST, 4);
-		player.giveEffect(PotionEffectType.HEAL, 1, 100);
+		player.heal();
 	}
 
 	@Override
