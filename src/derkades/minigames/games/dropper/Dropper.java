@@ -8,12 +8,12 @@ import derkades.minigames.utils.MPlayer;
 import derkades.minigames.utils.MPlayerDamageEvent;
 import derkades.minigames.utils.Utils;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 
@@ -89,9 +89,9 @@ public class Dropper extends Game<DropperMap> {
 			if (this.finished.isEmpty()) {
 				// Player is first winner, add bonus point
 				player.addPoints(1);
-				this.sendMessage(player.getDisplayName().append(Component.text(" finished first and got an extra point!")));
+				this.sendMessage(player.getDisplayName().append(Component.text(" finished first and got an extra point!", NamedTextColor.GRAY)));
 			} else {
-				this.sendMessage(player.getDisplayName().append(Component.text(" finished.")));
+				this.sendMessage(player.getDisplayName().append(Component.text(" finished.", NamedTextColor.GRAY)));
 			}
 
 			this.finished.add(player.getUniqueId());
@@ -107,10 +107,10 @@ public class Dropper extends Game<DropperMap> {
 		event.setCancelled(damager != null && damager.getType() == EntityType.PLAYER);
 	}
 
-	@EventHandler(priority = EventPriority.HIGHEST)
+	@EventHandler
 	public void onDeath(PlayerDeathEvent event) {
 		event.setCancelled(true);
-		Logger.debug("DEATH TEST");
+		Logger.debug("DEATH");
 		MPlayer player = new MPlayer(event);
 		player.queueTeleport(this.map.getLobbyLocation());
 		player.heal();
