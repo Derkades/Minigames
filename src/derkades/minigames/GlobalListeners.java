@@ -24,7 +24,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class GlobalListeners implements Listener {
 
-	private Component getJoinLeaveMessage(@NotNull final Component name, @NotNull final TextColor color, final char c) {
+	private @NotNull Component getJoinLeaveMessage(@NotNull final Component name, @NotNull final TextColor color, final char c) {
 		return Component.text("[")
 				.append(Component.text(c).color(color))
 				.append(Component.text("] "))
@@ -81,19 +81,18 @@ public class GlobalListeners implements Listener {
 		}
 	}
 
-	@EventHandler
+	@EventHandler(ignoreCancelled = true)
 	public void onPlayerDropItem(final PlayerDropItemEvent event){
 		if (event.getPlayer().getGameMode() == GameMode.ADVENTURE && new MPlayer(event).getDisableItemMoving()) {
 			event.setCancelled(true); // Cancel players dropping items
 		}
 	}
 
-	@EventHandler
+	@EventHandler(ignoreCancelled = true)
 	public void onChat(final AsyncChatEvent event) {
 		event.renderer(ChatRenderer.viewerUnaware((source, sourceDisplayName, message) -> sourceDisplayName
 				.append(Component.text(" \u00BB ").color(NamedTextColor.DARK_GRAY))
 				.append(message.color(NamedTextColor.GRAY))));
-//		event.setFormat(Utils.getChatPrefix(ChatColor.AQUA, 'C') + ChatColor.WHITE + "%s: " + ChatColor.GRAY + "%s");
 	}
 
 	@EventHandler
@@ -105,9 +104,7 @@ public class GlobalListeners implements Listener {
 		final MPlayerDamageEvent event2 = new MPlayerDamageEvent(event);
 		event2.setCancelled(event.isCancelled());
 		Bukkit.getPluginManager().callEvent(event2);
-		if (event2.isCancelled()) {
-			event.setCancelled(true);
-		}
+		event.setCancelled(event2.isCancelled());
 	}
 
 	@EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)

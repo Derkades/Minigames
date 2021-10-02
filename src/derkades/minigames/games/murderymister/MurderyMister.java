@@ -177,13 +177,12 @@ public class MurderyMister extends Game<MurderyMisterMap> {
 
 	@EventHandler
 	public void onDamage(final MPlayerDamageEvent event) {
-		Logger.debug("event");
 		final MPlayer damager = event.getDamagerPlayer();
 		if (damager == null) {
 			EntityDamageEvent cause = event.getBukkitEvent();
 			// don't cancel plugin damage (void) or sneak cancel won't work
-			if (cause.getCause() != EntityDamageEvent.DamageCause.VOID) {
-				event.setCancelled(true);
+			if (cause.getCause() == EntityDamageEvent.DamageCause.VOID) {
+				event.setCancelled(false);
 			}
 			return;
 		}
@@ -193,8 +192,10 @@ public class MurderyMister extends Game<MurderyMisterMap> {
 			throw new IllegalStateException("entity cannot be null if damager player is null");
 		}
 		switch(entity.getType()) {
-			case ARROW, TRIDENT -> event.setDamage(40);
-			default -> event.setCancelled(true);
+			case ARROW, TRIDENT -> {
+				event.setDamage(40);
+				event.setCancelled(false);
+			}
 		}
 	}
 
@@ -203,11 +204,10 @@ public class MurderyMister extends Game<MurderyMisterMap> {
 		event.setCancelled(true);
 		final MPlayer player = new MPlayer(event);
 
-		this.sendMessage(player.getDisplayName().append(Component.text(" has been murdered!", NamedTextColor.GRAY)));
 		Minigames.getOnlinePlayers().forEach((p) -> p.playSound(Sound.ENTITY_PLAYER_HURT_SWEET_BERRY_BUSH, 1.0f));
-		this.aliveInnocent.remove(player.getUniqueId());
 
 		if (player.getUniqueId().equals(this.murderer)) {
+			Logger.debug("Murderer was killed");
 			// Murder is dead, all alive players win (except murderer)
 			this.arrowRemoveTask.cancel();
 			this.murdererDead = true;
@@ -219,35 +219,41 @@ public class MurderyMister extends Game<MurderyMisterMap> {
 				this.sendMessage(
 						Component.text("The murderer (", NamedTextColor.GRAY)
 								.append(player.getDisplayName())
-								.append(Component.text(" has been killed by ", NamedTextColor.GRAY))
+								.append(Component.text(") has been killed by ", NamedTextColor.GRAY))
 								.append(killer.getDisplayName())
 								.append(Component.text("!", NamedTextColor.GRAY))
 				);
 			}
-		} else if (player.getInventory().contains(Material.BOW)) {
+			return;
+		}
+
+		// Innocent player (or detective)
+		this.aliveInnocent.remove(player.getUniqueId());
+		this.sendMessage(player.getDisplayName().append(Component.text(" has been murdered!", NamedTextColor.GRAY)));
+		player.die();
+
+		if (player.getInventory().contains(Material.BOW)) {
+			Logger.debug("Sheriff/detective died");
 			// Sheriff is dead, give bow to random player
 			if (this.aliveInnocent.size() > 0) {
-				@SuppressWarnings("null")
-				final Player target = Bukkit.getPlayer(ListUtils.choice(this.aliveInnocent));
+				@SuppressWarnings("null") final Player target = Bukkit.getPlayer(ListUtils.choice(this.aliveInnocent));
 				if (target != null) {
 					target.getInventory().addItem(new ItemBuilder(Material.BOW).unbreakable().create());
 					target.getInventory().addItem(new ItemBuilder(Material.ARROW).create());
 				}
 			}
-			player.die();
-			Logger.debug("Sheriff/detective died");
 		} else {
 			// Innocent is dead
-			player.die();
 			Logger.debug("Innocent died");
 
 			final MPlayer killer = Utils.getKiller(event);
 
-			if (killer != null) {
-//				killer.bukkit().damage(40);
+			// If the innocent player was killed by a detective
+			if (killer != null &&
+					killer.getInventory().contains(Material.BOW)) {
+				Logger.debug("killed by detective!");
+				killer.bukkit().damage(40);
 				killer.sendActionBar(Component.text("You killed an innocent player!"));
-				killer.die();
-				this.aliveInnocent.remove(killer.getUniqueId());
 			}
 		}
 		player.clearInventory();
