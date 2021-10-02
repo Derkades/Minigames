@@ -24,7 +24,7 @@ import java.util.UUID;
 
 public class UpdateSigns {
 
-	private static final int LEADERBOARD_LAST_GAME_COUNT = 250;
+	private static final int LEADERBOARD_LAST_GAME_COUNT = 350;
 
 	private static final Location[][] LEADERBOARD_SIGNS = new Location[3][3];
 
