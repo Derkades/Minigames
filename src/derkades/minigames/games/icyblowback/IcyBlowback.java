@@ -17,7 +17,6 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-import org.jetbrains.annotations.NotNull;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
 
 import java.util.HashSet;
@@ -26,10 +25,6 @@ import java.util.UUID;
 
 public class IcyBlowback extends Game<IcyBlowbackMap> {
 
-	private static final IcyBlowbackMap[] MAPS = {
-			new IcyBlowbackMapImpl(),
-	};
-
 	private static final ItemStack SWORD = new ItemBuilder(Material.WOODEN_SWORD)
 			.name(ChatColor.AQUA + "Knockback sword")
 			.enchant(Enchantment.KNOCKBACK, 2)
@@ -37,36 +32,23 @@ public class IcyBlowback extends Game<IcyBlowbackMap> {
 
 	private static final PotionEffect SPEED = new PotionEffect(PotionEffectType.SPEED, Integer.MAX_VALUE, 0, true);
 
-	@Override
-	public @NotNull String getIdentifier() {
-		return "icy_blowback";
-	}
-
-	@Override
-	public @NotNull String getName() {
-		return "Icy Blowback";
-	}
-
-	@Override
-	public String[] getDescription() {
-		return new String[] {
-				"Try to knock others off the slippery ice."
-		};
-	}
-
-	@Override
-	public @NotNull Material getMaterial() {
-		return Material.ICE;
+	public IcyBlowback() {
+		super(
+				"icy_blowback",
+				"Icy Blowback",
+				new String[] {
+						"Try to knock others off the slippery ice."
+				},
+				Material.ICE,
+				new IcyBlowbackMap[] {
+						new IcyBlowbackMapImpl(),
+				}
+		);
 	}
 
 	@Override
 	public int getRequiredPlayers() {
 		return 3;
-	}
-
-	@Override
-	public IcyBlowbackMap[] getGameMaps() {
-		return MAPS;
 	}
 
 	@Override

@@ -15,7 +15,6 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.inventory.ItemStack;
-import org.jetbrains.annotations.NotNull;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
 
 import java.util.List;
@@ -24,46 +23,29 @@ import java.util.UUID;
 
 public class BowSpleef extends Game<BowSpleefMap> {
 
-	private static final BowSpleefMap[] MAPS = {
-			new BowSpleefMapOriginal(),
-	};
-
 	private static final ItemStack BOW = new ItemBuilder(Material.BOW)
 			.enchant(Enchantment.ARROW_INFINITE, 1)
 			.enchant(Enchantment.ARROW_FIRE, 1)
 			.unbreakable()
 			.create();
 
-	@Override
-	public @NotNull String getIdentifier() {
-		return "bow_spleef";
-	}
-
-	@Override
-	public @NotNull String getName() {
-		return "Bow Spleef";
-	}
-
-	@Override
-	public String[] getDescription() {
-		return new String[] {
-				"Use your bow to ignite tnt under players",
-		};
-	}
-
-	@Override
-	public @NotNull Material getMaterial() {
-		return Material.BOW;
+	public BowSpleef() {
+		super(
+				"bow_spleef",
+				"Bow Spleef",
+				new String[] {
+						"Use your bow to ignite tnt under players",
+				},
+				Material.BOW,
+				new BowSpleefMap[] {
+						new BowSpleefMapOriginal(),
+				}
+		);
 	}
 
 	@Override
 	public int getRequiredPlayers() {
 		return 2;
-	}
-
-	@Override
-	public BowSpleefMap[] getGameMaps() {
-		return MAPS;
 	}
 
 	@Override

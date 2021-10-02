@@ -22,52 +22,34 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.Set;
 import java.util.UUID;
 
 public class RegeneratingSpleef extends Game<SpleefMap> {
 
-	private static final SpleefMap[] MAPS = {
-			new BigStadium(),
-			new LittleStadium(),
-			new Original(),
-	};
-
-	@Override
-	public @NotNull String getIdentifier() {
-		return "regenerating_spleef";
-	}
-
-	@Override
-	public @NotNull String getName() {
-		return "Regenerating Spleef";
-	}
-
-	@Override
-	public String[] getDescription() {
-		return new String[] {
-				"Regenerating Spleef is very similar to the",
-				"classic spleef game. One twist: the blocks",
-				"you break regenerate after 2 seconds, and",
-				"the arena is pretty small (usually)."
-		};
-	}
-
-	@Override
-	public @NotNull Material getMaterial() {
-		return Material.SNOW_BLOCK;
+	public RegeneratingSpleef() {
+		super(
+				"regenerating_spleef",
+				"Regenerating Spleef",
+				new String[] {
+						"Regenerating Spleef is very similar to the",
+						"classic spleef game. One twist: the blocks",
+						"you break regenerate after 2 seconds, and",
+						"the arena is pretty small (usually)."
+				},
+				Material.SNOW_BLOCK,
+						new SpleefMap[] {
+						new BigStadium(),
+						new LittleStadium(),
+						new Original(),
+				}
+		);
 	}
 
 	@Override
 	public int getRequiredPlayers() {
 		return 2;
-	}
-
-	@Override
-	public SpleefMap[] getGameMaps() {
-		return MAPS;
 	}
 
 	@Override

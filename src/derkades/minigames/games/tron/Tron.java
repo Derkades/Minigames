@@ -21,7 +21,6 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
-import org.jetbrains.annotations.NotNull;
 import xyz.derkades.derkutils.ListUtils;
 import xyz.derkades.derkutils.bukkit.BlockUtils;
 
@@ -34,10 +33,6 @@ import java.util.UUID;
 
 public class Tron extends Game<TronMap> {
 
-	private static final TronMap[] MAPS = {
-			new Prototype(),
-	};
-
 	private static final double MOVEMENT_SPEED = 0.3;
 	private static final int PLAYER_Y_DISTANCE = 30;
 	private static final float PLAYER_PITCH = 90f;
@@ -47,37 +42,24 @@ public class Tron extends Game<TronMap> {
 	private static final PotionEffect PRESTART_JUMP = new PotionEffect(PotionEffectType.JUMP, Integer.MAX_VALUE, 200, true);
 	private static final PotionEffect LARGER_FOV = new PotionEffect(PotionEffectType.SPEED, Integer.MAX_VALUE, 3, true);
 
-	@Override
-	public @NotNull String getIdentifier() {
-		return "tron";
-	}
-
-	@Override
-	public @NotNull String getName() {
-		return "Tron";
-	}
-
-	@Override
-	public String[] getDescription() {
-		return new String[] {
-				"Snake in Minecraft.",
-				"Steer using your 4 (left) and 6 (right) keys",
-		};
-	}
-
-	@Override
-	public @NotNull Material getMaterial() {
-		return Material.YELLOW_STAINED_GLASS_PANE;
+	public Tron() {
+		super(
+				"tron",
+				"Tron",
+				new String[] {
+						"Snake in Minecraft.",
+						"Steer using your 4 (left) and 6 (right) keys",
+				},
+				Material.YELLOW_STAINED_GLASS,
+				new TronMap[] {
+						new Prototype(),
+				}
+		);
 	}
 
 	@Override
 	public int getRequiredPlayers() {
 		return 3;
-	}
-
-	@Override
-	public TronMap[] getGameMaps() {
-		return MAPS;
 	}
 
 	@Override

@@ -2,10 +2,8 @@ package derkades.minigames.games.teamsbowbattle;
 
 import derkades.minigames.Logger;
 import derkades.minigames.Minigames;
-import derkades.minigames.games.Game;
 import derkades.minigames.games.GameTeam;
-import derkades.minigames.games.TeamGame;
-import derkades.minigames.games.TeamManager;
+import derkades.minigames.games.RedBlueTeamGame;
 import derkades.minigames.utils.MPlayer;
 import derkades.minigames.utils.MPlayerDamageEvent;
 import derkades.minigames.utils.Utils;
@@ -16,39 +14,26 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.inventory.ItemStack;
-import org.jetbrains.annotations.NotNull;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
 
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
-public class TeamsBowBattle extends Game<TeamsBowBattleMap> implements TeamGame {
+public class TeamsBowBattle extends RedBlueTeamGame<TeamsBowBattleMap> {
 
-	private static final TeamsBowBattleMap[] MAPS = {
-			new Forest(),
-	};
-
-	@Override
-	public @NotNull String getIdentifier() {
-		return "teams_bow_battle";
-	}
-
-	@Override
-	public @NotNull String getName() {
-		return "Teams Bow Battle";
-	}
-
-	@Override
-	public String[] getDescription() {
-		return new String[] {
-				"A bow battle. In teams."
-		};
-	}
-
-	@Override
-	public @NotNull Material getMaterial() {
-		return Material.BOW;
+	public TeamsBowBattle() {
+		super(
+				"teams_bow_battle",
+				"Teams Bow Battle",
+				new String[] {
+						"A bow battle. In teams."
+				},
+				Material.BOW,
+				new TeamsBowBattleMap[] {
+						new Forest(),
+				}
+		);
 	}
 
 	@Override
@@ -57,37 +42,17 @@ public class TeamsBowBattle extends Game<TeamsBowBattleMap> implements TeamGame 
 	}
 
 	@Override
-	public TeamsBowBattleMap[] getGameMaps() {
-		return MAPS;
-	}
-
-	@Override
 	public int getDuration() {
 		return 120;
 	}
 
-	@Override
-	public TeamManager getTeams() {
-		return this.teams;
-	}
-
 	private Set<UUID> dead;
-	private TeamManager teams;
 
 	@Override
 	public void onPreStart() {
 		this.dead = new HashSet<>();
-		this.teams = new TeamManager(Set.of(GameTeam.RED, GameTeam.BLUE));
 
-		boolean teamBool = false;
-
-		for (final MPlayer player : Minigames.getOnlinePlayersInRandomOrder()) {
-			final GameTeam team = teamBool ? GameTeam.RED : GameTeam.BLUE;
-			this.teams.setTeam(player, team, true);
-			player.queueTeleport(getSpawnLocation(team));
-
-			teamBool = !teamBool;
-		}
+		super.splitPlayers((player, team) -> player.teleport(getSpawnLocation(team)));
 	}
 
 	@Override
@@ -104,28 +69,23 @@ public class TeamsBowBattle extends Game<TeamsBowBattleMap> implements TeamGame 
 	}
 
 	@Override
-	public boolean endEarly() {
-		return this.teams.anyEmptyTeam() != null;
-	}
-
-	@Override
 	public void onEnd() {
-		if (this.teams.getMemberCount(GameTeam.BLUE) == 0) {
+		if (this.getTeams().getMemberCount(GameTeam.BLUE, true) == 0) {
 			// blue is dead so team red wins
-			TeamsBowBattle.super.endGame(this.teams.getMembers(GameTeam.RED));
-		} else if (this.teams.getMemberCount(GameTeam.RED) == 0) {
+			TeamsBowBattle.super.endGame(this.getTeams().getMembers(GameTeam.RED, false));
+		} else if (this.getTeams().getMemberCount(GameTeam.RED, true) == 0) {
 			// red is dead so team blue wins
-			TeamsBowBattle.super.endGame(this.teams.getMembers(GameTeam.BLUE));
+			TeamsBowBattle.super.endGame(this.getTeams().getMembers(GameTeam.BLUE, false));
 		} else {
 			// both teams are still alive
 			TeamsBowBattle.super.endGame();
 		}
 
 		this.dead = null;
-		this.teams = null;
+//		this.teams = null;
 	}
 
-	@EventHandler
+	@EventHandler(ignoreCancelled = true)
 	public void onDamage(MPlayerDamageEvent event) {
 		MPlayer damager = event.getDamagerPlayer();
 
@@ -142,9 +102,9 @@ public class TeamsBowBattle extends Game<TeamsBowBattleMap> implements TeamGame 
 
 		MPlayer player = event.getPlayer();
 
-		if (this.teams.isTeamMember(damager, GameTeam.BLUE) && this.teams.isTeamMember(player, GameTeam.RED)) {
+		if (this.getTeams().isTeamMember(damager, GameTeam.BLUE) && this.getTeams().isTeamMember(player, GameTeam.RED)) {
 			// blue attacks red -> allow
-		} else if (this.teams.isTeamMember(damager, GameTeam.RED) && this.teams.isTeamMember(player, GameTeam.BLUE)) {
+		} else if (this.getTeams().isTeamMember(damager, GameTeam.RED) && this.getTeams().isTeamMember(player, GameTeam.BLUE)) {
 			// red attacks blue -> allow
 		} else {
 			/*
@@ -161,7 +121,7 @@ public class TeamsBowBattle extends Game<TeamsBowBattleMap> implements TeamGame 
 	@EventHandler
 	public void onDeath(PlayerDeathEvent event) {
 		event.setCancelled(true);
-		this.sendMessage(Utils.getTeamsDeathMessage(event, teams));
+		this.sendMessage(Utils.getDeathMessage(event));
 
 		MPlayer player = new MPlayer(event);
 		this.dead.add(player.getUniqueId());
@@ -184,7 +144,7 @@ public class TeamsBowBattle extends Game<TeamsBowBattleMap> implements TeamGame 
 	private void giveItems(final MPlayer player) {
 		player.clearInventory();
 
-		final GameTeam team = this.teams.getTeam(player);
+		final GameTeam team = this.getTeams().getTeam(player);
 
 		if (team == null) {
 			Logger.warning("Not giving items to %s, unknown team", player.getOriginalName());
@@ -207,7 +167,7 @@ public class TeamsBowBattle extends Game<TeamsBowBattleMap> implements TeamGame 
 
 	@Override
 	public void onPlayerJoin(final MPlayer player) {
-		final GameTeam team = this.teams.getTeam(player);
+		final GameTeam team = this.getTeams().getTeam(player);
 		if (team == null) {
 			player.dieTo(this.map.getTeamBlueSpawnLocation());
 			return;

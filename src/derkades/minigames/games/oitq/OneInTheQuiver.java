@@ -19,21 +19,12 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
-import org.jetbrains.annotations.NotNull;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
 
 import java.util.Set;
 import java.util.UUID;
 
 public class OneInTheQuiver extends Game<OITQMap> {
-
-	private static final OITQMap[] MAPS = {
-			new Barn(),
-			new Castle(),
-			new Desert(),
-			new HouseWithFarm(),
-			new Snow(),
-	};
 
 	private static final ItemStack SWORD = new ItemBuilder(Material.WOODEN_SWORD)
 			.unbreakable()
@@ -48,40 +39,31 @@ public class OneInTheQuiver extends Game<OITQMap> {
 	private static final ItemStack ARROW = new ItemBuilder(Material.ARROW)
 			.create();
 
-	private static final PotionEffect INVISIBLITY = new PotionEffect(PotionEffectType.INVISIBILITY, 5*20, 0, true);
+	private static final PotionEffect INVISIBILITY = new PotionEffect(PotionEffectType.INVISIBILITY, 5*20, 0, true);
 
-	@Override
-	public @NotNull String getIdentifier() {
-		return "oitq";
-	}
-
-	@Override
-	public @NotNull String getName() {
-		return "One in the Quiver";
-	}
-
-	@Override
-	public String[] getDescription() {
-		return new String[] {
-				"Kill other players with a weak wooden sword.",
-				"For every kill you'll get a single arrow. Arrows",
-				"do enough damage to kill any player instantly."
-		};
-	}
-
-	@Override
-	public @NotNull Material getMaterial() {
-		return Material.ARROW;
+	public OneInTheQuiver() {
+		super(
+				"oitq",
+				"One in the Quiver",
+				new String[] {
+						"Kill other players with a weak wooden sword.",
+						"For every kill you'll get a single arrow. Arrows",
+						"do enough damage to kill any player instantly."
+				},
+				Material.ARROW,
+				new OITQMap[] {
+						new Barn(),
+						new Castle(),
+						new Desert(),
+						new HouseWithFarm(),
+						new Snow(),
+				}
+		);
 	}
 
 	@Override
 	public int getRequiredPlayers() {
 		return 3;
-	}
-
-	@Override
-	public OITQMap[] getGameMaps() {
-		return MAPS;
 	}
 
 	@Override
@@ -100,7 +82,7 @@ public class OneInTheQuiver extends Game<OITQMap> {
 
 		for (final MPlayer player : Minigames.getOnlinePlayers()) {
 			player.queueTeleport(this.map.getSpawnLocation());
-			player.giveEffect(INVISIBLITY);
+			player.giveEffect(INVISIBILITY);
 		}
 	}
 
@@ -157,7 +139,7 @@ public class OneInTheQuiver extends Game<OITQMap> {
 		this.alive.remove(player.getUniqueId());
 		player.dieUp(2);
 
-		this.sendMessage(Utils.getSoloDeathMessage(event, this.alive.size()));
+		this.sendMessage(Utils.getDeathMessage(event, this.alive.size()));
 
 		MPlayer killer = Utils.getKiller(event);
 		if (killer != null) {

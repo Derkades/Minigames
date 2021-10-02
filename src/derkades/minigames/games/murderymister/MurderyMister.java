@@ -14,7 +14,12 @@ import io.papermc.paper.event.player.AsyncChatEvent;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.md_5.bungee.api.ChatColor;
-import org.bukkit.*;
+import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.Particle;
+import org.bukkit.Sound;
 import org.bukkit.block.data.Lightable;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Arrow;
@@ -28,7 +33,6 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
-import org.jetbrains.annotations.NotNull;
 import xyz.derkades.derkutils.ListUtils;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
 
@@ -38,41 +42,24 @@ import java.util.UUID;
 
 public class MurderyMister extends Game<MurderyMisterMap> {
 
-	private static final MurderyMisterMap[] MAPS = {
-			new DeckedOutCastle(),
-			new HauntedHouse(),
-	};
-
-	@Override
-	public @NotNull String getIdentifier() {
-		return "murdery_mister";
-	}
-
-	@Override
-	public @NotNull String getName() {
-		return "Murdery Mister";
-	}
-
-	@Override
-	public String[] getDescription() {
-		return new String[] {
-				"Description",
-		}; // TODO Description
-	}
-
-	@Override
-	public @NotNull Material getMaterial() {
-		return Material.TRIDENT;
+	public MurderyMister() {
+		super(
+				"murdery_mister",
+				"Murdery Mister",
+				new String[] {
+						"Description",
+				}, // TODO Description
+				Material.TRIDENT,
+				new MurderyMisterMap[] {
+						new DeckedOutCastle(),
+						new HauntedHouse(),
+				}
+		);
 	}
 
 	@Override
 	public int getRequiredPlayers() {
 		return 3;
-	}
-
-	@Override
-	public MurderyMisterMap[] getGameMaps() {
-		return MAPS;
 	}
 
 	@Override

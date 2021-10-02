@@ -2,9 +2,8 @@ package derkades.minigames.games.controlpoints;
 
 import derkades.minigames.GameState;
 import derkades.minigames.Minigames;
-import derkades.minigames.games.Game;
 import derkades.minigames.games.GameTeam;
-import derkades.minigames.games.TeamManager;
+import derkades.minigames.games.RedBlueTeamGame;
 import derkades.minigames.utils.MPlayer;
 import derkades.minigames.utils.MPlayerDamageEvent;
 import derkades.minigames.utils.Scheduler;
@@ -21,44 +20,30 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-import org.jetbrains.annotations.NotNull;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 import java.util.UUID;
 
-public class ControlPoints extends Game<ControlPointsMap> {
-
-	static final ControlPointsMap[] MAPS = {
-			new Prototype(),
-	};
+public class ControlPoints extends RedBlueTeamGame<ControlPointsMap> {
 
 	private static final int CONTROL_THRESHOLD = 5;
 	private static final int RESPAWN_DELAY = 5*20;
 	private static final PotionEffect INFINITE_SPEED = new PotionEffect(PotionEffectType.SPEED, Integer.MAX_VALUE, 0, true);
 
-	@Override
-	public @NotNull String getIdentifier() {
-		return "control_points";
-	}
-
-	@Override
-	public @NotNull String getName() {
-		return "Control Points";
-	}
-
-	@Override
-	public String[] getDescription() {
-		return new String[] {
-				"Points. Take control."
-		};
-	}
-
-	@Override
-	public @NotNull Material getMaterial() {
-		return Material.CLOCK;
+	public ControlPoints() {
+		super(
+				"control_points",
+				"Control Points",
+				new String[] {
+						"Points. Take control."
+				},
+				Material.CLOCK,
+				new ControlPointsMap[] {
+						new Prototype(),
+				}
+		);
 	}
 
 	@Override
@@ -67,16 +52,10 @@ public class ControlPoints extends Game<ControlPointsMap> {
 	}
 
 	@Override
-	public ControlPointsMap[] getGameMaps() {
-		return MAPS;
-	}
-
-	@Override
 	public int getDuration() {
 		return 200;
 	}
 
-	private TeamManager teams;
 	private GameTeam forceWinTeam;
 	private Map<Integer, Integer> status; // more negative = blue, more positive = red
 	private BossBar barRed;
@@ -84,7 +63,6 @@ public class ControlPoints extends Game<ControlPointsMap> {
 
 	@Override
 	public void onPreStart() {
-		this.teams = new TeamManager(Set.of(GameTeam.RED, GameTeam.BLUE));
 		this.forceWinTeam = null;
 		this.status = new HashMap<>();
 
@@ -95,14 +73,9 @@ public class ControlPoints extends Game<ControlPointsMap> {
 			this.status.put(i, 0);
 		}
 
-		boolean teamBool = false;
-		for (final MPlayer player : Minigames.getOnlinePlayersInRandomOrder()) {
-			final GameTeam team = teamBool ? GameTeam.RED : GameTeam.BLUE;
-			this.teams.setTeam(player, team, true);
-			player.queueTeleport(teamBool ? this.map.getRedSpawnLocation() : this.map.getBlueSpawnLocation());
-
-			teamBool = !teamBool;
-		}
+		super.splitPlayers((player, team) -> {
+			player.queueTeleport(team == GameTeam.RED ? this.map.getRedSpawnLocation() : this.map.getBlueSpawnLocation());
+		});
 
 		for (final Location point : this.map.getControlPointLocations()) {
 			this.map.setControlPointStatus(point, ControlStatus.NEUTRAL);
@@ -142,7 +115,7 @@ public class ControlPoints extends Game<ControlPointsMap> {
 				}
 
 				if (this.map.isOnControlPoint(controlPoint, player)) {
-					final GameTeam team = this.teams.getTeam(player);
+					final GameTeam team = this.getTeams().getTeam(player);
 					if (team == GameTeam.RED) {
 						player.sendFormattedPlainActionBar("Claiming control point! %s", this.status.get(i));
 						red++;
@@ -216,7 +189,7 @@ public class ControlPoints extends Game<ControlPointsMap> {
 	@Override
 	public void onEnd() {
 		if (this.forceWinTeam != null) {
-			endGame(this.teams.getMembers(this.forceWinTeam), false);
+			endGame(this.getTeams().getMembers(this.forceWinTeam, false), false);
 		} else {
 			// Team with most control points wins
 			int blue = 0;
@@ -230,15 +203,14 @@ public class ControlPoints extends Game<ControlPointsMap> {
 			}
 
 			if (blue > red) {
-				endGame(this.teams.getMembers(GameTeam.BLUE));
+				endGame(this.getTeams().getMembers(GameTeam.BLUE, false));
 			} else if (red > blue) {
-				endGame(this.teams.getMembers(GameTeam.RED));
+				endGame(this.getTeams().getMembers(GameTeam.RED, false));
 			} else {
 				endGame();
 			}
 		}
 
-		this.teams= null;
 		this.forceWinTeam = null;
 		this.status = null;
 		this.barBlue.removeAll();
@@ -251,7 +223,7 @@ public class ControlPoints extends Game<ControlPointsMap> {
 	public void onDamage(MPlayerDamageEvent event) {
 		// Disable damage to teammates
 		MPlayer damager = event.getDamagerPlayer();
-		event.setCancelled(damager != null && this.teams.isInSameTeam(event.getPlayer(), damager));
+		event.setCancelled(damager != null && this.getTeams().isInSameTeam(event.getPlayer(), damager));
 	}
 
 	@EventHandler
@@ -259,7 +231,7 @@ public class ControlPoints extends Game<ControlPointsMap> {
 		final MPlayer player = new MPlayer(event);
 		event.setCancelled(true);
 
-		this.sendMessage(Utils.getTeamsDeathMessage(event, teams));
+		this.sendMessage(Utils.getDeathMessage(event));
 
 		player.die();
 		final UUID uuid = player.getUniqueId();
@@ -273,13 +245,13 @@ public class ControlPoints extends Game<ControlPointsMap> {
 			player.setGameMode(GameMode.ADVENTURE);
 			player2.heal();
 
-			player.teleport(this.teams.isTeamMember(player, GameTeam.RED) ? this.map.getRedSpawnLocation() : this.map.getBlueSpawnLocation());
+			player.teleport(this.getTeams().isTeamMember(player, GameTeam.RED) ? this.map.getRedSpawnLocation() : this.map.getBlueSpawnLocation());
 		});
 	}
 
 	@Override
 	public void onPlayerJoin(final MPlayer player) {
-		final GameTeam team = this.teams.getTeam(player);
+		final GameTeam team = this.getTeams().getTeam(player);
 		if (team == null) {
 			player.teleport(this.map.getWorld().getSpawnLocation());
 			player.spectator();

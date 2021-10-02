@@ -144,7 +144,7 @@ public class Utils {
 	}
 
 	@NotNull
-	public static Component getSoloDeathMessage(@NotNull PlayerDeathEvent event, int playersLeft) {
+	public static Component getDeathMessage(@NotNull PlayerDeathEvent event, int playersLeft) {
 		MPlayer player = new MPlayer(event);
 		MPlayer killer = Utils.getKiller(event);
 		Component playersLeftText = playersLeft <= 1 ?
@@ -165,6 +165,28 @@ public class Utils {
 	}
 
 	@NotNull
+	public static Component getDeathMessage(@NotNull PlayerDeathEvent event) {
+		MPlayer player = new MPlayer(event);
+		MPlayer killer = Utils.getKiller(event);
+		if (killer != null) {
+			return player.getDisplayName()
+					.append(Component.text(" has been killed by ", NamedTextColor.GRAY))
+					.append(killer.getDisplayName())
+					.append(Component.text(".", NamedTextColor.GRAY));
+		} else {
+			return player.getDisplayName()
+					.append(Component.text(" has died.", NamedTextColor.GRAY));
+		}
+	}
+
+	/**
+	 * @param event
+	 * @param teams
+	 * @deprecated This doesn't need to exist, games already modify the player's display name with their team's color.
+	 * @return
+	 */
+	@NotNull
+	@Deprecated
 	public static Component getTeamsDeathMessage(@NotNull PlayerDeathEvent event, @NotNull TeamManager teams) {
 		MPlayer player = new MPlayer(event);
 		MPlayer killer = Utils.getKiller(event);

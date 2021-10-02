@@ -19,7 +19,6 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.FireworkMeta;
-import org.jetbrains.annotations.NotNull;
 import xyz.derkades.derkutils.ListUtils;
 
 import java.util.HashMap;
@@ -28,10 +27,6 @@ import java.util.Set;
 import java.util.UUID;
 
 public class BuildCopy extends Game<BuildCopyMap> {
-
-	private static final BuildCopyMap[] MAPS = {
-			new Prototype(),
-	};
 
 	private static final Material[] MATERIALS = {
 			Material.BIRCH_PLANKS,
@@ -56,36 +51,23 @@ public class BuildCopy extends Game<BuildCopyMap> {
 			.unbreakable()
 			.create();
 
-	@Override
-	public @NotNull String getIdentifier() {
-		return "buildcopy";
-	}
-
-	@Override
-	public @NotNull String getName() {
-		return "Build Copy";
-	}
-
-	@Override
-	public String[] getDescription() {
-		return new String[] {
-				"Copy a pattern of annoyingly similar looking blocks."
-		};
-	}
-
-	@Override
-	public @NotNull Material getMaterial() {
-		return Material.SANDSTONE;
+	public BuildCopy() {
+		super(
+				"buildcopy",
+				"Build Copy",
+				new String[] {
+						"Copy a pattern of annoyingly similar looking blocks."
+				},
+				Material.SANDSTONE,
+				new BuildCopyMap[] {
+						new Prototype(),
+				}
+		);
 	}
 
 	@Override
 	public int getRequiredPlayers() {
 		return 2;
-	}
-
-	@Override
-	public BuildCopyMap[] getGameMaps() {
-		return MAPS;
 	}
 
 	@Override

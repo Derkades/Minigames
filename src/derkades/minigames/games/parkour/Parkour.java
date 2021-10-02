@@ -12,7 +12,6 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerMoveEvent;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -20,44 +19,27 @@ import java.util.UUID;
 
 public class Parkour extends Game<ParkourMap> {
 
-	private static final ParkourMap[] MAPS = {
-			new JungleRun(),
-			//new Plains(),
-			new RedstoneCave(),
-			new Snow(),
-			new TNT(),
-	};
-
-	@Override
-	public @NotNull String getIdentifier() {
-		return "parkour";
-	}
-
-	@Override
-	public @NotNull String getName() {
-		return "Parkour";
-	}
-
-	@Override
-	public String[] getDescription() {
-		return new String[] {
-				"Jump to the finish without touching the ground",
-		};
-	}
-
-	@Override
-	public @NotNull Material getMaterial() {
-		return Material.GOLDEN_BOOTS;
+	public Parkour() {
+		super(
+				"parkour",
+				"Parkour",
+				new String[] {
+						"Jump to the finish without touching the ground",
+				},
+				Material.GOLDEN_BOOTS,
+				new ParkourMap[] {
+						new JungleRun(),
+						//new Plains(),
+						new RedstoneCave(),
+						new Snow(),
+						new TNT(),
+				}
+		);
 	}
 
 	@Override
 	public int getRequiredPlayers() {
 		return 1;
-	}
-
-	@Override
-	public ParkourMap[] getGameMaps() {
-		return MAPS;
 	}
 
 	@Override

@@ -43,28 +43,70 @@ import static net.md_5.bungee.api.ChatColor.*;
 
 public abstract class Game<M extends GameMap> implements Listener, RandomlyPickable {
 
-	@NotNull
-	public abstract String getIdentifier();
+	private final @NotNull String identifier;
+	private final @NotNull String name;
+	private final @NotNull String@NotNull[] description;
+	private final @NotNull Material material;
+	private final @NotNull GameMap@NotNull[] gameMaps;
 
-	@NotNull
-	public abstract String getName();
+	public Game(
+			@NotNull String identifier,
+			@NotNull String name,
+			@NotNull String@NotNull[] description,
+			@NotNull Material material,
+			@NotNull GameMap@NotNull[] gameMaps
+	) {
+		this.identifier = identifier;
+		this.name = name;
+		this.description = description;
+		this.material = material;
+		this.gameMaps = gameMaps;
+	}
+
+	public final @NotNull String getIdentifier() {
+		return this.identifier;
+	}
+
+	public final @NotNull String getName() {
+		return this.name;
+	}
+
+	public final @NotNull String@NotNull[] getDescription() {
+		return this.description;
+	}
+
+	public final @NotNull Material getMaterial() {
+		return this.material;
+	}
+
+	public final @NotNull GameMap@NotNull[] getGameMaps() {
+		return this.gameMaps;
+	}
+
+//	@NotNull
+//	public abstract String getIdentifier();
+
+//	@NotNull
+//	public abstract String getName();
 
 	@Override
-	public String toString() {
+	public final String toString() {
 		return "Game[" + getIdentifier() + "]";
 	}
 
-	@NotNull
-	public abstract String[] getDescription();
+//	@NotNull
+//	public abstract String[] getDescription();
 
-	@NotNull
-	public abstract Material getMaterial();
+//	@NotNull
+//	public abstract Material getMaterial();
 
+	// TODO Move to constructor
 	public abstract int getRequiredPlayers();
 
-	@NotNull
-	public abstract M[] getGameMaps();
+//	@NotNull
+//	public abstract M[] getGameMaps();
 
+	// TODO Move to constructor
 	public abstract int getDuration();
 
 	public int getPreDuration() {
@@ -180,14 +222,14 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 //					}
 				}
 
-				if (this.timeLeft == 100) {
-					final int online = Bukkit.getOnlinePlayers().size();
-					if (online < 4) {
-						Game.this.sendPlainMessage("Many games require more players. Larger games are generally more fun, so get a few more friends online to play them!");
-					} else if (online < 5) {
-						Game.this.sendPlainMessage("Some games require more players. Get a few more friends online to play them!");
-					}
-				}
+//				if (this.timeLeft == 100) {
+//					final int online = Bukkit.getOnlinePlayers().size();
+//					if (online < 4) {
+//						Game.this.sendPlainMessage("Many games require more players. Larger games are generally more fun, so get a few more friends online to play them!");
+//					} else if (online < 5) {
+//						Game.this.sendPlainMessage("Some games require more players. Get a few more friends online to play them!");
+//					}
+//				}
 
 				this.timeLeft--;
 
@@ -214,6 +256,10 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 		this.preStartTime = System.currentTimeMillis();
 		this.onPreStart();
 		this.map.onPreStart();
+
+		if (this instanceof TeamGame teamGame) {
+			teamGame.initTeamsBackend();
+		}
 
 		this.map.getWorld().getEntitiesByClass(Arrow.class).forEach(Entity::remove);
 		this.map.getWorld().getEntitiesByClass(Trident.class).forEach(Entity::remove);
@@ -277,6 +323,10 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 					cancel();
 					Game.this.onEnd();
 					Game.this.map.onEnd();
+
+					if (Game.this instanceof TeamGame teamGame) {
+						teamGame.destroyTeamsBackend();
+					}
 				}
 			}
 

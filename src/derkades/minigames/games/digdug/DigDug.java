@@ -22,17 +22,12 @@ import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-import org.jetbrains.annotations.NotNull;
 import xyz.derkades.derkutils.bukkit.BlockUtils;
 
 import java.util.Arrays;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class DigDug extends Game<DigDugMap> {
-
-	private static final DigDugMap[] MAPS = {
-			new Prototype(),
-	};
 
 	private static final int COAL_AMOUNT = 100;
 	private static final int IRON_AMOUNT = 90;
@@ -48,43 +43,30 @@ public class DigDug extends Game<DigDugMap> {
 	private static final int NETHERRACK_EFFECT_TIME = 5*20;
 	private static final int QUARTZ_EFFECT_TIME = 10*20;
 
-	@Override
-	public @NotNull String getIdentifier() {
-		return "dig_dug";
-	}
-
-	@Override
-	public @NotNull String getName() {
-		return "Dig Dug";
-	}
-
-	@Override
-	public String[] getDescription() {
-		return new String[] {
-				"Dig dirt with your shovel, and find",
-				"ores. Left click on ores to collect.",
-				ChatColor.GRAY + "Coal: " + COAL_POINTS + " points",
-				ChatColor.GRAY + "Iron: " + IRON_POINTS + " points",
-				ChatColor.GRAY + "Gold: " + GOLD_POINTS + " points",
-				ChatColor.GRAY + "Emerald: " + EMERALD_POINTS + " points",
-				ChatColor.GRAY + "Netherrack: give others blindness",
-				ChatColor.GRAY + "Quartz: speed"
-		};
-	}
-
-	@Override
-	public @NotNull Material getMaterial() {
-		return Material.IRON_SHOVEL;
+	public DigDug() {
+		super(
+				"dig_dug",
+				"Dig Dug",
+				new String[] {
+						"Dig dirt with your shovel, and find",
+						"ores. Left click on ores to collect.",
+						ChatColor.GRAY + "Coal: " + COAL_POINTS + " points",
+						ChatColor.GRAY + "Iron: " + IRON_POINTS + " points",
+						ChatColor.GRAY + "Gold: " + GOLD_POINTS + " points",
+						ChatColor.GRAY + "Emerald: " + EMERALD_POINTS + " points",
+						ChatColor.GRAY + "Netherrack: give others blindness",
+						ChatColor.GRAY + "Quartz: speed"
+				},
+				Material.IRON_SHOVEL,
+				new DigDugMap[] {
+						new Prototype(),
+				}
+		);
 	}
 
 	@Override
 	public int getRequiredPlayers() {
 		return 2;
-	}
-
-	@Override
-	public DigDugMap[] getGameMaps() {
-		return MAPS;
 	}
 
 	@Override

@@ -17,7 +17,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.inventory.ItemStack;
-import org.jetbrains.annotations.NotNull;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
 
 import java.util.Set;
@@ -25,46 +24,29 @@ import java.util.UUID;
 
 public class Platform extends Game<PlatformMap> {
 
-	private static final PlatformMap[] MAPS = {
-			new Desert(),
-			new Ice(),
-	};
-
 	private static final int KNOCKBACK_SWORDS_TIME = 20;
 
-	@Override
-	public @NotNull String getIdentifier() {
-		return "platform";
-	}
-
-	@Override
-	public @NotNull String getName() {
-		return "Platform";
-	}
-
-	@Override
-	public String[] getDescription() {
-		return new String[] {
-				"Knock other players off a platform.",
-				"Use your knockback swords wisely, you",
-				"only get two knockback swords (one at",
-				"the start, one at " + KNOCKBACK_SWORDS_TIME + " seconds.",
-		};
-	}
-
-	@Override
-	public @NotNull Material getMaterial() {
-		return Material.SMOOTH_STONE_SLAB;
+	public Platform() {
+		super(
+				"platform",
+				"Platform",
+				new String[] {
+						"Knock other players off a platform.",
+						"Use your knockback swords wisely, you",
+						"only get two knockback swords (one at",
+						"the start, one at " + KNOCKBACK_SWORDS_TIME + " seconds.",
+				},
+				Material.SMOOTH_STONE_SLAB,
+				new PlatformMap[] {
+						new Desert(),
+						new Ice(),
+				}
+		);
 	}
 
 	@Override
 	public int getRequiredPlayers() {
 		return 2;
-	}
-
-	@Override
-	public PlatformMap[] getGameMaps() {
-		return MAPS;
 	}
 
 	@Override

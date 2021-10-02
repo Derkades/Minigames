@@ -19,7 +19,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.inventory.ItemStack;
-import org.jetbrains.annotations.NotNull;
 import xyz.derkades.derkutils.ListUtils;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
 import xyz.derkades.derkutils.bukkit.MaterialLists;
@@ -31,43 +30,26 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class CreeperAttack extends Game<CreeperAttackMap> {
 
-	private static final CreeperAttackMap[] MAPS = {
-			new DeckedOutForest(),
-			new Mineshaft(),
-			new Hedges(),
-	};
-
-	@Override
-	public @NotNull String getIdentifier() {
-		return "creeper_attack";
-	}
-
-	@Override
-	public @NotNull String getName() {
-		return "Creeper Attack";
-	}
-
-	@Override
-	public String[] getDescription() {
-		return new String[] {
-				"Avoid dying from creeper explosions. Use your",
-				"knockback stick to defend yourself against creepers."
-		};
-	}
-
-	@Override
-	public @NotNull Material getMaterial() {
-		return Material.CREEPER_HEAD;
+	public CreeperAttack() {
+		super(
+				"creeper_attack",
+				"Creeper Attack",
+				new String[] {
+						"Avoid dying from creeper explosions. Use your",
+						"knockback stick to defend yourself against creepers."
+				},
+				Material.CREEPER_HEAD,
+				new CreeperAttackMap[] {
+						new DeckedOutForest(),
+						new Mineshaft(),
+						new Hedges(),
+				}
+		);
 	}
 
 	@Override
 	public int getRequiredPlayers() {
 		return 2;
-	}
-
-	@Override
-	public CreeperAttackMap[] getGameMaps() {
-		return MAPS;
 	}
 
 	@Override

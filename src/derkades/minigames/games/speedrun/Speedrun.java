@@ -13,7 +13,6 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -21,42 +20,27 @@ import java.util.UUID;
 
 public class Speedrun extends Game<SpeedrunMap> {
 
-	public static final SpeedrunMap[] MAPS = {
-//		new Backwards(),
-			new Classic(),
-//		new Construction(),
-	};
-
 	private static final PotionEffect SPEED_EFFECT = new PotionEffect(PotionEffectType.SPEED, Integer.MAX_VALUE, 30, true);
 
-	@Override
-	public @NotNull String getIdentifier() {
-		return "speedrun";
-	}
-
-	@Override
-	public @NotNull String getName() {
-		return "Speedrun";
-	}
-
-	@Override
-	public String[] getDescription() {
-		return new String[] {"Jump to the finish with super speed"};
-	}
-
-	@Override
-	public @NotNull Material getMaterial() {
-		return Material.POTION;
+	public Speedrun() {
+		super(
+				"speedrun",
+				"Speedrun",
+				new String[] {
+						"Jump to the finish at super speed"
+				},
+				Material.POTION,
+				new SpeedrunMap[] {
+//						new Backwards(),
+						new Classic(),
+//						new Construction(),
+				}
+		);
 	}
 
 	@Override
 	public int getRequiredPlayers() {
 		return 1;
-	}
-
-	@Override
-	public SpeedrunMap[] getGameMaps() {
-		return MAPS;
 	}
 
 	@Override

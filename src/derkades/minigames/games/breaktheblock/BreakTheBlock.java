@@ -20,19 +20,12 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-import org.jetbrains.annotations.NotNull;
 import xyz.derkades.derkutils.ListUtils;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
 
 import java.util.UUID;
 
 public class BreakTheBlock extends Game<BreakTheBlockMap> {
-
-	private static final BreakTheBlockMap[] MAPS = {
-			new Cake(),
-			new HollowHills(),
-			new Prototype(),
-	};
 
 	private static final ItemStack PICKAXE = new PaperItemBuilder(Material.IRON_PICKAXE)
 			.unbreakable()
@@ -46,36 +39,25 @@ public class BreakTheBlock extends Game<BreakTheBlockMap> {
 
 	private static final int MINIMUM_PLAYERS_FOR_MULTIPLE_SPAWN_LOCATIONS = 4;
 
-	@Override
-	public @NotNull String getIdentifier() {
-		return "break_the_block";
-	}
-
-	@Override
-	public @NotNull String getName() {
-		return "Gold Rush";
-	}
-
-	@Override
-	public String[] getDescription() {
-		return new String[] {
-				"Make it through an obstacle course to break the gold block.",
-				};
-	}
-
-	@Override
-	public @NotNull Material getMaterial() {
-		return Material.IRON_PICKAXE;
+	public BreakTheBlock() {
+		super(
+				"break_the_block",
+				"Gold Rush",
+				new String[]{
+						"Make it through an obstacle course to break the gold block.",
+				},
+				Material.IRON_PICKAXE,
+				new BreakTheBlockMap[]{
+						new Cake(),
+						new HollowHills(),
+						new Prototype(),
+				}
+		);
 	}
 
 	@Override
 	public int getRequiredPlayers() {
 		return 3;
-	}
-
-	@Override
-	public BreakTheBlockMap[] getGameMaps() {
-		return MAPS;
 	}
 
 	@Override

@@ -11,7 +11,6 @@ import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerMoveEvent;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -23,37 +22,25 @@ public class Elytra extends Game<ElytraMap> {
 			new Cave(),
 	};
 
-	@Override
-	public @NotNull String getIdentifier() {
-		return "elytra";
-	}
+	public Elytra() {
+		super(
+				"elytra",
+				"Elytra",
+				new String[]{
+						"Fly to the end of the cave without touching",
+						"the ground or lava."
+				},
+				Material.ELYTRA,
+				new ElytraMap[] {
+						new Cave(),
+				}
 
-	@Override
-	public @NotNull String getName() {
-		return "Elytra";
-	}
-
-	@Override
-	public String[] getDescription() {
-		return new String[]{
-				"Fly to the end of the cave without touching",
-				"the ground or lava."
-		};
-	}
-
-	@Override
-	public @NotNull Material getMaterial() {
-		return Material.ELYTRA;
+		);
 	}
 
 	@Override
 	public int getRequiredPlayers() {
 		return 1;
-	}
-
-	@Override
-	public ElytraMap[] getGameMaps() {
-		return MAPS;
 	}
 
 	@Override

@@ -1,10 +1,9 @@
 package derkades.minigames.modules;
 
+import derkades.minigames.utils.MPlayer;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerJoinEvent;
-
-import derkades.minigames.utils.MPlayer;
 
 public class RandomNameColor extends Module {
 

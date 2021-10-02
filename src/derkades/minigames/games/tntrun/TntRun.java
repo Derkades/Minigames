@@ -14,50 +14,36 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerMoveEvent;
-import org.jetbrains.annotations.NotNull;
 
-import java.util.*;
+import java.util.ArrayDeque;
+import java.util.Deque;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.UUID;
 
 public class TntRun extends Game<TntRunMap> {
 
-	private static final TntRunMap[] MAPS = {
-			new Aqua(),
-			new Future(),
-			new Jungle(),
-			new WaterLava(),
-	};
-
-	@Override
-	public @NotNull String getIdentifier() {
-		return "tnt_run";
-	}
-
-	@Override
-	public @NotNull String getName() {
-		return "TNT Run";
-	}
-
-	@Override
-	public String[] getDescription() {
-		return new String[]{
-				"The floor disappears where you walk. Avoid",
-				"falling for as long as possible.",
-		};
-	}
-
-	@Override
-	public @NotNull Material getMaterial() {
-		return Material.TNT;
+	public TntRun() {
+		super(
+				"tnt_run",
+				"TNT Run",
+				new String[]{
+						"The floor disappears where you walk. Avoid",
+						"falling for as long as possible.",
+				},
+				Material.TNT,
+				new TntRunMap[] {
+						new Aqua(),
+						new Future(),
+						new Jungle(),
+						new WaterLava(),
+				}
+		);
 	}
 
 	@Override
 	public int getRequiredPlayers() {
 		return 2;
-	}
-
-	@Override
-	public TntRunMap[] getGameMaps() {
-		return MAPS;
 	}
 
 	@Override

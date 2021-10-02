@@ -9,7 +9,6 @@ import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -18,38 +17,23 @@ import java.util.UUID;
 
 public class MissileWars extends Game<MissileWarsMap> {
 
-	private static final MissileWarsMap[] MAPS = {
-			new MissileWarsMapImpl(),
-	};
-
-	@Override
-	public @NotNull String getIdentifier() {
-		return "missile_wars";
-	}
-
-	@Override
-	public @NotNull String getName() {
-		return "Missile Wars";
-	}
-
-	@Override
-	public String[] getDescription() {
-		return new String[] {};
-	}
-
-	@Override
-	public @NotNull Material getMaterial() {
-		return Material.SLIME_BLOCK;
+	public MissileWars() {
+		super(
+				"missile_wars",
+				"Missile Wars",
+				new String[]{
+						"description" // TODO Description
+				},
+				Material.SLIME_BLOCK,
+				new MissileWarsMap[]{
+						new MissileWarsMapImpl(),
+				}
+		);
 	}
 
 	@Override
 	public int getRequiredPlayers() {
 		return 6;
-	}
-
-	@Override
-	public MissileWarsMap[] getGameMaps() {
-		return MAPS;
 	}
 
 	@Override

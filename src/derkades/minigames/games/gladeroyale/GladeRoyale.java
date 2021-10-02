@@ -20,7 +20,6 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
-import org.jetbrains.annotations.NotNull;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
 import xyz.derkades.derkutils.bukkit.lootchests.LootChest;
 
@@ -31,40 +30,23 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class GladeRoyale extends Game<GladeRoyaleMap> {
 
-	private static final GladeRoyaleMap[] MAPS = {
-			new Santiago(),
-	};
-
-	@Override
-	public @NotNull String getIdentifier() {
-		return "glade_royale";
-	}
-
-	@Override
-	public @NotNull String getName() {
-		return "Glade Royale";
-	}
-
-	@Override
-	public String[] getDescription() {
-		return new String[] {
-				"totally not battle royale"
-		};
-	}
-
-	@Override
-	public @NotNull Material getMaterial() {
-		return Material.CHEST;
+	public GladeRoyale() {
+		super(
+				"glade_royale",
+				"Glade Royale",
+				new String[]{
+						"totally not battle royale"
+				},
+				Material.CHEST,
+				new GladeRoyaleMap[]{
+						new Santiago(),
+				}
+		);
 	}
 
 	@Override
 	public int getRequiredPlayers() {
 		return 8;
-	}
-
-	@Override
-	public GladeRoyaleMap[] getGameMaps() {
-		return MAPS;
 	}
 
 	@Override
@@ -251,7 +233,7 @@ public class GladeRoyale extends Game<GladeRoyaleMap> {
 		player.dieUp(5);
 		this.alive.remove(player.getUniqueId());
 		player.dropItems();
-		this.sendMessage(Utils.getSoloDeathMessage(event, alive.size()));
+		this.sendMessage(Utils.getDeathMessage(event, alive.size()));
 	}
 
 	@EventHandler(ignoreCancelled = true)

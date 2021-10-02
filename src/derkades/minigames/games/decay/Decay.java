@@ -15,7 +15,6 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
-import org.jetbrains.annotations.NotNull;
 import xyz.derkades.derkutils.ListUtils;
 
 import java.util.ArrayList;
@@ -25,11 +24,6 @@ import java.util.UUID;
 
 public class Decay extends Game<DecayMap> {
 
-	private static final DecayMap[] MAPS = {
-			new SpruceBrick(),
-			new SquareDonut(),
-	};
-
 	private static final int BLOCKS_PER_CYCLE = 70;
 	private static final Material[] BLOCK_TYPES = {
 			Material.WHITE_CONCRETE,
@@ -38,37 +32,25 @@ public class Decay extends Game<DecayMap> {
 			Material.RED_CONCRETE,
 	};
 
-	@Override
-	public @NotNull String getIdentifier() {
-		return "decay";
-	}
-
-	@Override
-	public @NotNull String getName() {
-		return "Decay";
-	}
-
-	@Override
-	public String[] getDescription() {
-		// TODO Description
-		return new String[] {
-				"something something don't die",
-		};
-	}
-
-	@Override
-	public @NotNull Material getMaterial() {
-		return Material.RED_CONCRETE;
+	public Decay() {
+		super(
+				"decay",
+				"Decay",
+				new String[] {
+						// TODO Description
+						"something something don't die",
+				},
+				Material.RED_CONCRETE,
+				new DecayMap[] {
+						new SpruceBrick(),
+						new SquareDonut(),
+				}
+		);
 	}
 
 	@Override
 	public int getRequiredPlayers() {
 		return 2;
-	}
-
-	@Override
-	public DecayMap[] getGameMaps() {
-		return MAPS;
 	}
 
 	@Override

@@ -31,10 +31,6 @@ import java.util.UUID;
 
 public class Harvest extends Game<@NotNull HarvestMap> {
 
-	private static final HarvestMap[] MAPS = {
-			new Prototype(),
-	};
-
 	private static final int CROPS_PER_SECOND = 30;
 	private static final int RESPAWN_DELAY = 3*20;
 
@@ -48,40 +44,24 @@ public class Harvest extends Game<@NotNull HarvestMap> {
 					.create()
 	};
 
-	@Override
-	@NotNull
-	public String getIdentifier() {
-		return "harvest";
-	}
-
-	@Override
-	public @NotNull String getName() {
-		return "Harvest";
-	}
-
-	@Override
-	public @NotNull Material getMaterial() {
-		return Material.WHEAT;
-	}
-
-	@Override
-	@NotNull
-	public String[] getDescription() {
-		return new String[] {
-				"Harvest crops to get as much wheat as possible. Make",
-				"sure to not break any crops that are not fully grown!"
-		};
+	public Harvest() {
+		super(
+				"harvest",
+				"Harvest",
+				new String[] {
+						"Harvest crops to get as much wheat as possible. Make",
+						"sure to not break any crops that are not fully grown!"
+				},
+				Material.WHEAT,
+				new HarvestMap[] {
+						new Prototype(),
+				}
+		);
 	}
 
 	@Override
 	public int getRequiredPlayers() {
 		return 2;
-	}
-
-	@Override
-	@NotNull
-	public HarvestMap[] getGameMaps() {
-		return MAPS;
 	}
 
 	@Override

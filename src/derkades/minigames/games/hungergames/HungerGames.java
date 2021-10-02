@@ -13,7 +13,6 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.PlayerDeathEvent;
-import org.jetbrains.annotations.NotNull;
 import xyz.derkades.derkutils.bukkit.lootchests.LootChest;
 
 import java.util.ArrayList;
@@ -27,37 +26,25 @@ public class HungerGames extends Game<HungerGamesMap> {
 			new Windmill(),
 	};
 
-	@Override
-	public @NotNull String getIdentifier() {
-		return "hunger_games";
-	}
-
-	@Override
-	public @NotNull String getName() {
-		return "Hunger Games";
-	}
-
-	@Override
-	public String[] getDescription() {
-		return  new String[] {
-				"Get weapons and armor from chests.",
-				"Stay alive!"
-		};
-	}
-
-	@Override
-	public @NotNull Material getMaterial() {
-		return Material.APPLE;
+	public HungerGames() {
+		super(
+				"hunger_games",
+				"Hunger Games",
+				new String[] {
+						"Get weapons and armor from chests.",
+						"Stay alive!"
+				},
+				Material.APPLE,
+				new HungerGamesMap[] {
+						new Treehouse(),
+						new Windmill(),
+				}
+		);
 	}
 
 	@Override
 	public int getRequiredPlayers() {
 		return 4;
-	}
-
-	@Override
-	public HungerGamesMap[] getGameMaps() {
-		return MAPS;
 	}
 
 	@Override
@@ -156,7 +143,7 @@ public class HungerGames extends Game<HungerGamesMap> {
 		player.dieUp(2);
 
 		final int playersLeft = (int) this.all.stream().filter(p -> this.dead.contains(p)).count();
-		this.sendMessage(Utils.getSoloDeathMessage(event, playersLeft));
+		this.sendMessage(Utils.getDeathMessage(event, playersLeft));
 	}
 
 	private void placeBlocks(final Location[] locations, final Material type) {

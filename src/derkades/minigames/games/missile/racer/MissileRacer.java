@@ -7,6 +7,8 @@ import derkades.minigames.games.missile.Missile;
 import derkades.minigames.utils.MPlayer;
 import derkades.minigames.utils.MinigamesPlayerDamageEvent;
 import derkades.minigames.utils.PaperItemBuilder;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -17,7 +19,6 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
-import org.jetbrains.annotations.NotNull;
 import xyz.derkades.derkutils.Cooldown;
 import xyz.derkades.derkutils.ListUtils;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
@@ -25,10 +26,6 @@ import xyz.derkades.derkutils.bukkit.ItemBuilder;
 import java.util.UUID;
 
 public class MissileRacer extends Game<MissileRacerMap> {
-
-	private static final MissileRacerMap[] MAPS = {
-			new Prototype(),
-	};
 
 	private static final ItemStack PLACEABLE_TNT = new PaperItemBuilder(Material.TNT)
 			.amount(20)
@@ -70,36 +67,23 @@ public class MissileRacer extends Game<MissileRacerMap> {
 	private static final ItemStack ARROW = new ItemBuilder(Material.ARROW)
 			.create();
 
-	@Override
-	public @NotNull String getIdentifier() {
-		return "missile_racer";
-	}
-
-	@Override
-	public @NotNull String getName() {
-		return "Missile Racer";
-	}
-
-	@Override
-	public String[] getDescription() {
-		return new String[] {
-				"Parkour + missiles",
-		};
-	}
-
-	@Override
-	public @NotNull Material getMaterial() {
-		return Material.PISTON;
+	public MissileRacer() {
+		super(
+				"missile_racer",
+				"Missile Racer",
+				new String[]{
+						"Parkour + missiles",
+				},
+				Material.PISTON,
+				new MissileRacerMap[]{
+						new Prototype(),
+				}
+		);
 	}
 
 	@Override
 	public int getRequiredPlayers() {
 		return 2;
-	}
-
-	@Override
-	public MissileRacerMap[] getGameMaps() {
-		return MAPS;
 	}
 
 	@Override
@@ -151,7 +135,7 @@ public class MissileRacer extends Game<MissileRacerMap> {
 		if (this.winner == null) {
 			for (final MPlayer player : Minigames.getOnlinePlayers()) {
 				if (this.map.isInFinishBounds(player)) {
-					sendFormattedPlainMessage("%s made it to the finish line!", player.getName());
+					this.sendMessage(player.getDisplayName().append(Component.text(" made it to the finish line!", NamedTextColor.GRAY)));
 					this.winner = player.getUniqueId();
 					return true;
 				}
@@ -185,7 +169,7 @@ public class MissileRacer extends Game<MissileRacerMap> {
 			return;
 		}
 
-		final String cooldownId = "missileracer" + player.getName();
+		final String cooldownId = "missileracer" + player.getUniqueId();
 
 		if (Cooldown.getCooldown(cooldownId) > 0) {
 			player.sendPlainActionBar("You cannot use this right now.");

@@ -13,7 +13,6 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -21,41 +20,26 @@ import java.util.UUID;
 
 public class Dropper extends Game<DropperMap> {
 
-	private static final DropperMap[] MAPS = new DropperMap[] {
-			new BlackWhite(),
-			new Rainbow(),
-			new Redstone(),
-			new Trees(),
-	};
-
-	@Override
-	public @NotNull String getIdentifier() {
-		return "dropper";
-	}
-
-	@Override
-	public @NotNull String getName() {
-		return "Dropper";
-	}
-
-	@Override
-	public String[] getDescription() {
-		return new String[] {"Get down without dying"};
-	}
-
-	@Override
-	public @NotNull Material getMaterial() {
-		return Material.DIAMOND_BOOTS;
+	public Dropper() {
+		super(
+				"dropper",
+				"Dropper",
+				new String[] {
+						"Get down without dying"
+				},
+				Material.DIAMOND_BOOTS,
+				new DropperMap[] {
+						new BlackWhite(),
+						new Rainbow(),
+						new Redstone(),
+						new Trees(),
+				}
+		);
 	}
 
 	@Override
 	public int getRequiredPlayers() {
 		return 1;
-	}
-
-	@Override
-	public DropperMap[] getGameMaps() {
-		return MAPS;
 	}
 
 	@Override

@@ -1,22 +1,6 @@
 package derkades.minigames.games.freefall;
 
-import derkades.minigames.Minigames;
-import derkades.minigames.games.Game;
-import derkades.minigames.utils.MPlayer;
-import derkades.minigames.utils.MPlayerDamageEvent;
-import derkades.minigames.utils.MinigamesPlayerDamageEvent;
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.NamedTextColor;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
-import org.jetbrains.annotations.NotNull;
-
-import java.util.Set;
-import java.util.UUID;
-
-public class FreeFall extends Game<FreeFallMap> {
+public class FreeFall {/*extends Game<FreeFallMap> {
 
 	private static final FreeFallMap[] MAPS = {
 			new Prototype(),
@@ -148,6 +132,6 @@ public class FreeFall extends Game<FreeFallMap> {
 	@Override
 	public void onPlayerQuit(final MPlayer player) {
 		this.winners.remove(player.getUniqueId());
-	}
+	}*/
 
 }

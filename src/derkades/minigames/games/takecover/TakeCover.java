@@ -1,51 +1,36 @@
 package derkades.minigames.games.takecover;
 
-import org.bukkit.Location;
-import org.bukkit.Material;
-
 import derkades.minigames.games.Game;
 import derkades.minigames.utils.MPlayer;
 import derkades.minigames.utils.Scheduler;
-import org.jetbrains.annotations.NotNull;
+import org.bukkit.Location;
+import org.bukkit.Material;
 
 @SuppressWarnings("ALL")
 public class TakeCover extends Game<TakeCoverMap> {
 
-	private static final TakeCoverMap[] MAPS = {
-			new Prototype(),
-	};
+	// TODO turn into meteor shower game
 
 	private static final int ARROW_COUNT = 5;
 	private static final int ARROW_TIME = 3; // seconds
 
-	@Override
-	public @NotNull String getIdentifier() {
-		return "takecover";
-	}
-
-	@Override
-	public @NotNull String getName() {
-		return "Take Cover";
-	}
-
-	@Override
-	public String[] getDescription() {
-		return null;
-	}
-
-	@Override
-	public @NotNull Material getMaterial() {
-		return Material.SNOWBALL;
+	public TakeCover() {
+		super(
+				"takecover",
+				"Take Cover",
+				new String[] {
+						"description", // TODO Description
+				},
+				Material.FIRE_CHARGE,
+				new TakeCoverMap[] {
+						new Prototype(),
+				}
+		);
 	}
 
 	@Override
 	public int getRequiredPlayers() {
 		return 2;
-	}
-
-	@Override
-	public TakeCoverMap[] getGameMaps() {
-		return MAPS;
 	}
 
 	@Override
