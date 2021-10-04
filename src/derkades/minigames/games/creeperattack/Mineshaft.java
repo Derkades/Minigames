@@ -48,4 +48,9 @@ class Mineshaft extends CreeperAttackMap {
 		return new Location(this.getWorld(), 13, 70, 3);
 	}
 
+	@Override
+	public boolean isDisabled() {
+		return true;
+	}
+
 }
