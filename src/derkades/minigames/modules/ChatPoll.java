@@ -48,8 +48,6 @@ public class ChatPoll extends Module {
 		public void send(final MPlayer player) {
 			final UUID token = UUID.randomUUID();
 
-			Logger.debug("new poll with token %s", token);
-
 			ChatPoll.this.pollSendTimes.put(token, System.currentTimeMillis());
 			ChatPoll.this.callbacks.put(token, this.callback);
 
@@ -103,8 +101,6 @@ public class ChatPoll extends Module {
 				e.printStackTrace();
 				return true;
 			}
-
-			Logger.debug("received vote with token %s", providedToken);
 
 			if (!ChatPoll.this.pollSendTimes.containsKey(providedToken)) {
 				sender.sendMessage(ChatColor.RED + "You have already voted on this poll.");
