@@ -137,6 +137,7 @@ public class Harvest extends Game<@NotNull HarvestMap> {
 	public void onEnd() {
 		endGame(this.leaderboard.getWinnersPrintHide());
 		this.blocks = null;
+		this.leaderboard.unregister();
 		this.leaderboard = null;
 	}
 

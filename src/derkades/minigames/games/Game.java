@@ -13,6 +13,7 @@ import derkades.minigames.random.Size;
 import derkades.minigames.utils.MPlayer;
 import derkades.minigames.utils.Scheduler;
 import derkades.minigames.utils.Utils;
+import derkades.minigames.utils.event.GameResultSaveEvent;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.HoverEvent;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -382,11 +383,11 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 
 		Utils.showEveryoneToEveryone();
 
-		final List<Player> winnersPlayers;
+		final Set<Player> winnersPlayers;
 		if (skipped) {
-			winnersPlayers = Collections.emptyList();
+			winnersPlayers = Collections.emptySet();
 		} else {
-			winnersPlayers = Bukkit.getOnlinePlayers().stream().filter((p) -> winners.contains(p.getUniqueId())).collect(Collectors.toList());
+			winnersPlayers = Bukkit.getOnlinePlayers().stream().filter((p) -> winners.contains(p.getUniqueId())).collect(Collectors.toSet());
 		}
 
 		if (skipped) {
@@ -446,7 +447,7 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 		Scheduler.delay(10*20, AutoRotate::startNewRandomGame);
 	}
 
-	private void saveGameResult(final List<Player> winners, final boolean skipped) {
+	private void saveGameResult(final Set<Player> winners, final boolean skipped) {
 		Validate.noNullElements(winners);
 
 		final File gameResultsDir = new File("game_results");
@@ -506,11 +507,14 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 			json.name("skipped");
 			json.value(skipped);
 
-			final String gameSpecific = this.getGameSpecificResultJson();
-			if (gameSpecific != null) {
-				json.name("game_specific");
-				json.jsonValue(gameSpecific);
-			}
+			GameResultSaveEvent event = new GameResultSaveEvent(this, winners, json);
+			Bukkit.getPluginManager().callEvent(event);
+
+//			final String gameSpecific = this.getGameSpecificResultJson();
+//			if (gameSpecific != null) {
+//				json.name("game_specific");
+//				json.jsonValue(gameSpecific);
+//			}
 			json.endObject();
 			json.flush();
 			content = byteStream.toByteArray();

@@ -1,6 +1,8 @@
 package derkades.minigames.utils;
 
+import com.google.gson.stream.JsonWriter;
 import derkades.minigames.Minigames;
+import derkades.minigames.utils.event.GameResultSaveEvent;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -9,11 +11,16 @@ import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.HandlerList;
+import org.bukkit.event.Listener;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import xyz.derkades.derkutils.bukkit.sidebar.Sidebar;
 import xyz.derkades.derkutils.bukkit.sidebar.SidebarString;
 
+import java.io.Closeable;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -22,7 +29,7 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class Leaderboard {
+public class Leaderboard implements Listener, Unregisterable {
 
 	@NotNull
 	private final Sidebar sidebar;
@@ -45,6 +52,8 @@ public class Leaderboard {
 		for (final MPlayer player : Minigames.getOnlinePlayers()) {
 			setScore(player, 0);
 		}
+
+		Bukkit.getPluginManager().registerEvents(this, Minigames.getInstance());
 	}
 
 	@SuppressWarnings("null")
@@ -144,4 +153,26 @@ public class Leaderboard {
 		return getWinners();
 	}
 
+	@EventHandler
+	public void onGameResultSave(GameResultSaveEvent event) {
+		try {
+			JsonWriter writer = event.getResultWriter();
+			writer.name("leaderboard");
+			writer.beginObject();
+			for (Map.Entry<UUID, Integer> entry : points.entrySet()) {
+				writer.name(entry.getKey().toString());
+				writer.value(entry.getValue());
+			};
+			writer.endObject();
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	// TODO throw warnings if this is not called using finalize()
+
+	@Override
+	public void unregister() {
+		HandlerList.unregisterAll(this);
+	}
 }
