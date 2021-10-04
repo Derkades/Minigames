@@ -6,6 +6,7 @@ import derkades.minigames.games.GameLabel;
 import derkades.minigames.utils.MPlayer;
 import derkades.minigames.utils.Utils;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -97,9 +98,9 @@ public class Parkour extends Game<ParkourMap> {
 		if (this.map.hasFinished(player, blockType)) {
 			if (this.finished.isEmpty()) {
 				player.addPoints(1);
-				this.sendMessage(player.getDisplayName().append(Component.text(" finished first and got an extra point!")));
+				this.sendMessage(player.getDisplayName().append(Component.text(" finished first and got an extra point!", NamedTextColor.GRAY)));
 			} else {
-				this.sendMessage(player.getDisplayName().append(Component.text(" finished.")));
+				this.sendMessage(player.getDisplayName().append(Component.text(" finished.", NamedTextColor.GRAY)));
 			}
 
 			this.finished.add(player.getUniqueId());
