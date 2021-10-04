@@ -1,6 +1,7 @@
 package derkades.minigames.utils;
 
 import com.google.gson.stream.JsonWriter;
+import derkades.minigames.Logger;
 import derkades.minigames.Minigames;
 import derkades.minigames.utils.event.GameResultSaveEvent;
 import net.kyori.adventure.text.Component;
@@ -19,7 +20,6 @@ import org.jetbrains.annotations.Nullable;
 import xyz.derkades.derkutils.bukkit.sidebar.Sidebar;
 import xyz.derkades.derkutils.bukkit.sidebar.SidebarString;
 
-import java.io.Closeable;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -38,10 +38,12 @@ public class Leaderboard implements Listener, Unregisterable {
 	@Nullable
 	private Map<UUID, Integer> sortedCache = null;
 
+	private boolean unregistered = false;
+
 	private static final ComponentSerializer<Component, TextComponent, String> COMPONENT_SERIALIZER = LegacyComponentSerializer.builder()
 			.character(LegacyComponentSerializer.SECTION_CHAR)
-			.hexColors()
-			.useUnusualXRepeatedCharacterHexFormat()
+//			.hexColors()
+//			.useUnusualXRepeatedCharacterHexFormat()
 			.build();
 
 	public Leaderboard() {
@@ -69,7 +71,9 @@ public class Leaderboard implements Listener, Unregisterable {
 
 	@NotNull
 	private Component leaderboardEntry(final Player player, final int points) {
-		return player.displayName().append(Component.text(": ", NamedTextColor.GRAY)).append(Component.text(points, NamedTextColor.WHITE));
+//		return player.displayName().append(Component.text(": ", NamedTextColor.GRAY)).append(Component.text(points, NamedTextColor.WHITE));
+		// TODO colors
+		return Component.text(player.getName()).append(Component.text(": ", NamedTextColor.GRAY)).append(Component.text(points, NamedTextColor.WHITE));
 	}
 
 	public void update(final int secondsLeft) {
@@ -169,10 +173,16 @@ public class Leaderboard implements Listener, Unregisterable {
 		}
 	}
 
-	// TODO throw warnings if this is not called using finalize()
-
 	@Override
 	public void unregister() {
 		HandlerList.unregisterAll(this);
+		this.unregistered = true;
+	}
+
+	@Override
+	protected void finalize() {
+		if (!this.unregistered) {
+			Logger.warning("Leaderboard was not unregistered before garbage collection!");
+		}
 	}
 }
