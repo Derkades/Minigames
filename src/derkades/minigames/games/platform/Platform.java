@@ -129,8 +129,10 @@ public class Platform extends Game<PlatformMap> {
 
 	@EventHandler
 	public void onDamage(MPlayerDamageEvent event) {
-		event.setCancelled(false);
-		event.setDamage(0);
+		if (GameState.currentGameIsRunning()) {
+			event.setCancelled(false);
+			event.setDamage(0);
+		}
 	}
 
 	@Override
