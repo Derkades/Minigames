@@ -4,18 +4,16 @@ import derkades.minigames.Minigames;
 import derkades.minigames.games.Game;
 import derkades.minigames.games.GameLabel;
 import derkades.minigames.utils.MPlayer;
+import derkades.minigames.utils.MPlayerDamageEvent;
 import derkades.minigames.utils.PaperItemBuilder;
-import derkades.minigames.utils.PotionEffects;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
@@ -217,14 +215,10 @@ public class BreakTheBlock extends Game<BreakTheBlockMap> {
 		}
 	}
 
-	@EventHandler(ignoreCancelled = true)
-	public void onDamage(final EntityDamageByEntityEvent event) {
-		if (event.getEntity().getType() != EntityType.PLAYER ||
-				event.getDamager().getType() != EntityType.PLAYER) {
-			return;
-		}
-
-		event.setCancelled(!this.map.canTakeDamage(new MPlayer(event)));
+	@EventHandler
+	public void onDamage(final MPlayerDamageEvent event) {
+		MPlayer player = event.getPlayer();
+		event.setCancelled(!this.map.canTakeDamage(player));
 		event.setDamage(0);
 	}
 
