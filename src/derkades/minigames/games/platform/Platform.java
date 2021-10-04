@@ -1,5 +1,6 @@
 package derkades.minigames.games.platform;
 
+import derkades.minigames.GameState;
 import derkades.minigames.Minigames;
 import derkades.minigames.games.Game;
 import derkades.minigames.games.GameLabel;
@@ -51,13 +52,9 @@ public class Platform extends Game<PlatformMap> {
 
 	private Set<UUID> alive;
 
-	private boolean started;
-
 	@Override
 	public void onPreStart() {
 		this.alive = Utils.getOnlinePlayersUuidSet();
-
-		this.started = false;
 
 		for (final MPlayer player : Minigames.getOnlinePlayers()){
 			player.queueTeleport(this.map.getSpawnLocation());
@@ -65,13 +62,7 @@ public class Platform extends Game<PlatformMap> {
 	}
 
 	@Override
-	public void onStart() {
-		for (final MPlayer player : Minigames.getOnlinePlayers()) {
-			player.setDisableDamage(false);
-		}
-
-		Platform.this.started = true;
-	}
+	public void onStart() {}
 
 	@Override
 	public int gameTimer(final int secondsLeft) {
@@ -120,7 +111,7 @@ public class Platform extends Game<PlatformMap> {
 			// Die
 
 			// Put player back if game hasn't started yet
-			if (!this.started) {
+			if (!GameState.currentGameIsRunning()) {
 				player.teleport(this.map.getSpawnLocation());
 				return;
 			}
@@ -136,8 +127,9 @@ public class Platform extends Game<PlatformMap> {
 		}
 	}
 
-	@EventHandler(ignoreCancelled = true)
-	public void onDamage(MPlayerDamageEvent event){
+	@EventHandler
+	public void onDamage(MPlayerDamageEvent event) {
+		event.setCancelled(false);
 		event.setDamage(0);
 	}
 

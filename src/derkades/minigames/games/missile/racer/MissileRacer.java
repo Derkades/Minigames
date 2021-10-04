@@ -6,6 +6,7 @@ import derkades.minigames.games.Game;
 import derkades.minigames.games.GameLabel;
 import derkades.minigames.games.missile.Missile;
 import derkades.minigames.utils.MPlayer;
+import derkades.minigames.utils.MPlayerDamageEvent;
 import derkades.minigames.utils.PaperItemBuilder;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -19,6 +20,8 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.Potion;
+import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import xyz.derkades.derkutils.Cooldown;
 import xyz.derkades.derkutils.ListUtils;
@@ -60,6 +63,8 @@ public class MissileRacer extends Game<MissileRacerMap> {
 //			Missile.BEE,
 	};
 
+	private static final PotionEffect HEALTH_BOOST = new PotionEffect(PotionEffectType.HEALTH_BOOST, Integer.MAX_VALUE, 4, true, false);
+
 	private static final ItemStack BOW = new ItemBuilder(Material.BOW)
 			.enchant(Enchantment.ARROW_INFINITE, 1)
 			.enchant(Enchantment.ARROW_FIRE, 1)
@@ -97,17 +102,13 @@ public class MissileRacer extends Game<MissileRacerMap> {
 			player.getInventory().addItem(MISSILE_SPAWNER);
 			player.getInventory().addItem(BOW);
 			player.getInventory().addItem(ARROW);
-			player.giveInfiniteEffect(PotionEffectType.HEALTH_BOOST, 4);
+			player.giveEffect(HEALTH_BOOST);
 			player.heal();
 		}
 	}
 
 	@Override
-	public void onStart() {
-		for (final MPlayer player : Minigames.getOnlinePlayers()) {
-			player.setDisableDamage(false);
-		}
-	}
+	public void onStart() {}
 
 	@Override
 	public int gameTimer(final int secondsLeft) {
@@ -179,6 +180,13 @@ public class MissileRacer extends Game<MissileRacerMap> {
 	}
 
 	@EventHandler
+	public void onDamage(MPlayerDamageEvent event) {
+		if (GameState.currentGameIsRunning()) {
+			event.setCancelled(false);
+		}
+	}
+
+	@EventHandler
 	public void onDeath(final PlayerDeathEvent event) {
 		event.setCancelled(true);
 		final MPlayer player = new MPlayer(event);
@@ -199,7 +207,7 @@ public class MissileRacer extends Game<MissileRacerMap> {
 	public void onPlayerJoin(final MPlayer player) {
 		player.teleport(this.map.getSpawnLocation());
 		player.getInventory().addItem(MISSILE_SPAWNER);
-		player.giveInfiniteEffect(PotionEffectType.HEALTH_BOOST, 4);
+		player.giveEffect(HEALTH_BOOST);
 		player.heal();
 	}
 

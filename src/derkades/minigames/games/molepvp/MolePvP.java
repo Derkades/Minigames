@@ -54,10 +54,7 @@ public class MolePvP extends RedBlueTeamGame<MolePvPMap> {
 
 	@Override
 	public void onStart() {
-		Minigames.getOnlinePlayers().forEach((player) -> {
-			MolePvP.this.giveItems(player);
-			player.setDisableDamage(false);
-		});
+		Minigames.getOnlinePlayers().forEach(MolePvP.this::giveItems);
 	}
 
 	@Override
@@ -94,16 +91,7 @@ public class MolePvP extends RedBlueTeamGame<MolePvPMap> {
 	public void onDamage(final MPlayerDamageEvent event) {
 		final MPlayer player = event.getPlayer();
 		MPlayer damager = event.getDamagerPlayer();
-
-		if (damager != null) {
-			if (this.getTeams().isTeamMember(damager, GameTeam.BLUE) && this.getTeams().isTeamMember(player, GameTeam.RED)) {
-				// blue attacks red -> allow
-			} else if (this.getTeams().isTeamMember(damager, GameTeam.RED) && this.getTeams().isTeamMember(player, GameTeam.BLUE)) {
-				// red attacks blue -> allow
-			} else {
-				event.setCancelled(true);
-			}
-		}
+		event.setCancelled(damager != null && this.getTeams().isInSameTeam(player, damager));
 	}
 
 	private void giveItems(final MPlayer player) {

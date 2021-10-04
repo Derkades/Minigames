@@ -5,6 +5,7 @@ import derkades.minigames.Minigames;
 import derkades.minigames.games.Game;
 import derkades.minigames.games.GameLabel;
 import derkades.minigames.utils.MPlayer;
+import derkades.minigames.utils.MPlayerDamageEvent;
 import derkades.minigames.utils.Scheduler;
 import derkades.minigames.utils.Utils;
 import derkades.minigames.utils.queue.TaskQueue;
@@ -108,8 +109,6 @@ public class GladeRoyale extends Game<GladeRoyaleMap> {
 		this.map.getWorld().getWorldBorder().setSize(this.currentBorderSize);
 
 		for (final MPlayer player : Minigames.getOnlinePlayers()) {
-			player.setDisableDamage(false);
-
 			player.setArmor(null, new ItemBuilder(Material.ELYTRA).name(ChatColor.YELLOW + "\"Parachute\"").create(), null, null);
 			player.giveItem(GladeRoyaleItems.TOOL);
 			player.giveItem(new ItemBuilder(GladeRoyaleItems.BLOCK).amount(32).create());
@@ -222,7 +221,12 @@ public class GladeRoyale extends Game<GladeRoyaleMap> {
 	}
 
 	@EventHandler
-	public void damage(final PlayerDeathEvent event) {
+	public void onDamage(MPlayerDamageEvent event) {
+		event.setCancelled(false);
+	}
+
+	@EventHandler
+	public void onDeath(final PlayerDeathEvent event) {
 		event.setCancelled(true);
 		MPlayer player = new MPlayer(event);
 		player.dieUp(5);

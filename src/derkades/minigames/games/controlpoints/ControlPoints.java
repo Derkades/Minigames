@@ -68,9 +68,7 @@ public class ControlPoints extends RedBlueTeamGame<ControlPointsMap> {
 			this.status.put(i, 0);
 		}
 
-		super.splitPlayers((player, team) -> {
-			player.queueTeleport(team == GameTeam.RED ? this.map.getRedSpawnLocation() : this.map.getBlueSpawnLocation());
-		});
+		super.splitPlayers((player, team) -> player.queueTeleport(team == GameTeam.RED ? this.map.getRedSpawnLocation() : this.map.getBlueSpawnLocation()));
 
 		for (final Location point : this.map.getControlPointLocations()) {
 			this.map.setControlPointStatus(point, ControlStatus.NEUTRAL);
@@ -91,7 +89,6 @@ public class ControlPoints extends RedBlueTeamGame<ControlPointsMap> {
 		Minigames.getOnlinePlayers().forEach(p -> {
 			this.barBlue.addPlayer(p.bukkit());
 			this.barRed.addPlayer(p.bukkit());
-			p.setDisableDamage(false);
 			giveGear(p);
 		});
 	}
@@ -216,6 +213,9 @@ public class ControlPoints extends RedBlueTeamGame<ControlPointsMap> {
 
 	@EventHandler
 	public void onDamage(MPlayerDamageEvent event) {
+		if (!GameState.currentGameIsRunning()) {
+			return;
+		}
 		// Disable damage to teammates
 		MPlayer damager = event.getDamagerPlayer();
 		event.setCancelled(damager != null && this.getTeams().isInSameTeam(event.getPlayer(), damager));
@@ -251,7 +251,6 @@ public class ControlPoints extends RedBlueTeamGame<ControlPointsMap> {
 			player.teleport(this.map.getWorld().getSpawnLocation());
 			player.spectator();
 		} else {
-			player.setDisableDamage(false);
 			giveGear(player);
 			player.teleport(team == GameTeam.RED ? this.map.getRedSpawnLocation() : this.map.getBlueSpawnLocation());
 		}

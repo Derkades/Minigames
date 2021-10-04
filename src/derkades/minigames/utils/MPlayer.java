@@ -99,18 +99,6 @@ public class MPlayer {
 		}
 	}
 
-	// TODO use events to enable damage in a game
-	@Deprecated
-	public void setDisableDamage(final boolean disableDamage) {
-		this.setMetadata("disable_damage", disableDamage);
-	}
-
-	// TODO use events to enable damage in a game
-	@Deprecated
-	public boolean hasDisabledDamage() {
-		return this.getMetadataBool("disable_damage", true);
-	}
-
 	public void setDisableHunger(final boolean disableHunger) {
 		this.setMetadata("disable_hunger", disableHunger);
 	}
@@ -331,7 +319,6 @@ public class MPlayer {
     	final Vector vec = new Vector(ThreadLocalRandom.current().nextDouble() - 0.5, 0.3, -0.8);
 		Scheduler.delay(1, () -> this.player.setVelocity(vec));
 
-		this.setDisableDamage(true);
 		this.setDisableHunger(true);
 		this.setDisableItemMoving(true);
 		this.disableSneakPrevention();

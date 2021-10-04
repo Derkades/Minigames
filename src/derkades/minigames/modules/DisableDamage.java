@@ -11,9 +11,7 @@ public class DisableDamage extends Module {
 
 	@EventHandler(priority = EventPriority.LOWEST)
 	public void damage(final EntityDamageEvent event) {
-		// TODO after removing disableDamage metadata, this condition can be removed and this event can always cancel
-		if (event.getEntityType() == EntityType.PLAYER &&
-				new MPlayer(event).hasDisabledDamage()) {
+		if (event.getEntityType() == EntityType.PLAYER) {
 			event.setCancelled(true);
 		}
 	}

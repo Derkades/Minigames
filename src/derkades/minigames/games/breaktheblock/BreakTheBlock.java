@@ -86,14 +86,12 @@ public class BreakTheBlock extends Game<BreakTheBlockMap> {
 	@Override
 	public void onStart() {
 		Minigames.getOnlinePlayers().forEach((player) -> {
-			player.setDisableDamage(false);
 //			player.enableSneakPrevention(p -> {
 //				p.clearInventory();
 //				p.teleport(this.map.getStartLocation());
 //				p.giveItem(PICKAXE);
 //			});
 			player.giveItem(PICKAXE);
-			player.giveEffect(PotionEffects.INFINITE_HIGH_DAMAGE_RESISTANCE);
 			player.giveEffect(INFINITE_SLOW_DIGGING);
 		});
 
@@ -127,7 +125,6 @@ public class BreakTheBlock extends Game<BreakTheBlockMap> {
 			player.teleport(this.map.getStartLocations()[0]);
 		}
 		player.giveItem(PICKAXE);
-		player.setDisableDamage(false);
 //		player.enableSneakPrevention(p -> {
 //			p.clearInventory();
 //			p.teleport(this.map.getStartLocation());
@@ -227,7 +224,6 @@ public class BreakTheBlock extends Game<BreakTheBlockMap> {
 			return;
 		}
 
-//		final Block blockBelow = event.getEntity().getLocation().getBlock().getRelative(BlockFace.DOWN);
 		event.setCancelled(!this.map.canTakeDamage(new MPlayer(event)));
 		event.setDamage(0);
 	}

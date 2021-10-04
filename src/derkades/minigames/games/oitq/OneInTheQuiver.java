@@ -1,5 +1,6 @@
 package derkades.minigames.games.oitq;
 
+import derkades.minigames.GameState;
 import derkades.minigames.Minigames;
 import derkades.minigames.games.Game;
 import derkades.minigames.games.GameLabel;
@@ -85,7 +86,6 @@ public class OneInTheQuiver extends Game<OITQMap> {
 	public void onStart() {
 		for (final MPlayer player : Minigames.getOnlinePlayers()) {
 			player.enableSneakPrevention(p -> p.bukkit().damage(1000));
-			player.setDisableDamage(false);
 			player.giveItem(SWORD, BOW, ARROW);
 		}
 	}
@@ -144,6 +144,7 @@ public class OneInTheQuiver extends Game<OITQMap> {
 
 	@EventHandler
 	public void onDamage(final MPlayerDamageEvent event) {
+		event.setCancelled(false);
 		MPlayer damager = event.getDamagerPlayer();
 
 		if (damager != null) {
@@ -170,7 +171,12 @@ public class OneInTheQuiver extends Game<OITQMap> {
 
 	@Override
 	public void onPlayerJoin(final MPlayer player) {
-		// TODO proper join handling
+		if (GameState.currentGameIsRunning()) {
+			player.queueTeleport(map.getSpawnLocation(), player::spectator);
+		} else {
+			player.giveEffect(INVISIBILITY);
+			player.queueTeleport(this.map.getSpawnLocation());
+		}
 	}
 
 	@Override

@@ -171,18 +171,12 @@ public class Command implements CommandExecutor {
 
 				}
 				case "list" -> new GamesListMenu((Player) sender);
-				case "damage" -> {
-					if (sender.hasPermission("minigames.debug")) {
-						new MPlayer((Player) sender).setDisableDamage(false);
-						sender.sendMessage("Set damageDisabled to false");
-					}
-				}
 				case "debug" -> {
 					if (sender.hasPermission("minigames.debug")) {
-					Logger.debugMode = !Logger.debugMode;
-					Minigames.getInstance().getConfig().set("debug_mode", Logger.debugMode);
-					Minigames.getInstance().saveConfig();
-					sender.sendMessage("Set debug mode to " + Logger.debugMode);
+						Logger.debugMode = !Logger.debugMode;
+						Minigames.getInstance().getConfig().set("debug_mode", Logger.debugMode);
+						Minigames.getInstance().saveConfig();
+						sender.sendMessage("Set debug mode to " + Logger.debugMode);
 					}
 				}
 				case "currentgame" -> {

@@ -4,6 +4,7 @@ import derkades.minigames.Minigames;
 import derkades.minigames.games.Game;
 import derkades.minigames.games.GameLabel;
 import derkades.minigames.utils.MPlayer;
+import derkades.minigames.utils.MPlayerDamageEvent;
 import derkades.minigames.utils.queue.TaskQueue;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -78,7 +79,6 @@ public class IcyBlowback extends Game<IcyBlowbackMap> {
 	@Override
 	public void onStart() {
 		for (final MPlayer player : Minigames.getOnlinePlayers()) {
-			player.setDisableDamage(false);
 			player.giveItem(SWORD);
 			player.giveEffect(SPEED);
 			player.placeCage(false);
@@ -120,8 +120,11 @@ public class IcyBlowback extends Game<IcyBlowbackMap> {
 	}
 
 	@EventHandler
-	public void onDamage(final EntityDamageByEntityEvent event) {
-		event.setDamage(0);
+	public void onDamage(final MPlayerDamageEvent event) {
+		if (event.getDamagerPlayer() == null) {
+			event.setCancelled(false);
+			event.setDamage(0);
+		}
 	}
 
 	@Override

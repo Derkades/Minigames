@@ -3,10 +3,7 @@ package derkades.minigames.games.hungergames;
 import derkades.minigames.Minigames;
 import derkades.minigames.games.Game;
 import derkades.minigames.games.GameLabel;
-import derkades.minigames.utils.MPlayer;
-import derkades.minigames.utils.Scheduler;
-import derkades.minigames.utils.Utils;
-import derkades.minigames.utils.Winners;
+import derkades.minigames.utils.*;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.WorldBorder;
@@ -49,11 +46,13 @@ public class HungerGames extends Game<HungerGamesMap> {
 
 	private List<UUID> all; // TODO don't use all list
 	private List<UUID> dead;
+	private boolean pvpEnabled;
 
 	@Override
 	public void onPreStart() {
 		this.all = Utils.getOnlinePlayersUuidList();
 		this.dead = new ArrayList<>();
+		this.pvpEnabled = false;
 
 		final Location[] spawnLocations = this.map.getStartLocations();
 		int index = 0;
@@ -98,9 +97,7 @@ public class HungerGames extends Game<HungerGamesMap> {
 		border.setSize(this.map.getMaxBorderSize(), 20);
 
 		Scheduler.delay(10*20, () -> {
-			for (final MPlayer player : Minigames.getOnlinePlayers()) {
-				player.setDisableDamage(false);
-			}
+			this.pvpEnabled = true;
 			sendPlainMessage("PvP enabled");
 		});
 	}
@@ -126,6 +123,11 @@ public class HungerGames extends Game<HungerGamesMap> {
 
 		this.dead = null;
 		this.all = null;
+	}
+
+	@EventHandler
+	public void onDamage(MPlayerDamageEvent event) {
+		event.setCancelled(!this.pvpEnabled);
 	}
 
 	@EventHandler

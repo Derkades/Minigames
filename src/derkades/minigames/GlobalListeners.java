@@ -42,7 +42,6 @@ public class GlobalListeners implements Listener {
 
 		player.clearInventory();
 
-		player.setDisableDamage(true);
 		player.setDisableHunger(true);
 		player.setDisableItemMoving(true);
 		player.disableSneakPrevention();

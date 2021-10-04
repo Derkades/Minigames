@@ -49,10 +49,7 @@ public class TeamsBowBattle extends RedBlueTeamGame<TeamsBowBattleMap> {
 
 	@Override
 	public void onStart() {
-		Minigames.getOnlinePlayers().forEach((player) -> {
-			TeamsBowBattle.this.giveItems(player);
-			player.setDisableDamage(false);
-		});
+		Minigames.getOnlinePlayers().forEach(this::giveItems);
 	}
 
 	@Override
@@ -82,6 +79,7 @@ public class TeamsBowBattle extends RedBlueTeamGame<TeamsBowBattleMap> {
 
 		if (damager == null) {
 			// don't modify non-player damage sources like fall damage
+			event.setCancelled(false);
 			return;
 		}
 
@@ -92,21 +90,7 @@ public class TeamsBowBattle extends RedBlueTeamGame<TeamsBowBattleMap> {
 		}
 
 		MPlayer player = event.getPlayer();
-
-		if (this.getTeams().isTeamMember(damager, GameTeam.BLUE) && this.getTeams().isTeamMember(player, GameTeam.RED)) {
-			// blue attacks red -> allow
-		} else if (this.getTeams().isTeamMember(damager, GameTeam.RED) && this.getTeams().isTeamMember(player, GameTeam.BLUE)) {
-			// red attacks blue -> allow
-		} else {
-			/*
-			 * block in other situations, such as
-			 * red attacks red
-			 * blue attacks blue
-			 * spectator attacks red/blue
-			 * red/blue attacks spectator
-			 */
-			event.setCancelled(true);
-		}
+		event.setCancelled(this.getTeams().isInSameTeam(player, damager));
 	}
 
 	@EventHandler

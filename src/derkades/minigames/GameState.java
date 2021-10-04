@@ -40,6 +40,9 @@ public enum GameState {
 		return this.inGame;
 	}
 
+	/**
+	 * @return True if players are physically in a game world, and the game is running (past the prestart phase)
+	 */
 	public boolean gameIsRunning() {
 		return this.running;
 	}
@@ -79,6 +82,10 @@ public enum GameState {
 
 	public static boolean isCurrentlyInGame() {
 		return CURRENT_STATE.isInGame();
+	}
+
+	public static boolean currentGameIsRunning() {
+		return CURRENT_STATE.gameIsRunning();
 	}
 
 	public static boolean currentlyHasGame() {

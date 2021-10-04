@@ -4,6 +4,7 @@ import derkades.minigames.Minigames;
 import derkades.minigames.games.Game;
 import derkades.minigames.games.GameLabel;
 import derkades.minigames.utils.MPlayer;
+import derkades.minigames.utils.MPlayerDamageEvent;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.md_5.bungee.api.ChatColor;
@@ -15,9 +16,7 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Creeper;
-import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.inventory.ItemStack;
 import xyz.derkades.derkutils.ListUtils;
@@ -70,7 +69,6 @@ public class CreeperAttack extends Game<CreeperAttackMap> {
 		Minigames.getOnlinePlayers().forEach((player) -> {
 			this.alive.add(player.getUniqueId());
 			player.giveItem(knockbackStick);
-			player.setDisableDamage(false);
 			player.queueTeleport(this.map.getSpawnLocation());
 		});
 	}
@@ -138,9 +136,11 @@ public class CreeperAttack extends Game<CreeperAttackMap> {
 	}
 
 	@EventHandler
-	public void onAttack(final EntityDamageByEntityEvent event) {
-		if (event.getEntity().getType() == EntityType.PLAYER && event.getDamager().getType() != EntityType.CREEPER) {
-			event.setCancelled(true);
+	public void onDamage(MPlayerDamageEvent event) {
+		event.setCancelled(false);
+		// allow pvp but disable damage
+		if (event.getDamagerPlayer() != null) {
+			event.setDamage(0);
 		}
 	}
 

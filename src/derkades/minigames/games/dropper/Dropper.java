@@ -57,7 +57,6 @@ public class Dropper extends Game<DropperMap> {
 
 	@Override
 	public void onStart() {
-		Minigames.getOnlinePlayers().forEach((p) -> p.setDisableDamage(false));
 		Dropper.this.map.openDoor();
 	}
 
@@ -103,8 +102,8 @@ public class Dropper extends Game<DropperMap> {
 
 	@EventHandler
 	public void onDamage(MPlayerDamageEvent event) {
-		Entity damager = event.getDirectDamagerEntity();
-		event.setCancelled(damager != null && damager.getType() == EntityType.PLAYER);
+		// disable pvp, allow other damage
+		event.setCancelled(event.getDamagerPlayer() != null);
 	}
 
 	@EventHandler
@@ -122,10 +121,8 @@ public class Dropper extends Game<DropperMap> {
 
 		if (this.finished.contains(player.getUniqueId())) {
 			player.setGameMode(GameMode.SPECTATOR);
-
 		} else {
 			player.hideForEveryoneElse();
-			player.setDisableDamage(false);
 		}
 	}
 

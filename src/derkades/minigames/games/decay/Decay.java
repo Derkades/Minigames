@@ -5,6 +5,7 @@ import derkades.minigames.Minigames;
 import derkades.minigames.games.Game;
 import derkades.minigames.games.GameLabel;
 import derkades.minigames.utils.MPlayer;
+import derkades.minigames.utils.MPlayerDamageEvent;
 import derkades.minigames.utils.Scheduler;
 import derkades.minigames.utils.Utils;
 import net.kyori.adventure.text.Component;
@@ -70,9 +71,7 @@ public class Decay extends Game<DecayMap> {
 	}
 
 	@Override
-	public void onStart() {
-		Minigames.getOnlinePlayers().forEach(p-> p.setDisableDamage(false));
-	}
+	public void onStart() {}
 
 	public void decayBlock() {
 		final Location location = ListUtils.choice(this.blocks);
@@ -157,8 +156,9 @@ public class Decay extends Game<DecayMap> {
 	}
 
 	@EventHandler
-	public void onDamage(EntityDamageByEntityEvent event) {
-		if (event.getEntity().getType() == EntityType.PLAYER){
+	public void onDamage(MPlayerDamageEvent event) {
+		if (GameState.currentGameIsRunning()) {
+			event.setCancelled(false);
 			event.setDamage(0);
 		}
 	}
