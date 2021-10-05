@@ -92,7 +92,7 @@ public class Harvest extends Game<@NotNull HarvestMap> {
 
 	@Override
 	public void onStart() {
-		this.leaderboard = new Leaderboard();
+		this.leaderboard = Leaderboard.createLeaderboard();
 		Minigames.getOnlinePlayers().forEach(this::giveItems);
 	}
 
