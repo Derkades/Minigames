@@ -12,6 +12,10 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.scoreboard.DisplaySlot;
+import org.bukkit.scoreboard.Objective;
+import org.bukkit.scoreboard.Scoreboard;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import xyz.derkades.derkutils.bukkit.sidebar2.ComponentSidebar;
@@ -35,6 +39,11 @@ public class Leaderboard implements Listener {
 	private final Map<UUID, Integer> points;
 	@Nullable
 	private Map<UUID, Integer> sortedCache = null;
+	private final Scoreboard scoreboard;
+	@Nullable
+	private String previousTimeLeftScoreName;
+	@NotNull
+	private final Objective[] objectives = new Objective[3];
 
 	private boolean unregistered = false;
 
@@ -51,6 +60,16 @@ public class Leaderboard implements Listener {
 		}
 
 		Bukkit.getPluginManager().registerEvents(this, Minigames.getInstance());
+	}
+
+	private Objective createObjective(DisplaySlot slot) {
+		Objective objective = this.scoreboard.registerNewObjective(
+				"leaderboard",
+				"dummy",
+				Component.text("Points", NamedTextColor.GRAY)
+		);
+		objective.setDisplaySlot(slot);
+		return objective;
 	}
 
 	@SuppressWarnings("null")
@@ -183,12 +202,6 @@ public class Leaderboard implements Listener {
 	}
 
 	public static Leaderboard createLeaderboard() {
-//		Cleaner cleaner = Cleaner.create();
-//		cleaner.register()
-//		Leaderboard leaderboard = new Leaderboard();
-//		WeakReference<Leaderboard> weak = new WeakReference<>(leaderboard);
-//		weak.get()
-//		LinkedList
 		Leaderboard leaderboard = new Leaderboard();
 		Cleaner cleaner = Cleaner.create();
 		cleaner.register(leaderboard, leaderboard::checkUnregister).clean();
