@@ -95,7 +95,7 @@ public class Harvest extends Game<@NotNull HarvestMap> {
 	@Override
 	public void onStart() {
 		Minigames.getOnlinePlayers().forEach(this::giveItems);
-		this.leaderboard.show();
+//		this.leaderboard.show();
 	}
 
 	private void tick(final Location loc) {
@@ -135,9 +135,9 @@ public class Harvest extends Game<@NotNull HarvestMap> {
 
 	@Override
 	public void onEnd() {
-		endGame(this.leaderboard.getWinnersPrintHide());
+		endGame(this.leaderboard.getWinnersAndUnregister());
 		this.blocks = null;
-		this.leaderboard.unregister();
+//		this.leaderboard.unregister();
 		this.leaderboard = null;
 	}
 

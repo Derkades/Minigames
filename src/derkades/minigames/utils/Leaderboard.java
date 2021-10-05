@@ -9,34 +9,38 @@ import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.serializer.ComponentSerializer;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
-import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.scoreboard.DisplaySlot;
+import org.bukkit.scoreboard.Objective;
+import org.bukkit.scoreboard.Scoreboard;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import xyz.derkades.derkutils.bukkit.sidebar.Sidebar;
-import xyz.derkades.derkutils.bukkit.sidebar.SidebarString;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class Leaderboard implements Listener, Unregisterable {
+public class Leaderboard implements Listener {
 
-	@NotNull
-	private final Sidebar sidebar;
+//	@NotNull
+//	private final Sidebar sidebar;
 	@NotNull
 	private final Map<UUID, Integer> points;
 	@Nullable
 	private Map<UUID, Integer> sortedCache = null;
+	private final Scoreboard scoreboard;
+	@Nullable
+	private String previousTimeLeftScoreName;
+	@NotNull
+	private final Objective[] objectives = new Objective[3];
 
 	private boolean unregistered = false;
 
@@ -48,14 +52,28 @@ public class Leaderboard implements Listener, Unregisterable {
 
 	public Leaderboard() {
 		this.points = new HashMap<>();
-		this.sidebar = new Sidebar(ChatColor.DARK_AQUA + "" + ChatColor.DARK_AQUA + "Score",
-				Minigames.getInstance(), Integer.MAX_VALUE, new SidebarString("Loading..."));
+//		this.sidebar = new Sidebar(ChatColor.DARK_AQUA + "" + ChatColor.DARK_AQUA + "Score",
+//				Minigames.getInstance(), Integer.MAX_VALUE, new SidebarString("Loading..."));
+		this.scoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
+		this.objectives[0] = this.createObjective(DisplaySlot.SIDEBAR);
+		this.objectives[1] = this.createObjective(DisplaySlot.BELOW_NAME);
+		this.objectives[2] = this.createObjective(DisplaySlot.PLAYER_LIST);
 
 		for (final MPlayer player : Minigames.getOnlinePlayers()) {
 			setScore(player, 0);
 		}
 
 		Bukkit.getPluginManager().registerEvents(this, Minigames.getInstance());
+	}
+
+	private Objective createObjective(DisplaySlot slot) {
+		Objective objective = this.scoreboard.registerNewObjective(
+				"leaderboard",
+				"dummy",
+				Component.text("Points", NamedTextColor.GRAY)
+		);
+		objective.setDisplaySlot(slot);
+		return objective;
 	}
 
 	@SuppressWarnings("null")
@@ -69,47 +87,71 @@ public class Leaderboard implements Listener, Unregisterable {
 		return cache;
 	}
 
-	@NotNull
-	private Component leaderboardEntry(final Player player, final int points) {
+//	@NotNull
+//	private String leaderboardEntry(final Player player, final int points) {
 //		return player.displayName().append(Component.text(": ", NamedTextColor.GRAY)).append(Component.text(points, NamedTextColor.WHITE));
 		// TODO colors
-		return Component.text(player.getName()).append(Component.text(": ", NamedTextColor.GRAY)).append(Component.text(points, NamedTextColor.WHITE));
-	}
+//		return Component.text(player.getName()).append(Component.text(": ", NamedTextColor.GRAY)).append(Component.text(points, NamedTextColor.WHITE));
+//		return player.getName() + ": " +
+//	}
 
 	public void update(final int secondsLeft) {
-		final List<SidebarString> sidebarStrings = new ArrayList<>();
+//		final List<SidebarString> sidebarStrings = new ArrayList<>();
 
-		getSorted().forEach((uuid, points) -> {
-			final Player player = Bukkit.getPlayer(uuid);
-			if (player == null) {
-				return;
+//		getSorted().forEach((uuid, points) -> {
+//			final Player player = Bukkit.getPlayer(uuid);
+//			if (player == null) {
+//				return;
+//			}
+//
+//			final Component c = leaderboardEntry(player, points);
+//			sidebarStrings.add(new SidebarString(COMPONENT_SERIALIZER.serialize(c)));
+//		});
+
+		for (Objective obj : objectives) {
+			if (previousTimeLeftScoreName != null) {
+				this.scoreboard.resetScores(previousTimeLeftScoreName);
 			}
+			String timeLeft = "Time left: " + secondsLeft + " seconds";
+			obj.getScore(timeLeft).setScore(-1);
+			this.previousTimeLeftScoreName = timeLeft;
 
-			final Component c = leaderboardEntry(player, points);
-			sidebarStrings.add(new SidebarString(COMPONENT_SERIALIZER.serialize(c)));
-		});
+			for (Player player : Bukkit.getOnlinePlayers()) {
+				if (!points.containsKey(player.getUniqueId())) {
+					// player left since the game has started, their score doesn't need to be updated
+					continue;
+				}
+				obj.getScore(player.getName()).setScore(points.get(player.getUniqueId()));
+			}
+		}
 
-		this.sidebar.setEntries(sidebarStrings);
-		this.sidebar.addEmpty().addEntry(new SidebarString(ChatColor.GRAY + "Time left: " + secondsLeft + " seconds."));
-		this.sidebar.update();
+		for (Player player : Bukkit.getOnlinePlayers()) {
+			player.setScoreboard(this.scoreboard);
+		}
+
+//		this.sidebar.setEntries(sidebarStrings);
+//		this.sidebar.addEmpty().addEntry(new SidebarString(ChatColor.GRAY + "Time left: " + secondsLeft + " seconds."));
+//		this.sidebar.update();
 	}
 
-	public void show() {
-		Bukkit.getOnlinePlayers().forEach(this.sidebar::showTo);
-	}
+//	public void show() {
+//		Bukkit.getOnlinePlayers().forEach(this.sidebar::showTo);
+//	}
 
-	public void showTo(final MPlayer player) {
-		this.sidebar.showTo(player.bukkit());
-	}
+//	public void showTo(final MPlayer player) {
+//		this.sidebar.showTo(player.bukkit());
+//		player.bukkit().setScoreboard(this.scoreboard);
+//	}
 
-	public void hide() {
-		Bukkit.getOnlinePlayers().forEach(this.sidebar::hideFrom);
-	}
+//	public void hide() {
+//		Bukkit.getOnlinePlayers().forEach(this.sidebar::hideFrom);
+//	}
 
 	public int getScore(final MPlayer player) {
 		return this.points.getOrDefault(player.getUniqueId(), 0);
 	}
 
+	@Deprecated
 	public boolean hasScore(final MPlayer player) {
 		return this.points.containsKey(player.getUniqueId());
 	}
@@ -133,28 +175,9 @@ public class Leaderboard implements Listener, Unregisterable {
 		return getAndIncrementScore(player) + 1;
 	}
 
+	@Deprecated
 	public Set<UUID> getWinners() {
 		return Winners.fromPointsMap(this.points);
-	}
-
-	public Set<UUID> getWinnersPrintHide() {
-		this.hide();
-		final AtomicInteger i = new AtomicInteger();
-		getSorted().forEach((uuid, points) -> {
-			// Only list top 3 players
-			if (i.getAndIncrement() > 2) {
-				return;
-			}
-
-			final Player player = Bukkit.getPlayer(uuid);
-			if (player == null) {
-				return;
-			}
-
-			Bukkit.broadcast(leaderboardEntry(player, points));
-		});
-
-		return getWinners();
 	}
 
 	@EventHandler
@@ -173,10 +196,37 @@ public class Leaderboard implements Listener, Unregisterable {
 		}
 	}
 
-	@Override
-	public void unregister() {
-		HandlerList.unregisterAll(this);
+	@EventHandler
+	public void onJoin(PlayerJoinEvent event) {
+		Player player = event.getPlayer();
+		// Display scoreboard to players who join mid-game
+		player.setScoreboard(this.scoreboard);
+		this.points.putIfAbsent(player.getUniqueId(), 0);
+	}
+
+	public Set<UUID> getWinnersAndUnregister() {
 		this.unregistered = true;
+		HandlerList.unregisterAll(this);
+		for (Player player : Bukkit.getOnlinePlayers()) {
+			player.setScoreboard(Bukkit.getScoreboardManager().getMainScoreboard());
+		}
+
+		final AtomicInteger i = new AtomicInteger();
+		getSorted().forEach((uuid, points) -> {
+			// Only list top 3 players
+			if (i.getAndIncrement() > 2) {
+				return;
+			}
+
+			final Player player = Bukkit.getPlayer(uuid);
+			if (player == null) {
+				return;
+			}
+
+			Bukkit.broadcast(Component.text(player.getName() + ": " + points));
+		});
+
+		return getWinners();
 	}
 
 	@Override

@@ -86,7 +86,6 @@ public class BuildCopy extends Game<BuildCopyMap> {
 	public void onPreStart() {
 		this.positions = new HashMap<>();
 		this.currentPatterns = new HashMap<>();
-		this.leaderboard = new Leaderboard();
 
 		for (int i = 0; i < this.map.getSupportedPlayerCount(); i++) {
 			this.map.clearCopy(i);
@@ -118,7 +117,8 @@ public class BuildCopy extends Game<BuildCopyMap> {
 
 	@Override
 	public void onStart() {
-		this.leaderboard.show();
+//		this.leaderboard.show();
+		this.leaderboard = new Leaderboard();
 
 		for (final MPlayer player : Minigames.getOnlinePlayers()) {
 			giveItems(player);
@@ -138,7 +138,7 @@ public class BuildCopy extends Game<BuildCopyMap> {
 
 	@Override
 	public void onEnd() {
-		endGame(this.leaderboard.getWinnersPrintHide());
+		endGame(this.leaderboard.getWinnersAndUnregister());
 		this.positions = null;
 		this.currentPatterns = null;
 		this.leaderboard = null;
