@@ -19,6 +19,7 @@ import derkades.minigames.utils.Utils;
 import derkades.minigames.utils.queue.TaskQueue;
 import derkades.minigames.worlds.GameWorld;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import net.md_5.bungee.api.ChatColor;
 import nl.rkslot.pluginreloader.PluginReloader;
 import org.bukkit.Bukkit;
@@ -41,6 +42,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
 import xyz.derkades.derkutils.Hastebin;
+import xyz.derkades.derkutils.bukkit.sidebar2.ComponentSidebar;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -438,6 +440,19 @@ public class Command implements CommandExecutor {
 
 						}
 					}.runTaskTimer(Minigames.getInstance(), 0, 10);
+				}
+				case "sidebar" -> {
+					ComponentSidebar sidebar = new ComponentSidebar(Component.text("Sidebar title", NamedTextColor.LIGHT_PURPLE));
+					sidebar.addEntry(Component.text("Test test 123", NamedTextColor.YELLOW));
+					sidebar.addEntry(Component.text("Test test 456", NamedTextColor.BLUE));
+					sidebar.showTo((Player) sender);
+					Scheduler.delay(5*20, () -> {
+						sidebar.setEntry(0, Component.text("Test test 789", NamedTextColor.GREEN));
+					});
+					Scheduler.delay(10*20, () -> {
+						sidebar.clearEntries();
+						sidebar.addEntry(Component.text("emptied", NamedTextColor.GRAY));
+					});
 				}
 			}
 		}

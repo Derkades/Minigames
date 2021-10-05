@@ -73,8 +73,6 @@ public class DigDug extends Game<DigDugMap> {
 
 	@Override
 	public void onPreStart() {
-		this.leaderboard = new Leaderboard();
-
 		fillArena();
 
 		for (final MPlayer player : Minigames.getOnlinePlayers()) {
@@ -84,7 +82,7 @@ public class DigDug extends Game<DigDugMap> {
 
 	@Override
 	public void onStart() {
-		this.leaderboard.show();
+		this.leaderboard = new Leaderboard();
 
 		final ItemStack shovel = new PaperItemBuilder(Material.DIAMOND_SHOVEL)
 				.name(ChatColor.GREEN + "The Dig Dug Digger")
@@ -118,7 +116,7 @@ public class DigDug extends Game<DigDugMap> {
 
 	@Override
 	public void onEnd() {
-		DigDug.this.endGame(this.leaderboard.getWinnersPrintHide());
+		DigDug.this.endGame(this.leaderboard.getWinnersAndUnregister());
 		this.leaderboard = null;
 	}
 

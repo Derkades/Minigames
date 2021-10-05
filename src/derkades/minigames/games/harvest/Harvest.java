@@ -71,8 +71,6 @@ public class Harvest extends Game<@NotNull HarvestMap> {
 	public void onPreStart() {
 		this.blocks = this.map.getCropLocations();
 
-		this.leaderboard = new Leaderboard();
-
 		this.map.getWorld().setGameRule(GameRule.DO_TILE_DROPS, true);
 		this.map.getWorld().getEntitiesByClass(Item.class).forEach(Item::remove);
 
@@ -94,8 +92,8 @@ public class Harvest extends Game<@NotNull HarvestMap> {
 
 	@Override
 	public void onStart() {
+		this.leaderboard = new Leaderboard();
 		Minigames.getOnlinePlayers().forEach(this::giveItems);
-		this.leaderboard.show();
 	}
 
 	private void tick(final Location loc) {
@@ -135,9 +133,8 @@ public class Harvest extends Game<@NotNull HarvestMap> {
 
 	@Override
 	public void onEnd() {
-		endGame(this.leaderboard.getWinnersPrintHide());
+		endGame(this.leaderboard.getWinnersAndUnregister());
 		this.blocks = null;
-		this.leaderboard.unregister();
 		this.leaderboard = null;
 	}
 

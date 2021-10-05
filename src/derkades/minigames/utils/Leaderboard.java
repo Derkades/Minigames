@@ -5,34 +5,32 @@ import derkades.minigames.Logger;
 import derkades.minigames.Minigames;
 import derkades.minigames.utils.event.GameResultSaveEvent;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.NamedTextColor;
-import net.kyori.adventure.text.serializer.ComponentSerializer;
-import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
-import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import xyz.derkades.derkutils.bukkit.sidebar.Sidebar;
-import xyz.derkades.derkutils.bukkit.sidebar.SidebarString;
+import xyz.derkades.derkutils.bukkit.sidebar2.ComponentSidebar;
 
 import java.io.IOException;
-import java.util.ArrayList;
+import java.lang.ref.Cleaner;
 import java.util.HashMap;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
-import java.util.concurrent.atomic.AtomicInteger;
 
-public class Leaderboard implements Listener, Unregisterable {
+import static net.kyori.adventure.text.Component.empty;
+import static net.kyori.adventure.text.Component.text;
+
+public class Leaderboard implements Listener {
 
 	@NotNull
-	private final Sidebar sidebar;
+	private final ComponentSidebar sidebar;
 	@NotNull
 	private final Map<UUID, Integer> points;
 	@Nullable
@@ -40,19 +38,16 @@ public class Leaderboard implements Listener, Unregisterable {
 
 	private boolean unregistered = false;
 
-	private static final ComponentSerializer<Component, TextComponent, String> COMPONENT_SERIALIZER = LegacyComponentSerializer.builder()
-			.character(LegacyComponentSerializer.SECTION_CHAR)
-//			.hexColors()
-//			.useUnusualXRepeatedCharacterHexFormat()
-			.build();
-
-	public Leaderboard() {
+	private Leaderboard() {
 		this.points = new HashMap<>();
-		this.sidebar = new Sidebar(ChatColor.DARK_AQUA + "" + ChatColor.DARK_AQUA + "Score",
-				Minigames.getInstance(), Integer.MAX_VALUE, new SidebarString("Loading..."));
+		this.sidebar = new ComponentSidebar(text("Scores", NamedTextColor.GRAY));
+		this.sidebar.addEntry(text("Game starting soon", NamedTextColor.GRAY));
+		this.sidebar.addEntry(empty());
 
-		for (final MPlayer player : Minigames.getOnlinePlayers()) {
-			setScore(player, 0);
+		for (final Player player : Bukkit.getOnlinePlayers()) {
+			UUID uuid = player.getUniqueId();
+			this.points.put(uuid, 0);
+			this.sidebar.addEntry(leaderboardEntry(uuid, 0));
 		}
 
 		Bukkit.getPluginManager().registerEvents(this, Minigames.getInstance());
@@ -70,58 +65,48 @@ public class Leaderboard implements Listener, Unregisterable {
 	}
 
 	@NotNull
-	private Component leaderboardEntry(final Player player, final int points) {
-//		return player.displayName().append(Component.text(": ", NamedTextColor.GRAY)).append(Component.text(points, NamedTextColor.WHITE));
-		// TODO colors
-		return Component.text(player.getName()).append(Component.text(": ", NamedTextColor.GRAY)).append(Component.text(points, NamedTextColor.WHITE));
+	private Component leaderboardEntry(final UUID uuid, final int points) {
+		Component displayName;
+		Player player = Bukkit.getPlayer(uuid);
+		if (player == null) {
+			OfflinePlayer offline = Bukkit.getOfflinePlayer(uuid);
+			String name = offline.getName();
+			displayName = name == null ? text("<unknown name?>") : text(name, NamedTextColor.GRAY);
+		} else {
+			displayName = player.displayName();
+		}
+		return displayName.append(text(": ", NamedTextColor.GRAY)).append(text(points, NamedTextColor.WHITE));
 	}
 
 	public void update(final int secondsLeft) {
-		final List<SidebarString> sidebarStrings = new ArrayList<>();
+		this.sidebar.setEntry(0, text("Time left: " + secondsLeft + " seconds.", NamedTextColor.GRAY));
 
-		getSorted().forEach((uuid, points) -> {
-			final Player player = Bukkit.getPlayer(uuid);
-			if (player == null) {
-				return;
-			}
-
-			final Component c = leaderboardEntry(player, points);
-			sidebarStrings.add(new SidebarString(COMPONENT_SERIALIZER.serialize(c)));
-		});
-
-		this.sidebar.setEntries(sidebarStrings);
-		this.sidebar.addEmpty().addEntry(new SidebarString(ChatColor.GRAY + "Time left: " + secondsLeft + " seconds."));
-		this.sidebar.update();
+		int i = 2;
+		for (Map.Entry<UUID, Integer> entry : this.getSorted().entrySet()) {
+			this.sidebar.setEntry(i++, leaderboardEntry(entry.getKey(), entry.getValue()));
+		}
 	}
 
-	public void show() {
-		Bukkit.getOnlinePlayers().forEach(this.sidebar::showTo);
-	}
-
-	public void showTo(final MPlayer player) {
-		this.sidebar.showTo(player.bukkit());
-	}
-
-	public void hide() {
-		Bukkit.getOnlinePlayers().forEach(this.sidebar::hideFrom);
-	}
+//	public void showTo(final MPlayer player) {
+//		this.sidebar.showTo(player.bukkit());
+//	}
 
 	public int getScore(final MPlayer player) {
 		return this.points.getOrDefault(player.getUniqueId(), 0);
 	}
 
-	public boolean hasScore(final MPlayer player) {
-		return this.points.containsKey(player.getUniqueId());
-	}
+//	public boolean hasScore(final MPlayer player) {
+//		return this.points.containsKey(player.getUniqueId());
+//	}
 
 	public void setScore(final MPlayer player, final int newScore) {
 		this.points.put(player.getUniqueId(), newScore);
 		this.sortedCache = null;
 	}
 
-	public void incrementScore(final MPlayer player) {
-		setScore(player, getScore(player) + 1);
-	}
+//	public void incrementScore(final MPlayer player) {
+//		setScore(player, getScore(player) + 1);
+//	}
 
 	public int getAndIncrementScore(final MPlayer player) {
 		final int previousScore = getScore(player);
@@ -133,28 +118,39 @@ public class Leaderboard implements Listener, Unregisterable {
 		return getAndIncrementScore(player) + 1;
 	}
 
-	public Set<UUID> getWinners() {
-		return Winners.fromPointsMap(this.points);
-	}
-
-	public Set<UUID> getWinnersPrintHide() {
-		this.hide();
-		final AtomicInteger i = new AtomicInteger();
-		getSorted().forEach((uuid, points) -> {
-			// Only list top 3 players
-			if (i.getAndIncrement() > 2) {
-				return;
+	public Set<UUID> getWinnersAndUnregister() {
+//		this.hide();
+		Set<UUID> winners = new HashSet<>(1); // probably only one winner
+		int highestScore = 0;
+		int i = 0;
+		for (Map.Entry<UUID, Integer> entry : getSorted().entrySet()) {
+			UUID uuid = entry.getKey();
+			int points = entry.getValue();
+			if (i == 0) {
+				highestScore = points;
+				winners.add(uuid);
+			} else {
+				if (points == highestScore) {
+					winners.add(uuid);
+				}
 			}
 
-			final Player player = Bukkit.getPlayer(uuid);
-			if (player == null) {
-				return;
+			// Print top 5 to chat
+			Bukkit.broadcast(leaderboardEntry(uuid, points));
+
+			if (++i > 4) {
+				break;
 			}
+		}
 
-			Bukkit.broadcast(leaderboardEntry(player, points));
-		});
+		for (Player player : Bukkit.getOnlinePlayers()) {
+			this.sidebar.hideFrom(player);
+		}
 
-		return getWinners();
+		HandlerList.unregisterAll(this);
+		// TODO testing
+//		this.unregistered = true;
+		return winners;
 	}
 
 	@EventHandler
@@ -173,16 +169,30 @@ public class Leaderboard implements Listener, Unregisterable {
 		}
 	}
 
-	@Override
-	public void unregister() {
-		HandlerList.unregisterAll(this);
-		this.unregistered = true;
-	}
+//	@Override
+//	protected void finalize() {
+//		if (!this.unregistered) {
+//			Logger.warning("Leaderboard was not unregistered before garbage collection!");
+//		}
+//	}
 
-	@Override
-	protected void finalize() {
+	public void checkUnregister() {
 		if (!this.unregistered) {
 			Logger.warning("Leaderboard was not unregistered before garbage collection!");
 		}
 	}
+
+	public static Leaderboard createLeaderboard() {
+//		Cleaner cleaner = Cleaner.create();
+//		cleaner.register()
+//		Leaderboard leaderboard = new Leaderboard();
+//		WeakReference<Leaderboard> weak = new WeakReference<>(leaderboard);
+//		weak.get()
+//		LinkedList
+		Leaderboard leaderboard = new Leaderboard();
+		Cleaner cleaner = Cleaner.create();
+		cleaner.register(leaderboard, leaderboard::checkUnregister).clean();
+		return leaderboard;
+	}
+
 }
