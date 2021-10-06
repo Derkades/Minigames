@@ -7,7 +7,6 @@ import derkades.minigames.games.GameTeam;
 import derkades.minigames.games.RedBlueTeamGame;
 import derkades.minigames.utils.MPlayer;
 import derkades.minigames.utils.MPlayerDamageEvent;
-import derkades.minigames.utils.PaperItemBuilder;
 import derkades.minigames.utils.Utils;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -15,6 +14,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.inventory.ItemStack;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
+import xyz.derkades.derkutils.bukkit.PaperItemBuilder;
 
 import java.util.EnumSet;
 import java.util.HashSet;

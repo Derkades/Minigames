@@ -5,7 +5,6 @@ import derkades.minigames.games.Game;
 import derkades.minigames.games.GameLabel;
 import derkades.minigames.utils.Leaderboard;
 import derkades.minigames.utils.MPlayer;
-import derkades.minigames.utils.PaperItemBuilder;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.md_5.bungee.api.ChatColor;

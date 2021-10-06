@@ -5,10 +5,10 @@ import derkades.minigames.games.Game;
 import derkades.minigames.games.GameLabel;
 import derkades.minigames.games.GameMap;
 import derkades.minigames.games.Games;
-import derkades.minigames.utils.PaperItemBuilder;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
 import xyz.derkades.derkutils.NumberUtils;
+import xyz.derkades.derkutils.bukkit.PaperItemBuilder;
 import xyz.derkades.derkutils.bukkit.menu.IconMenu;
 import xyz.derkades.derkutils.bukkit.menu.OptionClickEvent;
 

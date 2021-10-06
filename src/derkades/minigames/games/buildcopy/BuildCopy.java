@@ -6,7 +6,6 @@ import derkades.minigames.games.Game;
 import derkades.minigames.games.GameLabel;
 import derkades.minigames.utils.Leaderboard;
 import derkades.minigames.utils.MPlayer;
-import derkades.minigames.utils.PaperItemBuilder;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Color;
@@ -21,12 +20,9 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.FireworkMeta;
 import xyz.derkades.derkutils.ListUtils;
+import xyz.derkades.derkutils.bukkit.PaperItemBuilder;
 
-import java.util.EnumSet;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 public class BuildCopy extends Game<BuildCopyMap> {
 

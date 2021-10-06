@@ -2,10 +2,10 @@ package derkades.minigames.menu;
 
 import derkades.minigames.Minigames;
 import derkades.minigames.utils.MPlayer;
-import derkades.minigames.utils.PaperItemBuilder;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import xyz.derkades.derkutils.bukkit.PaperItemBuilder;
 import xyz.derkades.derkutils.bukkit.menu.IconMenu;
 import xyz.derkades.derkutils.bukkit.menu.OptionClickEvent;
 

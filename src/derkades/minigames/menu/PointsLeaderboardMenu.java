@@ -1,24 +1,23 @@
 package derkades.minigames.menu;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.UUID;
-
+import derkades.minigames.Minigames;
+import derkades.minigames.utils.Scheduler;
+import derkades.minigames.utils.Utils;
+import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-
-import derkades.minigames.Minigames;
-import derkades.minigames.utils.PaperItemBuilder;
-import derkades.minigames.utils.Scheduler;
-import derkades.minigames.utils.Utils;
-import net.md_5.bungee.api.ChatColor;
 import xyz.derkades.derkutils.bukkit.HeadTextures;
+import xyz.derkades.derkutils.bukkit.PaperItemBuilder;
 import xyz.derkades.derkutils.bukkit.menu.IconMenu;
 import xyz.derkades.derkutils.bukkit.menu.OptionClickEvent;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.UUID;
 
 public class PointsLeaderboardMenu extends IconMenu {
 

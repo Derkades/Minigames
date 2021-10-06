@@ -1,10 +1,10 @@
 package derkades.minigames.games.gladeroyale;
 
-import derkades.minigames.utils.PaperItemBuilder;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
+import xyz.derkades.derkutils.bukkit.PaperItemBuilder;
 import xyz.derkades.derkutils.bukkit.lootchests.LootItem;
 
 class GladeRoyaleItems {

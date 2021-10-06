@@ -4,7 +4,6 @@ import derkades.minigames.GameState;
 import derkades.minigames.games.Game;
 import derkades.minigames.games.GameLabel;
 import derkades.minigames.utils.MPlayer;
-import derkades.minigames.utils.PaperItemBuilder;
 import derkades.minigames.utils.Scheduler;
 import derkades.minigames.utils.Utils;
 import net.kyori.adventure.text.Component;
@@ -23,6 +22,7 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
+import xyz.derkades.derkutils.bukkit.PaperItemBuilder;
 
 import java.util.EnumSet;
 import java.util.Set;
