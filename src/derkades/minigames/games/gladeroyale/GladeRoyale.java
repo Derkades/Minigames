@@ -9,9 +9,7 @@ import derkades.minigames.utils.MPlayerDamageEvent;
 import derkades.minigames.utils.Scheduler;
 import derkades.minigames.utils.Utils;
 import derkades.minigames.utils.queue.TaskQueue;
-import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
-import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -30,6 +28,9 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.atomic.AtomicInteger;
+
+import static net.kyori.adventure.text.Component.text;
+import static net.kyori.adventure.text.format.NamedTextColor.GOLD;
 
 public class GladeRoyale extends Game<GladeRoyaleMap> {
 
@@ -109,7 +110,7 @@ public class GladeRoyale extends Game<GladeRoyaleMap> {
 		this.map.getWorld().getWorldBorder().setSize(this.currentBorderSize);
 
 		for (final MPlayer player : Minigames.getOnlinePlayers()) {
-			player.setArmor(null, new ItemBuilder(Material.ELYTRA).name(ChatColor.YELLOW + "\"Parachute\"").create(), null, null);
+			player.setArmor(null, new ItemBuilder(Material.ELYTRA).name(text("\"Parachute\"", GOLD)).create(), null, null);
 			player.giveItem(GladeRoyaleItems.TOOL);
 			player.giveItem(new ItemBuilder(GladeRoyaleItems.BLOCK).amount(32).create());
 
@@ -119,7 +120,7 @@ public class GladeRoyale extends Game<GladeRoyaleMap> {
 			}
 			random.setY(this.map.getSpawnY());
 
-			player.sendTitle(Component.text("You're falling", NamedTextColor.RED), Component.text("Activate your elytra!", NamedTextColor.GRAY));
+			player.sendTitle(text("You're falling", NamedTextColor.RED), text("Activate your elytra!", NamedTextColor.GRAY));
 			player.queueTeleport(random);
 		}
 	}

@@ -6,7 +6,6 @@ import derkades.minigames.games.GameMap;
 import derkades.minigames.games.Games;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import xyz.derkades.derkutils.NumberUtils;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
 import xyz.derkades.derkutils.bukkit.menu.IconMenu;
 import xyz.derkades.derkutils.bukkit.menu.OptionClickEvent;
@@ -14,10 +13,12 @@ import xyz.derkades.derkutils.bukkit.menu.OptionClickEvent;
 import java.io.File;
 import java.util.Date;
 
+import static net.kyori.adventure.text.Component.text;
+
 public class StatsMenu extends IconMenu {
 
 	public StatsMenu(final Player player) {
-		super(Minigames.getInstance(), "Stats", 1, player);
+		super(Minigames.getInstance(), text("Stats"), 1, player);
 
 		Game<? extends GameMap> worstMapGame = null;
 		GameMap worstMap = null;
@@ -59,28 +60,28 @@ public class StatsMenu extends IconMenu {
 		}
 
 		addItem(0, new ItemBuilder(Material.GRAY_DYE)
-				.name("Best game")
-				.lore(bestGame.getName(), "Weight: " + NumberUtils.roundApprox(bestGame.getWeight(), 2))
+				.name(text("Best game"))
+				.lore(text(bestGame.getName()), text(String.format("Weight: %.2f", bestGame.getWeight())))
 				.create());
 
 		addItem(1, new ItemBuilder(Material.GRAY_DYE)
-				.name("Worst game")
-				.lore(worstGame.getName(), "Weight: " + NumberUtils.roundApprox(worstGame.getWeight(), 2))
+				.name(text("Worst game"))
+				.lore(text(worstGame.getName()), text(String.format("Weight: %.2f", worstGame.getWeight())))
 				.create());
 
 		addItem(2, new ItemBuilder(Material.GRAY_DYE)
-				.name("Best map")
-				.lore(bestMapGame.getName() + " - " + bestMap.getName(), "Weight: " + NumberUtils.roundApprox(bestMap.getWeight(), 2))
+				.name(text("Best map"))
+				.lore(text(bestMapGame.getName() + " - " + bestMap.getName()), text(String.format("Weight: %.2f", bestMap.getWeight())))
 				.create());
 
 		addItem(3, new ItemBuilder(Material.GRAY_DYE)
-				.name("Worst map")
-				.lore(worstMapGame.getName() + " - " + worstMap.getName(), "Weight: " + NumberUtils.roundApprox(worstMap.getWeight(), 2))
+				.name(text("Worst map"))
+				.lore(text(worstMapGame.getName() + " - " + worstMap.getName()), text(String.format("Weight: %.2f", worstMap.getWeight())))
 				.create());
 
 		addItem(4, new ItemBuilder(Material.GRAY_DYE)
-				.name("Last plugin update")
-				.lore(Minigames.PRETTY_TIME.format(new Date(new File(Minigames.getInstance().getDataFolder().getParentFile().getPath(), "Minigames.jar").lastModified())))
+				.name(text("Last plugin update"))
+				.lore(text(Minigames.PRETTY_TIME.format(new Date(new File(Minigames.getInstance().getDataFolder().getParentFile().getPath(), "Minigames.jar").lastModified()))))
 				.create()
 				);
 	}

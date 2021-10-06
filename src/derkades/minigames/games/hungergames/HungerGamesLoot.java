@@ -6,6 +6,10 @@ import org.bukkit.Material;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
 import xyz.derkades.derkutils.bukkit.lootchests.LootItem;
 
+import static net.kyori.adventure.text.Component.text;
+import static net.kyori.adventure.text.format.NamedTextColor.GOLD;
+import static net.kyori.adventure.text.format.NamedTextColor.GRAY;
+
 class HungerGamesLoot {
 
 	static final LootItem[] LOOT_1 = {
@@ -56,7 +60,7 @@ class HungerGamesLoot {
 			new LootItem(Material.IRON_LEGGINGS, 0.1f),
 			new LootItem(Material.IRON_CHESTPLATE, 0.1f),
 			new LootItem(Material.IRON_HELMET, 0.1f),
-			new LootItem(new ItemBuilder(Material.LEATHER_HELMET).leatherArmorColor(Color.FUCHSIA).name("Stylish Helmet").lore("Makes you look cool but die just as quickly.").create(), 0.05f),
+			new LootItem(new ItemBuilder(Material.LEATHER_HELMET).leatherArmorColor(Color.FUCHSIA).name(text("Stylish Helmet", GOLD)).lore(text("Makes you look cool but die just as quickly.", GRAY)).create(), 0.05f),
 	};
 
 }

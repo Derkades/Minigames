@@ -3,14 +3,14 @@ package derkades.minigames.menu;
 import derkades.minigames.Minigames;
 import derkades.minigames.utils.Scheduler;
 import derkades.minigames.utils.Utils;
-import net.md_5.bungee.api.ChatColor;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import xyz.derkades.derkutils.bukkit.HeadTextures;
-import xyz.derkades.derkutils.bukkit.PaperItemBuilder;
+import xyz.derkades.derkutils.bukkit.ItemBuilder;
 import xyz.derkades.derkutils.bukkit.menu.IconMenu;
 import xyz.derkades.derkutils.bukkit.menu.OptionClickEvent;
 
@@ -18,6 +18,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.UUID;
+
+import static net.kyori.adventure.text.Component.text;
 
 public class PointsLeaderboardMenu extends IconMenu {
 
@@ -28,7 +30,7 @@ public class PointsLeaderboardMenu extends IconMenu {
 	}
 
 	private PointsLeaderboardMenu(final Player player, final int page) {
-		super(Minigames.getInstance(), "Points leaderboard", 4, player);
+		super(Minigames.getInstance(), text("Points leaderboard"), 4, player);
 
 		this.page = page;
 
@@ -51,7 +53,12 @@ public class PointsLeaderboardMenu extends IconMenu {
 				final int finalPos = pos;
 				final int finalSlot = slot++;
 				final String texture = HeadTextures.getHeadTexture(e.getKey().getUniqueId()).get();
-				final ItemStack item = new PaperItemBuilder(Material.PLAYER_HEAD).skullTexture(texture).amount(finalPos + 1).name(ChatColor.GOLD + e.getKey().getName()).lore(ChatColor.GRAY + "Points: " + ChatColor.YELLOW + e.getValue()).create();
+				final ItemStack item = new ItemBuilder(Material.PLAYER_HEAD)
+						.skullTexture(texture)
+						.amount(finalPos + 1)
+						.name(text(e.getKey().getName(), NamedTextColor.GOLD))
+						.lore(text("Points: ", NamedTextColor.GRAY).append(text(e.getValue(), NamedTextColor.YELLOW)))
+						.create();
 				Scheduler.run(() -> this.addItem(finalSlot, item));
 			}
 

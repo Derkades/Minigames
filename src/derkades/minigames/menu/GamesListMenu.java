@@ -5,10 +5,11 @@ import derkades.minigames.games.Game;
 import derkades.minigames.games.GameLabel;
 import derkades.minigames.games.GameMap;
 import derkades.minigames.games.Games;
+import net.kyori.adventure.text.Component;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
 import xyz.derkades.derkutils.NumberUtils;
-import xyz.derkades.derkutils.bukkit.PaperItemBuilder;
+import xyz.derkades.derkutils.bukkit.ItemBuilder;
 import xyz.derkades.derkutils.bukkit.menu.IconMenu;
 import xyz.derkades.derkutils.bukkit.menu.OptionClickEvent;
 
@@ -16,58 +17,58 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.bukkit.ChatColor.*;
+import static net.kyori.adventure.text.Component.text;
+import static net.kyori.adventure.text.format.NamedTextColor.*;
 
 public class GamesListMenu extends IconMenu {
 
 	public GamesListMenu(final Player player) {
-		super(Minigames.getInstance(), "Games list", (int) (Math.ceil(Games.GAMES.length / 9f) + 1), player);
+		super(Minigames.getInstance(), Component.text("Games list"), (int) (Math.ceil(Games.GAMES.length / 9f) + 1), player);
 
 		int slot = 0;
 		for (final Game<? extends GameMap> game : Games.GAMES){
 
-			final List<String> lore = new ArrayList<>();
-			Arrays.stream(game.getDescription()).forEach(s -> lore.add(RESET + "" + WHITE + s));
+			final List<Component> lore = new ArrayList<>();
+			Arrays.stream(game.getDescription()).forEach(s -> lore.add(Component.text(s, WHITE)));
 
 			final double gameWeight = NumberUtils.roundApprox(game.getWeight(), 2);
 
-			lore.add(GOLD + "Multiplier: " + YELLOW + gameWeight);
-			lore.add(GOLD + "Minimum players: " + YELLOW + game.getRequiredPlayers());
+			lore.add(text("Multiplier: ", GOLD).append(text(gameWeight, YELLOW)));
+			lore.add(text("Minimum players: ", GOLD).append(text(game.getRequiredPlayers(), YELLOW)));
 
-			lore.add(GOLD + "Maps:");
+			lore.add(text("Maps:", GOLD));
 			for (final GameMap map : game.getGameMaps()) {
-				String disabled = map.isDisabled() ? RED + " (disabled)" : "";
-				lore.add("  " + YELLOW + map.getName() + disabled);
-				final double mapWeight = NumberUtils.roundApprox(map.getWeight(), 2);
-				lore.add(GRAY + "  Multiplier: " + YELLOW + mapWeight);
+				lore.add(text("  " + map.getName(), YELLOW)
+						.append(map.isDisabled() ? Component.text(" (disabled)", RED) : Component.empty()));
+				lore.add(text("  Multiplier: ", GRAY).append(text(String.format("%.2f", map.getWeight()), YELLOW)));
 				if (map.getCredits() != null) {
-					lore.add(GRAY + "  Credits: " + map.getCredits());
+					lore.add(text("  Credits: ", GRAY).append(text(map.getCredits(), YELLOW)));
 				}
 				if (player.hasPermission("minigames.list_admin")) {
-					lore.add(DARK_GRAY + "  Identifier: " + map.getIdentifier());
-					lore.add(DARK_GRAY + "  World: " + map.getGameWorld());
+					lore.add(text("  Identifier: " + map.getIdentifier(), DARK_GRAY));
+					lore.add(text("  World: " + map.getGameWorld(), DARK_GRAY));
 				}
 			}
 
-			lore.add(GOLD + "Labels:");
+			lore.add(text("Labels:", GOLD));
 			for (GameLabel label : game.getGameLabels()) {
-				lore.add(GRAY + "  " + label);
+				lore.add(text("  " + label, GRAY));
 			}
 
 			if (player.hasPermission("minigames.list_admin")) {
-				lore.add("");
-				lore.add(DARK_GRAY + "Identifier: " + game.getIdentifier());
-				lore.add(DARK_GRAY + "Command name: " + game.getIdentifier());
-				lore.add(DARK_GRAY + "" + game.getClass().getName().substring(25));
+				lore.add(Component.empty());
+				lore.add(text("Identifier: " + game.getIdentifier(), DARK_GRAY));
+				lore.add(text("Command name: " + game.getIdentifier(), DARK_GRAY));
+				lore.add(text(game.getClass().getName().substring(25), DARK_GRAY));
 				if (game.getGameMaps().length == 0) {
-					lore.add(DARK_GRAY + "No maps defined");
+					lore.add(text("No maps defined", DARK_GRAY));
 				} else {
-					lore.add(DARK_GRAY + "" + game.getGameMaps().getClass().getName().substring(27));
+					lore.add(text(game.getGameMaps().getClass().getName().substring(27), DARK_GRAY));
 				}
 			}
 
-			this.addItem(slot, new PaperItemBuilder(game.getMaterial())
-					.name(GOLD + game.getName())
+			this.addItem(slot, new ItemBuilder(game.getMaterial())
+					.name(text(game.getName(), GOLD))
 					.lore(lore)
 					.itemFlags(ItemFlag.HIDE_ATTRIBUTES)
 					.create());

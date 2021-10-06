@@ -24,14 +24,13 @@ import org.bukkit.potion.PotionEffectType;
 import xyz.derkades.derkutils.Cooldown;
 import xyz.derkades.derkutils.ListUtils;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
-import xyz.derkades.derkutils.bukkit.PaperItemBuilder;
 
 import java.util.EnumSet;
 import java.util.UUID;
 
 public class MissileRacer extends Game<MissileRacerMap> {
 
-	private static final ItemStack PLACEABLE_TNT = new PaperItemBuilder(Material.TNT)
+	private static final ItemStack PLACEABLE_TNT = new ItemBuilder(Material.TNT)
 			.amount(20)
 			.canPlaceOnMinecraft(
 					"obsidian",
@@ -49,7 +48,7 @@ public class MissileRacer extends Game<MissileRacerMap> {
 			.create();
 
 	private static final ItemStack MISSILE_SPAWNER = new ItemBuilder(Material.PISTON)
-			.name("Missile spawner")
+			.name(Component.text("Missile spawner"))
 			.create();
 
 	private static final int MISSILE_PLACE_COOLDOWN = 7_000;

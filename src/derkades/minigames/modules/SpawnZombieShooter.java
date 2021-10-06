@@ -6,9 +6,7 @@ import derkades.minigames.UpdateSigns;
 import derkades.minigames.Var;
 import derkades.minigames.utils.MPlayer;
 import derkades.minigames.utils.Scheduler;
-import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
-import net.md_5.bungee.api.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -27,17 +25,21 @@ import xyz.derkades.derkutils.bukkit.ItemBuilder;
 
 import java.util.concurrent.ThreadLocalRandom;
 
+import static net.kyori.adventure.text.Component.text;
+import static net.kyori.adventure.text.format.NamedTextColor.YELLOW;
+import static net.kyori.adventure.text.format.TextDecoration.BOLD;
+
 public class SpawnZombieShooter extends Module {
 
 	private static final ItemStack BOW = new ItemBuilder(Material.BOW)
-			.name(ChatColor.YELLOW + "" + ChatColor.BOLD + "Zombie Shooter")
+			.name(text("Zombie Shooter", YELLOW, BOLD))
 			.enchant(Enchantment.ARROW_DAMAGE, 5)
 			.enchant(Enchantment.ARROW_INFINITE, 1)
 			.unbreakable()
 			.create();
 
 	private static final ItemStack ARROW = new ItemBuilder(Material.ARROW)
-			.name(ChatColor.YELLOW + "" + ChatColor.BOLD + "Zombie Shooter Arrow")
+			.name(text("Zombie Shooter Arrow", YELLOW, BOLD))
 			.create();
 
 	private static final float HUSK_CHANCE = 0.15f;
@@ -114,7 +116,7 @@ public class SpawnZombieShooter extends Module {
 
 		if (event.getEntityType() == EntityType.HUSK){
 			MPlayer m = new MPlayer(killer);
-			m.sendActionBar(Component.text("Bonus point!", NamedTextColor.GOLD));
+			m.sendActionBar(text("Bonus point!", NamedTextColor.GOLD));
 			m.addPoints(1);
 			UpdateSigns.updateLeaderboard();
 		}

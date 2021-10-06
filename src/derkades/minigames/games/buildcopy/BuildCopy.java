@@ -20,9 +20,13 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.FireworkMeta;
 import xyz.derkades.derkutils.ListUtils;
-import xyz.derkades.derkutils.bukkit.PaperItemBuilder;
+import xyz.derkades.derkutils.bukkit.ItemBuilder;
 
-import java.util.*;
+import java.util.EnumSet;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
 
 public class BuildCopy extends Game<BuildCopyMap> {
 
@@ -44,7 +48,7 @@ public class BuildCopy extends Game<BuildCopyMap> {
 			"sand",
 	};
 
-	private static final ItemStack PICKAXE = new PaperItemBuilder(Material.IRON_PICKAXE)
+	private static final ItemStack PICKAXE = new ItemBuilder(Material.IRON_PICKAXE)
 			.canDestroyMinecraft(MATERIALS_VANILLA)
 			.unbreakable()
 			.create();
@@ -103,7 +107,7 @@ public class BuildCopy extends Game<BuildCopyMap> {
 		final ItemStack[] items = new ItemStack[MATERIALS.length + 1];
 		items[0] = PICKAXE;
 		for (int i = 0; i < MATERIALS.length; i++) {
-			items[i + 1] = new PaperItemBuilder(MATERIALS[i])
+			items[i + 1] = new ItemBuilder(MATERIALS[i])
 					.amount(64)
 					.canPlaceOnMinecraft("gray_stained_glass")
 					.create();

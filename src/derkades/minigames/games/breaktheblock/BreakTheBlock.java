@@ -5,7 +5,6 @@ import derkades.minigames.games.Game;
 import derkades.minigames.games.GameLabel;
 import derkades.minigames.utils.MPlayer;
 import derkades.minigames.utils.MPlayerDamageEvent;
-import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
@@ -20,17 +19,19 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import xyz.derkades.derkutils.ListUtils;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
-import xyz.derkades.derkutils.bukkit.PaperItemBuilder;
 
 import java.util.EnumSet;
 import java.util.UUID;
 
+import static net.kyori.adventure.text.Component.text;
+import static net.kyori.adventure.text.format.NamedTextColor.*;
+
 public class BreakTheBlock extends Game<BreakTheBlockMap> {
 
-	private static final ItemStack PICKAXE = new PaperItemBuilder(Material.IRON_PICKAXE)
+	private static final ItemStack PICKAXE = new ItemBuilder(Material.IRON_PICKAXE)
 			.unbreakable()
-			.name(ChatColor.GOLD + "Block breaker")
-			.lore(ChatColor.YELLOW + "Use this gold pickaxe to break the ", ChatColor.YELLOW + "gold block at the end of the game.")
+			.name(text("Block breaker", GOLD))
+			.lore(text("Use this gold pickaxe to break the ", YELLOW), text("gold block at the end of the game.", YELLOW))
 			.canDestroyMinecraft(
 					"gold_block",
 					"red_glazed_terracotta" // cherry in cake map
@@ -163,7 +164,7 @@ public class BreakTheBlock extends Game<BreakTheBlockMap> {
 
 		if (blockOn.getType().equals(Material.ORANGE_CONCRETE) &&
 				!inv.contains(Material.FIREWORK_ROCKET)) {
-			inv.addItem(new ItemBuilder(Material.FIREWORK_ROCKET).name(ChatColor.LIGHT_PURPLE + "Elytra fireworks").create());
+			inv.addItem(new ItemBuilder(Material.FIREWORK_ROCKET).name(text("Elytra fireworks", LIGHT_PURPLE)).create());
 		}
 
 		if (blockOn.getType().equals(Material.PINK_CONCRETE) &&

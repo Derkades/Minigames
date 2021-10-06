@@ -42,7 +42,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
 import xyz.derkades.derkutils.Hastebin;
-import xyz.derkades.derkutils.bukkit.sidebar2.ComponentSidebar;
+import xyz.derkades.derkutils.bukkit.sidebar.Sidebar;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -442,7 +442,7 @@ public class Command implements CommandExecutor {
 					}.runTaskTimer(Minigames.getInstance(), 0, 10);
 				}
 				case "sidebar" -> {
-					ComponentSidebar sidebar = new ComponentSidebar(Component.text("Sidebar title", NamedTextColor.LIGHT_PURPLE));
+					Sidebar sidebar = new Sidebar(Component.text("Sidebar title", NamedTextColor.LIGHT_PURPLE));
 					sidebar.addEntry(Component.text("Test test 123", NamedTextColor.YELLOW));
 					sidebar.addEntry(Component.text("Test test 456", NamedTextColor.BLUE));
 					sidebar.showTo((Player) sender);

@@ -23,9 +23,12 @@ import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import xyz.derkades.derkutils.ListUtils;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
-import xyz.derkades.derkutils.bukkit.PaperItemBuilder;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.EnumSet;
+import java.util.List;
+import java.util.Objects;
+import java.util.UUID;
 
 public class Harvest extends Game<@NotNull HarvestMap> {
 
@@ -33,7 +36,7 @@ public class Harvest extends Game<@NotNull HarvestMap> {
 	private static final int RESPAWN_DELAY = 3*20;
 
 	private static final ItemStack[] ITEMS = {
-			new PaperItemBuilder(Material.IRON_HOE)
+			new ItemBuilder(Material.IRON_HOE)
 					.unbreakable()
 					.canDestroyMinecraft("wheat")
 					.create(),
