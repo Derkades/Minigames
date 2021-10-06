@@ -23,6 +23,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import xyz.derkades.derkutils.bukkit.BlockUtils;
+import xyz.derkades.derkutils.bukkit.PaperItemBuilder;
 
 import java.util.Arrays;
 import java.util.EnumSet;
