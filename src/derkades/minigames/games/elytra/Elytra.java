@@ -95,9 +95,13 @@ public class Elytra extends Game<ElytraMap> {
 			player.clearInventory();
 			player.finishTo(this.map.getStartLocation());
 
+			if (finished.isEmpty()) {
+				player.addPoints(1);
+				this.sendMessage(player.getDisplayName().append(Component.text(" has finished first and got an extra point!", NamedTextColor.GRAY)));
+			} else {
+				this.sendMessage(player.getDisplayName().append(Component.text(" has finished.", NamedTextColor.GRAY)));
+			}
 			this.finished.add(player.getUniqueId());
-
-			this.sendMessage(player.getDisplayName().append(Component.text(" has finished.", NamedTextColor.GRAY)));
 		}
 	}
 
