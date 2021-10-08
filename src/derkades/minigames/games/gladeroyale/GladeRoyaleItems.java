@@ -1,15 +1,17 @@
 package derkades.minigames.games.gladeroyale;
 
-import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
-import xyz.derkades.derkutils.bukkit.PaperItemBuilder;
+import xyz.derkades.derkutils.bukkit.ItemBuilder;
 import xyz.derkades.derkutils.bukkit.lootchests.LootItem;
+
+import static net.kyori.adventure.text.Component.text;
+import static net.kyori.adventure.text.format.NamedTextColor.YELLOW;
 
 class GladeRoyaleItems {
 
-	static final ItemStack BLOCK = new PaperItemBuilder(Material.TERRACOTTA)
+	static final ItemStack BLOCK = new ItemBuilder(Material.TERRACOTTA)
 			.canPlaceOnMinecraft(
 					"grass_block",
 					"red_concrete_powder",
@@ -18,12 +20,12 @@ class GladeRoyaleItems {
 					"sandstone",
 					"light_gray_terracotta",
 					"terracotta")
-			.name(ChatColor.YELLOW + "Block")
+			.name(text("Block", YELLOW))
 			.create();
 
-	static final ItemStack TOOL = new PaperItemBuilder(Material.IRON_PICKAXE)
+	static final ItemStack TOOL = new ItemBuilder(Material.IRON_PICKAXE)
 			.canDestroyMinecraft("terracotta")
-			.name(ChatColor.YELLOW + "Block breaker")
+			.name(text("Block breaker", YELLOW))
 			.enchant(Enchantment.DIG_SPEED, 3)
 			.unbreakable()
 			.create();

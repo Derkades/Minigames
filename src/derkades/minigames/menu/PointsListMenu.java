@@ -2,12 +2,15 @@ package derkades.minigames.menu;
 
 import derkades.minigames.Minigames;
 import derkades.minigames.utils.MPlayer;
-import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import xyz.derkades.derkutils.bukkit.PaperItemBuilder;
+import xyz.derkades.derkutils.bukkit.ItemBuilder;
 import xyz.derkades.derkutils.bukkit.menu.IconMenu;
 import xyz.derkades.derkutils.bukkit.menu.OptionClickEvent;
+
+import static net.kyori.adventure.text.Component.text;
+import static net.kyori.adventure.text.format.NamedTextColor.*;
+import static net.kyori.adventure.text.format.TextDecoration.BOLD;
 
 public class PointsListMenu extends IconMenu {
 
@@ -15,26 +18,26 @@ public class PointsListMenu extends IconMenu {
 	private static final String MONITOR = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTFmYWQ1ZDJiODIyZmNlOGQ1OWJjZTA4NDE0YjlmODdmMjdhYTlkNzdhNzM4MjNhNThkZDUxN2VhODBiMmE1In19fQ==";
 
 	public PointsListMenu(final Player player) {
-		super(Minigames.getInstance(), "Points", 3, player);
+		super(Minigames.getInstance(), text("Points"), 3, player);
 
 		int slot = 0;
 		for (final MPlayer target : Minigames.getOnlinePlayers()) {
-			this.addItem(slot, new PaperItemBuilder(Material.PLAYER_HEAD)
+			this.addItem(slot, new ItemBuilder(Material.PLAYER_HEAD)
 							.skullProfile(target.bukkit().getPlayerProfile())
-							.nameAdventure(target.getDisplayName())
-							.lore(ChatColor.GRAY + "Points: " + ChatColor.YELLOW + target.getPoints())
+							.name(target.getDisplayName())
+							.lore(text("Points: ", GRAY).append(text(target.getPoints(), YELLOW)))
 							.create());
 			slot++;
 		}
 
-		this.addItem(24, new PaperItemBuilder(Material.PLAYER_HEAD).skullTexture(MONITOR).name(ChatColor.GOLD + "View all players").create());
-		this.addItem(25, new PaperItemBuilder(Material.PLAYER_HEAD).skullTexture(MHF_QUESTION).name(ChatColor.GOLD + "Points explanation")
-				.lore(ChatColor.GREEN + "" + ChatColor.BOLD + "Winning a game",
-						ChatColor.GRAY + "  1-2 online players: +3 points",
-						ChatColor.GRAY + "  3-4 online players: +4 points",
-						ChatColor.GRAY + "  5+ online players: +5 points",
-						ChatColor.RED + "" + ChatColor.BOLD + "Losing a game",
-						ChatColor.GRAY + "  +1 point").create());
+		this.addItem(24, new ItemBuilder(Material.PLAYER_HEAD).skullTexture(MONITOR).name(text("View all players", GOLD)).create());
+		this.addItem(25, new ItemBuilder(Material.PLAYER_HEAD).skullTexture(MHF_QUESTION).name(text( "Points explanation", GOLD))
+				.lore(text("Winning a game", GREEN).decorate(BOLD),
+						text("  1-2 online players: +3 points", GRAY),
+						text("  3-4 online players: +4 points", GRAY),
+						text("  5+ online players: +5 points", GRAY),
+						text("Losing a game", RED).decorate(BOLD),
+						text("  +1 point", GRAY)).create());
 		this.addItem(26, Menu.BACK_BUTTON);
 	}
 

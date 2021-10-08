@@ -5,8 +5,6 @@ import derkades.minigames.games.Game;
 import derkades.minigames.games.GameLabel;
 import derkades.minigames.utils.Leaderboard;
 import derkades.minigames.utils.MPlayer;
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.NamedTextColor;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -23,11 +21,14 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import xyz.derkades.derkutils.bukkit.BlockUtils;
-import xyz.derkades.derkutils.bukkit.PaperItemBuilder;
+import xyz.derkades.derkutils.bukkit.ItemBuilder;
 
 import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.concurrent.ThreadLocalRandom;
+
+import static net.kyori.adventure.text.Component.text;
+import static net.kyori.adventure.text.format.NamedTextColor.GREEN;
 
 public class DigDug extends Game<DigDugMap> {
 
@@ -84,8 +85,8 @@ public class DigDug extends Game<DigDugMap> {
 	public void onStart() {
 		this.leaderboard = Leaderboard.createLeaderboard();
 
-		final ItemStack shovel = new PaperItemBuilder(Material.DIAMOND_SHOVEL)
-				.name(ChatColor.GREEN + "The Dig Dug Digger")
+		final ItemStack shovel = new ItemBuilder(Material.DIAMOND_SHOVEL)
+				.name(text("The Dig Dug Digger", GREEN))
 				.unbreakable()
 				.canDestroyMinecraft(
 						"dirt", 
@@ -175,7 +176,7 @@ public class DigDug extends Game<DigDugMap> {
 	}
 
 	private void addPoints(final MPlayer player, final int pointsToAdd) {
-		player.sendActionBar(Component.text("+ " + pointsToAdd + " points", NamedTextColor.GREEN));
+		player.sendActionBar(text("+ " + pointsToAdd + " points", GREEN));
 		this.leaderboard.setScore(player, this.leaderboard.getScore(player) + pointsToAdd);
 	}
 

@@ -14,7 +14,7 @@ import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import xyz.derkades.derkutils.bukkit.sidebar2.ComponentSidebar;
+import xyz.derkades.derkutils.bukkit.sidebar.Sidebar;
 
 import java.io.IOException;
 import java.lang.ref.Cleaner;
@@ -30,7 +30,7 @@ import static net.kyori.adventure.text.Component.text;
 public class Leaderboard implements Listener {
 
 	@NotNull
-	private final ComponentSidebar sidebar;
+	private final Sidebar sidebar;
 	@NotNull
 	private final Map<UUID, Integer> points;
 	@Nullable
@@ -40,7 +40,7 @@ public class Leaderboard implements Listener {
 
 	private Leaderboard() {
 		this.points = new HashMap<>();
-		this.sidebar = new ComponentSidebar(text("Scores", NamedTextColor.GRAY));
+		this.sidebar = new Sidebar(text("Scores", NamedTextColor.GRAY));
 		this.sidebar.addEntry(text("Game starting soon", NamedTextColor.GRAY));
 		this.sidebar.addEntry(empty());
 

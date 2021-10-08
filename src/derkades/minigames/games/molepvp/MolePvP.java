@@ -14,7 +14,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.inventory.ItemStack;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
-import xyz.derkades.derkutils.bukkit.PaperItemBuilder;
 
 import java.util.EnumSet;
 import java.util.HashSet;
@@ -110,7 +109,7 @@ public class MolePvP extends RedBlueTeamGame<MolePvPMap> {
 				.unbreakable()
 				.create();
 
-		final ItemStack shovel = new PaperItemBuilder(Material.DIAMOND_SHOVEL)
+		final ItemStack shovel = new ItemBuilder(Material.DIAMOND_SHOVEL)
 				.enchant(Enchantment.DIG_SPEED, 5)
 				.canDestroyMinecraft("dirt")
 				.unbreakable()

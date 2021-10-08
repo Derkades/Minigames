@@ -5,9 +5,7 @@ import derkades.minigames.games.Game;
 import derkades.minigames.games.GameLabel;
 import derkades.minigames.utils.MPlayer;
 import derkades.minigames.utils.MPlayerDamageEvent;
-import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
-import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -28,6 +26,10 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
+
+import static net.kyori.adventure.text.Component.text;
+import static net.kyori.adventure.text.format.NamedTextColor.GOLD;
+import static net.kyori.adventure.text.format.TextDecoration.BOLD;
 
 public class CreeperAttack extends Game<CreeperAttackMap> {
 
@@ -61,7 +63,7 @@ public class CreeperAttack extends Game<CreeperAttackMap> {
 		this.numberOfCreepers = 1;
 
 		final ItemStack knockbackStick = new ItemBuilder(Material.STICK)
-				.name(ChatColor.GOLD + "" + ChatColor.BOLD + "Creeper Smasher")
+				.name(text("Creeper Smasher", GOLD, BOLD))
 				.create();
 
 		knockbackStick.addUnsafeEnchantment(Enchantment.KNOCKBACK, 3);
@@ -150,7 +152,7 @@ public class CreeperAttack extends Game<CreeperAttackMap> {
 		final MPlayer player = new MPlayer(event);
 		this.alive.remove(player.getUniqueId());
 		player.die();
-		this.sendMessage(player.getDisplayName().append(Component.text(" has been blown up by a creeper.", NamedTextColor.GRAY)));
+		this.sendMessage(player.getDisplayName().append(text(" has been blown up by a creeper.", NamedTextColor.GRAY)));
 	}
 
 	@Override

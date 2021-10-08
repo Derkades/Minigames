@@ -28,6 +28,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+import static net.kyori.adventure.text.Component.text;
+import static net.kyori.adventure.text.format.NamedTextColor.GOLD;
+
 public class ControlPoints extends RedBlueTeamGame<ControlPointsMap> {
 
 	private static final int CONTROL_THRESHOLD = 5;
@@ -77,7 +80,7 @@ public class ControlPoints extends RedBlueTeamGame<ControlPointsMap> {
 
 	public void giveGear(final MPlayer player) {
 		player.giveItem(
-				new ItemBuilder(Material.STONE_SWORD).name("a weapon").unbreakable().create(),
+				new ItemBuilder(Material.STONE_SWORD).name(text("Sword", GOLD)).unbreakable().create(),
 				new ItemBuilder(Material.BOW).enchant(Enchantment.ARROW_INFINITE, 1).unbreakable().create(),
 				new ItemBuilder(Material.ARROW).create()
 				);

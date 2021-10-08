@@ -6,7 +6,6 @@ import derkades.minigames.games.GameLabel;
 import derkades.minigames.utils.MPlayer;
 import derkades.minigames.utils.Scheduler;
 import derkades.minigames.utils.Utils;
-import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
@@ -22,11 +21,14 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
-import xyz.derkades.derkutils.bukkit.PaperItemBuilder;
+import xyz.derkades.derkutils.bukkit.ItemBuilder;
 
 import java.util.EnumSet;
 import java.util.Set;
 import java.util.UUID;
+
+import static net.kyori.adventure.text.Component.text;
+import static net.kyori.adventure.text.format.NamedTextColor.GOLD;
 
 public class RegeneratingSpleef extends Game<SpleefMap> {
 
@@ -72,8 +74,8 @@ public class RegeneratingSpleef extends Game<SpleefMap> {
 	public void onStart() {
 		this.alive = Utils.getOnlinePlayersUuidSet();
 
-		final ItemStack shovel = new PaperItemBuilder(Material.DIAMOND_SHOVEL)
-				.name("Spleefanator 8000")
+		final ItemStack shovel = new ItemBuilder(Material.DIAMOND_SHOVEL)
+				.name(text("Spleefanator 8000", GOLD))
 				.enchant(Enchantment.DIG_SPEED, 5)
 				.unbreakable()
 				.canDestroyMinecraft("snow_block")
@@ -135,7 +137,7 @@ public class RegeneratingSpleef extends Game<SpleefMap> {
 
 		if (player.getBlockOn().getType() == Material.BEDROCK){
 			this.alive.remove(player.getUniqueId());
-			this.sendMessage(player.getDisplayName().append(Component.text(" has died.", NamedTextColor.GRAY)));
+			this.sendMessage(player.getDisplayName().append(text(" has died.", NamedTextColor.GRAY)));
 			player.dieUp(3);
 		}
 	}

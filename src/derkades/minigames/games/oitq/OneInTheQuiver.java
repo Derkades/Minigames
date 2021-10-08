@@ -27,6 +27,10 @@ import java.util.EnumSet;
 import java.util.Set;
 import java.util.UUID;
 
+import static net.kyori.adventure.text.Component.text;
+import static net.kyori.adventure.text.format.NamedTextColor.GOLD;
+import static net.kyori.adventure.text.format.NamedTextColor.GRAY;
+
 public class OneInTheQuiver extends Game<OITQMap> {
 
 	private static final ItemStack SWORD = new ItemBuilder(Material.WOODEN_SWORD)
@@ -35,8 +39,8 @@ public class OneInTheQuiver extends Game<OITQMap> {
 
 	private static final ItemStack BOW = new ItemBuilder(Material.BOW)
 			.unbreakable()
-			.name("Insta-kill bow")
-			.lore("Get arrows by killing other players")
+			.name(text("Insta-kill bow", GOLD))
+			.lore(text("Get arrows by killing other players", GRAY))
 			.create();
 
 	private static final ItemStack ARROW = new ItemBuilder(Material.ARROW)

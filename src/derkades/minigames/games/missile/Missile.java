@@ -1,29 +1,26 @@
 package derkades.minigames.games.missile;
 
-import static derkades.minigames.games.missile.MissileBlock.BACK;
-import static derkades.minigames.games.missile.MissileBlock.DOWN;
-import static derkades.minigames.games.missile.MissileBlock.FRONT;
-import static derkades.minigames.games.missile.MissileBlock.LEFT;
-import static derkades.minigames.games.missile.MissileBlock.RIGHT;
-import static derkades.minigames.games.missile.MissileBlock.UP;
-
-import java.util.HashMap;
-import java.util.Map;
-
-import org.bukkit.ChatColor;
+import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
-
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import static derkades.minigames.games.missile.MissileBlock.*;
+import static net.kyori.adventure.text.Component.text;
+import static net.kyori.adventure.text.format.NamedTextColor.*;
+import static net.kyori.adventure.text.format.TextDecoration.BOLD;
 
 public enum Missile {
 
 	// <-left/+right> <+up/-down> <+front/-back> <material> <facing>
 
-	TEST("Test", Material.STICK, ChatColor.GREEN, new MissileObject[] {
+	TEST("Test", Material.STICK, GREEN, new MissileObject[] {
 			// https://www.youtube.com/watch?v=Z4VuRYqlv5Q
 			new MissileBlock(0, 0, 0, Material.PISTON, FRONT),
 			new MissileBlock(0, 1, 0, Material.PISTON, BACK),
@@ -54,7 +51,7 @@ public enum Missile {
 			new MissileBlock(1, 0, 2, Material.TNT),
 	}),
 
-	JUGGERNAUT("Juggernaut", Material.TNT, ChatColor.RED, new MissileObject[] {
+	JUGGERNAUT("Juggernaut", Material.TNT, RED, new MissileObject[] {
 			new MissileBlock(0, -1, 1, Material.PISTON, FRONT),
 			new MissileBlock(0, -1, 3, Material.TNT),
 			new MissileBlock(0, -1, 4, Material.TNT),
@@ -106,7 +103,7 @@ public enum Missile {
 			new MissileBlock(0, 1, 5, Material.TNT),
 	}),
 
-	COMPRESSOR("Compressor", Material.PISTON, ChatColor.DARK_PURPLE, new MissileObject[] {
+	COMPRESSOR("Compressor", Material.PISTON, DARK_PURPLE, new MissileObject[] {
 			new MissileBlock(0, 0, 0, Material.TNT),
 			new MissileBlock(1, 0, 0, Material.SLIME_BLOCK),
 			new MissileBlock(0, 0, 1, Material.TNT),
@@ -137,7 +134,7 @@ public enum Missile {
 			new MissileBlock(-1, 2, 3, Material.AIR),
 	}),
 
-	HYPER_COMPRESSOR("Hypercompressor", Material.PISTON, ChatColor.GRAY, new MissileObject[] {
+	HYPER_COMPRESSOR("Hypercompressor", Material.PISTON, GRAY, new MissileObject[] {
 			new MissileBlock(-1, 0, 1, Material.SLIME_BLOCK),
 			new MissileBlock(-1, -1, 1, Material.OBSERVER, DOWN),
 			new MissileBlock(0, 0, 1, Material.PISTON, FRONT),
@@ -196,7 +193,7 @@ public enum Missile {
 			new MissileBlock(-1, -2, 1, Material.AIR),
 	}),
 
-	BEE("Bee", Material.HONEYCOMB, ChatColor.GOLD, new MissileObject[] {
+	BEE("Bee", Material.HONEYCOMB, GOLD, new MissileObject[] {
 			new MissileBlock(-1, 0, 0, Material.HONEY_BLOCK),
 			new MissileBlock(0, 0, 0, Material.HONEY_BLOCK),
 			new MissileBlock(1, 0, 0, Material.HONEY_BLOCK),
@@ -223,7 +220,7 @@ public enum Missile {
 			new MissileBlock(0, 0, 6, Material.AIR),
 	}),
 
-	TOMAHAWK("Tomahawk", Material.RED_TERRACOTTA, ChatColor.RED, new MissileObject[] {
+	TOMAHAWK("Tomahawk", Material.RED_TERRACOTTA, RED, new MissileObject[] {
 			new MissileBlock(0, 0, 0, Material.PISTON, FRONT),
 			new MissileBlock(0, 0, 1, Material.SLIME_BLOCK),
 			new MissileBlock(-1, 0, 1, Material.SLIME_BLOCK),
@@ -254,7 +251,7 @@ public enum Missile {
 			new MissileBlock(0, 0, 3, Material.PISTON, FRONT),
 	}),
 
-	MINECART("Minecart", Material.TNT_MINECART, ChatColor.GRAY, new MissileObject[] {
+	MINECART("Minecart", Material.TNT_MINECART, GRAY, new MissileObject[] {
 			new MissileBlock(0, 0, 0, Material.PISTON, FRONT),
 			new MissileBlock(0, 1, 0, Material.PISTON, BACK),
 			new MissileBlock(-1, 0, 0, Material.SLIME_BLOCK),
@@ -315,7 +312,7 @@ public enum Missile {
 			new MissileBlock(-1, 0, 2, Material.TNT),
 	}),
 
-	SHIELDBUSTER_MINI("Shieldbuster Mini", Material.PISTON, ChatColor.GRAY, new MissileObject[] {
+	SHIELDBUSTER_MINI("Shieldbuster Mini", Material.PISTON, GRAY, new MissileObject[] {
 			new MissileBlock(-1, 0, 0, Material.LIME_CONCRETE),
 			new MissileBlock(0, 0, 0, Material.HONEY_BLOCK),
 			new MissileBlock(1, 0, 0, Material.LIME_CONCRETE),
@@ -339,7 +336,7 @@ public enum Missile {
 			new MissileBlock(0, 0, 6, Material.AIR),
 	}),
 
-	GUARDIAN("Guardian", Material.SHIELD, ChatColor.DARK_GRAY, new MissileObject[] {
+	GUARDIAN("Guardian", Material.SHIELD, DARK_GRAY, new MissileObject[] {
 			new MissileBlock(0, 0, 0, Material.OBSERVER, BACK),
 
 			new MissileBlock(0, 0, 1, Material.SLIME_BLOCK),
@@ -460,7 +457,7 @@ public enum Missile {
 			new MissileBlock(0, 1, 5, Material.TNT),
 	}),
 
-	MATIGE_MISSILE_2("Matige Missile 2", Material.SPONGE, ChatColor.LIGHT_PURPLE, new MissileObject[] {
+	MATIGE_MISSILE_2("Matige Missile 2", Material.SPONGE, LIGHT_PURPLE, new MissileObject[] {
 			new MissileBlock(0, 0, 0, Material.HONEY_BLOCK),
 			new MissileBlock(-1, 0, 1, Material.HONEY_BLOCK),
 			new MissileBlock(0, 0, 1, Material.HONEY_BLOCK),
@@ -495,7 +492,7 @@ public enum Missile {
 			new MissileBlock(0, 0, 7, Material.AIR),
 	}),
 
-	MINECART_2("Minecart 2", Material.TNT_MINECART, ChatColor.LIGHT_PURPLE, new MissileObject[] {
+	MINECART_2("Minecart 2", Material.TNT_MINECART, LIGHT_PURPLE, new MissileObject[] {
 			new MissileBlock(0, 0, 0, Material.TNT),
 			new MissileBlock(0, -1, 0, Material.TNT),
 			new MissileBlock(1, -1, 0, Material.TNT),
@@ -548,7 +545,7 @@ public enum Missile {
 			new MissileBlock(-1, 0, 4, Material.AIR),
 	}),
 
-	TIJDBOM("Tijdbom", Material.CLOCK, ChatColor.BLUE, new MissileObject[] {
+	TIJDBOM("Tijdbom", Material.CLOCK, BLUE, new MissileObject[] {
 			new MissileBlock(0, 0, 0, Material.TNT),
 			new MissileBlock(-1, 0, 0, Material.SLIME_BLOCK),
 			new MissileBlock(-1, 1, 0, Material.OBSERVER, 3),
@@ -678,7 +675,7 @@ public enum Missile {
 			new MissileBlock(0, 1, 0, Material.AIR),
 	}),
 
-	PLATVIS("Platvis", Material.SALMON, ChatColor.BLUE, new MissileObject[] {
+	PLATVIS("Platvis", Material.SALMON, BLUE, new MissileObject[] {
 			new MissileBlock(2, 0, 0, Material.OBSERVER, 5),
 			new MissileBlock(1, 0, 1, Material.OBSERVER, 5),
 			new MissileBlock(2, 0, 1, Material.SLIME_BLOCK),
@@ -722,7 +719,7 @@ public enum Missile {
 			new MissileBlock(2, 0, 5, Material.TNT),
 	}),
 
-	SHIELDBUSTER("Shieldbuster", Material.PISTON, ChatColor.BLUE, new MissileObject[] {
+	SHIELDBUSTER("Shieldbuster", Material.PISTON, BLUE, new MissileObject[] {
 			new MissileBlock(0, 0, 1, Material.OBSERVER, 0),
 			new MissileBlock(0, 0, 2, Material.TNT),
 			new MissileBlock(0, 0, 4, Material.TNT),
@@ -787,7 +784,7 @@ public enum Missile {
 			new MissileBlock(0, 4, 0, Material.AIR),
 	}),
 
-	CRUISER("Cruiser", Material.PISTON, ChatColor.BLUE, new MissileObject[] {
+	CRUISER("Cruiser", Material.PISTON, BLUE, new MissileObject[] {
 			new MissileBlock(0, 0, 0, Material.SLIME_BLOCK),
 			new MissileBlock(1, 0, 0, Material.OBSERVER,3),
 			new MissileBlock(0, 0, 3, Material.OBSERVER, 4),
@@ -825,7 +822,7 @@ public enum Missile {
 			new MissileBlock(0, 0, 4, Material.TNT),
 	}),
 
-	MATIGE_MISSILE_1("Matige Missile 1", Material.PISTON, ChatColor.BLUE, new MissileObject[] {
+	MATIGE_MISSILE_1("Matige Missile 1", Material.PISTON, BLUE, new MissileObject[] {
 			new MissileBlock(0, 0, 0, Material.PISTON, 4),
 			new MissileBlock(2, 0, 0, Material.PISTON, 4),
 			new MissileBlock(0, 0, 2, Material.SLIME_BLOCK),
@@ -850,7 +847,7 @@ public enum Missile {
 			new MissileBlock(0, 0, 3, Material.GLASS),
 	}),
 
-	MATIGE_MISSILE_3("Matige Missile 3", Material.PISTON, ChatColor.BLUE, new MissileObject[] {
+	MATIGE_MISSILE_3("Matige Missile 3", Material.PISTON, BLUE, new MissileObject[] {
 			new MissileBlock(0, 0, 0, Material.PISTON, 4),
 			new MissileBlock(1, 0, 1, Material.OBSERVER, 3),
 			new MissileBlock(0, 0, 2 , Material.GLASS),
@@ -893,7 +890,7 @@ public enum Missile {
 			new MissileBlock(1, 0, 0, Material.REDSTONE_BLOCK),
 	}),
 
-	MATIGE_MISSILE_4("Matige Missile 4", Material.PISTON, ChatColor.BLUE, new MissileObject[] {
+	MATIGE_MISSILE_4("Matige Missile 4", Material.PISTON, BLUE, new MissileObject[] {
 			new MissileBlock(0, 0, 0, Material.SLIME_BLOCK),
 			new MissileBlock(0, 1, 0, Material.OBSERVER, 2),
 			new MissileBlock(1, 0, 0, Material.PISTON, 4),
@@ -918,7 +915,7 @@ public enum Missile {
 			new MissileBlock(-1, 1, 0, Material.AIR),
 	}),
 
-	DUPER("Duper", Material.PISTON, ChatColor.BLUE, new MissileObject[] {
+	DUPER("Duper", Material.PISTON, BLUE, new MissileObject[] {
 			new MissileBlock(0, 1, 0, Material.SLIME_BLOCK),
 			new MissileBlock(0, 1, 2, Material.SLIME_BLOCK),
 			new MissileBlock(0, 1, 4, Material.SLIME_BLOCK),
@@ -992,7 +989,7 @@ public enum Missile {
 			new MissileBlock(0, 2, 2, Material.AIR),
 	}),
 
-	DEFUSABLE_BOMB("Defusable Bomb", Material.PISTON, ChatColor.BLUE, new MissileObject[] {
+	DEFUSABLE_BOMB("Defusable Bomb", Material.PISTON, BLUE, new MissileObject[] {
 			new MissileBlock(0, 0, -1, Material.OBSERVER, 5),
 
 			new MissileBlock(0, -1, 0, Material.PISTON, 4),
@@ -1082,7 +1079,7 @@ public enum Missile {
 			new MissileBlock(0, 1, 4, Material.QUARTZ_PILLAR),
 	}),
 
-	OMMEKEER("De Ommekeer", Material.PISTON, ChatColor.BLUE, new MissileObject[] {
+	OMMEKEER("De Ommekeer", Material.PISTON, BLUE, new MissileObject[] {
 			new MissileBlock(0, 0, 0, Material.SLIME_BLOCK),
 			new MissileBlock(0, 0, 1, Material.SLIME_BLOCK),
 			new MissileBlock(1, 0, 1, Material.TNT),
@@ -1118,7 +1115,7 @@ public enum Missile {
 			new MissileBlock(0, 1, 7, Material.TNT),
 	}),
 
-	JUGGERNAUT_2("Juggernaut 2", Material.PISTON, ChatColor.BLUE, new MissileObject[] {
+	JUGGERNAUT_2("Juggernaut 2", Material.PISTON, BLUE, new MissileObject[] {
 			new MissileBlock(0, -1, 2, Material.TNT),
 			new MissileBlock(0, -1, 3, Material.PISTON, 4),
 
@@ -1219,7 +1216,7 @@ public enum Missile {
 			new MissileBlock(-1, 0, 3, Material.TNT),
 	}),
 
-	JUGGERNAUT_3("Juggernaut 3", Material.PISTON, ChatColor.BLUE, new MissileObject[] {
+	JUGGERNAUT_3("Juggernaut 3", Material.PISTON, BLUE, new MissileObject[] {
 			new MissileBlock(-1, -2, 0, Material.OBSERVER, BACK),
 			new MissileBlock(1, -2, 0, Material.OBSERVER, BACK),
 			new MissileBlock(-1, 0, 0, Material.OBSERVER, BACK),
@@ -1465,7 +1462,7 @@ public enum Missile {
 			new MissileBlock(-1, 0, -1, Material.AIR),
 	}),
 
-	LIGHTNING_3("Lightning v3", Material.PISTON, ChatColor.BLUE, new MissileObject[] {
+	LIGHTNING_3("Lightning v3", Material.PISTON, BLUE, new MissileObject[] {
 			new MissileBlock(0, -1, 0, Material.TNT),
 			new MissileBlock(-1, 0, 0, Material.WARPED_STEM),
 			new MissileBlock(0, 0, 0, Material.SLIME_BLOCK),
@@ -1510,7 +1507,7 @@ public enum Missile {
 			new MissileBlock(0, 0, 10, Material.TNT),
 	}),
 
-	JUGGERNAUT_4("Juggernaut 4", Material.TNT, ChatColor.BLUE, new MissileObject[] {
+	JUGGERNAUT_4("Juggernaut 4", Material.TNT, BLUE, new MissileObject[] {
 			new MissileBlock(-2, -3, 0, Material.OBSERVER, BACK),
 			new MissileBlock(-1, -4, 0, Material.OBSERVER, BACK),
 			new MissileBlock(1, -4, 0, Material.OBSERVER, BACK),
@@ -2094,7 +2091,7 @@ public enum Missile {
 			new MissileBlock(-1, -4, -1, Material.AIR),
 	}),
 
-	JUGGERNAUT_SUPERCHARGED("Supercharged Juggernaut", Material.TNT, ChatColor.BLUE, new MissileObject[] {
+	JUGGERNAUT_SUPERCHARGED("Supercharged Juggernaut", Material.TNT, BLUE, new MissileObject[] {
 			new MissileBlock(-1, -2, 0, Material.TNT),
 			new MissileBlock(-1, -1, 0, Material.TNT),
 			new MissileBlock(0, -2, 0, Material.SLIME_BLOCK),
@@ -2183,7 +2180,7 @@ public enum Missile {
 			new MissileBlock(-1, -1, 3, Material.AIR),
 	}),
 
-	SPIN("De Spin - vage dinges", Material.STRING, ChatColor.BLUE, new MissileObject[] {
+	SPIN("De Spin - vage dinges", Material.STRING, BLUE, new MissileObject[] {
 			new MissileBlock(-2, -2, 0, Material.TNT),
 			new MissileBlock(-1, -2, 0, Material.OBSERVER, BACK),
 			new MissileBlock(0, -2, 0, Material.TNT),
@@ -2229,7 +2226,7 @@ public enum Missile {
 			new MissileBlock(0, -2, 5, Material.AIR),
 	}),
 
-	MATIGE_MISSILE_7("Matige Missile 7", Material.STRING, ChatColor.BLUE, new MissileObject[] {
+	MATIGE_MISSILE_7("Matige Missile 7", Material.STRING, BLUE, new MissileObject[] {
 			new MissileBlock(-1, -2, 0, Material.TNT),
 			new MissileBlock(0, -2, 0, Material.HONEY_BLOCK),
 			new MissileBlock(-1, -1, 0, Material.TNT),
@@ -2270,7 +2267,7 @@ public enum Missile {
 			new MissileBlock(-1, -2, 4, Material.AIR),
 	}),
 
-	GEWOON_1("Gewoon 1", Material.STRING, ChatColor.BLUE, new MissileObject[] {
+	GEWOON_1("Gewoon 1", Material.STRING, BLUE, new MissileObject[] {
 			new MissileBlock(-1, -1, 0, Material.TNT),
 			new MissileBlock(-1, -1, 1, Material.SLIME_BLOCK),
 			new MissileBlock(-1, 0, 1, Material.TNT),
@@ -2310,7 +2307,7 @@ public enum Missile {
 			new MissileBlock(0, -1, 6, Material.TNT),
 	}),
 
-	GEWOON_2("Gewoon 2", Material.STRING, ChatColor.BLUE, new MissileObject[] {
+	GEWOON_2("Gewoon 2", Material.STRING, BLUE, new MissileObject[] {
 			new MissileBlock(-1, -1, 0, Material.TNT),
 			new MissileBlock(0, -1, 0, Material.TNT),
 			new MissileBlock(-1, -1, 1, Material.SLIME_BLOCK),
@@ -2341,7 +2338,7 @@ public enum Missile {
 			new MissileBlock(0, 1, 5, Material.AIR),
 	}),
 
-	GEWOON_3("Gewoon 3", Material.STRING, ChatColor.BLUE, new MissileObject[] {
+	GEWOON_3("Gewoon 3", Material.STRING, BLUE, new MissileObject[] {
 			new MissileBlock(-1, -1, 0, Material.SLIME_BLOCK),
 			new MissileBlock(-1, 0, 0, Material.TNT),
 			new MissileBlock(0, -1, 0, Material.TNT),
@@ -2371,7 +2368,7 @@ public enum Missile {
 			new MissileBlock(1, 0, 4, Material.AIR),
 	}),
 
-	LANG("Lang", Material.STRING, ChatColor.BLUE, new MissileObject[] {
+	LANG("Lang", Material.STRING, BLUE, new MissileObject[] {
 			new MissileBlock(-1, -1, 0, Material.SLIME_BLOCK),
 			new MissileBlock(-1, 0, 0, Material.OBSERVER, LEFT),
 			new MissileBlock(0, -1, 0, Material.SLIME_BLOCK),
@@ -2454,7 +2451,7 @@ public enum Missile {
 			new MissileBlock(-1, 0, 4, Material.AIR),
 	}),
 
-	GUARDIAN_2("Guardian 2", Material.STRING, ChatColor.BLUE, new MissileObject[] {
+	GUARDIAN_2("Guardian 2", Material.STRING, BLUE, new MissileObject[] {
 			new MissileBlock(0, 0, -1, Material.PISTON, FRONT),
 			new MissileBlock(0, 0, 0, Material.CRYING_OBSIDIAN),
 			new MissileBlock(0, 0, 1, Material.SLIME_BLOCK),
@@ -2869,10 +2866,10 @@ public enum Missile {
 
 	private final String name;
 	private final Material material;
-	private final ChatColor color;
+	private final TextColor color;
 	private final MissileObject[] objects;
 
-	Missile(final String name, final Material material, final ChatColor color, final MissileObject[] objects) {
+	Missile(final String name, final Material material, final TextColor color, final MissileObject[] objects) {
 		this.name = name;
 		this.material = material;
 		this.color = color;
@@ -2891,8 +2888,8 @@ public enum Missile {
 	public ItemStack getItem(final int amount) {
 		return new ItemBuilder(this.material)
 				.amount(amount)
-				.name(this.color + "" + ChatColor.BOLD + this.name)
-				.lore(ChatColor.GRAY + "Right click to place")
+				.name(text(this.name, this.color, BOLD))
+				.lore(text("Right click to place", GRAY))
 				.create();
 	}
 

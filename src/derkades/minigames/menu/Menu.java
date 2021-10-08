@@ -2,30 +2,32 @@ package derkades.minigames.menu;
 
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
-
-import net.md_5.bungee.api.ChatColor;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
+
+import static net.kyori.adventure.text.Component.text;
+import static net.kyori.adventure.text.format.NamedTextColor.*;
+import static net.kyori.adventure.text.format.TextDecoration.BOLD;
 
 public class Menu {
 
 	static final ItemStack BACK_BUTTON = new ItemBuilder(Material.BARRIER)
-			.name(ChatColor.DARK_RED + "" + ChatColor.BOLD + "Back")
-			.lore(ChatColor.RED + "Click to go back")
+			.name(text("Back", DARK_RED).decorate(BOLD))
+			.lore(text("Click to go back", RED))
 			.create();
 
 	static final ItemStack CLOSE_BUTTON = new ItemBuilder(Material.BARRIER)
-			.name(ChatColor.DARK_RED + "" + ChatColor.BOLD + "Close")
-			.lore(ChatColor.RED + "Click to close the menu")
+			.name(text("Close", DARK_RED).decorate(BOLD))
+			.lore(text("Click to close the menu", RED))
 			.create();
 
 	static final ItemStack PREV_BUTTON = new ItemBuilder(Material.ARROW)
-			.name(ChatColor.DARK_RED + "" + ChatColor.BOLD + "Previous")
-			.lore(ChatColor.GRAY + "Go to the previous page")
+			.name(text("Previous", GOLD).decorate(BOLD))
+			.lore(text("Go to the previous page", GRAY))
 			.create();
 
 	static final ItemStack NEXT_BUTTON = new ItemBuilder(Material.ARROW)
-			.name(ChatColor.DARK_RED + "" + ChatColor.BOLD + "Next")
-			.lore(ChatColor.GRAY + "Go to the next page")
+			.name(text("Next", GOLD).decorate(BOLD))
+			.lore(text("Go to the next page", GRAY))
 			.create();
 
 }

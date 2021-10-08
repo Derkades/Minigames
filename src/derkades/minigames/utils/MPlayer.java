@@ -13,7 +13,6 @@ import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.title.Title;
 import net.kyori.adventure.title.Title.Times;
-import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
@@ -46,6 +45,11 @@ import java.time.Duration;
 import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.Consumer;
+
+import static net.kyori.adventure.text.Component.text;
+import static net.kyori.adventure.text.format.NamedTextColor.AQUA;
+import static net.kyori.adventure.text.format.NamedTextColor.YELLOW;
+import static net.kyori.adventure.text.format.TextDecoration.BOLD;
 
 public class MPlayer {
 
@@ -241,15 +245,15 @@ public class MPlayer {
 	private static final int TITLE_FADE_TICKS = 5;
 	@SuppressWarnings("null")
 	@NotNull
-	private static final Title TITLE_FADE_OUT = Title.title(Component.text(SpecialCharacter.BLACK_BOX), Component.empty(),
+	private static final Title TITLE_FADE_OUT = Title.title(text(SpecialCharacter.BLACK_BOX), Component.empty(),
 			Times.of(Duration.ofMillis(TITLE_FADE_TICKS * 50), Duration.ofMillis(100), Duration.ofMillis(0)));
 	@SuppressWarnings("null")
 	@NotNull
-	private static final Title TITLE_BLACK = Title.title(Component.text(SpecialCharacter.BLACK_BOX), Component.empty(),
+	private static final Title TITLE_BLACK = Title.title(text(SpecialCharacter.BLACK_BOX), Component.empty(),
 			Times.of(Duration.ofMillis(0), Duration.ofMillis(100), Duration.ofMillis(0)));
 	@SuppressWarnings("null")
 	@NotNull
-	private static final Title TITLE_FADE_IN = Title.title(Component.text(SpecialCharacter.BLACK_BOX), Component.empty(),
+	private static final Title TITLE_FADE_IN = Title.title(text(SpecialCharacter.BLACK_BOX), Component.empty(),
 			Times.of(Duration.ofMillis(0), Duration.ofMillis(0), Duration.ofMillis(TITLE_FADE_TICKS * 50)));
 
 	public void queueTeleport(@NotNull final Location location) {
@@ -343,8 +347,8 @@ public class MPlayer {
 //		}
 
 		this.player.getInventory().setItem(8, new ItemBuilder(Material.COMPARATOR)
-				.name(ChatColor.AQUA + "" + ChatColor.BOLD + "Menu")
-				.lore(ChatColor.YELLOW + "Click to open menu")
+				.name(text("Menu", AQUA).decorate(BOLD))
+				.lore(text("Click to open menu", YELLOW))
 				.create());
     }
 
@@ -421,7 +425,7 @@ public class MPlayer {
 	}
 
 	@NotNull
-	private static final Title DIE_TITLE = Title.title(Component.empty(), Component.text("You've died", NamedTextColor.RED));
+	private static final Title DIE_TITLE = Title.title(Component.empty(), text("You've died", NamedTextColor.RED));
 
 	public void die() {
 		this.sendTitle(DIE_TITLE);
@@ -429,7 +433,7 @@ public class MPlayer {
 	}
 
 	@NotNull
-	private static final Title FINISH_TITLE = Title.title(Component.empty(), Component.text("You've finished", NamedTextColor.GREEN));
+	private static final Title FINISH_TITLE = Title.title(Component.empty(), text("You've finished", NamedTextColor.GREEN));
 
 	public void finish() {
 		this.sendTitle(FINISH_TITLE);
@@ -598,11 +602,11 @@ public class MPlayer {
 
 	@SuppressWarnings("null")
 	public void sendFormattedPlainActionBar(@NotNull final String message, @NotNull final Object... replacements) {
-		this.sendActionBar(Component.text(String.format(message, replacements), NamedTextColor.GRAY));
+		this.sendActionBar(text(String.format(message, replacements), NamedTextColor.GRAY));
 	}
 
 	public void sendPlainActionBar(@NotNull final String message) {
-		this.sendActionBar(Component.text(message, NamedTextColor.GRAY));
+		this.sendActionBar(text(message, NamedTextColor.GRAY));
 	}
 
 	public void sendActionBar(@NotNull final Component message) {
@@ -611,11 +615,11 @@ public class MPlayer {
 
 	@SuppressWarnings("null")
 	public void sendFormattedPlainChat(@NotNull final String message, @NotNull final Object... replacements) {
-		this.sendChat(Component.text(String.format(message, replacements), NamedTextColor.GRAY));
+		this.sendChat(text(String.format(message, replacements), NamedTextColor.GRAY));
 	}
 
 	public void sendPlainChat(@NotNull final String message) {
-		this.sendChat(Component.text(message, NamedTextColor.GRAY));
+		this.sendChat(text(message, NamedTextColor.GRAY));
 	}
 
 	public void sendChat(@NotNull final Component message) {
@@ -636,8 +640,8 @@ public class MPlayer {
 	}
 
 	public void sendPlainTitle(@Nullable final String title, @Nullable final String subtitle) {
-		final Component a = title == null ? Component.empty() : Component.text(title, NamedTextColor.GRAY);
-		final Component b = subtitle == null ? Component.empty() : Component.text(subtitle, NamedTextColor.GRAY);
+		final Component a = title == null ? Component.empty() : text(title, NamedTextColor.GRAY);
+		final Component b = subtitle == null ? Component.empty() : text(subtitle, NamedTextColor.GRAY);
 		this.sendTitle(a, b);
 	}
 
@@ -651,7 +655,7 @@ public class MPlayer {
 	private Component generateGradientName() {
 		final int rgb1 = Colors.randomPastelColor().getRGB();
 		final int rgb2 = Colors.randomPastelColor().getRGB();
-		final TextComponent.Builder b = Component.text();
+		final TextComponent.Builder b = text();
 		float f = GRADIENT_MARGIN;
 		final float f_step = (1.0f - 2*GRADIENT_MARGIN) / (this.player.getName().length() - 1);
 		for (final char c : this.player.getName().toCharArray()) {
@@ -661,7 +665,7 @@ public class MPlayer {
 			final int r2 = (int) (f * (0xFF & rgb2));
 			final int g2 = (int) (f * ((0xFF00 & rgb2) >> 8)) << 8;
 			final int b2 = (int) (f * ((0xFF0000 & rgb2) >> 16)) << 16;
-			b.append(Component.text(c, TextColor.color(r1 + g1 + b1 + r2 + g2 + b2)));
+			b.append(text(c, TextColor.color(r1 + g1 + b1 + r2 + g2 + b2)));
 			f += f_step;
 			if (f > 1.0f) {
 				f = 1.0f;
@@ -673,7 +677,7 @@ public class MPlayer {
 
 	public void setDisplayName(final Component displayName) {
 		this.player.displayName(displayName == null ? generateGradientName() : displayName);
-		this.player.playerListName(Component.text(TAB_NAME_PADDING).append(this.player.displayName()).append(Component.text(TAB_NAME_PADDING)));
+		this.player.playerListName(text(TAB_NAME_PADDING).append(this.player.displayName()).append(text(TAB_NAME_PADDING)));
 	}
 
 	@NotNull

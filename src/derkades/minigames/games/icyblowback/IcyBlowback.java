@@ -6,15 +6,12 @@ import derkades.minigames.games.GameLabel;
 import derkades.minigames.utils.MPlayer;
 import derkades.minigames.utils.MPlayerDamageEvent;
 import derkades.minigames.utils.queue.TaskQueue;
-import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
-import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
@@ -26,10 +23,13 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
+import static net.kyori.adventure.text.Component.text;
+import static net.kyori.adventure.text.format.NamedTextColor.GOLD;
+
 public class IcyBlowback extends Game<IcyBlowbackMap> {
 
 	private static final ItemStack SWORD = new ItemBuilder(Material.WOODEN_SWORD)
-			.name(ChatColor.AQUA + "Knockback sword")
+			.name(text("Knockback sword", GOLD))
 			.enchant(Enchantment.KNOCKBACK, 2)
 			.create();
 
@@ -115,7 +115,7 @@ public class IcyBlowback extends Game<IcyBlowbackMap> {
 			this.alive.remove(player.getUniqueId());
 			this.map.getWorld().spigot().strikeLightningEffect(player.getLocation(), false);
 			player.dieUp(10);
-			this.sendMessage(player.getDisplayName().append(Component.text(" has died.", NamedTextColor.GRAY)));
+			this.sendMessage(player.getDisplayName().append(text(" has died.", NamedTextColor.GRAY)));
 		}
 	}
 

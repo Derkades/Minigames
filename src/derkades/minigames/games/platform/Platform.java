@@ -7,9 +7,6 @@ import derkades.minigames.games.GameLabel;
 import derkades.minigames.utils.MPlayer;
 import derkades.minigames.utils.MPlayerDamageEvent;
 import derkades.minigames.utils.Utils;
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.NamedTextColor;
-import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.BlockFace;
@@ -24,6 +21,10 @@ import xyz.derkades.derkutils.bukkit.ItemBuilder;
 import java.util.EnumSet;
 import java.util.Set;
 import java.util.UUID;
+
+import static net.kyori.adventure.text.Component.text;
+import static net.kyori.adventure.text.format.NamedTextColor.GOLD;
+import static net.kyori.adventure.text.format.NamedTextColor.GRAY;
 
 public class Platform extends Game<PlatformMap> {
 
@@ -87,8 +88,8 @@ public class Platform extends Game<PlatformMap> {
 	private void giveSwords(){
 		final ItemStack sword = new ItemBuilder(Material.WOODEN_SWORD)
 				.damage(59)
-				.name(ChatColor.DARK_AQUA + "" + ChatColor.BOLD + "Knockback Sword")
-				.lore(ChatColor.AQUA + "You can only use this once!")
+				.name(text("Knockback Sword", GOLD))
+				.lore(text("You can only use this once!", GRAY))
 				.enchant(Enchantment.KNOCKBACK, 1)
 				.create();
 
@@ -121,7 +122,7 @@ public class Platform extends Game<PlatformMap> {
 			}
 
 			this.alive.remove(player.getUniqueId());
-			this.sendMessage(player.getDisplayName().append(Component.text(" has died.", NamedTextColor.GRAY)));
+			this.sendMessage(player.getDisplayName().append(text(" has died.", GRAY)));
 			player.dieUp(10);
 			this.map.getWorld().spigot().strikeLightningEffect(player.getLocation(), false);
 		}

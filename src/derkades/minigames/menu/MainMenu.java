@@ -13,18 +13,32 @@ import xyz.derkades.derkutils.bukkit.menu.OptionClickEvent;
 
 import java.util.List;
 
-import static org.bukkit.ChatColor.*;
+import static net.kyori.adventure.text.Component.text;
+import static net.kyori.adventure.text.format.NamedTextColor.*;
 
 public class MainMenu extends IconMenu {
 
 	public MainMenu(final Player player) {
-		super(Minigames.getInstance(), "Menu", 1, player);
+		super(Minigames.getInstance(), text("Menu"), 1, player);
 		addItems(player);
 	}
 
 	public void addItems(final Player player) {
-		addItem(0, new ItemBuilder(Material.GRAY_DYE).name(GOLD + "Points").lore(GRAY + "You have " + YELLOW + Points.getPoints(player) + GRAY + " points.", GRAY + "Click for more information.").create());
-		addItem(1, new ItemBuilder(Material.GRAY_DYE).name(GOLD + "Games").lore(GRAY + "Click to open games list menu.").create());
+		addItem(0,
+				new ItemBuilder(Material.GRAY_DYE)
+						.name(text("Points", GOLD))
+						.lore(
+								text("You have ", GRAY).append(text(Points.getPoints(player), YELLOW)).append(text(" points.", GRAY)),
+								text("Click for more information.", GRAY)
+						)
+						.create()
+		);
+		addItem(1,
+				new ItemBuilder(Material.GRAY_DYE)
+						.name(text("Games", GOLD))
+						.lore(text("Click to open games list menu.", GRAY))
+						.create()
+		);
 
 		Material settingMaterial;
 		if (Minigames.getInstance().getConfig().getStringList("disabled-description").contains(player.getUniqueId().toString())) {
@@ -33,7 +47,13 @@ public class MainMenu extends IconMenu {
 			settingMaterial = Material.LIME_DYE;
 		}
 
-		addItem(2, new ItemBuilder(settingMaterial).name(GOLD + "Game descriptions").lore(GRAY + "Click to enable or disable game", GRAY + "description messages at the start of each game").create());
+		addItem(2,
+				new ItemBuilder(settingMaterial)
+						.name(text("Game descriptions", GOLD))
+						.lore(
+								text("Click to enable or disable game", GRAY),
+								text("description messages at the start of each game", GRAY))
+						.create());
 
 		addItem(8, Menu.CLOSE_BUTTON);
 	}
