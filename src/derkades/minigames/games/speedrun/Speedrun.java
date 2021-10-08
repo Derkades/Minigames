@@ -6,9 +6,11 @@ import derkades.minigames.games.GameLabel;
 import derkades.minigames.utils.MPlayer;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerMoveEvent;
@@ -70,7 +72,10 @@ public class Speedrun extends Game<SpeedrunMap> {
 
 	@Override
 	public boolean endEarly() {
-		return false;
+		return Bukkit.getOnlinePlayers().stream()
+				.map(Player::getUniqueId)
+				.filter(finished::contains)
+				.noneMatch(x -> true);
 	}
 
 	@Override
