@@ -192,8 +192,9 @@ public class Minigames extends JavaPlugin implements Listener {
 		if (this.configDirty) {
 			return;
 		}
+		this.configDirty = true;
 
-		Scheduler.delay(5*20, () -> {
+		Scheduler.delay(30*20, () -> {
 			Logger.debug("Saved config file");
 			this.saveConfig();
 			this.configDirty = false;
