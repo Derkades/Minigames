@@ -177,7 +177,7 @@ public class Command implements CommandExecutor {
 					if (sender.hasPermission("minigames.debug")) {
 						Logger.debugMode = !Logger.debugMode;
 						Minigames.getInstance().getConfig().set("debug_mode", Logger.debugMode);
-						Minigames.getInstance().saveConfig();
+						Minigames.getInstance().queueConfigSave();
 						sender.sendMessage("Set debug mode to " + Logger.debugMode);
 					}
 				}

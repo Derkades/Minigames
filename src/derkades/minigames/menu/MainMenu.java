@@ -89,7 +89,7 @@ public class MainMenu extends IconMenu {
 			}
 
 			Minigames.getInstance().getConfig().set("disabled-description", list);
-			Minigames.getInstance().saveConfig();
+			Minigames.getInstance().queueConfigSave();
 
 			this.addItems(event.getPlayer());
 

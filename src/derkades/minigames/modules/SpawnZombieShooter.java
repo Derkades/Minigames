@@ -124,7 +124,7 @@ public class SpawnZombieShooter extends Module {
 		killer.playSound(killer.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 1.0f, 1.0f);
 		int killCount = Minigames.getInstance().getConfig().getInt("zombie-kill-count", 0);
 		Minigames.getInstance().getConfig().set("zombie-kill-count", ++killCount);
-		Minigames.getInstance().saveConfig();
+		Minigames.getInstance().queueConfigSave();
 		UpdateSigns.updateGlobalStats();
 	}
 

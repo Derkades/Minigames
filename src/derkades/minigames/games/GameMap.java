@@ -39,7 +39,7 @@ public abstract class GameMap implements RandomlyPickable, Disableable {
 	public void setWeight(final double weight) {
 		final String configPath = "game-voting.map." + this.getIdentifier();
 		Minigames.getInstance().getConfig().set(configPath, weight);
-		Minigames.getInstance().saveConfig();
+		Minigames.getInstance().queueConfigSave();
 	}
 
 	@Override

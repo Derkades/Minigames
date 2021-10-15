@@ -538,7 +538,7 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 
 			// Increment number now that we know everything went well
 			Minigames.getInstance().getConfig().set("last-game-number", gameNumber);
-			Minigames.getInstance().saveConfig();
+			Minigames.getInstance().queueConfigSave();
 
 			// Upload to hastebin
 			try {
@@ -606,7 +606,7 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 	public void setWeight(final double weight) {
 		final String configPath = "game-voting." + this.getIdentifier();
 		Minigames.getInstance().getConfig().set(configPath, weight);
-		Minigames.getInstance().saveConfig();
+		Minigames.getInstance().queueConfigSave();
 	}
 
 	@SuppressWarnings({ "unused", "null" })

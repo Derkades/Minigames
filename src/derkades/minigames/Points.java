@@ -6,7 +6,7 @@ public class Points {
 
 	public static void setPoints(final OfflinePlayer player, final int points){
 		Minigames.getInstance().getConfig().set("points." + player.getUniqueId(), points);
-		Minigames.getInstance().saveConfig();
+		Minigames.getInstance().queueConfigSave();
 	}
 
 	public static int getPoints(final OfflinePlayer player){

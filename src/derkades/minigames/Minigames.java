@@ -71,6 +71,8 @@ public class Minigames extends JavaPlugin implements Listener {
 
 //	public static Economy economy = null;
 
+	private boolean configDirty = false;
+
 	private void registerCommand(@NotNull String name, @NotNull CommandExecutor executor, @Nullable TabCompleter completer) {
 		PluginCommand command = getCommand(name);
 		if (command == null){
@@ -161,6 +163,11 @@ public class Minigames extends JavaPlugin implements Listener {
 			}
 		}
 
+		if (this.configDirty) {
+			Logger.debug("Saved config file");
+			this.saveConfig();
+		}
+
 		Logger.info("Plugin disabled");
 	}
 
@@ -179,6 +186,18 @@ public class Minigames extends JavaPlugin implements Listener {
 		} else {
 			return "None";
 		}
+	}
+
+	public void queueConfigSave() {
+		if (this.configDirty) {
+			return;
+		}
+
+		Scheduler.delay(5*20, () -> {
+			Logger.debug("Saved config file");
+			this.saveConfig();
+			this.configDirty = false;
+		});
 	}
 
 //    private boolean setupEconomy() {
