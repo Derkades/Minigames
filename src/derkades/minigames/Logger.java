@@ -10,6 +10,10 @@ public class Logger {
 	static boolean debugMode = Minigames.getInstance().getConfig().getBoolean("debug_mode");
 
 	public static void warning(final String message, final Object... arg1) {
+		if (!Bukkit.isPrimaryThread()) {
+			Logger.warning("Logger was called asynchronously!");
+		}
+
 		final String formatted = String.format(message, arg1);
 		Minigames.getInstance().getLogger().warning(formatted);
 		if (debugMode) {
@@ -18,6 +22,10 @@ public class Logger {
 	}
 
 	public static void info(final String message, final Object... arg1) {
+		if (!Bukkit.isPrimaryThread()) {
+			Logger.warning("Logger was called asynchronously!");
+		}
+
 		final String formatted = String.format(message, arg1);
 		Minigames.getInstance().getLogger().info(formatted);
 		if (debugMode) {
@@ -26,6 +34,10 @@ public class Logger {
 	}
 
 	public static void debug(final String message, final Object... arg1) {
+		if (!Bukkit.isPrimaryThread()) {
+			Logger.warning("Logger was called asynchronously!");
+		}
+
 		if (debugMode) {
 			final String formatted = String.format(message, arg1);
 			Minigames.getInstance().getLogger().info(formatted);
