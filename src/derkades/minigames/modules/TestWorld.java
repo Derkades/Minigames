@@ -2,8 +2,14 @@ package derkades.minigames.modules;
 
 import derkades.minigames.Logger;
 import derkades.minigames.Minigames;
-import org.bukkit.*;
+import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
+import org.bukkit.GameRule;
+import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.World.Environment;
+import org.bukkit.WorldCreator;
+import org.bukkit.WorldType;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -13,12 +19,15 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerChangedWorldEvent;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import xyz.derkades.derkutils.bukkit.BlockUtils;
 import xyz.derkades.derkutils.bukkit.VoidGenerator;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class TestWorld extends Module {
@@ -44,14 +53,26 @@ public class TestWorld extends Module {
 		public boolean onCommand(@NotNull final CommandSender sender, @NotNull final Command command, @NotNull final String label,
 				@NotNull final String[] args) {
 
-			final WorldCreator creator = new WorldCreator("testworlds/" + args[0]);
+			String worldName = "testworlds/" + args[0];
+			boolean exists = new File(Bukkit.getWorldContainer(), worldName).exists();
+			final WorldCreator creator = new WorldCreator(worldName);
 			creator.generateStructures(false);
 			creator.type(WorldType.FLAT);
 			creator.generator(new VoidGenerator());
 			creator.environment(Environment.NORMAL);
 
 			final World world = Bukkit.getServer().createWorld(creator);
-//			world.setSpawnLocation(0, 65, 0);
+			Objects.requireNonNull(world);
+
+			if (exists) {
+				Logger.debug("World already exists");
+			} else {
+				Logger.debug("New world, setting spawn");
+				world.setSpawnLocation(0, 65, 0);
+				BlockUtils.fillArea(world, -5, 64, -5, 5, 64, 5, Material.GLASS);
+			}
+
+			world.setGameRule(GameRule.DO_WEATHER_CYCLE, false);
 
 			final Player player = (Player) sender;
 			player.teleport(world.getSpawnLocation());
@@ -59,7 +80,6 @@ public class TestWorld extends Module {
 			player.setFlying(true);
 			return true;
 		}
-
 	}
 
 	private static class TestWorldCommandCompleter implements TabCompleter {
