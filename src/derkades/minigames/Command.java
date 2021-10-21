@@ -78,7 +78,7 @@ public class Command implements CommandExecutor {
 										2 * col * planeDirection.getModX(),
 										-2 * row,
 										2 * col * planeDirection.getModZ());
-								glass.setType(Material.GLASS);
+//								glass.setType(Material.GLASS);
 								Block signBlock = glass.getRelative(signDirection);
 								signBlock.setType(Material.OAK_WALL_SIGN);
 								if (signBlock.getState() instanceof Sign sign) {
