@@ -1,5 +1,6 @@
 package derkades.minigames;
 
+import com.google.common.base.Strings;
 import derkades.minigames.Minigames.ShutdownReason;
 import derkades.minigames.games.Game;
 import derkades.minigames.games.GameLabel;
@@ -134,6 +135,29 @@ public class Command implements CommandExecutor {
 							sign.line(0, Component.text(c));
 							sign.setColor(DyeColor.WHITE);
 							sign.setGlowingText(true);
+							sign.update();
+						} else {
+							player.sendMessage("not a sign");
+						}
+					}
+				}
+				case "signpad" -> {
+					if (sender.hasPermission("minigames.debug")) {
+						final Player player = (Player) sender;
+						int pad;
+						try {
+							pad = Integer.parseInt(args[1]);
+						} catch (NumberFormatException e) {
+							player.sendMessage("invalid number");
+							return true;
+						}
+						final Block block = player.getTargetBlock(10);
+						if (block.getState() instanceof final Sign sign) {
+							if (pad > 0) {
+								sign.line(0, sign.line(0).append(Component.text(Strings.repeat(" ", pad))));
+							} else if (pad < 0) {
+								sign.line(0, Component.text(Strings.repeat(" ", -pad)).append(sign.line(0)));
+							}
 							sign.update();
 						} else {
 							player.sendMessage("not a sign");
@@ -453,6 +477,11 @@ public class Command implements CommandExecutor {
 						sidebar.clearEntries();
 						sidebar.addEntry(Component.text("emptied", NamedTextColor.GRAY));
 					});
+					Scheduler.delay(15*20, () -> sidebar.hideFrom((Player) sender));
+				}
+				case "updatesigns" -> {
+					UpdateSigns.updateLeaderboard();
+					UpdateSigns.updateGlobalStats();
 				}
 			}
 		}
