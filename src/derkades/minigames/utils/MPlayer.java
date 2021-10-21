@@ -8,9 +8,7 @@ import derkades.minigames.modules.LobbyEffects;
 import derkades.minigames.modules.SneakPrevention;
 import derkades.minigames.utils.queue.TaskQueue;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.NamedTextColor;
-import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.title.Title;
 import net.kyori.adventure.title.Title.Times;
 import org.bukkit.Bukkit;
@@ -36,7 +34,7 @@ import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import xyz.derkades.derkutils.Colors;
+import xyz.derkades.derkutils.bukkit.AdventureUtil;
 import xyz.derkades.derkutils.bukkit.BlockUtils;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
 import xyz.derkades.derkutils.bukkit.LocationUtils;
@@ -645,35 +643,11 @@ public class MPlayer {
 		this.sendTitle(a, b);
 	}
 
-	/**
-	 * 0.0 - 0.5
-	 * Lower value means more visible gradient
-	 */
-	private static final float GRADIENT_MARGIN = 0.2f;
-	private static final String TAB_NAME_PADDING = "    ";
-
 	private Component generateGradientName() {
-		final int rgb1 = Colors.randomPastelColor().getRGB();
-		final int rgb2 = Colors.randomPastelColor().getRGB();
-		final TextComponent.Builder b = text();
-		float f = GRADIENT_MARGIN;
-		final float f_step = (1.0f - 2*GRADIENT_MARGIN) / (this.player.getName().length() - 1);
-		for (final char c : this.player.getName().toCharArray()) {
-			final int r1 = (int) ((1-f) * (0xFF & rgb1));
-			final int g1 = (int) ((1-f) * ((0xFF00 & rgb1) >> 8)) << 8;
-			final int b1 = (int) ((1-f) * ((0xFF0000 & rgb1) >> 16)) << 16;
-			final int r2 = (int) (f * (0xFF & rgb2));
-			final int g2 = (int) (f * ((0xFF00 & rgb2) >> 8)) << 8;
-			final int b2 = (int) (f * ((0xFF0000 & rgb2) >> 16)) << 16;
-			b.append(text(c, TextColor.color(r1 + g1 + b1 + r2 + g2 + b2)));
-			f += f_step;
-			if (f > 1.0f) {
-				f = 1.0f;
-			}
-		}
-
-		return b.asComponent();
+		return AdventureUtil.gradient(this.getOriginalName(), 0.15f);
 	}
+
+	private static final String TAB_NAME_PADDING = "    ";
 
 	public void setDisplayName(final Component displayName) {
 		this.player.displayName(displayName == null ? generateGradientName() : displayName);
