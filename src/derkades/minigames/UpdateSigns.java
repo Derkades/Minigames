@@ -69,9 +69,9 @@ public class UpdateSigns {
 			Scheduler.run(() -> {
 				final long fillStart = System.currentTimeMillis();
 				final Component[][] leaderboard = new Component[3][12];
-				leaderboard[0][0] = Component.text("Username", NamedTextColor.GREEN);
-				leaderboard[1][0] = Component.text("Recent wins", NamedTextColor.GREEN);
-				leaderboard[2][0] = Component.text("Total points", NamedTextColor.GREEN);
+//				leaderboard[0][0] = Component.text("Username", NamedTextColor.GREEN);
+//				leaderboard[1][0] = Component.text("Recent wins", NamedTextColor.GREEN);
+//				leaderboard[2][0] = Component.text("Total points", NamedTextColor.GREEN);
 
 				int i = 1;
 				for (final Map.Entry<UUID, Integer> wins : sorted.entrySet()) {
@@ -87,6 +87,9 @@ public class UpdateSigns {
 						break;
 					}
 				}
+
+				leaderboard[0][11] = Component.text('\ue004', NamedTextColor.WHITE);
+				leaderboard[2][11] = Component.text('\ue005', NamedTextColor.WHITE);
 
 				final long fillEndRenderStart = System.currentTimeMillis();
 
