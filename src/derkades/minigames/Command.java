@@ -61,6 +61,39 @@ public class Command implements CommandExecutor {
 		if (args.length == 0) {
 			final Player player = (Player) sender;
 			new MainMenu(player);
+		} else if (args.length == 6) {
+			switch(args[0]) {
+				case "buildsignimage" -> {
+					char c = (char) (Integer.parseInt("e000", 16) + Integer.parseInt(args[1]));
+					int cols = Integer.parseInt(args[2]);
+					int rows = Integer.parseInt(args[3]);
+					BlockFace planeDirection = BlockFace.valueOf(args[4]);
+					BlockFace signDirection = BlockFace.valueOf(args[5]);
+					Player player = (Player) sender;
+					Block start = player.getLocation().getBlock().getRelative(BlockFace.DOWN);
+					for (int col = 0; col < cols; col++){
+						for (int row = 0; row < rows; row++) {
+							Block glass = start.getRelative(
+									2 * col * planeDirection.getModX(),
+									-2 * row,
+									2 * col * planeDirection.getModZ());
+							glass.setType(Material.GLASS);
+							Block signBlock = glass.getRelative(signDirection);
+							signBlock.setType(Material.OAK_WALL_SIGN);
+							if (signBlock.getState() instanceof Sign sign) {
+								sign.line(0, Component.text(c, NamedTextColor.WHITE));
+								sign.setGlowingText(true);
+								sign.update();
+							}
+							if (signBlock.getBlockData() instanceof Directional sign) {
+								sign.setFacing(signDirection);
+								signBlock.setBlockData(sign);
+							}
+							c++;
+						}
+					}
+				}
+			}
 		} else if (args.length == 2) {
 			switch(args[0]) {
 				case "map", "m" -> {
