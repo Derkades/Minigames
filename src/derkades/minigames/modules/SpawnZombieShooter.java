@@ -1,6 +1,7 @@
 package derkades.minigames.modules;
 
 import derkades.minigames.GameState;
+import derkades.minigames.Logger;
 import derkades.minigames.Minigames;
 import derkades.minigames.UpdateSigns;
 import derkades.minigames.Var;
@@ -12,6 +13,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Husk;
 import org.bukkit.entity.Player;
@@ -23,6 +25,7 @@ import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.inventory.ItemStack;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
 
+import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 
 import static net.kyori.adventure.text.Component.text;
@@ -43,6 +46,8 @@ public class SpawnZombieShooter extends Module {
 			.create();
 
 	private static final float HUSK_CHANCE = 0.15f;
+	private static final int MAX_LIVED_TICKS = 130;
+	private static final UUID VILLAGER_UUID = UUID.fromString("5c70b3ae-aadf-4f76-81db-324cda76756e");
 
 	public SpawnZombieShooter() {
 		Scheduler.repeat(1, this::tickBowTarget);
@@ -54,14 +59,16 @@ public class SpawnZombieShooter extends Module {
 			return;
 		}
 
-		for (final Zombie zombie : Var.LOBBY_WORLD.getEntitiesByClass(Zombie.class)) {
-			final Villager bait = getBaitVillager();
-			if (bait == null) {
-				System.out.println("Bait villager does not exist");
-				return;
+		Entity entity = Var.LOBBY_WORLD.getEntity(VILLAGER_UUID);
+		if (entity instanceof Villager bait) {
+			for (final Zombie zombie : Var.LOBBY_WORLD.getEntitiesByClass(Zombie.class)) {
+				zombie.setTarget(bait);
+				if (zombie.getTicksLived() > MAX_LIVED_TICKS) {
+					zombie.damage(100);
+				}
 			}
-
-			zombie.setTarget(bait);
+		} else {
+			Logger.warning("Bait villager does not exist");
 		}
 
 		for (final MPlayer player : Minigames.getOnlinePlayers()) {
@@ -114,7 +121,7 @@ public class SpawnZombieShooter extends Module {
 			return;
 		}
 
-		if (event.getEntityType() == EntityType.HUSK){
+		if (event.getEntityType() == EntityType.HUSK) {
 			MPlayer m = new MPlayer(killer);
 			m.sendActionBar(text("Bonus point!", NamedTextColor.GOLD));
 			m.addPoints(1);
@@ -126,15 +133,6 @@ public class SpawnZombieShooter extends Module {
 		Minigames.getInstance().getConfig().set("zombie-kill-count", ++killCount);
 		Minigames.getInstance().queueConfigSave();
 		UpdateSigns.updateGlobalStats();
-	}
-
-	private Villager getBaitVillager() {
-		for (final Villager villager : Var.LOBBY_WORLD.getEntitiesByClass(Villager.class)) {
-			if (villager.getCustomName() != null && villager.getCustomName().equals("Bait")) {
-				return villager;
-			}
-		}
-		return null;
 	}
 
 }
