@@ -111,7 +111,9 @@ public class SpawnZombieShooter extends Module {
 
 		final Zombie zombie = (Zombie) event.getEntity();
 
-		if (!zombie.getLocation().getWorld().equals(Var.LOBBY_WORLD) || (zombie.getLastDamageCause().getCause() != DamageCause.PROJECTILE)) {
+		if (!zombie.getLocation().getWorld().equals(Var.LOBBY_WORLD) ||
+				zombie.getLastDamageCause() == null ||
+				zombie.getLastDamageCause().getCause() != DamageCause.PROJECTILE) {
 			return;
 		}
 
