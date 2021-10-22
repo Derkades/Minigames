@@ -47,6 +47,6 @@ public class Prototype extends StudyFallMap {
 
 	@Override
 	Location getSpawnLocation() {
-		return new Location(this.getWorld(), -0.5, 95, 17.5);
+		return new Location(this.getWorld(), -0.5, 95, 17.5, 180, 0);
 	}
 }
