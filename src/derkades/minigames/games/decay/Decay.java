@@ -13,9 +13,7 @@ import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import xyz.derkades.derkutils.ListUtils;
 
@@ -40,8 +38,7 @@ public class Decay extends Game<DecayMap> {
 				"decay",
 				"Decay",
 				new String[] {
-						// TODO Description
-						"something something don't die",
+						"Try not to fall as the floor disintegrates.",
 				},
 				Material.RED_CONCRETE,
 				new DecayMap[] {
