@@ -54,8 +54,14 @@ public class SpawnZombieShooter extends Module {
 		Scheduler.repeat(50, this::tickSpawn);
 	}
 
+	private static boolean skipSpawn() {
+		return GameState.isCurrentlyInGame() ||
+				Var.LOBBY_WORLD.getPlayers().isEmpty() ||
+				!Var.LOBBY_WORLD.isChunkLoaded(13, 18);
+	}
+
 	public void tickBowTarget() {
-		if (GameState.isCurrentlyInGame() || Var.LOBBY_WORLD.getPlayers().isEmpty()) {
+		if (skipSpawn()) {
 			return;
 		}
 
@@ -91,7 +97,7 @@ public class SpawnZombieShooter extends Module {
 	}
 
 	public void tickSpawn() {
-		if (GameState.isCurrentlyInGame() || Var.LOBBY_WORLD.getPlayers().isEmpty()) {
+		if (skipSpawn()) {
 			return;
 		}
 
