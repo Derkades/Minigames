@@ -9,7 +9,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
 public class DamageParticles extends Module {
 
-	@EventHandler
+	@EventHandler(ignoreCancelled = true)
 	public void onDamage(EntityDamageByEntityEvent event) {
 		Location head = event.getEntity().getLocation().add(0, 1.8, 0);
 //		int damageCount = (int) (event.getDamage() / 2);
