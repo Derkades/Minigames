@@ -2,7 +2,10 @@ package derkades.minigames.modules;
 
 import derkades.minigames.Logger;
 import derkades.minigames.Minigames;
+import derkades.minigames.utils.MPlayer;
+import derkades.minigames.utils.Scheduler;
 import org.bukkit.Bukkit;
+import org.bukkit.Chunk;
 import org.bukkit.GameMode;
 import org.bukkit.GameRule;
 import org.bukkit.Material;
@@ -28,6 +31,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 public class TestWorld extends Module {
@@ -41,9 +45,45 @@ public class TestWorld extends Module {
 	public void worldChange(final PlayerChangedWorldEvent event) {
 		final World world = event.getFrom();
 		if (world.getName().startsWith("testworlds/")) {
-			if (Bukkit.unloadWorld(world, true)) {
-				Logger.info("Unloaded world %s", world.getName());
-			}
+			final String worldName = world.getName();
+			final UUID worldId = world.getUID();
+
+			Scheduler.delay(5*20, () -> {
+				World world2 = Bukkit.getWorld(worldId);
+				if (world2 == null) {
+					return;
+				}
+
+				if (world2.getPlayerCount() > 0) {
+					Logger.debug("Not unloading %s", worldName);
+					return;
+				}
+
+				Logger.debug("Requesting chunk unload for all chunks in world %s", worldName);
+				for (Chunk chunk : world2.getLoadedChunks()) {
+					world2.unloadChunkRequest(chunk.getX(), chunk.getZ());
+				}
+
+				Scheduler.delay(30*20, () -> {
+					World world3 = Bukkit.getWorld(worldId);
+
+					if (world3 == null) {
+						Logger.debug("World %s already unloaded", worldName);
+						return;
+					}
+
+					if (world3.getPlayerCount() > 0) {
+						Logger.debug("Not unloading %s", worldName);
+						return;
+					}
+
+					if (Bukkit.unloadWorld(world3, true)) {
+						Logger.debug("Unloaded world %s", worldName);
+					} else {
+						Logger.warning("Failed to unload world %s", worldName);
+					}
+				});
+			});
 		}
 	}
 
@@ -74,10 +114,11 @@ public class TestWorld extends Module {
 
 			world.setGameRule(GameRule.DO_WEATHER_CYCLE, false);
 
-			final Player player = (Player) sender;
-			player.teleport(world.getSpawnLocation());
-			player.setGameMode(GameMode.CREATIVE);
-			player.setFlying(true);
+			final MPlayer player = new MPlayer((Player) sender);
+			player.queueTeleport(world.getSpawnLocation(), p -> {
+				p.setGameMode(GameMode.CREATIVE);
+				p.bukkit().setFlying(true);
+			});
 			return true;
 		}
 	}
