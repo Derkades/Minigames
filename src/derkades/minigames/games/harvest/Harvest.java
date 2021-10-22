@@ -71,7 +71,6 @@ public class Harvest extends Game<@NotNull HarvestMap> {
 		this.blocks = this.map.getCropLocations();
 
 		this.map.getWorld().setGameRule(GameRule.DO_TILE_DROPS, true);
-		this.map.getWorld().getEntitiesByClass(Item.class).forEach(Item::remove);
 
 		Minigames.getOnlinePlayers().forEach(p -> p.queueTeleport(this.map.getSpawnLocation()));
 	}
@@ -132,6 +131,7 @@ public class Harvest extends Game<@NotNull HarvestMap> {
 
 	@Override
 	public void onEnd() {
+		this.map.getWorld().getEntitiesByClass(Item.class).forEach(Item::remove);
 		endGame(this.leaderboard.getWinnersAndUnregister());
 		this.blocks = null;
 		this.leaderboard = null;
