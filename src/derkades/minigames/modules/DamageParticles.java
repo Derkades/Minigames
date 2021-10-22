@@ -15,7 +15,7 @@ public class DamageParticles extends Module {
 //		int damageCount = (int) (event.getDamage() / 2);
 //		head.getWorld().spawnParticle(Particle.DAMAGE_INDICATOR, head, 3, .2f, 0, .2f);
 		BlockData blockData = Material.RED_CONCRETE_POWDER.createBlockData();
-		head.getWorld().spawnParticle(Particle.BLOCK_DUST, event.getEntity().getLocation().add(0, .5, 0), 10, 0.1, .3, 0.1, blockData);
+		head.getWorld().spawnParticle(Particle.BLOCK_DUST, event.getEntity().getLocation().add(0, 1, 0), 10, 0.1, .5, 0.1, blockData);
 	}
 
 }
