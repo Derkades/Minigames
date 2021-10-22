@@ -17,7 +17,6 @@ import org.jetbrains.annotations.Nullable;
 import xyz.derkades.derkutils.bukkit.sidebar.Sidebar;
 
 import java.io.IOException;
-import java.lang.ref.Cleaner;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -38,7 +37,7 @@ public class Leaderboard implements Listener {
 
 	private boolean unregistered = false;
 
-	private Leaderboard() {
+	public Leaderboard() {
 		this.points = new HashMap<>();
 		this.sidebar = new Sidebar(text("Scores", NamedTextColor.GRAY));
 		this.sidebar.addEntry(text("Game starting soon", NamedTextColor.GRAY));
@@ -48,6 +47,7 @@ public class Leaderboard implements Listener {
 			UUID uuid = player.getUniqueId();
 			this.points.put(uuid, 0);
 			this.sidebar.addEntry(leaderboardEntry(uuid, 0));
+			this.sidebar.showTo(player);
 		}
 
 		Bukkit.getPluginManager().registerEvents(this, Minigames.getInstance());
@@ -157,24 +157,24 @@ public class Leaderboard implements Listener {
 		}
 	}
 
-//	@Override
-//	protected void finalize() {
-//		if (!this.unregistered) {
-//			Logger.warning("Leaderboard was not unregistered before garbage collection!");
-//		}
-//	}
-
-	public void checkUnregister() {
+	@Override
+	protected void finalize() {
 		if (!this.unregistered) {
 			Logger.warning("Leaderboard was not unregistered before garbage collection!");
 		}
 	}
 
-	public static Leaderboard createLeaderboard() {
-		Leaderboard leaderboard = new Leaderboard();
-		Cleaner cleaner = Cleaner.create();
-		cleaner.register(leaderboard, leaderboard::checkUnregister).clean();
-		return leaderboard;
-	}
+//	public void checkUnregister() {
+//		if (!this.unregistered) {
+//			Logger.warning("Leaderboard was not unregistered before garbage collection!");
+//		}
+//	}
+
+//	public static Leaderboard createLeaderboard() {
+//		Leaderboard leaderboard = new Leaderboard();
+//		Cleaner cleaner = Cleaner.create();
+//		cleaner.register(leaderboard, leaderboard::checkUnregister).clean();
+//		return leaderboard;
+//	}
 
 }

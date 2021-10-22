@@ -117,7 +117,7 @@ public class BuildCopy extends Game<BuildCopyMap> {
 
 	@Override
 	public void onStart() {
-		this.leaderboard = Leaderboard.createLeaderboard();
+		this.leaderboard = new Leaderboard();
 
 		for (final MPlayer player : Minigames.getOnlinePlayers()) {
 			giveItems(player);

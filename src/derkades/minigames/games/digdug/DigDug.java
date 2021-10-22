@@ -83,7 +83,7 @@ public class DigDug extends Game<DigDugMap> {
 
 	@Override
 	public void onStart() {
-		this.leaderboard = Leaderboard.createLeaderboard();
+		this.leaderboard = new Leaderboard();
 
 		final ItemStack shovel = new ItemBuilder(Material.DIAMOND_SHOVEL)
 				.name(text("The Dig Dug Digger", GREEN))
