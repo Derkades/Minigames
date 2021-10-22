@@ -121,7 +121,7 @@ public class MeteorShower extends Game<MeteorShowerMap> {
 		}.runTaskTimer(Minigames.getInstance(), 1, 1));
 
 		long delay = 15 - Math.max(this.getSecondsLeft() / 10, 10);
-		this.meteorTasks.add(Scheduler.delay(10, this::spawnMeteor));
+		this.meteorTasks.add(Scheduler.delay(delay, this::spawnMeteor));
 	}
 
 	@Override
@@ -138,6 +138,7 @@ public class MeteorShower extends Game<MeteorShowerMap> {
 
 	@Override
 	protected void onEnd() {
+		map.getWorld().getEntitiesByClass(ShulkerBullet.class).forEach(Entity::remove);
 		endGame(Bukkit.getOnlinePlayers().stream().filter(p -> p.getGameMode() == GameMode.ADVENTURE).map(Player::getUniqueId).collect(Collectors.toUnmodifiableSet()));
 
 		for (BukkitTask task : this.meteorTasks) {
