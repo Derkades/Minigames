@@ -7,10 +7,10 @@ import derkades.minigames.UpdateSigns;
 import derkades.minigames.Var;
 import derkades.minigames.utils.MPlayer;
 import derkades.minigames.utils.Scheduler;
-import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Entity;
@@ -29,6 +29,7 @@ import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 
 import static net.kyori.adventure.text.Component.text;
+import static net.kyori.adventure.text.format.NamedTextColor.GOLD;
 import static net.kyori.adventure.text.format.NamedTextColor.YELLOW;
 import static net.kyori.adventure.text.format.TextDecoration.BOLD;
 
@@ -130,8 +131,10 @@ public class SpawnZombieShooter extends Module {
 		}
 
 		if (event.getEntityType() == EntityType.HUSK) {
+			Location loc = event.getEntity().getLocation();
+			Scheduler.delay(2, () -> loc.getWorld().spawnParticle(Particle.FLASH, loc, 1));
 			MPlayer m = new MPlayer(killer);
-			m.sendActionBar(text("Bonus point!", NamedTextColor.GOLD));
+			m.sendActionBar(text("Bonus point!", GOLD, BOLD));
 			m.addPoints(1);
 			UpdateSigns.updateLeaderboard();
 		}
