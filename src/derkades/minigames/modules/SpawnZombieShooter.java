@@ -64,7 +64,7 @@ public class SpawnZombieShooter extends Module {
 			for (final Zombie zombie : Var.LOBBY_WORLD.getEntitiesByClass(Zombie.class)) {
 				zombie.setTarget(bait);
 				if (zombie.getTicksLived() > MAX_LIVED_TICKS) {
-					zombie.damage(100);
+					zombie.remove();
 				}
 			}
 		} else {
