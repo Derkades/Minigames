@@ -41,7 +41,7 @@ public class MeteorShower extends Game<MeteorShowerMap> {
 						new Prototype(),
 				},
 				2,
-				60,
+				100,
 				EnumSet.of(GameLabel.SINGLEPLAYER, GameLabel.NO_TEAMS)
 		);
 	}
@@ -94,7 +94,7 @@ public class MeteorShower extends Game<MeteorShowerMap> {
 				Entity entity = map.getWorld().getEntity(uuid);
 				if (entity == null) {
 					if (loc != null) {
-						loc.getWorld().createExplosion(loc, 4.0f);
+						loc.getWorld().createExplosion(loc, 2.5f);
 						loc.getWorld().spawnParticle(Particle.LAVA, loc, 30, 1, 0, 1, 0);
 
 						if (ThreadLocalRandom.current().nextFloat() > 0.6) {
@@ -120,8 +120,8 @@ public class MeteorShower extends Game<MeteorShowerMap> {
 			}
 		}.runTaskTimer(Minigames.getInstance(), 1, 1));
 
-		// TODO variable delay between meteors, increasingly difficult
-		this.meteorTasks.add(Scheduler.delay(15, this::spawnMeteor));
+		long delay = 15 - Math.max(this.getSecondsLeft() / 10, 10);
+		this.meteorTasks.add(Scheduler.delay(10, this::spawnMeteor));
 	}
 
 	@Override
