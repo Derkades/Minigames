@@ -69,7 +69,7 @@ public class Elytra extends Game<ElytraMap> {
 
 	@Override
 	public boolean endEarly() {
-		return Utils.allPlayersFinished(this.finished);
+		return Utils.allPlayersIn(this.finished);
 	}
 
 	@Override

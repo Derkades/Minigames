@@ -37,9 +37,9 @@ public class WorldTeleportCommand implements CommandExecutor {
 //			player.teleportSteampunkLobbyAsync();
 //		} else {
 			try {
-				player.queueTeleport(new Location(GameWorld.valueOf(args[0].toUpperCase()).getWorld(), 0.5, 65, 0.5), () -> {
-					player.setGameMode(GameMode.CREATIVE);
-					player.bukkit().setFlying(true);
+				player.queueTeleport(new Location(GameWorld.valueOf(args[0].toUpperCase()).getWorld(), 0.5, 65, 0.5), p -> {
+					p.setGameMode(GameMode.CREATIVE);
+					p.bukkit().setFlying(true);
 				});
 			} catch (final IllegalArgumentException e) {
 				player.sendFormattedPlainChat("No world '%s'", args[0]);

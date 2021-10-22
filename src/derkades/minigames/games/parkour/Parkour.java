@@ -72,7 +72,7 @@ public class Parkour extends Game<ParkourMap> {
 
 	@Override
 	public boolean endEarly() {
-		return Utils.allPlayersFinished(this.finished);
+		return Utils.allPlayersIn(this.finished);
 	}
 
 	@Override

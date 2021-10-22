@@ -30,6 +30,7 @@ import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.metadata.MetadataValue;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
@@ -258,31 +259,54 @@ public class MPlayer {
 		queueTeleport(location, null);
 	}
 
-	public void queueTeleport(@NotNull final Location location, @Nullable final Runnable callback) {
+	public void queueTeleport(@NotNull final Location location, @Nullable final Consumer<MPlayer> callback) {
 		this.sendTitle(TITLE_FADE_OUT);
+
+		UUID uuid = this.getUniqueId();
 
 		// Wait for fade-out to complete before teleporting
 		Scheduler.delay(TITLE_FADE_TICKS, () -> {
 			// Refresh black screen every tick (50ms)
-			final BukkitTask task = Scheduler.repeat(1, () -> this.sendTitle(TITLE_BLACK));
-
-			TaskQueue.add(() -> this.player.teleportAsync(location).thenRun(() -> {
-				task.cancel();
-				this.sendTitle(TITLE_FADE_IN);
-				if (callback != null) {
-					callback.run();
+//			final BukkitTask task =  Scheduler.repeat(1, () -> this.sendTitle(TITLE_BLACK));
+			BukkitTask task = new BukkitRunnable() {
+				public void run() {
+					MPlayer player = Minigames.getPlayer(uuid);
+					if (player != null) {
+						player.sendTitle(TITLE_BLACK);
+					} else {
+						this.cancel();
+					}
 				}
-			}));
+			}.runTaskTimer(Minigames.getInstance(), 1, 1);
+
+			TaskQueue.add(() -> {
+				Player player = Bukkit.getPlayer(uuid);
+				if (player == null) {
+					return;
+				}
+
+				player.teleportAsync(location).thenRun(() -> {
+					task.cancel();
+					MPlayer player2 = Minigames.getPlayer(uuid);
+					if (player2 != null) {
+						player2.sendTitle(TITLE_FADE_IN);
+						if (callback != null) {
+							callback.accept(player2);
+						}
+					}
+				});
+			});
 		});
 	}
 
 	// Used on join
 	public void queueTeleportNoFadeIn(@NotNull final Location location) {
-		queueTeleportNoFadeOut(location, () -> {});
+		queueTeleportNoFadeOut(location, p -> {});
 	}
 
 	// Used on join
-	public void queueTeleportNoFadeOut(@NotNull final Location location, @Nullable final Runnable callback) {
+	public void queueTeleportNoFadeOut(@NotNull final Location location, @Nullable final Consumer<MPlayer> callback) {
+		// TODO handle player going offline
 		// Refresh black screen every tick (50ms)
 		final BukkitTask task = Scheduler.repeat(1, () -> this.sendTitle(TITLE_BLACK));
 
@@ -290,7 +314,7 @@ public class MPlayer {
 			task.cancel();
 			this.sendTitle(TITLE_FADE_IN);
 			if (callback != null) {
-				callback.run();
+				callback.accept(this);
 			}
 		}));
 	}
@@ -315,26 +339,26 @@ public class MPlayer {
 //		return new Location(GameWorld.STEAMPUNK_LOBBY.getWorld(), x + 0.5, 69, z + 0.5, yaw, 0);
 //	}
 
-    public void afterLobbyTeleport() {
+    public void afterLobbyTeleport(MPlayer player) {
 //		final double force = 0.3f;
 //		final Vector vec = new Vector(force * ThreadLocalRandom.current().nextDouble(), 0, force * ThreadLocalRandom.current().nextDouble());
     	final Vector vec = new Vector(ThreadLocalRandom.current().nextDouble() - 0.5, 0.3, -0.8);
-		Scheduler.delay(1, () -> this.player.setVelocity(vec));
+		Scheduler.delay(1, () -> player.bukkit().setVelocity(vec)); // TODO handle player going offline
 
-		this.setDisableHunger(true);
-		this.setDisableItemMoving(true);
-		this.disableSneakPrevention();
-		this.removeMetadata(LobbyEffects.META_LOBBY_WATER_TELEPORTING);
+		player.setDisableHunger(true);
+		player.setDisableItemMoving(true);
+		player.disableSneakPrevention();
+		player.removeMetadata(LobbyEffects.META_LOBBY_WATER_TELEPORTING);
 
-		this.setGameMode(GameMode.ADVENTURE);
-		this.setAllowFlight(false);
+		player.setGameMode(GameMode.ADVENTURE);
+		player.setAllowFlight(false);
 
-		this.player.setExp(0.0f);
-		this.player.setLevel(0);
+		player.bukkit().setExp(0.0f);
+		player.bukkit().setLevel(0);
 
-		this.heal();
-		this.clearInventory();
-		this.clearPotionEffects();
+		player.heal();
+		player.clearInventory();
+		player.clearPotionEffects();
 
 //    	if (this.player.hasPermission("games.torch")) {
 //			this.player.getInventory().setItem(7, new ItemBuilder(Material.REDSTONE_TORCH)
@@ -344,7 +368,7 @@ public class MPlayer {
 //					.create());
 //		}
 
-		this.player.getInventory().setItem(8, new ItemBuilder(Material.COMPARATOR)
+		player.getInventory().setItem(8, new ItemBuilder(Material.COMPARATOR)
 				.name(text("Menu", AQUA).decorate(BOLD))
 				.lore(text("Click to open menu", YELLOW))
 				.create());
@@ -354,10 +378,10 @@ public class MPlayer {
 		queueTeleport(Var.LOBBY_LOCATION, this::afterLobbyTeleport);
 	}
 
-	public void queueLobbyTeleport(final Runnable afterTeleport) {
-		queueTeleport(Var.LOBBY_LOCATION, () -> {
-			this.afterLobbyTeleport();
-			afterTeleport.run();
+	public void queueLobbyTeleport(final Consumer<MPlayer> afterTeleport) {
+		queueTeleport(Var.LOBBY_LOCATION, p -> {
+			this.afterLobbyTeleport(p);
+			afterTeleport.accept(p);
 		});
 	}
 

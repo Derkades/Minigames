@@ -176,7 +176,7 @@ public class OneInTheQuiver extends Game<OITQMap> {
 	@Override
 	public void onPlayerJoin(final MPlayer player) {
 		if (GameState.currentGameIsRunning()) {
-			player.queueTeleport(map.getSpawnLocation(), player::spectator);
+			player.queueTeleport(map.getSpawnLocation(), MPlayer::spectator);
 		} else {
 			player.giveEffect(INVISIBILITY);
 			player.queueTeleport(this.map.getSpawnLocation());

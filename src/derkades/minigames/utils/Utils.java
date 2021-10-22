@@ -95,9 +95,9 @@ public class Utils {
 	}
 
 	@SuppressWarnings("null")
-	public static boolean allPlayersFinished(@NotNull final Set<@NotNull UUID> finished) {
+	public static boolean allPlayersIn(@NotNull final Set<@NotNull UUID> uuids) {
 		for (final @NotNull Player player : Bukkit.getOnlinePlayers()) {
-			if (!finished.contains(player.getUniqueId())) {
+			if (!uuids.contains(player.getUniqueId())) {
 				return false;
 			}
 		}

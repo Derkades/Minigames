@@ -436,7 +436,7 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 
 		for (final MPlayer player : Minigames.getOnlinePlayers()) {
 			if (winners.contains(player.getUniqueId())) {
-				player.queueLobbyTeleport(() -> player.setArmor(Material.GOLDEN_HELMET, null, null, null));
+				player.queueLobbyTeleport(p -> p.setArmor(Material.GOLDEN_HELMET, null, null, null));
 			} else {
 				player.queueLobbyTeleport();
 			}

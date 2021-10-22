@@ -24,6 +24,7 @@ import derkades.minigames.games.parkour.Parkour;
 import derkades.minigames.games.platform.Platform;
 import derkades.minigames.games.speedrun.Speedrun;
 import derkades.minigames.games.spleef.RegeneratingSpleef;
+import derkades.minigames.games.studyfall.StudyFall;
 import derkades.minigames.games.teamsbowbattle.TeamsBowBattle;
 import derkades.minigames.games.tntrun.TntRun;
 import derkades.minigames.games.tron.Tron;
@@ -50,26 +51,27 @@ public class Games {
 			new BreakTheBlock(),
 			new BuildCopy(),
 			new CreeperAttack(),
+			new ControlPoints(),
 			new Decay(),
 			new DigDug(),
 			new Dropper(),
 			new Elytra(),
+			new GladeRoyale(),
 			new Harvest(),
 			new HungerGames(),
 			new IcyBlowback(),
-			new GladeRoyale(),
-//			new MazePvp(),
 			new MissileRacer(),
 //			new MissileWars(),
+//			new MazePvp(),
 			new MolePvP(),
 			new MurderyMister(),
 			new OneInTheQuiver(),
-			new Platform(),
-			new ControlPoints(),
-			new RegeneratingSpleef(),
 			new Parkour(),
-//			new SnowFight(),
+			new Platform(),
 			new Speedrun(),
+			new RegeneratingSpleef(),
+			new StudyFall(),
+//			new SnowFight(),
 			new TeamsBowBattle(),
 			new TntRun(),
 //			new TntTag(),

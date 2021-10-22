@@ -96,6 +96,8 @@ public enum GameWorld {
 	SPLEEF_LITTLESTADIUM,
 	SPLEEF_ORIGINAL,
 
+	STUDYFALL_PROTOTYPE,
+
 	TBB_FOREST,
 //	TBB_MEDIEVALMOUNTAIN(false), // http://www.minecraftmaps.com/creation-maps/medieval-mountain
 

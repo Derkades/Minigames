@@ -11,8 +11,6 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
@@ -67,7 +65,7 @@ public class Dropper extends Game<DropperMap> {
 
 	@Override
 	public boolean endEarly() {
-		return Utils.allPlayersFinished(this.finished);
+		return Utils.allPlayersIn(this.finished);
 	}
 
 	@Override
