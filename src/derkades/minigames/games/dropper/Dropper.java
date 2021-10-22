@@ -107,7 +107,6 @@ public class Dropper extends Game<DropperMap> {
 	@EventHandler
 	public void onDeath(PlayerDeathEvent event) {
 		event.setCancelled(true);
-		Logger.debug("DEATH");
 		MPlayer player = new MPlayer(event);
 		player.queueTeleport(this.map.getLobbyLocation());
 		player.heal();
