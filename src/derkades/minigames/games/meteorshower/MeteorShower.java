@@ -133,7 +133,7 @@ public class MeteorShower extends Game<MeteorShowerMap> {
 
 	@Override
 	public boolean endEarly() {
-		return Bukkit.getOnlinePlayers().stream().filter(p -> p.getGameMode() == GameMode.ADVENTURE).count() <= 2;
+		return Bukkit.getOnlinePlayers().stream().filter(p -> p.getGameMode() == GameMode.ADVENTURE).count() < 2;
 	}
 
 	@Override
