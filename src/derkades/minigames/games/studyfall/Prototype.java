@@ -3,8 +3,10 @@ package derkades.minigames.games.studyfall;
 import derkades.minigames.random.Size;
 import derkades.minigames.worlds.GameWorld;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import xyz.derkades.derkutils.bukkit.BlockUtils;
 
 public class Prototype extends StudyFallMap {
 
@@ -35,7 +37,7 @@ public class Prototype extends StudyFallMap {
 
 	@Override
 	void clearGlass() {
-
+		BlockUtils.fillArea(this.getWorld(), 5, 50, 13, -6, 93, 13, Material.AIR);
 	}
 
 	@Override
