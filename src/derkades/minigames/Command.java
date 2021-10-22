@@ -37,12 +37,16 @@ import org.bukkit.block.data.Directional;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.Husk;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.ShulkerBullet;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
 import xyz.derkades.derkutils.Hastebin;
+import xyz.derkades.derkutils.ListUtils;
 import xyz.derkades.derkutils.bukkit.sidebar.Sidebar;
 
 import java.util.Arrays;
@@ -61,7 +65,7 @@ public class Command implements CommandExecutor {
 		if (args.length == 0) {
 			final Player player = (Player) sender;
 			new MainMenu(player);
-		} else if (args.length == 6) {
+		} else if (args.length == 7) {
 			switch(args[0]) {
 				case "buildsignimage" -> {
 					if (sender.hasPermission("minigames.debug")) {
@@ -70,14 +74,15 @@ public class Command implements CommandExecutor {
 						int rows = Integer.parseInt(args[3]);
 						BlockFace planeDirection = BlockFace.valueOf(args[4]);
 						BlockFace signDirection = BlockFace.valueOf(args[5]);
+						int scale = 2*Integer.parseInt(args[6]);
 						Player player = (Player) sender;
 						Block start = player.getLocation().getBlock().getRelative(BlockFace.DOWN);
 						for (int col = 0; col < cols; col++) {
 							for (int row = 0; row < rows; row++) {
 								Block glass = start.getRelative(
-										2 * col * planeDirection.getModX(),
-										-2 * row,
-										2 * col * planeDirection.getModZ());
+										scale * col * planeDirection.getModX(),
+										-scale * row,
+										scale * col * planeDirection.getModZ());
 //								glass.setType(Material.GLASS);
 								Block signBlock = glass.getRelative(signDirection);
 								signBlock.setType(Material.OAK_WALL_SIGN);
@@ -410,7 +415,7 @@ public class Command implements CommandExecutor {
 						});
 					}
 				}
-				case "test" -> {
+				case "meteor" -> {
 					if (!sender.hasPermission("minigames.debug")) {
 						return true;
 					}
@@ -499,6 +504,40 @@ public class Command implements CommandExecutor {
 
 						}
 					}.runTaskTimer(Minigames.getInstance(), 0, 10);
+				}
+				case "mobhunt" -> {
+					World world = Bukkit.getWorld("testworlds/test");
+					Location[] locations = new Location[] {
+							new Location(world, 70.5, 72, -7.5),
+							new Location(world, 70.5, 72, -1.5),
+							new Location(world, 70.5, 72, 4.5),
+							new Location(world, 70.5, 72, 10.5),
+					};
+					int max = 10;
+					new BukkitRunnable(){
+						int counter = 0;
+						public void run() {
+							if (counter++ > max) {
+								this.cancel();
+								Scheduler.delay(40, () -> {
+									world.getEntitiesByClass(Husk.class).forEach(husk -> {
+										husk.damage(60);
+									});
+								});
+								return;
+							}
+
+							Location spawnLocation = ListUtils.choice(locations);
+							Husk husk = world.spawn(spawnLocation, Husk.class);
+							float x = ThreadLocalRandom.current().nextFloat(-.9f, -0.7f);
+							float y = ThreadLocalRandom.current().nextFloat(1.5f, 2.0f);
+							float z = ThreadLocalRandom.current().nextFloat(-1.5f, 1.5f);
+							Vector velo = new Vector(x, y, z);
+							husk.setVelocity(velo);
+							husk.setHealth(1);
+							husk.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_FALLING, 30*20, 0));
+						}
+					}.runTaskTimer(Minigames.getInstance(), 0, 20);
 				}
 				case "sidebar" -> {
 					Sidebar sidebar = new Sidebar(Component.text("Sidebar title", NamedTextColor.LIGHT_PURPLE));
