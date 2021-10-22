@@ -12,7 +12,6 @@ public class Logger {
 	public static void warning(final String message, final Object... args) {
 		if (!Bukkit.isPrimaryThread()) {
 			Scheduler.run(() -> {
-				warning("Logger was called asynchronously! Message: %s", message);
 				warning(message, args);
 			});
 			return;
@@ -28,7 +27,6 @@ public class Logger {
 	public static void info(final String message, final Object... args) {
 		if (!Bukkit.isPrimaryThread()) {
 			Scheduler.run(() -> {
-				warning("Logger was called asynchronously! Message: %s", message);
 				info(message, args);
 			});
 			return;
@@ -44,7 +42,6 @@ public class Logger {
 	public static void debug(final String message, final Object... args) {
 		if (!Bukkit.isPrimaryThread()) {
 			Scheduler.run(() -> {
-				warning("Logger was called asynchronously! Message: %s", message);
 				debug(message, args);
 			});
 			return;
