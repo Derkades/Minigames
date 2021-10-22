@@ -45,7 +45,7 @@ public class Logger {
 		if (!Bukkit.isPrimaryThread()) {
 			Scheduler.run(() -> {
 				warning("Logger was called asynchronously! Message: %s", message);
-				info(message, args);
+				debug(message, args);
 			});
 			return;
 		}
