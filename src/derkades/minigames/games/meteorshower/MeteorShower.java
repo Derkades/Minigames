@@ -121,7 +121,7 @@ public class MeteorShower extends Game<MeteorShowerMap> {
 		}.runTaskTimer(Minigames.getInstance(), 1, 1));
 
 		// TODO variable delay between meteors, increasingly difficult
-		this.meteorTasks.add(Scheduler.delay(10, this::spawnMeteor));
+		this.meteorTasks.add(Scheduler.delay(15, this::spawnMeteor));
 	}
 
 	@Override

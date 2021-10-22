@@ -37,12 +37,12 @@ public class Prototype extends MeteorShowerMap {
 
 	@Override
 	public void onPreStart() {
-		BlockUtils.fillArea(this.getWorld(), -15, 62, -15, 15, 63, 15, Material.CALCITE);
+		BlockUtils.fillArea(this.getWorld(), -20, 62, -20, 20, 63, 20, Material.CALCITE);
 	}
 
 	@Override
 	MeteorBounds getMeteorBounds() {
-		return new MeteorBounds(-15, 15, 110, -15, 15);
+		return new MeteorBounds(-20, 20, 110, -20, 20);
 	}
 
 	@Override
