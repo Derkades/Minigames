@@ -1,7 +1,6 @@
 package derkades.minigames.modules;
 
 import derkades.minigames.GameState;
-import derkades.minigames.Logger;
 import derkades.minigames.Minigames;
 import derkades.minigames.UpdateSigns;
 import derkades.minigames.Var;
@@ -75,7 +74,8 @@ public class SpawnZombieShooter extends Module {
 				}
 			}
 		} else {
-			Logger.warning("Bait villager does not exist");
+//			Logger.warning("Bait villager does not exist");
+			return;
 		}
 
 		for (final MPlayer player : Minigames.getOnlinePlayers()) {
