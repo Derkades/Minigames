@@ -47,7 +47,7 @@ public class BreakTheBlock extends Game<BreakTheBlockMap> {
 				new String[]{
 						"Make it through an obstacle course to break the gold block.",
 				},
-				Material.IRON_PICKAXE,
+				Material.GOLD_BLOCK,
 				new BreakTheBlockMap[]{
 						new Cake(),
 						new HollowHills(),

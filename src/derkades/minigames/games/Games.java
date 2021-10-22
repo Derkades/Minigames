@@ -16,6 +16,7 @@ import derkades.minigames.games.gladeroyale.GladeRoyale;
 import derkades.minigames.games.harvest.Harvest;
 import derkades.minigames.games.hungergames.HungerGames;
 import derkades.minigames.games.icyblowback.IcyBlowback;
+import derkades.minigames.games.meteorshower.MeteorShower;
 import derkades.minigames.games.missile.racer.MissileRacer;
 import derkades.minigames.games.molepvp.MolePvP;
 import derkades.minigames.games.murderymister.MurderyMister;
@@ -60,6 +61,7 @@ public class Games {
 			new Harvest(),
 			new HungerGames(),
 			new IcyBlowback(),
+			new MeteorShower(),
 			new MissileRacer(),
 //			new MissileWars(),
 //			new MazePvp(),
