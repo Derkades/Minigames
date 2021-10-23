@@ -135,6 +135,12 @@
 			<version>5.0.2.Final</version>
 		</dependency>
 
+		<dependency>
+			<groupId>org.glassfish.grizzly</groupId>
+			<artifactId>grizzly-http-server</artifactId>
+			<version>3.0.1</version>
+		</dependency>
+
 	</dependencies>
 
 	<repositories>
