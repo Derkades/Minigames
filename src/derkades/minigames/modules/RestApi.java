@@ -32,6 +32,7 @@ public class RestApi extends Module {
 			@Override
 			public void service(Request request, Response response) throws Exception {
 				response.setContentType("application/json");
+				response.setHeader("Access-Control-Allow-Origin", "*"); // TODO more specific header when production frontend is live
 				try (JsonWriter writer = new JsonWriter(response.getWriter())) {
 					writer.beginObject();
 
@@ -46,7 +47,7 @@ public class RestApi extends Module {
 						writer.endObject();
 					}
 					writer.endArray();
-					
+
 					writer.name("game_state");
 					writer.beginObject();
 					GameState state = GameState.getCurrentState();
