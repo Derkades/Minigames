@@ -16,6 +16,7 @@ import org.glassfish.grizzly.http.server.Response;
 import org.glassfish.grizzly.http.server.ServerConfiguration;
 
 import java.io.IOException;
+import java.util.Locale;
 
 public class RestApi extends Module {
 
@@ -44,6 +45,8 @@ public class RestApi extends Module {
 						writer.name("name").value(player.getOriginalName());
 						writer.name("has_debug_perm").value(player.bukkit().hasPermission("minigames.debug"));
 						writer.name("points").value(player.getPoints());
+						writer.name("world").value(player.getLocation().getWorld().getName());
+						writer.name("game_mode").value(player.getGameMode().name().toLowerCase(Locale.ROOT));
 						writer.endObject();
 					}
 					writer.endArray();
