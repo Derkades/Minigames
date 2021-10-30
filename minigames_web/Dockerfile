@@ -3,9 +3,12 @@ FROM node:12-buster-slim as builder
 WORKDIR /data
 COPY . /data
 
-RUN npm --version
+COPY package.json package-lock.json ./
 RUN npm install
-RUN NODE_ENV=production npm run build
+
+# only now add the rest of the application code, so the npm install layer can be cached
+COPY . .
+RUN npm run build
 
 FROM nginx:alpine
 
