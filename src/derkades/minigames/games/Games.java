@@ -23,6 +23,7 @@ import derkades.minigames.games.murderymister.MurderyMister;
 import derkades.minigames.games.oitq.OneInTheQuiver;
 import derkades.minigames.games.parkour.Parkour;
 import derkades.minigames.games.platform.Platform;
+import derkades.minigames.games.pyramid_duels.PyramidDuels;
 import derkades.minigames.games.speedrun.Speedrun;
 import derkades.minigames.games.spleef.RegeneratingSpleef;
 import derkades.minigames.games.studyfall.StudyFall;
@@ -70,6 +71,7 @@ public class Games {
 			new OneInTheQuiver(),
 			new Parkour(),
 			new Platform(),
+			new PyramidDuels(),
 			new Speedrun(),
 			new RegeneratingSpleef(),
 			new StudyFall(),

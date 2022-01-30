@@ -10,6 +10,7 @@ import derkades.minigames.modules.ChatPoll.PollAnswer;
 import derkades.minigames.random.RandomPicking;
 import derkades.minigames.random.RandomlyPickable;
 import derkades.minigames.random.Size;
+import derkades.minigames.utils.Disableable;
 import derkades.minigames.utils.MPlayer;
 import derkades.minigames.utils.Scheduler;
 import derkades.minigames.utils.Utils;
@@ -42,7 +43,7 @@ import java.util.stream.Collectors;
 
 import static net.md_5.bungee.api.ChatColor.*;
 
-public abstract class Game<M extends GameMap> implements Listener, RandomlyPickable {
+public abstract class Game<M extends GameMap> implements Listener, RandomlyPickable, Disableable {
 
 	private final @NotNull String identifier;
 	private final @NotNull String name;
@@ -626,6 +627,11 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 //		} else {
 //			return Size.SMALL;
 //		}
+	}
+
+	@Override
+	public boolean isDisabled() {
+		return false;
 	}
 
 }
