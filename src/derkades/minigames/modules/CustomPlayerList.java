@@ -57,7 +57,7 @@ public class CustomPlayerList extends Module {
 
 	private int getReloadCount() {
 		try {
-			final Class<?> c = Class.forName("org.bukkit.craftbukkit.v1_17_R1.CraftServer");
+			final Class<?> c = Class.forName("org.bukkit.craftbukkit.v1_18_R1.CraftServer");
 			return (int) c.getField("reloadCount").get(Bukkit.getServer());
 		} catch (final Exception e) {
 			e.printStackTrace();
