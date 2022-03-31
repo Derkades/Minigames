@@ -152,13 +152,4 @@
 
 	</repositories>
 
-	<pluginRepositories>
-
-		<pluginRepository>
-			<id>maven-snapshots</id>
-			<url>https://repository.apache.org/content/repositories/snapshots/</url>
-		</pluginRepository>
-
-	</pluginRepositories>
-
 </project>
