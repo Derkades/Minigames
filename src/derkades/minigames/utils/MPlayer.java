@@ -668,7 +668,7 @@ public class MPlayer {
 	}
 
 	private Component generateGradientName() {
-		return AdventureUtil.gradient(this.getOriginalName(), 0.15f);
+		return AdventureUtil.gradientHsv(this.getOriginalName(), 0.15f, 0.4f, 1.0f);
 	}
 
 	private static final String TAB_NAME_PADDING = "    ";
