@@ -1,6 +1,5 @@
 package derkades.minigames.modules;
 
-import derkades.minigames.Logger;
 import derkades.minigames.Minigames;
 import derkades.minigames.utils.MPlayer;
 import net.kyori.adventure.text.Component;
@@ -8,7 +7,6 @@ import net.kyori.adventure.text.event.ClickEvent;
 import net.kyori.adventure.text.event.HoverEvent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextColor;
-import net.md_5.bungee.api.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.PluginIdentifiableCommand;
@@ -20,6 +18,9 @@ import xyz.derkades.derkutils.bukkit.reflection.ReflectionUtil;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+
+import static net.kyori.adventure.text.Component.text;
+import static net.kyori.adventure.text.format.NamedTextColor.RED;
 
 public class ChatPoll extends Module {
 
@@ -51,21 +52,21 @@ public class ChatPoll extends Module {
 			ChatPoll.this.pollSendTimes.put(token, System.currentTimeMillis());
 			ChatPoll.this.callbacks.put(token, this.callback);
 
-			player.sendChat(Component.text("-----------------------------------------", NamedTextColor.DARK_GRAY));
+			player.sendChat(text("-----------------------------------------", NamedTextColor.DARK_GRAY));
 			player.sendPlainChat(this.question);
 
 			Component answerMessage = Component.empty();
 
 			for (final PollAnswer answer : this.answers) {
 				answerMessage = answerMessage.append(
-						Component.text(String.format(" [%s] ", answer.displayName), answer.answerColor)
-						.hoverEvent(HoverEvent.showText(Component.text(answer.hoverMessage, NamedTextColor.GRAY)))
+						text(String.format(" [%s] ", answer.displayName), answer.answerColor)
+						.hoverEvent(HoverEvent.showText(text(answer.hoverMessage, NamedTextColor.GRAY)))
 						.clickEvent(ClickEvent.runCommand(String.format("/%s %s %s", COMMAND_NAME, token, answer.id)))
 						);
 			}
 
 			player.sendChat(answerMessage);
-			player.sendChat(Component.text("-----------------------------------------", NamedTextColor.DARK_GRAY));
+			player.sendChat(text("-----------------------------------------", NamedTextColor.DARK_GRAY));
 		}
 	}
 
@@ -97,18 +98,18 @@ public class ChatPoll extends Module {
 			try {
 				providedToken = UUID.fromString(args[0]);
 			} catch (Exception e) {
-				sender.sendMessage("invalid token");
+				sender.sendMessage(text("Invalid token", RED));
 				e.printStackTrace();
 				return true;
 			}
 
 			if (!ChatPoll.this.pollSendTimes.containsKey(providedToken)) {
-				sender.sendMessage(ChatColor.RED + "You have already voted on this poll.");
+				sender.sendMessage(text("You have already voted on this poll.", RED));
 				return true;
 			}
 
 			if (System.currentTimeMillis() - ChatPoll.this.pollSendTimes.get(providedToken) > TOKEN_EXPIRE_TIME) {
-				sender.sendMessage(ChatColor.RED + "This poll has expired.");
+				sender.sendMessage(text("This poll has expired.", RED));
 				return true;
 			}
 

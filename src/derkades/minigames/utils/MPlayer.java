@@ -11,12 +11,7 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.title.Title;
 import net.kyori.adventure.title.Title.Times;
-import org.bukkit.Bukkit;
-import org.bukkit.GameMode;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.Sound;
-import org.bukkit.World;
+import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -29,7 +24,6 @@ import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.metadata.MetadataValue;
 import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.util.Vector;
@@ -245,15 +239,15 @@ public class MPlayer {
 	@SuppressWarnings("null")
 	@NotNull
 	private static final Title TITLE_FADE_OUT = Title.title(text(SpecialCharacter.BLACK_BOX), Component.empty(),
-			Times.of(Duration.ofMillis(TITLE_FADE_TICKS * 50), Duration.ofMillis(100), Duration.ofMillis(0)));
+			Times.times(Duration.ofMillis(TITLE_FADE_TICKS * 50), Duration.ofMillis(100), Duration.ofMillis(0)));
 	@SuppressWarnings("null")
 	@NotNull
 	private static final Title TITLE_BLACK = Title.title(text(SpecialCharacter.BLACK_BOX), Component.empty(),
-			Times.of(Duration.ofMillis(0), Duration.ofMillis(100), Duration.ofMillis(0)));
+			Times.times(Duration.ofMillis(0), Duration.ofMillis(100), Duration.ofMillis(0)));
 	@SuppressWarnings("null")
 	@NotNull
 	private static final Title TITLE_FADE_IN = Title.title(text(SpecialCharacter.BLACK_BOX), Component.empty(),
-			Times.of(Duration.ofMillis(0), Duration.ofMillis(0), Duration.ofMillis(TITLE_FADE_TICKS * 50)));
+			Times.times(Duration.ofMillis(0), Duration.ofMillis(0), Duration.ofMillis(TITLE_FADE_TICKS * 50)));
 
 	public void queueTeleport(@NotNull final Location location) {
 		queueTeleport(location, null);
@@ -477,27 +471,6 @@ public class MPlayer {
 		this.player.addPotionEffect(effect);
 	}
 
-	@Deprecated
-	public void giveEffect(@NotNull final PotionEffectType type, final int duration, final int amplifier) {
-		this.player.addPotionEffect(new PotionEffect(type, duration * 20, amplifier, true, false));
-	}
-
-	@Deprecated
-	public void giveInfiniteEffect(@NotNull final PotionEffectType type, final int amplifier){
-		this.player.addPotionEffect(new PotionEffect(type, 100000, amplifier, true, false));
-	}
-
-	@Deprecated
-	public void giveInfiniteEffect(@NotNull final PotionEffectType type){
-		this.player.addPotionEffect(new PotionEffect(type, 100000, 0, true, false));
-	}
-
-	@SuppressWarnings("null")
-	@Deprecated
-	public void giveInvisibility(){
-		this.giveInfiniteEffect(PotionEffectType.INVISIBILITY);
-	}
-
 	public void addPoints(final int points) {
 		// TODO call an "add points" event that the leaderboard code can listen for
 		Points.addPoints(this.player, points);
@@ -636,7 +609,7 @@ public class MPlayer {
 	}
 
 	@SuppressWarnings("null")
-	public void sendFormattedPlainChat(@NotNull final String message, @NotNull final Object... replacements) {
+	public void sendFormattedPlainChat(final String message, final Object... replacements) {
 		this.sendChat(text(String.format(message, replacements), NamedTextColor.GRAY));
 	}
 
@@ -646,11 +619,6 @@ public class MPlayer {
 
 	public void sendChat(@NotNull final Component message) {
 		this.player.sendMessage(message);
-	}
-
-	@Deprecated
-	public void sendTitle(final String title, final String subtitle) {
-		this.player.sendTitle(title, subtitle, 10, 70, 20);
 	}
 
 	public void sendTitle(@NotNull final Title title) {
@@ -678,7 +646,6 @@ public class MPlayer {
 		this.player.playerListName(text(TAB_NAME_PADDING).append(this.player.displayName()).append(text(TAB_NAME_PADDING)));
 	}
 
-	@NotNull
 	public Component getDisplayName() {
 		return this.player.displayName();
 	}

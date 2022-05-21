@@ -137,7 +137,7 @@ public class Leaderboard implements Listener {
 
 		HandlerList.unregisterAll(this);
 		// TODO testing
-//		this.unregistered = true;
+		this.unregistered = true;
 		return winners;
 	}
 

@@ -53,7 +53,7 @@ class Windmill extends HungerGamesMap {
 	@Override
 	Location[] getLootLevelOneLocations() {
 		return new Location[] {
-				//center chests
+				// center chests
 				new Location(this.getWorld(), 237, 70, 199),
 				new Location(this.getWorld(), 238, 70, 203),
 				new Location(this.getWorld(), 238, 70, 203),
@@ -63,7 +63,7 @@ class Windmill extends HungerGamesMap {
 				new Location(this.getWorld(), 234, 70, 199),
 				new Location(this.getWorld(), 233, 70, 200),
 
-				//on/near brick path
+				// on/near brick path
 				new Location(this.getWorld(), 265, 68, 211),
 				new Location(this.getWorld(), 272, 70, 220),
 				new Location(this.getWorld(), 316, 71, 183),
@@ -84,19 +84,19 @@ class Windmill extends HungerGamesMap {
 				new Location(this.getWorld(), 277, 71, 249),
 				new Location(this.getWorld(), 143, 71, 163),
 
-				//orange/lemon trees
+				// orange/lemon trees
 				new Location(this.getWorld(), 156, 69, 232),
 				new Location(this.getWorld(), 159, 67, 219),
 				new Location(this.getWorld(), 138, 67, 206),
 
-				//blueberries/grapes
+				// blueberries/grapes
 				new Location(this.getWorld(), 178, 63, 153),
 				new Location(this.getWorld(), 198, 63, 127),
 				new Location(this.getWorld(), 206, 63, 131),
 				new Location(this.getWorld(), 228, 63, 123),
 				new Location(this.getWorld(), 226, 63, 102),
 
-				//XXX look up where these chests are and put in categories above
+				// TODO look up where these chests are and put in categories above
 				new Location(this.getWorld(), 222, 72, 208),
 				new Location(this.getWorld(), 351, 76, 178),
 		};

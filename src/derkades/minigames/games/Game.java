@@ -18,10 +18,6 @@ import derkades.minigames.utils.event.GameResultSaveEvent;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.HoverEvent;
 import net.kyori.adventure.text.format.NamedTextColor;
-import net.kyori.adventure.text.format.TextDecoration;
-import net.kyori.adventure.title.Title;
-import net.kyori.adventure.title.Title.Times;
-import net.md_5.bungee.api.ChatColor;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -41,7 +37,12 @@ import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 
-import static net.md_5.bungee.api.ChatColor.*;
+import static net.kyori.adventure.text.Component.empty;
+import static net.kyori.adventure.text.Component.text;
+import static net.kyori.adventure.text.format.NamedTextColor.*;
+import static net.kyori.adventure.text.format.TextDecoration.BOLD;
+import static net.kyori.adventure.title.Title.Times.times;
+import static net.kyori.adventure.title.Title.title;
 
 public abstract class Game<M extends GameMap> implements Listener, RandomlyPickable, Disableable {
 
@@ -170,19 +171,18 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 
 		// Send description
 		for (@NotNull final Player player : Bukkit.getOnlinePlayers()) {
-			player.sendMessage(DARK_GRAY + "-----------------------------------------");
-			player.sendMessage(Component.text().append(
-					Component.text(this.getName()).decorate(TextDecoration.BOLD).color(NamedTextColor.GOLD)).append(
-							Component.text(String.format(" (multiplier %.1f, hover for help)", this.getWeight()))
-									.color(NamedTextColor.GRAY)
-									.hoverEvent(HoverEvent.showText(Component
-											.text("""
-													The number shown after the game name in parentheses
-													is the game weight. A higher weight means that the
-													minigame has a higher chance of being picked. The
-													game weight can be increased or decreased by voting
-													on the poll at the end of the game.""")
-											.color(NamedTextColor.GRAY)))));
+			player.sendMessage(text("-----------------------------------------", DARK_GRAY));
+			player.sendMessage(Component.textOfChildren(
+					text(this.getName(), GOLD, BOLD),
+					text(String.format(" (multiplier %.1f, hover for help)", this.getWeight()), GRAY)
+							.hoverEvent(HoverEvent.showText(text("""
+											The number shown after the game name in parentheses
+											is the game weight. A higher weight means that the
+											minigame has a higher chance of being picked. The
+											game weight can be increased or decreased by voting
+											on the poll at the end of the game.""", GRAY)))
+					)
+			);
 
 			if (!Minigames.getInstance().getConfig().getStringList("disabled-description")
 					.contains(player.getUniqueId().toString())) {
@@ -195,10 +195,13 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 			}
 
 			if (this.map != null) {
-				player.sendMessage("Map: " + YELLOW + this.map.getName() + GRAY + " (" + NumberUtils.roundApprox(this.map.getWeight(), 1) + ")");
+				player.sendMessage(Component.textOfChildren(
+						text("Map: ", GRAY),
+						text(this.map.getName(), YELLOW),
+						text(" (" + NumberUtils.roundApprox(this.map.getWeight(), 1) + ")", GRAY)));
 			}
 
-			player.sendMessage(DARK_GRAY + "-----------------------------------------");
+			player.sendMessage(text("-----------------------------------------", GRAY));
 		}
 
 		GameState.setState(GameState.COUNTDOWN, this);
@@ -282,10 +285,10 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 						final int preSeconds = this.secondsLeft - Game.this.getDuration();
 						if (preSeconds < 6){
 							for (final MPlayer player : Minigames.getOnlinePlayers()) {
-								player.sendTitle(Title.title(
-										Component.empty(),
-										Component.text(preSeconds, preSeconds > 3 ? NamedTextColor.GRAY : NamedTextColor.GOLD),
-										Times.of(Duration.ofMillis(100), Duration.ofMillis(800), Duration.ofMillis(100))
+								player.sendTitle(title(
+										empty(),
+										text(preSeconds, preSeconds > 3 ? GRAY : GOLD),
+										times(Duration.ofMillis(100), Duration.ofMillis(800), Duration.ofMillis(100))
 								));
 							}
 						}
@@ -338,15 +341,15 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 	}
 
 	protected void sendPlainMessage(final String message) {
-		Bukkit.broadcast(Component.text(message).color(NamedTextColor.GRAY));
+		Bukkit.broadcast(text(message).color(GRAY));
 	}
 
 	protected void sendFormattedPlainMessage(final String message, final Object... replacements) {
-		Bukkit.broadcast(Component.text(String.format(message, replacements)).color(NamedTextColor.GRAY));
+		Bukkit.broadcast(text(String.format(message, replacements)).color(GRAY));
 	}
 
 	protected void sendMessage(final Component message) {
-		Bukkit.broadcast(Component.text().append(message).build());
+		Bukkit.broadcast(text().append(message).build());
 	}
 
 	protected void endGame() {
@@ -396,8 +399,8 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 		} else if (winnersPlayers.isEmpty()) {
 			this.sendFormattedPlainMessage("The %s game has ended.", this.getName());
 		} else {
-			this.sendMessage(Component.text("The " + this.getName() + " game has ended! Winner" + (winnersPlayers.size() == 1 ? "" : "s") + ": ")
-					.append(Component.text(winnersPlayers.stream().map(Player::getName).collect(Collectors.joining(", "))).color(NamedTextColor.YELLOW)));
+			this.sendMessage(text("The " + this.getName() + " game has ended! Winner" + (winnersPlayers.size() == 1 ? "" : "s") + ": ")
+					.append(text(winnersPlayers.stream().map(Player::getName).collect(Collectors.joining(", "))).color(NamedTextColor.YELLOW)));
 		}
 
 		saveGameResult(winnersPlayers, skipped);
@@ -421,14 +424,14 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 				player.addPoints(points);
 //				Queue.add(() -> Minigames.economy.depositPlayer(player.bukkit(), points));
 				player.sendTitle(
-						Component.text("You've won", NamedTextColor.GOLD),
-						Component.text("+" + points + " points", NamedTextColor.YELLOW)
+						text("You've won", GOLD),
+						text("+" + points + " points", NamedTextColor.YELLOW)
 						);
 			} else {
 				player.addPoints(1);
 				player.sendTitle(
-						Component.text("You've lost", NamedTextColor.GOLD),
-						Component.text("+1 point", NamedTextColor.YELLOW)
+						text("You've lost", GOLD),
+						text("+1 point", NamedTextColor.YELLOW)
 						);
 			}
 		}
@@ -583,7 +586,7 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 						weight *= 0.9; // Decrease chance factor a bit (e.g. from 1.5 to 1.35)
 					}
 
-					player.sendMessage(ChatColor.GRAY + "Your vote has been registered.");
+					player.sendMessage(text("Your vote has been registered.", GRAY));
 
 					if (weight > VoteConfig.SCORE_MAX) {
 						weight = VoteConfig.SCORE_MAX;

@@ -29,21 +29,14 @@ public enum GameTeam {
 
 	;
 
-	@NotNull
+	@Deprecated
 	private final ChatColor color;
-	@NotNull
 	private final TextColor textColor;
-	@NotNull
 	private final Color bukkitColor;
-	@NotNull
 	private final String string;
-	@NotNull
 	private final Material glassBlock;
-	@NotNull
 	private final Material glassPane;
-	@NotNull
 	private final Material concrete;
-	@NotNull
 	private final Material terracotta;
 
 	@SuppressWarnings("null")
@@ -64,6 +57,7 @@ public enum GameTeam {
 	}
 
 	@NotNull
+	@Deprecated
 	public ChatColor getChatColor() {
 		return this.color;
 	}

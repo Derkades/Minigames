@@ -21,15 +21,8 @@ import derkades.minigames.utils.queue.TaskQueue;
 import derkades.minigames.worlds.GameWorld;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
-import net.md_5.bungee.api.ChatColor;
 import nl.rkslot.pluginreloader.PluginReloader;
-import org.bukkit.Bukkit;
-import org.bukkit.DyeColor;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.Particle;
-import org.bukkit.Sound;
-import org.bukkit.World;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.Sign;
@@ -47,13 +40,12 @@ import xyz.derkades.derkutils.Hastebin;
 import xyz.derkades.derkutils.ListUtils;
 import xyz.derkades.derkutils.bukkit.sidebar.Sidebar;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
+
+import static net.kyori.adventure.text.Component.text;
+import static net.kyori.adventure.text.format.NamedTextColor.RED;
 
 public class Command implements CommandExecutor {
 
@@ -62,39 +54,35 @@ public class Command implements CommandExecutor {
 		if (args.length == 0) {
 			final Player player = (Player) sender;
 			new MainMenu(player);
-		} else if (args.length == 7) {
-			switch(args[0]) {
-				case "buildsignimage" -> {
-					if (sender.hasPermission("minigames.debug")) {
-						char c = (char) (Integer.parseInt("e000", 16) + Integer.parseInt(args[1]));
-						int cols = Integer.parseInt(args[2]);
-						int rows = Integer.parseInt(args[3]);
-						BlockFace planeDirection = BlockFace.valueOf(args[4]);
-						BlockFace signDirection = BlockFace.valueOf(args[5]);
-						int scale = 2*Integer.parseInt(args[6]);
-						Player player = (Player) sender;
-						Block start = player.getLocation().getBlock().getRelative(BlockFace.DOWN);
-						for (int col = 0; col < cols; col++) {
-							for (int row = 0; row < rows; row++) {
-								Block glass = start.getRelative(
-										scale * col * planeDirection.getModX(),
-										-scale * row,
-										scale * col * planeDirection.getModZ());
+		} else if (args.length == 7 && args[0].equals("buildsignimage")) {
+			if (sender.hasPermission("minigames.debug")) {
+				char c = (char) (Integer.parseInt("e000", 16) + Integer.parseInt(args[1]));
+				int cols = Integer.parseInt(args[2]);
+				int rows = Integer.parseInt(args[3]);
+				BlockFace planeDirection = BlockFace.valueOf(args[4]);
+				BlockFace signDirection = BlockFace.valueOf(args[5]);
+				int scale = 2*Integer.parseInt(args[6]);
+				Player player = (Player) sender;
+				Block start = player.getLocation().getBlock().getRelative(BlockFace.DOWN);
+				for (int col = 0; col < cols; col++) {
+					for (int row = 0; row < rows; row++) {
+						Block glass = start.getRelative(
+								scale * col * planeDirection.getModX(),
+								-scale * row,
+								scale * col * planeDirection.getModZ());
 //								glass.setType(Material.GLASS);
-								Block signBlock = glass.getRelative(signDirection);
-								signBlock.setType(Material.OAK_WALL_SIGN);
-								if (signBlock.getState() instanceof Sign sign) {
-									sign.line(0, Component.text(c, NamedTextColor.WHITE));
-									sign.setGlowingText(true);
-									sign.update();
-								}
-								if (signBlock.getBlockData() instanceof Directional sign) {
-									sign.setFacing(signDirection);
-									signBlock.setBlockData(sign);
-								}
-								c++;
-							}
+						Block signBlock = glass.getRelative(signDirection);
+						signBlock.setType(Material.OAK_WALL_SIGN);
+						if (signBlock.getState() instanceof Sign sign) {
+							sign.line(0, text(c, NamedTextColor.WHITE));
+							sign.setGlowingText(true);
+							sign.update();
 						}
+						if (signBlock.getBlockData() instanceof Directional sign) {
+							sign.setFacing(signDirection);
+							signBlock.setBlockData(sign);
+						}
+						c++;
 					}
 				}
 			}
@@ -169,7 +157,7 @@ public class Command implements CommandExecutor {
 						player.sendMessage(String.format("Char: %04x", (int) c));
 						final Block block = player.getTargetBlock(10);
 						if (block.getState() instanceof final Sign sign) {
-							sign.line(0, Component.text(c));
+							sign.line(0, text(c));
 							sign.setColor(DyeColor.WHITE);
 							sign.setGlowingText(true);
 							sign.update();
@@ -191,9 +179,9 @@ public class Command implements CommandExecutor {
 						final Block block = player.getTargetBlock(10);
 						if (block.getState() instanceof final Sign sign) {
 							if (pad > 0) {
-								sign.line(0, sign.line(0).append(Component.text(Strings.repeat(" ", pad))));
+								sign.line(0, sign.line(0).append(text(Strings.repeat(" ", pad))));
 							} else if (pad < 0) {
-								sign.line(0, Component.text(Strings.repeat(" ", -pad)).append(sign.line(0)));
+								sign.line(0, text(Strings.repeat(" ", -pad)).append(sign.line(0)));
 							}
 							sign.update();
 						} else {
@@ -216,7 +204,7 @@ public class Command implements CommandExecutor {
 				}
 				case "stop", "e", "end" -> {
 					if (sender.hasPermission("minigames.gamecontrol")) {
-						sender.sendMessage(ChatColor.RED + "! STOPPED GAMES !");
+						sender.sendMessage(text("! STOPPED GAMES !", RED));
 						Minigames.STOP_GAMES = true;
 						Logger.info("Games stopped. After this game, no new game will be started.");
 					}
@@ -252,7 +240,7 @@ public class Command implements CommandExecutor {
 				case "stats" -> new StatsMenu((Player) sender);
 				case "jazz" -> {
 					if (sender.hasPermission("minigames.music")) {
-						Bukkit.broadcast(Component.text("Initiating jazz mode..."));
+						Bukkit.broadcast(text("Initiating jazz mode..."));
 						Scheduler.delay(15, () -> {
 							for (final Player player : Bukkit.getOnlinePlayers()) {
 								player.stopSound(Sound.MUSIC_DISC_13);
@@ -397,9 +385,9 @@ public class Command implements CommandExecutor {
 					Component old = player.getDisplayName();
 					player.setDisplayName(null);
 					player.sendChat(
-							Component.text("Updated display name from ")
+							text("Updated display name from ")
 									.append(old)
-									.append(Component.text(" to "))
+									.append(text(" to "))
 									.append(player.getDisplayName())
 					);
 				}
@@ -474,16 +462,16 @@ public class Command implements CommandExecutor {
 					}.runTaskTimer(Minigames.getInstance(), 0, 20);
 				}
 				case "sidebar" -> {
-					Sidebar sidebar = new Sidebar(Component.text("Sidebar title", NamedTextColor.LIGHT_PURPLE));
-					sidebar.addEntry(Component.text("Test test 123", NamedTextColor.YELLOW));
-					sidebar.addEntry(Component.text("Test test 456", NamedTextColor.BLUE));
+					Sidebar sidebar = new Sidebar(text("Sidebar title", NamedTextColor.LIGHT_PURPLE));
+					sidebar.addEntry(text("Test test 123", NamedTextColor.YELLOW));
+					sidebar.addEntry(text("Test test 456", NamedTextColor.BLUE));
 					sidebar.showTo((Player) sender);
 					Scheduler.delay(5*20, () -> {
-						sidebar.setEntry(0, Component.text("Test test 789", NamedTextColor.GREEN));
+						sidebar.setEntry(0, text("Test test 789", NamedTextColor.GREEN));
 					});
 					Scheduler.delay(10*20, () -> {
 						sidebar.clearEntries();
-						sidebar.addEntry(Component.text("emptied", NamedTextColor.GRAY));
+						sidebar.addEntry(text("emptied", NamedTextColor.GRAY));
 					});
 					Scheduler.delay(15*20, () -> sidebar.hideFrom((Player) sender));
 				}

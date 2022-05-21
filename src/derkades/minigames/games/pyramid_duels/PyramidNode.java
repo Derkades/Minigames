@@ -8,10 +8,10 @@ import java.util.function.BiConsumer;
 
 public class PyramidNode {
 
-	private Location centerLocation;
-	private int wallDistanceFromCenter;
-	private PyramidNode @Nullable[] children;
-	private BiConsumer<Boolean, Location> gateReplacer;
+	private final Location centerLocation;
+	private final int wallDistanceFromCenter;
+	private final PyramidNode @Nullable[] children;
+	private final BiConsumer<Boolean, Location> gateReplacer;
 
 	public PyramidNode(Location centerLocation, int wallDistanceFromCenter, PyramidNode @Nullable[] children, BiConsumer<Boolean, Location> gateReplacer) {
 		this.centerLocation = centerLocation;

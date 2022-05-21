@@ -270,7 +270,7 @@ public class GladeRoyale extends Game<GladeRoyaleMap> {
 
 			final Chest chest = (Chest) block.getState();
 
-			chest.setCustomName("Supply drop");
+			chest.customName(text("Supply drop"));
 
 			chest.update();
 

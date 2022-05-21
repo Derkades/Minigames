@@ -150,7 +150,7 @@ public class StudyFall extends Game<StudyFallMap> {
 
 	}
 
-	private static record BlockCoordinates(int x, int y, int z) {
+	private record BlockCoordinates(int x, int y, int z) {
 
 		static BlockCoordinates fromBlock(Block block) {
 			return new BlockCoordinates(block.getX(), block.getY(), block.getZ());

@@ -9,6 +9,7 @@ import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Tag;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -19,7 +20,6 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.inventory.ItemStack;
 import xyz.derkades.derkutils.ListUtils;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
-import xyz.derkades.derkutils.bukkit.MaterialLists;
 
 import java.util.EnumSet;
 import java.util.HashSet;
@@ -95,7 +95,7 @@ public class CreeperAttack extends Game<CreeperAttackMap> {
 
 	private boolean checkSpawnable(final Block block) {
 		return block.isSolid() &&
-				!MaterialLists.LEAVES.contains(block.getType()) &&
+				!Tag.LEAVES.isTagged(block.getType()) &&
 				block.getType() != Material.BARRIER &&
 				block.getRelative(BlockFace.UP).getType() == Material.AIR &&
 				block.getRelative(BlockFace.UP).getRelative(BlockFace.UP).getType() == Material.AIR;

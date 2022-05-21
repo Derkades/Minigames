@@ -7,12 +7,12 @@ import derkades.minigames.games.GameMap;
 abstract class TronMap extends GameMap {
 
 	/**
-	 * Used for determining if a player is outside of the arena
+	 * Used for determining if a player is outside the arena
 	 */
 	abstract Location getOuterCornerOne();
 
 	/**
-	 * Used for determining if a player is outside of the arena
+	 * Used for determining if a player is outside the arena
 	 */
 	abstract Location getOuterCornerTwo();
 
