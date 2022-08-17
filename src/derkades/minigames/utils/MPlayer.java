@@ -243,7 +243,7 @@ public class MPlayer {
 	@SuppressWarnings("null")
 	@NotNull
 	private static final Title TITLE_BLACK = Title.title(text(SpecialCharacter.BLACK_BOX), Component.empty(),
-			Times.times(Duration.ofMillis(0), Duration.ofMillis(100), Duration.ofMillis(0)));
+			Times.times(Duration.ofMillis(0), Duration.ofMillis(60), Duration.ofMillis(0)));
 	@SuppressWarnings("null")
 	@NotNull
 	private static final Title TITLE_FADE_IN = Title.title(text(SpecialCharacter.BLACK_BOX), Component.empty(),
@@ -283,6 +283,7 @@ public class MPlayer {
 					task.cancel();
 					MPlayer player2 = Minigames.getPlayer(uuid);
 					if (player2 != null) {
+						player2.bukkit().clearTitle();
 						player2.sendTitle(TITLE_FADE_IN);
 						if (callback != null) {
 							callback.accept(player2);

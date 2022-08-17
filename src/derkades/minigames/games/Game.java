@@ -18,7 +18,6 @@ import derkades.minigames.utils.event.GameResultSaveEvent;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.HoverEvent;
 import net.kyori.adventure.text.format.NamedTextColor;
-import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -378,7 +377,7 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 	}
 
 	protected void endGame(final Set<UUID> winners) {
-		Validate.noNullElements(winners);
+		winners.forEach(Objects::requireNonNull);
 
 		final boolean skipped = GameState.getCurrentState() == GameState.RUNNING_SKIPPED;
 		GameState.setState(GameState.IDLE);
@@ -452,7 +451,7 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 	}
 
 	private void saveGameResult(final Set<Player> winners, final boolean skipped) {
-		Validate.noNullElements(winners);
+		winners.forEach(Objects::requireNonNull);
 
 		final File gameResultsDir = new File("game_results");
 		if (!gameResultsDir.exists()) {
