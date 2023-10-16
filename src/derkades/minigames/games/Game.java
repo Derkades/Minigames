@@ -190,7 +190,10 @@ public abstract class Game<M extends GameMap> implements Listener, RandomlyPicka
 				} else {
 					Logger.warning("No description for game %s", this.getName());
 				}
-				player.sendMessage("Minimum players: " + YELLOW + this.getRequiredPlayers());
+				player.sendMessage(Component.textOfChildren(
+						text("Minimum players: "),
+						text(this.getRequiredPlayers(), YELLOW)
+				));
 			}
 
 			if (this.map != null) {
