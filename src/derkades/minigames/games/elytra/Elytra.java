@@ -33,9 +33,7 @@ public class Elytra extends Game<ElytraMap> {
 						"the ground or lava."
 				},
 				Material.ELYTRA,
-				new ElytraMap[] {
-						new Cave(),
-				},
+				MAPS,
 				1,
 				40,
 				EnumSet.of(GameLabel.ELYTRA, GameLabel.SINGLEPLAYER, GameLabel.NO_TEAMS)

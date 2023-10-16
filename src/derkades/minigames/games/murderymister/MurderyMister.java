@@ -199,6 +199,7 @@ public class MurderyMister extends Game<MurderyMisterMap> {
 				event.setDamage(40);
 				event.setCancelled(false);
 			}
+			default -> {}
 		}
 	}
 

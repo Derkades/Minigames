@@ -6,7 +6,6 @@ import org.jetbrains.annotations.NotNull;
 
 import derkades.minigames.Minigames;
 
-@SuppressWarnings("UnusedReturnValue")
 public class Scheduler {
 
 	public static BukkitTask delay(final long delay, @NotNull final Runnable runnable) {

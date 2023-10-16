@@ -1,20 +1,20 @@
 package derkades.minigames.modules;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import derkades.minigames.Logger;
-import derkades.minigames.Minigames;
-
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
+import derkades.minigames.Logger;
+import derkades.minigames.Minigames;
 
 public class SignLeaderboard {
 

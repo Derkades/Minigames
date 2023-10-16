@@ -155,7 +155,7 @@ public class Command implements CommandExecutor {
 							return true;
 						}
 						player.sendMessage(String.format("Char: %04x", (int) c));
-						final Block block = player.getTargetBlock(10);
+						final Block block = player.getTargetBlockExact(10);
 						if (block.getState() instanceof final Sign sign) {
 							sign.line(0, text(c));
 							sign.setColor(DyeColor.WHITE);
@@ -176,7 +176,7 @@ public class Command implements CommandExecutor {
 							player.sendMessage("invalid number");
 							return true;
 						}
-						final Block block = player.getTargetBlock(10);
+						final Block block = player.getTargetBlockExact(10);
 						if (block.getState() instanceof final Sign sign) {
 							if (pad > 0) {
 								sign.line(0, sign.line(0).append(text(Strings.repeat(" ", pad))));
@@ -339,7 +339,7 @@ public class Command implements CommandExecutor {
 							});
 							try {
 								final String key = Hastebin.createPaste(content.toString(), "paste.derkad.es");
-								final String url = "https://paste.derkad.es/raw/" + key;
+								final String url = "https://paste.rkslot.nl/raw/" + key;
 								Scheduler.run(() -> player.sendMessage(url));
 							} catch (final Exception e) {
 								Logger.warning(e.getClass() + " " + e.getMessage());

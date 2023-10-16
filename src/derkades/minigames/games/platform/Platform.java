@@ -124,7 +124,7 @@ public class Platform extends Game<PlatformMap> {
 			this.alive.remove(player.getUniqueId());
 			this.sendMessage(player.getDisplayName().append(text(" has died.", GRAY)));
 			player.dieUp(10);
-			this.map.getWorld().spigot().strikeLightningEffect(player.getLocation(), false);
+			this.map.getWorld().strikeLightningEffect(player.getLocation());
 		}
 	}
 

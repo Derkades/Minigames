@@ -4,6 +4,8 @@ import derkades.minigames.Logger;
 import derkades.minigames.Minigames;
 import derkades.minigames.utils.PluginLoadEvent;
 import derkades.minigames.utils.Scheduler;
+import net.kyori.adventure.text.Component;
+
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -113,11 +115,11 @@ public class ResourcePack extends Module {
 		if (this.hash == null) {
 			Logger.warning("Not sending resource pack to %s, hash is not known (yet?)", player.getName());
 		}
-		player.setResourcePack(DOWNLOAD_URL, this.hash);
+		player.setResourcePack(DOWNLOAD_URL, this.hash, Component.text("Minigames resource pack"));
 	}
 
 	public static void sendEmptyPack(final Player player) {
-		player.setResourcePack(EMPTY_DOWNLOAD_URL, EMPTY_HASH);
+		player.setResourcePack(EMPTY_DOWNLOAD_URL, EMPTY_HASH, Component.text("Empty pack resource pack"));
 	}
 
 	public static void sendResourcePack(final Player player) {

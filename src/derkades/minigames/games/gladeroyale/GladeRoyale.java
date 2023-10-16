@@ -276,7 +276,7 @@ public class GladeRoyale extends Game<GladeRoyaleMap> {
 
 			final LootChest loot = new LootChest(loc, GladeRoyaleItems.SUPPLY_DROP);
 			loot.fill();
-			loc.getWorld().spigot().strikeLightning(loc, false);
+			loc.getWorld().strikeLightning(loc);
 		});
 	}
 

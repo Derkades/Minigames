@@ -115,6 +115,7 @@ public class StudyFall extends Game<StudyFallMap> {
 					this.sidebar.addEntry(player.getDisplayName().append(Component.text(" DEAD", NamedTextColor.RED)));
 					player.dieTo(map.getPreSpawnLocation());
 				}
+				default -> {}
 			}
 		}
 		return secondsLeft;

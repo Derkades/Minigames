@@ -1,16 +1,15 @@
 package derkades.minigames.utils.event;
 
-import com.google.gson.stream.JsonWriter;
-import derkades.minigames.games.Game;
-import derkades.minigames.games.GameMap;
+import java.util.Set;
+
 import org.bukkit.entity.Player;
-import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
-import org.bukkit.event.player.PlayerEvent;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Set;
-import java.util.UUID;
+import com.google.gson.stream.JsonWriter;
+
+import derkades.minigames.games.Game;
+import derkades.minigames.games.GameMap;
 
 public class GameResultSaveEvent extends GameEvent {
 

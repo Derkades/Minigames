@@ -26,7 +26,6 @@ public abstract class GameMap implements RandomlyPickable, Disableable {
 
 	public void onStart() {}
 
-	@SuppressWarnings("EmptyMethod")
 	public void onEnd() {}
 
 	public void onTimer(final int secondsLeft) {}
