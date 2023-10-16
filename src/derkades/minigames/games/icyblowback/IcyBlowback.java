@@ -121,10 +121,8 @@ public class IcyBlowback extends Game<IcyBlowbackMap> {
 
 	@EventHandler
 	public void onDamage(final MPlayerDamageEvent event) {
-		if (event.getDamagerPlayer() == null) {
-			event.setCancelled(false);
-			event.setDamage(0);
-		}
+		event.setCancelled(false);
+		event.setDamage(0);
 	}
 
 	@Override
