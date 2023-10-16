@@ -51,8 +51,11 @@ public class MurderyMister extends Game<MurderyMisterMap> {
 				"murdery_mister",
 				"Murdery Mister",
 				new String[] {
-						"Description",
-				}, // TODO Description
+						"At game start, you are assigned one of three roles:",
+						"  Murderer (trident): sneakily kill others",
+						"  Detective (bow): kill murderer, but not players"
+						"  Player: avoid being killed"
+				},
 				Material.TRIDENT,
 				new MurderyMisterMap[] {
 						new DeckedOutCastle(),
@@ -282,7 +285,7 @@ public class MurderyMister extends Game<MurderyMisterMap> {
 
 	@Override
 	public void onPlayerJoin(final MPlayer player) {
-		player.teleport(Var.LOBBY_LOCATION); // TODO proper join handling
+		player.teleport(Var.JAIL_LOCATION); // TODO proper join handling
 	}
 
 	@Override

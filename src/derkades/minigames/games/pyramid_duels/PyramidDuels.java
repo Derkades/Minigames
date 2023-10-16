@@ -31,7 +31,7 @@ public class PyramidDuels extends Game<PyramidDuelsMap> {
 						new Prototype(),
 				},
 				2,
-				12,
+				120,
 				EnumSet.of(GameLabel.MULTIPLAYER, GameLabel.PLAYER_COMBAT)
 		);
 	}
