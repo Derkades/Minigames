@@ -112,9 +112,13 @@ public class HungerGames extends Game<HungerGamesMap> {
 		return secondsLeft;
 	}
 
+	private int playersLeft() {
+		return (int) this.all.stream().filter(p -> !this.dead.contains(p)).count();
+	}
+
 	@Override
 	public boolean endEarly() {
-		return this.all.stream().filter(p -> this.dead.contains(p)).count() < 2;
+		return this.playersLeft() < 2;
 	}
 
 	@Override
@@ -139,8 +143,7 @@ public class HungerGames extends Game<HungerGamesMap> {
 		player.dropItems();
 		player.dieUp(2);
 
-		final int playersLeft = (int) this.all.stream().filter(p -> this.dead.contains(p)).count();
-		this.sendMessage(Utils.getDeathMessage(event, playersLeft));
+		this.sendMessage(Utils.getDeathMessage(event, this.playersLeft()));
 	}
 
 	private void placeBlocks(final Location[] locations, final Material type) {
