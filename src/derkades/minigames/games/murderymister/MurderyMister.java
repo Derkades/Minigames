@@ -52,9 +52,9 @@ public class MurderyMister extends Game<MurderyMisterMap> {
 				"Murdery Mister",
 				new String[] {
 						"At game start, you are assigned one of three roles:",
-						"  Murderer (trident): sneakily kill others",
-						"  Detective (bow): kill murderer, but not players"
-						"  Player: avoid being killed"
+						"Murderer (trident): sneakily kill others",
+						"Detective (bow): kill murderer, but not players",
+						"Player: avoid being killed",
 				},
 				Material.TRIDENT,
 				new MurderyMisterMap[] {
