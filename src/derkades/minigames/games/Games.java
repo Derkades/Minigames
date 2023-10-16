@@ -71,7 +71,7 @@ public class Games {
 			new OneInTheQuiver(),
 			new Parkour(),
 			new Platform(),
-			new PyramidDuels(),
+			// new PyramidDuels(),
 			new Speedrun(),
 			new RegeneratingSpleef(),
 			new StudyFall(),
