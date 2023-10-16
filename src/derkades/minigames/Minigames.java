@@ -115,7 +115,6 @@ public class Minigames extends JavaPlugin implements Listener {
 		CHAT_POLL = new ChatPoll();
 		new CustomPlayerList();
 		new DamageParticles();
-		new DisableDamage();
 		new DisableInventoryItemMove();
 		new DynamicMotd();
 		new FastDripleafReset();

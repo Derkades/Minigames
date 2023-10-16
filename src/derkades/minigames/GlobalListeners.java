@@ -100,8 +100,10 @@ public class GlobalListeners implements Listener {
 			return;
 		}
 
+		// Disable damage by default
+		event.setCancelled(true);
+
 		final MPlayerDamageEvent event2 = new MPlayerDamageEvent(event);
-		event2.setCancelled(event.isCancelled());
 		Bukkit.getPluginManager().callEvent(event2);
 		event.setCancelled(event2.isCancelled());
 	}
