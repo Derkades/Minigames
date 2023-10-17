@@ -1,7 +1,19 @@
 package derkades.minigames.games;
 
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
+
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import com.google.common.collect.Multimap;
 import com.google.common.collect.MultimapBuilder;
+
 import derkades.minigames.Logger;
 import derkades.minigames.games.bowspleef.BowSpleef;
 import derkades.minigames.games.breaktheblock.BreakTheBlock;
@@ -23,23 +35,12 @@ import derkades.minigames.games.murderymister.MurderyMister;
 import derkades.minigames.games.oitq.OneInTheQuiver;
 import derkades.minigames.games.parkour.Parkour;
 import derkades.minigames.games.platform.Platform;
-import derkades.minigames.games.pyramid_duels.PyramidDuels;
 import derkades.minigames.games.speedrun.Speedrun;
 import derkades.minigames.games.spleef.RegeneratingSpleef;
 import derkades.minigames.games.studyfall.StudyFall;
 import derkades.minigames.games.teamsbowbattle.TeamsBowBattle;
 import derkades.minigames.games.tntrun.TntRun;
 import derkades.minigames.games.tron.Tron;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
 
 public class Games {
 

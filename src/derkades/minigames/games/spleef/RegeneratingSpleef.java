@@ -111,10 +111,9 @@ public class RegeneratingSpleef extends Game<SpleefMap> {
 				if (!block.getType().equals(Material.SNOW_BLOCK)) {
 					return;
 				}
-
-				final FallingBlock fall = block.getWorld().spawnFallingBlock(
-						new Location(this.map.getWorld(), block.getX() + 0.5, block.getY(), block.getZ() + 0.5),
-						block.getBlockData());
+				
+				final FallingBlock fall = block.getWorld().spawn(new Location(this.map.getWorld(), block.getX() + 0.5, block.getY(), block.getZ() + 0.5), FallingBlock.class);
+				fall.setBlockData(block.getBlockData());
 				final Vector velocity = fall.getVelocity();
 				velocity.setY(1.5);
 				fall.setVelocity(velocity);

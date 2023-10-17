@@ -1,6 +1,39 @@
 package derkades.minigames;
 
-import com.google.common.base.Strings;
+import static net.kyori.adventure.text.Component.text;
+import static net.kyori.adventure.text.format.NamedTextColor.RED;
+
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
+import java.util.concurrent.ThreadLocalRandom;
+import java.util.stream.Collectors;
+
+import org.bukkit.Bukkit;
+import org.bukkit.DyeColor;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.Particle;
+import org.bukkit.Sound;
+import org.bukkit.World;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
+import org.bukkit.block.Sign;
+import org.bukkit.block.data.Directional;
+import org.bukkit.block.sign.Side;
+import org.bukkit.block.sign.SignSide;
+import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Husk;
+import org.bukkit.entity.Player;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
+import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.util.Vector;
+import org.jetbrains.annotations.NotNull;
+
 import derkades.minigames.Minigames.ShutdownReason;
 import derkades.minigames.games.Game;
 import derkades.minigames.games.GameLabel;
@@ -22,30 +55,9 @@ import derkades.minigames.worlds.GameWorld;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import nl.rkslot.pluginreloader.PluginReloader;
-import org.bukkit.*;
-import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
-import org.bukkit.block.Sign;
-import org.bukkit.block.data.Directional;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Husk;
-import org.bukkit.entity.Player;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
-import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.util.Vector;
-import org.jetbrains.annotations.NotNull;
 import xyz.derkades.derkutils.Hastebin;
 import xyz.derkades.derkutils.ListUtils;
 import xyz.derkades.derkutils.bukkit.sidebar.Sidebar;
-
-import java.util.*;
-import java.util.concurrent.ThreadLocalRandom;
-import java.util.stream.Collectors;
-
-import static net.kyori.adventure.text.Component.text;
-import static net.kyori.adventure.text.format.NamedTextColor.RED;
 
 public class Command implements CommandExecutor {
 
@@ -74,8 +86,9 @@ public class Command implements CommandExecutor {
 						Block signBlock = glass.getRelative(signDirection);
 						signBlock.setType(Material.OAK_WALL_SIGN);
 						if (signBlock.getState() instanceof Sign sign) {
-							sign.line(0, text(c, NamedTextColor.WHITE));
-							sign.setGlowingText(true);
+							final SignSide side = sign.getSide(Side.FRONT);
+							side.line(0, text(c, NamedTextColor.WHITE));
+							side.setGlowingText(true);	
 							sign.update();
 						}
 						if (signBlock.getBlockData() instanceof Directional sign) {
@@ -157,32 +170,10 @@ public class Command implements CommandExecutor {
 						player.sendMessage(String.format("Char: %04x", (int) c));
 						final Block block = player.getTargetBlockExact(10);
 						if (block.getState() instanceof final Sign sign) {
-							sign.line(0, text(c));
-							sign.setColor(DyeColor.WHITE);
-							sign.setGlowingText(true);
-							sign.update();
-						} else {
-							player.sendMessage("not a sign");
-						}
-					}
-				}
-				case "signpad" -> {
-					if (sender.hasPermission("minigames.debug")) {
-						final Player player = (Player) sender;
-						int pad;
-						try {
-							pad = Integer.parseInt(args[1]);
-						} catch (NumberFormatException e) {
-							player.sendMessage("invalid number");
-							return true;
-						}
-						final Block block = player.getTargetBlockExact(10);
-						if (block.getState() instanceof final Sign sign) {
-							if (pad > 0) {
-								sign.line(0, sign.line(0).append(text(Strings.repeat(" ", pad))));
-							} else if (pad < 0) {
-								sign.line(0, text(Strings.repeat(" ", -pad)).append(sign.line(0)));
-							}
+							SignSide side = sign.getSide(Side.FRONT);
+							side.line(0, text(c));
+							side.setColor(DyeColor.WHITE);
+							side.setGlowingText(true);
 							sign.update();
 						} else {
 							player.sendMessage("not a sign");

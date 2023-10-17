@@ -8,13 +8,15 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.block.Sign;
 import org.bukkit.block.data.Directional;
 import org.bukkit.block.data.Openable;
+import org.bukkit.block.sign.Side;
+import org.bukkit.block.sign.SignSide;
+import org.jetbrains.annotations.NotNull;
 
 import derkades.minigames.Logger;
 import derkades.minigames.random.Size;
 import derkades.minigames.utils.MPlayer;
 import derkades.minigames.worlds.GameWorld;
 import net.kyori.adventure.text.Component;
-import org.jetbrains.annotations.NotNull;
 import xyz.derkades.derkutils.bukkit.BlockUtils;
 
 public class Cake extends BreakTheBlockMap {
@@ -56,9 +58,10 @@ public class Cake extends BreakTheBlockMap {
 		final Block block = this.getWorld().getBlockAt(x, y, z);
 		block.setType(Material.CRIMSON_WALL_SIGN, false);
 		final Sign sign = (Sign) block.getState();
-		sign.line(1, Component.text("Eat Me!"));
-		sign.setGlowingText(true);
-		sign.setColor(DyeColor.RED);
+		final SignSide side = sign.getSide(Side.FRONT);
+		side.line(1, Component.text("Eat Me!"));
+		side.setGlowingText(true);
+		side.setColor(DyeColor.RED);
 		sign.update();
 		block.getBlockData();
 		final Directional directional = (Directional) block.getBlockData();
