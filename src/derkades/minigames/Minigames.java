@@ -4,7 +4,6 @@ import derkades.minigames.modules.CancelInteract;
 import derkades.minigames.modules.ChatPoll;
 import derkades.minigames.modules.CustomPlayerList;
 import derkades.minigames.modules.DamageParticles;
-import derkades.minigames.modules.DisableDamage;
 import derkades.minigames.modules.DisableInventoryItemMove;
 import derkades.minigames.modules.DynamicMotd;
 import derkades.minigames.modules.FastDripleafReset;
